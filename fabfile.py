@@ -20,7 +20,7 @@ env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
 env.repo_path = '%(path)s' % env
 #env.apache_config_path = '/home/%(user)s/src/apache/%(project_name)s' % env
 env.python = 'python2.7'
-env.repository_url = "git@github.com:pandaproject/panda.git"
+env.repository_url = "git://github.com:pandaproject/panda.git"
 
 """
 Environments
