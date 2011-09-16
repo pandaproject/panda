@@ -20,23 +20,15 @@ MEDIA_URL = 'http://media.panda.tribapps.com/panda/site_media/'
 ADMIN_MEDIA_PREFIX = 'http://media.panda.tribapps.com/panda/admin_media/'
 
 # Predefined domain
-MY_SITE_DOMAIN = 'panda.panda.tribapps.com'
+MY_SITE_DOMAIN = 'panda.tribapps.com'
 
 # Email
 EMAIL_HOST = 'mail'
 EMAIL_PORT = 25
-
-# Caching
-CACHE_BACKEND = 'memcached://cache:11211/'
 
 # S3
 AWS_S3_URL = 's3://media.panda.tribapps.com/panda/'
 
 # Internal IPs for security
 INTERNAL_IPS = ()
-
-# logging
-import logging.config
-LOG_FILENAME = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logger.conf')
-logging.config.fileConfig(LOG_FILENAME)
 
