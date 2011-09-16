@@ -98,7 +98,7 @@ def setup_virtualenv():
     Setup a fresh virtualenv.
     """
     run('virtualenv -p %(python)s --no-site-packages %(env_path)s;' % env)
-    run('source %(env_path)s/bin/activate; %(env_path)s/bin/easy_install -U setuptools; %(env_path)s/bin/easy_install -U pip;' % env)
+    run('source %(env_path)s/bin/activate;' % env)
 
 def clone_repo():
     """
@@ -159,7 +159,7 @@ def maintenance_up():
     """
     Install the Apache maintenance configuration.
     """
-    sudo('cp %(repo_path)s/config/%(settings)s/apache_maintenance %(apache_config_path)s' % env)
+    #sudo('cp %(repo_path)s/config/%(settings)s/apache_maintenance %(apache_config_path)s' % env)
     reboot()
 
 def gzip_assets():
