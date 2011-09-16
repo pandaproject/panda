@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+    ServerName panda.panda.tribapps.com
+    ServerAlias www.panda.panda.tribapps.com
+    
+    SetEnv DEPLOYMENT_TARGET production
+    WSGIScriptAlias / /home/newsapps/sites/panda/application.wsgi
+    <Directory /home/newsapps/sites/panda/repository>
+        Order deny,allow
+        Allow from all
+    </Directory>
+    
+    Redirect permanent /favicon.ico http://media.panda.tribapps.com/panda/na_media/favicon.ico
+    
+    Alias /robots.txt /home/newsapps/sites/panda/repository/media/robots.txt
+
+    ErrorLog /home/newsapps/logs/panda.error.log
+    LogLevel warn
+
+    ServerSignature Off
+    
+    RewriteEngine on
+    # canonical hostname
+    RewriteCond %{HTTP_HOST} !^panda.panda.tribapps.com [NC] 
+    RewriteRule ^/(.*)  http://panda.panda.tribapps.com/$1 [L,R]
+    
+    RewriteCond %{REQUEST_URI} /maintenance.html$ 
+    RewriteRule $ / [R=302,L]
+</VirtualHost>

@@ -1,0 +1,6 @@
+-e git+https://github.com/django/django.git@1.3#egg=django
+fabric==0.9.4
+geopy
+django-debug-toolbar
+psycopg2
+python-memcached
