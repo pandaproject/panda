@@ -9,16 +9,16 @@ Base configuration
 #name of the deployed site if different from the name of the project
 env.site_name = 'panda'
 
-env.username = 'ubuntu'
+env.user = 'ubuntu'
 env.project_name = 'panda'
 env.database_password = 'NE3HY2dc16'
 env.site_media_prefix = "site_media"
 env.admin_media_prefix = "admin_media"
-env.path = '/home/%(username)s/src/%(project_name)s' % env
-env.log_path = '/home/%(username)s/logs/%(project_name)s' % env
-env.env_path = '/home/%(username)s/.virtualenvs/%(project_name)s' % env
+env.path = '/home/%(user)s/src/%(project_name)s' % env
+env.log_path = '/home/%(user)s/logs/%(project_name)s' % env
+env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
 env.repo_path = '%(path)s' % env
-#env.apache_config_path = '/home/%(username)s/src/apache/%(project_name)s' % env
+#env.apache_config_path = '/home/%(user)s/src/apache/%(project_name)s' % env
 env.python = 'python2.7'
 env.repository_url = "git@github.com:pandaproject/panda.git"
 
