@@ -9,20 +9,18 @@ Base configuration
 #name of the deployed site if different from the name of the project
 env.site_name = 'panda'
 
+env.username = 'ubuntu'
 env.project_name = 'panda'
 env.database_password = 'NE3HY2dc16'
 env.site_media_prefix = "site_media"
 env.admin_media_prefix = "admin_media"
-env.path = '/home/newsapps/sites/%(project_name)s' % env
-env.log_path = '/home/newsapps/logs/%(project_name)s' % env
-env.env_path = '/home/newsapps/sites/virtualenvs/%(project_name)s' % env
+env.path = '/home/%(username)s/src/%(project_name)s' % env
+env.log_path = '/home/%(username)s/logs/%(project_name)s' % env
+env.env_path = '/home/%(username)s/.virtualenvs/%(project_name)s' % env
 env.repo_path = '%(path)s' % env
-env.apache_config_path = '/home/newsapps/sites/apache/%(project_name)s' % env
-env.python = 'python2.6'
+#env.apache_config_path = '/home/%(username)s/src/apache/%(project_name)s' % env
+env.python = 'python2.7'
 env.repository_url = "git@github.com:pandaproject/panda.git"
-env.memcached_server_address = "cache"
-env.cache_server = "lb"
-env.multi_server = False
 
 """
 Environments
@@ -32,20 +30,18 @@ def production():
     Work on production environment
     """
     env.settings = 'production'
-    env.hosts = ['db.panda.tribapps.com']
-    env.user = 'newsapps'
+    env.hosts = ['panda.tribapps.com']
     env.s3_bucket = 'media.panda.tribapps.com'
-    env.site_domain = 'panda.panda.tribapps.com'    
+    env.site_domain = 'panda.tribapps.com'    
 
 def staging():
     """
     Work on staging environment
     """
     env.settings = 'staging'
-    env.hosts = ['db.panda.beta.tribapps.com'] 
-    env.user = 'newsapps'
+    env.hosts = ['panda.beta.tribapps.com']
     env.s3_bucket = 'media.panda.beta.tribapps.com'
-    env.site_domain = 'panda.panda.beta.tribapps.com'    
+    env.site_domain = 'panda.beta.tribapps.com'    
     
 """
 Branches
@@ -126,7 +122,9 @@ def install_apache_conf():
     """
     Install the apache site config file.
     """
-    sudo('cp %(repo_path)s/config/%(settings)s/apache %(apache_config_path)s' % env)
+    # TODO
+    #sudo('cp %(repo_path)s/config/%(settings)s/apache %(apache_config_path)s' % env)
+    pass
 
 def deploy_requirements_to_s3():
     """
@@ -134,8 +132,8 @@ def deploy_requirements_to_s3():
     """
     with settings(warn_only=True):
         run('s3cmd del --recursive s3://%(s3_bucket)s/%(project_name)s/%(admin_media_prefix)s/' % env)
+    
     run('s3cmd -P --guess-mime-type --rexclude-from=%(repo_path)s/s3exclude sync %(env_path)s/src/django/django/contrib/admin/media/ s3://%(s3_bucket)s/%(project_name)s/%(admin_media_prefix)s/' % env)
-
 
 """
 Commands - deployment
@@ -185,10 +183,9 @@ def reboot():
     """
     Restart the Apache2 server.
     """
-    if env.multi_server:
-        run('bounce-apaches-for-cluster')
-    else:
-        sudo('service apache2 restart')
+    # TODO
+    #sudo('service apache2 restart')
+    pass
     
 def maintenance_down():
     """
@@ -217,13 +214,6 @@ def rollback(commit_id):
     deploy_to_s3()
     maintenance_down()
     
-def git_reset(commit_id):
-    """
-    Reset the git repository to an arbitrary commit hash or tag.
-    """
-    env.commit_id = commit_id
-    run("cd %(repo_path)s; git reset --hard %(commit_id)s" % env)
-
 """
 Commands - data
 """
@@ -246,7 +236,7 @@ def create_database(func=run):
     Creates the user and database for this project.
     """
     func('echo "CREATE USER %(project_name)s WITH PASSWORD \'%(database_password)s\';" | psql postgres' % env)
-    func('createdb -O %(project_name)s %(project_name)s -T template_postgis' % env)
+    func('createdb -O %(project_name)s %(project_name)s' % env)
     
 def destroy_database(func=run):
     """
@@ -268,34 +258,13 @@ def pgpool_down():
     """
     Stop pgpool so that it won't prevent the database from being rebuilt.
     """
-    sudo('/etc/init.d/pgpool stop')
+    sudo('service pgpool stop')
     
 def pgpool_up():
     """
     Start pgpool.
     """
-    sudo('/etc/init.d/pgpool start')
-
-"""
-Commands - miscellaneous
-"""
-    
-def clear_cache():
-    """
-    Restart memcache, wiping the current cache.
-    """
-    if env.multi_server:
-        run('bounce-memcaches-for-cluster')
-    else:
-        sudo('service memcached restart')
-
-    run('curl -X PURGE -H "Host: %(site_domain)s" http://%(cache_server)s/' % env)
-    
-def echo_host():
-    """
-    Echo the current host to the command line.
-    """
-    run('echo %(settings)s; echo %(hosts)s' % env)
+    sudo('service pgpool start')
 
 """
 Deaths, destroyers of worlds

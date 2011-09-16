@@ -7,10 +7,10 @@ import site
 # Remember original sys.path.
 prev_sys_path = list(sys.path) 
 
-# Look for Virtual Env
-env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../virtualenvs/panda"))
+# Look for virtualenv
+env_path = os.path.expanduser('~/.virtualenvs/panda')
 
-# Add our Virtual Env
+# Add our virtualenv
 site.addsitedir(os.path.join(
     env_path,
     "lib/python%s/site-packages" % sys.version[:3]
@@ -30,7 +30,7 @@ for item in list(sys.path):
 sys.path[:0] = new_sys_path 
 
 #redirecting stdout to stderr cuz geopy uses print statements
-sys.stdout = sys.stderr
+#sys.stdout = sys.stderr
 
 # Fire up the WSGI
 import django.core.handlers.wsgi
