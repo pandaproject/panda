@@ -20,7 +20,7 @@ env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
 env.repo_path = '%(path)s' % env
 #env.apache_config_path = '/home/%(user)s/src/apache/%(project_name)s' % env
 env.python = 'python2.7'
-env.repository_url = "git://github.com:pandaproject/panda.git"
+env.repository_url = "git://github.com/pandaproject/panda.git"
 
 """
 Environments
@@ -116,7 +116,7 @@ def install_requirements():
     """
     Install the required packages using pip.
     """
-    run('source %(env_path)s/bin/activate; yes w | pip install -q -r %(repo_path)s/requirements.txt' % env)
+    run('source %(env_path)s/bin/activate; pip install -q -r %(repo_path)s/requirements.txt' % env)
 
 def install_apache_conf():
     """
