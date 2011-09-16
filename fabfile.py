@@ -18,7 +18,6 @@ env.path = '/home/%(user)s/src/%(project_name)s' % env
 env.log_path = '/home/%(user)s/logs/%(project_name)s' % env
 env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
 env.repo_path = '%(path)s' % env
-#env.apache_config_path = '/home/%(user)s/src/apache/%(project_name)s' % env
 env.python = 'python2.7'
 env.repository_url = "git://github.com/pandaproject/panda.git"
 
@@ -84,7 +83,6 @@ def setup():
     destroy_database()
     create_database()
     syncdb()
-    install_apache_conf()
     deploy_requirements_to_s3()
 
 def setup_directories():
@@ -118,14 +116,6 @@ def install_requirements():
     """
     run('source %(env_path)s/bin/activate; pip install -q -r %(repo_path)s/requirements.txt' % env)
 
-def install_apache_conf():
-    """
-    Install the apache site config file.
-    """
-    # TODO
-    #sudo('cp %(repo_path)s/config/%(settings)s/apache %(apache_config_path)s' % env)
-    pass
-
 def deploy_requirements_to_s3():
     """
     Deploy the admin media to s3.
@@ -145,21 +135,11 @@ def deploy():
     require('settings', provided_by=[production, staging])
     require('branch', provided_by=[stable, master, branch])
     
-    with settings(warn_only=True):
-        maintenance_up()
-        
     checkout_latest()
     gzip_assets()
     deploy_to_s3()
-    maintenance_down()
+    reload_app()
     
-def maintenance_up():
-    """
-    Install the Apache maintenance configuration.
-    """
-    #sudo('cp %(repo_path)s/config/%(settings)s/apache_maintenance %(apache_config_path)s' % env)
-    reboot()
-
 def gzip_assets():
     """
     GZips every file in the media directory and places the new file
@@ -177,20 +157,11 @@ def deploy_to_s3():
     env.gzip_path = '%(repo_path)s/gzip_media/' % env
     run(('s3cmd -P --add-header=Content-encoding:gzip --guess-mime-type --rexclude-from=%(repo_path)s/s3exclude sync %(gzip_path)s s3://%(s3_bucket)s/%(project_name)s/%(site_media_prefix)s/') % env)
        
-def reboot(): 
+def reload_app(): 
     """
-    Restart the Apache2 server.
+    Restart the uwsgi server.
     """
-    # TODO
-    #sudo('service apache2 restart')
-    pass
-    
-def maintenance_down():
-    """
-    Reinstall the normal site configuration.
-    """
-    install_apache_conf()
-    reboot()
+    sudo('service uwsgi restart')
     
 """
 Commands - rollback
@@ -205,12 +176,10 @@ def rollback(commit_id):
     require('settings', provided_by=[production, staging])
     require('branch', provided_by=[stable, master, branch])
     
-    maintenance_up()
     checkout_latest()
     git_reset(commit_id)
     gzip_assets()
     deploy_to_s3()
-    maintenance_down()
     
 """
 Commands - data
@@ -265,8 +234,7 @@ def shiva_the_destroyer():
         run('dropdb %(project_name)s' % env)
         run('dropuser %(project_name)s' % env)
         pgpool_up()
-        sudo('rm %(apache_config_path)s' % env)
-        reboot()
+        reload_app()
         run('s3cmd del --recursive s3://%(s3_bucket)s/%(project_name)s' % env)
 
 """
