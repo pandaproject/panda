@@ -83,7 +83,7 @@ def setup():
     install_requirements()
     destroy_database()
     create_database()
-    load_data()
+    syncdb()
     install_apache_conf()
     deploy_requirements_to_s3()
 
@@ -141,8 +141,6 @@ Commands - deployment
 def deploy():
     """
     Deploy the latest version of the site to the server and restart Apache2.
-    
-    Does not perform the functions of load_new_data().
     """
     require('settings', provided_by=[production, staging])
     require('branch', provided_by=[stable, master, branch])
@@ -217,42 +215,28 @@ def rollback(commit_id):
 """
 Commands - data
 """
-def load_new_data():
-    """
-    Erase the current database and load new data from the SQL dump file.
-    """
-    require('settings', provided_by=[production, staging])
-    
-    maintenance_up()
-    pgpool_down()
-    destroy_database()
-    create_database()
-    load_data()
-    pgpool_up()
-    maintenance_down()
-    
-def create_database(func=run):
+def create_database():
     """
     Creates the user and database for this project.
     """
-    func('echo "CREATE USER %(project_name)s WITH PASSWORD \'%(database_password)s\';" | psql postgres' % env)
-    func('createdb -O %(project_name)s %(project_name)s' % env)
+    sudo('echo "CREATE USER %(project_name)s WITH PASSWORD \'%(database_password)s\';" | psql postgres' % env, user='postgres')
+    sudo('createdb -O %(project_name)s %(project_name)s' % env, user='postgres')
     
-def destroy_database(func=run):
+def destroy_database():
     """
     Destroys the user and database for this project.
     
     Will not cause the fab to fail if they do not exist.
     """
     with settings(warn_only=True):
-        func('dropdb %(project_name)s' % env)
-        func('dropuser %(project_name)s' % env)
+        sudo('dropdb %(project_name)s' % env, user='postgres')
+        sudo('dropuser %(project_name)s' % env, user='postgres')
         
-def load_data():
+def syncdb():
     """
-    Loads data from the repository into PostgreSQL.
+    Sync the Django models to the database.
     """
-    run('psql -q %(project_name)s < %(repo_path)s/data/psql/dump.sql' % env)
+    run('source %(env_path)s/bin/activate; cd %(repo_path)s; python manage.py syncdb --noinput' % env)
     
 def pgpool_down():
     """
@@ -284,19 +268,6 @@ def shiva_the_destroyer():
         sudo('rm %(apache_config_path)s' % env)
         reboot()
         run('s3cmd del --recursive s3://%(s3_bucket)s/%(project_name)s' % env)
-
-def local_shiva():
-    destroy_database(local)
-
-def local_bootstrap():
-    create_database(local)
-
-    # Normal bootstrap
-    local('python manage.py syncdb --noinput')
-
-    # Bootstrap with south
-    # local('python manage.py syncdb --all --noinput')
-    # local('python manage.py migrate --fake')
 
 """
 Utility functions (not to be called directly)

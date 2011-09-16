@@ -111,11 +111,6 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'do.not.reply@panda.tribapps.com'
 
-# Caching
-CACHE_MIDDLEWARE_KEY_PREFIX='panda'
-CACHE_MIDDLEWARE_SECONDS=90 * 60 # 90 minutes
-CACHE_BACKEND="dummy:///"
-
 # Logging
 logging.basicConfig(
     level=logging.DEBUG,

@@ -26,9 +26,6 @@ MY_SITE_DOMAIN = 'panda.beta.tribapps.com'
 EMAIL_HOST = 'mail'
 EMAIL_PORT = 25
 
-# Caching
-CACHE_BACKEND = 'memcached://cache:11211/'
-
 # S3
 AWS_S3_URL = 's3://media.panda.beta.tribapps.com/panda/'
 
