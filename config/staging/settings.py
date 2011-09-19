@@ -4,7 +4,16 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # Database
-DATABASES['default']['PORT'] = '5433'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'panda',
+        'USER': 'panda',
+        'PASSWORD': 'NE3HY2dc16', 
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # Media
 MEDIA_URL = 'http://media.panda.beta.tribapps.com/panda/site_media/'
