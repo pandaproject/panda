@@ -39,7 +39,7 @@ Get hold of an Ubuntu 11.04 server--an EC2 micro based off of ami-1aad5273 works
     wget https://raw.github.com/pandaproject/panda/master/setup_panda.sh
     sudo bash setup_panda.sh
 
-You're new panda server should now be serving on port 80.
+You're new panda server should now be serving on port 80. (Ensure port 80 is open in your security group.)
 
 AUTHORS
 -------
