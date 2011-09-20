@@ -22,20 +22,12 @@ apt-get upgrade
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential virtualenvwrapper openjdk-6-jdk solr-jetty pgpool2
+apt-get install git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential virtualenvwrapper openjdk-6-jdk solr-jetty
 pip install uwsgi
 
 # Setup local access to Postgres
 #TODO: vim /etc/postgresql/8.4/main/pg_hba.conf
 service postgresql restart
-
-# Swap Postgres to run on port 5433 and pgpool to run on 5432
-#TODO: vim /etc/postgresql/8.4/main/postgresql.conf
-#TODO: vim /etc/pgpool.conf
-service pgpool2 stop
-service postgresql stop
-service pgpool2 start
-service postgresql start
 
 # Setup uwsgi
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi

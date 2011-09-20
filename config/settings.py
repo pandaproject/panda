@@ -17,12 +17,11 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Default connection to socket
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'panda',
-        'HOST': 'localhost',
-        'PORT': '5432',
     }
 }
 
