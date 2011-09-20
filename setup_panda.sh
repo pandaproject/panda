@@ -24,7 +24,7 @@ wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential openjdk-6-jdk solr-jetty python-virtualenv
+apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential openjdk-6-jdk solr-jetty python-virtualenv libpq-dev
 pip install uwsgi
 
 # Turn on Jetty
@@ -44,17 +44,23 @@ service uwsgi start
 wget $CONFIG_URL/nginx.conf -O /etc/nginx/nginx.conf
 service nginx restart
 
-# Get code
-mkdir /home/ubuntu/src
-cd /home/ubuntu/src
-git clone git://github.com/pandaproject/panda.git panda
-virtualenv -p python2.7 --no-site-packages /home/ubuntu/.virtualenvs/panda
-pip install -q -r panda/requirements.txt
-python panda/manage.py syncdb --noinput
+# Setup Postgres
+wget $CONFIG_URL/pg_hba.conf -O /etc/postgresql/8.4/main/pg_hba.conf
 
 # Create database users
 echo "CREATE USER panda WITH PASSWORD 'panda';" | sudo -u postgres psql postgres
 sudo -u postgres createdb -O panda panda
+
+# Get code (as normal user)
+sudo -u ubuntu mkdir /home/ubuntu/src
+cd /home/ubuntu/src
+sudo -u ubuntu git clone git://github.com/pandaproject/panda.git panda
+sudo -u ubuntu virtualenv -p python2.7 --no-site-packages /home/ubuntu/.virtualenvs/panda
+cd /home/ubuntu/src/panda
+sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/pip install -r requirements.txt
+sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
+
+
 
 wget $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
 initctl reload-configuration
