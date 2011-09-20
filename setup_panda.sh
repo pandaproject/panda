@@ -24,9 +24,7 @@ wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql-8.4 python2.7-dev git\
-    libxml2-dev libxml2 nginx build-essential\
-    openjdk-6-jdk solr-jetty virtualenv
+apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential openjdk-6-jdk solr-jetty python-virtualenv
 pip install uwsgi
 
 # Turn on Jetty
