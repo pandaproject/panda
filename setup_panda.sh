@@ -16,15 +16,15 @@ ln -s /etc/init.d/ssh /etc/rc4.d/S20ssh
 ln -s /etc/init.d/ssh /etc/rc5.d/S20ssh
 
 # Install outstanding updates
-apt-get update
-apt-get upgrade
+apt-get --yes update
+apt-get --yes upgrade
 
 # Configure unattended upgrades
 wget -P /etc/apt/apt.conf.d $CONFIG_URL/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install git postgresql-8.4 python2.7-dev git\
+apt-get install --yes git postgresql-8.4 python2.7-dev git\
     libxml2-dev libxml2 nginx build-essential\
     openjdk-6-jdk solr-jetty virtualenvwrapper
 pip install uwsgi
