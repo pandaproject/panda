@@ -23,7 +23,7 @@ Setup script::
 
     # Enter "panda" when prompted for password
     createuser -D -R -S -P panda
-    createdb panda
+    createdb -O panda panda
     python manage.py syncdb
 
 Production deployment
