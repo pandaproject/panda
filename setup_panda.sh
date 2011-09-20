@@ -46,6 +46,7 @@ service nginx restart
 
 # Setup Postgres
 wget $CONFIG_URL/pg_hba.conf -O /etc/postgresql/8.4/main/pg_hba.conf
+service postgresql restart
 
 # Create database users
 echo "CREATE USER panda WITH PASSWORD 'panda';" | sudo -u postgres psql postgres
@@ -60,8 +61,7 @@ cd /home/ubuntu/src/panda
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/pip install -r requirements.txt
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
 
-
-
+# Celery
 wget $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
 initctl reload-configuration
 service celeryd start
