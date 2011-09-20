@@ -77,6 +77,8 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
 
     'djcelery',
+
+    'redd'
 )
 
 # Predefined domain
