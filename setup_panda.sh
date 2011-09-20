@@ -20,41 +20,40 @@ apt-get --yes update
 apt-get --yes upgrade
 
 # Configure unattended upgrades
-wget -P /etc/apt/apt.conf.d $CONFIG_URL/10periodic
+wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
 apt-get install --yes git postgresql-8.4 python2.7-dev git\
     libxml2-dev libxml2 nginx build-essential\
-    openjdk-6-jdk solr-jetty virtualenvwrapper
+    openjdk-6-jdk solr-jetty virtualenv
 pip install uwsgi
 
 # Setup uWSGI
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
 mkdir /var/run/uwsgi
 chown uwsgi.uwsgi /var/run/uwsgi
-wget -P /etc/init $CONFIG_URL/uwsgi.conf
+wget $CONFIG_URL/uwsgi.conf -O /etc/init/uwsgi.conf
 initctl reload-configuration
 service uwsgi start
 
 # Setup nginx
-wget -P /etc/nginx $CONFIG_URL/nginx.conf
+wget $CONFIG_URL/nginx.conf -O /etc/nginx/nginx.conf
 service nginx restart
 
 # Get code
 mkdir /home/ubuntu/src
 cd /home/ubuntu/src
 git clone git://github.com/pandaproject/panda.git panda
-mkvirtualenv -p python2.7 --no-site-packages panda
+virtualenv -p python2.7 --no-site-packages /home/ubuntu/.virtualenvs/panda
 pip install -q -r panda/requirements.txt
 python panda/manage.py syncdb --noinput
 
 # Create database users
-su postgres
-echo "CREATE USER panda WITH PASSWORD 'panda';" | psql postgres
-createdb -O panda panda
-exit
+echo "CREATE USER panda WITH PASSWORD 'panda';" | sudo -u postgres psql postgres
+sudo -u postgres createdb -O panda panda
 
-wget -P /etc/init $CONFIG_URL/celeryd.conf
+wget $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
+initctl reload-configuration
 service celeryd start
 
