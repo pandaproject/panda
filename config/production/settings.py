@@ -3,18 +3,6 @@ from config.settings import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'panda',
-        'USER': 'panda',
-        'PASSWORD': 'NE3HY2dc16', 
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
 # Media
 MEDIA_URL = 'http://media.panda.tribapps.com/panda/site_media/'
 ADMIN_MEDIA_PREFIX = 'http://media.panda.tribapps.com/panda/admin_media/'
