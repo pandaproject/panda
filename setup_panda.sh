@@ -40,5 +40,10 @@ service nginx restart
 # Create a directory for code
 mkdir /home/ubuntu/src
 
+# NEED CODE HERE
+
+#TODO: vim /etc/init/celeryd.conf
+service celeryd start
+
 # Now ready to deploy with fabric
 
