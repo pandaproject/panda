@@ -75,6 +75,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+
+    'djcelery',
 )
 
 # Predefined domain
@@ -86,6 +88,14 @@ MY_SITE_DOMAIN = 'localhost:8000'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'do.not.reply@panda.tribapps.com'
+
+# Celery
+import djcelery
+djcelery.setup_loader()
+
+BROKER_TRANSPORT = "sqlakombu.transport.Transport"
+BROKER_HOST = "postgresql:///panda?user=panda&password=panda"
+CELERY_RESULT_DBURI = "postgresql:///panda?user=panda&password=panda"
 
 # Logging
 logging.basicConfig(
