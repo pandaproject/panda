@@ -34,7 +34,12 @@ Setup script::
 Production deployment
 ---------------------
 
-Coming soon...
+Get hold of an Ubuntu 11.04 server--an EC2 micro based off of ami-1aad5273 works well. SSH into your server and run::
+
+    wget https://raw.github.com/pandaproject/panda/master/setup_panda.sh
+    sudo bash setup_panda.sh
+
+You're new panda server should now be serving on port 80.
 
 AUTHORS
 -------

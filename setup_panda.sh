@@ -32,6 +32,13 @@ echo "NO_START=0" > /etc/default/jetty
 initctl reload-configuration
 service jetty restart
 
+# Setup uWSGI
+adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
+mkdir /var/run/uwsgi
+chown uwsgi.uwsgi /var/run/uwsgi
+wget $CONFIG_URL/uwsgi.conf -O /etc/init/uwsgi.conf
+initctl reload-configuration
+
 # Setup nginx
 wget $CONFIG_URL/nginx.conf -O /etc/nginx/nginx.conf
 service nginx restart
@@ -53,12 +60,7 @@ cd /home/ubuntu/src/panda
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/pip install -r requirements.txt
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
 
-# Setup uWSGI
-adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
-mkdir /var/run/uwsgi
-chown uwsgi.uwsgi /var/run/uwsgi
-wget $CONFIG_URL/uwsgi.conf -O /etc/init/uwsgi.conf
-initctl reload-configuration
+# Start serving
 service uwsgi start
 
 # Celery
