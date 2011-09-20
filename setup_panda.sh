@@ -22,10 +22,10 @@ apt-get upgrade
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential virtualenvwrapper openjdk-6-jdk solr-jetty
+apt-get install git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential openjdk-6-jdk solr-jetty virtualenvwrapper
 pip install uwsgi
 
-# Setup uwsgi
+# Setup uWSGI
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
 mkdir /var/run/uwsgi
 chown uwsgi.uwsgi /var/run/uwsgi
@@ -37,10 +37,19 @@ service uwsgi start
 #TODO: vim /etc/nginx/nginx.conf
 service nginx restart
 
-# Create a directory for code
+# Get code
 mkdir /home/ubuntu/src
+cd /home/ubuntu/src
+git clone git://github.com/pandaproject/panda.git panda
+mkvirtualenv -p python2.7 --no-site-packages panda
+pip install -q -r panda/requirements.txt
+python panda/manage.py syncdb --noinput
 
-# NEED CODE HERE
+# Create database users
+su postgres
+echo "CREATE USER panda WITH PASSWORD 'panda';" | psql postgres
+createdb -O panda panda
+exit
 
 #TODO: vim /etc/init/celeryd.conf
 service celeryd start

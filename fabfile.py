@@ -155,18 +155,6 @@ def syncdb():
     Sync the Django models to the database.
     """
     run('source %(env_path)s/bin/activate; cd %(repo_path)s; python manage.py syncdb --noinput' % env)
-    
-def pgpool_down():
-    """
-    Stop pgpool so that it won't prevent the database from being rebuilt.
-    """
-    sudo('service pgpool stop')
-    
-def pgpool_up():
-    """
-    Start pgpool.
-    """
-    sudo('service pgpool start')
 
 """
 Deaths, destroyers of worlds
