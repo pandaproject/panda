@@ -22,6 +22,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'panda',
+        'USER': 'panda',
+        'PASSWORD': 'panda'
     }
 }
 

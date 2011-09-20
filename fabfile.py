@@ -11,7 +11,7 @@ env.site_name = 'panda'
 
 env.user = 'ubuntu'
 env.project_name = 'panda'
-env.database_password = 'NE3HY2dc16'
+env.database_password = 'panda'
 env.path = '/home/%(user)s/src/%(project_name)s' % env
 env.log_path = '/home/%(user)s/logs/%(project_name)s' % env
 env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env

@@ -21,6 +21,8 @@ Setup script::
     mkvirtualenv --no-site-packages panda
     pip install -r requirements.txt
 
+    # Enter "panda" when prompted for password
+    createuser -D -R -S -P panda
     createdb panda
     python manage.py syncdb
 
