@@ -29,6 +29,11 @@ apt-get install --yes git postgresql-8.4 python2.7-dev git\
     openjdk-6-jdk solr-jetty virtualenv
 pip install uwsgi
 
+# Turn on Jetty
+echo "NO_START=0" > /etc/default/jetty
+initctl reload-configuration
+service jetty restart
+
 # Setup uWSGI
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
 mkdir /var/run/uwsgi
