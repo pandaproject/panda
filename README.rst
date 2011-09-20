@@ -26,6 +26,11 @@ Setup script::
     createdb -O panda panda
     python manage.py syncdb
 
+    python manage.py celeryd
+
+    # In a separate shell
+    python manage.py runserver
+
 Production deployment
 ---------------------
 

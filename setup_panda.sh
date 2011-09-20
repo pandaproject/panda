@@ -4,7 +4,7 @@
 # Must be executed with sudo!
 
 # Setup environment variables
-#TODO: vim /home/ubuntu/.bash_profile 
+echo "export DEPLOYMENT_TARGET=\"staging\"" > /home/ubuntu/.bash_profile
 source /home/ubuntu/.bash_profile
 
 # Make sure SSH comes up on reboot
@@ -18,23 +18,25 @@ apt-get update
 apt-get upgrade
 
 # Configure unattended upgrades
-#TODO: vim /etc/apt/apt.conf.d/10periodic
+wget -P /etc/apt/apt.conf.d https://raw.github.com/pandaproject/panda/master/setup_panda/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 nginx build-essential openjdk-6-jdk solr-jetty virtualenvwrapper
+apt-get install git postgresql-8.4 python2.7-dev git\
+    libxml2-dev libxml2 nginx build-essential\
+    openjdk-6-jdk solr-jetty virtualenvwrapper
 pip install uwsgi
 
 # Setup uWSGI
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
 mkdir /var/run/uwsgi
 chown uwsgi.uwsgi /var/run/uwsgi
-#TODO: vim /etc/init/uwsgi.conf
+wget -P /etc/init https://raw.github.com/pandaproject/panda/master/setup_panda/uwsgi.conf
 initctl reload-configuration
 service uwsgi start
 
 # Setup nginx
-#TODO: vim /etc/nginx/nginx.conf
+wget -P /etc/nginx https://raw.github.com/pandaproject/panda/master/setup_panda/nginx.conf
 service nginx restart
 
 # Get code
@@ -51,8 +53,6 @@ echo "CREATE USER panda WITH PASSWORD 'panda';" | psql postgres
 createdb -O panda panda
 exit
 
-#TODO: vim /etc/init/celeryd.conf
+wget -P /etc/init https://raw.github.com/pandaproject/panda/master/setup_panda/celeryd.conf
 service celeryd start
-
-# Now ready to deploy with fabric
 
