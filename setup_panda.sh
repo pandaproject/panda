@@ -3,9 +3,11 @@
 # PANDA Project server setup script for Ubuntu 11.04
 # Must be executed with sudo!
 
+CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
+
 # Setup environment variables
 echo "export DEPLOYMENT_TARGET=\"staging\"" > /home/ubuntu/.bash_profile
-source /home/ubuntu/.bash_profile
+export DEPLOYMENT_TARGET="staging"
 
 # Make sure SSH comes up on reboot
 ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
@@ -18,7 +20,7 @@ apt-get update
 apt-get upgrade
 
 # Configure unattended upgrades
-wget -P /etc/apt/apt.conf.d https://raw.github.com/pandaproject/panda/master/setup_panda/10periodic
+wget -P /etc/apt/apt.conf.d $CONFIG_URL/10periodic
 service unattended-upgrades restart
 
 # Install required packages
@@ -31,12 +33,12 @@ pip install uwsgi
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
 mkdir /var/run/uwsgi
 chown uwsgi.uwsgi /var/run/uwsgi
-wget -P /etc/init https://raw.github.com/pandaproject/panda/master/setup_panda/uwsgi.conf
+wget -P /etc/init $CONFIG_URL/uwsgi.conf
 initctl reload-configuration
 service uwsgi start
 
 # Setup nginx
-wget -P /etc/nginx https://raw.github.com/pandaproject/panda/master/setup_panda/nginx.conf
+wget -P /etc/nginx $CONFIG_URL/nginx.conf
 service nginx restart
 
 # Get code
@@ -53,6 +55,6 @@ echo "CREATE USER panda WITH PASSWORD 'panda';" | psql postgres
 createdb -O panda panda
 exit
 
-wget -P /etc/init https://raw.github.com/pandaproject/panda/master/setup_panda/celeryd.conf
+wget -P /etc/init $CONFIG_URL/celeryd.conf
 service celeryd start
 
