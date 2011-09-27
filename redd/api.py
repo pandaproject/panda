@@ -8,4 +8,3 @@ class DatasetResource(ModelResource):
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
 
-
