@@ -26,21 +26,7 @@ def test_solr(request):
         'id': '1'
     })
     solr.commit()
-
     return HttpResponse('Success')
-
-def test_upload(request):
-    if request.method == 'POST':
-        form = UploadForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            Upload.objects.create(
-                file=request.FILES['file']
-            )
-    else:
-        form = UploadForm()
-
-    return render_to_response('test_upload.html', RequestContext(request, { 'form': form }))
 
 def upload(request):
     """
