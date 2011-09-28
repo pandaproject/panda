@@ -3,11 +3,12 @@
 from django.conf.urls.defaults import include, patterns, url
 from tastypie.api import Api
 
-from redd.api import DatasetResource
+from redd.api import DataResource, DatasetResource
 from redd import views
 
 api_1_0 = Api(api_name='1.0')
 api_1_0.register(DatasetResource())
+api_1_0.register(DataResource())
 
 urlpatterns = patterns('',
     url(r'^test_task$', views.test_task, name="test_task"),
