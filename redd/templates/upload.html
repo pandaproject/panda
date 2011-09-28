@@ -12,33 +12,57 @@
         <p>Please enable JavaScript to use file uploader.</p>
     </noscript>         
 </div>
+<div id="dataset-info">
+    <form id="dataset_form">
+        <input type='hidden' name='csrf_token' value='{{ csrf_token }}'>
+        {{ dataset_form.as_p }}
+        <input type="submit" id="dataset_submit" value="Submit" />
+    </form>
+</div>
 {% endblock %}
 
 {% block extra_footer %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/fileuploader.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/json2.js"></script>
 <script type="text/javascript">
+$(function() {
     var uploader = new qq.FileUploader({
         action: "{% url ajax_upload %}",
         element: $('#file-uploader')[0],
         multiple: false,
         onComplete: function(id, fileName, responseJSON) {
             if(responseJSON.success) {
-                alert("success!");
+                $("#id_filepath").val(responseJSON['filename']);
             } else {
                 alert("upload failed!");
             }
-        },
-        onAllComplete: function(uploads) {
-            // uploads is an array of maps
-            // the maps look like this: {file: FileObject, response: JSONServerResponse}
-            alert("All complete!");
         },
         params: {
             'csrf_token': '{{ csrf_token }}',
             'csrf_name': 'csrfmiddlewaretoken',
             'csrf_xname': 'X-CSRFToken',
-        },
+        }
     });
+
+    $("#dataset_form").submit(function() {
+        data = {
+            name: $("#dataset_form #id_name").val(),
+            filepath: $("#dataset_form #id_filepath").val()
+        }
+
+        $.ajax('/api/1.0/dataset/', {
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json', 
+            success: function(data, textStatus, jqXHR) {
+                alert('Success!');
+            }
+        });
+
+        return false;
+    });
+})
 </script>
 {% endblock %}
 

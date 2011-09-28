@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
+from django.conf import settings
 from django.db import models
 
-from redd.storage import panda_storage 
-
 class Dataset(models.Model):
-    name = models.CharField(max_length=128)
-    table = models.ForeignKey('Upload')
+    name = models.CharField(max_length=256)
+    filepath = models.FilePathField(path=settings.PANDA_STORAGE_LOCATION)
 
-class Upload(models.Model):
-    file = models.FileField(upload_to='uploads', storage=panda_storage)
+    def __unicode__(self):
+        return self.name
 

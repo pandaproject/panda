@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
-from django.forms import ModelForm
+from django import forms
 
-from redd.models import Upload
+from redd.models import Dataset
 
-class UploadForm(ModelForm):
+class DatasetForm(forms.ModelForm):
     class Meta:
-        model = Upload
+        model = Dataset
+        widgets = {
+            'filepath': forms.HiddenInput(),
+        }
 

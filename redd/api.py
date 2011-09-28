@@ -6,6 +6,8 @@ from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
 from sunburnt.search import SolrSearch
 from tastypie import fields
+from tastypie.authentication import Authentication
+from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils.urls import trailing_slash
@@ -19,6 +21,8 @@ class DatasetResource(ModelResource):
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
+        authentication = Authentication()
+        authorization = Authorization()
 
 class SolrObject(object):
     """
