@@ -16,16 +16,14 @@ def test_task(request):
     return HttpResponse(result.get())
 
 def test_solr(request):
-    solr = SolrInterface('http://localhost:8983')
-    solr.add({ 'test': 'test' })
+    solr = SolrInterface('http://localhost:8983/solr')
+    solr.add({
+        'dataset_id': '1',
+        'id': '1'
+    })
     solr.commit()
 
     return HttpResponse('Success')
-
-def handle_uploaded_file(f):
-    with open('/tmp/test', 'wb+') as output:
-        for chunk in f.chunks():
-            output.write(chunk)
 
 def test_upload(request):
     if request.method == 'POST':
