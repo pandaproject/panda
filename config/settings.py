@@ -104,6 +104,9 @@ logging.basicConfig(
     level=logging.DEBUG,
 )
 
+# PANDA
+PANDA_STORAGE_LOCATION = '/tmp/panda'
+
 # Allow for local (per-user) override
 try:
     from local_settings import *

@@ -6,6 +6,7 @@ from django.template import RequestContext
 from sunburnt import SolrInterface
 
 from redd.forms import UploadForm
+from redd.models import Upload
 from redd.tasks import add 
 
 def test_task(request):
@@ -31,7 +32,9 @@ def test_upload(request):
         form = UploadForm(request.POST, request.FILES)
 
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
+            Upload.objects.create(
+                file=request.FILES['file']
+            )
     else:
         form = UploadForm()
 
