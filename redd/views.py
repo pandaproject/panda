@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from sunburnt import SolrInterface
 
 from redd.forms import UploadForm
@@ -20,18 +22,18 @@ def test_solr(request):
     return HttpResponse('Success')
 
 def handle_uploaded_file(f):
-    destination = open('some/file/name.txt', 'wb+')
-    for chunk in f.chunks():
-        destination.write(chunk)
-    destination.close()
+    with open('/tmp/test', 'wb+') as output:
+        for chunk in f.chunks():
+            output.write(chunk)
 
 def test_upload(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
+
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'])
     else:
         form = UploadForm()
 
-    return render_to_response('upload.html', {'form': form})
+    return render_to_response('test_upload.html', RequestContext(request, { 'form': form }))
 
