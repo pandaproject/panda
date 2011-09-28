@@ -14,6 +14,10 @@ urlpatterns = patterns('',
     url(r'^test_task$', views.test_task, name="test_task"),
     url(r'^test_solr$', views.test_solr, name="test_solr"),
     url(r'^test_upload$', views.test_upload, name="test_upload"),
+
+    url(r'^ajax_upload$', views.ajax_upload, name="ajax_upload"),
+    url(r'^upload$', views.upload, name="upload"),
+
     (r'^api/', include(api_1_0.urls)),
 )
 
