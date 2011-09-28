@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from redd.storage import panda_storage
+from redd.storage import panda_storage 
 
 class Dataset(models.Model):
     name = models.CharField(max_length=128)

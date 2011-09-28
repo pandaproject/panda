@@ -17,24 +17,28 @@
 {% block extra_footer %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/fileuploader.js"></script>
 <script type="text/javascript">
-$(function() {
-    var uploader = new qq.FileUploader( {
+    var uploader = new qq.FileUploader({
         action: "{% url ajax_upload %}",
         element: $('#file-uploader')[0],
         multiple: false,
         onComplete: function(id, fileName, responseJSON) {
-          if( responseJSON.success )
-            alert( "success!" ) ;
-          else
-            alert( "upload failed!" ) ;
+            if(responseJSON.success) {
+                alert("success!");
+            } else {
+                alert("upload failed!");
+            }
+        },
+        onAllComplete: function(uploads) {
+            // uploads is an array of maps
+            // the maps look like this: {file: FileObject, response: JSONServerResponse}
+            alert("All complete!");
         },
         params: {
-          'csrf_token': '{% csrf_token %}',
-          'csrf_name': 'csrfmiddlewaretoken',
-          'csrf_xname': 'X-CSRFToken',
+            'csrf_token': '{{ csrf_token }}',
+            'csrf_name': 'csrfmiddlewaretoken',
+            'csrf_xname': 'X-CSRFToken',
         },
-      } ) ;
-    }
-})
+    });
 </script>
 {% endblock %}
+
