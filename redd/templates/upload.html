@@ -7,15 +7,17 @@
 {% endblock %}
 
 {% block content %}
-<div id="file-uploader">       
+<div id="upload">       
     <noscript>          
         <p>Please enable JavaScript to use file uploader.</p>
     </noscript>         
 </div>
-<div id="dataset-info">
+<div id="dataset">
     <form id="dataset_form">
         <input type='hidden' name='csrf_token' value='{{ csrf_token }}'>
-        {{ dataset_form.as_p }}
+        <label for="dataset_name">Name:</label>
+        <input id="dataset_name" type="text" name="name" maxlength="256">
+        <input type="hidden" name="data_upload" id="dataset_data_upload">
         <input type="submit" id="dataset_submit" value="Submit" />
     </form>
 </div>
@@ -28,35 +30,36 @@
 $(function() {
     var uploader = new qq.FileUploader({
         action: "{% url ajax_upload %}",
-        element: $('#file-uploader')[0],
+        element: $("#upload")[0],
         multiple: false,
         onComplete: function(id, fileName, responseJSON) {
             if(responseJSON.success) {
-                $("#id_filepath").val(responseJSON['filename']);
+                $("#dataset_data_upload").val(responseJSON["id"]);
+                $("#dataset").show();
             } else {
-                alert("upload failed!");
+                alert("Upload failed!");
             }
         },
         params: {
-            'csrf_token': '{{ csrf_token }}',
-            'csrf_name': 'csrfmiddlewaretoken',
-            'csrf_xname': 'X-CSRFToken',
+            "csrf_token": "{{ csrf_token }}",
+            "csrf_name": "csrfmiddlewaretoken",
+            "csrf_xname": "X-CSRFToken",
         }
     });
 
     $("#dataset_form").submit(function() {
         data = {
-            name: $("#dataset_form #id_name").val(),
-            filepath: $("#dataset_form #id_filepath").val()
+            name: $("#dataset_form #dataset_name").val(),
+            data_upload: { pk: $("#dataset_form #dataset_data_upload").val() }
         }
 
-        $.ajax('/api/1.0/dataset/', {
-            type: 'POST',
+        $.ajax("/api/1.0/dataset/", {
+            type: "POST",
             data: JSON.stringify(data),
-            dataType: 'json',
-            contentType: 'application/json', 
+            dataType: "json",
+            contentType: "application/json", 
             success: function(data, textStatus, jqXHR) {
-                alert('Success!');
+                alert("Success!");
             }
         });
 

@@ -12,15 +12,33 @@ from tastypie.bundle import Bundle
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils.urls import trailing_slash
 
-from redd.models import Dataset
+from redd.models import Dataset, Upload
+
+class UploadResource(ModelResource):
+    """
+    API resource for Uploads.
+
+    TKTK: must be read-only.
+    """
+    class Meta:
+        queryset = Upload.objects.all()
+        resource_name = 'upload'
+
+        # TKTK
+        authentication = Authentication()
+        authorization = Authorization()
 
 class DatasetResource(ModelResource):
     """
     API resource for Datasets.
     """
+    data_upload = fields.ForeignKey(UploadResource, 'data_upload')
+
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
+
+        # TKTK
         authentication = Authentication()
         authorization = Authorization()
 

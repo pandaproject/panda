@@ -2,3 +2,4 @@
 *.swp
 .DS_Store
 start-solr.sh
+reset-db.sh
