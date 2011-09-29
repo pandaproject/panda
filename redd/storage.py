@@ -13,6 +13,10 @@ class PANDAUploadBackend(AbstractUploadBackend):
     Customized upload backend to put files in PANDA_STORAGE_LOCATION.
     """
     def update_filename(self, request, filename):
+        """
+        Verify that the filename is unique, if it isn't append and iterate
+        a counter until it is.
+        """
         self._original_filename = filename
 
         filename = self._original_filename
@@ -29,6 +33,9 @@ class PANDAUploadBackend(AbstractUploadBackend):
         return filename 
 
     def setup(self, filename):
+        """
+        Open the destination file for writing.
+        """
         self._path = os.path.join(settings.PANDA_STORAGE_LOCATION, filename)
 
         try:
@@ -39,9 +46,16 @@ class PANDAUploadBackend(AbstractUploadBackend):
         self._dest = BufferedWriter(FileIO(self._path, "w"))
 
     def upload_chunk(self, chunk):
+        """
+        Write a chunk of data to the destination.
+        """
         self._dest.write(chunk)
 
     def upload_complete(self, request, filename):
+        """
+        Close the destination file and create an Upload object in the
+        database recording its existence.
+        """
         self._dest.close()
 
         path = os.path.join(settings.PANDA_STORAGE_LOCATION, filename)

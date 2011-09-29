@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from sunburnt import SolrInterface
 
-from redd.forms import DatasetForm
 from redd.storage import PANDAUploadBackend
 from redd.tasks import add 
 
@@ -32,8 +31,7 @@ def upload(request):
     """
     return render_to_response('upload.html', {
         'MEDIA_URL': settings.MEDIA_URL,
-        'csrf_token': get_token(request),
-        'dataset_form': DatasetForm()
+        'csrf_token': get_token(request)
         }) 
 
 ajax_upload = AjaxFileUploader(backend=PANDAUploadBackend)
