@@ -44,7 +44,8 @@ class DatasetResource(ModelResource):
 
 class SolrObject(object):
     """
-    A lightweight wrapper around a Solr response object.
+    A lightweight wrapper around a Solr response object for use when
+    querying Solr via Tastypie.
     """
     def __init__(self, initial=None, **kwargs):
         self.__dict__['_data'] = {}
@@ -67,6 +68,7 @@ class DataResource(Resource):
     """
     API resource for row data.
     """
+    # TKTK - handle other fields
     id = fields.CharField(attribute='id')
     dataset_id = fields.CharField(attribute='dataset_id')
 
@@ -74,9 +76,15 @@ class DataResource(Resource):
         resource_name = 'data'
 
     def _solr(self):
+        """
+        Create a query interface for Solr.
+        """
         return SolrInterface('http://localhost:8983/solr')
 
     def get_resource_uri(self, bundle_or_obj):
+        """
+        Build a canonical uri for a datum.
+        """
         kwargs = {
             'resource_name': self._meta.resource_name,
         }
@@ -106,6 +114,7 @@ class DataResource(Resource):
         Query Solr with a list of terms.
         """
         q = copy(request.GET)
+        # TKTK - what other params need to be ignored?
         del q['format']
 
         s = SolrSearch(self._solr()).query(**q)
@@ -113,12 +122,16 @@ class DataResource(Resource):
         return s.execute(constructor=SolrObject)
 
     def obj_get(self, request=None, **kwargs):
+        """
+        Query Solr for a single item by primary key.
+        """
         if 'pk' in kwargs:
             get_id = kwargs['pk']
         else:
             get_id = request.GET.get('id', '')
 
         obj = self._solr().query(id=get_id).execute(constructor=SolrObject)
+
         return SolrObject(obj)
 
     def obj_create(self, bundle, request=None, **kwargs):
@@ -152,6 +165,9 @@ class DataResource(Resource):
         pass
 
     def override_urls(self):
+        """
+        Add urls for search endpoint.
+        """
         return [
             url(r'^(?P<resource_name>%s)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search'),
         ]
