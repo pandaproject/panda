@@ -50,7 +50,7 @@ $(function() {
     $("#dataset_form").submit(function() {
         data = {
             name: $("#dataset_form #dataset_name").val(),
-            data_upload: { pk: $("#dataset_form #dataset_data_upload").val() }
+            data_upload: { id: $("#dataset_form #dataset_data_upload").val() }
         }
 
         $.ajax("/api/1.0/dataset/", {

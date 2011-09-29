@@ -8,13 +8,6 @@ from django.shortcuts import render_to_response
 from sunburnt import SolrInterface
 
 from redd.storage import PANDAUploadBackend
-from redd.tasks import add 
-
-def test_task(request):
-    result = add.delay(4, 4)
-    result.get()
-
-    return HttpResponse(result.get())
 
 def test_solr(request):
     solr = SolrInterface('http://localhost:8983/solr')
