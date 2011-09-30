@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import models
 
 from redd.fields import JSONField
+from redd.tasks import dataset_import_data
 from redd.utils import infer_types
 
 class Upload(models.Model):
@@ -37,6 +38,11 @@ class Dataset(models.Model):
 
     def get_current_task(self):
         return AsyncResult(self.current_task_id)
+
+    def import_data(self):
+        result = dataset_import_data.delay(self.id)
+        self.current_task_id = result.task_id
+        self.save()
 
     def save(self, *args, **kwargs):
         if not self.schema:

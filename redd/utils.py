@@ -13,3 +13,4 @@ def infer_types(f, sample_size=100):
     normal_types, normal_values = normalize_table(first_hundred, len(headers))
 
     return zip(headers, [t.__name__ for t in normal_types])
+
