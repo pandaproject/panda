@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 from copy import copy
-import json
 
+from django.conf import settings
 from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
 from sunburnt.search import SolrSearch
@@ -112,7 +112,7 @@ class DataResource(Resource):
         """
         Create a query interface for Solr.
         """
-        return SolrInterface('http://localhost:8983/solr')
+        return SolrInterface(settings.SOLR_ENDPOINT)
 
     def get_resource_uri(self, bundle_or_obj):
         """

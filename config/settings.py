@@ -104,6 +104,9 @@ logging.basicConfig(
     level=logging.DEBUG,
 )
 
+# Solr
+SOLR_ENDPOINT = 'http://localhost:8983/solr'
+
 # PANDA
 PANDA_STORAGE_LOCATION = '/tmp/panda'
 
