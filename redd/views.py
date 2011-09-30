@@ -18,6 +18,9 @@ def test_solr(request):
     solr.commit()
     return HttpResponse('Success')
 
+def reddjs(request):
+    return render_to_response('redd.js', mimetype='text/javascript')
+
 def upload(request):
     """
     UI for uploading a file.

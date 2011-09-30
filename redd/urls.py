@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 
     url(r'^ajax_upload$', views.ajax_upload, name="ajax_upload"),
     url(r'^upload$', views.upload, name="upload"),
+    url(r'^redd.js$', views.reddjs, name="redd.js"),
 
     (r'^api/', include(api_1_0.urls)),
 )
