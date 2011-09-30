@@ -58,6 +58,7 @@ class PANDAUploadBackend(AbstractUploadBackend):
         """
         self._dest.close()
 
+        root, ext = os.path.splitext(filename)
         path = os.path.join(settings.PANDA_STORAGE_LOCATION, filename)
         size = os.path.getsize(path)
 

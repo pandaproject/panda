@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from copy import copy
+import json
 
 from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
@@ -9,10 +10,42 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
+from tastypie.fields import ApiField, CharField
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils.urls import trailing_slash
 
+from redd.fields import JSONField
 from redd.models import Dataset, Upload
+
+class JSONApiField(ApiField):
+    """
+    Custom ApiField for dealing with data from custom JSONFields.
+    """
+    dehydrated_type = 'json'
+    help_text = 'JSON structured data.'
+    
+    def dehydrate(self, obj):
+        return self.convert(super(JSONApiField, self).dehydrate(obj))
+    
+    def convert(self, value):
+        if value is None:
+            return None
+        
+        return value
+
+class CustomResource(ModelResource):
+    """
+    ModelResource subclass that supports JSONFields.
+    """
+    @classmethod
+    def api_field_from_django_field(cls, f, default=CharField):
+        """
+        Overrides default field handling to support custom ListField and JSONField.
+        """
+        if isinstance(f, JSONField):
+            return JSONApiField
+    
+        return super(CustomResource, cls).api_field_from_django_field(f, default)
 
 class UploadResource(ModelResource):
     """
@@ -28,7 +61,7 @@ class UploadResource(ModelResource):
         authentication = Authentication()
         authorization = Authorization()
 
-class DatasetResource(ModelResource):
+class DatasetResource(CustomResource):
     """
     API resource for Datasets.
     """

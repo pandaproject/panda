@@ -2,11 +2,7 @@
 
 from celery.decorators import task
 
-@task
-def dataset_import(dataset_id):
-    from redd.models import Dataset
-
-    dataset = Dataset.objects.get(id=dataset_id)
-
-    return dataset.data_upload.filename
+@task(name='Import data')
+def dataset_import_data(dataset_id, type_hypotheses):
+    pass
 

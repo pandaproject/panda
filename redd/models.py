@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
+import os.path
+
 from celery.result import AsyncResult
+from django.conf import settings
 from django.db import models
 
-from redd.tasks import dataset_import
+from redd.fields import JSONField
+from redd.utils import infer_types
 
 class Upload(models.Model):
     """
@@ -16,30 +20,28 @@ class Upload(models.Model):
     def __unicode__(self):
         return self.filename
 
+    def get_path(self):
+        return os.path.join(settings.PANDA_STORAGE_LOCATION, self.filename)
+
 class Dataset(models.Model):
     """
     A PANDA dataset (one table & associated metadata).
     """
     name = models.CharField(max_length=256)
     data_upload = models.ForeignKey(Upload)
-    import_task_id = models.CharField(max_length=255, null=True, blank=True) 
+    schema = JSONField(null=True, blank=True)
+    current_task_id = models.CharField(max_length=255, null=True, blank=True) 
 
     def __unicode__(self):
         return self.name
 
-    def import_task(self):
-        return AsyncResult(self.import_task_id)
+    def get_current_task(self):
+        return AsyncResult(self.current_task_id)
 
     def save(self, *args, **kwargs):
-        # Save to get id
-        super(Dataset, self).save(*args, **kwargs)
+        if not self.schema:
+            with open(self.data_upload.get_path(), 'r') as f:
+                self.schema = infer_types(f)
 
-        # Kick off data processing
-        result = dataset_import.delay(self.id)
-        self.import_task_id = result.task_id
-        
-        # Stash task id
         super(Dataset, self).save(*args, **kwargs)
-
-        print self.import_task().status
 
