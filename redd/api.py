@@ -136,25 +136,6 @@ class SolrObject(object):
     def to_dict(self):
         return self._data
 
-class SolrPaginator(Paginator):
-    """
-    A Tastypie Paginator for Solr results.
-
-    NB: The constructor expects a solr query object rather than a slicable
-    list-like object. Otherwise this should be API-compliant.
-    """
-    def get_count(self):
-        """
-        Returns a count of the total number of objects seen.
-        """
-        return self.objects.count()
-
-    def get_slice(self, limit, offset):
-        """
-        Slices the result set to the specified limit and offset.
-        """
-        return self.objects.paginate(offset, limit).execute(constructor=SolrObject)
-
 class DataResource(Resource):
     """
     API resource for row data.
