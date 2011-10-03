@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from copy import copy
+import json
 
 from django.conf import settings
 from django.conf.urls.defaults import url
@@ -75,6 +76,37 @@ class DatasetResource(CustomResource):
         authentication = Authentication()
         authorization = Authorization()
 
+    def override_urls(self):
+        """
+        Add urls for search endpoint.
+        """
+        return [
+            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
+        ]
+
+    def import_data(self, request, **kwargs):
+        """
+        Dummy endpoint for kicking off data import tasks.
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if 'pk' in kwargs:
+            get_id = kwargs['pk']
+        else:
+            get_id = request.GET.get('id', '')
+
+        dataset = Dataset.objects.get(id=get_id)
+        dataset.import_data()
+
+        bundle = self.build_bundle(obj=dataset, request=request)
+        bundle = self.full_dehydrate(bundle)
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, bundle)
+
 class SolrObject(object):
     """
     A lightweight wrapper around a Solr response object for use when
@@ -106,10 +138,13 @@ class SolrObject(object):
 class DataResource(Resource):
     """
     API resource for row data.
+
+    TKTK -- return data for all fields
     """
-    # TKTK - handle other fields
     id = fields.CharField(attribute='id')
-    dataset_id = fields.CharField(attribute='dataset_id')
+    dataset_id = fields.IntegerField(attribute='dataset_id')
+    row = fields.IntegerField(attribute='row')
+    csv_data = fields.CharField(attribute='csv_data')
 
     class Meta:
         resource_name = 'data'
@@ -119,6 +154,25 @@ class DataResource(Resource):
         Create a query interface for Solr.
         """
         return SolrInterface(settings.SOLR_ENDPOINT)
+
+    def dehydrate_csv_data(self, bundle):
+        """
+        Convert csv data into a proper array for JSON serialization
+        """
+        return json.loads(bundle.data['csv_data'])
+
+    def dehydrate(self, bundle):
+        """
+        Trim the dataset_id field and add a proper relationship.
+        """
+        dataset = Dataset.objects.get(id=bundle.data['dataset_id'])
+        dr = DatasetResource()
+        uri = dr.get_resource_uri(dataset)
+
+        del bundle.data['dataset_id']
+        bundle.data['dataset'] = uri
+
+        return bundle
 
     def get_resource_uri(self, bundle_or_obj):
         """
@@ -144,21 +198,22 @@ class DataResource(Resource):
 
         TKTK: enforce proper limits from tastypie in solr query
         """
-        s = SolrSearch(self._solr())
+        results = self._solr().query().execute(constructor=SolrObject)
 
-        return s.execute(constructor=SolrObject)
+        return results
 
     def obj_get_list(self, request=None, **kwargs):
         """
         Query Solr with a list of terms.
+
+        TKTK -- what other querystring params need to be trimmed/ignored
         """
         q = copy(request.GET)
-        # TKTK - what other params need to be ignored?
         del q['format']
 
-        s = SolrSearch(self._solr()).query(**q)
+        results = self._solr().query(**q).execute(constructor=SolrObject)
 
-        return s.execute(constructor=SolrObject)
+        return results
 
     def obj_get(self, request=None, **kwargs):
         """
@@ -216,16 +271,15 @@ class DataResource(Resource):
         An endpoint for performing full-text searches.
 
         TKTK -- implement paging
+        TKTK -- implement field searches
+        TKTK -- implement wildcard + boolean searches
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
         s = SolrSearch(self._solr()).query(full_text=request.GET.get('q'))
-        print s
-
         results = s.execute(constructor=SolrObject)
-        print results
 
         # Do the query.
         old="""sqs = SearchQuerySet().models(Note).load_all().auto_query(request.GET.get('q', ''))

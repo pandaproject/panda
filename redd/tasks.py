@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+from cStringIO import StringIO
+import json
 from uuid import uuid4
 
 from celery.decorators import task
 from django.conf import settings
 from sunburnt import SolrInterface
 
-from csvkit import CSVKitReader
+from csvkit import CSVKitReader, CSVKitWriter
 from csvkit.exceptions import InvalidValueForTypeException, InvalidValueForTypeListException
 from csvkit.typeinference import normalize_table
 
@@ -29,6 +31,9 @@ def dataset_import_data(dataset_id):
         
     reader = CSVKitReader(open(dataset.data_upload.get_path(), 'r'))
     reader.next()
+
+    csv_data_bucket = StringIO()
+    writer = CSVKitWriter(csv_data_bucket)
 
     add_buffer = []
     normal_type_exceptions = []
@@ -65,10 +70,18 @@ def dataset_import_data(dataset_id):
 
         # If we've had a normal type exception, don't bother do the rest of this
         if not normal_type_exceptions:
-            data['id'] = uuid4()
-            data['dataset_id'] = dataset.id 
-            data['row'] = str(i)
-            data['full_text'] = '\n'.join(row)
+            #writer.writerow(row)
+            #csv_data = csv_data_bucket.getvalue()
+            #csv_data_bucket.truncate(0)
+
+            data = {
+                'id': uuid4(),
+                'dataset_id': dataset.id,
+                'row': str(i),
+                'full_text': '\n'.join(row),
+                'csv_data': json.dumps(row)
+            }
+
             add_buffer.append(data)
 
             if i % SOLR_ADD_BUFFER_SIZE == 0:
