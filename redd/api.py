@@ -290,7 +290,6 @@ class DataResource(Resource):
         """
         An endpoint for performing full-text searches.
 
-        TKTK -- implement paging
         TKTK -- implement field searches
         TKTK -- implement wildcard + boolean searches
         """
