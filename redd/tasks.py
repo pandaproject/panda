@@ -17,8 +17,6 @@ SOLR_ADD_BUFFER_SIZE = 500
 def dataset_import_data(dataset_id):
     from redd.models import Dataset
 
-    raise TypeError('blah!')
-
     dataset = Dataset.objects.get(id=dataset_id)
 
     solr = SolrInterface(settings.SOLR_ENDPOINT)
