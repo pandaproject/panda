@@ -16,8 +16,11 @@
 </div>
 
 <script type="text/template" id="results-template"> 
+    <%= meta.offset %> through <%= meta.limit %> of <%= meta.total_count %><br />
     <% _.each(objects, function(obj) { %>
-        <%= obj.id %><br />
+        <% _.each(obj.csv_data, function(d) { %>
+            <%= d %>
+        <% }); %><br />
     <% }); %>
 </script>
 {% endblock %}
@@ -35,6 +38,7 @@ $(function() {
             10,
             0,
             function(data) {
+                console.log(data);
                 $("#results").html(results_template(data));
             });
 
