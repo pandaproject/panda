@@ -6,19 +6,40 @@
 {% endblock %}
 
 {% block content %}
-<form id="search_form">
-    <input id="search_query" type="text" name="query" value="" />
-    <input type="submit" id="search_submit" value="Search" />
-</form>
+<div id="search">
+    <form id="search-form">
+        <input id="search-query" type="text" name="query" value="" />
+        <input type="submit" id="search-submit" value="Search" />
+    </form>
+</div>
+<div id="results">
+</div>
+
+<script type="text/template" id="results-template"> 
+    <% _.each(objects, function(obj) { %>
+        <%= obj.id %><br />
+    <% }); %>
+</script>
 {% endblock %}
 
 {% block extra_footer %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min.js"></script>
 <script type="text/javascript" src="redd.js"></script>
 <script type="text/javascript">
-    $("#search_form").submit(function() {
-        // Do something here
+$(function() {
+    var results_template = _.template($('#results-template').html());
+
+    $("#search-form").submit(function() {
+        REDD.search_data(
+            $("#search-form #search-query").val(),
+            10,
+            0,
+            function(data) {
+                $("#results").html(results_template(data));
+            });
 
         return false;
     }); 
+})
 </script>
 {% endblock %}

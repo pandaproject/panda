@@ -36,5 +36,7 @@ def search(request):
     """
     Simples search UI.
     """
-    return render_to_response('search.html')
+    return render_to_response('search.html', {
+        'MEDIA_URL': settings.MEDIA_URL
+        }) 
 

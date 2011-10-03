@@ -19,4 +19,21 @@
             }
         });    
     }
+
+    REDD.search_data = function(query, limit, offset, success_callback) {
+        data = {
+            q: query,
+            limit: limit,
+            offset: offset
+        }
+
+        $.ajax(REDD.API + "/data/search/", {
+            type: "GET",
+            data: data,
+            dataType: "json",
+            success: function(data, textStatus, jqXHR) {
+                success_callback(data);
+            }
+        }); 
+    }
 })();
