@@ -310,11 +310,9 @@ class DataResource(Resource):
             bundle = self.full_dehydrate(bundle)
             objects.append(bundle)
 
-        object_list = {
-            'objects': objects,
-        }
+        page['objects'] = objects
 
         self.log_throttled_access(request)
 
-        return self.create_response(request, object_list)
+        return self.create_response(request, page)
 
