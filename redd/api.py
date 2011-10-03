@@ -277,9 +277,9 @@ class DataResource(Resource):
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
-
+        
         s = SolrSearch(self._solr()).query(full_text=request.GET.get('q'))
-        paginator = Paginator(request.GET, s)
+        paginator = Paginator(request.GET, s, resource_uri=request.path_info)
 
         page = paginator.page()
 

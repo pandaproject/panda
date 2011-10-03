@@ -37,6 +37,9 @@ class Dataset(models.Model):
         return self.name
 
     def get_current_task(self):
+        if not self.current_task_id:
+            return None
+
         return AsyncResult(self.current_task_id)
 
     def import_data(self):
