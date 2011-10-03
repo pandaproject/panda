@@ -13,12 +13,11 @@
     </noscript>         
 </div>
 <div id="dataset">
-    <form id="dataset_form">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <label for="dataset_name">Name:</label>
-        <input id="dataset_name" type="text" name="name" maxlength="256">
-        <input type="hidden" name="data_upload" id="dataset_data_upload">
-        <input type="submit" id="dataset_submit" value="Submit" />
+    <form id="dataset-form">
+        <label for="dataset-name">Name:</label>
+        <input id="dataset-name" type="text" name="name" maxlength="256">
+        <input id="dataset-data-upload" type="hidden" name="data-upload" >
+        <input id="dataset-submit" type="submit" value="Submit" />
     </form>
 </div>
 {% endblock %}
@@ -35,7 +34,7 @@ $(function() {
         multiple: false,
         onComplete: function(id, fileName, responseJSON) {
             if(responseJSON.success) {
-                $("#dataset_data_upload").val(responseJSON["id"]);
+                $("#dataset-data-upload").val(responseJSON["id"]);
                 $("#dataset").show();
             } else {
                 alert("Upload failed!");
@@ -48,10 +47,10 @@ $(function() {
         }
     });
 
-    $("#dataset_form").submit(function() {
+    $("#dataset-form").submit(function() {
         REDD.create_dataset(
-            $("#dataset_form #dataset_name").val(),
-            $("#dataset_form #dataset_data_upload").val(),
+            $("#dataset-form #dataset-name").val(),
+            $("#dataset-form #dataset-data-upload").val(),
             function() {
                 alert("Success!");
             });
