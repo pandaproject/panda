@@ -25,7 +25,7 @@
 {% block extra_footer %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/fileuploader.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/json2.js"></script>
-<script type="text/javascript" src="redd.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/redd.js"></script>
 <script type="text/javascript">
 $(function() {
     var uploader = new qq.FileUploader({
@@ -48,7 +48,7 @@ $(function() {
     });
 
     $("#dataset-form").submit(function() {
-        REDD.create_dataset(
+        Redd.create_dataset(
             $("#dataset-form #dataset-name").val(),
             $("#dataset-form #dataset-data-upload").val(),
             function() {
