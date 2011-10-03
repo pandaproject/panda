@@ -5,6 +5,8 @@ PANDA wants to be your newsroom data appliance. It provides a place for you to s
 
 Take the `PANDA Future Users Survey <http://bit.ly/pandasurvey>`_.
 
+Feature list and much more on `the PANDA Project Wiki <https://github.com/pandaproject/panda/wiki>`_.
+
 Local development & testing
 ---------------------------
 
