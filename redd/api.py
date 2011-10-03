@@ -302,9 +302,6 @@ class DataResource(Resource):
 
         page = paginator.page()
 
-        print page
-        print dir(page)
-
         objects = []
 
         for result in page['objects']:
