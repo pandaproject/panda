@@ -32,3 +32,9 @@ def upload(request):
 
 ajax_upload = AjaxFileUploader(backend=PANDAUploadBackend)
 
+def search(request):
+    """
+    Simples search UI.
+    """
+    return render_to_response('search.html')
+

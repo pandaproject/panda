@@ -9,3 +9,4 @@ django-tastypie==0.9.9
 sunburnt==0.5
 lxml==2.3.1
 -e git://github.com/GoodCloud/django-ajax-uploader.git#egg=ajaxuploader
+-e git://github.com/onyxfish/csvkit.git#egg=csvkit

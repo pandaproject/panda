@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block content %}
+<form id="search_form">
+    <input id="search_query" type="text" name="query" value="" />
+    <input type="submit" id="search_submit" value="Search" />
+</form>
+{% endblock %}
+
+{% block extra_footer %}
+<script type="text/javascript" src="redd.js"></script>
+<script type="text/javascript">
+    $("#search_form").submit(function() {
+        // Do something here
+
+        return false;
+    }); 
+</script>
+{% endblock %}

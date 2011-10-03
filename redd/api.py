@@ -94,6 +94,12 @@ class SolrObject(object):
     def __setattr__(self, name, value):
         self.__dict__['_data'][name] = value
 
+    def __str__(self):
+        return str(self.__dict__['_data'])
+
+    def __unicode__(self):
+        return unicode(self.__dict__['_data'])
+
     def to_dict(self):
         return self._data
 
@@ -163,9 +169,9 @@ class DataResource(Resource):
         else:
             get_id = request.GET.get('id', '')
 
-        obj = self._solr().query(id=get_id).execute(constructor=SolrObject)
+        obj = self._solr().query(id=get_id).execute(constructor=SolrObject)[0]
 
-        return SolrObject(obj)
+        return obj
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
@@ -207,6 +213,41 @@ class DataResource(Resource):
 
     def search(self, request, **kwargs):
         """
-        TKTK
+        An endpoint for performing full-text searches.
+
+        TKTK -- implement paging
         """
-        pass
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        s = SolrSearch(self._solr()).query(full_text=request.GET.get('q'))
+        print s
+
+        results = s.execute(constructor=SolrObject)
+        print results
+
+        # Do the query.
+        old="""sqs = SearchQuerySet().models(Note).load_all().auto_query(request.GET.get('q', ''))
+        paginator = Paginator(sqs, 20)
+
+        try:
+            page = paginator.page(int(request.GET.get('page', 1)))
+        except InvalidPage:
+            raise Http404("Sorry, no results on that page.")"""
+
+        objects = []
+
+        for result in results:
+            bundle = self.build_bundle(obj=result, request=request)
+            bundle = self.full_dehydrate(bundle)
+            objects.append(bundle)
+
+        object_list = {
+            'objects': objects,
+        }
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, object_list)
+
