@@ -3,6 +3,8 @@
 from copy import copy
 import json
 
+from celery.result import AsyncResult
+from celery.states import EXCEPTION_STATES
 from django.conf import settings
 from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
@@ -48,6 +50,100 @@ class CustomResource(ModelResource):
             return JSONApiField
     
         return super(CustomResource, cls).api_field_from_django_field(f, default)
+
+class TaskObject(object):
+    """
+    A lightweight wrapper around a Celery task object for use when
+    checking status via Tastypie.
+    """
+    def __init__(self, initial=None, **kwargs):
+        self.__dict__['_data'] = {}
+
+        if hasattr(initial, 'items'):
+            self.__dict__['_data'] = initial
+
+        self.__dict__['_data'].update(kwargs)
+
+    def __getattr__(self, name):
+        return self._data.get(name, None)
+
+    def __setattr__(self, name, value):
+        self.__dict__['_data'][name] = value
+
+    def __str__(self):
+        return str(self.__dict__['_data'])
+
+    def __unicode__(self):
+        return unicode(self.__dict__['_data'])
+
+    def to_dict(self):
+        return self._data
+
+class TaskResource(CustomResource):
+    """
+    Simple wrapper around django-celery's task API.
+    """
+    id = fields.CharField(attribute='id')
+    state = fields.CharField(attribute='state')
+    result = fields.CharField(attribute='result', null=True)
+    exc = fields.CharField(attribute='result', null=True, blank=True)
+    traceback = fields.CharField(attribute='traceback', null=True, blank=True)
+
+    class Meta:
+        resource_name = 'task'
+
+    def get_resource_uri(self, bundle_or_obj):
+        """
+        Build a canonical uri for a datum.
+        """
+        kwargs = {
+            'resource_name': self._meta.resource_name,
+        }
+
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        if self._meta.api_name is not None:
+            kwargs['api_name'] = self._meta.api_name
+
+        return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
+
+    def get_object_list(self, request):
+        pass
+
+    def obj_get_list(self, request=None, **kwargs):
+        pass
+
+    def obj_get(self, request=None, **kwargs):
+        """
+        Query Solr for a single item by primary key.
+        """
+        if 'pk' in kwargs:
+            task_id = kwargs['pk']
+        else:
+            task_id = request.GET.get('id', '')
+
+        task = AsyncResult(task_id)
+
+        obj = {
+            'id': task_id,
+            'state': task.state,
+            'result': task.result,
+        }
+
+        if task.state in EXCEPTION_STATES:
+            cls = task.result.__class__
+            exc = '.'.join([cls.__module__, cls.__name__])
+
+            obj.update({
+                'result': repr(task.result),
+                'exc': exc,
+                'traceback': task.traceback
+            })
+
+        return TaskObject(obj) 
 
 class UploadResource(ModelResource):
     """
@@ -165,6 +261,8 @@ class DataResource(Resource):
     def dehydrate(self, bundle):
         """
         Trim the dataset_id field and add a proper relationship.
+
+        TKTK -- better way to do this?
         """
         dataset = Dataset.objects.get(id=bundle.data['dataset_id'])
         dr = DatasetResource()
