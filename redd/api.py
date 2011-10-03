@@ -12,6 +12,7 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.fields import ApiField, CharField
+from tastypie.paginator import Paginator
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils.urls import trailing_slash
 
@@ -135,11 +136,30 @@ class SolrObject(object):
     def to_dict(self):
         return self._data
 
+class SolrPaginator(Paginator):
+    """
+    A Tastypie Paginator for Solr results.
+
+    NB: The constructor expects a solr query object rather than a slicable
+    list-like object. Otherwise this should be API-compliant.
+    """
+    def get_count(self):
+        """
+        Returns a count of the total number of objects seen.
+        """
+        return self.objects.count()
+
+    def get_slice(self, limit, offset):
+        """
+        Slices the result set to the specified limit and offset.
+        """
+        return self.objects.paginate(offset, limit).execute(constructor=SolrObject)
+
 class DataResource(Resource):
     """
     API resource for row data.
 
-    TKTK -- return data for all fields
+    TKTK -- return data for indexed fields
     """
     id = fields.CharField(attribute='id')
     dataset_id = fields.IntegerField(attribute='dataset_id')
@@ -279,21 +299,18 @@ class DataResource(Resource):
         self.throttle_check(request)
 
         s = SolrSearch(self._solr()).query(full_text=request.GET.get('q'))
-        results = s.execute(constructor=SolrObject)
+        paginator = Paginator(request.GET, s)
 
-        # Do the query.
-        old="""sqs = SearchQuerySet().models(Note).load_all().auto_query(request.GET.get('q', ''))
-        paginator = Paginator(sqs, 20)
+        page = paginator.page()
 
-        try:
-            page = paginator.page(int(request.GET.get('page', 1)))
-        except InvalidPage:
-            raise Http404("Sorry, no results on that page.")"""
+        print page
+        print dir(page)
 
         objects = []
 
-        for result in results:
-            bundle = self.build_bundle(obj=result, request=request)
+        for result in page['objects']:
+            obj = SolrObject(result)
+            bundle = self.build_bundle(obj=obj, request=request)
             bundle = self.full_dehydrate(bundle)
             objects.append(bundle)
 
