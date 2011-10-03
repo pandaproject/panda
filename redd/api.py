@@ -5,6 +5,7 @@ import json
 
 from celery.result import AsyncResult
 from celery.states import EXCEPTION_STATES
+from celery.task.control import inspect 
 from django.conf import settings
 from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
@@ -111,14 +112,20 @@ class TaskResource(CustomResource):
         return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
 
     def get_object_list(self, request):
+        """
+        TKTK -- support list view
+        """
         pass
 
     def obj_get_list(self, request=None, **kwargs):
+        """
+        TKTK -- support list view
+        """
         pass
 
     def obj_get(self, request=None, **kwargs):
         """
-        Query Solr for a single item by primary key.
+        Fetch the status of a task by task_id.
         """
         if 'pk' in kwargs:
             task_id = kwargs['pk']
