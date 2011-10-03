@@ -99,6 +99,20 @@ BROKER_TRANSPORT = "sqlakombu.transport.Transport"
 BROKER_HOST = "postgresql:///panda?user=panda&password=panda"
 CELERY_RESULT_DBURI = "postgresql:///panda?user=panda&password=panda"
 
+CELERY_QUEUES = {
+    "default": {
+        "exchange": "default",
+        "binding_key": "default"},
+    "import": {
+        "exchange": "default",
+        "binding_key": "import",
+    }
+}
+CELERY_DEFAULT_QUEUE = "default"
+CELERY_DEFAULT_EXCHANGE = "default"
+CELERY_DEFAULT_EXCHANGE_TYPE = "direct"
+CELERY_DEFAULT_ROUTING_KEY = "default"
+
 # Logging
 logging.basicConfig(
     level=logging.DEBUG,

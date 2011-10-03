@@ -43,7 +43,7 @@ class Dataset(models.Model):
         return AsyncResult(self.current_task_id)
 
     def import_data(self):
-        result = dataset_import_data.delay(self.id)
+        result = dataset_import_data.apply_async(args=[self.id], queue='import', routing_key='import')
         self.current_task_id = result.task_id
         self.save()
 
