@@ -315,7 +315,9 @@ class DataResource(Resource):
         TKTK -- what other querystring params need to be trimmed/ignored
         """
         q = copy(request.GET)
-        del q['format']
+        if 'format' in q: del q['format']
+        if 'limit' in q: del q['limit']
+        if 'offset' in q: del q['offset']
 
         results = self._solr().query(**q).execute(constructor=SolrObject)
 
