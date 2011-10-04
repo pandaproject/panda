@@ -27,6 +27,10 @@ service unattended-upgrades restart
 apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 libxlt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk solr-jetty python-virtualenv libpq-dev
 pip install uwsgi
 
+# Install Solr config
+wget $CONFIG_URL/schema.xml -O /etc/solr/conf/schema.xml
+wget $CONFIG_URL/solrconfig.xml -O /etc/solr/conf/solrconfig.xml
+
 # Turn on Jetty
 echo "NO_START=0" > /etc/default/jetty
 initctl reload-configuration
