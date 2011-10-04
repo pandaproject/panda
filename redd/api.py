@@ -313,6 +313,7 @@ class DataResource(Resource):
         Query Solr with a list of terms.
 
         TKTK -- what other querystring params need to be trimmed/ignored
+        TKTK -- implement limit and offset params
         """
         q = copy(request.GET)
         if 'format' in q: del q['format']

@@ -67,10 +67,28 @@
                 }, this));
         },
 
-        next: function() {
+        next_page: function() {
+            // TKTK - validate this.next is not none
+            this.reset();
+
+            $.getJSON(
+                this.next,
+                _.bind(function(response) {
+                    var objs = this.parse(response);
+                    this.add(objs);
+                }, this));
         },
 
-        previous: function() {
+        previous_page: function() {
+            // TKTK - validate this.previous is not none
+            this.reset();
+
+            $.getJSON(
+                this.previous,
+                _.bind(function(response) {
+                    var objs = this.parse(response);
+                    this.add(objs);
+                }, this));
         }
     });
 
