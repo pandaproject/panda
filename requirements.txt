@@ -5,8 +5,8 @@ psycopg2==2.4.1
 django-celery==2.3.3
 kombu-sqlalchemy==1.1.0
 python-dateutil==1.5.0
-django-tastypie==0.9.9
 lxml==2.3.1
 -e git://github.com/GoodCloud/django-ajax-uploader.git#egg=ajaxuploader
 -e git://github.com/onyxfish/csvkit.git#egg=csvkit
 -e git://github.com/tow/sunburnt.git#egg=sunburnt
+-e git://github.com/toastdriven/django-tastypie.git#egg=tastypie
