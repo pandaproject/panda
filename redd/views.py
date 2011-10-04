@@ -22,11 +22,6 @@ def upload(request):
     """
     UI for uploading a file.
     """
-    import logging
-    import os
-    logger = logging.getLogger(__name__)
-    logger.error(os.environ)
-
     return render_to_response('upload.html', {
         'MEDIA_URL': settings.MEDIA_URL,
         'csrf_token': get_token(request)
