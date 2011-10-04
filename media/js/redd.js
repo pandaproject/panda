@@ -1,5 +1,45 @@
 (function() {
     window.Redd = {};
+    Redd.controllers = {};
+    Redd.model = {};
+    Redd.app = {};
+    Redd.ui = {};
+
+    Redd.model.Dataset = Backbone.Model.extend({
+        urlRoot: "/api/1.0/dataset"
+    });
+
+    Redd.model.DatasetSet = Backbone.Collection.extend({
+        model: Redd.model.Dataset,
+        url: "/api/1.0/dataset"
+    });
+
+    Redd.model.Datum = Backbone.Model.extend({
+        urlRoot: "/api/1.0/data"
+    });
+
+    Redd.model.DatumSet = Backbone.Collection.extend({
+        model: Redd.model.Datum,
+        url: "/api/1.0/data",
+
+        search: function(query) {
+            $.getJSON(
+                this.url() + '/search',
+                { q: query },
+                _.bind(function(response) {
+                    _.each(response.objects, function(obj) {
+                        this.add(obj);
+                    });
+                }, this));
+        }
+    });
+
+    window.Datasets = new Redd.model.DatasetSet();
+    window.Data = new Redd.model.DatumSet();
+})();
+
+/*(function() {
+    window.Redd = {};
     
     Redd.API = "/api/1.0";
 
@@ -36,4 +76,4 @@
             }
         }); 
     }
-})();
+})();*/
