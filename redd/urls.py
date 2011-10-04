@@ -2,7 +2,7 @@
 
 from django.conf.urls.defaults import include, patterns, url
 from tastypie.api import Api
-from tastypie.urls import trailing_slash
+from tastypie.utils.urls import trailing_slash
 
 from redd.api import DataResource, DatasetResource, TaskResource, UploadResource
 from redd import views
