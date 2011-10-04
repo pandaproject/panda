@@ -18,25 +18,7 @@ env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
 env.repo_path = '%(path)s' % env
 env.python = 'python2.7'
 env.repository_url = 'git://github.com/pandaproject/panda.git'
-
-"""
-Environments
-"""
-def production():
-    """
-    Work on production environment
-    """
-    env.settings = 'production'
-    env.hosts = ['panda.tribapps.com']
-    env.site_domain = 'panda.tribapps.com'    
-
-def staging():
-    """
-    Work on staging environment
-    """
-    env.settings = 'staging'
-    env.hosts = ['panda.beta.tribapps.com']
-    env.site_domain = 'panda.beta.tribapps.com'    
+env.hosts = ['panda.beta.tribapps.com']
     
 """
 Branches
@@ -68,7 +50,6 @@ def setup():
     
     Does NOT perform the functions of deploy().
     """
-    require('settings', provided_by=[production, staging])
     require('branch', provided_by=[stable, master, branch])
     
     setup_directories()
@@ -118,7 +99,6 @@ def deploy():
     """
     Deploy the latest version of the site to the server and restart Apache2.
     """
-    require('settings', provided_by=[production, staging])
     require('branch', provided_by=[stable, master, branch])
     
     checkout_latest()

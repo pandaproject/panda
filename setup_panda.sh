@@ -6,8 +6,8 @@
 CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 
 # Setup environment variables
-echo "export DEPLOYMENT_TARGET=\"staging\"" > /home/ubuntu/.bash_profile
-export DEPLOYMENT_TARGET="staging"
+echo "export DEPLOYMENT_TARGET=\"deployed\"" > /home/ubuntu/.bash_profile
+export DEPLOYMENT_TARGET="deployed"
 
 # Make sure SSH comes up on reboot
 ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
