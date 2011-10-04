@@ -22,6 +22,17 @@
             <%= d %>
         <% }); %><br />
     <% }); %>
+    <% if (previous) { %>
+        <a href="#" class="prev">previous</a>
+    <% } else { %>
+        <span>previous</span>
+    <% } %>
+
+    <% if (next) { %>
+        <a href="#" class="next">next</a>
+    <% } else { %>
+        <span>next</span>
+    <% } %>
 </script>
 {% endblock %}
 
@@ -37,16 +48,30 @@ $(function() {
         
         template: _.template($('#results-template').html()),
 
+        events: {
+            'click a.prev': 'previous',
+            'click a.next': 'next'
+        },
+
         initialize: function() {
             _.bindAll(this, 'render');
             this.collection.bind('reset', this.render);
         },
 
         render: function() {
-            console.log(this.collection.results());
             this.el.html(this.template(this.collection.results()));
         },
-    });
+
+        previous: function() {
+            this.collection.previous_page();
+            return false;
+        },
+
+        next: function() {
+            this.collection.next_page();
+            return false;
+        }
+        });
 
     window.SearchResults = new SearchResultsView({ collection: Data });
 

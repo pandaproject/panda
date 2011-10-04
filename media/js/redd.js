@@ -71,6 +71,8 @@
                 limit: this.limit,
                 offset: this.offset,
                 page: this.page,
+                next: this.next,
+                previous: this.previous,
                 total_count: this.total_count,
                 rows: this.toJSON()
             }
