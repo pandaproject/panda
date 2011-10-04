@@ -55,7 +55,6 @@
         },
 
         search: function(query) {
-            this.reset();
             this.offset = 0;
 
             $.getJSON(
@@ -63,31 +62,39 @@
                 { q: query, limit: this.limit, offset: this.offset },
                 _.bind(function(response) {
                     var objs = this.parse(response);
-                    this.add(objs);
+                    this.reset(objs);
                 }, this));
+        },
+
+        results: function() {
+            return {
+                limit: this.limit,
+                offset: this.offset,
+                page: this.page,
+                total_count: this.total_count,
+                rows: this.toJSON()
+            }
         },
 
         next_page: function() {
             // TKTK - validate this.next is not none
-            this.reset();
 
             $.getJSON(
                 this.next,
                 _.bind(function(response) {
                     var objs = this.parse(response);
-                    this.add(objs);
+                    this.reset(objs);
                 }, this));
         },
 
         previous_page: function() {
             // TKTK - validate this.previous is not none
-            this.reset();
 
             $.getJSON(
                 this.previous,
                 _.bind(function(response) {
                     var objs = this.parse(response);
-                    this.add(objs);
+                    this.reset(objs);
                 }, this));
         }
     });

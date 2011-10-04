@@ -8,7 +8,7 @@
 {% block content %}
 <div id="search">
     <form id="search-form">
-        <input id="search-query" type="text" name="query" value="" />
+        <input id="search-query" type="text" name="query" value="Education" />
         <input type="submit" id="search-submit" value="Search" />
     </form>
 </div>
@@ -16,9 +16,9 @@
 </div>
 
 <script type="text/template" id="results-template"> 
-    <%= meta.offset %> through <%= meta.limit %> of <%= meta.total_count %><br />
-    <% _.each(objects, function(obj) { %>
-        <% _.each(obj.csv_data, function(d) { %>
+    <%= offset %> through <%= limit %> of <%= total_count %><br />
+    <% _.each(rows, function(row) { %>
+        <% _.each(row.csv_data, function(d) { %>
             <%= d %>
         <% }); %><br />
     <% }); %>
@@ -32,7 +32,23 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}js/redd.js"></script>
 <script type="text/javascript">
 $(function() {
-    var results_template = _.template($('#results-template').html());
+    SearchResultsView = Backbone.View.extend({
+        el: $("#results"),
+        
+        template: _.template($('#results-template').html()),
+
+        initialize: function() {
+            _.bindAll(this, 'render');
+            this.collection.bind('reset', this.render);
+        },
+
+        render: function() {
+            console.log(this.collection.results());
+            this.el.html(this.template(this.collection.results()));
+        },
+    });
+
+    window.SearchResults = new SearchResultsView({ collection: Data });
 
     $("#search-form").submit(function() {
         Data.search($("#search-form #search-query").val(), 10, 0);
