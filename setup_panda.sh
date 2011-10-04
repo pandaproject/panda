@@ -32,7 +32,7 @@ wget $CONFIG_URL/schema.xml -O /etc/solr/conf/schema.xml
 wget $CONFIG_URL/solrconfig.xml -O /etc/solr/conf/solrconfig.xml
 
 # Turn on Jetty
-echo "NO_START=0" > /etc/default/jetty
+wget $CONFIG_URL/jetty -O /etc/default/jetty
 initctl reload-configuration
 service jetty restart
 

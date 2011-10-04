@@ -33,7 +33,7 @@
         </fieldType>
 
         <!-- Geographic types -->
-        <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate" />
+        <!--<fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate" />-->
 
         <!-- Miscellaneous types -->
         <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
@@ -62,7 +62,7 @@
 
         <!-- Dynamic, typed fields that don't correspond to Python types -->
         <dynamicField name="*_time" type="string"    indexed="true"  stored="true" />
-        <dynamicField name="*_loc"  type="location" indexed="true" stored="true" />
+        <!--<dynamicField name="*_loc"  type="location" indexed="true" stored="true" />-->
 
     </fields>
 
