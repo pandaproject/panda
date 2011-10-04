@@ -66,6 +66,7 @@ sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noi
 
 # Setup panda logging
 mkdir /var/log/panda
+chown uwsgi:uwsgi /var/log/panda
 
 # Start serving
 service uwsgi start
