@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import logging
 import os
 
@@ -80,9 +82,6 @@ INSTALLED_APPS = (
 
     'redd'
 )
-
-# Predefined domain
-MY_SITE_DOMAIN = 'localhost:8000'
 
 # Email
 # run "python -m smtpd -n -c DebuggingServer localhost:1025" to see outgoing
