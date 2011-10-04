@@ -27,20 +27,15 @@
 
 {% block extra_footer %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/backbone-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/backbone-tastypie.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/redd.js"></script>
 <script type="text/javascript">
 $(function() {
     var results_template = _.template($('#results-template').html());
 
     $("#search-form").submit(function() {
-        Redd.search_data(
-            $("#search-form #search-query").val(),
-            10,
-            0,
-            function(data) {
-                console.log(data);
-                $("#results").html(results_template(data));
-            });
+        Data.search($("#search-form #search-query").val(), 10, 0);
 
         return false;
     }); 

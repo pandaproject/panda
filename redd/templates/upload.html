@@ -51,13 +51,6 @@ $(function() {
     });
 
     $("#dataset-form").submit(function() {
-        /*Redd.create_dataset(
-            $("#dataset-form #dataset-name").val(),
-            $("#dataset-form #dataset-data-upload").val(),
-            function() {
-                alert("Success!");
-                });*/
-
         d = new Redd.model.Dataset({
             name: $("#dataset-form #dataset-name").val(),
             data_upload: { id: $("#dataset-form #dataset-data-upload").val() }

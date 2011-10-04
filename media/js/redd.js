@@ -5,31 +5,35 @@
     Redd.app = {};
     Redd.ui = {};
 
+    Redd.API = "/api/1.0"
+
     Redd.model.Dataset = Backbone.Model.extend({
-        urlRoot: "/api/1.0/dataset"
+        urlRoot: Redd.API + "/dataset"
     });
 
     Redd.model.DatasetSet = Backbone.Collection.extend({
         model: Redd.model.Dataset,
-        url: "/api/1.0/dataset"
+        url: Redd.API + "/dataset"
     });
 
     Redd.model.Datum = Backbone.Model.extend({
-        urlRoot: "/api/1.0/data"
+        urlRoot: Redd.API + "/data"
     });
 
     Redd.model.DatumSet = Backbone.Collection.extend({
         model: Redd.model.Datum,
-        url: "/api/1.0/data",
+        url: Redd.API + "/data",
 
-        search: function(query) {
+        search: function(query, limit, offset) {
+            this.reset();
+
             $.getJSON(
-                this.url() + '/search',
-                { q: query },
+                this.url + '/search',
+                { q: query, limit: limit, offset: offset },
                 _.bind(function(response) {
-                    _.each(response.objects, function(obj) {
+                    _.each(response.objects, _.bind(function(obj) {
                         this.add(obj);
-                    });
+                    }, this));
                 }, this));
         }
     });
