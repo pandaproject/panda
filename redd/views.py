@@ -25,7 +25,7 @@ def upload(request):
     import logging
     import os
     logger = logging.getLogger(__name__)
-    logger.error(os.environ['DEPLOYMENT_TARGET'])
+    logger.error(os.environ)
 
     return render_to_response('upload.html', {
         'MEDIA_URL': settings.MEDIA_URL,
