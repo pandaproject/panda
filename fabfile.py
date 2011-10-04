@@ -147,6 +147,7 @@ def destroy_database():
     Will not cause the fab to fail if they do not exist.
     """
     with settings(warn_only=True):
+        sudo('service postgresql restart')  # disconnect any active users
         sudo('dropdb %(project_name)s' % env, user='postgres')
         sudo('dropuser %(project_name)s' % env, user='postgres')
         
@@ -154,7 +155,7 @@ def syncdb():
     """
     Sync the Django models to the database.
     """
-    run('source %(env_path)s/bin/activate; cd %(repo_path)s; python manage.py syncdb --noinput' % env)
+    run('cd %(repo_path)s; %(env_path)s/bin/python manage.py syncdb --noinput' % env)
 
 """
 Deaths, destroyers of worlds
