@@ -64,6 +64,9 @@ cd /home/ubuntu/src/panda
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/pip install -r requirements.txt
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
 
+# Setup panda logging
+mkdir /var/log/panda
+
 # Start serving
 service uwsgi start
 
