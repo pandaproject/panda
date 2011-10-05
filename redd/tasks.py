@@ -77,7 +77,7 @@ def dataset_import_data(dataset_id):
             data = {
                 'id': uuid4(),
                 'dataset_id': dataset.id,
-                'row': str(i),
+                'row': i,
                 'full_text': '\n'.join(row),
                 'csv_data': json.dumps(row)
             }
