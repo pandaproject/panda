@@ -72,7 +72,11 @@ $(function() {
     }); 
 
     $("#import-form").submit(function() {
-        current_dataset.import_data();
+        current_dataset.import_data(
+            function(d) {
+                alert(d.get("current_task_id"));
+            }
+        );
 
         return false;
     });

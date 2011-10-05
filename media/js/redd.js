@@ -13,17 +13,19 @@
         */
         urlRoot: Redd.API + "/dataset",
 
-        import_data: function() {
+        import_data: function(success_callback) {
             /*
             Kick off the dataset import and update the model with
             the task id and status.
+
+            TKTK - error callback
             */
             $.getJSON(
                 this.url() + "import",
                 {},
                 _.bind(function(response) {
                     this.set(response);
-                    alert(this.get("current_task_id"));
+                    success_callback(this); 
                 }, this)
             );
         }
@@ -91,6 +93,8 @@
         search: function(query) {
             /*
             Query the search endpoint.
+
+            TKTK -- success and error callbacks
             */
             this.offset = 0;
 
