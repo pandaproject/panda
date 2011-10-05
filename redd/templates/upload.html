@@ -15,9 +15,15 @@
 <div id="dataset">
     <form id="dataset-form">
         <label for="dataset-name">Name:</label>
-        <input id="dataset-name" type="text" name="name" maxlength="256">
-        <input id="dataset-data-upload" type="hidden" name="data-upload" >
+        <input id="dataset-name" type="text" name="name" maxlength="256" />
+        <input id="dataset-data-upload" type="hidden" name="data-upload" />
         <input id="dataset-submit" type="submit" value="Submit" />
+    </form>
+</div>
+<div id="import">
+    <form id="import-form">
+        <input id="import-id" type="hidden" name="id" />
+        <input id="import-submit" type="submit" value="Import data" />
     </form>
 </div>
 {% endblock %}
@@ -50,15 +56,26 @@ $(function() {
         }
     });
 
+    window.current_dataset = null;
+
     $("#dataset-form").submit(function() {
-        d = new Redd.model.Dataset({
+        current_dataset = new Redd.model.Dataset({
             name: $("#dataset-form #dataset-name").val(),
             data_upload: { id: $("#dataset-form #dataset-data-upload").val() }
         })
-        d.save();
+        current_dataset.save();
+
+        $("#import-form #import-id").val(current_dataset.get("id"));
+        $("#import").show();
 
         return false;
     }); 
+
+    $("#import-form").submit(function() {
+        current_dataset.import_data();
+
+        return false;
+    });
 })
 </script>
 {% endblock %}

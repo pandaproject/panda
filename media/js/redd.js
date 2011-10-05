@@ -8,10 +8,31 @@
     Redd.API = "/api/1.0"
 
     Redd.model.Dataset = Backbone.Model.extend({
-        urlRoot: Redd.API + "/dataset"
+        /*
+        Equivalent of redd.models.Dataset.
+        */
+        urlRoot: Redd.API + "/dataset",
+
+        import_data: function() {
+            /*
+            Kick off the dataset import and update the model with
+            the task id and status.
+            */
+            $.getJSON(
+                this.url() + "import",
+                {},
+                _.bind(function(response) {
+                    this.set(response);
+                    alert(this.get("current_task_id"));
+                }, this)
+            );
+        }
     });
 
     Redd.model.DatasetSet = Backbone.Collection.extend({
+        /*
+        A collection of redd.models.Dataset equivalents.
+        */
         model: Redd.model.Dataset,
         url: Redd.API + "/dataset"
     });
@@ -19,10 +40,17 @@
     window.Datasets = new Redd.model.DatasetSet();
     
     Redd.model.Datum = Backbone.Model.extend({
+        /*
+        An individual row of data.
+        */
         urlRoot: Redd.API + "/data"
     });
 
     Redd.model.DatumSet = Backbone.Collection.extend({
+        /*
+        A collection of individual Datums, together with
+        metadata related to paging.
+        */
         model: Redd.model.Datum,
         url: Redd.API + "/data",
 
@@ -34,6 +62,9 @@
         total_count: 0,
 
         parse: function(response) {
+            /*
+            Parse page metadata in addition to objects.
+            */
             this.limit = response.meta.limit;
             this.offset = response.meta.offset;
             this.next = response.meta.next;
@@ -45,7 +76,10 @@
         },
 
         fetch: function(options) {
-            typeof(options) != 'undefined' || (options = {});
+            /*
+            Pass page metadata as querystring parameters when fetching.
+            */
+            typeof(options) != "undefined" || (options = {});
 
             options.data = {};
             options.data.limit = this.limit;
@@ -55,18 +89,26 @@
         },
 
         search: function(query) {
+            /*
+            Query the search endpoint.
+            */
             this.offset = 0;
 
             $.getJSON(
-                this.url + '/search',
+                this.url + "/search",
                 { q: query, limit: this.limit, offset: this.offset },
                 _.bind(function(response) {
                     var objs = this.parse(response);
                     this.reset(objs);
-                }, this));
+                }, this)
+            );
         },
 
         results: function() {
+            /*
+            Grab the current data in a simplified data structure appropriate
+            for templating.
+            */
             return {
                 limit: this.limit,
                 offset: this.offset,
@@ -79,8 +121,11 @@
         },
 
         next_page: function() {
-            // TKTK - validate this.next is not none
+            /*
+            Fetch the next page of results.
 
+            TKTK - validate this.next is not none
+            */
             $.getJSON(
                 this.next,
                 _.bind(function(response) {
@@ -90,8 +135,11 @@
         },
 
         previous_page: function() {
-            // TKTK - validate this.previous is not none
+            /*
+            Fetch the previous page of results.
 
+            TKTK - validate this.previous is not none
+            */
             $.getJSON(
                 this.previous,
                 _.bind(function(response) {
