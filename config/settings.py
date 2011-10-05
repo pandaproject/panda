@@ -97,6 +97,7 @@ djcelery.setup_loader()
 BROKER_TRANSPORT = "sqlakombu.transport.Transport"
 BROKER_HOST = "postgresql:///panda?user=panda&password=panda"
 CELERY_RESULT_DBURI = "postgresql:///panda?user=panda&password=panda"
+CELERYD_HIJACK_ROOT_LOGGER = False
 
 CELERY_QUEUES = {
     "default": {

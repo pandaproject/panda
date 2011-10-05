@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+
 import json
 from uuid import uuid4
 
@@ -8,14 +10,20 @@ from django.conf import settings
 from sunburnt import SolrInterface
 
 from csvkit import CSVKitReader
-from csvkit.exceptions import InvalidValueForTypeException, InvalidValueForTypeListException
-from csvkit.typeinference import normalize_table
+#from csvkit.exceptions import InvalidValueForTypeException, InvalidValueForTypeListException
+#from csvkit.typeinference import normalize_table
 
 SOLR_ADD_BUFFER_SIZE = 500
 
 @task(name='Import data')
 def dataset_import_data(dataset_id):
+    """
+    Import a dataset into Solr.
+    """
     from redd.models import Dataset
+
+    log = logging.getLogger('redd.tasks.dataset_import_data')
+    log.info('Beginning import, dataset_id: %i' % dataset_id)
 
     dataset = Dataset.objects.get(id=dataset_id)
 
@@ -38,7 +46,7 @@ def dataset_import_data(dataset_id):
         data = {}
 
         typing="""for t, header, field, value in izip(normal_types, headers, solr_fields, row):
-            try:
+         try:
                 value = normalize_column_type([value], normal_type=t)[1][0]
             except InvalidValueForTypeException:
                 # Convert exception to row-specific error
@@ -93,5 +101,5 @@ def dataset_import_data(dataset_id):
         for e in normal_type_exceptions:
             print e 
 
-    print 'Finished'
+    log.info('Finished import, dataset_id: %i' % dataset_id)
 
