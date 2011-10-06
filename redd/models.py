@@ -22,7 +22,7 @@ class Upload(models.Model):
         return self.filename
 
     def get_path(self):
-        return os.path.join(settings.PANDA_STORAGE_LOCATION, self.filename)
+        return os.path.join(settings.MEDIA_ROOT, self.filename)
 
 class Dataset(models.Model):
     """

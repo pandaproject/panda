@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import logging
 import os
 
 import django
@@ -40,9 +39,7 @@ STATIC_URL = '/site_media/'
 ADMIN_MEDIA_PREFIX = '/site_media/admin/'
 
 # Uploads
-# TODO - use these instead of PANDA_STORAGE_BACKEND
 MEDIA_ROOT = '/tmp/panda'
-MEDIA_URL = '/uploads/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-lyd+@8@=9oni01+gjvb(txz3%hh_7a9m5*n0q^ce5+&c1fkm('
@@ -176,9 +173,6 @@ LOGGING = {
 
 # Solr
 SOLR_ENDPOINT = 'http://localhost:8983/solr'
-
-# PANDA
-PANDA_STORAGE_LOCATION = '/tmp/panda'
 
 # Allow for local (per-user) override
 try:
