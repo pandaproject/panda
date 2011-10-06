@@ -250,6 +250,12 @@ class DataResource(Resource):
     row = fields.IntegerField(attribute='row')
     csv_data = fields.CharField(attribute='csv_data')
 
+    # These fields are only valid as results of searching
+    # They are automatically stripped off during dehydrate() if null
+    group = fields.CharField(attribute='group', readonly=True, null=True)
+    count = fields.CharField(attribute='count', readonly=True, null=True)
+    offset = fields.CharField(attribute='offset', readonly=True, null=True)
+
     class Meta:
         resource_name = 'data'
 
@@ -277,6 +283,12 @@ class DataResource(Resource):
 
         del bundle.data['dataset_id']
         bundle.data['dataset'] = uri
+
+        # Strip off group fields if not dealing with search results
+        if bundle.data['group'] == None:
+            del bundle.data['group']
+            del bundle.data['count']
+            del bundle.data['offset']
 
         return bundle
 
@@ -386,18 +398,27 @@ class DataResource(Resource):
         self.is_authenticated(request)
         self.throttle_check(request)
         
-        s = SolrSearch(self._solr()).query(full_text=request.GET.get('q'))
+        s = SolrSearch(self._solr())
+        s = s.query(full_text=request.GET.get('q'))
+        s = s.group_by('dataset_id', limit=20, sort='+row')
+        s = s.execute()
+
         paginator = Paginator(request.GET, s, resource_uri=request.path_info)
 
         page = paginator.page()
 
         objects = []
 
-        for result in page['objects']:
-            obj = SolrObject(result)
-            bundle = self.build_bundle(obj=obj, request=request)
-            bundle = self.full_dehydrate(bundle)
-            objects.append(bundle)
+        for key, group in s.result.groups.items():
+            # Tack on grouping values (by keeping this list flat we stay within the strictures of Tastypie)
+            for obj in group.docs:
+                obj['group'] = key
+                obj['count'] = group.numFound
+                obj['offset'] = group.start
+
+                bundle = self.build_bundle(obj=SolrObject(obj), request=request)
+                bundle = self.full_dehydrate(bundle)
+                objects.append(bundle)
 
         page['objects'] = objects
 

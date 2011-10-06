@@ -31,7 +31,7 @@
         }
     });
 
-    Redd.model.DatasetSet = Backbone.Collection.extend({
+    Redd.model.Datasets = Backbone.Collection.extend({
         /*
         A collection of redd.models.Dataset equivalents.
         */
@@ -39,7 +39,7 @@
         url: Redd.API + "/dataset"
     });
 
-    window.Datasets = new Redd.model.DatasetSet();
+    window.Datasets = new Redd.model.Datasets();
     
     Redd.model.Datum = Backbone.Model.extend({
         /*
@@ -48,12 +48,24 @@
         urlRoot: Redd.API + "/data"
     });
 
-    Redd.model.DatumSet = Backbone.Collection.extend({
+    Redd.model.Data = Backbone.Collection.extend({
+    });
+
+    Redd.model.DatasetSearchResult = Backbone.Model.extend({
+        initialize: function() {
+            this.data = new Data;
+            // Idea: use this url attr for intra-set paging
+            //this.data.url = '/mailbox/' + this.id + '/messages';
+            this.data.bind("reset", this.updateCounts);
+        }
+    });
+
+    Redd.model.SearchResult = Backbone.Collection.extend({
         /*
         A collection of individual Datums, together with
         metadata related to paging.
         */
-        model: Redd.model.Datum,
+        model: Redd.model.DatasetSearchResult,
         url: Redd.API + "/data",
 
         page: 1,
