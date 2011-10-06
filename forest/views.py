@@ -9,7 +9,7 @@ def search(request):
     Simples search UI.
     """
     return render_to_response('search.html', {
-        'MEDIA_URL': settings.MEDIA_URL
+        'STATIC_URL': settings.STATIC_URL
         }) 
 
 def upload(request):
@@ -17,7 +17,7 @@ def upload(request):
     UI for uploading a file.
     """
     return render_to_response('upload.html', {
-        'MEDIA_URL': settings.MEDIA_URL,
+        'STATIC_URL': settings.STATIC_URL,
         'csrf_token': get_token(request)
         }) 
 

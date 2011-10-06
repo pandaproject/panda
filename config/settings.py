@@ -35,9 +35,14 @@ USE_I18N = True
 USE_L10N = True
 
 # Media
-MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
-MEDIA_URL = '/site_media/'
-ADMIN_MEDIA_PREFIX = '/admin_media/'
+STATIC_ROOT = os.path.join(SITE_ROOT, 'media')
+STATIC_URL = '/site_media/'
+ADMIN_MEDIA_PREFIX = '/site_media/admin/'
+
+# Uploads
+# TODO - use these instead of PANDA_STORAGE_BACKEND
+MEDIA_ROOT = '/tmp/panda'
+MEDIA_URL = '/uploads/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-lyd+@8@=9oni01+gjvb(txz3%hh_7a9m5*n0q^ce5+&c1fkm('
@@ -76,7 +81,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.humanize',
-    'django.contrib.sitemaps',
+    'django.contrib.staticfiles',
 
     'djcelery',
 

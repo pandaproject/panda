@@ -1,13 +1,13 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ MEDIA_URL}}css/reset.css" type="text/css" charset="utf-8"/>
-    <link rel="stylesheet" href="{{ MEDIA_URL}}css/panda.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/reset.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/panda.css" type="text/css" charset="utf-8"/>
 </head>
     {% block extra_header %}{% endblock %}
 <body>
     {% block content %}{% endblock %}
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.6.4.min.js"></script>
     {% block extra_footer %}{% endblock %}
 </body>
 </html>

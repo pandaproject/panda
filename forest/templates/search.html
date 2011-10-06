@@ -37,10 +37,10 @@
 {% endblock %}
 
 {% block extra_footer %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/backbone-min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/backbone-tastypie.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/redd.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/underscore-min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/backbone-min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/redd.js"></script>
 <script type="text/javascript">
 $(function() {
     SearchResultsView = Backbone.View.extend({
