@@ -80,7 +80,8 @@ INSTALLED_APPS = (
 
     'djcelery',
 
-    'redd'
+    'redd',
+    'forest'
 )
 
 # Email

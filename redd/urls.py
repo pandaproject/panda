@@ -14,11 +14,7 @@ api_1_0.register(DatasetResource())
 api_1_0.register(DataResource())
 
 urlpatterns = patterns('',
-    url(r'^test_solr%s$' % trailing_slash(), views.test_solr, name="test_solr"),
-
     url(r'^ajax_upload%s$' % trailing_slash(), views.ajax_upload, name="ajax_upload"),
-    url(r'^search%s$' % trailing_slash(), views.search, name="search"),
-    url(r'^upload%s$' % trailing_slash(), views.upload, name="upload"),
 
     (r'^api/', include(api_1_0.urls)),
 )

@@ -8,6 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'', include('redd.urls')),
+    (r'', include('forest.urls')),
     (r'^admin/', include(admin.site.urls)),
 
     # Should never be used in production, as nginx will server these paths
