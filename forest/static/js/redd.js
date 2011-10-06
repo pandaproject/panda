@@ -49,23 +49,11 @@
     });
 
     Redd.model.Data = Backbone.Collection.extend({
-    });
-
-    Redd.model.DatasetSearchResult = Backbone.Model.extend({
-        initialize: function() {
-            this.data = new Data;
-            // Idea: use this url attr for intra-set paging
-            //this.data.url = '/mailbox/' + this.id + '/messages';
-            this.data.bind("reset", this.updateCounts);
-        }
-    });
-
-    Redd.model.SearchResult = Backbone.Collection.extend({
         /*
         A collection of individual Datums, together with
         metadata related to paging.
         */
-        model: Redd.model.DatasetSearchResult,
+        model: Redd.model.Datum,
         url: Redd.API + "/data",
 
         page: 1,
@@ -165,6 +153,6 @@
         }
     });
 
-    window.Data = new Redd.model.DatumSet();
+    window.Data = new Redd.model.Data();
 })();
 
