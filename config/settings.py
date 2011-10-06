@@ -133,7 +133,7 @@ LOGGING = {
         },
         'default': {
             'level':'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
+            'class':'loghandlers.GroupWriteRotatingFileHandler',
             'filename': '/var/log/panda/panda.log',
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
@@ -141,7 +141,7 @@ LOGGING = {
         },
         'request_handler': {
                 'level':'INFO',
-                'class':'logging.handlers.RotatingFileHandler',
+                'class':'loghandlers.GroupWriteRotatingFileHandler',
                 'filename': '/var/log/panda/requests.log',
                 'maxBytes': 1024*1024*5, # 5 MB
                 'backupCount': 5,

@@ -102,7 +102,14 @@ def deploy():
     require('branch', provided_by=[stable, master, branch])
     
     checkout_latest()
+    collect_static_files()
     reload_app()
+
+def collect_static_files():
+    """
+    Collect static files on the server.
+    """
+    run('source %(env_path)s/bin/activate; cd %(repo_path)s; python manage.py collectstatic --noinput' % env)
        
 def reload_app(): 
     """
