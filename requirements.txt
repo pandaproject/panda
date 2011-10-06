@@ -8,5 +8,5 @@ lxml==2.3.1
 httplib2==0.7.1
 -e git://github.com/GoodCloud/django-ajax-uploader.git#egg=ajaxuploader
 -e git://github.com/onyxfish/csvkit.git#egg=csvkit
--e git://github.com/tow/sunburnt.git#egg=sunburnt
+-e git://github.com/pandaproject/sunburnt.git#egg=sunburnt
 -e git://github.com/toastdriven/django-tastypie.git#egg=tastypie
