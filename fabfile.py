@@ -116,6 +116,12 @@ def reload_app():
     Restart the uwsgi server.
     """
     sudo('service uwsgi restart')
+
+def update_requirements():
+    """
+    Update the installed dependencies the server.
+    """
+    run('source %(env_path)s/bin/activate; pip install -q -U -r %(repo_path)s/requirements.txt' % env)
     
 """
 Commands - data
