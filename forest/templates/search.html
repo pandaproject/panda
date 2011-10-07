@@ -20,11 +20,10 @@
 
     <% var current_dataset = null; %>
     <% _.each(rows, function(row) { %>
-        <% console.log(row); %>
         <% if (row.dataset != current_dataset) { %>
-            &nbsp;<br />
-            &nbsp;<br />
             <% current_dataset = row.dataset; %>
+            <% group = groups[row.dataset]; %>
+            <%= group.name %><br />
         <% } %>
 
         <% _.each(row.csv_data, function(d) { %>

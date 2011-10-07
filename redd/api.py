@@ -402,7 +402,12 @@ class DataResource(Resource):
         for dataset_id, group in s.result.groups.items():
             dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
 
+            d = Dataset.objects.get(id=dataset_id)
+
             groups[dataset_url] = {
+                'id': d.id,
+                'name': d.name,
+                'schema': d.schema,
                 'count': group.numFound,
                 'offset': group.start
             }

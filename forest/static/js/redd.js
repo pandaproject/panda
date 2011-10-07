@@ -63,6 +63,8 @@
         previous: null,
         total_count: 0,
 
+        groups: {},
+
         parse: function(response) {
             /*
             Parse page metadata in addition to objects.
@@ -73,6 +75,8 @@
             this.previous = response.meta.previous;
             this.total_count = response.meta.total_count;
             this.page = this.offset / this.limit;
+
+            this.groups = response.groups;
             
             return response.objects;
         },
@@ -120,6 +124,7 @@
                 next: this.next,
                 previous: this.previous,
                 total_count: this.total_count,
+                groups: this.groups,
                 rows: this.toJSON()
             }
         },
