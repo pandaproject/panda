@@ -17,11 +17,21 @@
 
 <script type="text/template" id="results-template"> 
     <%= offset %> through <%= limit %> of <%= total_count %><br />
+
+    <% var current_dataset = null; %>
     <% _.each(rows, function(row) { %>
+        <% console.log(row); %>
+        <% if (row.dataset != current_dataset) { %>
+            &nbsp;<br />
+            &nbsp;<br />
+            <% current_dataset = row.dataset; %>
+        <% } %>
+
         <% _.each(row.csv_data, function(d) { %>
             <%= d %>
         <% }); %><br />
     <% }); %>
+
     <% if (previous) { %>
         <a href="#" class="prev">previous</a>
     <% } else { %>

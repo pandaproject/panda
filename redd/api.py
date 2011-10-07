@@ -8,6 +8,7 @@ from celery.states import EXCEPTION_STATES
 from celery.task.control import inspect 
 from django.conf import settings
 from django.conf.urls.defaults import url
+from django.core.urlresolvers import reverse
 from sunburnt import SolrInterface
 from sunburnt.search import SolrSearch
 from tastypie import fields
@@ -250,12 +251,6 @@ class DataResource(Resource):
     row = fields.IntegerField(attribute='row')
     csv_data = fields.CharField(attribute='csv_data')
 
-    # These fields are only valid as results of searching
-    # They are automatically stripped off during dehydrate() if null
-    group_name = fields.CharField(attribute='group_name', readonly=True, null=True)
-    group_count = fields.CharField(attribute='group_count', readonly=True, null=True)
-    group_offset = fields.CharField(attribute='group_offset', readonly=True, null=True)
-
     class Meta:
         resource_name = 'data'
 
@@ -283,12 +278,6 @@ class DataResource(Resource):
 
         del bundle.data['dataset_id']
         bundle.data['dataset'] = uri
-
-        # Strip off group fields if not dealing with search results
-        if bundle.data['group_name'] == None:
-            del bundle.data['group_name']
-            del bundle.data['group_count']
-            del bundle.data['group_offset']
 
         return bundle
 
@@ -408,19 +397,23 @@ class DataResource(Resource):
         page = paginator.page()
 
         objects = []
+        groups = {}
 
-        for key, group in s.result.groups.items():
-            # Tack on grouping values (by keeping this list flat we stay within the strictures of Tastypie)
+        for dataset_id, group in s.result.groups.items():
+            dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
+
+            groups[dataset_url] = {
+                'count': group.numFound,
+                'offset': group.start
+            }
+
             for obj in group.docs:
-                obj['group_name'] = key
-                obj['group_count'] = group.numFound
-                obj['group_offset'] = group.start
-
                 bundle = self.build_bundle(obj=SolrObject(obj), request=request)
                 bundle = self.full_dehydrate(bundle)
                 objects.append(bundle)
 
         page['objects'] = objects
+        page['groups'] = groups
 
         self.log_throttled_access(request)
 
