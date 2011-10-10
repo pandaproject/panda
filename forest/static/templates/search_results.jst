@@ -1,0 +1,40 @@
+<%= offset %> through <%= limit %> of <%= total_count %><br />
+
+<% var current_dataset = null; %>
+<% _.each(rows, function(row) { %>
+    <% if (row.dataset != current_dataset) { %>
+        <% if (current_dataset) { %>
+            </table>
+        <% } %>
+
+        <% current_dataset = row.dataset; %>
+        <% group = groups[row.dataset]; %>
+
+        <h3><%= group.name %><br /></h3>
+        <table>
+            <tr>
+                <% _.each(group.schema, function(s) { %>
+                    <th><%= s[0] %></th>
+                <% }); %>
+            </tr>
+    <% } %>
+
+    <tr>
+    <% _.each(row.csv_data, function(d) { %>
+        <td><%= d %></td>
+    <% }); %>
+    </tr>
+<% }); %>
+</table>
+
+<% if (previous) { %>
+    <a href="#" class="prev">previous</a>
+<% } else { %>
+    <span>previous</span>
+<% } %>
+
+<% if (next) { %>
+    <a href="#" class="next">next</a>
+<% } else { %>
+    <span>next</span>
+<% } %>

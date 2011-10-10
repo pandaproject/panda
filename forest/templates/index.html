@@ -13,10 +13,10 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="sidebar">
+        <div id="sidebar" class="sidebar">
             Sidebar here.
         </div>
-        <div class="content">
+        <div id="content" class="content">
         </div>
     </div>
 
@@ -27,17 +27,40 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone-tastypie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/fileuploader.js"></script>
+    {% endcompress %}
+    
+    <script type="text/javascript" src="templates.js"></script>
 
+    {% compress js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/application.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/datasets.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/data.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/index.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/search_results.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/search.js"></script>
     {% endcompress %}
-
-    <script type="text/javascript" src="templates.js"></script>
 
     <script type="text/javascript">
         $(function() {
-            $(".content").html(JST.search());
+            IndexRouter = Backbone.Router.extend({
+                routes: {
+                    "":                     "index",
+                    "search":               "search",
+                    "search/:query":        "search",
+                },
+
+                index: function(query) {
+                    new Redd.views.Index();
+                },
+
+                search: function(query) {
+                    new Redd.views.Search({ collection: Data });
+                }
+            });
+
+            new IndexRouter();
+
+            Backbone.history.start()
         })
     </script>
 </body>

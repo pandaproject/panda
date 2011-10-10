@@ -4,6 +4,6 @@
 
     Redd.controllers = {};
     Redd.models = {};
-    Redd.app = {};
-    Redd.ui = {};
+    Redd.views = {};
+    Redd.routers = {};
 })();
