@@ -1,0 +1,25 @@
+{% load compress %}
+
+<html>
+<head>
+    <title>PANDA</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/fileuploader.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" charset="utf-8" />
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/panda.css" type="text/css" charset="utf-8"/>
+    {% endcompress %}
+</head>
+<body>
+    {% compress js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/backbone.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/redd.js"></script>
+    {% endcompress %}
+</body>
+</html>
+

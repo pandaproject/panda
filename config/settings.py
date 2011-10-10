@@ -38,6 +38,12 @@ STATIC_ROOT = os.path.join(SITE_ROOT, 'media')
 STATIC_URL = '/site_media/'
 ADMIN_MEDIA_PREFIX = '/site_media/admin/'
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
 # Uploads
 MEDIA_ROOT = '/tmp/panda'
 
@@ -81,6 +87,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'djcelery',
+    'compressor',
 
     'redd',
     'forest'
@@ -92,6 +99,9 @@ INSTALLED_APPS = (
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = 'do.not.reply@panda.tribapps.com'
+
+# Django-compressor
+COMPRESS_ENABLED = False 
 
 # Celery
 import djcelery

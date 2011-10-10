@@ -8,3 +8,6 @@ TEMPLATE_DEBUG = DEBUG
 # Uploads 
 MEDIA_ROOT = '/mnt/panda' 
 
+# Django-compressor
+COMPRESS_ENABLED = True
+

@@ -19,5 +19,14 @@ def upload(request):
     return render_to_response('upload.html', {
         'STATIC_URL': settings.STATIC_URL,
         'csrf_token': get_token(request)
-        }) 
+        })
+
+def index(request):
+    """
+    Page shell for the client-side application.
+    """
+    return render_to_response('index.html', {
+        'STATIC_URL': settings.STATIC_URL,
+        'csrf_token': get_token(request)
+        })
 
