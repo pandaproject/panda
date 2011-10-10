@@ -24,17 +24,30 @@ wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 libxlt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk solr-jetty python-virtualenv libpq-dev
+apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 libxlt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk python-virtualenv libpq-dev
 pip install uwsgi
 
-# Install Solr config
-wget $CONFIG_URL/schema.xml -O /etc/solr/conf/schema.xml
-wget $CONFIG_URL/solrconfig.xml -O /etc/solr/conf/solrconfig.xml
+# Setup Solr + Jetty
+wget http://mirror.uoregon.edu/apache//lucene/solr/3.3.0/apache-solr-3.3.0.tgz -O /opt/
 
-# Turn on Jetty
-wget $CONFIG_URL/jetty -O /etc/default/jetty
+cd /opt/
+tar -xzf apache-solr-3.3.0.tgz
+mv apache-solr-3.3.0 solr
+cp -r solr/example solr/panda
+
+rm panda/solr/solr.xml
+wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/conf/schema.xml
+wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/conf/solrconfig.xml
+
+adduser --system --no-create-home --disabled-login --disabled-password --group solr
+chown -R solr:solr /opt/solr
+
+touch /var/log/solr.log
+chown solr:solr /var/log/solr.log
+
+wget $CONFIG_URL/solr.conf -O /opt/solr/panda/solr/conf/solrconfig.xml
 initctl reload-configuration
-service jetty restart
+service solr start
 
 # Setup uWSGI
 adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
