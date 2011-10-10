@@ -50,9 +50,9 @@ initctl reload-configuration
 service solr start
 
 # Setup uWSGI
-adduser --system --no-create-home --disabled-login --disabled-password --group uwsgi
+adduser --system --no-create-home --disabled-login --disabled-password --group panda
 mkdir /var/run/uwsgi
-chown uwsgi.uwsgi /var/run/uwsgi
+chown panda:panda /var/run/uwsgi
 wget $CONFIG_URL/uwsgi.conf -O /etc/init/uwsgi.conf
 initctl reload-configuration
 
@@ -79,10 +79,10 @@ sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noi
 
 # Setup panda directories 
 mkdir /var/log/panda
-chown uwsgi:uwsgi /var/log/panda
+chown panda:panda /var/log/panda
 
 mkdir /mnt/panda
-chown uwsgi:uwsgi /mnt/panda
+chown panda:panda /mnt/panda
 
 # Start serving
 service uwsgi start
