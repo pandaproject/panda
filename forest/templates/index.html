@@ -12,14 +12,34 @@
     {% endcompress %}
 </head>
 <body>
-    {% compress js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.6.4.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/backbone.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>
+    <div class="container-fluid">
+        <div class="sidebar">
+            Sidebar here.
+        </div>
+        <div class="content">
+        </div>
+    </div>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}js/redd.js"></script>
+    {% compress js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/underscore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone-tastypie.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/fileuploader.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/application.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/models/datasets.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/models/data.js"></script>
     {% endcompress %}
+
+    <script type="text/javascript" src="templates.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $(".content").html(JST.search());
+        })
+    </script>
 </body>
 </html>
 
