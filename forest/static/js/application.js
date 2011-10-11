@@ -1,9 +1,9 @@
 (function() {
-    window.Redd = {};
-    Redd.API = "/api/1.0";
+    window.PANDA = {};
+    PANDA.API = "/api/1.0";
 
-    Redd.controllers = {};
-    Redd.models = {};
-    Redd.views = {};
-    Redd.routers = {};
+    PANDA.controllers = {};
+    PANDA.models = {};
+    PANDA.views = {};
+    PANDA.routers = {};
 })();

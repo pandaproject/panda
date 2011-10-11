@@ -1,4 +1,4 @@
-Redd.views.SearchResults = Backbone.View.extend({
+PANDA.views.SearchResults = Backbone.View.extend({
     template: JST.search_results,
 
     events: {

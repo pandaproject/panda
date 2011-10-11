@@ -1,8 +1,8 @@
-Redd.models.Dataset = Backbone.Model.extend({
+PANDA.models.Dataset = Backbone.Model.extend({
     /*
     Equivalent of redd.models.Dataset.
     */
-    urlRoot: Redd.API + "/dataset",
+    urlRoot: PANDA.API + "/dataset",
 
     import_data: function(success_callback) {
         /*
@@ -22,13 +22,13 @@ Redd.models.Dataset = Backbone.Model.extend({
     }
 });
 
-Redd.models.Datasets = Backbone.Collection.extend({
+PANDA.models.Datasets = Backbone.Collection.extend({
     /*
     A collection of redd.models.Dataset equivalents.
     */
-    model: Redd.models.Dataset,
-    url: Redd.API + "/dataset"
+    model: PANDA.models.Dataset,
+    url: PANDA.API + "/dataset"
 });
 
-window.Datasets = new Redd.models.Datasets();
+window.Datasets = new PANDA.models.Datasets();
 

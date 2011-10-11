@@ -1,4 +1,4 @@
-Redd.views.EditDataset = Backbone.View.extend({
+PANDA.views.EditDataset = Backbone.View.extend({
     el: $("#content"),
     
     template: JST.edit_dataset,

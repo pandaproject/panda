@@ -1,4 +1,4 @@
-Redd.views.Index = Backbone.View.extend({
+PANDA.views.Index = Backbone.View.extend({
     el: $("#content"),
     
     template: JST.index,

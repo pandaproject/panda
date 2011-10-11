@@ -1,4 +1,4 @@
-Redd.views.Search = Backbone.View.extend({
+PANDA.views.Search = Backbone.View.extend({
     el: $("#content"),
     
     template: JST.search,
@@ -12,7 +12,7 @@ Redd.views.Search = Backbone.View.extend({
         
         this.render();
         
-        this.results = new Redd.views.SearchResults({ collection: this.collection, el: $("#search-results") });
+        this.results = new PANDA.views.SearchResults({ collection: this.collection, el: $("#search-results") });
     },
 
     render: function() {

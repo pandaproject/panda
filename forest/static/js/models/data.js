@@ -1,17 +1,17 @@
-Redd.models.Datum = Backbone.Model.extend({
+PANDA.models.Datum = Backbone.Model.extend({
     /*
     An individual row of data.
     */
-    urlRoot: Redd.API + "/data"
+    urlRoot: PANDA.API + "/data"
 });
 
-Redd.models.Data = Backbone.Collection.extend({
+PANDA.models.Data = Backbone.Collection.extend({
     /*
     A collection of individual Datums, together with
     metadata related to paging.
     */
-    model: Redd.models.Datum,
-    url: Redd.API + "/data",
+    model: PANDA.models.Datum,
+    url: PANDA.API + "/data",
 
     page: 1,
     limit: 10,
@@ -115,5 +115,5 @@ Redd.models.Data = Backbone.Collection.extend({
     }
 });
 
-window.Data = new Redd.models.Data();
+window.Data = new PANDA.models.Data();
 

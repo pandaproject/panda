@@ -1,4 +1,4 @@
-Redd.views.Upload = Backbone.View.extend({
+PANDA.views.Upload = Backbone.View.extend({
     el: $("#content"),
     
     template: JST.upload,
@@ -36,7 +36,7 @@ Redd.views.Upload = Backbone.View.extend({
     },
 
     create_dataset: function() {
-        this.current_dataset = new Redd.models.Dataset({
+        this.current_dataset = new PANDA.models.Dataset({
             name: $("#dataset-form #dataset-name").val(),
             data_upload: { id: $("#dataset-form #dataset-data-upload").val() }
         });

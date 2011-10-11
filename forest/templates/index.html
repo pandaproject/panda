@@ -60,42 +60,13 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/search_results.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/search.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/upload.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/routers/index.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/controller.js"></script>
     {% endcompress %}
 
     <script type="text/javascript">
         $(function() {
-            IndexRouter = Backbone.Router.extend({
-                routes: {
-                    "":                     "index",
-                    "search":               "search",
-                    "search/:query":        "search",
-                    "upload":               "upload",
-                    "dataset/:id":          "edit_dataset"
-                },
-
-                index: function(query) {
-                    new Redd.views.Index();
-                },
-
-                search: function(query) {
-                    new Redd.views.Search({ collection: Data });
-                },
-
-                upload: function() {
-                    new Redd.views.Upload();
-                },
-
-                edit_dataset: function(id) {
-                    d = new Redd.models.Dataset({ id: id });
-                    d.fetch({ success: function() {
-                        new Redd.views.EditDataset({ dataset: d });
-                    }});
-                },
-            });
-
-            new IndexRouter();
-
-            Backbone.history.start()
+            window.Redd = PANDAController.init();
         })
     </script>
 </body>
