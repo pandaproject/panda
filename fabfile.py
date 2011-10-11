@@ -149,20 +149,3 @@ def syncdb():
     """
     sudo('cd %(repo_path)s; %(env_path)s/bin/python manage.py syncdb --noinput' % env, user="panda")
 
-"""
-Deaths, destroyers of worlds
-"""
-def shiva_the_destroyer():
-    """
-    Remove all directories, databases, etc. associated with the application.
-    """
-    with settings(warn_only=True):
-        run('rm -Rf %(path)s' % env)
-        run('rm -Rf %(log_path)s' % env)
-        run('rm -Rf %(env_path)s' % env)
-        pgpool_down()
-        sudo('dropdb %(project_name)s' % env, user='postgres')
-        sudo('dropuser %(project_name)s' % env, user='postgres')
-        pgpool_up()
-        reload_app()
-
