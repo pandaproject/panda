@@ -3,7 +3,7 @@
 window.PANDA = {};
 PANDA.API = "/api/1.0";
 
-PANDA.controllers = {};
+PANDA.collections = {};
 PANDA.models = {};
 PANDA.views = {};
 PANDA.routers = {};

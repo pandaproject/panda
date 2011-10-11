@@ -1,0 +1,8 @@
+<h1>Datasets</h1>
+
+<% _.each(datasets, function(d) { %>
+<div class="clearfix">
+    <h3><a href="#dataset/<%= d.id %>"><%= d.name %></a></h3>
+    <p><%= d.description %></p>
+</div>
+<% }); %>

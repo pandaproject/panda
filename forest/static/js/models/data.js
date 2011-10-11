@@ -5,7 +5,7 @@ PANDA.models.Datum = Backbone.Model.extend({
     urlRoot: PANDA.API + "/data"
 });
 
-PANDA.models.Data = Backbone.Collection.extend({
+PANDA.collections.Data = Backbone.Collection.extend({
     /*
     A collection of individual Datums, together with
     metadata related to paging.

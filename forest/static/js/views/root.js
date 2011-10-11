@@ -8,7 +8,7 @@ PANDA.views.Root = Backbone.View.extend({
     current_workspace: null,
 
     initialize: function() {
-        this.data = new PANDA.models.Data();
+        this.data = new PANDA.collections.Data();
         this.router = new PANDA.routers.Index({ controller: this });
 
         Backbone.history.start();
@@ -35,6 +35,10 @@ PANDA.views.Root = Backbone.View.extend({
 
     upload: function() {
         this.current_workspace = new PANDA.views.Upload();
+    },
+
+    list_datasets: function() {
+        this.current_workspace = new PANDA.views.ListDatasets();
     },
 
     edit_dataset: function(id) {        

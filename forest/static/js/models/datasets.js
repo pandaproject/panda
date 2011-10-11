@@ -22,7 +22,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
     }
 });
 
-PANDA.models.Datasets = Backbone.Collection.extend({
+PANDA.collections.Datasets = Backbone.Collection.extend({
     /*
     A collection of redd.models.Dataset equivalents.
     */
