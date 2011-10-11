@@ -6,6 +6,7 @@ import os
 from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
+from redd.api import UploadResource
 from redd.models import Upload
 
 class PANDAUploadBackend(AbstractUploadBackend):
@@ -66,6 +67,9 @@ class PANDAUploadBackend(AbstractUploadBackend):
             filename=filename,
             original_filename=self._original_filename,
             size=size)
+            
+        resource = UploadResource()
+        bundle = resource.build_bundle(obj=upload, request=request)
 
-        return { 'id': upload.id }
+        return resource.full_dehydrate(bundle).data
 
