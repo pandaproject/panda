@@ -12,6 +12,7 @@ PANDA.views.Search = Backbone.View.extend({
     },
 
     search: function() {
+
         this.collection.search($("#search-form #search-query").val(), 10, 0);
         return false;
     },

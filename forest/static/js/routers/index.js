@@ -6,22 +6,23 @@ PANDA.routers.Index = Backbone.Router.extend({
         "dataset/:id":          "edit_dataset"
     },
 
-    index: function(query) {
-        new PANDA.views.Index();
+    initialize: function(options) {
+        this.controller = options.controller;
+    },
+
+    index: function() {
+        this.controller.index();
     },
 
     search: function(query) {
-        new PANDA.views.Search({ collection: Data });
+        this.controller.search(query);
     },
 
     upload: function() {
-        new PANDA.views.Upload();
+        this.controller.upload();
     },
 
     edit_dataset: function(id) {
-        d = new PANDA.models.Dataset({ id: id });
-        d.fetch({ success: function() {
-            new PANDA.views.EditDataset({ dataset: d });
-        }});
+        this.controller.edit_dataset();
     },
 });

@@ -61,12 +61,12 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/search.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/upload.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/routers/index.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/controller.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/root.js"></script>
     {% endcompress %}
 
     <script type="text/javascript">
         $(function() {
-            window.Redd = PANDAController.init();
+            window.Redd = new PANDA.views.Root();
         })
     </script>
 </body>
