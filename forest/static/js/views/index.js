@@ -1,7 +1,7 @@
 PANDA.views.Index = Backbone.View.extend({
     el: $("#content"),
     
-    template: JST.index,
+    template: PANDA.templates.index,
 
     initialize: function() {
         _.bindAll(this, 'render');
@@ -10,8 +10,6 @@ PANDA.views.Index = Backbone.View.extend({
     },
 
     render: function() {
-        console.log('rendering');
-        console.log(this.el);
         this.el.html(this.template());
     }
 });

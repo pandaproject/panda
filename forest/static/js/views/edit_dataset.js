@@ -1,7 +1,7 @@
 PANDA.views.EditDataset = Backbone.View.extend({
     el: $("#content"),
     
-    template: JST.edit_dataset,
+    template: PANDA.templates.edit_dataset,
     dataset: null,
 
     events: {
@@ -23,7 +23,17 @@ PANDA.views.EditDataset = Backbone.View.extend({
     save: function() {
         form_values = $("#edit-dataset-form").serializeObject();
 
-        this.dataset.set(form_values);
+        _.each(form_values, _.bind(function(v, k) {
+            if (k.indexOf("__schema_") == 0) {
+                i = k.slice(9);
+                this.dataset.attributes.schema[i][1] = v;
+            } else {
+                s = {};
+                s[k] = v;
+                this.dataset.set(s);
+            }
+        }, this));
+
         this.dataset.save();
 
         return false;

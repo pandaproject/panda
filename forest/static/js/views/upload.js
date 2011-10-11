@@ -1,7 +1,7 @@
 PANDA.views.Upload = Backbone.View.extend({
     el: $("#content"),
     
-    template: JST.upload,
+    template: PANDA.templates.upload,
 
     file_uploader: null,
     current_dataset: null,

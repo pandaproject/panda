@@ -7,3 +7,5 @@ PANDA.controllers = {};
 PANDA.models = {};
 PANDA.views = {};
 PANDA.routers = {};
+PANDA.templates = {};
+

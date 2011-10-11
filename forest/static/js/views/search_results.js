@@ -1,5 +1,5 @@
 PANDA.views.SearchResults = Backbone.View.extend({
-    template: JST.search_results,
+    template: PANDA.templates.search_results,
 
     events: {
         "click a.prev": "previous",

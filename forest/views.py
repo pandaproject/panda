@@ -21,7 +21,7 @@ def jst(request):
     """
     templates_path = os.path.join(settings.SITE_ROOT, 'forest/static/templates')
 
-    compiled = 'var JST; JST = JST || {};\n'
+    compiled = ''
 
     for dirpath, dirnames, filenames in os.walk(templates_path):
         for filename in filenames:
@@ -39,7 +39,7 @@ def jst(request):
             contents = re.sub(r"\r?\n", "", contents)
             contents = re.sub(r"'", "\\'", contents)
 
-            compiled += "JST['%s'] = _.template('%s');\n" % (
+            compiled += "PANDA.templates['%s'] = _.template('%s');\n" % (
                 name,
                 contents
             )
