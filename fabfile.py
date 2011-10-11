@@ -1,5 +1,4 @@
-# Chicago Tribune News Applications fabfile
-# No copying allowed
+#!/usr/bin/env python
 
 from fabric.api import *
 
@@ -109,7 +108,7 @@ def collect_static_files():
     """
     Collect static files on the server.
     """
-    run('cd %(repo_path)s; %(env_path)s/bin/python manage.py collectstatic --noinput' % env)
+    sudo('cd %(repo_path)s; %(env_path)s/bin/python manage.py collectstatic --noinput' % env, user="panda")
        
 def reload_app(): 
     """
@@ -148,7 +147,7 @@ def syncdb():
     """
     Sync the Django models to the database.
     """
-    run('cd %(repo_path)s; %(env_path)s/bin/python manage.py syncdb --noinput' % env)
+    sudo('cd %(repo_path)s; %(env_path)s/bin/python manage.py syncdb --noinput' % env, user="panda")
 
 """
 Deaths, destroyers of worlds

@@ -84,6 +84,12 @@ chown panda:panda /var/log/panda
 mkdir /mnt/panda
 chown panda:panda /mnt/panda
 
+mkdir /mnt/media
+chown panda:panda /mnt/media
+
+# Collect static assets
+sudo -u panda /home/ubuntu/.virtualenvs/panda/bin/python manage.py collectstatic --noinput
+
 # Start serving
 service uwsgi start
 
