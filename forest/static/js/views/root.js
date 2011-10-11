@@ -42,7 +42,9 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     edit_dataset: function(id) {        
-        d = new PANDA.models.Dataset({ id: id });
+        // TKTK - should not be hardcoded
+        resource_uri = PANDA.API + "/dataset/" + id + "/";
+        d = new PANDA.models.Dataset({ resource_uri: resource_uri });
         d.fetch({ success: function() {
             this.current_workspace = new PANDA.views.EditDataset({ dataset: d });
         }});

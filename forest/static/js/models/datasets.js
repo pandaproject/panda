@@ -4,6 +4,24 @@ PANDA.models.Dataset = Backbone.Model.extend({
     */
     urlRoot: PANDA.API + "/dataset",
 
+    upload: null,
+
+    parse: function(response) {
+        /*
+        Fetch related objects.
+        */
+
+
+        return response 
+    },
+
+    fetch_data_upload: function(success_callback) {
+        upload = new PANDA.models.Upload({ resource_uri: this.get("data_upload") });
+        upload.fetch({ success: function() {
+            success_callback(upload); 
+        }});
+    },
+
     import_data: function(success_callback) {
         /*
         Kick off the dataset import and update the model with

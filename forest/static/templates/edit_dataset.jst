@@ -1,5 +1,3 @@
-<div id="dataset-message">
-</div>
 <form id="edit-dataset-form" class="form-stacked">
     <fieldset>
         <legend>Edit Dataset</legend>
@@ -35,7 +33,8 @@
             </div>
         <% }); %>
     <div class="actions">
-        <input type="submit" class="btn primary" value="Save">
+        <input id="dataset-save" type="button" class="btn primary" value="Save" />
+        <input id="dataset-download" type="button" class="btn" value="Download original file" disabled="disabled" />
     </div>
 </form>
 

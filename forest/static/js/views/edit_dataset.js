@@ -3,14 +3,21 @@ PANDA.views.EditDataset = Backbone.View.extend({
     
     template: PANDA.templates.edit_dataset,
     dataset: null,
+    data_upload: null,
 
     events: {
-        "submit #edit-dataset-form": "save"
+        "click #dataset-save":      "save",
+        "click #dataset-download":  "download"
     },
 
     initialize: function(options) {
         this.dataset = options.dataset;
-        
+
+        this.dataset.fetch_data_upload(_.bind(function(upload) {
+            this.data_upload = upload;
+            $("#dataset-download").removeAttr('disabled');
+        }, this));
+
         _.bindAll(this, "render");
         
         this.render();
@@ -37,6 +44,10 @@ PANDA.views.EditDataset = Backbone.View.extend({
         this.dataset.save();
 
         return false;
+    },
+
+    download: function() {
+        this.data_upload.download(); 
     }
 });
 
