@@ -13,7 +13,28 @@
                 <textarea class="xxlarge" id="dataset-description" name="description" rows="5"><%= description %></textarea>
             </div>
         </div>
+        <div class="clearfix">
+            <label for="dataset-data-upload">Description</label>
+            <div class="input">
+                <input type="hidden" name="data_upload" value="<%= data_upload %>" />
+            </div>
+        </div>
     </fieldset>
+    <fieldset>
+        <legend>Schema</legend>
+        <% _.each(schema, function(s, i) { %>
+            <% name = s[0]; type = s[1]; %>
+            <div class="clearfix">
+                <label for="schema-<%= i %>"><%= name %></label>
+                <div class="input">
+                    <select name="schema-<%= i %>" id="schema-<%= i %>">
+                        <% _.each(["unicode", "bool", "int", "float", "date", "time", "datetime"], function(t) { %>
+                            <option <% if (t == type) { %>selected="selected"<% } %>><%= t %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        <% }); %>
     <div class="actions">
         <input type="submit" class="btn primary" value="Save">
     </div>

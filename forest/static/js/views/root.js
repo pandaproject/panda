@@ -37,7 +37,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_workspace = new PANDA.views.Upload();
     },
 
-    edit_dataset: function() {        
+    edit_dataset: function(id) {        
         d = new PANDA.models.Dataset({ id: id });
         d.fetch({ success: function() {
             this.current_workspace = new PANDA.views.EditDataset({ dataset: d });
