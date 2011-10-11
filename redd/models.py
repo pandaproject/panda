@@ -29,6 +29,7 @@ class Dataset(models.Model):
     A PANDA dataset (one table & associated metadata).
     """
     name = models.CharField(max_length=256)
+    description = models.TextField()
     data_upload = models.ForeignKey(Upload)
     schema = JSONField(null=True, blank=True)
     current_task_id = models.CharField(max_length=255, null=True, blank=True) 

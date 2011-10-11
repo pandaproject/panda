@@ -27,6 +27,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone-tastypie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/fileuploader.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/utils.js"></script>
     {% endcompress %}
     
     <script type="text/javascript" src="templates.js"></script>
@@ -36,6 +37,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/datasets.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/data.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/index.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/edit_dataset.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/search_results.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/search.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/upload.js"></script>
@@ -48,7 +50,8 @@
                     "":                     "index",
                     "search":               "search",
                     "search/:query":        "search",
-                    "upload":               "upload"
+                    "upload":               "upload",
+                    "dataset/:id":          "edit_dataset"
                 },
 
                 index: function(query) {
@@ -61,7 +64,14 @@
 
                 upload: function() {
                     new Redd.views.Upload();
-                }
+                },
+
+                edit_dataset: function(id) {
+                    d = new Redd.models.Dataset({ id: id });
+                    d.fetch({ success: function() {
+                        new Redd.views.EditDataset({ dataset: d });
+                    }});
+                },
             });
 
             new IndexRouter();

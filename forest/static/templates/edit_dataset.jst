@@ -1,0 +1,21 @@
+<form id="edit-dataset-form" class="form-stacked">
+    <fieldset>
+        <legend>Edit Dataset</legend>
+        <div class="clearfix">
+            <label for="dataset-name">Name</label>
+            <div class="input">
+                <input class="xlarge" id="dataset-name" name="name" size="30" type="text" value="<%= name %>" maxlength="256" />
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="dataset-description">Description</label>
+            <div class="input">
+                <textarea class="xxlarge" id="dataset-description" name="description" rows="5"><%= description %></textarea>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Save">
+    </div>
+</form>
+
