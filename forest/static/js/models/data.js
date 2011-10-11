@@ -115,5 +115,3 @@ PANDA.models.Data = Backbone.Collection.extend({
     }
 });
 
-window.Data = new PANDA.models.Data();
-

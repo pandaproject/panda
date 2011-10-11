@@ -1,9 +1,9 @@
-(function() {
-    window.PANDA = {};
-    PANDA.API = "/api/1.0";
+/* The global PANDA object acts as a registry of PANDA Backbone types. */
 
-    PANDA.controllers = {};
-    PANDA.models = {};
-    PANDA.views = {};
-    PANDA.routers = {};
-})();
+window.PANDA = {};
+PANDA.API = "/api/1.0";
+
+PANDA.controllers = {};
+PANDA.models = {};
+PANDA.views = {};
+PANDA.routers = {};

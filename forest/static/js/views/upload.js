@@ -59,4 +59,3 @@ PANDA.views.Upload = Backbone.View.extend({
     }
 });
 
-

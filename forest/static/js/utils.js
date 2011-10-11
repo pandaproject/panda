@@ -1,3 +1,4 @@
+/* Serialize a form to a Javascript object. */
 $.fn.serializeObject = function()
 {
     var o = {};

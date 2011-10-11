@@ -30,5 +30,3 @@ PANDA.models.Datasets = Backbone.Collection.extend({
     url: PANDA.API + "/dataset"
 });
 
-window.Datasets = new PANDA.models.Datasets();
-

@@ -1,7 +1,5 @@
 PANDA.views.Search = Backbone.View.extend({
-    el: $("#content"),
-    
-    template: JST.search,
+    el: $("#search-wrapper"),
 
     events: {
         "submit #search-form": "search"
@@ -10,17 +8,11 @@ PANDA.views.Search = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render");
         
-        this.render();
-        
-        this.results = new PANDA.views.SearchResults({ collection: this.collection, el: $("#search-results") });
-    },
-
-    render: function() {
-        this.el.html(this.template());
+        this.results = new PANDA.views.SearchResults({ collection: this.collection, el: $("#content") });
     },
 
     search: function() {
-        Data.search($("#search-form #search-query").val(), 10, 0);
+        this.collection.search($("#search-form #search-query").val(), 10, 0);
         return false;
     },
 });
