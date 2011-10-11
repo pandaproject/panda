@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 {% load compress %}
 
 <html>
@@ -12,6 +14,23 @@
     {% endcompress %}
 </head>
 <body>
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="container">
+                <h3><a class="brand" href="#">PANDA</a></h3>
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                </ul>
+                <form id="search-form" class="pull-left">
+                    <input type="text" name="search-query" placeholder="Search" />
+                </form>
+            </div>
+        </div>
+   </div>
+
     <div class="container-fluid">
         <div id="sidebar" class="sidebar">
             Sidebar here.
