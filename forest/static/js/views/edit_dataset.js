@@ -33,7 +33,7 @@ PANDA.views.EditDataset = Backbone.View.extend({
         _.each(form_values, _.bind(function(v, k) {
             if (k.indexOf("__schema_") == 0) {
                 i = k.slice(9);
-                this.dataset.attributes.schema[i][1] = v;
+                this.dataset.attributes.schema[i].type = v;
             } else {
                 s = {};
                 s[k] = v;

@@ -20,13 +20,12 @@
     <fieldset>
         <legend>Schema</legend>
         <% _.each(schema, function(s, i) { %>
-            <% name = s[0]; type = s[1]; %>
             <div class="clearfix">
-                <label for="__schema_<%= i %>"><%= name %></label>
+                <label for="__schema_<%= i %>"><%= s.name %></label>
                 <div class="input">
                     <select name="__schema_<%= i %>" id="__schema_<%= i %>">
                         <% _.each(["unicode", "bool", "int", "float", "date", "time", "datetime"], function(t) { %>
-                            <option <% if (t == type) { %>selected="selected"<% } %>><%= t %></option>
+                            <option <% if (t == s.type) { %>selected="selected"<% } %>><%= t %></option>
                         <% }); %>
                     </select>
                 </div>

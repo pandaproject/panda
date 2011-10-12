@@ -12,5 +12,5 @@ def infer_types(f, sample_size=100):
     sample = islice(reader, sample_size)
     normal_types, normal_values = normalize_table(sample)
 
-    return zip(headers, [t.__name__ for t in normal_types])
+    return [{'column': h, 'type': t } for h, t in zip(headers, [t.__name__ for t in normal_types])]
 
