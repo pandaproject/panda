@@ -4,15 +4,12 @@ PANDA.views.Upload = Backbone.View.extend({
     template: PANDA.templates.upload,
 
     file_uploader: null,
-    current_dataset: null,
 
     events: {
-        "submit #dataset-form": "create_dataset",
-        "submit #import-form": "import_data"
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "create_dataset", "import_data");
+        _.bindAll(this, "render");
         
         this.render();
 
@@ -22,8 +19,20 @@ PANDA.views.Upload = Backbone.View.extend({
             multiple: false,
             onComplete: function(id, fileName, responseJSON) {
                 if(responseJSON.success) {
-                    $("#dataset-data-upload").val(responseJSON["resource_uri"]);
-                    $("#dataset").show();
+                    // Create a dataset and relate it to the upload
+                    d = new PANDA.models.Dataset({
+                        name: fileName,
+                        data_upload: responseJSON["resource_uri"]
+                    });
+
+                    // Save the new dataset
+                    d.save({}, { success: function() {
+                        // Once saved immediately begin importing it
+                        d.import_data(function() {
+                            // Redirect to the dataset's page
+                            window.location = "#dataset/" + d.get("id");
+                        });
+                    }});
                 } else {
                     alert("Upload failed!");
                 }
@@ -33,29 +42,6 @@ PANDA.views.Upload = Backbone.View.extend({
 
     render: function() {
         this.el.html(this.template());
-    },
-
-    create_dataset: function() {
-        this.current_dataset = new PANDA.models.Dataset({
-            name: $("#dataset-form #dataset-name").val(),
-            data_upload: $("#dataset-form #dataset-data-upload").val()
-        });
-        this.current_dataset.save();
-
-        $("#import-form #import-id").val(this.current_dataset.get("id"));
-        $("#import").show();
-
-        return false;
-    },
-
-    import_data: function() {
-        this.current_dataset.import_data(
-            function(d) {
-                alert(d.get("current_task_id"));
-            }
-        );
-
-        return false;
     }
 });
 
