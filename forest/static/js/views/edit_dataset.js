@@ -30,21 +30,13 @@ PANDA.views.EditDataset = Backbone.View.extend({
     save: function() {
         form_values = $("#edit-dataset-form").serializeObject();
 
-        simple_type_prefix = "__schema_simple_type_";
-        indexed_prefix = "__schema_indexed_";
+        s = {};
 
         _.each(form_values, _.bind(function(v, k) {
-            if (k.indexOf(simple_type_prefix) == 0) {
-                i = k.slice(simple_type_prefix.length);
-                this.dataset.attributes.schema[i].simple_type = v;
-            } else {
-                s = {};
-                s[k] = v;
-                this.dataset.set(s);
-            }
+            s[k] = v;
         }, this));
 
-        this.dataset.save({}, { success: function() {
+        this.dataset.save(s, { success: function() {
             alert("Saved!");
         }});
 

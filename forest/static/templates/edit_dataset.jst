@@ -18,19 +18,13 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend>Schema</legend>
+        <legend>Columns</legend>
+        <ol>
         <% _.each(schema, function(s, i) { %>
-            <div class="clearfix">
-                <strong><%= s.column %></strong>
-                <div class="input">
-                    <select name="__schema_simple_type_<%= i %>" id="__schema_simple_type_<%= i %>">
-                        <% _.each(["unicode", "bool", "int", "float", "date", "time", "datetime"], function(t) { %>
-                            <option <% if (t == s.simple_type) { %>selected="selected"<% } %>><%= t %></option>
-                        <% }); %>
-                    </select>
-                </div>
-            </div>
+            <li><%= s.column %></li>
         <% }); %>
+        </ol>
+    </fieldset>
     <div class="actions">
         <input id="dataset-save" type="button" class="btn primary" value="Save" />
         <input id="dataset-download" type="button" class="btn" value="Download original file" disabled="disabled" />
