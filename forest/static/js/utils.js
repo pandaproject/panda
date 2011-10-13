@@ -19,7 +19,13 @@ $.fn.serializeObject = function()
 $.fn.alert = function(type, message) {
     this.hide();
     this.removeClass("warning error success info").addClass(type);
-    this.html(message);
+    this.html("<a class=\"close\" href=\"#\">×</a>" + message);
     this.show();
     window.scrollTo(0, this.offset());
 }
+
+$(".alert-message .close").live("click", function() {
+    $(this).parent().hide();
+    
+    return false;
+});
