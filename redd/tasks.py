@@ -98,6 +98,7 @@ def dataset_import_data(dataset_id):
         # Rollback pending changes
         solr.delete(queries=solr.query(dataset_id=dataset.id))
         
+        # TKTK - currently can never happen since we aren't using type inference
         for e in normal_type_exceptions:
             print e 
 
