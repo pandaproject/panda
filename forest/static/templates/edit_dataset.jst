@@ -21,11 +21,11 @@
         <legend>Schema</legend>
         <% _.each(schema, function(s, i) { %>
             <div class="clearfix">
-                <label for="__schema_<%= i %>"><%= s.name %></label>
+                <input type="checkbox" name="__schema_indexed_<%= i %>" id="__schema_indexed_<%= i %>" value="True" <% if (s.indexed) { %>checked="checked"<% } %> /> <%= s.column %>
                 <div class="input">
-                    <select name="__schema_<%= i %>" id="__schema_<%= i %>">
+                    <select name="__schema_simple_type_<%= i %>" id="__schema_simple_type_<%= i %>">
                         <% _.each(["unicode", "bool", "int", "float", "date", "time", "datetime"], function(t) { %>
-                            <option <% if (t == s.type) { %>selected="selected"<% } %>><%= t %></option>
+                            <option <% if (t == s.simple_type) { %>selected="selected"<% } %>><%= t %></option>
                         <% }); %>
                     </select>
                 </div>

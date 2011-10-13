@@ -30,10 +30,21 @@ PANDA.views.EditDataset = Backbone.View.extend({
     save: function() {
         form_values = $("#edit-dataset-form").serializeObject();
 
+        simple_type_prefix = "__schema_simple_type_";
+        indexed_prefix = "__schema_indexed_";
+
+        // Zero-out indexed fields since they will be reloaded from checkboxes
+        _.each(this.dataset.attributes.schema, function(s) {
+            s.indexed = false;
+        });
+
         _.each(form_values, _.bind(function(v, k) {
-            if (k.indexOf("__schema_") == 0) {
-                i = k.slice(9);
-                this.dataset.attributes.schema[i].type = v;
+            if (k.indexOf(simple_type_prefix) == 0) {
+                i = k.slice(simple_type_prefix.length);
+                this.dataset.attributes.schema[i].simple_type = v;
+            } else if (k.indexOf(indexed_prefix) == 0) {
+                i = k.slice(indexed_prefix.length);
+                this.dataset.attributes.schema[i].indexed = true;
             } else {
                 s = {};
                 s[k] = v;
