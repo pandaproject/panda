@@ -44,7 +44,9 @@ PANDA.views.EditDataset = Backbone.View.extend({
             }
         }, this));
 
-        this.dataset.save();
+        this.dataset.save({}, { success: function() {
+            alert("Saved!");
+        }});
 
         return false;
     },
