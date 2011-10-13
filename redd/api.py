@@ -86,15 +86,24 @@ class TaskObject(object):
 class TaskResource(CustomResource):
     """
     Simple wrapper around django-celery's task API.
+
+    TKTK: It would be good to support list view for tasks, for dashboard-type applications.
     """
-    id = fields.CharField(attribute='id')
-    state = fields.CharField(attribute='state')
-    result = fields.CharField(attribute='result', null=True)
-    exc = fields.CharField(attribute='result', null=True, blank=True)
-    traceback = fields.CharField(attribute='traceback', null=True, blank=True)
+    id = fields.CharField(attribute='id',
+        help_text='Unique id of this task.')
+    state = fields.CharField(attribute='state',
+        help_text='State the task is currently in--PENDING, STARTED, SUCCESS, FAILURE, etc.')
+    result = fields.CharField(attribute='result', null=True,
+        help_text='Result of the task, if complete.')
+    exc = fields.CharField(attribute='result', null=True, blank=True,
+        help_text='Exception that terminated this task, if it raised one.')
+    traceback = fields.CharField(attribute='traceback', null=True, blank=True,
+        help_text='Traceback of the exception that terminated this task, if it raised one.')
 
     class Meta:
         resource_name = 'task'
+        list_allowed_methods = []
+        detail_allowed_methods = ['get']
 
     def get_resource_uri(self, bundle_or_obj):
         """
@@ -113,18 +122,6 @@ class TaskResource(CustomResource):
             kwargs['api_name'] = self._meta.api_name
 
         return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
-
-    def get_object_list(self, request):
-        """
-        TKTK -- support list view
-        """
-        pass
-
-    def obj_get_list(self, request=None, **kwargs):
-        """
-        TKTK -- support list view
-        """
-        pass
 
     def obj_get(self, request=None, **kwargs):
         """
@@ -158,12 +155,11 @@ class TaskResource(CustomResource):
 class UploadResource(ModelResource):
     """
     API resource for Uploads.
-
-    TKTK: must be read-only.
     """
     class Meta:
         queryset = Upload.objects.all()
         resource_name = 'upload'
+        allowed_methods = ['get']
 
         # TKTK
         authentication = Authentication()

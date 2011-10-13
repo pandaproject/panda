@@ -5,7 +5,7 @@ from itertools import islice
 from csvkit import CSVKitReader
 from csvkit.typeinference import normalize_table
 
-def infer_types(f, sample_size=100):
+def infer_schema(f, sample_size=100):
     reader = CSVKitReader(f)
     headers = reader.next()
 

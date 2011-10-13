@@ -17,7 +17,7 @@ PANDA.views.Upload = Backbone.View.extend({
         this.render();
 
         this.file_uploader = new qq.FileUploader({
-            action: "/ajax_upload/",
+            action: "/upload/",
             element: $("#upload")[0],
             multiple: false,
             onComplete: function(id, fileName, responseJSON) {

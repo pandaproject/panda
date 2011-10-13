@@ -14,7 +14,7 @@ api_1_0.register(DatasetResource())
 api_1_0.register(DataResource())
 
 urlpatterns = patterns('',
-    url(r'^ajax_upload%s$' % trailing_slash(), views.ajax_upload, name="ajax_upload"),
+    url(r'^upload%s$' % trailing_slash(), views.ajax_upload, name="ajax_upload"),
 
     (r'^api/', include(api_1_0.urls)),
 )
