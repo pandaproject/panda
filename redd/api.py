@@ -88,6 +88,7 @@ class TaskResource(CustomResource):
     Simple wrapper around django-celery's task API.
 
     TKTK: It would be good to support list view for tasks, for dashboard-type applications.
+    TKTK: implement authentication/permissions
     """
     id = fields.CharField(attribute='id',
         help_text='Unique id of this task.')
@@ -104,6 +105,9 @@ class TaskResource(CustomResource):
         resource_name = 'task'
         list_allowed_methods = []
         detail_allowed_methods = ['get']
+
+        authentication = Authentication()
+        authorization = Authorization()
 
     def get_resource_uri(self, bundle_or_obj):
         """
@@ -155,13 +159,14 @@ class TaskResource(CustomResource):
 class UploadResource(ModelResource):
     """
     API resource for Uploads.
+
+    TKTK: implement authentication
     """
     class Meta:
         queryset = Upload.objects.all()
         resource_name = 'upload'
         allowed_methods = ['get']
 
-        # TKTK
         authentication = Authentication()
         authorization = Authorization()
 
@@ -200,6 +205,8 @@ class UploadResource(ModelResource):
 class DatasetResource(CustomResource):
     """
     API resource for Datasets.
+
+    TKTK: implement authentication/permissions
     """
     data_upload = fields.ForeignKey(UploadResource, 'data_upload')
 
@@ -207,7 +214,6 @@ class DatasetResource(CustomResource):
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
 
-        # TKTK
         authentication = Authentication()
         authorization = Authorization()
 
@@ -277,6 +283,7 @@ class DataResource(Resource):
     TKTK: return data for indexed fields
     TKTK: implement filtering
     TKTK: implement write API
+    TKTK: implement authentication/permissions
     """
     id = fields.CharField(attribute='id',
         help_text='Unique id of this row of data.')
@@ -290,6 +297,9 @@ class DataResource(Resource):
     class Meta:
         resource_name = 'data'
         allowed_methods = ['get']
+
+        authentication = Authentication()
+        authorization = Authorization()
 
     def _solr(self):
         """
