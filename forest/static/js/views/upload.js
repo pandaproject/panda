@@ -5,9 +5,6 @@ PANDA.views.Upload = Backbone.View.extend({
 
     file_uploader: null,
 
-    events: {
-    },
-
     initialize: function() {
         _.bindAll(this, "render");
         
