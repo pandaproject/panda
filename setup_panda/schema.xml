@@ -47,7 +47,7 @@
         <field name="dataset_id" type="string" indexed="true" stored="true" required="true" />
         <field name="row" type="int" indexed="true" stored="true" required="true" />
         <field name="full_text" type="text_general" indexed="true" stored="false" />
-        <field name="csv_data" type="string" indexed="false" stored="true" required="true" />
+        <field name="data" type="string" indexed="false" stored="true" required="true" />
 
         <!-- Dynamic typed fields that directly correspond to Python types -->
         <dynamicField name="*_unicode"  type="string"  indexed="true"  stored="true" />
