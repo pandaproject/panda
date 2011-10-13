@@ -274,15 +274,22 @@ class DataResource(Resource):
     """
     API resource for row data.
 
-    TKTK -- return data for indexed fields
+    TKTK: return data for indexed fields
+    TKTK: implement filtering
+    TKTK: implement write API
     """
-    id = fields.CharField(attribute='id')
-    dataset_id = fields.IntegerField(attribute='dataset_id')
-    row = fields.IntegerField(attribute='row')
-    csv_data = fields.CharField(attribute='csv_data')
+    id = fields.CharField(attribute='id',
+        help_text='Unique id of this row of data.')
+    dataset_id = fields.IntegerField(attribute='dataset_id',
+        help_text='Unique id of the dataset this row of data belongs to.')
+    row = fields.IntegerField(attribute='row',
+        help_text='Row number of this data in the source dataset.')
+    data = fields.CharField(attribute='data',
+        help_text='An ordered list of values corresponding to the columns in the parent dataset.')
 
     class Meta:
         resource_name = 'data'
+        allowed_methods = ['get']
 
     def _solr(self):
         """
@@ -290,11 +297,11 @@ class DataResource(Resource):
         """
         return SolrInterface(settings.SOLR_ENDPOINT)
 
-    def dehydrate_csv_data(self, bundle):
+    def dehydrate_data(self, bundle):
         """
         Convert csv data into a proper array for JSON serialization
         """
-        return json.loads(bundle.data['csv_data'])
+        return json.loads(bundle.data['data'])
 
     def dehydrate(self, bundle):
         """
@@ -367,36 +374,6 @@ class DataResource(Resource):
         obj = self._solr().query(id=get_id).execute(constructor=SolrObject)[0]
 
         return obj
-
-    def obj_create(self, bundle, request=None, **kwargs):
-        """
-        TKTK
-        """
-        pass
-
-    def obj_update(self, bundle, request=None, **kwargs):
-        """
-        TKTK
-        """
-        pass
-
-    def obj_delete_list(self, request=None, **kwargs):
-        """
-        TKTK
-        """
-        pass
-
-    def obj_delete(self, request=None, **kwargs):
-        """
-        TKTK
-        """
-        pass
-
-    def rollback(self, bundles):
-        """
-        TKTK
-        """
-        pass
 
     def override_urls(self):
         """

@@ -79,7 +79,7 @@ def dataset_import_data(dataset_id):
                 'dataset_id': dataset.id,
                 'row': i,
                 'full_text': '\n'.join(row),
-                'csv_data': json.dumps(row)
+                'data': json.dumps(row)
             }
 
             add_buffer.append(data)
