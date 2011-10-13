@@ -213,6 +213,7 @@ class DatasetResource(CustomResource):
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
+        always_return_data = True
 
         authentication = Authentication()
         authorization = Authorization()
