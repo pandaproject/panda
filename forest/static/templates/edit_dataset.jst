@@ -21,7 +21,7 @@
         <legend>Schema</legend>
         <% _.each(schema, function(s, i) { %>
             <div class="clearfix">
-                <input type="checkbox" name="__schema_indexed_<%= i %>" id="__schema_indexed_<%= i %>" value="True" <% if (s.indexed) { %>checked="checked"<% } %> /> <%= s.column %>
+                <strong><%= s.column %></strong>
                 <div class="input">
                     <select name="__schema_simple_type_<%= i %>" id="__schema_simple_type_<%= i %>">
                         <% _.each(["unicode", "bool", "int", "float", "date", "time", "datetime"], function(t) { %>
