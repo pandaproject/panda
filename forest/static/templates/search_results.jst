@@ -14,7 +14,7 @@
         <table>
             <tr>
                 <% _.each(group.schema, function(s) { %>
-                    <th><%= s[0] %></th>
+                    <th><%= s.column %></th>
                 <% }); %>
             </tr>
     <% } %>
