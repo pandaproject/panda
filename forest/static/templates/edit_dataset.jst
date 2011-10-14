@@ -16,7 +16,9 @@
                 <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= description %></textarea>
             </div>
         </div>
-        <%= data_upload.filename %>
+        <div class="clearfix">
+            Uploaded data file: <%= data_upload.original_filename %>
+        </div>
     </fieldset>
     <fieldset>
         <legend>Columns</legend>
@@ -25,6 +27,15 @@
             <li><%= s.column %></li>
         <% }); %>
         </ol>
+    </fieldset>
+    <fieldset>
+        <legend>Status</legend>
+        <div class="clearfix">
+            Current task: TKTK
+        </div>
+        <div class="clearfix">
+            State: <span class="label <% if (current_task.state == "SUCCESS") { print("success"); } else if (current_task.state == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.state %></span>
+        </div>
     </fieldset>
     <div class="actions">
         <input id="dataset-save" type="button" class="btn primary" value="Save" />
