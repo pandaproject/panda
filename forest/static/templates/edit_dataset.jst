@@ -16,9 +16,7 @@
                 <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= description %></textarea>
             </div>
         </div>
-        <div class="input">
-            <input type="hidden" name="data_upload" value="<%= data_upload %>" />
-        </div>
+        <%= data_upload.filename %>
     </fieldset>
     <fieldset>
         <legend>Columns</legend>

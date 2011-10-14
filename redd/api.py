@@ -208,7 +208,7 @@ class DatasetResource(CustomResource):
 
     TKTK: implement authentication/permissions
     """
-    data_upload = fields.ForeignKey(UploadResource, 'data_upload')
+    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
 
     class Meta:
         queryset = Dataset.objects.all()
@@ -217,6 +217,22 @@ class DatasetResource(CustomResource):
 
         authentication = Authentication()
         authorization = Authorization()
+
+    def dehydrate(self, bundle):
+        """
+        Append TaskResource details as though it were a ForeignKey field with full=True set. 
+        """
+        if bundle.obj.current_task_id:
+            tr = TaskResource()
+            current_task = tr.obj_get(pk=bundle.obj.current_task_id)
+
+            bundle.data['current_task'] = current_task.to_dict() 
+        else:
+            bundle.data['current_task'] = None
+
+        del bundle.data['current_task_id']
+
+        return bundle
 
     def override_urls(self):
         """

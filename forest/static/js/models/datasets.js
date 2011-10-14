@@ -4,31 +4,54 @@ PANDA.models.Dataset = Backbone.Model.extend({
     */
     urlRoot: PANDA.API + "/dataset",
 
-    upload: null,
+    data_upload: null,
+    current_task: null,
 
     parse: function(response) {
         /*
-        Fetch related objects.
-        */
+         * Extract embedded models from serialized data.
+         */
+        if (response.data_upload != null) {
+            this.data_upload = new PANDA.models.Upload(response.data_upload);
+            delete response['data_upload'];
+        }
 
+        if (response.current_task != null) {
+            this.current_task = new PANDA.models.Task(response.current_task);
+            delete response['current_task'];
+        }
 
         return response 
     },
 
-    fetch_data_upload: function(success_callback) {
-        upload = new PANDA.models.Upload({ resource_uri: this.get("data_upload") });
-        upload.fetch({ success: function() {
-            success_callback(upload); 
-        }});
+    toJSON: function() {
+        /*
+         * Append embedded models to serialized data.
+         */
+        js = Backbone.Model.prototype.toJSON.call(this);
+
+        if (this.data_upload != null) {
+            js['data_upload'] = this.data_upload.toJSON();
+        } else {
+            js['data_upload'] = null;
+        }
+
+        if (this.current_task != null) {
+            js['current_task'] = this.current_task.toJSON();
+        } else {
+            js['current_task'] = null;
+        }
+
+        return js
     },
 
     import_data: function(success_callback) {
         /*
-        Kick off the dataset import and update the model with
-        the task id and status.
-
-        TKTK - error callback
-        */
+         * Kick off the dataset import and update the model with
+         * the task id and status.
+         *
+         * TKTK - error callback
+         */
         $.getJSON(
             this.url() + "import",
             {},
@@ -42,8 +65,8 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
 PANDA.collections.Datasets = Backbone.Collection.extend({
     /*
-    A collection of redd.models.Dataset equivalents.
-    */
+     * A collection of PANDA.models.Dataset equivalents.
+     */
     model: PANDA.models.Dataset,
     url: PANDA.API + "/dataset"
 });
