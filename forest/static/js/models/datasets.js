@@ -7,6 +7,16 @@ PANDA.models.Dataset = Backbone.Model.extend({
     data_upload: null,
     current_task: null,
 
+    initialize: function(options) {
+        if ("data_upload" in options) {
+            this.data_upload = options.data_upload;
+        }
+        
+        if ("current_task" in options) {
+            this.current_task = options.current_task;
+        }
+    },
+
     parse: function(response) {
         /*
          * Extract embedded models from serialized data.
