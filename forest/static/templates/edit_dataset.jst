@@ -28,6 +28,7 @@
         <% }); %>
         </ol>
     </fieldset>
+    <% if (current_task != null) { %>
     <fieldset>
         <legend>Status</legend>
         <div class="clearfix">
@@ -37,6 +38,7 @@
             State: <span class="label <% if (current_task.state == "SUCCESS") { print("success"); } else if (current_task.state == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.state %></span>
         </div>
     </fieldset>
+    <% } %>
     <div class="actions">
         <input id="dataset-save" type="button" class="btn primary" value="Save" />
         <input id="dataset-download" type="button" class="btn" value="Download original file" disabled="disabled" />

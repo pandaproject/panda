@@ -9,11 +9,11 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
     initialize: function(options) {
         if ("data_upload" in options) {
-            this.data_upload = options.data_upload;
+            this.data_upload = new PANDA.models.Upload(options.data_upload);
         }
         
         if ("current_task" in options) {
-            this.current_task = options.current_task;
+            this.current_task = new PANDA.models.Task(options.current_task);
         }
     },
 

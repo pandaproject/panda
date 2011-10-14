@@ -16,12 +16,10 @@ PANDA.views.Upload = Backbone.View.extend({
             multiple: false,
             onComplete: function(id, fileName, responseJSON) {
                 if(responseJSON.success) {
-                    upload = new PANDA.models.Upload(responseJSON);
-
                     // Create a dataset and relate it to the upload
                     d = new PANDA.models.Dataset({
                         name: fileName,
-                        data_upload: upload
+                        data_upload: responseJSON 
                     });
 
                     // Save the new dataset
