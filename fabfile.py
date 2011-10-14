@@ -125,6 +125,21 @@ def update_requirements():
 """
 Commands - data
 """
+def reset_database():
+    """
+    Drop and recreate the project database.
+    """
+    with settings(warn_only=True):
+        sudo('service celeryd stop')
+
+    sudo('service postgresql restart') # disconnect any active users
+
+    destroy_database()
+    create_database()
+    syncdb()
+
+    sudo('service celeryd start') 
+
 def create_database():
     """
     Creates the user and database for this project.
@@ -139,7 +154,6 @@ def destroy_database():
     Will not cause the fab to fail if they do not exist.
     """
     with settings(warn_only=True):
-        sudo('service postgresql restart')  # disconnect any active users
         sudo('dropdb %(project_name)s' % env, user='postgres')
         sudo('dropuser %(project_name)s' % env, user='postgres')
         

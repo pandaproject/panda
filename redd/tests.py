@@ -1,16 +1,23 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+#!/usr/bin/env python
 
-Replace this with more appropriate tests for your application.
-"""
-
+from django.test.client import Client
 from django.test import TestCase
 
+from redd.models import Dataset
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
+class TestAPI(TestCase):
+    def setUp(self):
+        self.upload = Upload.objects.create(
+            filename='test',
+            original_filename='original_test',
+            size='1')
+
+        self.dataset = Dataset.objects.create(
+            name='test',
+            description='description',
+            data_upload=self.upload)
+
+        self.client = Client()
+
+    def test_dataset_get(self):
         self.assertEqual(1 + 1, 2)
