@@ -104,3 +104,16 @@ def dataset_import_data(dataset_id):
 
     log.info('Finished import, dataset_id: %i' % dataset_id)
 
+@task(name='Purge data')
+def dataset_purge_data(dataset_id):
+    """
+    Purge a dataset from Solr.
+    """
+    log = logging.getLogger('redd.tasks.dataset_purge_data')
+    log.info('Beginning purge, dataset_id: %i' % dataset_id)
+
+    solr = SolrInterface(settings.SOLR_ENDPOINT)
+    solr.delete(queries='dataset_id: %i' % dataset_id, commit=True)
+
+    log.info('Finished purge, dataset_id: %i' % dataset_id)
+    

@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db import models
 
 from redd.fields import JSONField
-from redd.tasks import dataset_import_data
+from redd.tasks import dataset_import_data, dataset_purge_data
 from redd.utils import infer_schema
 
 class Upload(models.Model):
@@ -48,6 +48,26 @@ class Dataset(models.Model):
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        """
+        Override save to do fast, first-N type inference on the data and populated the schema.
+        """
+        if not self.schema:
+            with open(self.data_upload.get_path(), 'r') as f:
+                self.schema = infer_schema(f)
+
+        super(Dataset, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        """
+        Purge data from Solr when a dataset is deleted.
+        """
+        dataset_id = self.id
+
+        super(Dataset, self).delete(*args, **kwargs)
+
+        dataset_purge_data.apply_async(args=[dataset_id])
+
     def get_current_task(self):
         """
         Get an AsyncResult object for the currently executing or last
@@ -62,17 +82,7 @@ class Dataset(models.Model):
         """
         Execute the data import task for this Dataset. Will use the currently configured schema.
         """
-        result = dataset_import_data.apply_async(args=[self.id], queue='import', routing_key='import')
+        result = dataset_import_data.apply_async(args=[self.id])
         self.current_task_id = result.task_id
         self.save()
-
-    def save(self, *args, **kwargs):
-        """
-        Override save to do fast, first-N type inference on the data and populated the schema.
-        """
-        if not self.schema:
-            with open(self.data_upload.get_path(), 'r') as f:
-                self.schema = infer_schema(f)
-
-        super(Dataset, self).save(*args, **kwargs)
 

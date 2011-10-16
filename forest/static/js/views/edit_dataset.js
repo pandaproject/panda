@@ -6,6 +6,7 @@ PANDA.views.EditDataset = Backbone.View.extend({
 
     events: {
         "click #dataset-save":      "save",
+        "click #dataset-destroy":    "destroy",
         "click #dataset-download":  "download"
     },
 
@@ -35,6 +36,12 @@ PANDA.views.EditDataset = Backbone.View.extend({
         }});
 
         return false;
+    },
+
+    destroy: function() {
+        this.dataset.destroy({ success: function() {
+            window.location = '#datasets'
+        }});
     },
 
     download: function() {
