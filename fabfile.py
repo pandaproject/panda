@@ -166,7 +166,7 @@ def syncdb():
 """
 Commands - Local development
 """
-def localreset():
+def local_reset():
     """
     Reset the local database and Solr instance.
     """
@@ -175,3 +175,8 @@ def localreset():
     local('cp setup_panda/solrconfig.xml /var/solr/conf/solrconfig.xml')
     local('cp setup_panda/schema.xml /var/solr/conf/schema.xml')
 
+def local_solr():
+    """
+    Start the local Solr instance.
+    """
+    local('cd /usr/local/Cellar/solr/3.3.0/libexec/example/ && java -Dsolr.solr.home=/var/solr/ -jar start.jar')
