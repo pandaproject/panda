@@ -163,3 +163,15 @@ def syncdb():
     """
     sudo('cd %(repo_path)s; %(env_path)s/bin/python manage.py syncdb --noinput' % env, user="panda")
 
+"""
+Commands - Local development
+"""
+def localreset():
+    """
+    Reset the local database and Solr instance.
+    """
+    local('dropdb panda && createdb panda && python manage.py syncdb --noinput')
+    local('rm -rf /var/solr/data')
+    local('cp setup_panda/solrconfig.xml /var/solr/conf/solrconfig.xml')
+    local('cp setup_panda/schema.xml /var/solr/conf/schema.xml')
+
