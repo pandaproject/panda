@@ -376,11 +376,9 @@ class DataResource(Resource):
     def obj_get_list(self, request=None, **kwargs):
         """
         Query Solr with a list of terms.
-
-        TKTK -- what other querystring params need to be trimmed/ignored
-        TKTK -- implement limit and offset params
         """
         q = copy(request.GET)
+
         if 'format' in q: del q['format']
         if 'limit' in q: del q['limit']
         if 'offset' in q: del q['offset']
@@ -414,6 +412,7 @@ class DataResource(Resource):
         """
         An endpoint for performing full-text searches.
 
+        TKTK -- implement offset and limit
         TKTK -- implement field searches
         TKTK -- implement wildcard + boolean searches
         """

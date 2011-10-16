@@ -183,6 +183,9 @@ LOGGING = {
 # Solr
 SOLR_ENDPOINT = 'http://localhost:8983/solr'
 
+# Miscellaneous configuration
+PANDA_DEFAULT_SEARCH_RESULTS = 10
+
 # Allow for local (per-user) override
 try:
     from local_settings import *
