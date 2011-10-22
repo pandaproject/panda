@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 # PANDA Project server setup script for Ubuntu 11.04
 # Must be executed with sudo!
@@ -35,9 +35,11 @@ tar -xzf apache-solr-3.3.0.tgz
 mv apache-solr-3.3.0 solr
 cp -r solr/example solr/panda
 
-rm panda/solr/solr.xml
-wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/conf/schema.xml
-wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/conf/solrconfig.xml
+mkdir solr/panda/pandadata
+
+wget $CONFIG_URL/solr.xml -O /opt/solr/panda/solr/solr.xml
+wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
+wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/pandadata/conf/solrconfig.xml
 
 adduser --system --no-create-home --disabled-login --disabled-password --group solr
 chown -R solr:solr /opt/solr
