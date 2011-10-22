@@ -3,7 +3,7 @@
 <solr persistent="false">
 
   <cores adminPath="/admin/cores" defaultCoreName="data">
-    <core name="data" instanceDir="." />
+    <core name="data" instanceDir="pandadata" />
   </cores>
 
 </solr>
