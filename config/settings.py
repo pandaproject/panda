@@ -181,7 +181,7 @@ LOGGING = {
 }
 
 # Solr
-SOLR_ENDPOINT = 'http://localhost:8983/solr'
+SOLR_ENDPOINT = 'http://localhost:8983/solr/data'
 
 # Miscellaneous configuration
 PANDA_DEFAULT_SEARCH_RESULTS = 10
