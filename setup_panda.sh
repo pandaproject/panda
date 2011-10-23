@@ -36,8 +36,10 @@ mv apache-solr-3.3.0 solr
 cp -r solr/example solr/panda
 
 mkdir solr/panda/pandadata
+mkdir solr/panda/lib
 
 wget $CONFIG_URL/solr.xml -O /opt/solr/panda/solr/solr.xml
+wget $CONFIG_URL/panda.jar -O /opt/solr/panda/solr/lib/panda.jar
 wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
 wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/pandadata/conf/solrconfig.xml
 

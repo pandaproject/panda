@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="panda" version="1.4">
+<schema name="data" version="1.4">
 
     <types>
 
@@ -22,13 +22,29 @@
 
         <!-- Full-text types -->
         <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
-          <analyzer type="index">
-            <tokenizer class="solr.StandardTokenizerFactory" />
-                <filter class="solr.LowerCaseFilterFactory" />
+            <analyzer type="index">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.WordDelimiterFilterFactory"
+                    generateWordParts="1"
+                    generateNumberParts="1"
+                    catenateWords="1"
+                    catenateNumbers="1"
+                    catenateAll="1"
+                    preserveOriginal="1"
+                    />
+                <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
             <analyzer type="query">
-                <tokenizer class="solr.StandardTokenizerFactory" />
-                <filter class="solr.LowerCaseFilterFactory" />
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.WordDelimiterFilterFactory"
+                    generateWordParts="1"
+                    generateNumberParts="1"
+                    catenateWords="1"
+                    catenateNumbers="1"
+                    catenateAll="1"
+                    preserveOriginal="1"
+                />
+                <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
         </fieldType>
 
@@ -69,5 +85,6 @@
     <uniqueKey>id</uniqueKey>
     <defaultSearchField>full_text</defaultSearchField>
     <solrQueryParser defaultOperator="OR"/>
+    <similarity class="panda.CustomSimilarity" />
 
 </schema>
