@@ -2,6 +2,7 @@
 
 <config>
 
+  <!-- Basic configuration -->
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
   <luceneMatchVersion>LUCENE_33</luceneMatchVersion>
@@ -32,7 +33,7 @@
 
   </indexDefaults>
 
-  <!-- Default overrides for main index -->
+  <!-- Default overrides for main index (TKTK) -->
   <mainIndex>
 
     <!-- Commit Deletion Policy
@@ -94,14 +95,13 @@
     <!-- TKTK -->
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
 
-   <queryResultWindowSize>20</queryResultWindowSize>
-   <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+    <queryResultWindowSize>20</queryResultWindowSize>
+    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
 
     <useColdSearcher>false</useColdSearcher>
     <maxWarmingSearchers>2</maxWarmingSearchers>
 
   </query>
-
 
   <!-- Request Dispatcher -->
   <requestDispatcher handleSelect="true" >
