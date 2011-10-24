@@ -1,3 +1,25 @@
+CustomUploadButton = {
+    init: function(o) {
+        this._options = {
+            onChange: function(input) {}                      
+        };
+
+        qq.extend(this._options, o);
+
+        this._input =  $("#upload-file")[0];
+
+        qq.attach(this._input, 'change', _.bind(function() {
+            this._options.onChange(this._input);
+        }, this)); 
+
+        return this;
+    },
+
+    reset: function() {
+        // It appears unnecessary to implement this.
+    }
+}
+
 PANDA.views.Upload = Backbone.View.extend({
     el: $("#content"),
 
@@ -17,12 +39,20 @@ PANDA.views.Upload = Backbone.View.extend({
 
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/upload/",
-            button: $("#upload")[0],
+            /*button: $("#upload")[0],*/
             multiple: false,
             onSubmit: this.on_submit,
             onProgress: this.on_progress,
             onComplete: this.on_complete
         });
+
+        btn = CustomUploadButton.init({
+            onChange: _.bind(function(input) {
+                this.file_uploader._onInputChange(input);
+            }, this)
+        });
+
+        this.file_uploader._button = btn;
     },
 
     render: function() {
@@ -31,7 +61,7 @@ PANDA.views.Upload = Backbone.View.extend({
 
     on_submit: function(id, fileName) {
         /*
-         * Handler for whena  file upload starts.
+         * Handler for when a file upload starts.
          */
         $("#upload-filename").val(fileName);
 

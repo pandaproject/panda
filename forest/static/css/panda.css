@@ -4,7 +4,6 @@ body { padding-top: 40px; }
 
 /* Upload page */
 
-.qq-upload-button-hover { background: none; }
 div.step { margin-top: 20px; }
 div.step h2 { margin-bottom: 5px; }
 div.disabled { color: lightgray; }
