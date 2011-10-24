@@ -1,5 +1,27 @@
-<span id="upload">
-    <input type="button" name="upload" id="select-file" value="Select a file" />
-</span>
-<span id="progress">
-</span>
+<h1>Upload</h1>
+
+<div id="step-1" class="step">
+    <h2>Step 1</h2>
+
+    <p>Start by selecting a CSV file from your computer:<p>
+
+    <span id="upload">
+        <input type="button" name="upload" id="upload-select-file" class="btn" value="Select a file" />
+    </span>
+    <input type="text" id="upload-filename" value="" disabled="disabled" />
+</div>
+
+<div id="step-2" class="step disabled">
+    <h2>Step 2</h2>
+
+    <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
+
+    <strong><span id="upload-progress">0</span>%</strong> uploaded.
+</div>
+
+<div id="step-3" class="step disabled">
+    <h2>Step 3</h2>
+    <p>Your file has finished uploading. PANDA has automatically created a new dataset for this file and begun to make it searchable. Click Continue to view the progress of the import as well as provide a name and other details for your new dataset:</p>
+
+    <input type="button" name="continue" id="upload-continue" class="btn success" value="Continue" disabled="disabled" />
+</div>

@@ -1,3 +1,11 @@
 body { padding-top: 40px; }
 
 .alert-message { display: none; }
+
+/* Upload page */
+
+.qq-upload-button-hover { background: none; }
+div.step { margin-top: 20px; }
+div.step h2 { margin-bottom: 5px; }
+div.disabled { color: lightgray; }
+div.disabled h2 { color: lightgray; }

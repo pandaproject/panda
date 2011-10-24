@@ -1,12 +1,17 @@
 PANDA.views.Upload = Backbone.View.extend({
     el: $("#content"),
+
+    events: {
+        "click #upload-continue":      "continue_event"
+    },
     
     template: PANDA.templates.upload,
 
     file_uploader: null,
+    dataset: null,
 
     initialize: function() {
-        _.bindAll(this, "render");
+        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete");
         
         this.render();
 
@@ -14,35 +19,77 @@ PANDA.views.Upload = Backbone.View.extend({
             action: "/upload/",
             button: $("#upload")[0],
             multiple: false,
-            onProgress: function(id, fileName, loaded, total) {
-                pct = Math.floor(loaded / total * 100);
-                $("#progress").text(pct + "%");
-            },
-            onComplete: function(id, fileName, responseJSON) {
-                if(responseJSON.success) {
-                    // Create a dataset and relate it to the upload
-                    d = new PANDA.models.Dataset({
-                        name: fileName,
-                        data_upload: responseJSON 
-                    });
-
-                    // Save the new dataset
-                    d.save({}, { success: function() {
-                        // Once saved immediately begin importing it
-                        d.import_data(function() {
-                            // Redirect to the dataset's page
-                            window.location = "#dataset/" + d.get("id");
-                        });
-                    }});
-                } else {
-                    alert("Upload failed!");
-                }
-            }
+            onSubmit: this.on_submit,
+            onProgress: this.on_progress,
+            onComplete: this.on_complete
         });
     },
 
     render: function() {
         this.el.html(this.template());
+    },
+
+    on_submit: function(id, fileName) {
+        /*
+         * Handler for whena  file upload starts.
+         */
+        $("#upload-filename").val(fileName);
+
+        this.step_two();
+    },
+
+    on_progress: function(id, fileName, loaded, total) {
+        /*
+         * Handler for when a file upload reports its progress.
+         */
+        pct = Math.floor(loaded / total * 100);
+        $("#upload-progress").text(pct);
+    },
+
+    on_complete: function(id, fileName, responseJSON) {
+        /*
+         * Handler for when a file upload is completed.
+         */
+        if(responseJSON.success) {
+            // Create a dataset and relate it to the upload
+            this.dataset = new PANDA.models.Dataset({
+                name: fileName,
+                data_upload: responseJSON 
+            });
+
+            // Save the new dataset
+            this.dataset.save({}, { success: _.bind(function() {
+                // Once saved immediately begin importing it
+                this.dataset.import_data(this.step_three);
+            }, this)});
+        } else {
+            // TKTK
+            alert("Upload failed!");
+        }
+    },
+
+    step_one: function() {
+        $("#upload-select-file").attr("disabled", false);
+        $("#step-2").addClass("disabled");
+        $("#step-3").addClass("disabled");
+    },
+
+    step_two: function() {
+        $("#upload-select-file").attr("disabled", true);
+        $("#step-1").addClass("disabled");
+
+        $("#step-2").removeClass("disabled");
+    },
+
+    step_three: function() {
+        $("#step-2").addClass("disabled");
+
+        $("#upload-continue").attr("disabled", false);
+        $("#step-3").removeClass("disabled");
+    },
+
+    continue_event: function() {
+        window.location = "#dataset/" + this.dataset.get("id");
     }
 });
 
