@@ -4,3 +4,6 @@
 start-solr.sh
 reset-db.sh
 media
+.classpath
+.project
+.settings
