@@ -10,10 +10,14 @@ PANDA.views.Upload = Backbone.View.extend({
         
         this.render();
 
-        this.file_uploader = new qq.FileUploader({
+        this.file_uploader = new qq.FileUploaderBasic({
             action: "/upload/",
-            element: $("#upload")[0],
+            button: $("#upload")[0],
             multiple: false,
+            onProgress: function(id, fileName, loaded, total) {
+                pct = Math.floor(loaded / total * 100);
+                $("#progress").text(pct + "%");
+            },
             onComplete: function(id, fileName, responseJSON) {
                 if(responseJSON.success) {
                     // Create a dataset and relate it to the upload
