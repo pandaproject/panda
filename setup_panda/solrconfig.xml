@@ -113,170 +113,31 @@
 
   </requestDispatcher>
 
-  <!-- Request Handlers 
-
-       http://wiki.apache.org/solr/SolrRequestHandler
-
-       incoming queries will be dispatched to the correct handler
-       based on the path or the qt (query type) param.
-
-       Names starting with a '/' are accessed with the a path equal to
-       the registered name.  Names without a leading '/' are accessed
-       with: http://host/app/[core/]select?qt=name
-
-       If a /select request is processed with out a qt param
-       specified, the requestHandler that declares default="true" will
-       be used.
-       
-       If a Request Handler is declared with startup="lazy", then it will
-       not be initialized until the first request that uses it.
-
-    -->
-  <!-- SearchHandler
-
-       http://wiki.apache.org/solr/SearchHandler
-
-       For processing Search Queries, the primary Request Handler
-       provided with Solr is "SearchHandler" It delegates to a sequent
-       of SearchComponents (see below) and supports distributed
-       queries across multiple shards
-    -->
+  <!-- Request handlers -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
-    <!-- default values for query parameters can be specified, these
-         will be overridden by parameters in the request
-      -->
+
      <lst name="defaults">
        <str name="echoParams">explicit</str>
-       <int name="rows">10</int>
-     </lst>
-    <!-- In addition to defaults, "appends" params can be specified
-         to identify values which should be appended to the list of
-         multi-val params from the query (or the existing "defaults").
-      -->
-    <!-- In this example, the param "fq=instock:true" would be appended to
-         any query time fq params the user may specify, as a mechanism for
-         partitioning the index, independent of any user selected filtering
-         that may also be desired (perhaps as a result of faceted searching).
-
-         NOTE: there is *absolutely* nothing a client can do to prevent these
-         "appends" values from being used, so don't use this mechanism
-         unless you are sure you always want it.
-      -->
-    <!--
-       <lst name="appends">
-         <str name="fq">inStock:true</str>
-       </lst>
-      -->
-    <!-- "invariants" are a way of letting the Solr maintainer lock down
-         the options available to Solr clients.  Any params values
-         specified here are used regardless of what values may be specified
-         in either the query, the "defaults", or the "appends" params.
-
-         In this example, the facet.field and facet.query params would
-         be fixed, limiting the facets clients can use.  Faceting is
-         not turned on by default - but if the client does specify
-         facet=true in the request, these are the only facets they
-         will be able to see counts for; regardless of what other
-         facet.field or facet.query params they may specify.
-
-         NOTE: there is *absolutely* nothing a client can do to prevent these
-         "invariants" values from being used, so don't use this mechanism
-         unless you are sure you always want it.
-      -->
-    <!--
-       <lst name="invariants">
-         <str name="facet.field">cat</str>
-         <str name="facet.field">manu_exact</str>
-         <str name="facet.query">price:[* TO 500]</str>
-         <str name="facet.query">price:[500 TO *]</str>
-       </lst>
-      -->
-    <!-- If the default list of SearchComponents is not desired, that
-         list can either be overridden completely, or components can be
-         prepended or appended to the default list.  (see below)
-      -->
-    <!--
-       <arr name="components">
-         <str>nameOfCustomComponent1</str>
-         <str>nameOfCustomComponent2</str>
-       </arr>
-      -->
-    </requestHandler>
-
-  <!-- A Robust Example
-
-       This example SearchHandler declaration shows off usage of the
-       SearchHandler with many defaults declared
-
-       Note that multiple instances of the same Request Handler
-       (SearchHandler) can be registered multiple times with different
-       names (and different init parameters)
-    -->
-  <requestHandler name="/browse" class="solr.SearchHandler">
-     <lst name="defaults">
-       <str name="echoParams">explicit</str>
-
-       <!-- VelocityResponseWriter settings -->
-       <str name="wt">velocity</str>
-
-       <str name="v.template">browse</str>
-       <str name="v.layout">layout</str>
-       <str name="title">Solritas</str>
 
        <str name="defType">edismax</str>
        <str name="q.alt">*:*</str>
-       <str name="rows">10</str>
-       <str name="fl">*,score</str>
-       <str name="mlt.qf">
-         text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
-       </str>
-       <str name="mlt.fl">text,features,name,sku,id,manu,cat</str>
-       <int name="mlt.count">3</int>
 
+       <str name="rows">20</str>
+       <str name="fl">*,score</str>
+
+       <!-- Boost for near term matches -->
        <str name="qf">
-          text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
+          full_text^1
        </str>
      </lst>
 
   </requestHandler>
 
-  <!-- XML Update Request Handler.  
-       
-       http://wiki.apache.org/solr/UpdateXmlMessages
+  <!-- Update handlers -->
+  <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" />
+  <requestHandler name="/update/json" class="solr.JsonUpdateRequestHandler" />
 
-       The canonical Request Handler for Modifying the Index through
-       commands specified using XML.
-
-       Note: Since solr1.1 requestHandlers requires a valid content
-       type header if posted in the body. For example, curl now
-       requires: -H 'Content-type:text/xml; charset=utf-8'
-    -->
-  <requestHandler name="/update" 
-                  class="solr.XmlUpdateRequestHandler">
-    <!-- See below for information on defining 
-         updateRequestProcessorChains that can be used by name 
-         on each Update Request
-      -->
-    <!--
-       <lst name="defaults">
-         <str name="update.chain">dedupe</str>
-       </lst>
-       -->
-  </requestHandler>
-
-  <!-- Binary Update Request Handler
-       http://wiki.apache.org/solr/javabin
-    -->
-  <requestHandler name="/update/javabin" 
-                  class="solr.BinaryUpdateRequestHandler" />
-
-  <!-- JSON Update Request Handler
-       http://wiki.apache.org/solr/UpdateJSON
-    -->
-  <requestHandler name="/update/json" 
-                  class="solr.JsonUpdateRequestHandler" 
-                  startup="lazy" />
-
+  <!-- Admin handler -->
   <requestHandler name="/admin/" 
                   class="solr.admin.AdminHandlers" />
 
@@ -297,32 +158,13 @@
     </lst>
   </requestHandler>
 
-  <!-- Response Writers
-
-       http://wiki.apache.org/solr/QueryResponseWriter
-
-       Request responses will be written using the writer specified by
-       the 'wt' request parameter matching the name of a registered
-       writer.
-
-       The "default" writer is the default and will be used if 'wt' is
-       not specified in the request.
-    -->
-  <!-- The following response writers are implicitly configured unless
-       overridden...
-    -->
-  <!--
-     <queryResponseWriter name="xml" 
-                          default="true"
-                          class="solr.XMLResponseWriter" />
+  <!-- Response Writers -->
+  <!-- Configured as defaults
+  <queryResponseWriter name="xml" 
+                       default="true"
+                       class="solr.XMLResponseWriter" />
      <queryResponseWriter name="json" class="solr.JSONResponseWriter"/>
-     <queryResponseWriter name="python" class="solr.PythonResponseWriter"/>
-     <queryResponseWriter name="ruby" class="solr.RubyResponseWriter"/>
-     <queryResponseWriter name="php" class="solr.PHPResponseWriter"/>
-     <queryResponseWriter name="phps" class="solr.PHPSerializedResponseWriter"/>
-     <queryResponseWriter name="velocity" class="solr.VelocityResponseWriter"/>
-     <queryResponseWriter name="csv" class="solr.CSVResponseWriter"/>
-    -->
+  -->
 
   <!-- Legacy config for the admin interface -->
   <admin>
