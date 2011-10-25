@@ -1,46 +1,47 @@
-<div id="edit-dataset-alert" class="alert-message"></div>
-<form id="edit-dataset-form" class="form-stacked">
-    <fieldset>
-        <legend>Edit Dataset</legend>
-        <div class="clearfix">
-            <label for="dataset-name">Name</label>
-            <div class="input">
-                <input class="xlarge" id="dataset-name" name="name" size="30" type="text" value="<%= name %>" maxlength="256" />
+<div id="edit-dataset">
+    <div id="edit-dataset-alert" class="alert-message"></div>
+    <form id="edit-dataset-form" class="form-stacked">
+        <fieldset>
+            <legend>Basic information</legend>
+            <div class="clearfix">
+                <label for="dataset-name">Name</label>
+                <div class="input">
+                    <input class="xlarge" id="dataset-name" name="name" size="30" type="text" value="<%= name %>" maxlength="256" />
+                </div>
             </div>
-        </div>
-        <div class="clearfix">
-            <label for="dataset-description">Description</label>
-            <div class="input">
-                <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= description %></textarea>
+            <div class="clearfix">
+                <label for="dataset-description">Description</label>
+                <div class="input">
+                    <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= description %></textarea>
+                </div>
             </div>
+            <div class="clearfix">
+                Uploaded data file: <%= data_upload.original_filename %>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Columns</legend>
+            <ol>
+            <% _.each(schema, function(s, i) { %>
+                <li><%= s.column %></li>
+            <% }); %>
+            </ol>
+        </fieldset>
+        <% if (current_task != null) { %>
+        <fieldset>
+            <legend>Status</legend>
+            <div class="clearfix">
+                Current task: TKTK
+            </div>
+            <div class="clearfix">
+                State: <span class="label <% if (current_task.state == "SUCCESS") { print("success"); } else if (current_task.state == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.state %></span>
+            </div>
+        </fieldset>
+        <% } %>
+        <div class="actions">
+            <input id="dataset-save" type="button" class="btn primary" value="Save" />
+            <input id="dataset-download" type="button" class="btn" value="Download original file" disabled="disabled" />
+            <input id="dataset-destroy" type="button" class="btn danger" value="Delete" />
         </div>
-        <div class="clearfix">
-            Uploaded data file: <%= data_upload.original_filename %>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Columns</legend>
-        <ol>
-        <% _.each(schema, function(s, i) { %>
-            <li><%= s.column %></li>
-        <% }); %>
-        </ol>
-    </fieldset>
-    <% if (current_task != null) { %>
-    <fieldset>
-        <legend>Status</legend>
-        <div class="clearfix">
-            Current task: TKTK
-        </div>
-        <div class="clearfix">
-            State: <span class="label <% if (current_task.state == "SUCCESS") { print("success"); } else if (current_task.state == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.state %></span>
-        </div>
-    </fieldset>
-    <% } %>
-    <div class="actions">
-        <input id="dataset-save" type="button" class="btn primary" value="Save" />
-        <input id="dataset-download" type="button" class="btn" value="Download original file" disabled="disabled" />
-        <input id="dataset-destroy" type="button" class="btn danger" value="Delete" />
-    </div>
-</form>
-
+    </form>
+</div>

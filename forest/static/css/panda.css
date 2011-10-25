@@ -7,6 +7,7 @@ body { padding-top: 30px; }
 .alert-message { display: none; }
 
 /* Sidebar */
+
 #logo {
     background-color: whiteSmoke;
     height: 68px;
@@ -21,6 +22,7 @@ body { padding-top: 30px; }
 }
 
 /* Search page */
+
 #search {
     background-color: whiteSmoke;
     padding: 20px 0 20px 20px;
@@ -34,7 +36,17 @@ body { padding-top: 30px; }
 
 /* Upload page */
 
+#upload { margin-top: 10px; margin-left: 20px; }
+
 .step { margin-top: 20px; }
 .step h2 { margin-bottom: 5px; }
 .step.disabled { color: lightgray; }
 .step.disabled h2 { color: lightgray; }
+
+/* List datasets page */
+
+#list-datasets { margin-top: 10px; margin-left: 20px; }
+
+/* Edit dataset page */
+
+#edit-dataset { margin-top: 10px; }
