@@ -1,21 +1,36 @@
-body { padding-top: 40px; }
+body { padding-top: 30px; }
 #sidebar { width: 240px; }
+.topbar { height: 30px; }
+.topbar .container { margin-left: 0; }
+.topbar div > ul a, .nav a { padding: 5px 5px 6px; }
 .container-fluid { padding: 0; }
 .alert-message { display: none; }
 
 /* Sidebar */
 #logo {
-    height: 68px; background-color: whiteSmoke;
+    background-color: whiteSmoke;
+    height: 68px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px;
+    width: 240px;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 /* Search page */
 #search {
     background-color: whiteSmoke;
-    padding: 20px 0 20px 0;
+    padding: 20px 0 20px 20px;
     margin-bottom: 10px;
+    border-bottom: 1px solid lightgray;
 }
 
 #search-form { margin-bottom: 0px; }
+
+#search-results { padding-left: 20px; }
 
 /* Upload page */
 
