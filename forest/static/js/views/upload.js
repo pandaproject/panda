@@ -1,4 +1,8 @@
 CustomUploadButton = {
+    /*
+     * Dummy version of Valum's file uploader widget.
+     * Overrides most everything so I can use a simple file widget.
+     */
     init: function(o) {
         this._options = {
             onChange: function(input) {}                      
@@ -39,7 +43,6 @@ PANDA.views.Upload = Backbone.View.extend({
 
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/upload/",
-            /*button: $("#upload")[0],*/
             multiple: false,
             onSubmit: this.on_submit,
             onProgress: this.on_progress,
@@ -63,8 +66,6 @@ PANDA.views.Upload = Backbone.View.extend({
         /*
          * Handler for when a file upload starts.
          */
-        $("#upload-filename").val(fileName);
-
         this.step_two();
     },
 
@@ -99,13 +100,13 @@ PANDA.views.Upload = Backbone.View.extend({
     },
 
     step_one: function() {
-        $("#upload-select-file").attr("disabled", false);
+        $("#upload-file").attr("disabled", false);
         $("#step-2").addClass("disabled");
         $("#step-3").addClass("disabled");
     },
 
     step_two: function() {
-        $("#upload-select-file").attr("disabled", true);
+        $("#upload-file").attr("disabled", true);
         $("#step-1").addClass("disabled");
 
         $("#step-2").removeClass("disabled");
