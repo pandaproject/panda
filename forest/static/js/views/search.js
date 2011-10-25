@@ -15,6 +15,8 @@ PANDA.views.Search = Backbone.View.extend({
         this.render();
         
         this.results = new PANDA.views.SearchResults({ collection: this.collection, el: $("#search-results") });
+
+        this.results.render();
     },
 
     render: function() {

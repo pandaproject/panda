@@ -1,3 +1,13 @@
+<% if (!query) { %>
+
+    Please enter a query.
+
+<% } else if (rows.length == 0) { %>
+
+    No results found.
+
+<% } else { %>
+
 <%= offset %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %><br />
 
 <% if (previous) { %>
@@ -49,4 +59,6 @@
     <a href="#search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="prev">next</a>
 <% } else { %>
     <span>next</span>
+<% } %>
+
 <% } %>
