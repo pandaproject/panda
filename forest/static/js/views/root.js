@@ -16,10 +16,6 @@ PANDA.views.Root = Backbone.View.extend({
         return this;
     },
 
-    index: function() {
-        this.current_workspace = new PANDA.views.Index();
-    },
-
     search_event: function() {
         query = $("#search-form #search-query").val();
 
@@ -29,8 +25,12 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     search: function(query, limit, page) {
-        this.current_workspace = new PANDA.views.SearchResults({ collection: this.data, el: $("#content") });
-        this.data.search(query, limit, page);
+        // TKTK: if workspace is already search, reuse--don't recreate
+        this.current_workspace = new PANDA.views.Search({ collection: this.data, query: query });
+
+        if (!_.isUndefined(query)) {
+            this.data.search(query, limit, page);
+        }
     },
 
     upload: function() {

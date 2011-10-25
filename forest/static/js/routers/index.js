@@ -1,9 +1,9 @@
 PANDA.routers.Index = Backbone.Router.extend({
     routes: {
-        "":                             "index",
+        "":                             "search",
         "search/:query":                "search",
         "search/:query/:limit":         "search",
-        "search/:query/:limit/:page": "search",
+        "search/:query/:limit/:page":   "search",
         "upload":                       "upload",
         "datasets":                     "list_datasets",
         "dataset/:id":                  "edit_dataset"
@@ -11,10 +11,6 @@ PANDA.routers.Index = Backbone.Router.extend({
 
     initialize: function(options) {
         this.controller = options.controller;
-    },
-
-    index: function() {
-        this.controller.index();
     },
 
     search: function(query, limit, page) {

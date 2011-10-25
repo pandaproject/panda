@@ -69,8 +69,6 @@ PANDA.collections.Data = Backbone.Collection.extend({
             this.offset = this.limit * (this.page - 1);
         }
 
-        console.log(this);
-
         $.getJSON(
             this.url + "/search",
             { q: query, limit: this.limit, offset: this.offset },
