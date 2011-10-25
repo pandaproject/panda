@@ -8,6 +8,14 @@ body { padding-top: 30px; }
 
 /* Sidebar */
 
+#logo-link {
+    color: #AA4040;
+}
+
+#logo-link:hover {
+    text-decoration: none;
+}
+
 #logo {
     background-color: whiteSmoke;
     height: 68px;
