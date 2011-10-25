@@ -1,11 +1,25 @@
 body { padding-top: 40px; }
-#content { margin-top: 10px; }
-
+#sidebar { width: 240px; }
+.container-fluid { padding: 0; }
 .alert-message { display: none; }
+
+/* Sidebar */
+#logo {
+    height: 68px; background-color: whiteSmoke;
+}
+
+/* Search page */
+#search {
+    background-color: whiteSmoke;
+    padding: 20px 0 20px 0;
+    margin-bottom: 10px;
+}
+
+#search-form { margin-bottom: 0px; }
 
 /* Upload page */
 
-div.step { margin-top: 20px; }
-div.step h2 { margin-bottom: 5px; }
-div.disabled { color: lightgray; }
-div.disabled h2 { color: lightgray; }
+.step { margin-top: 20px; }
+.step h2 { margin-bottom: 5px; }
+.step.disabled { color: lightgray; }
+.step.disabled h2 { color: lightgray; }
