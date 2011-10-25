@@ -20,7 +20,7 @@
         <% current_dataset = row.dataset; %>
         <% group = groups[row.dataset]; %>
 
-        <h3><%= group.name %><br /></h3>
+        <h3><a href="#dataset/<%= group.id %>"><%= group.name %></a></h3>
         <table>
             <tr>
                 <% _.each(group.schema, function(s) { %>
