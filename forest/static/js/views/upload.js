@@ -37,7 +37,7 @@ PANDA.views.Upload = Backbone.View.extend({
     dataset: null,
 
     initialize: function() {
-        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one", "step_two", "step_three");
+        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one", "step_two", "step_three", "continue_event");
         
         this.render();
 
