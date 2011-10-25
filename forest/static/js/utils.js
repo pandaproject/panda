@@ -16,10 +16,20 @@ $.fn.serializeObject = function()
     return o;
 };
 
-$.fn.alert = function(type, message) {
+$.fn.alert = function(type, message, close_button) {
     this.hide();
     this.removeClass("warning error success info").addClass(type);
-    this.html("<a class=\"close\" href=\"#\">×</a>" + message);
+
+    if (_.isUndefined(close_button)) {
+        close_button = true;
+    }
+
+    if (close_button) {
+        this.html("<a class=\"close\" href=\"#\">×</a>" + message);
+    } else {
+        this.html(message);
+    }
+
     this.show();
     window.scrollTo(0, this.offset());
 }

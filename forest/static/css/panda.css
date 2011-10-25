@@ -1,4 +1,5 @@
 body { padding-top: 40px; }
+#content { margin-top: 10px; }
 
 .alert-message { display: none; }
 

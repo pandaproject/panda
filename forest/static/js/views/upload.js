@@ -37,7 +37,7 @@ PANDA.views.Upload = Backbone.View.extend({
     dataset: null,
 
     initialize: function() {
-        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete");
+        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one", "step_two", "step_three");
         
         this.render();
 
@@ -49,6 +49,16 @@ PANDA.views.Upload = Backbone.View.extend({
             onComplete: this.on_complete
         });
 
+        this.create_upload_button();
+    },
+
+    render: function() {
+        this.el.html(this.template());
+    },
+
+    create_upload_button: function() {
+        $("#upload-file-wrapper").html('<input type="file" id="upload-file" />');
+
         btn = CustomUploadButton.init({
             onChange: _.bind(function(input) {
                 this.file_uploader._onInputChange(input);
@@ -56,10 +66,6 @@ PANDA.views.Upload = Backbone.View.extend({
         });
 
         this.file_uploader._button = btn;
-    },
-
-    render: function() {
-        this.el.html(this.template());
     },
 
     on_submit: function(id, fileName) {
@@ -94,20 +100,29 @@ PANDA.views.Upload = Backbone.View.extend({
                 this.dataset.import_data(this.step_three);
             }, this)});
         } else {
-            // TKTK
-            alert("Upload failed!");
+            $("#step-2-alert").alert("error", '<p>Upload failed! <input id="start-over" type="button" class="btn" value="Try again" /></p>', false);
+            $("#start-over").click(this.step_one);
         }
     },
 
     step_one: function() {
-        $("#upload-file").attr("disabled", false);
+        $(".alert-message").hide();
         $("#step-2").addClass("disabled");
         $("#step-3").addClass("disabled");
+        $("#upload-continue").attr("disabled", true);
+        
+        $("#step-1").removeClass("disabled");
+        $("#upload-file").attr("disabled", false);
+
+        $("#upload-file").remove();
+        this.create_upload_button();
     },
 
     step_two: function() {
-        $("#upload-file").attr("disabled", true);
         $("#step-1").addClass("disabled");
+        $("#upload-file").attr("disabled", true);
+        $("#step-3").addClass("disabled");
+        $("#upload-continue").attr("disabled", true);
 
         $("#step-2").removeClass("disabled");
     },
@@ -115,8 +130,8 @@ PANDA.views.Upload = Backbone.View.extend({
     step_three: function() {
         $("#step-2").addClass("disabled");
 
-        $("#upload-continue").attr("disabled", false);
         $("#step-3").removeClass("disabled");
+        $("#upload-continue").attr("disabled", false);
     },
 
     continue_event: function() {
