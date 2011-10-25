@@ -28,9 +28,9 @@ PANDA.views.Root = Backbone.View.extend({
         return false;
     },
 
-    search: function(query) {
+    search: function(query, limit, page) {
         this.current_workspace = new PANDA.views.SearchResults({ collection: this.data, el: $("#content") });
-        this.data.search(query, 10, 0);
+        this.data.search(query, limit, page);
     },
 
     upload: function() {

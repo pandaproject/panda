@@ -2,11 +2,11 @@ PANDA.views.SearchResults = Backbone.View.extend({
     template: PANDA.templates.search_results,
 
     events: {
-        "click a.prev": "previous",
-        "click a.next": "next"
+        "click a.prev": "scroll_to_top",
+        "click a.next": "scroll_to_top"
     },
 
-    initialize: function() {
+    initialize: function(options) {
         _.bindAll(this, "render");
 
         this.collection.bind("reset", this.render);
@@ -16,14 +16,8 @@ PANDA.views.SearchResults = Backbone.View.extend({
         this.el.html(this.template(this.collection.results()));
     },
 
-    previous: function() {
-        this.collection.previous_page();
-        return false;
-    },
-
-    next: function() {
-        this.collection.next_page();
-        return false;
+    scroll_to_top: function() {
+        window.scrollTo(0, this.el.offset());
     }
 });
 

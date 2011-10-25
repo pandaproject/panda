@@ -13,6 +13,7 @@ PANDA.collections.Data = Backbone.Collection.extend({
     model: PANDA.models.Datum,
     url: PANDA.API + "/data",
 
+    query: null,
     page: 1,
     limit: 10,
     offset: 0,
@@ -51,13 +52,24 @@ PANDA.collections.Data = Backbone.Collection.extend({
         return Backbone.Collection.prototype.fetch.call(this, options);
     },
 
-    search: function(query) {
+    search: function(query, limit, page) {
         /*
         Query the search endpoint.
 
         TKTK -- success and error callbacks
         */
-        this.offset = 0;
+        this.query = query;
+
+        if (!_.isUndefined(limit)) {
+            this.limit = limit;
+        }
+        
+        if (!_.isUndefined(page)) {
+            this.page = page;
+            this.offset = this.limit * (this.page - 1);
+        }
+
+        console.log(this);
 
         $.getJSON(
             this.url + "/search",
@@ -75,6 +87,7 @@ PANDA.collections.Data = Backbone.Collection.extend({
         for templating.
         */
         return {
+            query: this.query,
             limit: this.limit,
             offset: this.offset,
             page: this.page,
@@ -84,34 +97,6 @@ PANDA.collections.Data = Backbone.Collection.extend({
             groups: this.groups,
             rows: this.toJSON()
         }
-    },
-
-    next_page: function() {
-        /*
-        Fetch the next page of results.
-
-        TKTK - validate this.next is not none
-        */
-        $.getJSON(
-            this.next,
-            _.bind(function(response) {
-                var objs = this.parse(response);
-                this.reset(objs);
-            }, this));
-    },
-
-    previous_page: function() {
-        /*
-        Fetch the previous page of results.
-
-        TKTK - validate this.previous is not none
-        */
-        $.getJSON(
-            this.previous,
-            _.bind(function(response) {
-                var objs = this.parse(response);
-                this.reset(objs);
-            }, this));
     }
 });
 

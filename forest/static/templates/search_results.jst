@@ -1,4 +1,16 @@
-<%= offset %> through <%= limit %> of <%= total_count %><br />
+<%= offset %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %><br />
+
+<% if (previous) { %>
+    <a href="#search/<%= query %>/<%= limit %>/<%= page %>" class="prev">previous</a>
+<% } else { %>
+    <span>previous</span>
+<% } %>
+
+<% if (next) { %>
+    <a href="#search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="prev">next</a>
+<% } else { %>
+    <span>next</span>
+<% } %>
 
 <% var current_dataset = null; %>
 <% _.each(rows, function(row) { %>
@@ -28,13 +40,13 @@
 </table>
 
 <% if (previous) { %>
-    <a href="#" class="prev">previous</a>
+    <a href="#search/<%= query %>/<%= limit %>/<%= page %>" class="prev">previous</a>
 <% } else { %>
     <span>previous</span>
 <% } %>
 
 <% if (next) { %>
-    <a href="#" class="next">next</a>
+    <a href="#search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="prev">next</a>
 <% } else { %>
     <span>next</span>
 <% } %>
