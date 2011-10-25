@@ -25,7 +25,7 @@ body { padding-top: 30px; }
 
 #search {
     background-color: whiteSmoke;
-    padding: 20px 0 20px 20px;
+    padding: 20px;
     margin-bottom: 10px;
     border-bottom: 1px solid lightgray;
 }
@@ -36,7 +36,7 @@ body { padding-top: 30px; }
 
 /* Upload page */
 
-#upload { margin-top: 10px; margin-left: 20px; }
+#upload { margin: 10px 20px 0 20px; }
 
 .step { margin-top: 20px; }
 .step h2 { margin-bottom: 5px; }
@@ -45,8 +45,9 @@ body { padding-top: 30px; }
 
 /* List datasets page */
 
-#list-datasets { margin-top: 10px; margin-left: 20px; }
+#list-datasets { margin: 10px 20px 0 20px; }
 
 /* Edit dataset page */
 
-#edit-dataset { margin-top: 10px; }
+#edit-dataset { margin: 10px 20px 0 20px; }
+#edit-dataset-form { padding-left: 0px; }

@@ -30,6 +30,9 @@ PANDA.views.Root = Backbone.View.extend({
 
         if (!_.isUndefined(query)) {
             this.data.search(query, limit, page);
+        } else {
+            //TKTK - Clear existing data
+            //this.data.clear();
         }
     },
 
