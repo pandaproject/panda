@@ -23,9 +23,9 @@ address,caption,cite,code,dfn,em,strong,th,var {
     font-style: normal;
     font-weight: normal;
 }
-li {
+/* REMOVE - CEG li {
     list-style: none;
-}
+}*/
 caption,th {
     text-align: left;
 }
