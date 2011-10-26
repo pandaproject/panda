@@ -41,6 +41,7 @@ body { padding-top: 30px; }
 #search-form { margin-bottom: 0px; }
 
 #search-results { padding-left: 20px; }
+#search-pager { font-size: 2em; }
 
 /* Upload page */
 
