@@ -1,11 +1,12 @@
 PANDA.views.Root = Backbone.View.extend({
     el: $("body"),
 
-    events: {
-        "submit #search-form":      "search_event"
-    },
+    search_view: null,
+    upload_view: null,
+    list_datasets_view: null,
+    edit_dataset_view: null,
 
-    current_workspace: null,
+    current_content_view: null,
 
     initialize: function() {
         this.data = new PANDA.collections.Data();
@@ -16,40 +17,49 @@ PANDA.views.Root = Backbone.View.extend({
         return this;
     },
 
-    search_event: function() {
-        query = $("#search-form #search-query").val();
-
-        this.router.navigate("search/" + query, true);
-
-        return false;
-    },
-
     search: function(query, limit, page) {
-        // TKTK: if workspace is already search, reuse--don't recreate
-        this.current_workspace = new PANDA.views.Search({ collection: this.data, query: query });
-
-        if (!_.isUndefined(query)) {
-            this.data.search(query, limit, page);
-        } else {
-            //TKTK - Clear existing data
-            //this.data.clear();
+        if (!this.search_view) {
+            this.search_view = new PANDA.views.Search({ collection: this.data });
         }
+
+        this.current_content_view = this.search_view;
+        this.current_content_view.reset(query);
+
+        this.data.search(query, limit, page);
     },
 
     upload: function() {
-        this.current_workspace = new PANDA.views.Upload();
+        if (!this.upload_view) {
+            this.upload_view =  new PANDA.views.Upload();
+        }
+
+        this.current_content_view = this.upload_view;
+        this.current_content_view.reset();
     },
 
     list_datasets: function() {
-        this.current_workspace = new PANDA.views.ListDatasets();
+        if (!this.list_datasets_view) {
+            this.list_datasets_view = new PANDA.views.ListDatasets();
+        }
+
+        this.current_content_view = this.list_datasets_view;
+        this.current_content_view.reset();
     },
 
     edit_dataset: function(id) {        
-        // TKTK - should not be hardcoded
         resource_uri = PANDA.API + "/dataset/" + id + "/";
+
         d = new PANDA.models.Dataset({ resource_uri: resource_uri });
+
         d.fetch({ success: function() {
-            this.current_workspace = new PANDA.views.EditDataset({ dataset: d });
+            if (!this.edit_dataset_view) {
+                this.edit_dataset_view = new PANDA.views.EditDataset({ dataset: d });
+            } else {
+                this.edit_dataset_view.dataset.dataset = d; 
+            }
+            
+            this.current_content_view = this.edit_dataset_view;
+            this.current_content_view.reset();
         }});
     }
 });

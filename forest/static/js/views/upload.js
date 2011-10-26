@@ -38,7 +38,9 @@ PANDA.views.Upload = Backbone.View.extend({
 
     initialize: function() {
         _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one_error_message", "step_two_error_message", "step_one", "step_two", "step_three", "continue_event");
-        
+    },
+
+    reset: function() {
         this.render();
 
         this.file_uploader = new qq.FileUploaderBasic({
