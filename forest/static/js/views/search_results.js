@@ -6,7 +6,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
         "click a.next": "scroll_to_top"
     },
 
-    initialize: function(options) {
+    initialize: function() {
         _.bindAll(this, "render");
 
         this.collection.bind("reset", this.render);

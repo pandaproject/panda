@@ -10,9 +10,7 @@ PANDA.views.EditDataset = Backbone.View.extend({
         "click #dataset-download":  "download"
     },
 
-    initialize: function(options) {
-        this.dataset = options.dataset;
-
+    initialize: function() {
         _.bindAll(this, "render", "save", "destroy", "download");
     },
 

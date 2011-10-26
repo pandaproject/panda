@@ -9,7 +9,7 @@ PANDA.views.Search = Backbone.View.extend({
 
     query: null,
 
-    initialize: function(options) {
+    initialize: function() {
         _.bindAll(this, "render");
 
         this.results = new PANDA.views.SearchResults({ collection: this.collection });

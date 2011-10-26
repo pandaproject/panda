@@ -1,6 +1,7 @@
 PANDA.views.Root = Backbone.View.extend({
     el: $("body"),
 
+    views: {},
     search_view: null,
     upload_view: null,
     list_datasets_view: null,
@@ -17,32 +18,33 @@ PANDA.views.Root = Backbone.View.extend({
         return this;
     },
 
-    search: function(query, limit, page) {
-        if (!this.search_view) {
-            this.search_view = new PANDA.views.Search({ collection: this.data });
+    get_or_create_view: function(name, options) {
+        /*
+         * Register each view as it is created and never create more than one.
+         */
+        if (name in this.views) {
+            return this.views[name];
         }
 
-        this.current_content_view = this.search_view;
+        this.views[name] = new PANDA.views[name](options);
+
+        return this.views[name];
+    },
+
+    search: function(query, limit, page) {
+        this.current_content_view = this.get_or_create_view("Search", { collection: this.data });
         this.current_content_view.reset(query);
 
         this.data.search(query, limit, page);
     },
 
     upload: function() {
-        if (!this.upload_view) {
-            this.upload_view =  new PANDA.views.Upload();
-        }
-
-        this.current_content_view = this.upload_view;
+        this.current_content_view = this.get_or_create_view("Upload", {});
         this.current_content_view.reset();
     },
 
     list_datasets: function() {
-        if (!this.list_datasets_view) {
-            this.list_datasets_view = new PANDA.views.ListDatasets();
-        }
-
-        this.current_content_view = this.list_datasets_view;
+        this.current_content_view = this.get_or_create_view("ListDatasets", {});
         this.current_content_view.reset();
     },
 
@@ -51,15 +53,10 @@ PANDA.views.Root = Backbone.View.extend({
 
         d = new PANDA.models.Dataset({ resource_uri: resource_uri });
 
-        d.fetch({ success: function() {
-            if (!this.edit_dataset_view) {
-                this.edit_dataset_view = new PANDA.views.EditDataset({ dataset: d });
-            } else {
-                this.edit_dataset_view.dataset = d; 
-            }
-            
-            this.current_content_view = this.edit_dataset_view;
+        d.fetch({ success: _.bind(function() {
+            this.current_content_view = this.get_or_create_view("EditDataset", {});
+            this.current_content_view.dataset = d;
             this.current_content_view.reset();
-        }});
+        }, this)});
     }
 });
