@@ -28,18 +28,23 @@ apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 l
 pip install uwsgi
 
 # Setup Solr + Jetty
-wget http://mirror.uoregon.edu/apache//lucene/solr/3.3.0/apache-solr-3.3.0.tgz -O /opt/
+wget http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/
 
-cd /opt/
-tar -xzf apache-solr-3.3.0.tgz
-mv apache-solr-3.3.0 solr
+cd /opt
+tar -xzf apache-solr-3.4.0.tgz
+mv apache-solr-3.4.0 solr
 cp -r solr/example solr/panda
 
-mkdir solr/panda/pandadata
-mkdir solr/panda/lib
+mkdir solr/war_contents
+cd solr/war_contents
+jar -xf /opt/solr/panda/webapps/solr.war
+cp WEB-INF/lib/lucene-core-3.4.0.jar /opt/solr/panda/lib/
 
+mkdir /opt/solr/panda/solr/pandadata
+mkdir /opt/solr/panda/solr/pandadata/conf
+
+wget $CONFIG_URL/panda.jar -O /opt/solr/panda/lib/panda.jar
 wget $CONFIG_URL/solr.xml -O /opt/solr/panda/solr/solr.xml
-wget $CONFIG_URL/panda.jar -O /opt/solr/panda/solr/lib/panda.jar
 wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
 wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/pandadata/conf/solrconfig.xml
 
