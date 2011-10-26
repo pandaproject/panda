@@ -18,7 +18,6 @@ PANDA.views.Search = Backbone.View.extend({
     reset: function(query) {
         this.query = query;
         this.render();
-        this.collection.reset();
     },
 
     render: function() {
@@ -27,9 +26,9 @@ PANDA.views.Search = Backbone.View.extend({
     },
 
     search: function() {
-        query = $("#search-form #search-query").val();
+        this.query = $("#search-form #search-query").val();
 
-        window.location = "#search/" + query;
+        window.location = "#search/" + this.query;
 
         return false;
     }
