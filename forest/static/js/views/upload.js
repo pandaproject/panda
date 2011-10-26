@@ -46,7 +46,8 @@ PANDA.views.Upload = Backbone.View.extend({
             multiple: false,
             onSubmit: this.on_submit,
             onProgress: this.on_progress,
-            onComplete: this.on_complete
+            onComplete: this.on_complete,
+            showMessage: this.error_message
         });
 
         this.create_upload_button();
@@ -95,14 +96,23 @@ PANDA.views.Upload = Backbone.View.extend({
             });
 
             // Save the new dataset
-            this.dataset.save({}, { success: _.bind(function() {
-                // Once saved immediately begin importing it
-                this.dataset.import_data(this.step_three);
-            }, this)});
+            this.dataset.save({}, {
+                success: _.bind(function() {
+                    // Once saved immediately begin importing it
+                    this.dataset.import_data(this.step_three);
+                }, this),
+                error: _.bind(function() {
+                    this.error_message('Error creating dataset!');
+                }, this)
+            });
         } else {
-            $("#step-2-alert").alert("error", '<p>Upload failed! <input id="start-over" type="button" class="btn" value="Try again" /></p>', false);
-            $("#start-over").click(this.step_one);
+            this.error_message('Upload failed!');
         }
+    },
+
+    error_message: function(message) {
+        $("#step-2-alert").alert("error", "<p>" + message + ' <input id="start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#start-over").click(this.step_one);
     },
 
     step_one: function() {
