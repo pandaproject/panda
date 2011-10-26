@@ -37,17 +37,18 @@ PANDA.views.Upload = Backbone.View.extend({
     dataset: null,
 
     initialize: function() {
-        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one", "step_two", "step_three", "continue_event");
+        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one_error_message", "step_two_error_message", "step_one", "step_two", "step_three", "continue_event");
         
         this.render();
 
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/upload/",
             multiple: false,
+            allowedExtensions: ["csv"],
             onSubmit: this.on_submit,
             onProgress: this.on_progress,
             onComplete: this.on_complete,
-            showMessage: this.error_message
+            showMessage: this.step_one_error_message
         });
 
         this.create_upload_button();
@@ -102,27 +103,33 @@ PANDA.views.Upload = Backbone.View.extend({
                     this.dataset.import_data(this.step_three);
                 }, this),
                 error: _.bind(function() {
-                    this.error_message('Error creating dataset!');
+                    this.step_two_error_message('Error creating dataset!');
                 }, this)
             });
         } else {
-            this.error_message('Upload failed!');
+            this.step_one_error_message('Upload failed!');
         }
     },
 
-    error_message: function(message) {
-        $("#step-2-alert").alert("error", "<p>" + message + ' <input id="start-over" type="button" class="btn" value="Try again" /></p>' , false);
-        $("#start-over").click(this.step_one);
+    step_one_error_message: function(message) {
+        $("#upload-file").attr("disabled", true);
+        $("#step-1-alert").alert("error", "<p>" + message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#step-1-start-over").click(this.step_one);
+    },
+
+    step_two_error_message: function(message) {
+        $("#step-2-alert").alert("error", "<p>" + message + ' <input id="step-2-start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#step-2-start-over").click(this.step_one);
     },
 
     step_one: function() {
+        console.log("step_one");
         $(".alert-message").hide();
         $("#step-2").addClass("disabled");
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
         
         $("#step-1").removeClass("disabled");
-        $("#upload-file").attr("disabled", false);
 
         $("#upload-file").remove();
         this.create_upload_button();
