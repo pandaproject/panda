@@ -92,6 +92,7 @@ PANDA.views.Upload = Backbone.View.extend({
          */
         if(responseJSON.success) {
             // Create a dataset and relate it to the upload
+            console.log("creating dataset");
             this.dataset = new PANDA.models.Dataset({
                 name: fileName,
                 data_upload: responseJSON 
@@ -153,6 +154,7 @@ PANDA.views.Upload = Backbone.View.extend({
     },
 
     continue_event: function() {
+        console.log(this);
         window.location = "#dataset/" + this.dataset.get("id");
     }
 });

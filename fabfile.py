@@ -187,9 +187,11 @@ def local_reset():
     Reset the local database and Solr instance.
     """
     local('dropdb panda && createdb panda && python manage.py syncdb --noinput')
-    local('rm -rf /var/solr/data')
-    local('cp setup_panda/solrconfig.xml /var/solr/conf/solrconfig.xml')
-    local('cp setup_panda/schema.xml /var/solr/conf/schema.xml')
+    local('rm -rf /var/solr/pandadata/data')
+    local('cp setup_panda/solr.xml /var/solr/solr.xml')
+    local('cp setup_panda/panda.jar /var/solr/pandadata/lib/panda.jar')
+    local('cp setup_panda/solrconfig.xml /var/solr/pandadata/conf/solrconfig.xml')
+    local('cp setup_panda/schema.xml /var/solr/pandadata/conf/schema.xml')
 
 def local_solr():
     """

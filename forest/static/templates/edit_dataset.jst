@@ -16,7 +16,10 @@
                 </div>
             </div>
             <div class="clearfix">
-                Uploaded data file: <%= data_upload.original_filename %>
+                <label>Filename</label>
+                <div class="input">
+                    <span class="uneditable-input"><%= data_upload.original_filename %></span>
+                </div>
             </div>
         </fieldset>
         <fieldset>
@@ -40,7 +43,7 @@
         <% } %>
         <div class="actions">
             <input id="dataset-save" type="button" class="btn primary" value="Save" />
-            <input id="dataset-download" type="button" class="btn" value="Download original file" disabled="disabled" />
+            <input id="dataset-download" type="button" class="btn" value="Download original file" />
             <input id="dataset-destroy" type="button" class="btn danger" value="Delete" />
         </div>
     </form>
