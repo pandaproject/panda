@@ -35,18 +35,14 @@ tar -xzf apache-solr-3.4.0.tgz
 mv apache-solr-3.4.0 solr
 cp -r solr/example solr/panda
 
-mkdir solr/war_contents
-cd solr/war_contents
-jar -xf /opt/solr/panda/webapps/solr.war
-cp WEB-INF/lib/lucene-core-3.4.0.jar /opt/solr/panda/lib/
-
 mkdir /opt/solr/panda/solr/pandadata
 mkdir /opt/solr/panda/solr/pandadata/conf
+mkdir /opt/solr/panda/solr/pandadata/lib
 
-wget $CONFIG_URL/panda.jar -O /opt/solr/panda/lib/panda.jar
 wget $CONFIG_URL/solr.xml -O /opt/solr/panda/solr/solr.xml
 wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
 wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/pandadata/conf/solrconfig.xml
+wget $CONFIG_URL/panda.jar -O /opt/solr/panda/solr/pandadata/lib/panda.jar
 
 adduser --system --no-create-home --disabled-login --disabled-password --group solr
 chown -R solr:solr /opt/solr

@@ -14,7 +14,7 @@ env.database_password = 'panda'
 env.path = '/home/%(user)s/src/%(project_name)s' % env
 env.log_path = '/home/%(user)s/logs/%(project_name)s' % env
 env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
-env.solr_path = '/opt/solr'
+env.solr_path = '/opt/solr/panda/solr'
 env.repo_path = '%(path)s' % env
 env.python = 'python2.7'
 env.repository_url = 'git://github.com/pandaproject/panda.git'
@@ -171,11 +171,12 @@ def reset_solr():
     with settings(warn_only=True):
         sudo('service solr stop')
 
-    sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/panda/lib/panda.jar' % env)
-    sudo('cp %(repo_path)s/setup_panda/solr.xml %(solr_path)s/panda/solr/solr.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/schema.xml %(solr_path)s/panda/solr/pandadata/conf/schema.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/panda/solr/pandadata/conf/solrconfig.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/solr.xml %(solr_path)s/solr.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata/conf/solrconfig.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
+    sudo('chown -R solr:solr %(solr_path)s' % env)
     sudo('service solr start')
 
 """
