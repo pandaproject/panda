@@ -55,7 +55,7 @@ PANDA.views.Root = Backbone.View.extend({
             if (!this.edit_dataset_view) {
                 this.edit_dataset_view = new PANDA.views.EditDataset({ dataset: d });
             } else {
-                this.edit_dataset_view.dataset.dataset = d; 
+                this.edit_dataset_view.dataset = d; 
             }
             
             this.current_content_view = this.edit_dataset_view;

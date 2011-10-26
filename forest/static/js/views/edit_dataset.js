@@ -41,7 +41,6 @@ PANDA.views.EditDataset = Backbone.View.extend({
     },
 
     destroy: function() {
-        console.log("Destroy!!!");
         this.dataset.destroy({ success: function() {
             this.dataset = null;
             window.location = '#datasets';
