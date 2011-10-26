@@ -62,11 +62,16 @@ PANDA.collections.Data = Backbone.Collection.extend({
 
         if (!_.isUndefined(limit)) {
             this.limit = limit;
+        } else {
+            this.limit = 10;
         }
         
         if (!_.isUndefined(page)) {
             this.page = page;
             this.offset = this.limit * (this.page - 1);
+        } else {
+            this.page = 1;
+            this.offset = 0;
         }
 
         $.getJSON(
