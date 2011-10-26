@@ -17,7 +17,13 @@
 
         <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
 
-        <p><strong><span id="upload-progress">0</span>%</strong> uploaded.</p>
+        <div id="upload-progress" class="progress">
+            <div class="progress-value" style="background-color: #57A957; width: 0%;">
+                <div class="progress-text">
+                     <strong>0%</strong> uploaded.
+                </div>
+            </div>
+        </div>
 
         <div id="step-2-alert" class="alert-message"></div>
     </div>

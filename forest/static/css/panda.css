@@ -46,6 +46,7 @@ body { padding-top: 30px; }
 /* Upload page */
 
 #upload { margin: 10px 20px 0 20px; }
+#upload-progress { margin-bottom: 10px; }
 
 .step { margin-top: 20px; }
 .step h2 { margin-bottom: 5px; }
@@ -60,3 +61,26 @@ body { padding-top: 30px; }
 
 #edit-dataset { margin: 10px 20px 0 20px; }
 #edit-dataset-form { padding-left: 0px; }
+
+/* Utils */
+
+.progress { position: relative; }
+
+.progress, .progress-value, .progress-text {
+    width: 155px; height: 30px;
+}
+
+.progress, .progress-value {
+    background: #bdbdbd url(/site_media/img/progress.png) top left no-repeat;
+}
+            
+.progress-text {
+    position: absolute;
+    top:0; left:0;
+
+    padding-top: 5px;
+                
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}

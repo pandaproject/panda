@@ -82,7 +82,8 @@ PANDA.views.Upload = Backbone.View.extend({
          * Handler for when a file upload reports its progress.
          */
         pct = Math.floor(loaded / total * 100);
-        $("#upload-progress").text(pct);
+        $("#upload-progress .progress-value").css("width", pct + "%");
+        $("#upload-progress .progress-text").html('<strong>' + pct + '%</strong> uploaded');
     },
 
     on_complete: function(id, fileName, responseJSON) {
@@ -123,9 +124,9 @@ PANDA.views.Upload = Backbone.View.extend({
     },
 
     step_one: function() {
-        console.log("step_one");
         $(".alert-message").hide();
         $("#step-2").addClass("disabled");
+        this.on_progress(null, null, 0, 1);
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
         
