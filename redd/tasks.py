@@ -94,6 +94,9 @@ class DatasetImportTask(Task):
         
         solr.commit()
 
+        dataset.row_count = i
+        dataset.save()
+
         log.info('Finished import, dataset_id: %i' % dataset_id)
 
     def after_return(self, status, retval, task_id, args, kwargs, einfo):

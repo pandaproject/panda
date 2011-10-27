@@ -23,7 +23,7 @@
             </div>
         </fieldset>
         <fieldset>
-            <legend>Sample data</legend>
+            <legend>Sample data <% if (row_count) { %>(<%= row_count %> rows total) <% } %></legend>
             <table>
                 <% _.each(schema, function(s) { %>
                     <th><%= s.column %></th>

@@ -56,6 +56,8 @@ class Dataset(models.Model):
         help_text='The upload corresponding to the data file for this dataset.')
     schema = JSONField(null=True, blank=True,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
+    row_count = models.IntegerField(null=True, blank=True,
+        help_text='The number of rows imported for this dataset.')
     sample_data = JSONField(null=True, blank=True,
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
