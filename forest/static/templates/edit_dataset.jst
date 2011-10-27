@@ -4,7 +4,7 @@
         <fieldset>
             <legend>Basic information</legend>
             <div class="clearfix">
-                <label for="dataset-name">Name</label>
+                <label for="dataset-name">Dataset name</label>
                 <div class="input">
                     <input class="xlarge" id="dataset-name" name="name" size="30" type="text" value="<%= name %>" maxlength="256" />
                 </div>
@@ -37,20 +37,6 @@
                 <% }); %>
             </table>
         </fieldset>
-        <% if (current_task != null) { %>
-        <fieldset>
-            <legend>Status</legend>
-            <div class="clearfix">
-                Current task: <code><%= current_task.task_name %></code>
-            </div>
-            <div class="clearfix">
-                State: <span class="label <% if (current_task.status == "SUCCESS") { print("success"); } else if (current_task.status == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.status %></span>
-            </div>
-            <div class="clearfix">
-                Status: <em><%= current_task.message %></em>
-            </div>
-        </fieldset>
-        <% } %>
         <div class="actions">
             <input id="dataset-save" type="button" class="btn primary" value="Save" />
             <input id="dataset-destroy" type="button" class="btn danger" value="Delete" />

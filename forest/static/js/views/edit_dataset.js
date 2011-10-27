@@ -20,6 +20,16 @@ PANDA.views.EditDataset = Backbone.View.extend({
 
     render: function() {
         this.el.html(this.template(this.dataset.toJSON()));
+
+        task = this.dataset.current_task;
+
+        if (task && task.get("task_name") == "redd.tasks.DatasetImportTask") {
+            if (task.get("status") == "STARTED") {
+                $("#edit-dataset-alert").alert("info block-message", "<p><strong>Import in progress!</strong> This dataset is currently being made searchable. It will not yet appear in search results.</p><strong>Status:</strong> " + task.get("message") + ".");
+            } else if (task.get("status") == "FAILURE") {
+                $("#edit-dataset-alert").alert("error block-message", "<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results.");
+            } 
+        }
     },
 
     save: function() {
