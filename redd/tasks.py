@@ -56,6 +56,7 @@ class DatasetImportTask(Task):
         dataset = Dataset.objects.get(id=dataset_id)
 
         task_status = dataset.current_task
+        task_status.status = 'STARTED' 
         task_status.start = datetime.now()
         task_status.message = 'Preparing to import'
         task_status.save()
@@ -84,7 +85,7 @@ class DatasetImportTask(Task):
                 solr.add(add_buffer)
                 add_buffer = []
 
-                task_status.message = '%i%% complete (estimated)' % floor(float(i) / line_count * 100)
+                task_status.message = '%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100)
                 task_status.save()
 
         if add_buffer:
