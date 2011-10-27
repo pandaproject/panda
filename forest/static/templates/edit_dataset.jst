@@ -34,10 +34,10 @@
         <fieldset>
             <legend>Status</legend>
             <div class="clearfix">
-                Current task: TKTK
+                Current task: <code><%= current_task.task_name %></code>
             </div>
             <div class="clearfix">
-                State: <span class="label <% if (current_task.state == "SUCCESS") { print("success"); } else if (current_task.state == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.state %></span>
+                State: <span class="label <% if (current_task.status == "SUCCESS") { print("success"); } else if (current_task.status == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.status %></span>
             </div>
         </fieldset>
         <% } %>

@@ -2,13 +2,27 @@
 
 import os.path
 
+from celery import states
 from celery.result import AsyncResult
 from django.conf import settings
 from django.db import models
+from djcelery.models import TASK_STATE_CHOICES
 
 from redd.fields import JSONField
-from redd.tasks import dataset_import_data, dataset_purge_data
+from redd.tasks import DatasetImportTask, dataset_purge_data
 from redd.utils import infer_schema
+
+class TaskStatus(models.Model):
+    """
+    An object to track the status of a Celery task, as the
+    data available in AsyncResult is not sufficient.
+    """
+    task_id = models.CharField(max_length=255, primary_key=True)
+    task_name = models.CharField(max_length=255)
+    status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES)
+    start = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True)
+    traceback = models.TextField(blank=True, null=True, default=None)
 
 class Upload(models.Model):
     """
@@ -42,7 +56,7 @@ class Dataset(models.Model):
         help_text='The upload corresponding to the data file for this dataset.')
     schema = JSONField(null=True, blank=True,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
-    current_task_id = models.CharField(max_length=255, null=True, blank=True,
+    current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
 
     def __unicode__(self):
@@ -65,24 +79,11 @@ class Dataset(models.Model):
         dataset_id = self.id
 
         super(Dataset, self).delete(*args, **kwargs)
-
         dataset_purge_data.apply_async(args=[dataset_id])
-
-    def get_current_task(self):
-        """
-        Get an AsyncResult object for the currently executing or last
-        finished task.
-        """
-        if not self.current_task_id:
-            return None
-
-        return AsyncResult(self.current_task_id)
 
     def import_data(self):
         """
         Execute the data import task for this Dataset. Will use the currently configured schema.
         """
-        result = dataset_import_data.apply_async(args=[self.id])
-        self.current_task_id = result.task_id
-        self.save()
+        DatasetImportTask.delay(self.id)
 

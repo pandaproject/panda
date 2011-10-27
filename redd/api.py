@@ -3,9 +3,7 @@
 from copy import copy
 import json
 
-from celery.result import AsyncResult
 from celery.states import EXCEPTION_STATES
-from celery.task.control import inspect 
 from django.conf import settings
 from django.conf.urls.defaults import url
 from django.http import HttpResponse
@@ -23,7 +21,7 @@ from tastypie.resources import ModelResource, Resource
 from tastypie.utils.urls import trailing_slash
 
 from redd.fields import JSONField
-from redd.models import Dataset, Upload
+from redd.models import Dataset, TaskStatus, Upload
 
 class JSONApiField(ApiField):
     """
@@ -55,106 +53,24 @@ class CustomResource(ModelResource):
     
         return super(CustomResource, cls).api_field_from_django_field(f, default)
 
-class TaskObject(object):
-    """
-    A lightweight wrapper around a Celery task object for use when
-    checking status via Tastypie.
-    """
-    def __init__(self, initial=None, **kwargs):
-        self.__dict__['_data'] = {}
-
-        if hasattr(initial, 'items'):
-            self.__dict__['_data'] = initial
-
-        self.__dict__['_data'].update(kwargs)
-
-    def __getattr__(self, name):
-        return self._data.get(name, None)
-
-    def __setattr__(self, name, value):
-        self.__dict__['_data'][name] = value
-
-    def __str__(self):
-        return str(self.__dict__['_data'])
-
-    def __unicode__(self):
-        return unicode(self.__dict__['_data'])
-
-    def to_dict(self):
-        return self._data
-
-class TaskResource(CustomResource):
+class TaskResource(ModelResource):
     """
     Simple wrapper around django-celery's task API.
 
     TKTK: It would be good to support list view for tasks, for dashboard-type applications.
     TKTK: implement authentication/permissions
     """
-    id = fields.CharField(attribute='id',
-        help_text='Unique id of this task.')
-    state = fields.CharField(attribute='state',
-        help_text='State the task is currently in--PENDING, STARTED, SUCCESS, FAILURE, etc.')
-    result = fields.CharField(attribute='result', null=True,
-        help_text='Result of the task, if complete.')
-    exc = fields.CharField(attribute='result', null=True, blank=True,
-        help_text='Exception that terminated this task, if it raised one.')
-    traceback = fields.CharField(attribute='traceback', null=True, blank=True,
-        help_text='Traceback of the exception that terminated this task, if it raised one.')
-
     class Meta:
+        queryset = TaskStatus.objects.all()
         resource_name = 'task'
-        list_allowed_methods = []
-        detail_allowed_methods = ['get']
+        allowed_methods = ['get']
+        
+        filtering = {
+            "status": ('exact', 'in', ),
+        }
 
         authentication = Authentication()
         authorization = Authorization()
-
-    def get_resource_uri(self, bundle_or_obj):
-        """
-        Build a canonical uri for a datum.
-        """
-        kwargs = {
-            'resource_name': self._meta.resource_name,
-        }
-
-        if isinstance(bundle_or_obj, Bundle):
-            kwargs['pk'] = bundle_or_obj.obj.id
-        else:
-            kwargs['pk'] = bundle_or_obj.id
-
-        if self._meta.api_name is not None:
-            kwargs['api_name'] = self._meta.api_name
-
-        return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
-
-    def obj_get(self, request=None, **kwargs):
-        """
-        Fetch the status of a task by task_id.
-        """
-        if 'pk' in kwargs:
-            task_id = kwargs['pk']
-        else:
-            task_id = request.GET.get('id', '')
-
-        task = AsyncResult(task_id)
-
-        obj = {
-            'id': task_id,
-            'state': task.state,
-            'result': task.result,
-        }
-
-        if task.state in EXCEPTION_STATES:
-            cls = task.result.__class__
-            exc = '.'.join([cls.__module__, cls.__name__])
-
-            obj.update({
-                'result': repr(task.result),
-                'exc': exc,
-                'traceback': task.traceback
-            })
-
-        return TaskObject(obj) 
 
 class UploadResource(ModelResource):
     """
@@ -209,6 +125,7 @@ class DatasetResource(CustomResource):
     TKTK: implement authentication/permissions
     """
     data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
+    current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
 
     class Meta:
         queryset = Dataset.objects.all()
@@ -217,22 +134,6 @@ class DatasetResource(CustomResource):
 
         authentication = Authentication()
         authorization = Authorization()
-
-    def dehydrate(self, bundle):
-        """
-        Append TaskResource details as though it were a ForeignKey field with full=True set. 
-        """
-        if bundle.obj.current_task_id:
-            tr = TaskResource()
-            current_task = tr.obj_get(pk=bundle.obj.current_task_id)
-
-            bundle.data['current_task'] = current_task.to_dict() 
-        else:
-            bundle.data['current_task'] = None
-
-        del bundle.data['current_task_id']
-
-        return bundle
 
     def override_urls(self):
         """

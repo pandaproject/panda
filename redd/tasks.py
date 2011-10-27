@@ -1,79 +1,56 @@
 #!/usr/bin/env python
 
-import logging
-
+from datetime import datetime
 import json
+import logging
 from uuid import uuid4
 
 from celery.decorators import task
+from celery.task import Task
 from django.conf import settings
 from sunburnt import SolrInterface
 
 from csvkit import CSVKitReader
-#from csvkit.exceptions import InvalidValueForTypeException, InvalidValueForTypeListException
-#from csvkit.typeinference import normalize_table
 
 SOLR_ADD_BUFFER_SIZE = 500
 
-@task(name='Import data')
-def dataset_import_data(dataset_id):
+class DatasetImportTask(Task):
     """
     Import a dataset into Solr.
     """
-    from redd.models import Dataset
+    def __call__(self, dataset_id, *args, **kwargs):
+        from redd.models import Dataset, TaskStatus
 
-    log = logging.getLogger('redd.tasks.dataset_import_data')
-    log.info('Beginning import, dataset_id: %i' % dataset_id)
+        task_status = TaskStatus.objects.create(
+            task_id=self.request.id,
+            task_name=self.name)
 
-    dataset = Dataset.objects.get(id=dataset_id)
+        dataset = Dataset.objects.get(id=dataset_id)
+        dataset.current_task = task_status
+        dataset.save()
 
-    solr = SolrInterface(settings.SOLR_ENDPOINT)
-    #solr_fields = []
+        return self.run(dataset_id, *args, **kwargs)
 
-    #for h, t in dataset.schema:
-    #    if t == 'NoneType':
-    #        solr_fields.append(None)
-    #    else:
-    #        solr_fields.append('%s_%s' % (h, t.__name__))
-        
-    reader = CSVKitReader(open(dataset.data_upload.get_path(), 'r'))
-    reader.next()
+    def run(self, dataset_id):
+        from redd.models import Dataset
 
-    add_buffer = []
-    normal_type_exceptions = []
+        log = logging.getLogger('redd.tasks.dataset_import_data')
+        log.info('Beginning import, dataset_id: %i' % dataset_id)
 
-    for i, row in enumerate(reader, start=1):
-        data = {}
+        dataset = Dataset.objects.get(id=dataset_id)
 
-        typing="""for t, header, field, value in izip(normal_types, headers, solr_fields, row):
-         try:
-                value = normalize_column_type([value], normal_type=t)[1][0]
-            except InvalidValueForTypeException:
-                # Convert exception to row-specific error
-                normal_type_exceptions.append(InferredNormalFalsifiedException(i, header, value, t))
-                continue
+        task_status = dataset.current_task
+        task_status.start = datetime.now()
+        task_status.save()
 
-            # No reason to send null fields to Solr (also sunburnt doesn't like them) 
-            if value == None:
-                continue
+        solr = SolrInterface(settings.SOLR_ENDPOINT)
+            
+        reader = CSVKitReader(open(dataset.data_upload.get_path(), 'r'))
+        reader.next()
 
-            if t in [unicode, bool, int, float]:
-                if value == None:
-                    continue
+        add_buffer = []
 
-                data[field] = value
-            elif t == datetime:
-                data[field] = value.isoformat()
-            elif t == date:
-                pass
-            elif t == time:
-                pass
-            else:
-                # Note: if NoneType should never fall through to here 
-                raise TypeError('Unexpected normal type: %s' % t.__name__)"""
-
-        # If we've had a normal type exception, don't bother do the rest of this
-        if not normal_type_exceptions:
+        for i, row in enumerate(reader, start=1):
             data = {
                 'id': uuid4(),
                 'dataset_id': dataset.id,
@@ -88,21 +65,31 @@ def dataset_import_data(dataset_id):
                 solr.add(add_buffer)
                 add_buffer = []
 
-    if add_buffer:
-        solr.add(add_buffer)
-        add_buffer = []
-    
-    if not normal_type_exceptions:
-        solr.commit()
-    else:
-        # Rollback pending changes
-        solr.delete(queries=solr.query(dataset_id=dataset.id))
+        if add_buffer:
+            solr.add(add_buffer)
+            add_buffer = []
         
-        # TKTK - currently can never happen since we aren't using type inference
-        for e in normal_type_exceptions:
-            print e 
+        solr.commit()
 
-    log.info('Finished import, dataset_id: %i' % dataset_id)
+        log.info('Finished import, dataset_id: %i' % dataset_id)
+
+    def after_return(self, status, retval, task_id, args, kwargs, einfo):
+        """
+        Save final status, results, etc.
+        """
+        from redd.models import TaskStatus
+
+        task_status = TaskStatus.objects.get(task_id=self.request.id)
+
+        task_status.status = status
+        task_status.end = datetime.now()
+
+        if einfo:
+            task_status.traceback = einfo.traceback
+
+        task_status.save()
+
+#tasks.register(DatasetImportTask)
 
 @task(name='Purge data')
 def dataset_purge_data(dataset_id):
