@@ -23,12 +23,19 @@
             </div>
         </fieldset>
         <fieldset>
-            <legend>Columns</legend>
-            <ol>
-            <% _.each(schema, function(s, i) { %>
-                <li><%= s.column %></li>
-            <% }); %>
-            </ol>
+            <legend>Sample data</legend>
+            <table>
+                <% _.each(schema, function(s) { %>
+                    <th><%= s.column %></th>
+                <% }); %>
+                <% _.each(sample_data, function(r, i) { %>
+                    <tr>
+                    <% _.each(r, function(d) { %>
+                        <td><%= d %></td>
+                    <% }); %>
+                    </tr>
+                <% }); %>
+            </table>
         </fieldset>
         <% if (current_task != null) { %>
         <fieldset>

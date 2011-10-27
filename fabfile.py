@@ -116,6 +116,7 @@ def reload_app():
     Restart the uwsgi server.
     """
     sudo('service uwsgi restart')
+    sudo('service celeryd restart')
 
 def update_requirements():
     """

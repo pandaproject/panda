@@ -20,3 +20,9 @@ def infer_schema(f, sample_size=100):
         'indexed': False
     } for h, t in zip(headers, type_names)]
 
+def sample_data(f, sample_size=5):
+    reader = CSVKitReader(f)
+    headers = reader.next()
+
+    return list(islice(reader, sample_size))
+
