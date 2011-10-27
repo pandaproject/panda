@@ -60,10 +60,6 @@ PANDA.collections.Data = Backbone.Collection.extend({
         */
         this.query = query;
 
-        console.log(query);
-        console.log(limit);
-        console.log(page);
-
         if (!_.isUndefined(limit)) {
             this.limit = limit;
         } else {
@@ -77,8 +73,6 @@ PANDA.collections.Data = Backbone.Collection.extend({
             this.page = 1;
             this.offset = 0;
         }
-
-        console.log(this);
 
         $.getJSON(
             this.url + "/search",

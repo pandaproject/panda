@@ -8,19 +8,22 @@
 
 <% } else { %>
 
-<p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> results</p>
+<p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> groups</p>
 
 <% var current_dataset = null; %>
 <% _.each(rows, function(row) { %>
     <% if (row.dataset != current_dataset) { %>
         <% if (current_dataset) { %>
             </table>
+            <% if (group.count > rows.length) { %>
+                <strong>TKTK - more data available, group pagination here</strong>
+            <% } %>
         <% } %>
 
         <% current_dataset = row.dataset; %>
         <% group = groups[row.dataset]; %>
 
-        <h3><a href="#dataset/<%= group.id %>"><%= group.name %></a></h3>
+        <h3><a href="#dataset/<%= group.id %>"><%= group.name %></a> &mdash; <%= group.count %> results</h3>
         <table>
             <tr>
                 <% _.each(group.schema, function(s) { %>
@@ -36,6 +39,9 @@
     </tr>
 <% }); %>
 </table>
+<% if (group.count > rows.length) { %>
+    <strong>TKTK - more data available, group pagination here</strong>
+<% } %>
 
 <div id="search-pager">
     <% if (previous) { %>

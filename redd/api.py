@@ -320,14 +320,12 @@ class DataResource(Resource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        limit = request.GET.get('limit', 10)
-        offset = request.GET.get('offset', 0)
+        limit = int(request.GET.get('limit', 10))
+        offset = int(request.GET.get('offset', 0))
 
-        print limit, offset
-        
         s = SolrSearch(self._solr())
         s = s.query(full_text=request.GET.get('q'))
-        s = s.group_by('dataset_id', limit=limit, offset=offset, sort='+row')
+        s = s.group_by('dataset_id', limit=10, offset=0, sort='+row').paginate(offset, limit)
         s = s.execute()
 
         paginator = Paginator(request.GET, s, resource_uri=request.path_info)
