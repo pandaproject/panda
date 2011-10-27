@@ -84,7 +84,7 @@ class DatasetImportTask(Task):
                 solr.add(add_buffer)
                 add_buffer = []
 
-                task_status.message = '%i%% complete (estimated)' % floor(i / line_count * 100)
+                task_status.message = '%i%% complete (estimated)' % floor(float(i) / line_count * 100)
                 task_status.save()
 
         if add_buffer:
