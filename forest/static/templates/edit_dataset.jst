@@ -39,6 +39,9 @@
             <div class="clearfix">
                 State: <span class="label <% if (current_task.status == "SUCCESS") { print("success"); } else if (current_task.status == "FAILURE") { print("important"); } else { print("notice"); } %>"><%= current_task.status %></span>
             </div>
+            <div class="clearfix">
+                Status: <em><%= current_task.message %></em>
+            </div>
         </fieldset>
         <% } %>
         <div class="actions">

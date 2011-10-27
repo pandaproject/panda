@@ -3,7 +3,6 @@
 from copy import copy
 import json
 
-from celery.states import EXCEPTION_STATES
 from django.conf import settings
 from django.conf.urls.defaults import url
 from django.http import HttpResponse

@@ -3,7 +3,6 @@
 import os.path
 
 from celery import states
-from celery.result import AsyncResult
 from django.conf import settings
 from django.db import models
 from djcelery.models import TASK_STATE_CHOICES
@@ -20,6 +19,7 @@ class TaskStatus(models.Model):
     task_id = models.CharField(max_length=255, primary_key=True)
     task_name = models.CharField(max_length=255)
     status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES)
+    message = models.CharField(max_length=255, blank=True)
     start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
     traceback = models.TextField(blank=True, null=True, default=None)

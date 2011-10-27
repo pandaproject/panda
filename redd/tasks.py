@@ -3,6 +3,7 @@
 from datetime import datetime
 import json
 import logging
+from math import floor
 from uuid import uuid4
 
 from celery.decorators import task
@@ -19,6 +20,9 @@ class DatasetImportTask(Task):
     Import a dataset into Solr.
     """
     def __call__(self, dataset_id, *args, **kwargs):
+        """
+        Setup task tracking.
+        """
         from redd.models import Dataset, TaskStatus
 
         task_status = TaskStatus.objects.create(
@@ -31,17 +35,32 @@ class DatasetImportTask(Task):
 
         return self.run(dataset_id, *args, **kwargs)
 
+    def _count_lines(self, filename):
+        """
+        Efficiently count the number of lines in a file.
+        """
+        with open(filename) as f:
+            for i, l in enumerate(f):
+                pass
+        return i + 1
+
     def run(self, dataset_id):
+        """
+        Execute import.
+        """
         from redd.models import Dataset
 
-        log = logging.getLogger('redd.tasks.dataset_import_data')
+        log = logging.getLogger('redd.tasks.DatasetImportTask')
         log.info('Beginning import, dataset_id: %i' % dataset_id)
 
         dataset = Dataset.objects.get(id=dataset_id)
 
         task_status = dataset.current_task
         task_status.start = datetime.now()
+        task_status.message = 'Preparing to import'
         task_status.save()
+
+        line_count = self._count_lines(dataset.data_upload.get_path())
 
         solr = SolrInterface(settings.SOLR_ENDPOINT)
             
@@ -65,6 +84,9 @@ class DatasetImportTask(Task):
                 solr.add(add_buffer)
                 add_buffer = []
 
+                task_status.message = '%i%% complete (estimated)' % floor(i / line_count * 100)
+                task_status.save()
+
         if add_buffer:
             solr.add(add_buffer)
             add_buffer = []
@@ -82,6 +104,7 @@ class DatasetImportTask(Task):
         task_status = TaskStatus.objects.get(task_id=self.request.id)
 
         task_status.status = status
+        task_status.message = 'Import complete'
         task_status.end = datetime.now()
 
         if einfo:
