@@ -48,6 +48,8 @@ PANDA.models.Dataset = Backbone.Model.extend({
     toJSON: function() {
         /*
          * Append embedded models to serialized data.
+         *
+         * NOTE: never serialize embedded data from search results.
          */
         js = Backbone.Model.prototype.toJSON.call(this);
 
@@ -68,7 +70,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
     results: function() {
         /*
-         * Render this object with embedded data for templating.
+         * Render this object with embedded search results data for templating.
          */
         results = this.toJSON();
         _.extend(results, this.data.results());

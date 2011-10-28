@@ -22,7 +22,6 @@ PANDA.views.DatasetResults = Backbone.View.extend({
     render: function() {
         results = this.dataset.results();
         results['query'] = search.query;
-        console.log(results);
         this.el.html(this.template(results));
     },
 
