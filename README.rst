@@ -36,7 +36,7 @@ Setup script::
 Production deployment
 ---------------------
 
-Get hold of an Ubuntu 11.04 server--an EC2 micro based off of ami-1aad5273 works well. SSH into your server and run::
+Get hold of an Ubuntu 11.10 server--an EC2 small based off of ami-a7f539ce works well. SSH into your server and run::
 
     wget https://raw.github.com/pandaproject/panda/master/setup_panda.sh
     sudo bash setup_panda.sh
