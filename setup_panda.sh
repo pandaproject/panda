@@ -24,11 +24,11 @@ wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql-8.4 python2.7-dev git libxml2-dev libxml2 libxlt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk python-virtualenv libpq-dev
+apt-get install --yes git postgresql python2.7-dev git libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk python-virtualenv libpq-dev
 pip install uwsgi
 
 # Setup Solr + Jetty
-wget http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/
+wget http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/apache-solr-3.4.0.tgz
 
 cd /opt
 tar -xzf apache-solr-3.4.0.tgz
@@ -50,7 +50,7 @@ chown -R solr:solr /opt/solr
 touch /var/log/solr.log
 chown solr:solr /var/log/solr.log
 
-wget $CONFIG_URL/solr.conf -O /opt/solr/panda/solr/conf/solrconfig.xml
+wget $CONFIG_URL/solr.conf -O /etc/init/solr.conf
 initctl reload-configuration
 service solr start
 
@@ -63,6 +63,7 @@ initctl reload-configuration
 
 # Setup nginx
 wget $CONFIG_URL/nginx.conf -O /etc/nginx/nginx.conf
+initctl reload-configuration
 service nginx restart
 
 # Setup Postgres
