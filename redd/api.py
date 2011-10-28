@@ -65,7 +65,7 @@ class TaskResource(ModelResource):
         allowed_methods = ['get']
         
         filtering = {
-            "status": ('exact', 'in', ),
+            'status': ('exact', 'in', ),
         }
 
         authentication = Authentication()
@@ -133,6 +133,12 @@ class DatasetResource(CustomResource):
 
         authentication = Authentication()
         authorization = Authorization()
+    
+    def _solr(self):
+        """
+        Create a query interface for Solr.
+        """
+        return SolrInterface(settings.SOLR_ENDPOINT)
 
     def override_urls(self):
         """
@@ -140,6 +146,7 @@ class DatasetResource(CustomResource):
         """
         return [
             url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
+            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search_dataset')
         ]
 
     def import_data(self, request, **kwargs):
@@ -153,7 +160,7 @@ class DatasetResource(CustomResource):
         if 'pk' in kwargs:
             get_id = kwargs['pk']
         else:
-            get_id = request.GET.get('id', '')
+            get_id = request.GET.get('id')
 
         dataset = Dataset.objects.get(id=get_id)
         dataset.import_data()
@@ -164,6 +171,13 @@ class DatasetResource(CustomResource):
         self.log_throttled_access(request)
 
         return self.create_response(request, bundle)
+
+    def search(self, request, **kwargs):
+        """
+        Endpoint to search a single dataset. Delegates to DataResource.search_dataset.
+        """
+        data_resource = DataResource()
+        return data_resource.search_dataset(request, **kwargs)
 
 class SolrObject(object):
     """
@@ -312,7 +326,6 @@ class DataResource(Resource):
         """
         An endpoint for performing full-text searches.
 
-        TKTK -- implement offset and limit
         TKTK -- implement field searches
         TKTK -- implement wildcard + boolean searches
         """
@@ -325,7 +338,12 @@ class DataResource(Resource):
 
         s = SolrSearch(self._solr())
         s = s.query(full_text=request.GET.get('q'))
-        s = s.group_by('dataset_id', limit=10, offset=0, sort='+row').paginate(offset, limit)
+
+        if 'dataset_id' in request.GET:
+            s = s.filter(dataset_id=request.GET.get('dataset_id'))
+
+        s = s.group_by('dataset_id', limit=10, offset=0, sort='+row')
+        s = s.paginate(offset, limit)
         s = s.execute()
 
         paginator = Paginator(request.GET, s, resource_uri=request.path_info)
@@ -355,6 +373,51 @@ class DataResource(Resource):
 
         page['objects'] = objects
         page['groups'] = groups
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, page)
+
+    def search_dataset(self, request, **kwargs):
+        """
+        Perform a full-text search on only one dataset.
+
+        TKTK -- implement field searches
+        TKTK -- implement wildcard + boolean searches
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if 'pk' in kwargs:
+            get_id = kwargs['pk']
+        else:
+            get_id = request.GET.get('id')
+
+        limit = int(request.GET.get('limit', 10))
+        offset = int(request.GET.get('offset', 0))
+
+        s = SolrSearch(self._solr())
+        s = s.query(full_text=request.GET.get('q'))
+        s = s.filter(dataset_id=get_id)
+        s = s.paginate(offset, limit)
+        s = s.execute()
+
+        paginator = Paginator(request.GET, s, resource_uri=request.path_info)
+
+        page = paginator.page()
+
+        objects = []
+
+        print s.result
+        print s.result.docs
+
+        for obj in s.result.docs:
+            bundle = self.build_bundle(obj=SolrObject(obj), request=request)
+            bundle = self.full_dehydrate(bundle)
+            objects.append(bundle)
+
+        page['objects'] = objects
 
         self.log_throttled_access(request)
 
