@@ -65,6 +65,11 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     search_dataset: function(id, query, limit, page) {
-        alert("search dataset TKTK");
+        if (!(this.current_content_view instanceof PANDA.views.DatasetSearch)) {
+            this.current_content_view = this.get_or_create_view("DatasetSearch");
+            this.current_content_view.reset(id, query);
+        }
+
+        this.current_content_view.search(query, limit, page);
     }
 });

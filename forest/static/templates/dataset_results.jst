@@ -1,0 +1,47 @@
+<% if (!query) { %>
+
+    Please enter a query.
+
+<% } else if (total_count == 0) { %>
+
+    No results found.
+
+<% } else { %>
+
+<p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> results</p>
+
+<h3><a href="#dataset/<%= id %>"><%= name %></a> &mdash; <%= total_count %> results</h3>
+<table>
+    <tr>
+        <% _.each(schema, function(s) { %>
+        <th><%= s.column %></th>
+        <% }); %>
+    </tr>
+
+    <% _.each(data, function(d) { %>
+    <tr>
+        <% _.each(d.data, function(datum) { %>
+        <td><%= datum %></td>
+        <% }); %>
+    </tr>
+    <% }); %>
+</table>
+
+<div id="search-pager">
+    <% if (previous) { %>
+        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
+    <% } else { %>
+        <span>&laquo;</span> 
+    <% } %>
+
+    <%= page + 1 %>
+
+    <% if (next) { %>
+        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="prev">&raquo;</a>
+    <% } else { %>
+        <span>&raquo;</span>
+    <% } %>
+</div>
+
+<% } %>
+

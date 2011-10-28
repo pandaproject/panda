@@ -396,22 +396,35 @@ class DataResource(Resource):
         self.throttle_check(request)
 
         if 'pk' in kwargs:
-            get_id = kwargs['pk']
+            dataset_id = kwargs['pk']
         else:
-            get_id = request.GET.get('id')
+            dataset_id = request.GET.get('id')
+
+        d = Dataset.objects.get(id=dataset_id)
 
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
         s = SolrSearch(self._solr())
         s = s.query(full_text=request.GET.get('q'))
-        s = s.filter(dataset_id=get_id)
+        s = s.filter(dataset_id=dataset_id)
         s = s.paginate(offset, limit)
         s = s.execute()
 
         paginator = Paginator(request.GET, s, resource_uri=request.path_info)
-
         page = paginator.page()
+
+        dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
+
+        # Update with attributes from the dataset
+        # (Resulting object matches a group from the search endpoint)
+        page.update({
+            'id': d.id,
+            'name': d.name,
+            'resource_uri': dataset_url,
+            'row_count': d.row_count,
+            'schema': d.schema
+        })
 
         objects = []
 
