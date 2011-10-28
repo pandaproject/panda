@@ -2,7 +2,7 @@
 
     Please enter a query.
 
-<% } else if (rows.length == 0) { %>
+<% } else if (total_count == 0) { %>
 
     No results found.
 
@@ -10,38 +10,27 @@
 
 <p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> groups</p>
 
-<% var current_dataset = null; %>
-<% _.each(rows, function(row) { %>
-    <% if (row.dataset != current_dataset) { %>
-        <% if (current_dataset) { %>
-            </table>
-            <% if (group.count > rows.length) { %>
-                <strong>TKTK - more data available, group pagination here</strong>
-            <% } %>
-        <% } %>
+<% _.each(datasets, function(dataset) { %>
+    <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a> &mdash; <%= dataset.total_count %> results</h3>
+    <table>
+        <tr>
+            <% _.each(dataset.schema, function(s) { %>
+            <th><%= s.column %></th>
+            <% }); %>
+        </tr>
 
-        <% current_dataset = row.dataset; %>
-        <% group = groups[row.dataset]; %>
-
-        <h3><a href="#dataset/<%= group.id %>"><%= group.name %></a> &mdash; <%= group.count %> results</h3>
-        <table>
-            <tr>
-                <% _.each(group.schema, function(s) { %>
-                    <th><%= s.column %></th>
-                <% }); %>
-            </tr>
-    <% } %>
-
-    <tr>
-    <% _.each(row.data, function(d) { %>
-        <td><%= d %></td>
-    <% }); %>
-    </tr>
-<% }); %>
-</table>
-<% if (group.count > rows.length) { %>
+        <% _.each(dataset.data, function(d) { %>
+        <tr>
+            <% _.each(d.data, function(datum) { %>
+            <td><%= datum %></td>
+            <% }); %>
+        </tr>
+        <% }); %>
+    </table>
+    <% if (dataset.next) { %>
     <strong>TKTK - more data available, group pagination here</strong>
-<% } %>
+    <% } %>
+<% }); %>
 
 <div id="search-pager">
     <% if (previous) { %>

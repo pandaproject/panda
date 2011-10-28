@@ -360,13 +360,16 @@ class DataResource(Resource):
                 'schema': d.schema,
                 'meta': {
                     'limit': settings.PANDA_DEFAULT_SEARCH_ROWS,
-                    'next': '?'.join([dataset_search_url, 'limit=%i&offset=%i' % (settings.PANDA_DEFAULT_SEARCH_ROWS, settings.PANDA_DEFAULT_SEARCH_ROWS)]),
+                    'next': None,
                     'offset': 0,
                     'previous': None,
                     'total_count': group.numFound
                 },
                 'objects': []
             }
+
+            if group.numFound > settings.PANDA_DEFAULT_SEARCH_ROWS:
+                dataset['meta']['next'] = '?'.join([dataset_search_url, 'limit=%i&offset=%i' % (settings.PANDA_DEFAULT_SEARCH_ROWS, settings.PANDA_DEFAULT_SEARCH_ROWS)])
 
             for obj in group.docs:
                 bundle = self.build_bundle(obj=SolrObject(obj), request=request)
