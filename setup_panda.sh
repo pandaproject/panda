@@ -67,7 +67,7 @@ initctl reload-configuration
 service nginx restart
 
 # Setup Postgres
-wget $CONFIG_URL/pg_hba.conf -O /etc/postgresql/8.4/main/pg_hba.conf
+wget $CONFIG_URL/pg_hba.conf -O /etc/postgresql/9.1/main/pg_hba.conf
 service postgresql restart
 
 # Create database users
@@ -81,17 +81,20 @@ sudo -u ubuntu git clone git://github.com/pandaproject/panda.git panda
 sudo -u ubuntu virtualenv -p python2.7 --no-site-packages /home/ubuntu/.virtualenvs/panda
 cd /home/ubuntu/src/panda
 sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/pip install -r requirements.txt
-sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
 
 # Setup panda directories 
 mkdir /var/log/panda
-chown panda:panda /var/log/panda
+touch /var/log/panda/panda.log
+chown -R panda:panda /var/log/panda
 
 mkdir /mnt/panda
 chown panda:panda /mnt/panda
 
 mkdir /mnt/media
 chown panda:panda /mnt/media
+
+# Synchronize the database
+sudo -u panda /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
 
 # Collect static assets
 sudo -u panda /home/ubuntu/.virtualenvs/panda/bin/python manage.py collectstatic --noinput
