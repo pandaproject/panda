@@ -14,7 +14,7 @@ PANDA.views.Search = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, "render");
 
-        this.results = new PANDA.views.SearchResults({ collection: this.collection });
+        this.results = new PANDA.views.SearchResults({ collection: this.collection, search: this });
     },
 
     reset: function(query) {
@@ -25,6 +25,7 @@ PANDA.views.Search = Backbone.View.extend({
     render: function() {
         this.el.html(this.template({ query: this.query }));
         this.results.el = $("#search-results");
+
     },
 
     search_event: function() {

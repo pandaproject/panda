@@ -6,14 +6,19 @@ PANDA.views.SearchResults = Backbone.View.extend({
         "click a.next": "scroll_to_top"
     },
 
-    initialize: function() {
+    initialize: function(options) {
         _.bindAll(this, "render");
+
+        search = options.search;
 
         this.collection.bind("reset", this.render);
     },
 
     render: function() {
-        this.el.html(this.template(this.collection.results()));
+        results = this.collection.results();
+        results['query'] = search.query;
+        console.log(results);
+        this.el.html(this.template(results));
     },
 
     scroll_to_top: function() {

@@ -37,8 +37,6 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.data = new PANDA.collections.Data();
             this.data.add(this.data.parse(response));
 
-            console.log(this);
-
             delete response["meta"];
             delete response["objects"];
         }
@@ -65,6 +63,16 @@ PANDA.models.Dataset = Backbone.Model.extend({
         }
 
         return js
+    },
+
+    results: function() {
+        /*
+         * Render this object with embedded data for templating.
+         */
+        results = this.toJSON();
+        _.extend(results, this.data.results());
+
+        return results;
     },
 
     import_data: function(success_callback) {
@@ -159,19 +167,15 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         /*
         Grab the current data in a simplified data structure appropriate
         for templating.
-
-        TKTK - fix
         */
         return {
-            query: this.query,
             limit: this.limit,
             offset: this.offset,
             page: this.page,
             next: this.next,
             previous: this.previous,
             total_count: this.total_count,
-            groups: this.groups,
-            rows: this.toJSON()
+            datasets: _.invoke(this.models, "results") 
         }
     } 
 });

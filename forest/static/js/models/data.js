@@ -28,6 +28,21 @@ PANDA.collections.Data = Backbone.Collection.extend({
         this.page = this.offset / this.limit;
 
         return response.objects;
+    },
+
+    results: function() {
+        /*
+         * Render data with embedded data for templating.
+         */
+        return {
+            limit: this.limit,
+            offset: this.offset,
+            page: this.page,
+            next: this.next,
+            previous: this.previous,
+            total_count: this.total_count,
+            data: this.toJSON()
+        }
     }
 });
 
