@@ -1,4 +1,6 @@
-PANDA.models.Datum = Backbone.Model.extend({});
+PANDA.models.Datum = Backbone.Model.extend({
+    /* A single unit of data. */
+});
 
 PANDA.collections.Data = Backbone.Collection.extend({
     /*

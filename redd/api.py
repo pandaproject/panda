@@ -344,8 +344,7 @@ class DataResource(Resource):
 
         page = paginator.page()
 
-        objects = []
-        groups = {}
+        datasets = []
 
         for dataset_id, group in s.result.groups.items():
             dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
@@ -353,7 +352,7 @@ class DataResource(Resource):
 
             d = Dataset.objects.get(id=dataset_id)
 
-            groups[dataset_url] = {
+            dataset = {
                 'id': d.id,
                 'name': d.name,
                 'resource_uri': dataset_url,
@@ -365,16 +364,18 @@ class DataResource(Resource):
                     'offset': 0,
                     'previous': None,
                     'total_count': group.numFound
-                }
+                },
+                'objects': []
             }
 
             for obj in group.docs:
                 bundle = self.build_bundle(obj=SolrObject(obj), request=request)
                 bundle = self.full_dehydrate(bundle)
-                objects.append(bundle)
+                dataset['objects'].append(bundle)
 
-        page['objects'] = objects
-        page['groups'] = groups
+            datasets.append(dataset)
+
+        page['objects'] = datasets
 
         self.log_throttled_access(request)
 

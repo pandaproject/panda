@@ -32,6 +32,17 @@ PANDA.models.Dataset = Backbone.Model.extend({
             delete response['current_task'];
         }
 
+        // Does this dataset have embedded search results?
+        if (response.objects != null) {
+            this.data = new PANDA.collections.Data();
+            this.data.add(this.data.parse(response));
+
+            console.log(this);
+
+            delete response["meta"];
+            delete response["objects"];
+        }
+
         return response 
     },
 
@@ -104,7 +115,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         this.page = this.offset / this.limit;
 
         return response.objects;
-    }
+    },
 
     search: function(query, limit, page) {
         /*
@@ -130,9 +141,16 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             PANDA.API + "/data/search/",
             { q: query, limit: this.limit, offset: this.offset },
             _.bind(function(response) {
-                // TKTK
                 var objs = this.parse(response);
-                this.reset(objs);
+
+                datasets = _.map(objs, function(obj) {
+                    d = new PANDA.models.Dataset();
+                    d.set(d.parse(obj));
+
+                    return d;
+                });
+
+                this.reset(datasets);
             }, this)
         );
     },
