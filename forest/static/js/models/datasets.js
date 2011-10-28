@@ -6,6 +6,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
     data_upload: null,
     current_task: null,
+    data: null,
 
     initialize: function(options) {
         if ("data_upload" in options) {
@@ -70,6 +71,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 success_callback(this); 
             }, this)
         );
+    },
+
+    search: function(query, limit, page) {
+        // TKTK
     }
 });
 
@@ -78,6 +83,78 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
      * A collection of PANDA.models.Dataset equivalents.
      */
     model: PANDA.models.Dataset,
-    url: PANDA.API + "/dataset"
+    url: PANDA.API + "/dataset",
+    
+    page: 1,
+    limit: 10,
+    offset: 0,
+    next: null,
+    previous: null,
+    total_count: 0,
+
+    parse: function(response) {
+        /*
+        Parse page metadata in addition to objects.
+        */
+        this.limit = response.meta.limit;
+        this.offset = response.meta.offset;
+        this.next = response.meta.next;
+        this.previous = response.meta.previous;
+        this.total_count = response.meta.total_count;
+        this.page = this.offset / this.limit;
+
+        return response.objects;
+    }
+
+    search: function(query, limit, page) {
+        /*
+        Query the search endpoint.
+
+        TKTK -- success and error callbacks
+        */
+        if (!_.isUndefined(limit)) {
+            this.limit = limit;
+        } else {
+            this.limit = 10;
+        }
+        
+        if (!_.isUndefined(page)) {
+            this.page = page;
+            this.offset = this.limit * (this.page - 1);
+        } else {
+            this.page = 1;
+            this.offset = 0;
+        }
+
+        $.getJSON(
+            PANDA.API + "/data/search/",
+            { q: query, limit: this.limit, offset: this.offset },
+            _.bind(function(response) {
+                // TKTK
+                var objs = this.parse(response);
+                this.reset(objs);
+            }, this)
+        );
+    },
+
+    results: function() {
+        /*
+        Grab the current data in a simplified data structure appropriate
+        for templating.
+
+        TKTK - fix
+        */
+        return {
+            query: this.query,
+            limit: this.limit,
+            offset: this.offset,
+            page: this.page,
+            next: this.next,
+            previous: this.previous,
+            total_count: this.total_count,
+            groups: this.groups,
+            rows: this.toJSON()
+        }
+    } 
 });
 

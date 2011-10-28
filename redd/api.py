@@ -211,8 +211,6 @@ class DataResource(Resource):
     """
     API resource for row data.
 
-    TKTK: return data for indexed fields
-    TKTK: implement filtering
     TKTK: implement write API
     TKTK: implement authentication/permissions
     """
@@ -333,16 +331,12 @@ class DataResource(Resource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        limit = int(request.GET.get('limit', 10))
+        limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
 
         s = SolrSearch(self._solr())
         s = s.query(full_text=request.GET.get('q'))
-
-        if 'dataset_id' in request.GET:
-            s = s.filter(dataset_id=request.GET.get('dataset_id'))
-
-        s = s.group_by('dataset_id', limit=10, offset=0, sort='+row')
+        s = s.group_by('dataset_id', limit=settings.PANDA_DEFAULT_SEARCH_ROWS, offset=0, sort='+row')
         s = s.paginate(offset, limit)
         s = s.execute()
 
@@ -355,15 +349,23 @@ class DataResource(Resource):
 
         for dataset_id, group in s.result.groups.items():
             dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
+            dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
 
             d = Dataset.objects.get(id=dataset_id)
 
             groups[dataset_url] = {
                 'id': d.id,
                 'name': d.name,
+                'resource_uri': dataset_url,
+                'row_count': d.row_count,
                 'schema': d.schema,
-                'count': group.numFound,
-                'offset': group.start
+                'meta': {
+                    'limit': settings.PANDA_DEFAULT_SEARCH_ROWS,
+                    'next': '?'.join([dataset_search_url, 'limit=%i&offset=%i' % (settings.PANDA_DEFAULT_SEARCH_ROWS, settings.PANDA_DEFAULT_SEARCH_ROWS)]),
+                    'offset': 0,
+                    'previous': None,
+                    'total_count': group.numFound
+                }
             }
 
             for obj in group.docs:
@@ -394,7 +396,7 @@ class DataResource(Resource):
         else:
             get_id = request.GET.get('id')
 
-        limit = int(request.GET.get('limit', 10))
+        limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
         s = SolrSearch(self._solr())
@@ -408,9 +410,6 @@ class DataResource(Resource):
         page = paginator.page()
 
         objects = []
-
-        print s.result
-        print s.result.docs
 
         for obj in s.result.docs:
             bundle = self.build_bundle(obj=SolrObject(obj), request=request)
