@@ -28,7 +28,7 @@
         <% }); %>
     </table>
     <% if (dataset.next) { %>
-    <strong>TKTK - more data available, group pagination here</strong>
+    <a href="#dataset/<%= dataset.id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" target="_blank">More results from this dataset (will open in a new window)</a>
     <% } %>
 <% }); %>
 
