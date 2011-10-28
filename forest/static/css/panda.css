@@ -31,17 +31,17 @@ body { padding-top: 30px; }
 
 /* Search page */
 
-#search {
+#search, #dataset-search {
     background-color: whiteSmoke;
     padding: 20px;
     margin-bottom: 10px;
     border-bottom: 1px solid lightgray;
 }
 
-#search-form { margin-bottom: 0px; }
+#search-form, #dataset-search-form { margin-bottom: 0px; }
 
-#search-results { padding-left: 20px; }
-#search-pager { font-size: 2em; }
+#search-results, #dataset-search-results { padding-left: 20px; }
+#search-pager, #dataset-search-pager { font-size: 2em; }
 
 /* Upload page */
 
