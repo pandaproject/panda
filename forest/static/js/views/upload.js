@@ -50,7 +50,15 @@ PANDA.views.Upload = Backbone.View.extend({
             onSubmit: this.on_submit,
             onProgress: this.on_progress,
             onComplete: this.on_complete,
-            showMessage: this.step_one_error_message
+            showMessage: this.step_one_error_message,
+            maxSizeLimit: 1024 * 1024 * 1024,   // 1 GB
+            messages: {
+                typeError: "{file} is not a supported type. Only CSV files are currently supported.",
+                sizeError: "{file} is too large, the maximum file size is 1 gigabyte.",
+                //minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                emptyError: "{file} is empty.",
+                onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
+            }
         });
 
         this.create_upload_button();
