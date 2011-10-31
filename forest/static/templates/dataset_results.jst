@@ -17,7 +17,7 @@
     Showing <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> matching row<% if (total_count > 1) { %>s<% } %>
 <% } %>
     / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %>
- </p>
+</p>
 
 <p id="search-pager">
     <% if (previous) { %>

@@ -35,7 +35,7 @@
 
     <p>
     <% if (dataset.total_count > 5) { %>
-        Showing 1 through 5 of <%= dataset.total_count %> matching rows / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %></p>
+        Showing 1 through 5 of <%= dataset.total_count %> matching rows
         <% } else { %>
         Showing <%= dataset.total_count %> matching row<% if (dataset.total_count > 1) { %>s<% } %>
     <% } %>
