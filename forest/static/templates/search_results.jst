@@ -11,7 +11,8 @@
 <p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> groups</p>
 
 <% _.each(datasets, function(dataset) { %>
-    <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a> &mdash; <%= dataset.total_count %> results</h3>
+    <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
+    <p><%= dataset.total_count %> matching row<% if (dataset.total_count > 1) { %>s<% } %> / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %></p>
     <table>
         <tr>
             <% _.each(dataset.schema, function(s) { %>
