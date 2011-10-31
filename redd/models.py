@@ -100,5 +100,11 @@ class Dataset(models.Model):
         """
         Execute the data import task for this Dataset. Will use the currently configured schema.
         """
-        DatasetImportTask.delay(self.id)
+        result = DatasetImportTask.delay(self.id)
+
+        self.current_task = TaskStatus.objects.create(
+            task_id=result.task_id,
+            task_name=DatasetImportTask.name)
+
+        self.save()
 

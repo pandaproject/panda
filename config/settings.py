@@ -109,21 +109,7 @@ BROKER_TRANSPORT = "sqlakombu.transport.Transport"
 BROKER_HOST = "postgresql:///panda?user=panda&password=panda"
 CELERY_RESULT_DBURI = "postgresql:///panda?user=panda&password=panda"
 CELERYD_HIJACK_ROOT_LOGGER = False
-
-CELERY_QUEUES = {
-    "default": {
-        "exchange": "default",
-        "binding_key": "default"},
-    "import": {
-        "exchange": "default",
-        "binding_key": "import",
-    }
-}
-CELERY_DEFAULT_QUEUE = "default"
-CELERY_DEFAULT_EXCHANGE = "default"
-CELERY_DEFAULT_EXCHANGE_TYPE = "direct"
-CELERY_DEFAULT_ROUTING_KEY = "default"
-
+CELERYD_CONCURRENCY = 1
 CELERY_IGNORE_RESULT = True
 CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
 

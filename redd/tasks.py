@@ -17,24 +17,8 @@ SOLR_ADD_BUFFER_SIZE = 500
 
 class DatasetImportTask(Task):
     """
-    Import a dataset into Solr.
+    Task to import all data for a dataset from a data file.
     """
-    def __call__(self, dataset_id, *args, **kwargs):
-        """
-        Setup task tracking.
-        """
-        from redd.models import Dataset, TaskStatus
-
-        task_status = TaskStatus.objects.create(
-            task_id=self.request.id,
-            task_name=self.name)
-
-        dataset = Dataset.objects.get(id=dataset_id)
-        dataset.current_task = task_status
-        dataset.save()
-
-        return self.run(dataset_id, *args, **kwargs)
-
     def _count_lines(self, filename):
         """
         Efficiently count the number of lines in a file.
