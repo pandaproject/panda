@@ -94,10 +94,10 @@ mkdir /mnt/media
 chown panda:panda /mnt/media
 
 # Synchronize the database
-sudo -u panda /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
+sudo -u panda DEPLOYMENT_TARGET=deployed /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
 
 # Collect static assets
-sudo -u panda /home/ubuntu/.virtualenvs/panda/bin/python manage.py collectstatic --noinput
+sudo -u panda DEPLOYMENT_TARGET=deployed /home/ubuntu/.virtualenvs/panda/bin/python manage.py collectstatic --noinput
 
 # Start serving
 service uwsgi start
