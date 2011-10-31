@@ -8,11 +8,15 @@
 
 <% } else { %>
 
-<p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> groups</p>
+<% if (total_count > 10) { %>
+    <h2>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> datasets with matching rows</h2>
+<% } else { %>
+    <h2>Showing <%= total_count %> dataset<% if (total_count > 1) { %>s<% } %> with matching rows</h2>
+<% } %>
 
 <% _.each(datasets, function(dataset) { %>
     <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
-    <p><%= dataset.total_count %> matching row<% if (dataset.total_count > 1) { %>s<% } %> / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %></p>
+    <p>Showing 1 through 10 of <%= dataset.total_count %> matching row<% if (dataset.total_count > 1) { %>s<% } %> / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %></p>
     <table>
         <tr>
             <% _.each(dataset.schema, function(s) { %>
@@ -29,7 +33,7 @@
         <% }); %>
     </table>
     <% if (dataset.next) { %>
-    <a href="#dataset/<%= dataset.id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" target="_blank">More results from this dataset (will open in a new window)</a>
+    <p><a href="#dataset/<%= dataset.id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>">View more results from this dataset &raquo;</a></p>
     <% } %>
 <% }); %>
 
