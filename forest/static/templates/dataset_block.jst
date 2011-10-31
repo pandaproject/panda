@@ -1,0 +1,28 @@
+<div class="dataset-block">
+    <h3><%= name %></h3>
+
+    <p>
+    <% if (total_count > limit) { %>
+        Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> matching rows
+        <% } else { %>
+        Showing <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> matching row<% if (total_count > 1) { %>s<% } %>
+    <% } %>
+        / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %>
+    </p>
+
+    <table>
+        <tr>
+            <% _.each(schema, function(s) { %>
+            <th><%= s.column %></th>
+            <% }); %>
+        </tr>
+
+        <% _.each(data, function(d) { %>
+        <tr>
+            <% _.each(d.data, function(datum) { %>
+            <td><%= datum %></td>
+            <% }); %>
+        </tr>
+        <% }); %>
+    </table>
+</div>

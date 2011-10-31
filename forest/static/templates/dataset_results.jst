@@ -2,70 +2,18 @@
 
     Please enter a query.
 
-<% } else if (total_count == 0) { %>
+<% } else if (dataset.total_count == 0) { %>
 
     No results found.
 
 <% } else { %>
 
-<h3><%= name %></h3>
+    <% pager = PANDA.templates.dataset_pager({ dataset: dataset, query: query }); %>
+    <% print(pager); %>
 
-<p>
-<% if (total_count > limit) { %>
-    Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> matching rows
-    <% } else { %>
-    Showing <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> matching row<% if (total_count > 1) { %>s<% } %>
-<% } %>
-    / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %>
-</p>
+    <% print(PANDA.templates.dataset_block(dataset)); %>
 
-<p id="search-pager">
-    <% if (previous) { %>
-        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
-    <% } else { %>
-        <span>&laquo;</span> 
-    <% } %>
-
-    <%= page + 1 %>
-
-    <% if (next) { %>
-        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="next">&raquo;</a>
-    <% } else { %>
-        <span>&raquo;</span>
-    <% } %>
-</p>
-
-<table>
-    <tr>
-        <% _.each(schema, function(s) { %>
-        <th><%= s.column %></th>
-        <% }); %>
-    </tr>
-
-    <% _.each(data, function(d) { %>
-    <tr>
-        <% _.each(d.data, function(datum) { %>
-        <td><%= datum %></td>
-        <% }); %>
-    </tr>
-    <% }); %>
-</table>
-
-<p id="search-pager">
-    <% if (previous) { %>
-        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
-    <% } else { %>
-        <span>&laquo;</span> 
-    <% } %>
-
-    <%= page + 1 %>
-
-    <% if (next) { %>
-        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="next">&raquo;</a>
-    <% } else { %>
-        <span>&raquo;</span>
-    <% } %>
-</p>
+    <% print(pager); %>
 
 <% } %>
 
