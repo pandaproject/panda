@@ -14,9 +14,34 @@
     <h2>Showing <%= total_count %> dataset<% if (total_count > 1) { %>s<% } %> with matching rows</h2>
 <% } %>
 
+<p id="search-pager">
+    <% if (previous) { %>
+        <a href="#search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
+    <% } else { %>
+        <span>&laquo;</span> 
+    <% } %>
+
+    <%= page + 1 %>
+
+    <% if (next) { %>
+        <a href="#search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="next">&raquo;</a>
+    <% } else { %>
+        <span>&raquo;</span>
+    <% } %>
+</p>
+
 <% _.each(datasets, function(dataset) { %>
-    <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
-    <p>Showing 1 through 10 of <%= dataset.total_count %> matching row<% if (dataset.total_count > 1) { %>s<% } %> / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %></p>
+    <h3><%= dataset.name %></h3>
+
+    <p>
+    <% if (dataset.total_count > 5) { %>
+        Showing 1 through 5 of <%= dataset.total_count %> matching rows / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %></p>
+        <% } else { %>
+        Showing <%= dataset.total_count %> matching row<% if (dataset.total_count > 1) { %>s<% } %>
+    <% } %>
+        / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %>
+     </p>
+
     <table>
         <tr>
             <% _.each(dataset.schema, function(s) { %>
@@ -33,11 +58,11 @@
         <% }); %>
     </table>
     <% if (dataset.next) { %>
-    <p><a href="#dataset/<%= dataset.id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>">View more results from this dataset &raquo;</a></p>
+    <p><a href="#dataset/<%= dataset.id %>/search/<%= query %>/50/1">View more results from this dataset &raquo;</a></p>
     <% } %>
 <% }); %>
 
-<div id="search-pager">
+<p id="search-pager">
     <% if (previous) { %>
         <a href="#search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
     <% } else { %>
@@ -47,10 +72,10 @@
     <%= page + 1 %>
 
     <% if (next) { %>
-        <a href="#search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="prev">&raquo;</a>
+        <a href="#search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="next">&raquo;</a>
     <% } else { %>
         <span>&raquo;</span>
     <% } %>
-</div>
+</p>
 
 <% } %>

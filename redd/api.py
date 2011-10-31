@@ -337,7 +337,7 @@ class DataResource(Resource):
 
         s = SolrSearch(self._solr())
         s = s.query(full_text=request.GET.get('q'))
-        s = s.group_by('dataset_id', limit=settings.PANDA_DEFAULT_SEARCH_ROWS, offset=0, sort='+row')
+        s = s.group_by('dataset_id', limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, offset=0, sort='+row')
         s = s.paginate(offset, limit)
         s = s.execute()
 

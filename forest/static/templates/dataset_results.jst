@@ -8,9 +8,32 @@
 
 <% } else { %>
 
-<h3>Search dataset: <a href="#dataset/<%= id %>"><%= name %></a></h3>
+<h3>Search dataset: <%= name %></h3>
 
-<p>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> matching row<% if (total_count > 1) { %>s<% } %> / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %></p>
+<p>
+<% if (total_count > limit) { %>
+    Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> matching rows
+    <% } else { %>
+    Showing <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> matching row<% if (total_count > 1) { %>s<% } %>
+<% } %>
+    / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %>
+ </p>
+
+<p id="search-pager">
+    <% if (previous) { %>
+        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
+    <% } else { %>
+        <span>&laquo;</span> 
+    <% } %>
+
+    <%= page + 1 %>
+
+    <% if (next) { %>
+        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="next">&raquo;</a>
+    <% } else { %>
+        <span>&raquo;</span>
+    <% } %>
+</p>
 
 <table>
     <tr>
@@ -28,7 +51,7 @@
     <% }); %>
 </table>
 
-<div id="search-pager">
+<p id="search-pager">
     <% if (previous) { %>
         <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page %>" class="prev">&laquo;</a> 
     <% } else { %>
@@ -38,11 +61,11 @@
     <%= page + 1 %>
 
     <% if (next) { %>
-        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="prev">&raquo;</a>
+        <a href="#dataset/<%= id %>/search/<%= query %>/<%= limit %>/<%= page + 2 %>" class="next">&raquo;</a>
     <% } else { %>
         <span>&raquo;</span>
     <% } %>
-</div>
+</p>
 
 <% } %>
 

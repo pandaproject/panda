@@ -172,8 +172,9 @@ LOGGING = {
 SOLR_ENDPOINT = 'http://localhost:8983/solr/data'
 
 # Miscellaneous configuration
-PANDA_DEFAULT_SEARCH_ROWS = 10
+PANDA_DEFAULT_SEARCH_ROWS = 20
 PANDA_DEFAULT_SEARCH_GROUPS = 10
+PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP = 5
 
 # Allow for local (per-user) override
 try:
