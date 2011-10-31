@@ -1,6 +1,6 @@
 !/bin/bash
 
-# PANDA Project server setup script for Ubuntu 11.04
+# PANDA Project server setup script for Ubuntu 11.10
 # Must be executed with sudo!
 
 CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"

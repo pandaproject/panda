@@ -66,6 +66,7 @@ class TaskResource(ModelResource):
         
         filtering = {
             'status': ('exact', 'in', ),
+            'end': ('year', 'month', 'day')
         }
 
         authentication = Authentication()

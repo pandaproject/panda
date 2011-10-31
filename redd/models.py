@@ -16,13 +16,20 @@ class TaskStatus(models.Model):
     An object to track the status of a Celery task, as the
     data available in AsyncResult is not sufficient.
     """
-    task_id = models.CharField(max_length=255, primary_key=True)
-    task_name = models.CharField(max_length=255)
-    status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES)
-    message = models.CharField(max_length=255, blank=True)
-    start = models.DateTimeField(null=True)
-    end = models.DateTimeField(null=True)
-    traceback = models.TextField(blank=True, null=True, default=None)
+    task_id = models.CharField(max_length=255, primary_key=True,
+        help_text='Unique id for this task.')
+    task_name = models.CharField(max_length=255,
+        help_text='Identifying name for this task.')
+    status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES,
+        help_text='Current state of this task.')
+    message = models.CharField(max_length=255, blank=True,
+        help_text='A human-readable message indicating the progress of this task.')
+    start = models.DateTimeField(null=True,
+        help_text='Date and time that this task began processing.')
+    end = models.DateTimeField(null=True,
+        help_text='Date and time that this task ceased processing (either complete or failed).')
+    traceback = models.TextField(blank=True, null=True, default=None,
+        help_text='Traceback that exited this task, if it failed.')
 
 class Upload(models.Model):
     """
