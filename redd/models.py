@@ -2,6 +2,7 @@
 
 import os.path
 
+from celery.contrib.abortable import AbortableAsyncResult
 from celery import states
 from django.conf import settings
 from django.db import models
@@ -93,7 +94,14 @@ class Dataset(models.Model):
         """
         dataset_id = self.id
 
+        # Cancel import if necessary 
+        if self.current_task and self.current_task.end is None and self.current_task.task_name == 'redd.tasks.DatasetImportTask': 
+            async_result = AbortableAsyncResult(self.current_task.task_id)
+            async_result.abort()
+
         super(Dataset, self).delete(*args, **kwargs)
+
+        # Execute solr delete
         dataset_purge_data.apply_async(args=[dataset_id])
 
     def import_data(self):

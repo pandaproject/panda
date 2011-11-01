@@ -6,8 +6,8 @@ import logging
 from math import floor
 from uuid import uuid4
 
+from celery.contrib.abortable import AbortableTask
 from celery.decorators import task
-from celery.task import Task
 from django.conf import settings
 from sunburnt import SolrInterface
 
@@ -15,7 +15,7 @@ from csvkit import CSVKitReader
 
 SOLR_ADD_BUFFER_SIZE = 500
 
-class DatasetImportTask(Task):
+class DatasetImportTask(AbortableTask):
     """
     Task to import all data for a dataset from a data file.
     """
@@ -47,6 +47,16 @@ class DatasetImportTask(Task):
 
         line_count = self._count_lines(dataset.data_upload.get_path())
 
+        if self.is_aborted():
+            task_status.status = 'ABORTED'
+            task_status.end = datetime.now()
+            task_status.message = 'Aborted during preperation'
+            task_status.save()
+
+            log.warning('Import aborted, dataset_id: %i' % dataset_id)
+
+            return
+
         solr = SolrInterface(settings.SOLR_ENDPOINT)
             
         reader = CSVKitReader(open(dataset.data_upload.get_path(), 'r'))
@@ -71,6 +81,16 @@ class DatasetImportTask(Task):
 
                 task_status.message = '%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100)
                 task_status.save()
+
+                if self.is_aborted():
+                    task_status.status = 'ABORTED'
+                    task_status.end = datetime.now()
+                    task_status.message = 'Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100)
+                    task_status.save()
+
+                    log.warning('Import aborted, dataset_id: %i' % dataset_id)
+
+                    return
 
         if add_buffer:
             solr.add(add_buffer)
