@@ -1,11 +1,27 @@
 <div id="list-datasets">
     <h1>Datasets</h1>
 
-    <%= pager %>
+    <% if (datasets.length == 0) { %>
 
-    <% _.each(datasets, function(dataset) { %>
-        <% print(dataset_template(dataset)); %>
-    <% }); %>
+        <p>You haven't uploaded any datasets yet.</p>
+        
+        <p>Would you like to try <a href="#upload">uploading a dataset now?</a></p>
 
-    <%= pager %>
+    <% } else { %>
+
+        <% if (total_count > limit) { %>
+        <h2>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> datasets</h2>
+    <% } else { %>
+        <h2>Showing <%= total_count %> dataset<% if (total_count > 1) { %>s<% } %></h2>
+    <% } %>
+
+        <%= pager %>
+
+        <% _.each(datasets, function(dataset) { %>
+            <% print(dataset_template(dataset)); %>
+        <% }); %>
+
+        <%= pager %>
+
+    <% } %>
 </div>

@@ -13,13 +13,25 @@ PANDA.views.ListDatasets = Backbone.View.extend({
     },
 
     reset: function(limit, page) {
-        // TKTK
-        this.collection.fetch();
+        if (!limit) {
+            limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
+        }
+        
+        if (!page) {
+            page = 1
+        }
+
+        console.log(limit);
+
+        this.collection.fetch({ data: { limit: limit, offset: limit * (page - 1) } });
     },
 
     render: function() {
         context = this.collection.meta;
+        console.log(context);
         context["settings"] = PANDA.settings;
+        
+        context["root_url"] = "#datasets";
 
         context["pager"] = this.pager_template(context);
         context["datasets"] = _.map(this.collection.results().datasets, function(d) {
