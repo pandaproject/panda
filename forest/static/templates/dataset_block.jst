@@ -1,11 +1,15 @@
 <div class="dataset-block">
     <h3><%= name %> <a href="#dataset/<%= id %>" class="btn inline">Edit</a> <a href="#dataset/<%= id %>/search/" class="btn inline">Search</a></h3>
 
+    <% if ("is_sample" in meta) { %>
+    <p><em><%= description %></em></p>
+    <% } %>
+
     <p>
     <% if (meta.total_count > meta.limit) { %>
         Showing <%= meta.offset + 1 %> through <% if(meta.offset + meta.limit < meta.total_count) { print(meta.offset + meta.limit); } else { print(meta.total_count); } %> of <%= meta.total_count %> matching rows
-        <% } else { %>
-        Showing <% if(meta.offset + meta.limit < meta.total_count) { print(meta.offset + meta.limit); } else { print(meta.total_count); } %> matching row<% if (meta.total_count > 1) { %>s<% } %>
+    <% } else { %>
+        Showing <% if(meta.offset + meta.limit < meta.total_count) { print(meta.offset + meta.limit); } else { print(meta.total_count); } %> <% if ("is_sample" in meta) { %>sample<% } else {%>matching<% } %> row<% if (meta.total_count > 1) { %>s<% } %>
     <% } %>
         / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %>
     </p>

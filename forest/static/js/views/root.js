@@ -47,9 +47,9 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset();
     },
 
-    list_datasets: function() {
+    list_datasets: function(limit, page) {
         this.current_content_view = this.get_or_create_view("ListDatasets");
-        this.current_content_view.reset();
+        this.current_content_view.reset(limit, page);
     },
 
     edit_dataset: function(id) {        

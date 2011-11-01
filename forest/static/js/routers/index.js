@@ -6,6 +6,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         "search/:query/:limit/:page":               "search",
         "upload":                                   "upload",
         "datasets":                                 "list_datasets",
+        "datasets/:limit":                          "list_datasets",
+        "datasets/:limit/:page":                    "list_datasets",
         "dataset/:id":                              "edit_dataset",
         "dataset/:id/search":                       "search_dataset",
         "dataset/:id/search/:query":                "search_dataset",
@@ -25,8 +27,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.upload();
     },
 
-    list_datasets: function() {
-        this.controller.list_datasets();
+    list_datasets: function(limit, page) {
+        this.controller.list_datasets(limit, page);
     },
 
     edit_dataset: function(id) {
