@@ -21,14 +21,11 @@ PANDA.views.ListDatasets = Backbone.View.extend({
             page = 1
         }
 
-        console.log(limit);
-
         this.collection.fetch({ data: { limit: limit, offset: limit * (page - 1) } });
     },
 
     render: function() {
         context = this.collection.meta;
-        console.log(context);
         context["settings"] = PANDA.settings;
         
         context["root_url"] = "#datasets";
