@@ -6,17 +6,18 @@ PANDA.views.SearchResults = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, "render");
 
-        search = options.search;
+        this.search = options.search;
 
         this.collection.bind("reset", this.render);
     },
 
     render: function() {
+        console.log(this.search.query);
         context = this.collection.meta;
         context["settings"] = PANDA.settings;
 
-        context["query"] = search.query,
-        context["root_url"] = "#search/" + search.query;
+        context["query"] = this.search.query,
+        context["root_url"] = "#search/" + this.search.query;
 
         context["pager"] = this.pager_template(context);
 

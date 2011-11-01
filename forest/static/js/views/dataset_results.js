@@ -8,7 +8,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, "render");
 
-        search = options.search;
+        this.search = options.search;
     },
 
     set_dataset: function(dataset) {
@@ -20,8 +20,8 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         context = this.dataset.data.meta;
         context["settings"] = PANDA.settings;
 
-        context["query"] = search.query,
-        context["root_url"] = "#dataset/" + this.dataset.get("id") + "/search/" + search.query;
+        context["query"] = this.search.query,
+        context["root_url"] = "#dataset/" + this.dataset.get("id") + "/search/" + this.search.query;
 
         context["pager"] = this.pager_template(context);
         context["dataset"] = this.dataset.results();
