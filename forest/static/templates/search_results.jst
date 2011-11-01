@@ -1,10 +1,10 @@
 <% if (!query) { %>
 
-    Please enter a query.
+    <p>Please enter a search query.</p>
 
 <% } else if (total_count == 0) { %>
 
-    No results found.
+    <p>No rows matching query "<%= query %>" found in any dataset.</p>
 
 <% } else { %>
 

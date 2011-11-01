@@ -6,6 +6,16 @@ body { padding-top: 30px; }
 .container-fluid { padding: 0; }
 .alert-message { display: none; }
 
+/* Dataset block */
+
+.btn.inline {
+    padding: 3px 7px;
+    font-size: 11px;
+    position: relative;
+    top: -3px;
+    margin-left: 5px;
+}
+
 /* Sidebar */
 
 #logo-link {

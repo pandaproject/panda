@@ -43,3 +43,4 @@ $(".alert-message .close").live("click", function() {
 $(".scroll-up").live("click", function() {
     window.scrollTo(0, 0);
 });
+
