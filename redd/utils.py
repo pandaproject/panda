@@ -23,6 +23,14 @@ def infer_schema(f, sample_size=100):
 def sample_data(f, sample_size=5):
     reader = CSVKitReader(f)
     headers = reader.next()
+        
+    samples = []
 
-    return list(islice(reader, sample_size))
+    for i, row in enumerate(islice(reader, sample_size), start=1):
+        samples.append({
+            'row': i, 
+            'data': row,
+        })
+
+    return samples 
 

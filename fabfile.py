@@ -198,4 +198,5 @@ def local_solr():
     """
     Start the local Solr instance.
     """
-    local('cd /usr/local/Cellar/solr/3.4.0/libexec/example/ && java -Dsolr.solr.home=/var/solr/ -jar start.jar')
+    local('cd /usr/local/Cellar/solr/3.4.0/libexec/example/ && java -Xms256M -Xmx512G -Dsolr.solr.home=/var/solr/ -jar start.jar')
+

@@ -28,9 +28,9 @@
                 <% _.each(schema, function(s) { %>
                     <th><%= s.column %></th>
                 <% }); %>
-                <% _.each(sample_data, function(r, i) { %>
+                <% _.each(sample_data, function(r) { %>
                     <tr>
-                    <% _.each(r, function(d) { %>
+                    <% _.each(r.data, function(d) { %>
                         <td><%= d %></td>
                     <% }); %>
                     </tr>

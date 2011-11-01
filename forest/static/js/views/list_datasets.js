@@ -32,10 +32,7 @@ PANDA.views.ListDatasets = Backbone.View.extend({
 
         context["pager"] = this.pager_template(context);
         context["datasets"] = _.map(this.collection.results().datasets, function(d) {
-            // Mutate datasets to use sample data for rendering
-            d["data"] = _.map(d["sample_data"], function(data) {
-                return { data: data };
-            });
+            d["data"] = d["sample_data"];
 
             d["meta"] = {
                 page: 1,
