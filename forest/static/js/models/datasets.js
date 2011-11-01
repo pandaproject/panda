@@ -101,13 +101,13 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
         TKTK -- success and error callbacks
         */
-        if (!_.isUndefined(limit)) {
+        if (limit) {
             this.data.meta.limit = limit;
         } else {
-            this.data.meta.limit = 10;
+            this.data.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
         }
         
-        if (!_.isUndefined(page)) {
+        if (page) {
             this.data.meta.page = page;
             this.data.meta.offset = this.data.meta.limit * (this.data.meta.page - 1);
         } else {
@@ -140,7 +140,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
     
     meta: {
         page: 1,
-        limit: 10,
+        limit: PANDA.settings.PANDA_DEFAULT_SEARCH_GROUPS,
         offset: 0,
         next: null,
         previous: null,
@@ -163,13 +163,13 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
 
         TKTK -- success and error callbacks
         */
-        if (!_.isUndefined(limit)) {
+        if (limit) {
             this.meta.limit = limit;
         } else {
-            this.meta.limit = 10;
+            this.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_GROUPS;
         }
         
-        if (!_.isUndefined(page)) {
+        if (page) {
             this.meta.page = page;
             this.meta.offset = this.meta.limit * (this.meta.page - 1);
         } else {

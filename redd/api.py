@@ -360,7 +360,7 @@ class DataResource(Resource):
                 'row_count': d.row_count,
                 'schema': d.schema,
                 'meta': {
-                    'limit': settings.PANDA_DEFAULT_SEARCH_ROWS,
+                    'limit': settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP,
                     'next': None,
                     'offset': 0,
                     'previous': None,
@@ -369,7 +369,7 @@ class DataResource(Resource):
                 'objects': []
             }
 
-            if group.numFound > settings.PANDA_DEFAULT_SEARCH_ROWS:
+            if group.numFound > settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP:
                 dataset['meta']['next'] = '?'.join([dataset_search_url, 'limit=%i&offset=%i' % (settings.PANDA_DEFAULT_SEARCH_ROWS, settings.PANDA_DEFAULT_SEARCH_ROWS)])
 
             for obj in group.docs:

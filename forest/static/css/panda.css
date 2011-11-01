@@ -41,7 +41,7 @@ body { padding-top: 30px; }
 #search-form, #dataset-search-form { margin-bottom: 0px; }
 
 #search-results, #dataset-search-results { padding-left: 20px; }
-#search-pager, #dataset-search-pager { font-size: 1.5em; }
+.pager p { font-size: 1.5em; }
 
 /* Upload page */
 

@@ -18,6 +18,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
 
     render: function() {
         context = this.dataset.data.meta;
+        context["settings"] = PANDA.settings;
 
         context["query"] = search.query,
         context["root_url"] = "#dataset/" + this.dataset.get("id") + "/search/" + search.query;
