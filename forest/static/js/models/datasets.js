@@ -102,22 +102,22 @@ PANDA.models.Dataset = Backbone.Model.extend({
         TKTK -- success and error callbacks
         */
         if (!_.isUndefined(limit)) {
-            this.limit = limit;
+            this.data.meta.limit = limit;
         } else {
-            this.limit = 10;
+            this.data.meta.limit = 10;
         }
         
         if (!_.isUndefined(page)) {
-            this.page = page;
-            this.offset = this.limit * (this.page - 1);
+            this.data.meta.page = page;
+            this.data.meta.offset = this.data.meta.limit * (this.data.meta.page - 1);
         } else {
-            this.page = 1;
-            this.offset = 0;
+            this.data.meta.page = 1;
+            this.data.meta.offset = 0;
         }
 
         $.getJSON(
             PANDA.API + "/dataset/" + this.get("id") + "/search/",
-            { q: query, limit: this.limit, offset: this.offset },
+            { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
             _.bind(function(response) {
                 objs = this.data.parse(response);
                 delete response["meta"];
@@ -138,23 +138,21 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
     model: PANDA.models.Dataset,
     url: PANDA.API + "/dataset",
     
-    page: 1,
-    limit: 10,
-    offset: 0,
-    next: null,
-    previous: null,
-    total_count: 0,
+    meta: {
+        page: 1,
+        limit: 10,
+        offset: 0,
+        next: null,
+        previous: null,
+        total_count: 0
+    },
 
     parse: function(response) {
         /*
         Parse page metadata in addition to objects.
         */
-        this.limit = response.meta.limit;
-        this.offset = response.meta.offset;
-        this.next = response.meta.next;
-        this.previous = response.meta.previous;
-        this.total_count = response.meta.total_count;
-        this.page = this.offset / this.limit;
+        this.meta = response.meta;
+        this.meta.page = this.meta.offset / this.meta.limit;
 
         return response.objects;
     },
@@ -166,22 +164,22 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         TKTK -- success and error callbacks
         */
         if (!_.isUndefined(limit)) {
-            this.limit = limit;
+            this.meta.limit = limit;
         } else {
-            this.limit = 10;
+            this.meta.limit = 10;
         }
         
         if (!_.isUndefined(page)) {
-            this.page = page;
-            this.offset = this.limit * (this.page - 1);
+            this.meta.page = page;
+            this.meta.offset = this.meta.limit * (this.meta.page - 1);
         } else {
-            this.page = 1;
-            this.offset = 0;
+            this.meta.page = 1;
+            this.meta.offset = 0;
         }
 
         $.getJSON(
             PANDA.API + "/data/search/",
-            { q: query, limit: this.limit, offset: this.offset },
+            { q: query, limit: this.meta.limit, offset: this.meta.offset },
             _.bind(function(response) {
                 var objs = this.parse(response);
 
@@ -203,12 +201,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         for templating.
         */
         return {
-            limit: this.limit,
-            offset: this.offset,
-            page: this.page,
-            next: this.next,
-            previous: this.previous,
-            total_count: this.total_count,
+            meta: this.meta,
             datasets: _.invoke(this.models, "results") 
         }
     } 

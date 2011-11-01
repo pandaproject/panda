@@ -2,18 +2,17 @@
 
     Please enter a query.
 
-<% } else if (dataset.total_count == 0) { %>
+<% } else if (total_count == 0) { %>
 
     No results found.
 
 <% } else { %>
 
-    <% pager = PANDA.templates.dataset_pager({ dataset: dataset, query: query }); %>
-    <% print(pager); %>
+    <%= pager %>
 
-    <% print(PANDA.templates.dataset_block(dataset)); %>
+    <%= dataset_block %>
 
-    <% print(pager); %>
+    <%= pager %>
 
 <% } %>
 

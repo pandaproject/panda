@@ -9,23 +9,21 @@ PANDA.collections.Data = Backbone.Collection.extend({
     */
     model: PANDA.models.Datum,
 
-    page: 1,
-    limit: 10,
-    offset: 0,
-    next: null,
-    previous: null,
-    total_count: 0,
+    meta: {
+        page: 1,
+        limit: 10,
+        offset: 0,
+        next: null,
+        previous: null,
+        total_count: 0
+    },
 
     parse: function(response) {
         /*
         Parse page metadata in addition to objects.
         */
-        this.limit = response.meta.limit;
-        this.offset = response.meta.offset;
-        this.next = response.meta.next;
-        this.previous = response.meta.previous;
-        this.total_count = response.meta.total_count;
-        this.page = this.offset / this.limit;
+        this.meta = response.meta;
+        this.meta.page = this.meta.offset / this.meta.limit;
 
         return response.objects;
     },
@@ -35,12 +33,7 @@ PANDA.collections.Data = Backbone.Collection.extend({
          * Render data with embedded data for templating.
          */
         return {
-            limit: this.limit,
-            offset: this.offset,
-            page: this.page,
-            next: this.next,
-            previous: this.previous,
-            total_count: this.total_count,
+            meta: this.meta,
             data: this.toJSON()
         }
     }

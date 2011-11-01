@@ -1,5 +1,7 @@
 PANDA.views.DatasetResults = Backbone.View.extend({
     template: PANDA.templates.dataset_results,
+    pager_template: PANDA.templates.pager,
+    dataset_template: PANDA.templates.dataset_block,
 
     dataset: null,
 
@@ -15,17 +17,14 @@ PANDA.views.DatasetResults = Backbone.View.extend({
     },
 
     render: function() {
-        context = {
-            dataset: this.dataset.results(),
-            query: search.query
-        }
+        context = this.dataset.data.meta;
+
+        context["query"] = search.query,
+        context["root_url"] = "#dataset/" + this.dataset.get("id") + "/search/" + search.query;
+
+        context["pager"] = this.pager_template(context);
+        context["dataset_block"] = this.dataset_template(this.dataset.results());
 
         this.el.html(this.template(context));
-
-        $("a.prev, a.next").click(this.scroll_to_top);
-    },
-
-    scroll_to_top: function() {
-        window.scrollTo(0, 0);
     }
 });

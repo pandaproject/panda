@@ -39,3 +39,7 @@ $(".alert-message .close").live("click", function() {
     
     return false;
 });
+
+$(".scroll-up").live("click", function() {
+    window.scrollTo(0, 0);
+});
