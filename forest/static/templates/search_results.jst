@@ -19,7 +19,6 @@
 <% _.each(datasets, function(dataset) { %>
     <% print(dataset_template(dataset.results())); %>
 
-    <% console.log(dataset); %>
     <% if (dataset.data.meta.next) { %>
     <p><a href="#dataset/<%= dataset.get("id") %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
     <% } %>
