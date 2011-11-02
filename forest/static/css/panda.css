@@ -4,6 +4,7 @@ body { padding-top: 30px; }
 .topbar .container { margin-left: 0; }
 .topbar div > ul a, .nav a { padding: 5px 5px 6px; }
 .container-fluid { padding: 0; }
+.content { padding: 40px; }
 .alert-message { display: none; }
 
 /* Dataset block */
@@ -18,44 +19,47 @@ body { padding-top: 30px; }
 
 /* Sidebar */
 
-#logo-link {
-    color: #AA4040;
-}
-
-#logo-link:hover {
-    text-decoration: none;
+#sidebar-menu {
+    margin-top: 10px;
+    margin-left: 10px; 
+    padding-top: 30px;
+    background-color: whiteSmoke;
+    border: 1px solid lightgray;
 }
 
 #logo {
-    background-color: whiteSmoke;
-    height: 68px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid lightgray;
+    padding-bottom: 30px;
     text-align: center;
-    font-weight: bold;
-    font-size: 40px;
-    width: 240px;
+    width: 220px;
     display: table-cell;
-    vertical-align: middle;
+    color: red;
+    font-size: 44px;
+    font-weight: bold;
+}
+
+#logo a {
+    color: #AA4040;
+}
+
+#logo a:hover {
+    text-decoration: none;
+}
+
+#sidebar-menu ul {
+    list-style: none;
+    font-size: 18px;
+}
+
+#sidebar-menu li {
+    margin-bottom: 5px;
 }
 
 /* Search page */
 
-#search, #dataset-search {
-    background-color: whiteSmoke;
-    padding: 20px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid lightgray;
-}
-
-#search-form, #dataset-search-form { margin-bottom: 0px; }
-
-#search-results, #dataset-search-results { padding-left: 20px; }
 .pager p { font-size: 1.5em; }
 
 /* Upload page */
 
-#upload { margin: 10px 20px 0 20px; }
 #upload-progress { margin-bottom: 10px; }
 
 .step { margin-top: 20px; }
@@ -65,11 +69,8 @@ body { padding-top: 30px; }
 
 /* List datasets page */
 
-#list-datasets { margin: 10px 20px 0 20px; }
-
 /* Edit dataset page */
 
-#edit-dataset { margin: 10px 20px 0 20px; }
 #edit-dataset-form { padding-left: 0px; }
 
 /* Utils */
