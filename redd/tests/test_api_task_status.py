@@ -44,4 +44,26 @@ class TestAPITaskStatus(TestCase):
         self.assertEqual(body['message'], task.message)
         self.assertEqual(body['traceback'], None)
 
+    def test_list(self):
+        response = self.client.get('/api/1.0/task/', data={ 'limit': 5 })
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(body['meta']['limit'], 5)
+        self.assertEqual(body['meta']['offset'], 0)
+        self.assertEqual(body['meta']['next'], None)
+        self.assertEqual(body['meta']['previous'], None)
+
+    def test_create_denied(self):
+        new_task = {
+            'task_name': 'redd.tasks.ImportDatasetTask'
+        }
+
+        response = self.client.post('/api/1.0/task/', content_type='application/json', data=json.dumps(new_task))
+
+        self.assertEqual(response.status_code, 405)
 

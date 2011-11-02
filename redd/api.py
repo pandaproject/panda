@@ -56,7 +56,6 @@ class TaskResource(ModelResource):
     """
     Simple wrapper around django-celery's task API.
 
-    TKTK: It would be good to support list view for tasks, for dashboard-type applications.
     TKTK: implement authentication/permissions
     """
     class Meta:
