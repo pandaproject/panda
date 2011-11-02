@@ -24,9 +24,9 @@ Setup script::
     pip install -r requirements.txt
 
     # Enter "panda" when prompted for password
-    createuser -D -R -S -P panda
+    createuser -d -R -S -P panda
     createdb -O panda panda
-    python manage.py syncdb
+    python manage.py syncdb --noinput
 
     python manage.py celeryd
 

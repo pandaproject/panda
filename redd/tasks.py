@@ -8,10 +8,9 @@ from uuid import uuid4
 
 from celery.contrib.abortable import AbortableTask
 from celery.decorators import task
+from csvkit import CSVKitReader
 from django.conf import settings
 from sunburnt import SolrInterface
-
-from csvkit import CSVKitReader
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -28,7 +27,7 @@ class DatasetImportTask(AbortableTask):
                 pass
         return i + 1
 
-    def run(self, dataset_id):
+    def run(self, dataset_id, *args, **kwargs):
         """
         Execute import.
         """
@@ -109,7 +108,7 @@ class DatasetImportTask(AbortableTask):
         """
         from redd.models import TaskStatus
 
-        task_status = TaskStatus.objects.get(task_id=self.request.id)
+        task_status = TaskStatus.objects.get(id=self.request.id)
 
         task_status.status = status
         task_status.message = 'Import complete'

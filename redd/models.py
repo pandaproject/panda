@@ -17,8 +17,6 @@ class TaskStatus(models.Model):
     An object to track the status of a Celery task, as the
     data available in AsyncResult is not sufficient.
     """
-    task_id = models.CharField(max_length=255, primary_key=True,
-        help_text='Unique id for this task.')
     task_name = models.CharField(max_length=255,
         help_text='Identifying name for this task.')
     status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES,
@@ -31,6 +29,9 @@ class TaskStatus(models.Model):
         help_text='Date and time that this task ceased processing (either complete or failed).')
     traceback = models.TextField(blank=True, null=True, default=None,
         help_text='Traceback that exited this task, if it failed.')
+
+    def __unicode__(self):
+        return u'%s (%i)' % (self.task_name, self.id)
 
 class Upload(models.Model):
     """
@@ -96,7 +97,7 @@ class Dataset(models.Model):
 
         # Cancel import if necessary 
         if self.current_task and self.current_task.end is None and self.current_task.task_name == 'redd.tasks.DatasetImportTask': 
-            async_result = AbortableAsyncResult(self.current_task.task_id)
+            async_result = AbortableAsyncResult(self.current_task.id)
             async_result.abort()
 
         super(Dataset, self).delete(*args, **kwargs)
@@ -108,11 +109,11 @@ class Dataset(models.Model):
         """
         Execute the data import task for this Dataset. Will use the currently configured schema.
         """
-        result = DatasetImportTask.delay(self.id)
-
         self.current_task = TaskStatus.objects.create(
-            task_id=result.task_id,
             task_name=DatasetImportTask.name)
-
         self.save()
+
+        DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
+
+
 
