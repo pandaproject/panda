@@ -15,6 +15,7 @@ Local development & testing
 * pip
 * virtualenv
 * virtualenvwrapper
+* PostgreSQL
 
 **Setup PANDA**
 
