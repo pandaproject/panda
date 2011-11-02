@@ -1,47 +1,21 @@
 #!/usr/bin/env python
 
-import os.path
-from shutil import copyfile
 from time import sleep
 
 from django.conf import settings
 from django.test import TestCase
-from sunburnt import SolrInterface
 
-from redd.models import Dataset, TaskStatus, Upload
-
-TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
-TEST_DATA_FILENAME = 'contributors.csv'
-
-SLEEP_DELAY = 3
+from redd.models import Dataset, TaskStatus
+from redd.tests import utils
 
 class TestDataset(TestCase):
     def setUp(self):
-        settings.SOLR_ENDPOINT = 'http://localhost:8983/solr/data_test'
         settings.CELERY_ALWAYS_EAGER = True
 
-        self.solr = SolrInterface(settings.SOLR_ENDPOINT) 
-        self.solr.delete(queries='*:*', commit=True)
+        self.solr = utils.get_test_solr() 
 
-        # Ensure panda subdir has been created
-        try:
-            os.mkdir(settings.MEDIA_ROOT)
-        except OSError:
-            pass
-
-        src = os.path.join(TEST_DATA_PATH, TEST_DATA_FILENAME)
-        dst = os.path.join(settings.MEDIA_ROOT, TEST_DATA_FILENAME)
-        copyfile(src, dst)
-
-        self.upload = Upload.objects.create(
-            filename=TEST_DATA_FILENAME,
-            original_filename=TEST_DATA_FILENAME,
-            size=os.path.getsize(dst))
-
-        self.dataset = Dataset.objects.create(
-            name='Contributors',
-            description='Biographic information about contributors to the PANDA project.',
-            data_upload=self.upload)
+        self.upload = utils.get_test_upload()
+        self.dataset = utils.get_test_dataset(self.upload)
 
     def test_schema_created(self):
         self.assertNotEqual(self.dataset.schema, None)
@@ -70,7 +44,7 @@ class TestDataset(TestCase):
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'redd.tasks.DatasetImportTask')
 
-        sleep(SLEEP_DELAY)
+        sleep(utils.SLEEP_DELAY)
 
         # Refresh from database
         task = TaskStatus.objects.get(id=task.id)
@@ -85,14 +59,14 @@ class TestDataset(TestCase):
     def test_delete(self):
         self.dataset.import_data()
 
-        sleep(SLEEP_DELAY)
+        sleep(utils.SLEEP_DELAY)
 
         self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
 
         dataset_id = self.dataset.id
         self.dataset.delete()
 
-        sleep(SLEEP_DELAY)
+        sleep(utils.SLEEP_DELAY)
 
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)

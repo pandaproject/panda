@@ -1,34 +1,17 @@
 #!/usr/bin/env python
 
 import os.path
-from shutil import copyfile
 
 from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
-from redd.models import Upload
-
-TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
-TEST_DATA_FILENAME = 'contributors.csv'
+from redd.tests import utils
 
 class TestAPIUpload(TestCase):
     def setUp(self):
-        # Ensure panda subdir has been created
-        try:
-            os.mkdir(settings.MEDIA_ROOT)
-        except OSError:
-            pass
-
-        src = os.path.join(TEST_DATA_PATH, TEST_DATA_FILENAME)
-        dst = os.path.join(settings.MEDIA_ROOT, TEST_DATA_FILENAME)
-        copyfile(src, dst)
-
-        self.upload = Upload.objects.create(
-            filename=TEST_DATA_FILENAME,
-            original_filename=TEST_DATA_FILENAME,
-            size=os.path.getsize(dst))
+        self.upload = utils.get_test_upload()
 
         self.client = Client()
 
@@ -75,6 +58,6 @@ class TestAPIUpload(TestCase):
         self.assertEqual(response['Content-Disposition'], 'attachment; filename=%s' % self.upload.original_filename)
         self.assertEqual(int(response['Content-Length']), self.upload.size)
 
-        with open(os.path.join(settings.MEDIA_ROOT, TEST_DATA_FILENAME)) as f:
+        with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
             self.assertEqual(f.read(), response.content)
 
