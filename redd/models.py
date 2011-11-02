@@ -71,6 +71,11 @@ class Dataset(models.Model):
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
+    creation_date = models.DateTimeField(auto_now=True,
+        help_text='The date this dataset was initially created.')
+
+    class Meta:
+        ordering = ['-creation_date']
 
     def __unicode__(self):
         return self.name

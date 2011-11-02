@@ -175,11 +175,28 @@ def reset_solr():
     with settings(warn_only=True):
         sudo('service solr stop')
 
+    sudo('sudo mkdir -p %(solr_path)s' % env)
+
     sudo('cp %(repo_path)s/setup_panda/solr.xml %(solr_path)s/solr.xml' % env)
+
+    sudo('mkdir -p %(solr_path)s/pandadata/conf' % env)
+    sudo('mkdir -p %(solr_path)s/pandadata/lib' % env)
+    sudo('rm -rf %(solr_path)s/pandadata/data' % env)
+
     sudo('cp %(repo_path)s/setup_panda/schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
     sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata/conf/solrconfig.xml' % env)
     sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
+
+    sudo('mkdir -p %(solr_path)s/pandadata_test/conf' % env)
+    sudo('mkdir -p %(solr_path)s/pandadata_test/lib' % env)
+    sudo('rm -rf %(solr_path)s/pandadata_test:/data' % env)
+
+    sudo('cp %(repo_path)s/setup_panda/schema.xml %(solr_path)s/pandadata_test/conf/schema.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata_test/conf/solrconfig.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata_test/lib/panda.jar' % env)
+    sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
+
     sudo('chown -R solr:solr %(solr_path)s' % env)
     sudo('service solr start')
 

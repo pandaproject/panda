@@ -4,7 +4,7 @@ body { padding-top: 30px; }
 .topbar .container { margin-left: 0; }
 .topbar div > ul a, .nav a { padding: 5px 5px 6px; }
 .container-fluid { padding: 0; }
-.content { padding: 40px; }
+.content { padding: 30px; }
 .alert-message { display: none; }
 
 /* Dataset block */
@@ -51,7 +51,22 @@ body { padding-top: 30px; }
     margin-bottom: 7px;
 }
 
+/* News page */
+
+#recent-datasets {
+    border: 1px solid whiteSmoke;
+    padding: 10px;
+}
+
+#news {
+    border: 1px solid whiteSmoke;
+    padding: 10px;
+}
+
 /* Search page */
+
+#search-results {
+}
 
 .pager p { font-size: 1.5em; }
 
