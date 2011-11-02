@@ -35,14 +35,23 @@ tar -xzf apache-solr-3.4.0.tgz
 mv apache-solr-3.4.0 solr
 cp -r solr/example solr/panda
 
+wget $CONFIG_URL/solr.xml -O /opt/solr/panda/solr/solr.xml
+
 mkdir /opt/solr/panda/solr/pandadata
 mkdir /opt/solr/panda/solr/pandadata/conf
 mkdir /opt/solr/panda/solr/pandadata/lib
 
-wget $CONFIG_URL/solr.xml -O /opt/solr/panda/solr/solr.xml
 wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
 wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/pandadata/conf/solrconfig.xml
 wget $CONFIG_URL/panda.jar -O /opt/solr/panda/solr/pandadata/lib/panda.jar
+
+mkdir /opt/solr/panda/solr/pandadata_test
+mkdir /opt/solr/panda/solr/pandadata_test/conf
+mkdir /opt/solr/panda/solr/pandadata_test/lib
+
+wget $CONFIG_URL/schema.xml -O /opt/solr/panda/solr/pandadata_test/conf/schema.xml
+wget $CONFIG_URL/solrconfig.xml -O /opt/solr/panda/solr/pandadata_test/conf/solrconfig.xml
+wget $CONFIG_URL/panda.jar -O /opt/solr/panda/solr/pandadata_test/lib/panda.jar
 
 adduser --system --no-create-home --disabled-login --disabled-password --group solr
 chown -R solr:solr /opt/solr

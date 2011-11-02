@@ -19,6 +19,9 @@ env.repo_path = '%(path)s' % env
 env.python = 'python2.7'
 env.repository_url = 'git://github.com/pandaproject/panda.git'
 env.hosts = ['panda.beta.tribapps.com']
+
+env.local_solr = '/usr/local/Cellar/solr/3.4.0/libexec/example'
+env.local_solr_home = '/var/solr'
     
 """
 Branches
@@ -187,16 +190,42 @@ def local_reset():
     """
     Reset the local database and Solr instance.
     """
-    local('dropdb panda && createdb panda && python manage.py syncdb --noinput')
-    local('rm -rf /var/solr/pandadata/data')
-    local('cp setup_panda/solr.xml /var/solr/solr.xml')
-    local('cp setup_panda/panda.jar /var/solr/pandadata/lib/panda.jar')
-    local('cp setup_panda/solrconfig.xml /var/solr/pandadata/conf/solrconfig.xml')
-    local('cp setup_panda/schema.xml /var/solr/pandadata/conf/schema.xml')
+    local_reset_database()
+    local_reset_solr()
+
+def local_reset_database():
+    """
+    Reset the local database.
+    """
+    local('dropdb %(project_name)s && createdb -O %(project_name)s %(project_name)s && python manage.py syncdb --noinput' % env)
+
+def local_reset_solr():
+    """
+    Reset the local solr configuration.
+    """
+    local('mkdir -p /var/solr')
+
+    local('cp setup_panda/solr.xml %(local_solr_home)s/solr.xml' % env)
+
+    local('mkdir -p %(local_solr_home)s/pandadata/conf' % env)
+    local('mkdir -p %(local_solr_home)s/pandadata/lib' % env)
+    local('rm -rf %(local_solr_home)s/pandadata/data' % env)
+
+    local('cp setup_panda/panda.jar %(local_solr_home)s/pandadata/lib/panda.jar' % env)
+    local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadata/conf/solrconfig.xml' % env)
+    local('cp setup_panda/schema.xml %(local_solr_home)s/pandadata/conf/schema.xml' % env)
+
+    local('mkdir -p %(local_solr_home)s/pandadata_test/conf' % env)
+    local('mkdir -p %(local_solr_home)s/pandadata_test/lib' % env)
+    local('rm -rf %(local_solr_home)s/pandadata_test/data' % env)
+
+    local('cp setup_panda/panda.jar %(local_solr_home)s/pandadata_test/lib/panda.jar' % env)
+    local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadata_test/conf/solrconfig.xml' % env)
+    local('cp setup_panda/schema.xml %(local_solr_home)s/pandadata_test/conf/schema.xml' % env)
 
 def local_solr():
     """
     Start the local Solr instance.
     """
-    local('cd /usr/local/Cellar/solr/3.4.0/libexec/example/ && java -Xms256M -Xmx512G -Dsolr.solr.home=/var/solr/ -jar start.jar')
+    local('cd %(local_solr)s && java -Xms256M -Xmx512G -Dsolr.solr.home=%(local_solr_home)s -jar start.jar' % env)
 
