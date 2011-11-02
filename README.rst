@@ -42,8 +42,8 @@ This will setup the complete application, *except* for Solr::
 
 This part is tricky and will vary quite a bit depending on your operating system. The following instructions will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_::
 
+    
     # In early development of PANDA, Brew installed an older version of Solr. Verify that you have the right version.
-    # 
     brew info solr
 
     # If the first line reads solr 3.4.0, you are fine. If not, update brew and check again.
@@ -63,7 +63,10 @@ To run the unit tests ensure that runserver and celeryd are **not** running then
     # Ensure you are in the PANDA source directory and your virtualenv is active
     fab local_solr
 
-    # Open another terminal
+    # Quite a bit of output will be printed to the screen. 
+    # Wait until you see something like
+    # 2011-11-02 14:15:54.061:INFO::Started SocketConnector@0.0.0.0:8983
+    # Then, open another terminal and change to your PANDA source directory.
     workon panda
     python manage.py test redd
 
@@ -80,15 +83,15 @@ Your new PANDA server should now be serving on port 80. (Ensure port 80 is open 
 AUTHORS
 -------
 
+Lead Developer:
+
+* Christopher Groskopf
+
 The PANDA board:
 
 * Brian Boyer
 * Joe Germuska
 * Ryan Pitts
-
-Lead Developer:
-
-* Christopher Groskopf
 
 Contributors:
 
