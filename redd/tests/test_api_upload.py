@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
+from redd.models import Upload
 from redd.tests import utils
 
 class TestAPIUpload(TestCase):
@@ -60,4 +61,20 @@ class TestAPIUpload(TestCase):
 
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
             self.assertEqual(f.read(), response.content)
+
+    def test_upload_file(self):
+        with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
+            response = self.client.post('/upload/', data={ 'file': f })
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+        
+        self.assertEqual(body['success'], True)
+
+        upload = Upload.objects.get(id=body['id'])
+
+        self.assertEqual(body['original_filename'], upload.original_filename)
+        self.assertEqual(body['size'], os.path.getsize(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)))
+        self.assertEqual(body['size'], upload.size)
 
