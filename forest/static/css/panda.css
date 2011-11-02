@@ -22,27 +22,24 @@ body { padding-top: 30px; }
 #sidebar-menu {
     margin-top: 10px;
     margin-left: 10px; 
-    padding-top: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     background-color: whiteSmoke;
     border: 1px solid lightgray;
 }
 
-#logo {
-    padding-bottom: 30px;
+#sidebar-menu .header {
+    padding-bottom: 20px;
     text-align: center;
     width: 220px;
     display: table-cell;
-    color: red;
-    font-size: 44px;
     font-weight: bold;
 }
 
-#logo a {
+#sidebar-menu .header h1 {
     color: #AA4040;
-}
-
-#logo a:hover {
-    text-decoration: none;
+    font-size: 44px;
+    margin-bottom: 5px;
 }
 
 #sidebar-menu ul {
@@ -51,7 +48,7 @@ body { padding-top: 30px; }
 }
 
 #sidebar-menu li {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
 }
 
 /* Search page */
