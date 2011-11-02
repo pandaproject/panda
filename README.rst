@@ -30,9 +30,11 @@ This will setup the complete application, *except* for Solr::
     createdb -O panda panda
     python manage.py syncdb --noinput
 
+    # Start the task queue
     python manage.py celeryd
 
-    # In a separate terminal 
+    # Open another terminal
+    workon panda
     python manage.py runserver
 
 **Setup Solr**
@@ -57,7 +59,8 @@ To run the unit tests ensure that runserver and celeryd are **not** running then
     # Ensure you are in the PANDA source directory and your virtualenv is active
     fab local_solr
 
-    # In a separate terminal
+    # Open another terminal
+    workon panda
     python manage.py test redd
 
 Production deployment
