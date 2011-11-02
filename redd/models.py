@@ -115,5 +115,3 @@ class Dataset(models.Model):
 
         DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
 
-
-
