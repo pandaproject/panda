@@ -40,6 +40,12 @@ $(".alert-message .close").live("click", function() {
     return false;
 });
 
+$(".modal-cancel").live("click", function() {
+    $(this).parents(".modal").modal("hide");
+
+    return false;
+});
+
 $(".scroll-up").live("click", function() {
     window.scrollTo(0, 0);
 });

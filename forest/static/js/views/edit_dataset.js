@@ -6,12 +6,13 @@ PANDA.views.EditDataset = Backbone.View.extend({
 
     events: {
         "click #dataset-save":      "save",
-        "click #dataset-destroy":    "destroy",
         "click #dataset-download":  "download"
     },
 
     initialize: function() {
         _.bindAll(this, "render", "save", "destroy", "download");
+
+        $("#dataset-destroy").live("click", this.destroy);
     },
 
     reset: function() {
@@ -51,10 +52,11 @@ PANDA.views.EditDataset = Backbone.View.extend({
     },
 
     destroy: function() {
-        this.dataset.destroy({ success: function() {
+        this.dataset.destroy({ success: _.bind(function() {
             this.dataset = null;
+            $("#dataset-destroy-modal").modal("hide");
             window.location = '#datasets';
-        }});
+        }, this)});
     },
 
     download: function() {

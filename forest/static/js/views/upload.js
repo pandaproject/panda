@@ -163,7 +163,6 @@ PANDA.views.Upload = Backbone.View.extend({
     },
 
     continue_event: function() {
-        console.log(this);
         window.location = "#dataset/" + this.dataset.get("id");
     }
 });
