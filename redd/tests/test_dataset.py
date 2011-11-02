@@ -6,7 +6,6 @@ from time import sleep
 
 from django.conf import settings
 from django.test import TestCase
-#from django.test.client import Client
 from sunburnt import SolrInterface
 
 from redd.models import Dataset, TaskStatus, Upload
@@ -43,8 +42,6 @@ class TestDataset(TestCase):
             name='Contributors',
             description='Biographic information about contributors to the PANDA project.',
             data_upload=self.upload)
-
-        #self.client = Client()
 
     def test_schema_created(self):
         self.assertNotEqual(self.dataset.schema, None)

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 from copy import copy
-import json
 
 from django.conf import settings
 from django.conf.urls.defaults import url
-from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.utils import simplejson as json
 from sunburnt import SolrInterface
 from sunburnt.search import SolrSearch
 from tastypie import fields

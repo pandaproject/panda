@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+
+import os.path
+from shutil import copyfile
+
+from django.conf import settings
+from django.test import TestCase
+from django.test.client import Client
+from django.utils import simplejson as json
+
+from redd.models import Upload
+
+TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
+TEST_DATA_FILENAME = 'contributors.csv'
+
+class TestAPIUpload(TestCase):
+    def setUp(self):
+        # Ensure panda subdir has been created
+        try:
+            os.mkdir(settings.MEDIA_ROOT)
+        except OSError:
+            pass
+
+        src = os.path.join(TEST_DATA_PATH, TEST_DATA_FILENAME)
+        dst = os.path.join(settings.MEDIA_ROOT, TEST_DATA_FILENAME)
+        copyfile(src, dst)
+
+        self.upload = Upload.objects.create(
+            filename=TEST_DATA_FILENAME,
+            original_filename=TEST_DATA_FILENAME,
+            size=os.path.getsize(dst))
+
+        self.client = Client()
+
+    def test_get(self):
+        response = self.client.get('/api/1.0/upload/%i/' % self.upload.id)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['filename'], self.upload.filename)
+        self.assertEqual(body['original_filename'], self.upload.original_filename)
+        self.assertEqual(body['size'], self.upload.size)
+        
+    def test_list(self):
+        response = self.client.get('/api/1.0/upload/', data={ 'limit': 5 })
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(body['meta']['limit'], 5)
+        self.assertEqual(body['meta']['offset'], 0)
+        self.assertEqual(body['meta']['next'], None)
+        self.assertEqual(body['meta']['previous'], None)
+
+    def test_create_denied(self):
+        new_upload = {
+            'filename': 'test.csv',
+            'original_filename': 'test.csv',
+            'size': 20
+        }
+
+        response = self.client.post('/api/1.0/upload/', content_type='application/json', data=json.dumps(new_upload))
+
+        self.assertEqual(response.status_code, 405)
+
+    def test_download(self):
+        response = self.client.get('/api/1.0/upload/%i/download/' % self.upload.id)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename=%s' % self.upload.original_filename)
+        self.assertEqual(int(response['Content-Length']), self.upload.size)
+
+        with open(os.path.join(settings.MEDIA_ROOT, TEST_DATA_FILENAME)) as f:
+            self.assertEqual(f.read(), response.content)
+
