@@ -42,9 +42,12 @@ This will setup the complete application, *except* for Solr::
 
 This part is tricky and will vary quite a bit depending on your operating system. The following instructions will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_::
 
-    # Homebrew's recipe installs 3.3, but we need 3.4...
-    # When your text editor pops up find and replace "3.3.0" with "3.4.0", save, and close.
-    brew edit solr
+    # In early development of PANDA, Brew installed an older version of Solr. Verify that you have the right version.
+    # 
+    brew info solr
+
+    # If the first line reads solr 3.4.0, you are fine. If not, update brew and check again.
+    brew update
 
     # Install solr
     brew install solr
