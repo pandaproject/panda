@@ -7,7 +7,7 @@ PANDA.views.News = Backbone.View.extend({
 
     render: function() {
         recent_datasets = new PANDA.collections.Datasets()
-        recent_datasets.fetch({ success: _.bind(function() {
+        recent_datasets.fetch({ data: { limit: 5 }, success: _.bind(function() {
             this.el.html(this.template({
                 recent: recent_datasets.results()
             }));
