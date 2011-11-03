@@ -21,10 +21,15 @@ Local development & testing
 
 This will setup the complete application, *except* for Solr::
 
+    # Get source and requirements
     git clone git://github.com/pandaproject/panda.git
     cd panda
     mkvirtualenv --no-site-packages panda
     pip install -r requirements.txt
+
+    # Create log directory
+    sudo mkdir /var/log/panda
+    sudo chown $USER /var/log/panda
 
     # Enter "panda" when prompted for password
     createuser -d -R -S -P panda
@@ -42,23 +47,21 @@ This will setup the complete application, *except* for Solr::
 
 This part is tricky and will vary quite a bit depending on your operating system. The following instructions will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_::
 
-    
-    # In early development of PANDA, Brew installed an older version of Solr. Verify that you have the right version.
-    brew info solr
-
-    # If the first line reads solr 3.4.0, you are fine. If not, update brew and check again.
+    # Install solr 3.4.0
     brew update
-
-    # Install solr
     brew install solr
 
+    # Create Solr home directory
+    sudo mkdir /var/solr
+    sudo chown $USER /var/solr
+
     # Ensure you are in the PANDA source directory and your virtualenv is active
-    # This command will install all panda configuration
+    # This command will install all Solr configuration
     fab local_reset_solr
 
 **Running unit tests**
 
-To run the unit tests ensure that runserver and celeryd are **not** running then start Solr and execute the test runner, like so::
+To run the unit tests start Solr and execute the test runner, like so::
 
     # Ensure you are in the PANDA source directory and your virtualenv is active
     fab local_solr

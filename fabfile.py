@@ -220,11 +220,6 @@ def local_reset_solr():
     """
     Reset the local solr configuration.
     """
-    local('sudo mkdir -p %(local_solr_home)s' % env)
-    local('sudo chmod 777 %(local_solr_home)s' % env)
-    local('sudo mkdir -p /var/log/panda')
-    local('sudo chmod 777 /var/log/panda')
-
     local('cp setup_panda/solr.xml %(local_solr_home)s/solr.xml' % env)
 
     local('mkdir -p %(local_solr_home)s/pandadata/conf' % env)
