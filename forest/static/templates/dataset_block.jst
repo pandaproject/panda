@@ -11,7 +11,11 @@
     <% } else { %>
         Showing <% if(meta.offset + meta.limit < meta.total_count) { print(meta.offset + meta.limit); } else { print(meta.total_count); } %> <% if ("is_sample" in meta) { %>sample<% } else {%>matching<% } %> row<% if (meta.total_count > 1) { %>s<% } %>
     <% } %>
+        <% if (row_count) { %>
         / <%= row_count %> total row<% if (row_count > 1) { %>s<% } %>
+        <% } else { %>
+        / total row count not available
+        <% } %>
     </p>
 
     <table>
