@@ -30,7 +30,7 @@ PANDA.views.EditDataset = Backbone.View.extend({
             } else if (task.get("status") == "PENDING") {
                 $("#edit-dataset-alert").alert("info block-message", "<p><strong>Queued for import!</strong> This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>");
             } else if (task.get("status") == "FAILURE") {
-                $("#edit-dataset-alert").alert("error block-message", "<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results.");
+                $("#edit-dataset-alert").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" />');
             } 
         }
     },

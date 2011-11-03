@@ -57,3 +57,18 @@
         <input id="dataset-destroy" type="button" class="btn danger" value="Continue with delete" />
     </div>
 </div>
+
+<div id="dataset-traceback-modal" class="modal hide fade in">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Import Error</h3>
+    </div>
+    <div class="modal-body">
+        <% if (current_task && current_task.traceback) { %>
+        <%= current_task.traceback %>
+        <% } %>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn modal-cancel" value="Close" />
+    </div>
+</div>
