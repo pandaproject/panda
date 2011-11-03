@@ -1,14 +1,13 @@
 PANDA.views.DatasetSearch = Backbone.View.extend({
     el: $("#content"),
 
-    dataset: null,
-
     template: PANDA.templates.dataset_search,
 
     events: {
         "submit #dataset-search-form":      "search_event"
     },
 
+    dataset: null,
     query: null,
 
     initialize: function(options) {
@@ -18,15 +17,18 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     reset: function(dataset_id, query) {
-        this.dataset = new PANDA.models.Dataset({ id: dataset_id });
-        this.dataset.fetch();
-        this.results.set_dataset(this.dataset), 
         this.query = query;
-        this.render();
+        
+        this.dataset = new PANDA.models.Dataset({ id: dataset_id });
+        
+        this.dataset.fetch({ success: _.bind(function(model) {
+            this.results.set_dataset(this.dataset); 
+            this.render();
+        }, this) });
     },
 
     render: function() {
-        this.el.html(this.template({ query: this.query }));
+        this.el.html(this.template({ query: this.query, dataset: this.dataset.results() }));
         this.results.el = $("#dataset-search-results");
 
     },

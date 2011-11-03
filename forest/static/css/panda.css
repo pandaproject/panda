@@ -37,9 +37,16 @@ body { padding-top: 30px; }
 }
 
 #sidebar-menu .header h1 {
-    color: #AA4040;
     font-size: 44px;
     margin-bottom: 5px;
+}
+
+#sidebar-menu .header h1 a {
+    color: #AA4040;
+}
+
+#sidebar-menu .header h1 a:hover {
+    text-decoration: none;
 }
 
 #sidebar-menu ul {

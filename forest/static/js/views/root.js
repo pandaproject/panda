@@ -2,10 +2,6 @@ PANDA.views.Root = Backbone.View.extend({
     el: $("body"),
 
     views: {},
-    search_view: null,
-    upload_view: null,
-    list_datasets_view: null,
-    edit_dataset_view: null,
 
     current_content_view: null,
 
