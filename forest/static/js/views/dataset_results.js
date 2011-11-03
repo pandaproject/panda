@@ -25,6 +25,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
 
         context["pager"] = this.pager_template(context);
         context["dataset"] = this.dataset.results();
+        context["dataset"]["meta"]["no_title"] = true;
         context["dataset_block"] = this.dataset_template(context["dataset"]);
 
         this.el.html(this.template(context));

@@ -11,20 +11,27 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     query: null,
 
     initialize: function(options) {
-        _.bindAll(this, "render");
+        _.bindAll(this, "render", "dataset_changed");
 
         this.results = new PANDA.views.DatasetResults({ search: this });
     },
 
     reset: function(dataset_id, query) {
         this.query = query;
+
+        if (this.dataset) {
+            this.dataset.unbind();
+        }
         
         this.dataset = new PANDA.models.Dataset({ id: dataset_id });
+        this.dataset.bind("change", this.dataset_changed);
         
-        this.dataset.fetch({ success: _.bind(function(model) {
-            this.results.set_dataset(this.dataset); 
-            this.render();
-        }, this) });
+        this.dataset.fetch();
+    },
+
+    dataset_changed: function() {
+        this.results.set_dataset(this.dataset); 
+        this.render();
     },
 
     render: function() {

@@ -1,5 +1,7 @@
 <div class="dataset-block">
+    <% if (!"no_title" in meta) { %>
     <h3><%= name %> <a href="#dataset/<%= id %>" class="btn inline">Edit</a> <a href="#dataset/<%= id %>/search/" class="btn inline">Search</a></h3>
+    <% } %>
 
     <% if ("is_sample" in meta) { %>
     <p><em><%= description %></em></p>
