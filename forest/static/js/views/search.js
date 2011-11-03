@@ -46,6 +46,8 @@ PANDA.views.Search = Backbone.View.extend({
 
         if (this.query) {
             this.collection.search(query, limit, page);
+        } else {
+            this.render();
         }
     }
 });
