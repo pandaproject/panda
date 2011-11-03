@@ -79,7 +79,25 @@ class TestAPIDataset(TestCase):
 
         self.assertEqual(response.status_code, 201)
 
-        # TODO -- verify content
+        body = json.loads(response.content)
+
+        self.assertEqual(body['name'], 'New dataset!')
+        self.assertEqual(body['description'], 'Its got yummy data!')
+        self.assertEqual(body['row_count'], None)
+        self.assertNotEqual(body['schema'], None)
+        self.assertNotEqual(body['sample_data'], None)
+        self.assertEqual(body['current_task'], None)
+        self.assertEqual(body['data_upload']['filename'], self.upload.filename)
+
+        new_dataset = Dataset.objects.get(id=body['id'])
+
+        self.assertEqual(new_dataset.name, 'New dataset!')
+        self.assertEqual(new_dataset.description, 'Its got yummy data!')
+        self.assertEqual(new_dataset.row_count, None)
+        self.assertNotEqual(new_dataset.schema, None)
+        self.assertNotEqual(new_dataset.sample_data, None)
+        self.assertEqual(new_dataset.current_task, None)
+        self.assertEqual(new_dataset.data_upload, self.upload)
 
     def test_import_data(self):
         response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
