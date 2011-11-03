@@ -82,8 +82,33 @@ class TestAPIDataset(TestCase):
         # TODO -- verify content
 
     def test_import_data(self):
-        # TODO
-        pass
+        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
+
+        sleep(utils.SLEEP_DELAY)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertNotEqual(body['current_task'], None)
+        self.assertEqual(body['current_task']['task_name'], 'redd.tasks.DatasetImportTask')
+        
+        # Refetch dataset so that attributes will be updated
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 4)
+        self.assertNotEqual(self.dataset.schema, None)
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertEqual(task.task_name, 'redd.tasks.DatasetImportTask')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
 
     def test_search(self):
         # TODO
