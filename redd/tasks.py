@@ -97,6 +97,9 @@ class DatasetImportTask(AbortableTask):
 
         solr.commit()
 
+        task_status.message = '100% complete'
+        task_status.save()
+
         dataset.row_count = i
         dataset.save()
 
