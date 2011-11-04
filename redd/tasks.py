@@ -115,7 +115,7 @@ class DatasetImportTask(AbortableTask):
         task_status.end = datetime.now()
 
         if einfo:
-            task_status.traceback = einfo.traceback
+            task_status.traceback = u'\n'.join([einfo.traceback, unicode(retval)])
 
         task_status.save()
 
@@ -124,6 +124,7 @@ class DatasetImportTask(AbortableTask):
             solr = SolrInterface(settings.SOLR_ENDPOINT)
             solr.delete(queries='dataset_id: %i' % args[0], commit=True)
 
+@task
 def dataset_purge_data(dataset_id):
     """
     Purge a dataset from Solr.
