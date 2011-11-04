@@ -10,7 +10,7 @@ from djcelery.models import TASK_STATE_CHOICES
 
 from redd.fields import JSONField
 from redd.tasks import DatasetImportTask, dataset_purge_data
-from redd.utils import infer_schema, sample_data
+from redd.utils import infer_schema, sample_data, sniff
 
 class TaskStatus(models.Model):
     """
@@ -73,6 +73,8 @@ class Dataset(models.Model):
         help_text='The currently executed or last finished task related to this dataset.') 
     creation_date = models.DateTimeField(auto_now=True,
         help_text='The date this dataset was initially created.')
+    dialect = JSONField(
+        help_text='Description of the format of the input CSV.')
 
     class Meta:
         ordering = ['-creation_date']
@@ -84,13 +86,25 @@ class Dataset(models.Model):
         """
         Override save to do fast, first-N type inference on the data and populated the schema.
         """
+        if not self.dialect:
+            with open(self.data_upload.get_path(), 'r') as f:
+                csv_dialect = sniff(f)
+                self.dialect = {
+                    'lineterminator': csv_dialect.lineterminator,
+                    'skipinitialspace': csv_dialect.skipinitialspace,
+                    'quoting': csv_dialect.quoting,
+                    'delimiter': csv_dialect.delimiter,
+                    'quotechar': csv_dialect.quotechar,
+                    'doublequote': csv_dialect.doublequote
+                }
+
         if not self.schema:
             with open(self.data_upload.get_path(), 'r') as f:
-                self.schema = infer_schema(f)
+                self.schema = infer_schema(f, self.dialect)
 
         if not self.sample_data:
             with open(self.data_upload.get_path(), 'r') as f:
-                self.sample_data = sample_data(f)
+                self.sample_data = sample_data(f, self.dialect)
 
         super(Dataset, self).save(*args, **kwargs)
 

@@ -3,10 +3,15 @@
 from itertools import islice
 
 from csvkit import CSVKitReader
+from csvkit.sniffer import sniff_dialect
 from csvkit.typeinference import normalize_table
+from django.conf import settings
 
-def infer_schema(f, sample_size=100):
-    reader = CSVKitReader(f)
+def sniff(f):
+    return sniff_dialect(f.read(settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE))
+
+def infer_schema(f, dialect, sample_size=100):
+    reader = CSVKitReader(f, **dialect)
     headers = reader.next()
 
     sample = islice(reader, sample_size)
@@ -20,8 +25,8 @@ def infer_schema(f, sample_size=100):
         'indexed': False
     } for h, t in zip(headers, type_names)]
 
-def sample_data(f, sample_size=5):
-    reader = CSVKitReader(f)
+def sample_data(f, dialect, sample_size=5):
+    reader = CSVKitReader(f, **dialect)
     headers = reader.next()
         
     samples = []

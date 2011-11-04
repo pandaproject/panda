@@ -12,6 +12,8 @@ from csvkit import CSVKitReader
 from django.conf import settings
 from sunburnt import SolrInterface
 
+from redd import utils
+
 SOLR_ADD_BUFFER_SIZE = 500
 
 class DatasetImportTask(AbortableTask):
@@ -57,8 +59,20 @@ class DatasetImportTask(AbortableTask):
             return
 
         solr = SolrInterface(settings.SOLR_ENDPOINT)
-            
-        reader = CSVKitReader(open(dataset.data_upload.get_path(), 'r'))
+
+        f = open(dataset.data_upload.get_path(), 'r')
+
+        dialect_params = {}
+
+        # This code is absolutely terrifying
+        # (Also, it works.)
+        for k, v in dataset.dialect.items():
+            if isinstance(v, basestring):
+                dialect_params[k] = v.decode('string_escape')
+            else:
+                dialect_params[k] = v
+
+        reader = CSVKitReader(f, **dialect_params)
         reader.next()
 
         add_buffer = []
