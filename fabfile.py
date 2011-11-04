@@ -18,7 +18,7 @@ env.solr_path = '/opt/solr/panda/solr'
 env.repo_path = '%(path)s' % env
 env.python = 'python2.7'
 env.repository_url = 'git://github.com/pandaproject/panda.git'
-env.hosts = ['panda.beta.tribapps.com', 'alpha.pandaproject.net']
+env.hosts = ['panda.beta.tribapps.com']
 
 env.local_solr = '/usr/local/Cellar/solr/3.4.0/libexec/example'
 env.local_solr_home = '/var/solr'

@@ -94,7 +94,7 @@ class DatasetImportTask(AbortableTask):
         if add_buffer:
             solr.add(add_buffer)
             add_buffer = []
-        
+
         solr.commit()
 
         dataset.row_count = i
@@ -119,9 +119,11 @@ class DatasetImportTask(AbortableTask):
 
         task_status.save()
 
-#tasks.register(DatasetImportTask)
+        # If import failed, clear any data that might be staged for commit
+        if task_status.status == 'FAILURE':
+            solr = SolrInterface(settings.SOLR_ENDPOINT)
+            solr.delete(queries='dataset_id: %i' % args[0], commit=True)
 
-@task(name='Purge data')
 def dataset_purge_data(dataset_id):
     """
     Purge a dataset from Solr.
