@@ -4,6 +4,9 @@
         <h3><%= dataset.name %> <a href="#dataset/<%= dataset.id %>" class="btn inline">Edit</a> <a href="#dataset/<%= dataset.id %>/search/" class="btn inline">Search</a></h3>
         <p><em><%= dataset.description %></em></p>
     <% }); %>
+    <% if (recent.meta.total_count > recent.datasets.length) { %>
+    <a href="#datasets">Browse all <%= recent.meta.total_count %> datasets &raquo;</a>
+    <% } %>
 </div>
 
 <div id="news" class="span6">
