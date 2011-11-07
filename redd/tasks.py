@@ -12,8 +12,6 @@ from csvkit import CSVKitReader
 from django.conf import settings
 from sunburnt import SolrInterface
 
-from redd import utils
-
 SOLR_ADD_BUFFER_SIZE = 500
 
 class DatasetImportTask(AbortableTask):
@@ -114,6 +112,7 @@ class DatasetImportTask(AbortableTask):
         task_status.message = '100% complete'
         task_status.save()
 
+        dataset.imported = True
         dataset.row_count = i
         dataset.save()
 
