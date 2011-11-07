@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
-from redd.models import Dataset, TaskStatus
+from redd.models import Dataset
 from redd.tests import utils
 
 class TestAPIDataset(TestCase):
