@@ -25,12 +25,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
         context["dataset_template"] = this.dataset_template;
 
         this.el.html(this.template(context));
-
-        $("a.prev, a.next").click(this.scroll_to_top);
-    },
-
-    scroll_to_top: function() {
-        window.scrollTo(0, 0);
     }
 });
 

@@ -20,7 +20,7 @@
     <% print(dataset_template(dataset.results())); %>
 
     <% if (dataset.data.meta.next) { %>
-    <p><a href="#dataset/<%= dataset.get("id") %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
+    <p><a class="scroll-up" href="#dataset/<%= dataset.get("id") %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
     <% } %>
 <% }); %>
 
