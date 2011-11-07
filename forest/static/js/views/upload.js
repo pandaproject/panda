@@ -113,8 +113,10 @@ PANDA.views.Upload = Backbone.View.extend({
                     // Once saved immediately begin importing it
                     this.dataset.import_data(this.step_three);
                 }, this),
-                error: _.bind(function() {
-                    this.step_two_error_message('Error creating dataset!');
+                error: _.bind(function(modal, response) {
+                    error = $.parseJSON(response.responseText);
+                    $("#upload-traceback-modal .modal-body").text(error.traceback);
+                    this.step_two_error_message('Error creating dataset!&nbsp;<input type="button" class="btn" data-controls-modal="upload-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" />');
                 }, this)
             });
         } else {
