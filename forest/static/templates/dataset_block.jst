@@ -1,10 +1,23 @@
 <div class="dataset-block">
     <% if (!("no_title" in meta)) { %>
-    <h3><%= name %> <a href="#dataset/<%= id %>" class="btn inline">Edit</a> <a href="#dataset/<%= id %>/search/" class="btn inline">Search</a></h3>
+    <h3><%= name %> <a href="#dataset/<%= id %>" class="btn inline">Edit</a> <% if (row_count) { %><a href="#dataset/<%= id %>/search/" class="btn inline">Search</a><% } %></h3>
     <% } %>
 
     <% if ("is_sample" in meta) { %>
-    <p><em><%= description %></em></p>
+    <p>
+        <% if (description) { %>
+        <em><%= description %></em><br />
+        <% } %>
+        <% if (current_task && current_task.task_name == "redd.tasks.DatasetImportTask") { %>
+            <% if (current_task.status == 'FAILURE') { %>
+            <span class="label warning">Import failed</span>
+            <% } else if (current_task.status == 'PENDING') { %>
+            <span class="label">Queued for import</span>
+            <% } else if (current_task.status == 'STARTED') { %>
+            <span class="label notice">Import in progress</span>
+            <% } %>
+        <% } %>
+    </p>
     <% } %>
 
     <p>
