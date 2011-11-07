@@ -9,7 +9,7 @@ PANDA.views.EditDataset = Backbone.View.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "save", "destroy", "download");
+        _.bindAll(this, "render", "save", "destroy");
 
         $("#dataset-destroy").live("click", this.destroy);
     },

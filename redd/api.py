@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from copy import copy
+from mimetypes import guess_type
 
 from django.conf import settings
 from django.conf.urls.defaults import url
@@ -111,7 +112,7 @@ class UploadResource(ModelResource):
 
         self.log_throttled_access(request)
 
-        response = HttpResponse(FileWrapper(open(path, 'r')))
+        response = HttpResponse(FileWrapper(open(path, 'r')), content_type=guess_type(upload.original_filename)[0])
         response['Content-Disposition'] = 'attachment; filename=%s' % upload.original_filename
         response['Content-Length'] = upload.size
 
