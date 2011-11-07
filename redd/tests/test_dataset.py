@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from time import sleep
-
 from django.conf import settings
 from django.test import TestCase
 
@@ -44,7 +42,7 @@ class TestDataset(TestCase):
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'redd.tasks.DatasetImportTask')
 
-        sleep(utils.SLEEP_DELAY)
+        utils.wait()
 
         # Refresh from database
         task = TaskStatus.objects.get(id=task.id)
@@ -59,14 +57,14 @@ class TestDataset(TestCase):
     def test_delete(self):
         self.dataset.import_data()
 
-        sleep(utils.SLEEP_DELAY)
+        utils.wait()
 
         self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
 
         dataset_id = self.dataset.id
         self.dataset.delete()
 
-        sleep(utils.SLEEP_DELAY)
+        utils.wait()
 
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)

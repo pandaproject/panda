@@ -2,6 +2,7 @@
 
 import os.path
 from shutil import copyfile
+from time import sleep
 
 from django.conf import settings
 from sunburnt import SolrInterface
@@ -10,8 +11,6 @@ from redd.models import Dataset, Upload
 
 TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
-
-SLEEP_DELAY = 3
 
 def get_test_solr():
     settings.SOLR_ENDPOINT = 'http://localhost:8983/solr/data_test'
@@ -42,3 +41,7 @@ def get_test_dataset(upload):
         name='Contributors',
         description='Biographic information about contributors to the PANDA project.',
         data_upload=upload)        
+
+def wait():
+    sleep(3)
+

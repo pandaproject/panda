@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from datetime import datetime
-from time import sleep
 
 from django.conf import settings
 from django.test import TestCase
@@ -22,7 +21,7 @@ class TestAPITaskStatus(TestCase):
 
         self.dataset.import_data()
 
-        sleep(utils.SLEEP_DELAY)
+        utils.wait()
 
         self.client = Client()
 

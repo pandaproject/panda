@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from time import sleep
-
 from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
@@ -25,7 +23,7 @@ class TestAPIDataset(TestCase):
         # Import so that there will be a task object
         self.dataset.import_data()
 
-        sleep(utils.SLEEP_DELAY)
+        utils.wait()
 
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
@@ -102,7 +100,7 @@ class TestAPIDataset(TestCase):
     def test_import_data(self):
         response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
 
-        sleep(utils.SLEEP_DELAY)
+        utils.wait() 
 
         self.assertEqual(response.status_code, 200)
 
@@ -129,6 +127,36 @@ class TestAPIDataset(TestCase):
         self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
 
     def test_search(self):
-        # TODO
-        pass
+        self.dataset.import_data()
+
+        utils.wait()
+
+        # Refetch dataset so that attributes will be updated
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        # Import second dataset so we can make sure only one is matched
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            data_upload=self.dataset.data_upload)
+
+        second_dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+        
+        # Verify that correct attributes of the dataset are attached
+        self.assertEqual(body['id'], self.dataset.id)
+        self.assertEqual(body['name'], self.dataset.name)
+        self.assertEqual(body['row_count'], self.dataset.row_count)
+        self.assertEqual(body['schema'], self.dataset.schema)
+
+        # Test that only one dataset was matched
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(body['objects'][0]['data'][0], 'Christopher')
 
