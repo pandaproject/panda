@@ -54,8 +54,15 @@ class TestAPIData(TestCase):
         self.assertIn('resource_uri', body['objects'][0])
         self.assertIn('row', body['objects'][0])
 
-    def test_create(self):
-        pass
+    def test_create_denied(self):
+        new_data = {
+            'dataset': '/api/1.0/dataset/%i/' % self.dataset.id,
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data))
+
+        self.assertEqual(response.status_code, 405)
 
     def test_search(self):
         pass
