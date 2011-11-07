@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 
 from copy import copy
-from mimetypes import guess_type
 
 from django.conf import settings
 from django.conf.urls.defaults import url
-from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
 from django.utils import simplejson as json
 from sunburnt import SolrInterface
 from sunburnt.search import SolrSearch
@@ -15,170 +12,11 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
-from tastypie.fields import ApiField, CharField
 from tastypie.paginator import Paginator
-from tastypie.resources import ModelResource, Resource
+from tastypie.resources import Resource
 from tastypie.utils.urls import trailing_slash
 
-from redd.fields import JSONField
-from redd.models import Dataset, TaskStatus, Upload
-
-class JSONApiField(ApiField):
-    """
-    Custom ApiField for dealing with data from custom JSONFields.
-    """
-    dehydrated_type = 'json'
-    help_text = 'JSON structured data.'
-    
-    def dehydrate(self, obj):
-        return self.convert(super(JSONApiField, self).dehydrate(obj))
-    
-    def convert(self, value):
-        if value is None:
-            return None
-        
-        return value
-
-class CustomResource(ModelResource):
-    """
-    ModelResource subclass that supports JSONFields.
-    """
-    @classmethod
-    def api_field_from_django_field(cls, f, default=CharField):
-        """
-        Overrides default field handling to support custom ListField and JSONField.
-        """
-        if isinstance(f, JSONField):
-            return JSONApiField
-    
-        return super(CustomResource, cls).api_field_from_django_field(f, default)
-
-class TaskResource(ModelResource):
-    """
-    Simple wrapper around django-celery's task API.
-
-    TKTK: implement authentication/permissions
-    """
-    class Meta:
-        queryset = TaskStatus.objects.all()
-        resource_name = 'task'
-        allowed_methods = ['get']
-        
-        filtering = {
-            'status': ('exact', 'in', ),
-            'end': ('year', 'month', 'day')
-        }
-
-        authentication = Authentication()
-        authorization = Authorization()
-
-class UploadResource(ModelResource):
-    """
-    API resource for Uploads.
-
-    TKTK: implement authentication
-    """
-    class Meta:
-        queryset = Upload.objects.all()
-        resource_name = 'upload'
-        allowed_methods = ['get']
-
-        authentication = Authentication()
-        authorization = Authorization()
-
-    def override_urls(self):
-        """
-        Add urls for search endpoint.
-        """
-        return [
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('download'), name='api_download_upload'),
-        ]
-
-    def download(self, request, **kwargs):
-        """
-        Download the original file that was uploaded.
-        """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-
-        if 'pk' in kwargs:
-            get_id = kwargs['pk']
-        else:
-            get_id = request.GET.get('id', '')
-
-        upload = Upload.objects.get(id=get_id)
-        path = upload.get_path()
-
-        self.log_throttled_access(request)
-
-        response = HttpResponse(FileWrapper(open(path, 'r')), content_type=guess_type(upload.original_filename)[0])
-        response['Content-Disposition'] = 'attachment; filename=%s' % upload.original_filename
-        response['Content-Length'] = upload.size
-
-        return response
-
-class DatasetResource(CustomResource):
-    """
-    API resource for Datasets.
-
-    TKTK: implement authentication/permissions
-    """
-    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
-    current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
-
-    class Meta:
-        queryset = Dataset.objects.all()
-        resource_name = 'dataset'
-        always_return_data = True
-                
-        authentication = Authentication()
-        authorization = Authorization()
-    
-    def _solr(self):
-        """
-        Create a query interface for Solr.
-        """
-        return SolrInterface(settings.SOLR_ENDPOINT)
-
-    def override_urls(self):
-        """
-        Add urls for search endpoint.
-        """
-        return [
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search_dataset')
-        ]
-
-    def import_data(self, request, **kwargs):
-        """
-        Dummy endpoint for kicking off data import tasks.
-        """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-
-        if 'pk' in kwargs:
-            get_id = kwargs['pk']
-        else:
-            get_id = request.GET.get('id')
-
-        dataset = Dataset.objects.get(id=get_id)
-        dataset.import_data()
-
-        bundle = self.build_bundle(obj=dataset, request=request)
-        bundle = self.full_dehydrate(bundle)
-
-        self.log_throttled_access(request)
-
-        return self.create_response(request, bundle)
-
-    def search(self, request, **kwargs):
-        """
-        Endpoint to search a single dataset. Delegates to DataResource.search_dataset.
-        """
-        data_resource = DataResource()
-        return data_resource.search_dataset(request, **kwargs)
+from redd.models import Dataset
 
 class SolrObject(object):
     """
@@ -249,6 +87,8 @@ class DataResource(Resource):
 
         TKTK -- better way to do this?
         """
+        from redd.api.datasets import DatasetResource
+
         dataset = Dataset.objects.get(id=bundle.data['dataset_id'])
         dr = DatasetResource()
         uri = dr.get_resource_uri(dataset)
@@ -439,4 +279,3 @@ class DataResource(Resource):
         self.log_throttled_access(request)
 
         return self.create_response(request, page)
-
