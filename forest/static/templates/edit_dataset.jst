@@ -18,7 +18,7 @@
             <div class="clearfix">
                 <label>Filename</label>
                 <div class="input">
-                    <div class="uneditable-input" style="float: left; width:530px;"><%= data_upload.original_filename %></div>&nbsp;<input id="dataset-download" type="button" class="btn" value="Download original file (<%= data_upload.size %> bytes)" />
+                    <div class="uneditable-input" style="float: left; width:530px;"><%= data_upload.original_filename %></div>&nbsp;<a href="/api/1.0/upload/<%= data_upload.id %>/download/" ><input id="dataset-download" type="button" class="btn" value="Download original file (<%= data_upload.size %> bytes)" /></a>
                 </div>
             </div>
         </fieldset>

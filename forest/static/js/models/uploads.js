@@ -2,11 +2,7 @@ PANDA.models.Upload = Backbone.Model.extend({
     /*
     Equivalent of redd.models.Upload.
     */
-    urlRoot: PANDA.API + "/upload",
-
-    download: function() {
-        window.location = this.url() + "download";
-    }
+    urlRoot: PANDA.API + "/upload"
 });
 
 PANDA.collections.Uploads = Backbone.Collection.extend({
