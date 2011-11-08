@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
-from redd.fields import JSONField
-
+from django.contrib.auth.models import User
+from tastypie.authentication import ApiKeyAuthentication
 from tastypie.fields import ApiField, CharField
 from tastypie.resources import ModelResource
+
+from redd.fields import JSONField
 
 class JSONApiField(ApiField):
     """
@@ -34,4 +36,24 @@ class CustomResource(ModelResource):
             return JSONApiField
     
         return super(CustomResource, cls).api_field_from_django_field(f, default)
+
+class CustomApiKeyAuthentication(ApiKeyAuthentication):
+    """
+    Custom API Auth that accepts parameters as headers as well as GET params.
+    """
+    def is_authenticated(self, request, **kwargs):
+        username = request.META.get('HTTP_PANDA_USERNAME') or request.GET.get('username')
+        api_key = request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('apikey')
+
+        if not username or not api_key:
+            return self._unauthorized()
+
+        try:
+            user = User.objects.get(username=username)
+        except (User.DoesNotExist, User.MultipleObjectsReturned):
+            return self._unauthorized()
+
+        request.user = user
+
+        return self.get_key(user, api_key)
 

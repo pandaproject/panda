@@ -4,11 +4,10 @@ from django.conf import settings
 from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
 from tastypie import fields
-from tastypie.authentication import Authentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomResource
+from redd.api.utils import CustomApiKeyAuthentication, CustomResource
 from redd.models import Dataset
 
 class DatasetResource(CustomResource):
@@ -28,8 +27,8 @@ class DatasetResource(CustomResource):
         resource_name = 'dataset'
         always_return_data = True
                 
-        authentication = Authentication()
-        authorization = Authorization()
+        authentication = CustomApiKeyAuthentication()
+        authorization = DjangoAuthorization()
     
     def _solr(self):
         """

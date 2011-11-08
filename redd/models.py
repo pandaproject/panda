@@ -5,12 +5,16 @@ import os.path
 from celery.contrib.abortable import AbortableAsyncResult
 from celery import states
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from djcelery.models import TASK_STATE_CHOICES
+from tastypie.models import create_api_key
 
 from redd.fields import JSONField
 from redd.tasks import DatasetImportTask, dataset_purge_data
 from redd.utils import infer_schema, sample_data, sniff
+
+models.signals.post_save.connect(create_api_key, sender=User)
 
 class TaskStatus(models.Model):
     """

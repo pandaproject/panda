@@ -14,6 +14,7 @@ api_1_0.register(DatasetResource())
 api_1_0.register(DataResource())
 
 urlpatterns = patterns('',
+    url(r'^login%s$' % trailing_slash(), views.panda_login, name="login"),
     url(r'^upload%s$' % trailing_slash(), views.upload, name="upload"),
 
     (r'^api/', include(api_1_0.urls)),

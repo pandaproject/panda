@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from datetime import datetime
-import json
 import logging
 from math import floor
 from uuid import uuid4
@@ -10,6 +9,7 @@ from celery.contrib.abortable import AbortableTask
 from celery.decorators import task
 from csvkit import CSVKitReader
 from django.conf import settings
+from django.utils import simplejson as json
 from sunburnt import SolrInterface
 
 SOLR_ADD_BUFFER_SIZE = 500

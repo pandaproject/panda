@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-from tastypie.authentication import Authentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 
+from redd.api.utils import CustomApiKeyAuthentication
 from redd.models import TaskStatus
 
 class TaskResource(ModelResource):
@@ -22,5 +22,6 @@ class TaskResource(ModelResource):
             'end': ('year', 'month', 'day')
         }
 
-        authentication = Authentication()
-        authorization = Authorization()
+        authentication = CustomApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+

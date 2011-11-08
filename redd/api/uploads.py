@@ -5,11 +5,11 @@ from mimetypes import guess_type
 from django.conf.urls.defaults import url
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
-from tastypie.authentication import Authentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils.urls import trailing_slash
 
+from redd.api.utils import CustomApiKeyAuthentication
 from redd.models import Upload
 
 class UploadResource(ModelResource):
@@ -23,8 +23,8 @@ class UploadResource(ModelResource):
         resource_name = 'upload'
         allowed_methods = ['get']
 
-        authentication = Authentication()
-        authorization = Authorization()
+        authentication = CustomApiKeyAuthentication()
+        authorization = DjangoAuthorization()
 
     def override_urls(self):
         """
@@ -57,3 +57,4 @@ class UploadResource(ModelResource):
         response['Content-Length'] = upload.size
 
         return response
+
