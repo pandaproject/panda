@@ -39,11 +39,11 @@ class CustomResource(ModelResource):
 
 class CustomApiKeyAuthentication(ApiKeyAuthentication):
     """
-    Custom API Auth that accepts parameters as headers as well as GET params.
+    Custom API Auth that accepts parameters as cookies or headers as well as GET params.
     """
     def is_authenticated(self, request, **kwargs):
-        username = request.META.get('HTTP_PANDA_USERNAME') or request.GET.get('username')
-        api_key = request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('apikey')
+        username = request.COOKIES.get('username') or request.META.get('HTTP_PANDA_USERNAME') or request.GET.get('username')
+        api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('apikey')
 
         if not username or not api_key:
             return self._unauthorized()

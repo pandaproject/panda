@@ -85,10 +85,9 @@ PANDA.models.Dataset = Backbone.Model.extend({
          *
          * TKTK - error callback
          */
-        $.ajax({
+        $.panda_ajax({
             url: this.url() + "import",
             dataType: 'json',
-            headers: $.get_auth_headers(),
             success: _.bind(function(response) {
                 this.set(response);
                 success_callback(this); 
@@ -116,10 +115,9 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.data.meta.offset = 0;
         }
 
-        $.ajax({
+        $.panda_ajax({
             url: PANDA.API + "/dataset/" + this.get("id") + "/search/",
             dataType: 'json',
-            headers: $.get_auth_headers(),
             data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
             success: _.bind(function(response) {
                 objs = this.data.parse(response);
@@ -180,10 +178,9 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = 0;
         }
 
-        $.ajax({
+        $.panda_ajax({
             url: PANDA.API + "/data/search/",
             dataType: 'json',
-            headers: $.get_auth_headers(),
             data: { q: query, limit: this.meta.limit, offset: this.meta.offset },
             success: _.bind(function(response) {
                 var objs = this.parse(response);
