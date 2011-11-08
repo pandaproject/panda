@@ -5,6 +5,7 @@ from shutil import copyfile
 from time import sleep
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from sunburnt import SolrInterface
 
 from redd.models import Dataset, Upload
@@ -19,6 +20,12 @@ def get_test_solr():
     solr.delete(queries='*:*', commit=True)
 
     return solr
+
+def get_auth_headers():
+    return {
+        'HTTP_PANDA_USERNAME': 'panda',
+        'HTTP_PANDA_API_KEY': User.objects.get(username='panda').api_key.key
+    }
 
 def get_test_upload():
     # Ensure panda subdir has been created

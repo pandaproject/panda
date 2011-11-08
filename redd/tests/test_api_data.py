@@ -17,6 +17,8 @@ class TestAPIData(TestCase):
         self.upload = utils.get_test_upload()
         self.dataset = utils.get_test_dataset(self.upload)
 
+        self.auth_headers = utils.get_auth_headers()
+
         self.client = Client()
     
     def test_get(self):
@@ -24,13 +26,13 @@ class TestAPIData(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/')
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
 
         list_result = body['objects'][0]
 
-        response = self.client.get('/api/1.0/data/%s/' % list_result['id'])
+        response = self.client.get('/api/1.0/data/%s/' % list_result['id'], **self.auth_headers)
         self.assertEqual(response.status_code, 200)
         get_result = json.loads(response.content)
 
@@ -41,7 +43,7 @@ class TestAPIData(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/')
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -60,7 +62,7 @@ class TestAPIData(TestCase):
             'data': ['1', '2', '3']
         }
 
-        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data))
+        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
 
         self.assertEqual(response.status_code, 405)
 
@@ -78,7 +80,7 @@ class TestAPIData(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/search/?q=Christopher')
+        response = self.client.get('/api/1.0/data/search/?q=Christopher', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 

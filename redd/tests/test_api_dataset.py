@@ -17,6 +17,8 @@ class TestAPIDataset(TestCase):
         self.upload = utils.get_test_upload()
         self.dataset = utils.get_test_dataset(self.upload)
 
+        self.auth_headers = utils.get_auth_headers() 
+
         self.client = Client()
 
     def test_get(self):
@@ -28,7 +30,7 @@ class TestAPIDataset(TestCase):
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
-        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -40,20 +42,20 @@ class TestAPIDataset(TestCase):
         self.assertEqual(body['sample_data'], self.dataset.sample_data)
         self.assertEqual(body['schema'], self.dataset.schema)
 
-        task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id)
+        task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id, **self.auth_headers)
 
         self.assertEqual(task_response.status_code, 200)
 
         self.assertEqual(body['current_task'], json.loads(task_response.content))
 
-        upload_response = self.client.get('/api/1.0/upload/%i/' % self.dataset.data_upload.id)
+        upload_response = self.client.get('/api/1.0/upload/%i/' % self.dataset.data_upload.id, **self.auth_headers)
 
         self.assertEqual(upload_response.status_code, 200)
 
         self.assertEqual(body['data_upload'], json.loads(upload_response.content))
 
     def test_list(self):
-        response = self.client.get('/api/1.0/dataset/', data={ 'limit': 5 })
+        response = self.client.get('/api/1.0/dataset/', data={ 'limit': 5 }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -73,7 +75,7 @@ class TestAPIDataset(TestCase):
             'data_upload': '/api/1.0/upload/%i/' % self.upload.id
         }
 
-        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset))
+        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
 
         self.assertEqual(response.status_code, 201)
 
@@ -98,7 +100,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(new_dataset.data_upload, self.upload)
 
     def test_import_data(self):
-        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id, **self.auth_headers)
 
         utils.wait() 
 
@@ -143,7 +145,7 @@ class TestAPIDataset(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 

@@ -16,7 +16,9 @@ PANDA.views.Login = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(this.template());
+        username = $.cookie("username");
+
+        this.el.html(this.template({ username: username }));
     },
 
     login: function() {

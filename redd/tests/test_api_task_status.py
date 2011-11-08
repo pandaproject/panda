@@ -23,12 +23,14 @@ class TestAPITaskStatus(TestCase):
 
         utils.wait()
 
+        self.auth_headers = utils.get_auth_headers()
+
         self.client = Client()
 
     def test_get(self):
         task = TaskStatus.objects.get(id=self.dataset.current_task.id)
 
-        response = self.client.get('/api/1.0/task/%i/' % task.id) 
+        response = self.client.get('/api/1.0/task/%i/' % task.id, **self.auth_headers) 
 
         self.assertEqual(response.status_code, 200)
 
@@ -44,7 +46,7 @@ class TestAPITaskStatus(TestCase):
         self.assertEqual(body['traceback'], None)
 
     def test_list(self):
-        response = self.client.get('/api/1.0/task/', data={ 'limit': 5 })
+        response = self.client.get('/api/1.0/task/', data={ 'limit': 5 }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -62,7 +64,7 @@ class TestAPITaskStatus(TestCase):
             'task_name': 'redd.tasks.ImportDatasetTask'
         }
 
-        response = self.client.post('/api/1.0/task/', content_type='application/json', data=json.dumps(new_task))
+        response = self.client.post('/api/1.0/task/', content_type='application/json', data=json.dumps(new_task), **self.auth_headers)
 
         self.assertEqual(response.status_code, 405)
 

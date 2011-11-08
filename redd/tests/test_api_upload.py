@@ -14,10 +14,12 @@ class TestAPIUpload(TestCase):
     def setUp(self):
         self.upload = utils.get_test_upload()
 
+        self.auth_headers = utils.get_auth_headers()
+
         self.client = Client()
 
     def test_get(self):
-        response = self.client.get('/api/1.0/upload/%i/' % self.upload.id)
+        response = self.client.get('/api/1.0/upload/%i/' % self.upload.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -28,7 +30,7 @@ class TestAPIUpload(TestCase):
         self.assertEqual(body['size'], self.upload.size)
         
     def test_list(self):
-        response = self.client.get('/api/1.0/upload/', data={ 'limit': 5 })
+        response = self.client.get('/api/1.0/upload/', data={ 'limit': 5 }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -48,12 +50,12 @@ class TestAPIUpload(TestCase):
             'size': 20
         }
 
-        response = self.client.post('/api/1.0/upload/', content_type='application/json', data=json.dumps(new_upload))
+        response = self.client.post('/api/1.0/upload/', content_type='application/json', data=json.dumps(new_upload), **self.auth_headers)
 
         self.assertEqual(response.status_code, 405)
 
     def test_download(self):
-        response = self.client.get('/api/1.0/upload/%i/download/' % self.upload.id)
+        response = self.client.get('/api/1.0/upload/%i/download/' % self.upload.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Disposition'], 'attachment; filename=%s' % self.upload.original_filename)
@@ -64,7 +66,7 @@ class TestAPIUpload(TestCase):
 
     def test_upload_file(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
-            response = self.client.post('/upload/', data={ 'file': f })
+            response = self.client.post('/upload/', data={ 'file': f }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
