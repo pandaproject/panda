@@ -62,6 +62,9 @@ window.check_auth_cookies = function() {
 
     if (username == null || api_key == null) {
         window.location = "#login";
+        return false;
     }
+
+    return true;
 }
         
