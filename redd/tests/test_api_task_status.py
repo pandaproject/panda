@@ -45,6 +45,11 @@ class TestAPITaskStatus(TestCase):
         self.assertEqual(body['message'], task.message)
         self.assertEqual(body['traceback'], None)
 
+    def test_get_unauthorized(self):
+        response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id) 
+
+        self.assertEqual(response.status_code, 401)
+
     def test_list(self):
         response = self.client.get('/api/1.0/task/', data={ 'limit': 5 }, **self.auth_headers)
 

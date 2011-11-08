@@ -54,6 +54,11 @@ class TestAPIDataset(TestCase):
 
         self.assertEqual(body['data_upload'], json.loads(upload_response.content))
 
+    def test_get_unauthorized(self):
+        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 401)
+
     def test_list(self):
         response = self.client.get('/api/1.0/dataset/', data={ 'limit': 5 }, **self.auth_headers)
 
@@ -128,6 +133,11 @@ class TestAPIDataset(TestCase):
 
         self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
 
+    def test_import_data_unauthorized(self):
+        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 401)
+
     def test_search(self):
         self.dataset.import_data()
 
@@ -161,4 +171,9 @@ class TestAPIDataset(TestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(body['objects'][0]['data'][0], 'Christopher')
+
+    def test_search_unauthorized(self):
+        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 401)
 

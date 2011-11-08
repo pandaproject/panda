@@ -56,6 +56,11 @@ class TestAPIData(TestCase):
         self.assertIn('resource_uri', body['objects'][0])
         self.assertIn('row', body['objects'][0])
 
+    def test_list_unauthorized(self):
+        response = self.client.get('/api/1.0/data/')
+
+        self.assertEqual(response.status_code, 401)   
+
     def test_create_denied(self):
         new_data = {
             'dataset': '/api/1.0/dataset/%i/' % self.dataset.id,
@@ -105,4 +110,9 @@ class TestAPIData(TestCase):
             self.assertIn('id', result_dataset['objects'][0])
             self.assertIn('resource_uri', result_dataset['objects'][0])
             self.assertIn('row', result_dataset['objects'][0])
+
+    def test_search_unauthorized(self):
+        response = self.client.get('/api/1.0/data/search/?q=Christopher')
+
+        self.assertEqual(response.status_code, 401)   
 

@@ -100,7 +100,7 @@ PANDA.views.Upload = Backbone.View.extend({
         /*
          * Handler for when a file upload is completed.
          */
-        if(responseJSON.success) {
+        if (responseJSON.success) {
             // Create a dataset and relate it to the upload
             this.dataset = new PANDA.models.Dataset({
                 name: fileName,
@@ -119,6 +119,8 @@ PANDA.views.Upload = Backbone.View.extend({
                     this.step_two_error_message('Error creating dataset!&nbsp;<input type="button" class="btn" data-controls-modal="upload-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" />');
                 }, this)
             });
+        } else if (responseJSON.forbidden) {
+            window.location = "#login";
         } else {
             this.step_one_error_message('Upload failed!');
         }

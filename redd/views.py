@@ -5,11 +5,29 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.utils import simplejson as json
 
+from redd.api.utils import CustomApiKeyAuthentication
 from redd.storage import PANDAUploadBackend
 
-upload = AjaxFileUploader(backend=PANDAUploadBackend)
+class SecureAjaxFileUploader(AjaxFileUploader):
+    """
+    A custom version of AjaxFileUploader that checks for authorization.
+    """
+    def __call__(self, request):
+        auth = CustomApiKeyAuthentication()
+
+        if auth.is_authenticated(request) != True:
+            # Valum's FileUploader only parses the response if the status code is 200.
+            return HttpResponse(json.dumps({ 'success': False, 'forbidden': True }), content_type='application/json', status=200)
+
+        return self._ajax_upload(request)
+
+upload = SecureAjaxFileUploader(backend=PANDAUploadBackend)
 
 def panda_login(request):
+    """
+    PANDA login: takes a username and password and returns an API key
+    for querying the API.
+    """
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']

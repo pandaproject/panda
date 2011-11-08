@@ -28,7 +28,12 @@ class TestAPIUpload(TestCase):
         self.assertEqual(body['filename'], self.upload.filename)
         self.assertEqual(body['original_filename'], self.upload.original_filename)
         self.assertEqual(body['size'], self.upload.size)
-        
+
+    def test_get_unauthorized(self):
+        response = self.client.get('/api/1.0/upload/%i/' % self.upload.id)
+
+        self.assertEqual(response.status_code, 401)
+
     def test_list(self):
         response = self.client.get('/api/1.0/upload/', data={ 'limit': 5 }, **self.auth_headers)
 
@@ -64,6 +69,11 @@ class TestAPIUpload(TestCase):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
             self.assertEqual(f.read(), response.content)
 
+    def test_download_unauthorized(self):
+        response = self.client.get('/api/1.0/upload/%i/download/' % self.upload.id)
+
+        self.assertEqual(response.status_code, 401)
+
     def test_upload_file(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
             response = self.client.post('/upload/', data={ 'file': f }, **self.auth_headers)
@@ -79,4 +89,17 @@ class TestAPIUpload(TestCase):
         self.assertEqual(body['original_filename'], upload.original_filename)
         self.assertEqual(body['size'], os.path.getsize(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)))
         self.assertEqual(body['size'], upload.size)
+
+    def test_upload_unauthorized(self):
+        with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
+            response = self.client.post('/upload/', data={ 'file': f })
+
+        self.assertEqual(response.status_code, 200)
+
+        print response.content
+
+        body = json.loads(response.content)
+        
+        self.assertEqual(body['success'], False)
+        self.assertEqual(body['forbidden'], True)
 
