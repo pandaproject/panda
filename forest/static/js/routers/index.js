@@ -12,7 +12,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         "dataset/:id/search":                       "search_dataset",
         "dataset/:id/search/:query":                "search_dataset",
         "dataset/:id/search/:query/:limit":         "search_dataset",
-        "dataset/:id/search/:query/:limit/:page":   "search_dataset"
+        "dataset/:id/search/:query/:limit/:page":   "search_dataset",
+        "*path":                                    "not_found"
     },
 
     initialize: function(options) {
@@ -37,5 +38,9 @@ PANDA.routers.Index = Backbone.Router.extend({
 
     search_dataset: function(id, query, limit, page) {
         this.controller.search_dataset(id, query, limit, page);
+    },
+
+    not_found: function(path) {
+        this.controller.not_found(path);
     }
 });

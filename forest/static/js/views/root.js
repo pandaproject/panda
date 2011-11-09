@@ -67,5 +67,14 @@ PANDA.views.Root = Backbone.View.extend({
         }
 
         this.current_content_view.search(query, limit, page);
+    },
+
+    not_found: function(path) {
+        if (!(this.current_content_view instanceof PANDA.views.NotFound)) {
+            this.current_content_view = this.get_or_create_view("NotFound");
+            this.current_content_view.reset(path);
+        }
+
+        this.current_content_view.reset(path);
     }
 });

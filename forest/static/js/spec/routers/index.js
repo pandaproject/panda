@@ -115,4 +115,12 @@ describe("Index Router", function() {
 
         this.controller_mock.verify();
     });
+
+    it("should 404 on bad routes", function() {
+        this.controller_mock.expects("not_found").withExactArgs("wtf/1/2/3").once();
+
+        this.router.navigate("wtf/1/2/3", true);
+
+        this.controller_mock.verify();
+    });
 });
