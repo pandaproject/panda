@@ -1,14 +1,14 @@
-PANDA: A Newsroom Data Appliance
-================================
+==========================================
+PANDA: A Newsroom Data Appliance |release|
+==========================================
 
-PANDA wants to be your newsroom data appliance. It provides a place for you to store data, search it, and share it with the rest of your newsroom.
+About
+=====
 
-Take the `PANDA Future Users Survey <http://bit.ly/pandasurvey>`_.
-
-Feature list and much more on `the PANDA Project Wiki <https://github.com/pandaproject/panda/wiki>`_.
+.. include:: ../README
 
 Local development & testing
----------------------------
+===========================
 
 **Install basic requirements**:
 
@@ -74,7 +74,7 @@ To run the unit tests start Solr and execute the test runner, like so::
     python manage.py test redd
 
 Production deployment
----------------------
+=====================
 
 Get hold of an Ubuntu 11.10 server--an EC2 small based off of ami-a7f539ce works well. SSH into your server and run::
 
@@ -83,25 +83,20 @@ Get hold of an Ubuntu 11.10 server--an EC2 small based off of ami-a7f539ce works
 
 Your new PANDA server should now be serving on port 80. (Ensure port 80 is open in your security group.)
 
-AUTHORS
--------
+Authors
+=======
 
-Lead Developer:
+.. include:: ../AUTHORS
 
-* Christopher Groskopf
+License
+=======
 
-The PANDA board:
+.. include:: ../COPYING
 
-* Brian Boyer
-* Joe Germuska
-* Ryan Pitts
+Indices and tables
+==================
 
-Contributors:
-
-* Your name here
-
-LICENSE
--------
-
-MIT.
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
