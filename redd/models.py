@@ -47,6 +47,8 @@ class Upload(models.Model):
         help_text='Filename as originally uploaded.')
     size = models.IntegerField(
         help_text='Size of the file in bytes.')
+    creator = models.ForeignKey(User,
+        help_text='The user who uploaded this file.')
 
     def __unicode__(self):
         return self.filename
@@ -79,6 +81,8 @@ class Dataset(models.Model):
         help_text='The currently executed or last finished task related to this dataset.') 
     creation_date = models.DateTimeField(auto_now=True,
         help_text='The date this dataset was initially created.')
+    creator = models.ForeignKey(User,
+        help_text='The user who created this dataset.')
     dialect = JSONField(
         help_text='Description of the format of the input CSV.')
 

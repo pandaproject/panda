@@ -14,8 +14,9 @@ class TestAPIData(TestCase):
 
         self.solr = utils.get_test_solr() 
 
-        self.upload = utils.get_test_upload()
-        self.dataset = utils.get_test_dataset(self.upload)
+        self.user = utils.get_test_user()
+        self.upload = utils.get_test_upload(self.user)
+        self.dataset = utils.get_test_dataset(self.upload, self.user)
 
         self.auth_headers = utils.get_auth_headers()
 
@@ -79,7 +80,8 @@ class TestAPIData(TestCase):
         # Import second dataset so we can make sure both match 
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload)
+            data_upload=self.dataset.data_upload,
+            creator=self.dataset.creator)
 
         second_dataset.import_data()
 

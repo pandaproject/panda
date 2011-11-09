@@ -14,8 +14,13 @@ class UserResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'user'
         allowed_methods = ['get']
-        excludes = ['password']
+        excludes = ['password', 'username']
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
+
+    def dehydrate(self, bundle):
+        bundle.data['username'] = bundle.obj.username 
+
+        return bundle
 

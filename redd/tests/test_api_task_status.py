@@ -16,8 +16,9 @@ class TestAPITaskStatus(TestCase):
         
         self.solr = utils.get_test_solr()
         
-        self.upload = utils.get_test_upload()
-        self.dataset = utils.get_test_dataset(self.upload)
+        self.user = utils.get_test_user()
+        self.upload = utils.get_test_upload(self.user)
+        self.dataset = utils.get_test_dataset(self.upload, self.user)
 
         self.dataset.import_data()
 

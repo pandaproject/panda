@@ -16,9 +16,11 @@ class DatasetResource(CustomResource):
     """
     from redd.api.tasks import TaskResource
     from redd.api.uploads import UploadResource
+    from redd.api.users import UserResource
 
     data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
+    creator = fields.ForeignKey(UserResource, 'creator', full=True)
 
     class Meta:
         queryset = Dataset.objects.all()
@@ -33,6 +35,12 @@ class DatasetResource(CustomResource):
         Create a query interface for Solr.
         """
         return SolrInterface(settings.SOLR_ENDPOINT)
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        Set creating user on create.
+        """
+        return super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
 
     def override_urls(self):
         """

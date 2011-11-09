@@ -5,6 +5,7 @@ from mimetypes import guess_type
 from django.conf.urls.defaults import url
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
+from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils.urls import trailing_slash
@@ -16,6 +17,10 @@ class UploadResource(ModelResource):
     """
     API resource for Uploads.
     """
+    from redd.api.users import UserResource
+
+    creator = fields.ForeignKey(UserResource, 'creator')
+
     class Meta:
         queryset = Upload.objects.all()
         resource_name = 'upload'

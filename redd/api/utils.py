@@ -43,7 +43,7 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
     """
     def is_authenticated(self, request, **kwargs):
         username = request.COOKIES.get('username') or request.META.get('HTTP_PANDA_USERNAME') or request.GET.get('username')
-        api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('apikey')
+        api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('api_key')
 
         if not username or not api_key:
             return self._unauthorized()

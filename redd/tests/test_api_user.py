@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 from django.utils import simplejson as json
@@ -12,7 +11,7 @@ class TestAPIUser(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        self.user = User.objects.get(username='panda') 
+        self.user = utils.get_test_user() 
         
         self.auth_headers = utils.get_auth_headers()
 

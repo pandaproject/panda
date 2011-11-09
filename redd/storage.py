@@ -66,8 +66,9 @@ class PANDAUploadBackend(AbstractUploadBackend):
         upload = Upload.objects.create(
             filename=filename,
             original_filename=self._original_filename,
-            size=size)
-            
+            size=size,
+            creator=request.user)
+
         resource = UploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
 
