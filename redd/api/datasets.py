@@ -13,8 +13,6 @@ from redd.models import Dataset
 class DatasetResource(CustomResource):
     """
     API resource for Datasets.
-
-    TKTK: implement authentication/permissions
     """
     from redd.api.tasks import TaskResource
     from redd.api.uploads import UploadResource

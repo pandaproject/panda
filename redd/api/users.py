@@ -1,24 +1,20 @@
 #!/usr/bin/env python
 
+from django.contrib.auth.models import User
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 
 from redd.api.utils import CustomApiKeyAuthentication
-from redd.models import TaskStatus
 
-class TaskResource(ModelResource):
+class UserResource(ModelResource):
     """
-    Simple wrapper around django-celery's task API.
+    API resource for Uploads.
     """
     class Meta:
-        queryset = TaskStatus.objects.all()
-        resource_name = 'task'
+        queryset = User.objects.all()
+        resource_name = 'user'
         allowed_methods = ['get']
-        
-        filtering = {
-            'status': ('exact', 'in', ),
-            'end': ('year', 'month', 'day')
-        }
+        excludes = ['password']
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()

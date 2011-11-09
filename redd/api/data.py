@@ -51,7 +51,6 @@ class DataResource(Resource):
     API resource for row data.
 
     TKTK: implement write API
-    TKTK: implement authentication/permissions
     """
     id = fields.CharField(attribute='id',
         help_text='Unique id of this row of data.')

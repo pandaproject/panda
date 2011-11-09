@@ -15,8 +15,6 @@ from redd.models import Upload
 class UploadResource(ModelResource):
     """
     API resource for Uploads.
-
-    TKTK: implement authentication
     """
     class Meta:
         queryset = Upload.objects.all()
