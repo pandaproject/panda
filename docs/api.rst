@@ -8,37 +8,65 @@ The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriv
 
 The following example URLs assuming your running a local development environment. For a production environment replace ``localhost:8000`` with your domain name. If making requests from the command line the ``format=json`` query-string is not necessary.
 
+All API endpoints require a valid user and API key. By default PANDA will create a superuser with username ``panda`` and API key ``edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b``. All example URLs include these credentials for ease of experimentation.
+
+Users
+=====
+
+The user model can be queried to retrieve information about PANDA users, however, passwords and API keys are not included in responses.
+
+Schema
+------
+
+http://localhost:8000/api/1.0/user/schema/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+List
+----
+
+http://localhost:8000/api/1.0/user/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+Fetch
+-----
+
+http://localhost:8000/api/1.0/user/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+Create
+------
+
+To create a new user, POST a JSON document containing at least ``username`` and ``email`` properties to http://localhost:8000/api/1.0/user/. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted the user will need to set a password before they can log in (not yet implemented).
+
 Tasks
 =====
 
 Schema
 ------
 
-http://localhost:8000/api/1.0/task/schema/?format=json
+http://localhost:8000/api/1.0/task/schema/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 List
 ----
 
-http://localhost:8000/api/1.0/task/?format=json
+http://localhost:8000/api/1.0/task/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 List tasks with a specific status
 ---------------------------------
 
-http://localhost:8000/api/1.0/task/?format=json&status=PENDING
+List tasks that are queued, but have not yet started processing:
 
-This list tasks that are queued, but have not yet started processing.
+http://localhost:8000/api/1.0/task/?status=PENDING&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
 
 List tasks that finished processing today
 -----------------------------------------
 
-http://localhost:8000/api/1.0/task/?format=json&end__year=2011&end__month=10&end__day=31
+List tasks that ended on October 31st, 2011:
 
-This list tasks that ended on October 31st, 2011.
+http://localhost:8000/api/1.0/task/?end__year=2011&end__month=10&end__day=31&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Fetch
 -----
 
-http://localhost:8000/api/1.0/task/[id]/?format=json
+http://localhost:8000/api/1.0/task/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Uploads
 =======
@@ -48,34 +76,36 @@ Due to limitations in upload file-handling, it is not possible to create Uploads
 Schema
 ------
 
-http://localhost:8000/api/1.0/upload/schema/?format=json
+http://localhost:8000/api/1.0/upload/schema/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 List
 ----
 
-http://localhost:8000/api/1.0/upload/?format=json
+http://localhost:8000/api/1.0/upload/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Filtering is currently not supported.
 
 Fetch
 -----
 
-http://localhost:8000/api/1.0/upload/[id]/?format=json
+http://localhost:8000/api/1.0/upload/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Download original file
 ----------------------
 
-http://localhost:8000/api/1.0/upload/[id]/download/?format=json
+http://localhost:8000/api/1.0/upload/[id]/download/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Upload as form-data
 -------------------
 
-``curl -F file=@README.csv http://localhost:8000/upload/``
+When accessing PANDA via curl, your username and API key can be specified with the headers ``PANDA_USERNAME`` and ``PANDA_API_KEY``, respectively.
+
+``curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" -F file=@README.csv http://localhost:8000/upload/``
 
 Upload via AJAX
 ---------------
 
-``curl --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv``
+``curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv``
 
 Datasets
 ========
@@ -83,31 +113,36 @@ Datasets
 Schema
 ------
 
-http://localhost:8000/api/1.0/dataset/schema/?format=json
+http://localhost:8000/api/1.0/dataset/schema/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 List
 ----
 
-http://localhost:8000/api/1.0/dataset/?format=json
+http://localhost:8000/api/1.0/dataset/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Fetch
 -----
 
-http://localhost:8000/api/1.0/dataset/[id]/?format=json
+http://localhost:8000/api/1.0/dataset/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+Create
+------
+
+To create a new Dataset, POST a JSON document containing at least ``name`` and ``data_upload`` properties to http://localhost:8000/api/1.0/dataset/. The ``data_upload`` property may be either an embedded Upload object, or a URI to an existing Upload (for example, ``/api/1.0/upload/17/``). Other properties such as ``description`` may also be set.
 
 Import
 ------
 
-http://localhost:8000/api/1.0/dataset/[id]/import/?format=json
+Begin an import task using the dataset's current schema. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task.
 
-Will begin an import task using the dataset's current schema. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task.
+http://localhost:8000/api/1.0/dataset/[id]/import/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Search
 ------
 
-http://localhost:8000/api/1.0/dataset/[id]/search/?q=[query]&format=json
+Search for Data within one particular dataset. The response is a simplified Dataset object with added paging ("meta") data and embedded Data instances ("objects").
 
-Searches for Data within this particular dataset. The response is a simplified Dataset object with added paging ("meta") data and embedded Data instances ("objects").
+http://localhost:8000/api/1.0/dataset/[id]/search/?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Data
 ========
@@ -115,21 +150,22 @@ Data
 Schema
 ------
 
-http://localhost:8000/api/1.0/data/schema/?format=json
+http://localhost:8000/api/1.0/data/schema/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 List
 ----
 
-http://localhost:8000/api/1.0/data/?format=json
+http://localhost:8000/api/1.0/data/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Fetch
 -----
 
-http://localhost:8000/api/1.0/data/[id]/?format=json
+http://localhost:8000/api/1.0/data/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Search
 ------
 
-http://localhost:8000/api/1.0/data/[id]?q=[query]&format=json
-
 Searches for Data within all Datasets. The response is an "meta" object with paging information for the matching datasets and an "objects" array which contains simplified Dataset objects and embedded search results identical to the per-Dataset search results.
+
+http://localhost:8000/api/1.0/data/[id]?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+

@@ -4,7 +4,7 @@
         "model": "auth.user", 
         "fields": {
             "username": "panda", 
-            "first_name": "", 
+            "first_name": "Redd", 
             "last_name": "", 
             "is_active": true, 
             "is_superuser": true, 
