@@ -5,12 +5,16 @@ import os.path
 from celery.contrib.abortable import AbortableAsyncResult
 from celery import states
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from djcelery.models import TASK_STATE_CHOICES
+from tastypie.models import create_api_key
 
 from redd.fields import JSONField
 from redd.tasks import DatasetImportTask, dataset_purge_data
 from redd.utils import infer_schema, sample_data, sniff
+
+models.signals.post_save.connect(create_api_key, sender=User)
 
 class TaskStatus(models.Model):
     """
@@ -43,6 +47,8 @@ class Upload(models.Model):
         help_text='Filename as originally uploaded.')
     size = models.IntegerField(
         help_text='Size of the file in bytes.')
+    creator = models.ForeignKey(User,
+        help_text='The user who uploaded this file.')
 
     def __unicode__(self):
         return self.filename
@@ -75,6 +81,8 @@ class Dataset(models.Model):
         help_text='The currently executed or last finished task related to this dataset.') 
     creation_date = models.DateTimeField(auto_now=True,
         help_text='The date this dataset was initially created.')
+    creator = models.ForeignKey(User,
+        help_text='The user who created this dataset.')
     dialect = JSONField(
         help_text='Description of the format of the input CSV.')
 

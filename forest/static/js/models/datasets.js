@@ -85,14 +85,14 @@ PANDA.models.Dataset = Backbone.Model.extend({
          *
          * TKTK - error callback
          */
-        $.getJSON(
-            this.url() + "import",
-            {},
-            _.bind(function(response) {
+        $.panda_ajax({
+            url: this.url() + "import",
+            dataType: 'json',
+            success: _.bind(function(response) {
                 this.set(response);
                 success_callback(this); 
             }, this)
-        );
+        });
     },
 
     search: function(query, limit, page, success) {
@@ -115,10 +115,11 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.data.meta.offset = 0;
         }
 
-        $.getJSON(
-            PANDA.API + "/dataset/" + this.get("id") + "/search/",
-            { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
-            _.bind(function(response) {
+        $.panda_ajax({
+            url: PANDA.API + "/dataset/" + this.get("id") + "/search/",
+            dataType: 'json',
+            data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
+            success: _.bind(function(response) {
                 objs = this.data.parse(response);
                 delete response["meta"];
                 delete response["objects"];
@@ -127,7 +128,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
                 this.data.reset(objs);
             }, this)
-        );
+        });
     }
 });
 
@@ -177,10 +178,11 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = 0;
         }
 
-        $.getJSON(
-            PANDA.API + "/data/search/",
-            { q: query, limit: this.meta.limit, offset: this.meta.offset },
-            _.bind(function(response) {
+        $.panda_ajax({
+            url: PANDA.API + "/data/search/",
+            dataType: 'json',
+            data: { q: query, limit: this.meta.limit, offset: this.meta.offset },
+            success: _.bind(function(response) {
                 var objs = this.parse(response);
 
                 datasets = _.map(objs, function(obj) {
@@ -192,7 +194,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
 
                 this.reset(datasets);
             }, this)
-        );
+        });
     },
 
     results: function() {

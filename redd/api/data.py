@@ -9,13 +9,13 @@ from django.utils import simplejson as json
 from sunburnt import SolrInterface
 from sunburnt.search import SolrSearch
 from tastypie import fields
-from tastypie.authentication import Authentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
 from tastypie.paginator import Paginator
 from tastypie.resources import Resource
 from tastypie.utils.urls import trailing_slash
 
+from redd.api.utils import CustomApiKeyAuthentication
 from redd.models import Dataset
 
 class SolrObject(object):
@@ -51,7 +51,6 @@ class DataResource(Resource):
     API resource for row data.
 
     TKTK: implement write API
-    TKTK: implement authentication/permissions
     """
     id = fields.CharField(attribute='id',
         help_text='Unique id of this row of data.')
@@ -66,8 +65,8 @@ class DataResource(Resource):
         resource_name = 'data'
         allowed_methods = ['get']
 
-        authentication = Authentication()
-        authorization = Authorization()
+        authentication = CustomApiKeyAuthentication()
+        authorization = DjangoAuthorization()
 
     def _solr(self):
         """
@@ -279,3 +278,4 @@ class DataResource(Resource):
         self.log_throttled_access(request)
 
         return self.create_response(request, page)
+

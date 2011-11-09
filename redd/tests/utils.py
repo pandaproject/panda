@@ -5,6 +5,7 @@ from shutil import copyfile
 from time import sleep
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from sunburnt import SolrInterface
 
 from redd.models import Dataset, Upload
@@ -20,7 +21,16 @@ def get_test_solr():
 
     return solr
 
-def get_test_upload():
+def get_auth_headers():
+    return {
+        'HTTP_PANDA_USERNAME': 'panda',
+        'HTTP_PANDA_API_KEY': User.objects.get(username='panda').api_key.key
+    }
+
+def get_test_user():
+    return User.objects.get(username='panda')
+
+def get_test_upload(creator):
     # Ensure panda subdir has been created
     try:
         os.mkdir(settings.MEDIA_ROOT)
@@ -34,13 +44,15 @@ def get_test_upload():
     return Upload.objects.create(
         filename=TEST_DATA_FILENAME,
         original_filename=TEST_DATA_FILENAME,
-        size=os.path.getsize(dst))
+        size=os.path.getsize(dst),
+        creator=creator)
 
-def get_test_dataset(upload):
+def get_test_dataset(upload, creator):
     return Dataset.objects.create(
         name='Contributors',
         description='Biographic information about contributors to the PANDA project.',
-        data_upload=upload)        
+        data_upload=upload,
+        creator=creator)        
 
 def wait():
     sleep(3)

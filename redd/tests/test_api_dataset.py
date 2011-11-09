@@ -14,8 +14,11 @@ class TestAPIDataset(TestCase):
 
         self.solr = utils.get_test_solr() 
 
-        self.upload = utils.get_test_upload()
-        self.dataset = utils.get_test_dataset(self.upload)
+        self.user = utils.get_test_user()
+        self.upload = utils.get_test_upload(self.user)
+        self.dataset = utils.get_test_dataset(self.upload, self.user)
+
+        self.auth_headers = utils.get_auth_headers() 
 
         self.client = Client()
 
@@ -28,7 +31,7 @@ class TestAPIDataset(TestCase):
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
-        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -39,21 +42,27 @@ class TestAPIDataset(TestCase):
         self.assertEqual(body['row_count'], self.dataset.row_count)
         self.assertEqual(body['sample_data'], self.dataset.sample_data)
         self.assertEqual(body['schema'], self.dataset.schema)
+        self.assertEqual(body['creator']['username'], self.dataset.creator.username)
 
-        task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id)
+        task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id, **self.auth_headers)
 
         self.assertEqual(task_response.status_code, 200)
 
         self.assertEqual(body['current_task'], json.loads(task_response.content))
 
-        upload_response = self.client.get('/api/1.0/upload/%i/' % self.dataset.data_upload.id)
+        upload_response = self.client.get('/api/1.0/upload/%i/' % self.dataset.data_upload.id, **self.auth_headers)
 
         self.assertEqual(upload_response.status_code, 200)
 
         self.assertEqual(body['data_upload'], json.loads(upload_response.content))
 
+    def test_get_unauthorized(self):
+        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 401)
+
     def test_list(self):
-        response = self.client.get('/api/1.0/dataset/', data={ 'limit': 5 })
+        response = self.client.get('/api/1.0/dataset/', data={ 'limit': 5 }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -73,7 +82,7 @@ class TestAPIDataset(TestCase):
             'data_upload': '/api/1.0/upload/%i/' % self.upload.id
         }
 
-        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset))
+        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
 
         self.assertEqual(response.status_code, 201)
 
@@ -86,6 +95,7 @@ class TestAPIDataset(TestCase):
         self.assertNotEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['data_upload']['filename'], self.upload.filename)
+        self.assertEqual(body['creator']['username'], self.user.username)
 
         new_dataset = Dataset.objects.get(id=body['id'])
 
@@ -96,9 +106,10 @@ class TestAPIDataset(TestCase):
         self.assertNotEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.data_upload, self.upload)
+        self.assertEqual(new_dataset.creator, self.user)
 
     def test_import_data(self):
-        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id, **self.auth_headers)
 
         utils.wait() 
 
@@ -126,6 +137,11 @@ class TestAPIDataset(TestCase):
 
         self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
 
+    def test_import_data_unauthorized(self):
+        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 401)
+
     def test_search(self):
         self.dataset.import_data()
 
@@ -137,13 +153,14 @@ class TestAPIDataset(TestCase):
         # Import second dataset so we can make sure only one is matched
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload)
+            data_upload=self.dataset.data_upload,
+            creator=self.dataset.creator)
 
         second_dataset.import_data()
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -159,4 +176,9 @@ class TestAPIDataset(TestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(body['objects'][0]['data'][0], 'Christopher')
+
+    def test_search_unauthorized(self):
+        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
+
+        self.assertEqual(response.status_code, 401)
 

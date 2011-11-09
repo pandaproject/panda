@@ -4,38 +4,43 @@ from django.conf import settings
 from django.conf.urls.defaults import url
 from sunburnt import SolrInterface
 from tastypie import fields
-from tastypie.authentication import Authentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomResource
+from redd.api.utils import CustomApiKeyAuthentication, CustomResource
 from redd.models import Dataset
 
 class DatasetResource(CustomResource):
     """
     API resource for Datasets.
-
-    TKTK: implement authentication/permissions
     """
     from redd.api.tasks import TaskResource
     from redd.api.uploads import UploadResource
+    from redd.api.users import UserResource
 
     data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
+    creator = fields.ForeignKey(UserResource, 'creator', full=True)
 
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
         always_return_data = True
                 
-        authentication = Authentication()
-        authorization = Authorization()
+        authentication = CustomApiKeyAuthentication()
+        authorization = DjangoAuthorization()
     
     def _solr(self):
         """
         Create a query interface for Solr.
         """
         return SolrInterface(settings.SOLR_ENDPOINT)
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        Set creating user on create.
+        """
+        return super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
 
     def override_urls(self):
         """

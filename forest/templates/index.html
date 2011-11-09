@@ -47,6 +47,7 @@
 
     {% compress js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-modal.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone.js"></script>
@@ -54,6 +55,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/fileuploader.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/utils.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/auth.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/application.js"></script>
     {% endcompress %}
     
@@ -65,6 +67,8 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/datasets.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/data.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/not_found.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/login.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/views/register.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/news.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/list_datasets.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/views/edit_dataset.js"></script>

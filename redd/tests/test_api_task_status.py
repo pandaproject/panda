@@ -16,19 +16,22 @@ class TestAPITaskStatus(TestCase):
         
         self.solr = utils.get_test_solr()
         
-        self.upload = utils.get_test_upload()
-        self.dataset = utils.get_test_dataset(self.upload)
+        self.user = utils.get_test_user()
+        self.upload = utils.get_test_upload(self.user)
+        self.dataset = utils.get_test_dataset(self.upload, self.user)
 
         self.dataset.import_data()
 
         utils.wait()
+
+        self.auth_headers = utils.get_auth_headers()
 
         self.client = Client()
 
     def test_get(self):
         task = TaskStatus.objects.get(id=self.dataset.current_task.id)
 
-        response = self.client.get('/api/1.0/task/%i/' % task.id) 
+        response = self.client.get('/api/1.0/task/%i/' % task.id, **self.auth_headers) 
 
         self.assertEqual(response.status_code, 200)
 
@@ -43,8 +46,13 @@ class TestAPITaskStatus(TestCase):
         self.assertEqual(body['message'], task.message)
         self.assertEqual(body['traceback'], None)
 
+    def test_get_unauthorized(self):
+        response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id) 
+
+        self.assertEqual(response.status_code, 401)
+
     def test_list(self):
-        response = self.client.get('/api/1.0/task/', data={ 'limit': 5 })
+        response = self.client.get('/api/1.0/task/', data={ 'limit': 5 }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -62,7 +70,7 @@ class TestAPITaskStatus(TestCase):
             'task_name': 'redd.tasks.ImportDatasetTask'
         }
 
-        response = self.client.post('/api/1.0/task/', content_type='application/json', data=json.dumps(new_task))
+        response = self.client.post('/api/1.0/task/', content_type='application/json', data=json.dumps(new_task), **self.auth_headers)
 
         self.assertEqual(response.status_code, 405)
 
