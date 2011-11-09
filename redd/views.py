@@ -2,6 +2,8 @@
 
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.utils import simplejson as json
 
@@ -39,13 +41,33 @@ def panda_login(request):
                 login(request, user)
 
                 # Success
-                return HttpResponse(json.dumps({ 'username': request.user.username, 'api_key': request.user.api_key.key }), content_type='application/json')
+                return HttpResponse(json.dumps({ 'username': user.username, 'api_key': user.api_key.key }), content_type='application/json')
             else:
                 # Disabled account
-                return HttpResponse('null', content_type='application/json', status=403)
+                return HttpResponse(json.dumps({ 'message': 'Account is disabled' }), content_type='application/json', status=403)
         else:
             # Invalid login
-            return HttpResponse('null', content_type='application/json', status=400) 
+            return HttpResponse(json.dumps({ 'message': 'Username or password is incorrect' }), content_type='application/json', status=400) 
+    else:
+        # Invalid request
+        return HttpResponse('null', content_type='application/json', status=400)
+
+def panda_register(request):
+    """
+    PANDA user registeration.
+    """
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        try:
+            user = User.objects.create_user(username, email, password)
+        except IntegrityError:
+            return HttpResponse(json.dumps({ 'message': 'Username already in use' }), content_type='application/json', status=400)
+
+        # Success
+        return HttpResponse(json.dumps({ 'username': user.username, 'api_key': user.api_key.key }), content_type='application/json')
     else:
         # Invalid request
         return HttpResponse('null', content_type='application/json', status=400)

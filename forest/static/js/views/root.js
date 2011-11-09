@@ -31,6 +31,11 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset();
     },
 
+    register: function() {
+        this.current_content_view = this.get_or_create_view("Register");
+        this.current_content_view.reset();
+    },
+
     search: function(query, limit, page) {
         // This little trick avoids rerendering the Search view if
         // its already visible. Only the nested results need to be

@@ -1,10 +1,10 @@
-PANDA.views.Login = Backbone.View.extend({
+PANDA.views.Register = Backbone.View.extend({
     el: $("#content"),
     
-    template: PANDA.templates.login,
+    template: PANDA.templates.register,
 
     events: {
-        "submit #login-form":   "login"
+        "submit #register-form":   "register"
     },
 
     initialize: function() {
@@ -16,17 +16,15 @@ PANDA.views.Login = Backbone.View.extend({
     },
 
     render: function() {
-        username = $.cookie("username");
-
-        this.el.html(this.template({ username: username }));
+        this.el.html(this.template());
     },
 
-    login: function() {
+    register: function() {
         $.ajax({
-            url: '/login/',
+            url: '/register/',
             dataType: 'json',
             type: 'POST',
-            data: $("#login-form").serialize(),
+            data: $("#register-form").serialize(),
             success: function(data, status, xhr) {
                 $.cookie('username', data.username);
                 $.cookie('api_key', data.api_key);
@@ -44,12 +42,13 @@ PANDA.views.Login = Backbone.View.extend({
                     message = "Unknown error"; 
                 }
 
-                $("#login-alert").alert("error block-message", "<p><strong>Login failed!</strong> " + message + ".");
+                $("#register-alert").alert("error block-message", "<p><strong>Registration failed!</strong> " + message + ".");
             }
         });
 
         return false;
     },
 });
+
 
 
