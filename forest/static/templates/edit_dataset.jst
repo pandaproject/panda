@@ -21,6 +21,12 @@
                     <div class="uneditable-input" style="float: left; width:530px;"><%= data_upload.original_filename %></div>&nbsp;<a href="/api/1.0/upload/<%= data_upload.id %>/download/" ><input id="dataset-download" type="button" class="btn" value="Download original file (<%= data_upload.size %> bytes)" /></a>
                 </div>
             </div>
+            <div class="clearfix">
+                <label>Created by</label>
+                <div class="input">
+                    <p><%= creator.first_name %> <%= creator.last_name %> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt;</p>
+                </div>
+            </div>
         </fieldset>
         <fieldset>
             <legend>Sample data <% if (row_count) { %>(<%= row_count %> rows total) <% } else { %>(total row count not available)<% } %></legend>
