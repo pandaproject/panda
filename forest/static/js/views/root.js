@@ -8,9 +8,30 @@ PANDA.views.Root = Backbone.View.extend({
     initialize: function() {
         this.router = new PANDA.routers.Index({ controller: this });
 
+        this.configure_topbar();
+
         Backbone.history.start();
 
         return this;
+    },
+
+    configure_topbar: function() {
+        username = $.cookie("username");
+        api_key = $.cookie("api_key");
+
+        if (username === null || api_key === null) {
+            $("#topbar-username").hide();
+            $("#topbar-logout").hide();
+            $("#topbar-login").css("display", "block");
+            $("#topbar-register").css("display", "block");
+        } else {
+            $("#topbar-username a").text(username);
+
+            $("#topbar-username").css("display", "block");
+            $("#topbar-logout").css("display", "block");
+            $("#topbar-login").hide();
+            $("#topbar-register").hide();
+        }
     },
 
     get_or_create_view: function(name, options) {
@@ -29,6 +50,15 @@ PANDA.views.Root = Backbone.View.extend({
     login: function() {
         this.current_content_view = this.get_or_create_view("Login");
         this.current_content_view.reset();
+    },
+    
+    logout: function() {
+        $.cookie("username", null);
+        $.cookie("api_key", null);
+
+        Redd.configure_topbar();
+
+        window.location = "#login";
     },
 
     register: function() {

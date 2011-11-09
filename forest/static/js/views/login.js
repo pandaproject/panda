@@ -31,11 +31,15 @@ PANDA.views.Login = Backbone.View.extend({
                 $.cookie('username', data.username);
                 $.cookie('api_key', data.api_key);
 
+                Redd.configure_topbar();
+
                 window.location = "#";
             },
             error: function(xhr, status, error) {
                 $.cookie('username', null);
                 $.cookie('api_key', null);
+                
+                Redd.configure_topbar();
 
                 try {
                     data = $.parseJSON(xhr.responseText);

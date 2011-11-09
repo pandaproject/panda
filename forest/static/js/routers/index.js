@@ -1,6 +1,7 @@
 PANDA.routers.Index = Backbone.Router.extend({
     routes: {
         "login":                                    "login",
+        "logout":                                   "logout",
         "register":                                 "register",
         "":                                         "search",
         "search/:query":                            "search",
@@ -24,6 +25,10 @@ PANDA.routers.Index = Backbone.Router.extend({
 
     login: function() {
         this.controller.login();
+    },
+
+    logout: function() {
+        this.controller.logout();
     },
 
     register: function() {

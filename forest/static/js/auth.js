@@ -60,7 +60,7 @@ window.check_auth_cookies = function() {
     username = $.cookie("username");
     api_key = $.cookie("api_key");
 
-    if (username == null || api_key == null) {
+    if (username === null || api_key === null) {
         window.location = "#login";
         return false;
     }
