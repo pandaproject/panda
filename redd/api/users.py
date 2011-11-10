@@ -16,7 +16,7 @@ class UserValidation(Validation):
         errors = {}
 
         if 'username' in bundle.data and bundle.data['username']:
-            if not re.match('^[A-Za-z0-9\-\_]*$', bundle.data['username']):
+            if not re.match('^[A-Za-z0-9\-\_]+$', bundle.data['username']):
                 errors['username'] = ['Usernames may only contain letters, numbers, and the dash and underscore characters.']
         else:
             errors['username'] = ['This field is required.']

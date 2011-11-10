@@ -22,11 +22,12 @@ class TestUserValidation(TestCase):
         self.assertIn("email", errors)
 
     def test_invalid_usernames(self):
-        for username in ['jim123!', '#lucky', 'space boy', 'SELECT * FROM']:
+        for username in ['jim123!', '#lucky', 'space boy', 'SELECT * FROM', '']:
             bundle = Bundle(data={ 'username': username })
         
             errors = self.validator.is_valid(bundle)
 
+            print username
             self.assertIn("username", errors)
 
     def test_valid_usernames(self):
@@ -38,7 +39,7 @@ class TestUserValidation(TestCase):
             self.assertNotIn("username", errors)
 
     def test_invalid_emails(self):
-        for email in ['nobody.com', 'nobody@', 'nobody@nobody', 'nobody@.com']:
+        for email in ['nobody.com', 'nobody@', 'nobody@nobody', 'nobody@.com', '']:
             bundle = Bundle(data={ 'email': email })
         
             errors = self.validator.is_valid(bundle)
