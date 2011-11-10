@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import random
+import re
 
 from django.contrib.auth.models import User, get_hexdigest
+from django.core.validators import email_re
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
@@ -11,20 +13,17 @@ from redd.api.utils import CustomApiKeyAuthentication
 
 class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
-        if not bundle.data:
-            return { '__all__': 'No user data submitted.' }
-
         errors = {}
 
         if 'username' in bundle.data and bundle.data['username']:
-            # TODO - verify only letters and numbers
-            pass
+            if not re.match('^[A-Za-z0-9\-\_]*$', bundle.data['username']):
+                errors['username'] = ['Usernames may only contain letters, numbers, and the dash and underscore characters.']
         else:
             errors['username'] = ['This field is required.']
 
         if 'email' in bundle.data and bundle.data['email']:
-            # TODO - verify email format
-            pass
+            if not email_re.match(bundle.data['email']):
+                errors['email'] = ['Email address is not valid.']
         else:
             errors['email'] = ['This field is required.']
 
