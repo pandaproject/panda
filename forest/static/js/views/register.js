@@ -19,7 +19,47 @@ PANDA.views.Register = Backbone.View.extend({
         this.el.html(this.template());
     },
 
+    validate: function() {
+        var data = $("#register-form").serializeObject();
+        var errors = {};
+
+        if (!data["username"]) {
+            errors["username"] = ["This field is required."]
+        }
+
+        if (!data["email"]) {
+            errors["email"] = ["This field is required."]
+        }
+
+        if (!data["password"]) {
+            errors["password"] = ["This field is required."]
+        }
+
+        if (!data["reenter_password"]) {
+            errors["reenter_password"] = ["This field is required."]
+        }
+
+        if (data["password"] != data["reenter_password"]) {
+            if ("password" in errors || "reenter_password" in errors) {
+                console.log(1);
+                // Skip
+            } else {
+                errors["reenter_password"] = ["Passwords do not match."]
+            }
+        }
+
+        return errors;
+    },
+
     register: function() {
+        var errors = this.validate();
+
+        if (!_.isEmpty(errors)) {
+            $("#register-form").show_errors(errors);
+
+            return false;
+        }
+
         $.ajax({
             url: '/register/',
             dataType: 'json',
@@ -40,13 +80,12 @@ PANDA.views.Register = Backbone.View.extend({
                 Redd.configure_topbar();
 
                 try {
-                    data = $.parseJSON(xhr.responseText);
-                    message = data["message"];
+                    errors = $.parseJSON(xhr.responseText);
                 } catch(e) {
-                    message = "Unknown error"; 
+                    errors = { "__all__": "Unknown error" }; 
                 }
 
-                $("#register-alert").alert("error block-message", "<p><strong>Registration failed!</strong> " + message + ".");
+                $("#register-form").show_errors(errors);
             }
         });
 

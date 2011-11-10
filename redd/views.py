@@ -64,7 +64,7 @@ def panda_register(request):
         try:
             user = User.objects.create_user(username, email, password)
         except IntegrityError:
-            return HttpResponse(json.dumps({ 'message': 'Username already in use' }), content_type='application/json', status=400)
+            return HttpResponse(json.dumps({ '__all__': 'Username already in use' }), content_type='application/json', status=400)
 
         # Success
         return HttpResponse(json.dumps({ 'username': user.username, 'api_key': user.api_key.key }), content_type='application/json')
