@@ -56,8 +56,8 @@ Installing Solr can be tricky and will vary quite a bit depending on your operat
     # This command will install all Solr configuration
     fab local_reset_solr
 
-Running unit tests
-==================
+Running Python unit tests
+=========================
 
 To run the unit tests start Solr and execute the test runner, like so::
 
@@ -71,4 +71,9 @@ To run the unit tests start Solr and execute the test runner, like so::
     # Then, open another terminal and change to your PANDA source directory.
     workon panda
     python manage.py test redd
+
+Running Javascript unit tests
+=============================
+
+Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests first start the test server with ``python manage.py runserver``, then open the file ``forest/static/js/SpecRunner.html`` in your browser (e.g. ```file://localhost/Users/onyxfish/src/panda/forest/static/js/SpecRunner.html```.
 
