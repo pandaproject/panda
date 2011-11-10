@@ -2,6 +2,7 @@
 
 from unittest import TestCase
 
+from django.contrib.auth.models import User
 from django.test.client import Client
 from django.utils import simplejson as json
 
@@ -64,4 +65,46 @@ class TestLogin(TestCase):
         body = json.loads(response.content)
 
         self.assertEqual(body, None)
+
+class TestRegistration(TestCase):
+    def setUp(self):
+        self.user = utils.get_test_user()
+        
+        self.client = Client()
+
+    def test_registration_success(self):
+        response = self.client.post('/register/', { 'username': 'NEWPANDA', 'email': 'NEWPANDA@pandaproject.net', 'password': 'panda', 'first_name': 'Mr.', 'last_name': 'PANDA' }) 
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['username'], 'NEWPANDA')
+        self.assertIn('api_key', body)
+
+        new_user = User.objects.get(username='NEWPANDA')
+
+        self.assertEqual(new_user.username, 'NEWPANDA')
+        self.assertEqual(new_user.email, 'NEWPANDA@pandaproject.net')
+        self.assertEqual(new_user.first_name, 'Mr.')
+        self.assertEqual(new_user.last_name, 'PANDA')
+
+    def test_registration_username_already_in_use(self):
+        response = self.client.post('/register/', { 'username': 'panda', 'email': 'nobody@nobody.com', 'password': 'panda' }) 
+
+        self.assertEqual(response.status_code, 400)
+
+        body = json.loads(response.content)
+
+        self.assertIn('already registered', body['__all__'])
+
+    def test_validation(self):
+        response = self.client.post('/register/', { 'email': 'INVALID' }) 
+
+        self.assertEqual(response.status_code, 400)
+
+        body = json.loads(response.content)
+
+        self.assertIn('username', body)
+        self.assertIn('email', body)
 

@@ -78,9 +78,11 @@ def panda_register(request):
             return JSONResponse(errors, status=400) 
 
         try:
+            user = User.objects.get(username=bundle.data['username'])
+
+            return JSONResponse({ '__all__': 'Username is already registered' }, status=400)
+        except User.DoesNotExist:
             user = User.objects.create(**bundle.data)
-        except IntegrityError:
-            return JSONResponse({ '__all__': 'Username or email is already registered' }, status=400)
 
         # Success
         return JSONResponse({ 'username': user.username, 'api_key': user.api_key.key })
