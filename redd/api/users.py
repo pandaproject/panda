@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import random
+
 from django.contrib.auth.models import User, get_hexdigest
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
@@ -14,26 +16,27 @@ class UserValidation(Validation):
 
         errors = {}
 
-        if 'username' in bundle.data:
+        if 'username' in bundle.data and bundle.data['username']:
             # TODO - verify only letters and numbers
             pass
         else:
             errors['username'] = ['This field is required.']
 
-        if 'email' in bundle.data:
+        if 'email' in bundle.data and bundle.data['email']:
             # TODO - verify email format
             pass
         else:
             errors['email'] = ['This field is required.']
 
-        if 'password' in bundle.data:
-            import random
-
+        if 'password' in bundle.data and bundle.data['password']:
+            # Password hashing algorithm taken from Django
             algo = 'sha1'
             salt = get_hexdigest(algo, str(random.random()), str(random.random()))[:5]
             hsh = get_hexdigest(algo, salt, bundle.data['password'])
 
             bundle.data['password'] = '%s$%s$%s' % (algo, salt, hsh)
+        else:
+            bundle.data['password'] = None
 
         return errors
 

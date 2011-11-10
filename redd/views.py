@@ -6,10 +6,16 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.utils import simplejson as json
+from tastypie.bundle import Bundle
 
+from redd.api.users import UserValidation 
 from redd.api.utils import CustomApiKeyAuthentication
 from redd.storage import PANDAUploadBackend
 
+class JSONResponse(HttpResponse):
+    def __init__(self, contents, **kwargs):
+        super(JSONResponse, self).__init__(json.dumps(contents), content_type='application/json', **kwargs)
+                
 class SecureAjaxFileUploader(AjaxFileUploader):
     """
     A custom version of AjaxFileUploader that checks for authorization.
@@ -19,7 +25,7 @@ class SecureAjaxFileUploader(AjaxFileUploader):
 
         if auth.is_authenticated(request) != True:
             # Valum's FileUploader only parses the response if the status code is 200.
-            return HttpResponse(json.dumps({ 'success': False, 'forbidden': True }), content_type='application/json', status=200)
+            return JSONResponse({ 'success': False, 'forbidden': True }, status=200)
 
         return self._ajax_upload(request)
 
@@ -41,34 +47,44 @@ def panda_login(request):
                 login(request, user)
 
                 # Success
-                return HttpResponse(json.dumps({ 'username': user.username, 'api_key': user.api_key.key }), content_type='application/json')
+                return JSONResponse({ 'username': user.username, 'api_key': user.api_key.key })
             else:
                 # Disabled account
-                return HttpResponse(json.dumps({ 'message': 'Account is disabled' }), content_type='application/json', status=403)
+                return JSONResponse({ 'message': 'Account is disabled' }, status=403)
         else:
             # Invalid login
-            return HttpResponse(json.dumps({ 'message': 'Username or password is incorrect' }), content_type='application/json', status=400) 
+            return JSONResponse({ 'message': 'Username or password is incorrect' }, status=400)
     else:
         # Invalid request
-        return HttpResponse('null', content_type='application/json', status=400)
+        return JSONResponse(None, status=400)
 
 def panda_register(request):
     """
     PANDA user registeration.
     """
     if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
+        validator = UserValidation()
+
+        data = dict([(k, v) for k, v in request.POST.items()])
+
+        if 'reenter_password' in data:
+            del data['reenter_password']
+
+        bundle = Bundle(data=data)
+
+        errors = validator.is_valid(bundle)
+
+        if errors:
+            return JSONResponse(errors, status=400) 
 
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create(**bundle.data)
         except IntegrityError:
-            return HttpResponse(json.dumps({ '__all__': 'Username already in use' }), content_type='application/json', status=400)
+            return JSONResponse({ '__all__': 'Username or email is already registered' }, status=400)
 
         # Success
-        return HttpResponse(json.dumps({ 'username': user.username, 'api_key': user.api_key.key }), content_type='application/json')
+        return JSONResponse({ 'username': user.username, 'api_key': user.api_key.key })
     else:
         # Invalid request
-        return HttpResponse('null', content_type='application/json', status=400)
+        return JSONResponse(None, status=400)
 
