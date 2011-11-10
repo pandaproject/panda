@@ -18,6 +18,17 @@ PANDA.views.EditDataset = Backbone.View.extend({
         this.render();
     },
 
+    validate: function() {
+        var data = $("#edit-dataset-form").serializeObject();
+        var errors = {};
+
+        if (!data["name"]) {
+            errors["name"] = ["This field is required."];
+        }
+
+        return errors;
+    },
+
     render: function() {
         this.el.html(this.template(this.dataset.toJSON()));
 
@@ -25,16 +36,24 @@ PANDA.views.EditDataset = Backbone.View.extend({
 
         if (task && task.get("task_name") == "redd.tasks.DatasetImportTask") {
             if (task.get("status") == "STARTED") {
-                $("#edit-dataset-alert").alert("info block-message", "<p><strong>Import in progress!</strong> This dataset is currently being made searchable. It will not yet appear in search results.</p>Status of import: " + task.get("message") + ".");
+                $("#edit-dataset-form .alert-message").alert("info block-message", "<p><strong>Import in progress!</strong> This dataset is currently being made searchable. It will not yet appear in search results.</p>Status of import: " + task.get("message") + ".");
             } else if (task.get("status") == "PENDING") {
-                $("#edit-dataset-alert").alert("info block-message", "<p><strong>Queued for import!</strong> This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>");
+                $("#edit-dataset-form .alert-message").alert("info block-message", "<p><strong>Queued for import!</strong> This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>");
             } else if (task.get("status") == "FAILURE") {
-                $("#edit-dataset-alert").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
+                $("#edit-dataset-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
             } 
         }
     },
 
     save: function() {
+        var errors = this.validate();
+        
+        if (!_.isEmpty(errors)) {
+            $("#edit-dataset-form").show_errors(errors, "Save failed!");
+        
+            return false;
+        }
+        
         form_values = $("#edit-dataset-form").serializeObject();
 
         s = {};
@@ -43,9 +62,22 @@ PANDA.views.EditDataset = Backbone.View.extend({
             s[k] = v;
         }, this));
 
-        this.dataset.save(s, { success: function() {
-            $("#edit-dataset-alert").alert("success", "Saved!");
-        }});
+        this.dataset.save(s, {
+            success: function() {
+                $("#edit-dataset-form .alert-message").alert("success", "Saved!");
+            },
+            error: function(model, response) {
+                try {
+                    errors = $.parseJSON(response);
+                } catch(e) {
+                    errors = { "__all__": "Unknown error" }; 
+                }
+
+                console.log(errors);
+
+                $("#edit-dataset-form").show_errors(errors, "Save failed!");
+            }
+        });
 
         return false;
     },

@@ -4,9 +4,22 @@ from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
 from django.utils import simplejson as json
+from tastypie.bundle import Bundle
 
+from redd.api.datasets import DatasetValidation
 from redd.models import Dataset
 from redd.tests import utils
+
+class TestDatasetValidation(TestCase):
+    def setUp(self):
+        self.validator = DatasetValidation()
+
+    def test_required_fields(self):
+        bundle = Bundle(data={})
+
+        errors = self.validator.is_valid(bundle)
+
+        self.assertIn("name", errors)
 
 class TestAPIDataset(TestCase):
     def setUp(self):

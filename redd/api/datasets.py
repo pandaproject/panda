@@ -6,9 +6,19 @@ from sunburnt import SolrInterface
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
+from tastypie.validation import Validation
 
 from redd.api.utils import CustomApiKeyAuthentication, CustomResource
 from redd.models import Dataset
+
+class DatasetValidation(Validation):
+    def is_valid(self, bundle, request=None):
+        errors = {}
+
+        if 'name' not in bundle.data or not bundle.data['name']:
+            errors['name'] = ['This field is required.']
+
+        return errors
 
 class DatasetResource(CustomResource):
     """
@@ -29,6 +39,7 @@ class DatasetResource(CustomResource):
                 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        validation = DatasetValidation()
     
     def _solr(self):
         """
