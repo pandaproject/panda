@@ -21,7 +21,30 @@ PANDA.views.Login = Backbone.View.extend({
         this.el.html(this.template({ username: username }));
     },
 
+    validate: function() {
+        var data = $("#login-form").serializeObject();
+        var errors = {};
+
+        if (!data["username"]) {
+            errors["username"] = ["Please enter your username."];
+        }
+
+        if (!data["password"]) {
+            errors["password"] = ["Please enter your password."];
+        }
+
+        return errors;
+    },
+
     login: function() {
+        var errors = this.validate();
+
+        if (!_.isEmpty(errors)) {
+            $("#login-form").show_errors(errors, "Login failed!");
+        
+            return false;
+        }
+
         $.ajax({
             url: '/login/',
             dataType: 'json',
@@ -42,13 +65,12 @@ PANDA.views.Login = Backbone.View.extend({
                 Redd.configure_topbar();
 
                 try {
-                    data = $.parseJSON(xhr.responseText);
-                    message = data["message"];
+                    errors = $.parseJSON(xhr.responseText);
                 } catch(e) {
-                    message = "Unknown error"; 
+                    errors = { "__all__": "Unknown error" }; 
                 }
 
-                $("#login-alert").alert("error block-message", "<p><strong>Login failed!</strong> " + message + ".");
+                $("#login-form").show_errors(errors, "Login failed!");
             }
         });
 

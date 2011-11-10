@@ -50,10 +50,10 @@ def panda_login(request):
                 return JSONResponse({ 'username': user.username, 'api_key': user.api_key.key })
             else:
                 # Disabled account
-                return JSONResponse({ 'message': 'Account is disabled' }, status=403)
+                return JSONResponse({ '__all__': 'This account is disabled' }, status=400)
         else:
             # Invalid login
-            return JSONResponse({ 'message': 'Username or password is incorrect' }, status=400)
+            return JSONResponse({ '__all__': 'Username or password is incorrect' }, status=400)
     else:
         # Invalid request
         return JSONResponse(None, status=400)

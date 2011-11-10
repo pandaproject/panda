@@ -44,12 +44,16 @@ $.fn.alert = function(type, message, close_button) {
     window.scrollTo(0, this.offset());
 }
 
-$.fn.show_errors = function(errors) {
+$.fn.show_errors = function(errors, alert_prefix) {
     /*
      * Takes a set of errors in the Django-forms format:
      * { "field_id": ["error1", "error2" ] }
      * and displays them on a Twitter Bootstrap form.
      */
+    if (!alert_prefix) {
+        alert_prefix = "";
+    }
+
     // Clear old errors
     $(this).find(".alert-message").hide();
     $(this).find("div.clearfix").removeClass("error");
@@ -57,7 +61,7 @@ $.fn.show_errors = function(errors) {
 
     // Show global errors in an alert
     if ("__all__" in errors) {
-        $(this).find(".alert-message").alert("error block-message", "<p><strong>Registration failed!</strong> " + errors["__all__"] + ".");
+        $(this).find(".alert-message").alert("error block-message", "<p><strong>" + alert_prefix + "</strong> " + errors["__all__"] + ".");
     }
 
     _.each(errors, _.bind(function(field_errors, field) {

@@ -55,7 +55,7 @@ PANDA.views.Register = Backbone.View.extend({
         var errors = this.validate();
 
         if (!_.isEmpty(errors)) {
-            $("#register-form").show_errors(errors);
+            $("#register-form").show_errors(errors, "Registration failed!");
 
             return false;
         }
@@ -85,7 +85,7 @@ PANDA.views.Register = Backbone.View.extend({
                     errors = { "__all__": "Unknown error" }; 
                 }
 
-                $("#register-form").show_errors(errors);
+                $("#register-form").show_errors(errors, "Registration failed!");
             }
         });
 
