@@ -13,4 +13,3 @@ PANDA.collections.Users = Backbone.Collection.extend({
     url: PANDA.API + "/user"
 });
 
-

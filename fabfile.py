@@ -22,6 +22,10 @@ env.hosts = ['panda.beta.tribapps.com']
 
 env.local_solr = '/usr/local/Cellar/solr/3.4.0/libexec/example'
 env.local_solr_home = '/var/solr'
+
+env.local_test_user = 'panda'
+env.local_test_api_key = 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b'
+env.local_test_xhr_path = 'forest/static/js/spec/mock_xhr_responses.js'
     
 """
 Branches
@@ -243,4 +247,32 @@ def local_solr():
     Start the local Solr instance.
     """
     local('cd %(local_solr)s && java -Xms256M -Xmx512G -Dsolr.solr.home=%(local_solr_home)s -jar start.jar' % env)
+
+def make_fixtures():
+    """
+    Creates a consistent set of local test data and generates fixtures.
+
+    Notes:
+    * Assumes local database has just been reset.
+    * Assumes test user has been loaded from fixture.
+    * Local server must be running.
+    """
+    local('curl -H "PANDA_USERNAME: %(local_test_user)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -F file=@test_data/contributors.csv "http://localhost:8000/upload/"' % env)
+    local('curl -H "PANDA_USERNAME: %(local_test_user)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -H "Content-Type: application/json" --data-binary "{ \\"name\\": \\"Test\\", \\"data_upload\\": \\"/api/1.0/upload/1/\\" }" "http://localhost:8000/api/1.0/dataset/"' % env)
+    local('curl -H "PANDA_USERNAME: %(local_test_user)s" -H "PANDA_API_KEY: %(local_test_api_key)s" "http://localhost:8000/api/1.0/dataset/1/import/"' % env)
+
+    mock_xhr_responses = ['window.MOCK_XHR_RESPONSES = {};']
+
+    response = local('curl "http://localhost:8000/api/1.0/task/1/?format=json&username=%(local_test_user)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.task = \'' + response + '\';')
+
+    response = local('curl "http://localhost:8000/api/1.0/task/?format=json&username=%(local_test_user)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.tasks = \'' + response + '\';')
+
+    response = local('curl "http://localhost:8000/api/1.0/dataset/1/?format=json&username=%(local_test_user)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.dataset = \'' + response + '\';')
+
+    # Task
+    with open('%(local_test_xhr_path)s' % env, 'w') as f:
+        f.write('\n'.join(mock_xhr_responses))
 

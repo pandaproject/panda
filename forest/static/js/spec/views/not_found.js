@@ -1,4 +1,4 @@
-describe("Index Router", function() {
+describe("NotFound (404) view", function() {
     beforeEach(function() {
         this.view = new PANDA.views.NotFound();
 
