@@ -18,8 +18,6 @@ describe("Dataset model", function() {
 
         expect(this.requests.length).toEqual(1);
 
-        console.log($.parseJSON(MOCK_XHR_RESPONSES.dataset));
-
         this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.dataset);
 
         expect(dataset.get("name")).toEqual("Test");
