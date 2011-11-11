@@ -4,11 +4,16 @@ PANDA.models.Dataset = Backbone.Model.extend({
     */
     urlRoot: PANDA.API + "/dataset",
 
+    creator: null,
     data_upload: null,
     current_task: null,
     data: null,
 
     initialize: function(options) {
+        if ("creator" in options) {
+            this.creator = new PANDA.models.User(options.creator);
+        }
+
         if ("data_upload" in options) {
             this.data_upload = new PANDA.models.Upload(options.data_upload);
         }
@@ -24,6 +29,11 @@ PANDA.models.Dataset = Backbone.Model.extend({
         /*
          * Extract embedded models from serialized data.
          */
+        if (response.creator != null) {
+            this.creator = new PANDA.models.User(response.creator);
+            delete response['creator'];
+        }
+
         if (response.data_upload != null) {
             this.data_upload = new PANDA.models.Upload(response.data_upload);
             delete response['data_upload'];
@@ -45,7 +55,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         return response 
     },
 
-    toJSON: function() {
+    toJSON: function(full) {
         /*
          * Append embedded models to serialized data.
          *
@@ -53,14 +63,32 @@ PANDA.models.Dataset = Backbone.Model.extend({
          */
         js = Backbone.Model.prototype.toJSON.call(this);
 
+        if (this.creator != null) {
+            if (full) {
+                js['creator'] = this.creator.toJSON();
+            } else {
+                js['creator'] = this.creator.id;
+            }
+        } else {
+            js['creator'] = null;
+        }
+
         if (this.data_upload != null) {
-            js['data_upload'] = this.data_upload.toJSON();
+            if (full) {
+                js['data_upload'] = this.data_upload.toJSON();
+            } else {
+                js['data_upload'] = this.data_upload.id;
+            }
         } else {
             js['data_upload'] = null;
         }
 
         if (this.current_task != null) {
-            js['current_task'] = this.current_task.toJSON();
+            if (full) {
+                js['current_task'] = this.current_task.toJSON();
+            } else {
+                js['current_task'] = this.current_task.id;
+            }
         } else {
             js['current_task'] = null;
         }

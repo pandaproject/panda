@@ -30,7 +30,7 @@ PANDA.views.EditDataset = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(this.template(this.dataset.toJSON()));
+        this.el.html(this.template(this.dataset.toJSON(true)));
 
         task = this.dataset.current_task;
 
