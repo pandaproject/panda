@@ -264,13 +264,13 @@ def make_fixtures():
     mock_xhr_responses = ['window.MOCK_XHR_RESPONSES = {};']
 
     response = local('curl "http://localhost:8000/api/1.0/task/1/?format=json&username=%(local_test_user)s&api_key=%(local_test_api_key)s"' % env, capture=True)
-    mock_xhr_responses.append('MOCK_XHR_RESPONSES.task = \'' + response + '\';')
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.task = \'' + response.replace('\\', '\\\\') + '\';')
 
     response = local('curl "http://localhost:8000/api/1.0/task/?format=json&username=%(local_test_user)s&api_key=%(local_test_api_key)s"' % env, capture=True)
-    mock_xhr_responses.append('MOCK_XHR_RESPONSES.tasks = \'' + response + '\';')
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.tasks = \'' + response.replace('\\', '\\\\') + '\';')
 
     response = local('curl "http://localhost:8000/api/1.0/dataset/1/?format=json&username=%(local_test_user)s&api_key=%(local_test_api_key)s"' % env, capture=True)
-    mock_xhr_responses.append('MOCK_XHR_RESPONSES.dataset = \'' + response + '\';')
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.dataset = \'' + response.replace('\\', '\\\\') + '\';')
 
     # Task
     with open('%(local_test_xhr_path)s' % env, 'w') as f:
