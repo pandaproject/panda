@@ -66,9 +66,25 @@ describe("Dataset model", function() {
         expect(json.current_task).not.toBeNull();
         expect(json.current_task.task_name).toEqual("redd.tasks.DatasetImportTask");
     });
+
+    xit("should tell the server to import data", function() {
+        // TODO
+    });
+
+    xit("should serialize embedded search data", function() {
+        // TODO
+    });
+
+    xit("should execute a search on just this dataset", function() {
+        // TODO
+    });
+
+    xit("should parse search results", function() {
+        // TODO
+    });
 });
 
-describe("Dataset collection", function() {
+xdescribe("Dataset collection", function() {
     beforeEach(function() {
         this.xhr = sinon.useFakeXMLHttpRequest();
         var requests = this.requests = [];
@@ -82,7 +98,19 @@ describe("Dataset collection", function() {
         this.xhr.restore();
     });
 
-    it("should fetch the datasets", function() {
+    xit("should fetch the datasets", function() {
+        // TODO
+    });
+
+    xit("should parse paging metadata", function() {
+        // TODO
+    });
+
+    xit("should search all datasets", function() {
+        // TODO
+    });
+
+    xit("should serialize search results from all datasets", function() {
         // TODO
     });
 });
