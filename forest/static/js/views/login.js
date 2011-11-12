@@ -16,17 +16,17 @@ PANDA.views.Login = Backbone.View.extend({
     },
 
     render: function() {
-        username = $.cookie("username");
+        email = $.cookie("email");
 
-        this.el.html(this.template({ username: username }));
+        this.el.html(this.template({ email: email }));
     },
 
     validate: function() {
         var data = $("#login-form").serializeObject();
         var errors = {};
 
-        if (!data["username"]) {
-            errors["username"] = ["Please enter your username."];
+        if (!data["email"]) {
+            errors["email"] = ["Please enter your email."];
         }
 
         if (!data["password"]) {
@@ -51,7 +51,7 @@ PANDA.views.Login = Backbone.View.extend({
             type: 'POST',
             data: $("#login-form").serialize(),
             success: function(data, status, xhr) {
-                $.cookie('username', data.username);
+                $.cookie('email', data.email);
                 $.cookie('api_key', data.api_key);
 
                 Redd.configure_topbar();
@@ -59,7 +59,7 @@ PANDA.views.Login = Backbone.View.extend({
                 window.location = "#";
             },
             error: function(xhr, status, error) {
-                $.cookie('username', null);
+                $.cookie('email', null);
                 $.cookie('api_key', null);
                 
                 Redd.configure_topbar();

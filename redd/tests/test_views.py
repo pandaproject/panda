@@ -15,20 +15,20 @@ class TestLogin(TestCase):
         self.client = Client()
 
     def test_login_success(self):
-        response = self.client.post('/login/', { 'username': 'panda', 'password': 'panda' }) 
+        response = self.client.post('/login/', { 'email': 'panda@pandaproject.net', 'password': 'panda' }) 
 
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
 
-        self.assertEqual(body['username'], 'panda')
+        self.assertEqual(body['email'], 'panda@pandaproject.net')
         self.assertEqual(body['api_key'], 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b')
 
     def test_login_disabled(self):
         self.user.is_active = False
         self.user.save()
 
-        response = self.client.post('/login/', { 'username': 'panda', 'password': 'panda' }) 
+        response = self.client.post('/login/', { 'email': 'panda@pandaproject.net', 'password': 'panda' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -39,8 +39,8 @@ class TestLogin(TestCase):
         self.user.is_active = True
         self.user.save()
 
-    def test_login_invalid_username(self):
-        response = self.client.post('/login/', { 'username': 'NOTPANDA', 'password': 'panda' }) 
+    def test_login_invalid_email(self):
+        response = self.client.post('/login/', { 'email': 'NOTPANDA@pandaproject.net', 'password': 'panda' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -49,7 +49,7 @@ class TestLogin(TestCase):
         self.assertIn('incorrect', body['__all__'])
 
     def test_login_incorrect_password(self):
-        response = self.client.post('/login/', { 'username': 'panda', 'password': 'NOTPANDA' }) 
+        response = self.client.post('/login/', { 'email': 'panda@pandaproject.net', 'password': 'NOTPANDA' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -58,7 +58,7 @@ class TestLogin(TestCase):
         self.assertIn('incorrect', body['__all__'])
 
     def test_no_get(self):
-        response = self.client.get('/login/', { 'username': 'panda', 'password': 'NOTPANDA' }) 
+        response = self.client.get('/login/', { 'email': 'panda@pandaproject.net', 'password': 'NOTPANDA' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -73,24 +73,24 @@ class TestRegistration(TestCase):
         self.client = Client()
 
     def test_registration_success(self):
-        response = self.client.post('/register/', { 'username': 'NEWPANDA', 'email': 'NEWPANDA@pandaproject.net', 'password': 'panda', 'first_name': 'Mr.', 'last_name': 'PANDA' }) 
+        response = self.client.post('/register/', { 'email': 'NEWPANDA@pandaproject.net', 'password': 'panda', 'first_name': 'Mr.', 'last_name': 'PANDA' }) 
 
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
 
-        self.assertEqual(body['username'], 'NEWPANDA')
+        self.assertEqual(body['email'], 'newpanda@pandaproject.net')
         self.assertIn('api_key', body)
 
-        new_user = User.objects.get(username='NEWPANDA')
+        new_user = User.objects.get(username='newpanda@pandaproject.net')
 
-        self.assertEqual(new_user.username, 'NEWPANDA')
-        self.assertEqual(new_user.email, 'NEWPANDA@pandaproject.net')
+        self.assertEqual(new_user.username, 'newpanda@pandaproject.net')
+        self.assertEqual(new_user.email, 'newpanda@pandaproject.net')
         self.assertEqual(new_user.first_name, 'Mr.')
         self.assertEqual(new_user.last_name, 'PANDA')
 
-    def test_registration_username_already_in_use(self):
-        response = self.client.post('/register/', { 'username': 'panda', 'email': 'nobody@nobody.com', 'password': 'panda' }) 
+    def test_registration_email_already_in_use(self):
+        response = self.client.post('/register/', { 'email': 'panda@pandaproject.net', 'password': 'panda' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -105,6 +105,5 @@ class TestRegistration(TestCase):
 
         body = json.loads(response.content)
 
-        self.assertIn('username', body)
         self.assertIn('email', body)
 

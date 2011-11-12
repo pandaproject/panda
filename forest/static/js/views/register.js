@@ -23,10 +23,6 @@ PANDA.views.Register = Backbone.View.extend({
         var data = $("#register-form").serializeObject();
         var errors = {};
 
-        if (!data["username"]) {
-            errors["username"] = ["This field is required."]
-        }
-
         if (!data["email"]) {
             errors["email"] = ["This field is required."]
         }
@@ -66,7 +62,7 @@ PANDA.views.Register = Backbone.View.extend({
             type: 'POST',
             data: $("#register-form").serialize(),
             success: function(data, status, xhr) {
-                $.cookie('username', data.username);
+                $.cookie('email', data.email);
                 $.cookie('api_key', data.api_key);
                 
                 Redd.configure_topbar();
@@ -74,7 +70,7 @@ PANDA.views.Register = Backbone.View.extend({
                 window.location = "#";
             },
             error: function(xhr, status, error) {
-                $.cookie('username', null);
+                $.cookie('email', null);
                 $.cookie('api_key', null);
                 
                 Redd.configure_topbar();

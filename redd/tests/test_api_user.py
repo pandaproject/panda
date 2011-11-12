@@ -18,25 +18,7 @@ class TestUserValidation(TestCase):
 
         errors = self.validator.is_valid(bundle)
 
-        self.assertIn("username", errors)
         self.assertIn("email", errors)
-
-    def test_invalid_usernames(self):
-        for username in ['jim123!', '#lucky', 'space boy', 'SELECT * FROM', '']:
-            bundle = Bundle(data={ 'username': username })
-        
-            errors = self.validator.is_valid(bundle)
-
-            print username
-            self.assertIn("username", errors)
-
-    def test_valid_usernames(self):
-        for username in ['jim123', 'lucky', 'space_boy', 'SELECT-ALL-FROM']:
-            bundle = Bundle(data={ 'username': username })
-        
-            errors = self.validator.is_valid(bundle)
-
-            self.assertNotIn("username", errors)
 
     def test_invalid_emails(self):
         for email in ['nobody.com', 'nobody@', 'nobody@nobody', 'nobody@.com', '']:
@@ -54,15 +36,22 @@ class TestUserValidation(TestCase):
 
             self.assertNotIn("email", errors)
 
+    def test_email_used_as_username(self):
+        bundle = Bundle(data={ 'email': 'panda@pandaproject.net' })
+    
+        self.validator.is_valid(bundle)
+
+        self.assertEqual(bundle.data['username'], 'panda@pandaproject.net')       
+
     def test_password_missing(self):
-        bundle = Bundle(data={ 'username': 'panda', 'email': 'panda@pandaproject.net' })
+        bundle = Bundle(data={ 'email': 'panda@pandaproject.net' })
 
         self.validator.is_valid(bundle)
 
         self.assertEqual(bundle.data['password'], None)
 
     def test_password_supplied(self):
-        bundle = Bundle(data={ 'username': 'panda', 'email': 'panda@pandaproject.net', 'password': 'panda' })
+        bundle = Bundle(data={ 'email': 'panda@pandaproject.net', 'password': 'panda' })
 
         self.validator.is_valid(bundle)
 
@@ -108,7 +97,7 @@ class TestAPIUser(TestCase):
 
     def test_create_denied(self):
         new_user = {
-            'username': 'tester',
+            'username': 'tester@tester.com',
             'password': 'INVALID'
         }
 

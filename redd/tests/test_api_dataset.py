@@ -55,7 +55,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(body['row_count'], self.dataset.row_count)
         self.assertEqual(body['sample_data'], self.dataset.sample_data)
         self.assertEqual(body['schema'], self.dataset.schema)
-        self.assertEqual(body['creator']['username'], self.dataset.creator.username)
+        self.assertEqual(body['creator']['email'], self.dataset.creator.email)
 
         task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id, **self.auth_headers)
 
@@ -108,7 +108,7 @@ class TestAPIDataset(TestCase):
         self.assertNotEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['data_upload']['filename'], self.upload.filename)
-        self.assertEqual(body['creator']['username'], self.user.username)
+        self.assertEqual(body['creator']['email'], self.user.email)
 
         new_dataset = Dataset.objects.get(id=body['id'])
 

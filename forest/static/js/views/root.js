@@ -16,18 +16,18 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     configure_topbar: function() {
-        username = $.cookie("username");
+        email = $.cookie("email");
         api_key = $.cookie("api_key");
 
-        if (username === null || api_key === null) {
-            $("#topbar-username").hide();
+        if (email === null || api_key === null) {
+            $("#topbar-email").hide();
             $("#topbar-logout").hide();
             $("#topbar-login").css("display", "block");
             $("#topbar-register").css("display", "block");
         } else {
-            $("#topbar-username a").text(username);
+            $("#topbar-email a").text(email);
 
-            $("#topbar-username").css("display", "block");
+            $("#topbar-email").css("display", "block");
             $("#topbar-logout").css("display", "block");
             $("#topbar-login").hide();
             $("#topbar-register").hide();
@@ -53,7 +53,7 @@ PANDA.views.Root = Backbone.View.extend({
     },
     
     logout: function() {
-        $.cookie("username", null);
+        $.cookie("email", null);
         $.cookie("api_key", null);
 
         Redd.configure_topbar();

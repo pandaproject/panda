@@ -37,23 +37,23 @@ def panda_login(request):
     for querying the API.
     """
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=email.lower(), password=password)
 
         if user is not None:
             if user.is_active:
                 login(request, user)
 
                 # Success
-                return JSONResponse({ 'username': user.username, 'api_key': user.api_key.key })
+                return JSONResponse({ 'email': user.email, 'api_key': user.api_key.key })
             else:
                 # Disabled account
                 return JSONResponse({ '__all__': 'This account is disabled' }, status=400)
         else:
             # Invalid login
-            return JSONResponse({ '__all__': 'Username or password is incorrect' }, status=400)
+            return JSONResponse({ '__all__': 'Email or password is incorrect' }, status=400)
     else:
         # Invalid request
         return JSONResponse(None, status=400)
@@ -78,14 +78,14 @@ def panda_register(request):
             return JSONResponse(errors, status=400) 
 
         try:
-            user = User.objects.get(username=bundle.data['username'])
+            user = User.objects.get(username=bundle.data['email'])
 
-            return JSONResponse({ '__all__': 'Username is already registered' }, status=400)
+            return JSONResponse({ '__all__': 'Email is already registered' }, status=400)
         except User.DoesNotExist:
             user = User.objects.create(**bundle.data)
 
         # Success
-        return JSONResponse({ 'username': user.username, 'api_key': user.api_key.key })
+        return JSONResponse({ 'email': user.email, 'api_key': user.api_key.key })
     else:
         # Invalid request
         return JSONResponse(None, status=400)

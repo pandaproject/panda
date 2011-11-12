@@ -23,12 +23,12 @@ def get_test_solr():
 
 def get_auth_headers():
     return {
-        'HTTP_PANDA_USERNAME': 'panda',
-        'HTTP_PANDA_API_KEY': User.objects.get(username='panda').api_key.key
+        'HTTP_PANDA_EMAIL': 'panda@pandaproject.net',
+        'HTTP_PANDA_API_KEY': User.objects.get(username='panda@pandaproject.net').api_key.key
     }
 
 def get_test_user():
-    return User.objects.get(username='panda')
+    return User.objects.get(username='panda@pandaproject.net')
 
 def get_test_upload(creator):
     # Ensure panda subdir has been created

@@ -57,11 +57,10 @@ window.check_auth_cookies = function() {
     /* 
      * Check cookies for headers, if they don't exist redirect to login.
      */
-    console.log("here");
-    username = $.cookie("username");
+    email = $.cookie("email");
     api_key = $.cookie("api_key");
 
-    if (username === null || api_key === null) {
+    if (email === null || api_key === null) {
         window.location = "#login";
         return false;
     }

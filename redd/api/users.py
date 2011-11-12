@@ -15,15 +15,12 @@ class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
         errors = {}
 
-        if 'username' in bundle.data and bundle.data['username']:
-            if not re.match('^[A-Za-z0-9\-\_]+$', bundle.data['username']):
-                errors['username'] = ['Usernames may only contain letters, numbers, and the dash and underscore characters.']
-        else:
-            errors['username'] = ['This field is required.']
-
         if 'email' in bundle.data and bundle.data['email']:
             if not email_re.match(bundle.data['email']):
                 errors['email'] = ['Email address is not valid.']
+
+            bundle.data['email'] = bundle.data['email'].lower()
+            bundle.data['username'] = bundle.data['email'].lower()
         else:
             errors['email'] = ['This field is required.']
 
@@ -54,9 +51,4 @@ class UserResource(ModelResource):
 
     def obj_create(self, bundle, request=None, **kwargs):
         return super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['username'], **kwargs)
-
-    def dehydrate(self, bundle):
-        bundle.data['username'] = bundle.obj.username 
-
-        return bundle
 

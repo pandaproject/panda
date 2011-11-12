@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from urllib import unquote
+
 from django.contrib.auth.models import User
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.fields import ApiField, CharField
@@ -42,14 +44,16 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
     Custom API Auth that accepts parameters as cookies or headers as well as GET params.
     """
     def is_authenticated(self, request, **kwargs):
-        username = request.COOKIES.get('username') or request.META.get('HTTP_PANDA_USERNAME') or request.GET.get('username')
+        email = request.COOKIES.get('email') or request.META.get('HTTP_PANDA_EMAIL') or request.GET.get('email')
         api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('api_key')
 
-        if not username or not api_key:
+        email = unquote(email)
+
+        if not email or not api_key:
             return self._unauthorized()
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username=email.lower())
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return self._unauthorized()
 
