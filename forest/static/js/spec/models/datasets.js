@@ -6,9 +6,12 @@ describe("Dataset model", function() {
         this.xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
+
+        this.auth_stub = sinon.stub(window, "check_auth_cookies").returns(true);
     });
 
     afterEach(function () {
+        this.auth_stub.restore();
         this.xhr.restore();
     });
 
@@ -67,15 +70,26 @@ describe("Dataset model", function() {
         expect(json.current_task.task_name).toEqual("redd.tasks.DatasetImportTask");
     });
 
-    xit("should tell the server to import data", function() {
+    it("should tell the server to import data", function() {
+        var dataset = new PANDA.models.Dataset($.parseJSON(MOCK_XHR_RESPONSES.dataset));
+
+        success_spy = sinon.spy();
+
+        dataset.import_data(success_spy);
+
+        expect(this.requests.length).toEqual(1);
+        expect(this.requests[0].url).toEqual("/api/1.0/dataset/1/import/");
+
+        this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.dataset);
+
+        expect(success_spy).toHaveBeenCalledWith(dataset);
+    });
+
+    xit("should execute a search on just this dataset", function() {
         // TODO
     });
 
     xit("should serialize embedded search data", function() {
-        // TODO
-    });
-
-    xit("should execute a search on just this dataset", function() {
         // TODO
     });
 

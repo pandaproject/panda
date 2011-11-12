@@ -6,9 +6,12 @@ describe("Task model", function() {
         this.xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
+        
+        this.auth_stub = sinon.stub(window, "check_auth_cookies").returns(true);
     });
 
     afterEach(function () {
+        this.auth_stub.restore();
         this.xhr.restore();
     });
 
@@ -32,9 +35,12 @@ describe("Task collection", function() {
         this.xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
+        
+        this.auth_stub = sinon.stub(window, "check_auth_cookies").returns(true);
     });
 
     afterEach(function () {
+        this.auth_stub.restore();
         this.xhr.restore();
     });
 

@@ -57,6 +57,7 @@ window.check_auth_cookies = function() {
     /* 
      * Check cookies for headers, if they don't exist redirect to login.
      */
+    console.log("here");
     username = $.cookie("username");
     api_key = $.cookie("api_key");
 

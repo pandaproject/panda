@@ -1,7 +1,7 @@
 PANDA.models.Dataset = Backbone.Model.extend({
     /*
-    Equivalent of redd.models.Dataset.
-    */
+     * Equivalent of redd.models.Dataset.
+     */
     urlRoot: PANDA.API + "/dataset",
 
     creator: null,
@@ -111,10 +111,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
          * Kick off the dataset import and update the model with
          * the task id and status.
          *
-         * TKTK - error callback
+         * TODO - error callback
          */
         $.panda_ajax({
-            url: this.url() + "import",
+            url: this.url() + "import/",
             dataType: 'json',
             success: _.bind(function(response) {
                 this.set(response);
@@ -125,10 +125,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
     search: function(query, limit, page, success) {
         /*
-        Query the dataset search endpoint.
-
-        TKTK -- success and error callbacks
-        */
+         * Query the dataset search endpoint.
+         *
+         * TODO -- success and error callbacks
+         */
         if (limit) {
             this.data.meta.limit = limit;
         } else {
@@ -188,10 +188,10 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
 
     search: function(query, limit, page) {
         /*
-        Query the search endpoint.
-
-        TKTK -- success and error callbacks
-        */
+         * Query the search endpoint.
+         *
+         * TODO -- success and error callbacks
+         */
         if (limit) {
             this.meta.limit = limit;
         } else {
@@ -227,9 +227,9 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
 
     results: function() {
         /*
-        Grab the current data in a simplified data structure appropriate
-        for templating.
-        */
+         * Grab the current data in a simplified data structure appropriate
+         * for templating.
+         */
         return {
             meta: this.meta,
             datasets: _.invoke(this.models, "results") 
