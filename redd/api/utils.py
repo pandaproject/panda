@@ -47,7 +47,8 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
         email = request.COOKIES.get('email') or request.META.get('HTTP_PANDA_EMAIL') or request.GET.get('email')
         api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('api_key')
 
-        email = unquote(email)
+        if email:
+            email = unquote(email)
 
         if not email or not api_key:
             return self._unauthorized()
