@@ -33,7 +33,7 @@ describe("Dataset model", function() {
         response = dataset.parse(response);
 
         expect(dataset.creator).not.toBeNull();
-        expect(dataset.creator.get("username")).toEqual("panda");
+        expect(dataset.creator.get("email")).toEqual("panda@pandaproject.net");
         expect(response.creator).toBeUndefined();
 
         expect(dataset.data_upload).not.toBeNull();
@@ -61,7 +61,7 @@ describe("Dataset model", function() {
         json = dataset.toJSON(true);
 
         expect(json.creator).not.toBeNull();
-        expect(json.creator.username).toEqual("panda");
+        expect(json.creator.email).toEqual("panda@pandaproject.net");
 
         expect(json.data_upload).not.toBeNull();
         expect(json.data_upload.original_filename).toEqual("contributors.csv");
