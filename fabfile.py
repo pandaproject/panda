@@ -253,10 +253,12 @@ def make_fixtures():
     Creates a consistent set of local test data and generates fixtures.
 
     Notes:
-    * Assumes local database has just been reset.
-    * Assumes test user has been loaded from fixture.
-    * Local server must be running.
+    * Will reset the database.
+    * Local server (runserver, celeryd and solr) must be running.
     """
+    local('python manage.py flush --noinput')
+    local('curl --data-binary "<delete><query>*:*</query></delete>" -H "Content-type:application/xml" "http://localhost:8983/solr/update?commit=true"')
+
     local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -F file=@test_data/contributors.csv "http://localhost:8000/upload/"' % env)
     local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -H "Content-Type: application/json" --data-binary "{ \\"name\\": \\"Test\\", \\"data_upload\\": \\"/api/1.0/upload/1/\\" }" "http://localhost:8000/api/1.0/dataset/"' % env)
     local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" "http://localhost:8000/api/1.0/dataset/1/import/"' % env)
