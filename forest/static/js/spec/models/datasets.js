@@ -106,9 +106,12 @@ describe("Dataset collection", function() {
         this.xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
+        
+        this.auth_stub = sinon.stub(window, "check_auth_cookies").returns(true);
     });
 
     afterEach(function () {
+        this.auth_stub.restore();
         this.xhr.restore();
     });
 
@@ -135,11 +138,32 @@ describe("Dataset collection", function() {
         expect(datasets.meta.page).toEqual(1);
     });
 
-    xit("should search all datasets", function() {
-        // TODO
+    it("should search all datasets", function() {
+        var datasets = new PANDA.collections.Datasets();
+        datasets.search("Tribune");
+
+        expect(this.requests.length).toEqual(1);
+
+        this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.search);
+
+        expect(datasets.models.length).toEqual(1);
+        expect(datasets.models[0].data.models.length).toEqual(2);
+        expect(datasets.models[0].data.models[0].attributes.data[0]).toEqual("Brian");
+        expect(datasets.models[0].data.models[1].attributes.data[0]).toEqual("Joseph");
     });
 
-    xit("should serialize search results from all datasets", function() {
-        // TODO
+    it("should serialize search results from all datasets", function() {
+        var datasets = new PANDA.collections.Datasets();
+        datasets.search("Tribune");
+
+        expect(this.requests.length).toEqual(1);
+
+        this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.search);
+
+        results = datasets.results();
+        
+        expect(results.meta).toEqual(datasets.meta);
+        expect(results.datasets.length).toEqual(1);
+        expect(results.datasets[0].name).toEqual("Test");
     });
 });
