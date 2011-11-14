@@ -123,7 +123,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         });
     },
 
-    search: function(query, limit, page, success) {
+    search: function(query, limit, page) {
         /*
          * Query the dataset search endpoint.
          *
@@ -147,16 +147,18 @@ PANDA.models.Dataset = Backbone.Model.extend({
             url: PANDA.API + "/dataset/" + this.get("id") + "/search/",
             dataType: 'json',
             data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
-            success: _.bind(function(response) {
-                objs = this.data.parse(response);
-                delete response["meta"];
-                delete response["objects"];
-
-                this.set(response);
-
-                this.data.reset(objs);
-            }, this)
+            success: _.bind(this.process_search_results, this)
         });
+    },
+
+    process_search_results: function(response) {
+        objs = this.data.parse(response);
+        delete response["meta"];
+        delete response["objects"];
+
+        this.set(response);
+
+        this.data.reset(objs);
     }
 });
 

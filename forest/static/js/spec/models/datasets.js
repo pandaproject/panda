@@ -85,16 +85,39 @@ describe("Dataset model", function() {
         expect(success_spy).toHaveBeenCalledWith(dataset);
     });
 
-    xit("should execute a search on just this dataset", function() {
-        // TODO
+    it("should execute a search on just this dataset", function() {
+        var dataset = new PANDA.models.Dataset($.parseJSON(MOCK_XHR_RESPONSES.dataset));
+        
+        dataset.search("Tribune", 10, 1);
+
+        expect(this.requests.length).toEqual(1);
+        
+        this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.dataset_search);
+
+        expect(dataset.data.models.length).toEqual(2)
+        expect(dataset.data.models[0].attributes.data[0]).toEqual("Brian");
+        expect(dataset.data.models[1].attributes.data[0]).toEqual("Joseph");
     });
 
-    xit("should serialize embedded search data", function() {
-        // TODO
+    it("should serialize embedded search data", function() {
+        var dataset = new PANDA.models.Dataset($.parseJSON(MOCK_XHR_RESPONSES.dataset));
+        
+        dataset.data.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
+        dataset.data.meta.offset = 0;
+        dataset.process_search_results($.parseJSON(MOCK_XHR_RESPONSES.dataset_search));
+
+        results = dataset.results();
+
+        expect(results.name).toEqual("Test");
+        expect(results.data.length).toEqual(2);
     });
 
-    xit("should parse search results", function() {
-        // TODO
+    it("should parse search results", function() {
+        var dataset = new PANDA.models.Dataset($.parseJSON(MOCK_XHR_RESPONSES.dataset));
+        
+        dataset.process_search_results($.parseJSON(MOCK_XHR_RESPONSES.dataset_search));
+
+        expect(dataset.data.length).toEqual(2);
     });
 });
 
@@ -165,5 +188,6 @@ describe("Dataset collection", function() {
         expect(results.meta).toEqual(datasets.meta);
         expect(results.datasets.length).toEqual(1);
         expect(results.datasets[0].name).toEqual("Test");
+        expect(results.datasets[0].data.length).toEqual(2);
     });
 });
