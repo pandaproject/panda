@@ -274,6 +274,9 @@ def make_fixtures():
     response = local('curl "http://localhost:8000/api/1.0/dataset/1/?format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.dataset = \'' + response.replace('\\', '\\\\') + '\';')
 
+    response = local('curl "http://localhost:8000/api/1.0/dataset/?format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    mock_xhr_responses.append('MOCK_XHR_RESPONSES.datasets = \'' + response.replace('\\', '\\\\') + '\';')
+
     response = local('curl "http://localhost:8000/api/1.0/data/search/?q=Tribune&format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.search = \'' + response.replace('\\', '\\\\') + '\';')
 

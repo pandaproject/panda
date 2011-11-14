@@ -98,7 +98,7 @@ describe("Dataset model", function() {
     });
 });
 
-xdescribe("Dataset collection", function() {
+describe("Dataset collection", function() {
     beforeEach(function() {
         this.xhr = sinon.useFakeXMLHttpRequest();
         var requests = this.requests = [];
@@ -112,12 +112,27 @@ xdescribe("Dataset collection", function() {
         this.xhr.restore();
     });
 
-    xit("should fetch the datasets", function() {
-        // TODO
+    it("should fetch the datasets", function() {
+        var datasets = new PANDA.collections.Datasets();
+        datasets.fetch();
+        
+        expect(this.requests.length).toEqual(1);
+
+        this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.datasets);
+
+        expect(datasets.models.length).toEqual(1);
+        expect(datasets.models[0].get("name")).toEqual("Test");
     });
 
-    xit("should parse paging metadata", function() {
-        // TODO
+    it("should parse paging metadata", function() {
+        var datasets = new PANDA.collections.Datasets();
+
+        response = $.parseJSON(MOCK_XHR_RESPONSES.datasets);
+        response = datasets.parse(response);
+
+        expect(datasets.meta).not.toBeNull();
+        expect(datasets.meta.offset).toEqual(0);
+        expect(datasets.meta.page).toEqual(1);
     });
 
     xit("should search all datasets", function() {
