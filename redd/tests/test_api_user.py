@@ -7,6 +7,7 @@ from django.utils import simplejson as json
 from tastypie.bundle import Bundle
 
 from redd.api.users import UserValidation
+from redd.models import User
 from redd.tests import utils
 
 class TestUserValidation(TestCase):
@@ -95,13 +96,30 @@ class TestAPIUser(TestCase):
         self.assertEqual(body['meta']['next'], None)
         self.assertEqual(body['meta']['previous'], None)
 
-    def test_create_denied(self):
+    def test_create(self):
         new_user = {
-            'username': 'tester@tester.com',
-            'password': 'INVALID'
+            'email': 'tester@tester.com',
+            'password': 'test',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
         }
 
         response = self.client.post('/api/1.0/user/', content_type='application/json', data=json.dumps(new_user), **self.auth_headers)
 
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 201)
+        
+        body = json.loads(response.content)
+
+        self.assertEqual(body['email'], 'tester@tester.com')
+        self.assertEqual(body['first_name'], 'Testy')
+        self.assertEqual(body['last_name'], 'McTester')
+        
+        new_user = User.objects.get(username='tester@tester.com')
+
+        self.assertEqual(new_user.username, 'tester@tester.com')
+        self.assertEqual(new_user.email, 'tester@tester.com')
+        self.assertEqual(new_user.first_name, 'Testy')
+        self.assertEqual(new_user.last_name, 'McTester')
+        self.assertEqual(new_user.password[:5], 'sha1$')
+        self.assertNotEqual(new_user.api_key, None)
 

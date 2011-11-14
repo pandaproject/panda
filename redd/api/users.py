@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import random
-import re
 
 from django.contrib.auth.models import User, get_hexdigest
 from django.core.validators import email_re
@@ -44,11 +43,12 @@ class UserResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'user'
         excludes = ['password', 'username']
+        always_return_data = True
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
         validation = UserValidation()
 
     def obj_create(self, bundle, request=None, **kwargs):
-        return super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['username'], **kwargs)
+        return super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['username'], password=bundle.data['password'], **kwargs)
 
