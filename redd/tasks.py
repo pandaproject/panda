@@ -122,18 +122,29 @@ class DatasetImportTask(AbortableTask):
         """
         Save final status, results, etc.
         """
-        from redd.models import TaskStatus
-
+        from redd.models import Dataset, Notification, TaskStatus
+        
+        dataset = Dataset.objects.get(id=args[0])
         task_status = TaskStatus.objects.get(id=self.request.id)
+
+        notification = Notification(recipient=dataset.creator) 
 
         task_status.status = status
         task_status.message = 'Import complete'
         task_status.end = datetime.now()
 
         if einfo:
+            task_status.message = 'Import failed'
             task_status.traceback = u'\n'.join([einfo.traceback, unicode(retval)])
-
+            
+            notification.type = 'error'
+        
+        notification.message = task_status.message
+        notification.related_task = task_status
+        notification.related_dataset = dataset
+        
         task_status.save()
+        notification.save()
 
         # If import failed, clear any data that might be staged for commit
         if task_status.status == 'FAILURE':

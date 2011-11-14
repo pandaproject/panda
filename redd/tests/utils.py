@@ -21,10 +21,12 @@ def get_test_solr():
 
     return solr
 
-def get_auth_headers():
+def get_auth_headers(email='panda@pandaproject.net'):
+    user = User.objects.get(username=email)
+
     return {
-        'HTTP_PANDA_EMAIL': 'panda@pandaproject.net',
-        'HTTP_PANDA_API_KEY': User.objects.get(username='panda@pandaproject.net').api_key.key
+        'HTTP_PANDA_EMAIL': email,
+        'HTTP_PANDA_API_KEY': user.api_key.key
     }
 
 def get_test_user():

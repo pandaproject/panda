@@ -14,6 +14,12 @@ from redd.fields import JSONField
 from redd.tasks import DatasetImportTask, dataset_purge_data
 from redd.utils import infer_schema, sample_data, sniff
 
+NOTIFICATION_TYPE_CHOICES = (
+    ('info', 'info'),
+    ('warning', 'warning'),
+    ('error', 'error')
+)
+
 models.signals.post_save.connect(create_api_key, sender=User)
 
 class TaskStatus(models.Model):
@@ -143,4 +149,20 @@ class Dataset(models.Model):
         self.save()
 
         DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(User,
+        help_text='The user who should receive this notification.')
+    message = models.TextField(
+        help_text='The message to deliver.')
+    type = models.CharField(max_length=16, choices=NOTIFICATION_TYPE_CHOICES, default='info',
+        help_text='The type of message: info, warning or error')
+    sent_at = models.DateTimeField(auto_now=True,
+        help_text='When this notification was created')
+    read_at = models.DateTimeField(null=True, default=None,
+        help_text='When this notification was read by the user.')
+    related_task = models.ForeignKey(TaskStatus, null=True, default=None,
+        help_text='A task related to this notification, if any.')
+    related_dataset = models.ForeignKey(Dataset, null=True, default=None,
+        help_text='A dataset related to this notification, if any.')
 
