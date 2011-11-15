@@ -73,8 +73,6 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                     errors = { "__all__": "Unknown error" }; 
                 }
 
-                console.log(errors);
-
                 $("#edit-dataset-form").show_errors(errors, "Save failed!");
             }
         });

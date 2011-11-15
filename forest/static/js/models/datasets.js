@@ -100,7 +100,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         /*
          * Render this object with embedded search results data for templating.
          */
-        results = this.toJSON();
+        results = this.toJSON(true);
         _.extend(results, this.data.results());
 
         return results;

@@ -37,7 +37,6 @@ PANDA.views.Register = Backbone.View.extend({
 
         if (data["password"] != data["reenter_password"]) {
             if ("password" in errors || "reenter_password" in errors) {
-                console.log(1);
                 // Skip
             } else {
                 errors["reenter_password"] = ["Passwords do not match."]

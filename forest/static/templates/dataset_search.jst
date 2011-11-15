@@ -1,6 +1,6 @@
 <div id="dataset-search">
     <form id="dataset-search-form">
-        <h3><%= dataset.name %> <a href="#dataset/<%= dataset.id %>/edit" class="btn inline">Edit</a></h3>
+        <h3>Search <%= dataset.name %> (<%= dataset.row_count %> rows)</h3>
         <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="<%= query %>" />
         <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
     </form>
