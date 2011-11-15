@@ -11,33 +11,31 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     query: null,
 
     initialize: function(options) {
-        _.bindAll(this, "render", "dataset_changed");
+        _.bindAll(this, "render");
 
         this.results = new PANDA.views.DatasetResults({ search: this });
+        this.view = new PANDA.views.DatasetView();
     },
 
     reset: function(dataset_id, query) {
         this.query = query;
-
-        if (this.dataset) {
-            this.dataset.unbind();
-        }
         
-        this.dataset = new PANDA.models.Dataset({ id: dataset_id });
-        this.dataset.bind("change", this.dataset_changed);
-        
-        this.dataset.fetch();
-    },
-
-    dataset_changed: function() {
-        this.results.set_dataset(this.dataset); 
-        this.render();
+        this.dataset = new PANDA.models.Dataset({ resource_uri: "/api/1.0/dataset/" + dataset_id + "/" });
+        this.dataset.fetch({ success: _.bind(function(model, response) {
+            this.results.set_dataset(model);
+            this.view.set_dataset(model);
+            this.render();
+        }, this) });
     },
 
     render: function() {
         this.el.html(this.template({ query: this.query, dataset: this.dataset.results() }));
         this.results.el = $("#dataset-search-results");
+        this.view.el = $("#dataset-search-results");
 
+        if (!this.query) {
+            this.view.render();
+        }
     },
 
     search_event: function() {
@@ -51,7 +49,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     search: function(query, limit, page) {
         this.query = query;
 
-        this.dataset.search(query, limit, page);
+        if (this.query) { 
+            this.dataset.search(query, limit, page);
+        }
     }
 });
 

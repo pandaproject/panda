@@ -1,14 +1,13 @@
 PANDA.views.Search = Backbone.View.extend({
     el: $("#content"),
 
-    collection:  new PANDA.collections.Datasets(),
-
     template: PANDA.templates.search,
 
     events: {
         "submit #search-form":      "search_event"
     },
 
+    collection:  new PANDA.collections.Datasets(),
     query: null,
 
     initialize: function() {
