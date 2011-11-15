@@ -20,11 +20,16 @@ PANDA.views.Root = Backbone.View.extend({
         // Configure the global topbar
         this.configure_topbar();
 
+        $("#topbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
+
         return this;
     },
 
     start_routing: function() {
-        // Begin routing
+        /*
+         * Start Backbone routing. Separated from initialize() so that the
+         * global controller is available for any preset routes (direct links).
+         */
         Backbone.history.start();
     },
 
@@ -165,6 +170,11 @@ PANDA.views.Root = Backbone.View.extend({
             }
             
             $("#topbar-notifications .dropdown-menu").append('<li class="divider"></li>');
+
+            if (this._current_user.notifications.models.length > 0) {
+                $("#topbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear unread</a></li>');
+            }
+
             $("#topbar-notifications .dropdown-menu").append('<li><a href="#">View all notifications (TODO)</a></li>');
             
             $("#topbar-notifications .count").text(this._current_user.notifications.length);
@@ -175,6 +185,14 @@ PANDA.views.Root = Backbone.View.extend({
             $("#topbar-login").hide();
             $("#topbar-register").hide();
         }
+    },
+
+    clear_unread_notifications: function() {
+        this._current_user.mark_notifications_read(_.bind(function() {
+            this.configure_topbar();
+        }, this));
+
+        return false;
     },
 
     get_or_create_view: function(name, options) {

@@ -15,7 +15,37 @@ PANDA.models.User = Backbone.Model.extend({
     },
 
     refresh_notifications: function(success) {
-        this.notifications.fetch({ success: success });
+        /*
+         * Refresh notifications list from the server.
+         */
+        this.notifications.fetch({
+            data: "read_at__isnull=True",
+            success: success
+        });
+    },
+
+    mark_notifications_read: function(success_callback) {
+        /*
+         * Mark all notifications as read.
+         *
+         * TODO: bulk update
+         */
+        now = moment().format("YYYY-MM-DDTHH:mm:ss");
+
+        count = this.notifications.length;
+        marked = 0;
+
+        this.notifications.each(function(note) {
+            note.set({ read_at: now });
+            note.save();
+
+            marked += 1;
+
+            if (marked == count) {
+                note.collection.reset();
+                success_callback();
+            }
+        });
     }
 });
 

@@ -86,3 +86,33 @@ class TestAPINotifications(TestCase):
         self.assertEqual(body['meta']['next'], None)
         self.assertEqual(body['meta']['previous'], None)
 
+    def test_update(self):
+        notification = Notification.objects.get(related_dataset=self.dataset)
+
+        data = json.dumps({ 'read_at': datetime.now().strftime('%Y-%m-%dT%H:%M:%S') })
+
+        response = self.client.put('/api/1.0/notification/%i/' % notification.id, data=data, content_type='application/json', **self.auth_headers) 
+
+        self.assertEqual(response.status_code, 204)
+
+        # Refresh
+        notification = Notification.objects.get(related_dataset=self.dataset)
+
+        self.assertNotEqual(notification.read_at, None)
+
+    def test_update_unauthorized(self):
+        User.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
+
+        notification = Notification.objects.get(related_dataset=self.dataset)
+
+        data = json.dumps({ 'read_at': datetime.now().strftime('%Y-%m-%dT%H:%M:%S') })
+
+        response = self.client.put('/api/1.0/notification/%i/' % notification.id, data=data, content_type='application/json', **utils.get_auth_headers('nobody@nobody.com')) 
+
+        self.assertEqual(response.status_code, 401)
+
+        # Refresh
+        notification = Notification.objects.get(related_dataset=self.dataset)
+
+        self.assertEqual(notification.read_at, None)
+
