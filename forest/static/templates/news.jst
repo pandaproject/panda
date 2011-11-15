@@ -2,7 +2,8 @@
     <h2>Recently added datasets</h2>
     <% _.each(recent.datasets, function(dataset) { %>
         <h3><a href="#dataset/<%= dataset.id %>/search/"><%= dataset.name %></a></h3>
-        <p><em><%= dataset.description %></em></p>
+        <% if (dataset.description) { %><p><em><%= dataset.description %></em></p><% } %>
+        <p>Created <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").fromNow() %></p>
     <% }); %>
     <% if (recent.meta.total_count > recent.datasets.length) { %>
     <a href="#datasets">Browse all <%= recent.meta.total_count %> datasets &raquo;</a>

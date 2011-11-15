@@ -8,7 +8,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomResource
+from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
 from redd.models import Dataset
 
 class DatasetValidation(Validation):
@@ -40,6 +40,7 @@ class DatasetResource(CustomResource):
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
         validation = DatasetValidation()
+        serializer = CustomSerializer()
     
     def _solr(self):
         """

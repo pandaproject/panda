@@ -4,7 +4,7 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 
-from redd.api.utils import CustomApiKeyAuthentication
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 from redd.models import Notification 
 
 class NotificationResource(ModelResource):
@@ -25,6 +25,7 @@ class NotificationResource(ModelResource):
         
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        serializer = CustomSerializer()
 
     def obj_create(self, bundle, request=None, **kwargs):
         return super(NotificationResource, self).obj_create(bundle, request, recipient=request.user)

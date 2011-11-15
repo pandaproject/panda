@@ -8,7 +8,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
 
-from redd.api.utils import CustomApiKeyAuthentication
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 
 class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -48,6 +48,7 @@ class UserResource(ModelResource):
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
         validation = UserValidation()
+        serializer = CustomSerializer()
 
     def obj_create(self, bundle, request=None, **kwargs):
         return super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['username'], password=bundle.data['password'], **kwargs)

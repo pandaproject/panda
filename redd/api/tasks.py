@@ -3,7 +3,7 @@
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 
-from redd.api.utils import CustomApiKeyAuthentication
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 from redd.models import TaskStatus
 
 class TaskResource(ModelResource):
@@ -22,4 +22,5 @@ class TaskResource(ModelResource):
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        serializer = CustomSerializer()
 

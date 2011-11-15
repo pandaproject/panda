@@ -10,7 +10,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 from redd.models import Upload
 
 class UploadResource(ModelResource):
@@ -28,6 +28,7 @@ class UploadResource(ModelResource):
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        serializer = CustomSerializer()
 
     def override_urls(self):
         """

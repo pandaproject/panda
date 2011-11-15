@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.fields import ApiField, CharField
 from tastypie.resources import ModelResource
+from tastypie.serializers import Serializer
 
 from redd.fields import JSONField
 
@@ -61,4 +62,11 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
         request.user = user
 
         return self.get_key(user, api_key)
+
+class CustomSerializer(Serializer):
+    """
+    A custom serializer that truncates microseconds from iso8601.
+    """
+    def format_datetime(self, data):
+        return data.strftime('%Y-%m-%dT%HH:%M:%S')
 

@@ -15,7 +15,7 @@ from tastypie.paginator import Paginator
 from tastypie.resources import Resource
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 from redd.models import Dataset
 
 class SolrObject(object):
@@ -67,6 +67,7 @@ class DataResource(Resource):
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        serializer = CustomSerializer()
 
     def _solr(self):
         """
