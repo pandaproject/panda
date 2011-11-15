@@ -1,10 +1,12 @@
-body { padding-top: 30px; }
+body { padding-top: 40px; }
 #sidebar { width: 240px; }
 .topbar { height: 30px; }
 .topbar .container { margin-left: 0; }
 .topbar div > ul a, .nav a { padding: 5px 5px 6px; }
 #topbar-email { display: none; }
 #topbar-logout { display: none; }
+.topbar .menu-dropdown, .topbar .dropdown-menu { top: 30px; }
+.topbar .dropdown-toggle::after { content: none; }
 .container-fluid { padding: 0; }
 .content { padding: 30px; }
 .alert-message { display: none; }

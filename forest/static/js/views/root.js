@@ -19,7 +19,6 @@ PANDA.views.Root = Backbone.View.extend({
 
         // Configure the global topbar
         this.configure_topbar();
-        $("#topbar-notifications").click(this.show_notifications);
 
         // Begin routing
         Backbone.history.start();
@@ -141,19 +140,34 @@ PANDA.views.Root = Backbone.View.extend({
         } else {
             $("#topbar-email a").text(this._current_user.get("email"));
 
-            $("#topbar-email").css("display", "block");
-            $("#topbar-notifications").css("display", "block");
-            $("#topbar-logout").css("display", "block");
-            $("#topbar-login").hide();
-            $("#topbar-register").hide();
+            $("#topbar-notifications .dropdown-menu").html("");
 
             if (this._current_user.notifications.models.length > 0) {
                 $("#topbar-notifications .count").addClass("important");
+
+                this._current_user.notifications.each(function(note) {
+                    related_dataset = note.get("related_dataset");
+
+                    if (related_dataset) {
+                        slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
+                        link = "#dataset/" + related_dataset.substring(slash + 1, related_dataset.length - 1);
+                    } else {
+                        link = "#";
+                    }
+
+                    $("#topbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + note.get("message") + '</a></li>');
+                });
             } else {
                 $("#topbar-notifications .count").removeClass("important");
             }
             
             $("#topbar-notifications .count").text(this._current_user.notifications.length);
+
+            $("#topbar-email").css("display", "block");
+            $("#topbar-notifications").css("display", "block");
+            $("#topbar-logout").css("display", "block");
+            $("#topbar-login").hide();
+            $("#topbar-register").hide();
         }
     },
 
@@ -184,12 +198,6 @@ PANDA.views.Root = Backbone.View.extend({
     goto_register: function() {
         this.current_content_view = this.get_or_create_view("Register");
         this.current_content_view.reset();
-    },
-
-    show_notifications: function() {
-        alert("yo");
-
-        return false;
     },
 
     goto_search: function(query, limit, page) {

@@ -21,7 +21,11 @@
                     <li id="topbar-email"><a href="#"></a></li>
                     <li id="topbar-login"><a href="#login">Login</a></li>
                     <li id="topbar-register"><a href="#register">Register</a></li>
-                    <li id="topbar-notifications"><a href="#">Notifications <span class="count label important">2</span></a></li>
+                    <li id="topbar-notifications" class="dropdown" data-dropdown="dropdown">
+                        <a href="#" class="dropdown-toggle">Notifications <span class="count label important">2</span></a>
+                        <ul class="dropdown-menu">
+                        </ul>
+                    </li>
                     <li id="topbar-logout"><a href="#logout">Logout</a></li>
                 </ul>
             </div>
@@ -52,6 +56,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery-1.6.4.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone-tastypie.js"></script>

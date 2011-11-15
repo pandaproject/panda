@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 
@@ -10,6 +11,12 @@ class NotificationResource(ModelResource):
     """
     Access to user notifications.
     """
+    from redd.api.datasets import DatasetResource
+    from redd.api.tasks import TaskResource
+
+    related_dataset = fields.ForeignKey(DatasetResource, 'related_dataset')
+    related_task = fields.ToOneField(TaskResource, 'related_task')
+
     class Meta:
         queryset = Notification.objects.all()
         resource_name = 'notification'

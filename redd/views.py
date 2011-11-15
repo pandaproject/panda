@@ -4,18 +4,24 @@ from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.utils import simplejson as json
 from tastypie.bundle import Bundle
+from tastypie.serializers import Serializer
 
 from redd.api.users import UserValidation
 from redd.api.notifications import NotificationResource
 from redd.api.utils import CustomApiKeyAuthentication
-from redd.models import Notification
 from redd.storage import PANDAUploadBackend
 
 class JSONResponse(HttpResponse):
+    """
+    A shortcut for an HTTPResponse containing data serialized as json.
+
+    Note: Uses Tastypie's serializer to transparently support serializing bundles.
+    """
     def __init__(self, contents, **kwargs):
-        super(JSONResponse, self).__init__(json.dumps(contents), content_type='application/json', **kwargs)
+        serializer = Serializer()
+
+        super(JSONResponse, self).__init__(serializer.to_json(contents), content_type='application/json', **kwargs)
                 
 class SecureAjaxFileUploader(AjaxFileUploader):
     """
