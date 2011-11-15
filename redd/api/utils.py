@@ -68,5 +68,5 @@ class CustomSerializer(Serializer):
     A custom serializer that truncates microseconds from iso8601.
     """
     def format_datetime(self, data):
-        return data.strftime('%Y-%m-%dT%HH:%M:%S')
+        return data.strftime('%Y-%m-%dT%H:%M:%S')
 

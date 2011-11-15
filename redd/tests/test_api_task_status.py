@@ -39,10 +39,10 @@ class TestAPITaskStatus(TestCase):
 
         self.assertEqual(body['status'], task.status)
         self.assertEqual(body['task_name'], task.task_name)
-        start = datetime.strptime(body['start'], "%Y-%m-%dT%H:%M:%S.%f" )
-        self.assertEqual(start, task.start)
-        end = datetime.strptime(body['end'], "%Y-%m-%dT%H:%M:%S.%f" )
-        self.assertEqual(end, task.end)
+        start = datetime.strptime(body['start'], "%Y-%m-%dT%H:%M:%S" )
+        self.assertEqual(start, task.start.replace(microsecond=0))
+        end = datetime.strptime(body['end'], "%Y-%m-%dT%H:%M:%S" )
+        self.assertEqual(end, task.end.replace(microsecond=0))
         self.assertEqual(body['message'], task.message)
         self.assertEqual(body['traceback'], None)
 

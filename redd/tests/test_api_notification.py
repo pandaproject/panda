@@ -37,8 +37,8 @@ class TestAPINotifications(TestCase):
 
         body = json.loads(response.content)
 
-        sent_at = datetime.strptime(body['sent_at'], "%Y-%m-%dT%H:%M:%S.%f" )
-        self.assertEqual(sent_at, notification.sent_at)
+        sent_at = datetime.strptime(body['sent_at'], "%Y-%m-%dT%H:%M:%S")
+        self.assertEqual(sent_at, notification.sent_at.replace(microsecond=0))
         self.assertEqual(body['read_at'], None)
         self.assertEqual(body['message'], notification.message)
 
