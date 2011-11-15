@@ -20,10 +20,12 @@ PANDA.views.Root = Backbone.View.extend({
         // Configure the global topbar
         this.configure_topbar();
 
+        return this;
+    },
+
+    start_routing: function() {
         // Begin routing
         Backbone.history.start();
-
-        return this;
     },
 
     authenticate: function() {
