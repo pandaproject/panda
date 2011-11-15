@@ -3,13 +3,14 @@
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.db import IntegrityError
 from django.http import HttpResponse
 from django.utils import simplejson as json
 from tastypie.bundle import Bundle
 
-from redd.api.users import UserValidation 
+from redd.api.users import UserValidation
+from redd.api.notifications import NotificationResource
 from redd.api.utils import CustomApiKeyAuthentication
+from redd.models import Notification
 from redd.storage import PANDAUploadBackend
 
 class JSONResponse(HttpResponse):
@@ -31,6 +32,24 @@ class SecureAjaxFileUploader(AjaxFileUploader):
 
 upload = SecureAjaxFileUploader(backend=PANDAUploadBackend)
 
+def make_user_login_response(user):
+    """
+    Generate a response to a login request.
+    """
+    nr = NotificationResource()
+
+    notifications = user.notifications.filter(read_at__isnull=True)
+    notifications_data = {}
+
+    bundles = [nr.build_bundle(obj=n) for n in notifications]
+    notifications_data['objects'] = [nr.full_dehydrate(b) for b in bundles]
+
+    return {
+        'email': user.email,
+        'api_key': user.api_key.key,
+        'notifications': notifications_data,
+    }
+
 def panda_login(request):
     """
     PANDA login: takes a username and password and returns an API key
@@ -47,7 +66,7 @@ def panda_login(request):
                 login(request, user)
 
                 # Success
-                return JSONResponse({ 'email': user.email, 'api_key': user.api_key.key })
+                return JSONResponse(make_user_login_response(user))
             else:
                 # Disabled account
                 return JSONResponse({ '__all__': 'This account is disabled' }, status=400)
@@ -85,7 +104,7 @@ def panda_register(request):
             user = User.objects.create(**bundle.data)
 
         # Success
-        return JSONResponse({ 'email': user.email, 'api_key': user.api_key.key })
+        return JSONResponse(make_user_login_response(user))
     else:
         # Invalid request
         return JSONResponse(None, status=400)

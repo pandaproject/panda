@@ -14,6 +14,7 @@ class NotificationResource(ModelResource):
         queryset = Notification.objects.all()
         resource_name = 'notification'
         allowed_methods = ['get']
+        limit = 1000    # Don't paginate notifications
         
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
@@ -23,4 +24,8 @@ class NotificationResource(ModelResource):
 
     def apply_authorization_limits(self, request, object_list):
         return object_list.filter(recipient=request.user)
+
+    #def alter_list_data_to_serialize(request, data):
+        # TODO: trim paging data
+        #return data
 

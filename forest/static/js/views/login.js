@@ -51,18 +51,12 @@ PANDA.views.Login = Backbone.View.extend({
             type: 'POST',
             data: $("#login-form").serialize(),
             success: function(data, status, xhr) {
-                $.cookie('email', data.email);
-                $.cookie('api_key', data.api_key);
-
-                Redd.configure_topbar();
+                Redd.set_current_user(new PANDA.models.User(data));
 
                 window.location = "#";
             },
             error: function(xhr, status, error) {
-                $.cookie('email', null);
-                $.cookie('api_key', null);
-                
-                Redd.configure_topbar();
+                Redd.set_current_user(null); 
 
                 try {
                     errors = $.parseJSON(xhr.responseText);

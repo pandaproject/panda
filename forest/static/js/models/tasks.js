@@ -1,6 +1,6 @@
 PANDA.models.Task = Backbone.Model.extend({
     /*
-    Equivalent of redd.models.Dataset.
+    Equivalent of redd.models.Task.
     */
     urlRoot: PANDA.API + "/task"
 });

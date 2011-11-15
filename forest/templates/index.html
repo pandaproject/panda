@@ -19,9 +19,10 @@
             <div class="container-fluid">
                 <ul class="nav secondary-nav">
                     <li id="topbar-email"><a href="#"></a></li>
-                    <li id="topbar-logout"><a href="#logout">Logout</a></li>
                     <li id="topbar-login"><a href="#login">Login</a></li>
                     <li id="topbar-register"><a href="#register">Register</a></li>
+                    <li id="topbar-notifications"><a href="#">Notifications <span class="count label important">2</span></a></li>
+                    <li id="topbar-logout"><a href="#logout">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -57,13 +58,13 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/fileuploader.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/utils.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/auth.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/application.js"></script>
     {% endcompress %}
     
     <script type="text/javascript" src="templates.js"></script>
 
     {% compress js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/models/notifications.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/users.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/uploads.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/models/tasks.js"></script>

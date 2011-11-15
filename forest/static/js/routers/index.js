@@ -24,38 +24,38 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     login: function() {
-        this.controller.login();
+        this.controller.goto_login();
     },
 
     logout: function() {
-        this.controller.logout();
+        this.controller.goto_logout();
     },
 
     register: function() {
-        this.controller.register();
+        this.controller.goto_register();
     },
 
     search: function(query, limit, page) {
-        this.controller.search(query, limit, page);
+        this.controller.goto_search(query, limit, page);
     },
 
     upload: function() {
-        this.controller.upload();
+        this.controller.goto_upload();
     },
 
     list_datasets: function(limit, page) {
-        this.controller.list_datasets(limit, page);
+        this.controller.goto_list_datasets(limit, page);
     },
 
     edit_dataset: function(id) {
-        this.controller.edit_dataset(id);
+        this.controller.goto_edit_dataset(id);
     },
 
     search_dataset: function(id, query, limit, page) {
-        this.controller.search_dataset(id, query, limit, page);
+        this.controller.goto_search_dataset(id, query, limit, page);
     },
 
     not_found: function(path) {
-        this.controller.not_found(path);
+        this.controller.goto_not_found(path);
     }
 });

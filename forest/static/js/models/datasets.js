@@ -9,17 +9,17 @@ PANDA.models.Dataset = Backbone.Model.extend({
     current_task: null,
     data: null,
 
-    initialize: function(options) {
-        if ("creator" in options) {
-            this.creator = new PANDA.models.User(options.creator);
+    initialize: function(attributes) {
+        if ("creator" in attributes) {
+            this.creator = new PANDA.models.User(attributes.creator);
         }
 
-        if ("data_upload" in options) {
-            this.data_upload = new PANDA.models.Upload(options.data_upload);
+        if ("data_upload" in attributes) {
+            this.data_upload = new PANDA.models.Upload(attributes.data_upload);
         }
         
-        if ("current_task" in options) {
-            this.current_task = new PANDA.models.Task(options.current_task);
+        if ("current_task" in attributes) {
+            this.current_task = new PANDA.models.Task(attributes.current_task);
         }
 
         this.data = new PANDA.collections.Data();
@@ -31,17 +31,17 @@ PANDA.models.Dataset = Backbone.Model.extend({
          */
         if (response.creator != null) {
             this.creator = new PANDA.models.User(response.creator);
-            delete response['creator'];
+            delete response["creator"];
         }
 
         if (response.data_upload != null) {
             this.data_upload = new PANDA.models.Upload(response.data_upload);
-            delete response['data_upload'];
+            delete response["data_upload"];
         }
 
         if (response.current_task != null) {
             this.current_task = new PANDA.models.Task(response.current_task);
-            delete response['current_task'];
+            delete response["current_task"];
         }
 
         // Does this dataset have embedded search results?
@@ -113,7 +113,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
          *
          * TODO - error callback
          */
-        $.panda_ajax({
+        Redd.ajax({
             url: this.url() + "import/",
             dataType: 'json',
             success: _.bind(function(response) {
@@ -143,7 +143,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.data.meta.offset = 0;
         }
 
-        $.panda_ajax({
+        Redd.ajax({
             url: PANDA.API + "/dataset/" + this.get("id") + "/search/",
             dataType: 'json',
             data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
@@ -208,7 +208,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = 0;
         }
 
-        $.panda_ajax({
+        Redd.ajax({
             url: PANDA.API + "/data/search/",
             dataType: 'json',
             data: { q: query, limit: this.meta.limit, offset: this.meta.offset },

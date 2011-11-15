@@ -3,34 +3,157 @@ PANDA.views.Root = Backbone.View.extend({
 
     views: {},
 
+    _current_user: null,
     current_content_view: null,
 
     initialize: function() {
+        // Override Backbone's sync handler with the authenticated version
+        Backbone.noAuthSync = Backbone.sync;
+        Backbone.sync = _.bind(this.sync, this);
+
+        // Setup global router
         this.router = new PANDA.routers.Index({ controller: this });
 
-        this.configure_topbar();
+        // Attempt to authenticate from cookies
+        this.authenticate();
 
+        // Configure the global topbar
+        this.configure_topbar();
+        $("#topbar-notifications").click(this.show_notifications);
+
+        // Begin routing
         Backbone.history.start();
 
         return this;
     },
 
-    configure_topbar: function() {
+    authenticate: function() {
+        /*
+         * Verifies that the current user is authenticated, first by checking
+         * for an active user and then by checking for a cookie. Redirects
+         * to login if authentication fails.
+         */
+        if (this._current_user) {
+            return true;
+        }
+
         email = $.cookie("email");
         api_key = $.cookie("api_key");
 
-        if (email === null || api_key === null) {
+        if (email && api_key) {
+            this.set_current_user(new PANDA.models.User({ "email": email, "api_key": api_key }));
+
+            // Fetch latest notifications (doubles as a verification of the user's credentials)
+            this._current_user.refresh_notifications(_.bind(this.configure_topbar, this));
+
+            return true;
+        }
+
+        window.location = "#login";
+
+        return false;
+    },
+
+    get_current_user: function() {
+        /*
+         * Gets the current system user.
+         */
+        return this._current_user;
+    },
+
+    set_current_user: function(user) {
+        /*
+         * Sets the current system user. Assumes that user has already authenticated.
+         */
+        this._current_user = user;
+
+        if (this._current_user) {
+            $.cookie('email', this._current_user.get("email"));
+            $.cookie('api_key', this._current_user.get("api_key"));
+        } else {
+            $.cookie('email', null);
+            $.cookie('api_key', null);
+        }
+            
+        this.configure_topbar();
+    },
+
+    ajax: function(options) {
+        /*
+         * Makes an authenticated ajax request to the API.
+         */
+        var dfd = new $.Deferred();
+
+        this.authenticate();
+
+        // Handle authentication failures
+        dfd.fail(function(responseXhr, status, error) {
+            if (responseXhr.status == 401) {
+                this.set_current_user(null);
+                window.location = "#login";
+            }
+        });
+
+        // Trigger original error handler after checking for auth issues
+        dfd.fail(options.error);
+        options.error = dfd.reject;
+
+        dfd.request = $.ajax(options);
+
+        return dfd;
+    },
+
+    sync: function(method, model, options) {
+        /*
+         * Custom Backbone sync handler to attach authorization headers
+         * and handle failures.
+         */
+        var dfd = new $.Deferred();
+
+        this.authenticate();
+
+        // Handle authentication failures
+        dfd.fail(function(xhr, status, error) {
+            if (xhr.status == 401) {
+                window.location = "#login";
+            }
+        });
+
+        // Trigger original error handler after checking for auth issues
+        dfd.fail(options.error);
+        options.error = dfd.reject;
+
+        dfd.request = Backbone.noAuthSync(method, model, options);
+
+        return dfd;
+    },
+
+    configure_topbar: function() {
+        /*
+         * Reconfigures the Bootstrap topbar based on the current user.
+         */
+        if (!this._current_user) {
             $("#topbar-email").hide();
+            $("#topbar-notifications").hide();
             $("#topbar-logout").hide();
             $("#topbar-login").css("display", "block");
             $("#topbar-register").css("display", "block");
         } else {
-            $("#topbar-email a").text(email);
+            $("#topbar-email a").text(this._current_user.get("email"));
 
             $("#topbar-email").css("display", "block");
+            $("#topbar-notifications").css("display", "block");
             $("#topbar-logout").css("display", "block");
             $("#topbar-login").hide();
             $("#topbar-register").hide();
+
+            if (this._current_user.notifications.models.length > 0) {
+                $("#topbar-notifications .count").addClass("important");
+            } else {
+                $("#topbar-notifications .count").removeClass("important");
+            }
+            
+            $("#topbar-notifications .count").text(this._current_user.notifications.length);
         }
     },
 
@@ -47,30 +170,33 @@ PANDA.views.Root = Backbone.View.extend({
         return this.views[name];
     },
 
-    login: function() {
+    goto_login: function() {
         this.current_content_view = this.get_or_create_view("Login");
         this.current_content_view.reset();
     },
     
-    logout: function() {
-        $.cookie("email", null);
-        $.cookie("api_key", null);
-
-        Redd.configure_topbar();
+    goto_logout: function() {
+        this.set_current_user(null);
 
         window.location = "#login";
     },
 
-    register: function() {
+    goto_register: function() {
         this.current_content_view = this.get_or_create_view("Register");
         this.current_content_view.reset();
     },
 
-    search: function(query, limit, page) {
+    show_notifications: function() {
+        alert("yo");
+
+        return false;
+    },
+
+    goto_search: function(query, limit, page) {
         // This little trick avoids rerendering the Search view if
         // its already visible. Only the nested results need to be
         // rerendered.
-        if (!check_auth_cookies()) {
+        if (!this.authenticate()) {
             return;
         }
 
@@ -82,8 +208,8 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.search(query, limit, page);
     },
 
-    upload: function() {
-        if (!check_auth_cookies()) {
+    goto_upload: function() {
+        if (!this.authenticate()) {
             return;
         }
 
@@ -91,8 +217,8 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset();
     },
 
-    list_datasets: function(limit, page) {
-        if (!check_auth_cookies()) {
+    goto_list_datasets: function(limit, page) {
+        if (!this.authenticate()) {
             return;
         }
 
@@ -100,8 +226,8 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset(limit, page);
     },
 
-    edit_dataset: function(id) {
-        if (!check_auth_cookies()) {
+    goto_edit_dataset: function(id) {
+        if (!this.authenticate()) {
             return;
         }
 
@@ -116,8 +242,8 @@ PANDA.views.Root = Backbone.View.extend({
         }, this)});
     },
 
-    search_dataset: function(id, query, limit, page) {
-        if (!check_auth_cookies()) {
+    goto_search_dataset: function(id, query, limit, page) {
+        if (!this.authenticate()) {
             return;
         }
 
@@ -129,7 +255,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.search(query, limit, page);
     },
 
-    not_found: function(path) {
+    goto_not_found: function(path) {
         if (!(this.current_content_view instanceof PANDA.views.NotFound)) {
             this.current_content_view = this.get_or_create_view("NotFound");
             this.current_content_view.reset(path);

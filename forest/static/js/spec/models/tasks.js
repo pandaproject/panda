@@ -1,13 +1,19 @@
 describe("Task model", function() {
     beforeEach(function() {
+        // Intercept ajax requests
         this.xhr = sinon.useFakeXMLHttpRequest();
         var requests = this.requests = [];
 
         this.xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
-        
-        this.auth_stub = sinon.stub(window, "check_auth_cookies").returns(true);
+
+        // Fake out the Root view so its initialize won't fire
+        FakeController = function() {}; 
+        FakeController.prototype = PANDA.views.Root.prototype;
+        window.Redd = new FakeController();
+
+        this.auth_stub = sinon.stub(Redd, "authenticate").returns(true);
     });
 
     afterEach(function () {
@@ -35,8 +41,13 @@ describe("Task collection", function() {
         this.xhr.onCreate = function(xhr) {
             requests.push(xhr);
         };
-        
-        this.auth_stub = sinon.stub(window, "check_auth_cookies").returns(true);
+
+        // Fake out the Root view so its initialize won't fire
+        FakeController = function() {}; 
+        FakeController.prototype = PANDA.views.Root.prototype;
+        window.Redd = new FakeController();
+
+        this.auth_stub = sinon.stub(Redd, "authenticate").returns(true);
     });
 
     afterEach(function () {

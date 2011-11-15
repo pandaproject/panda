@@ -23,6 +23,7 @@ class TestLogin(TestCase):
 
         self.assertEqual(body['email'], 'panda@pandaproject.net')
         self.assertEqual(body['api_key'], 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b')
+        self.assertEqual(body['notifications'], { 'objects': [] })
 
     def test_login_disabled(self):
         self.user.is_active = False
@@ -81,6 +82,7 @@ class TestRegistration(TestCase):
 
         self.assertEqual(body['email'], 'newpanda@pandaproject.net')
         self.assertIn('api_key', body)
+        self.assertEqual(body['notifications'], { 'objects': [] })
 
         new_user = User.objects.get(username='newpanda@pandaproject.net')
 

@@ -151,7 +151,7 @@ class Dataset(models.Model):
         DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
 
 class Notification(models.Model):
-    recipient = models.ForeignKey(User,
+    recipient = models.ForeignKey(User, related_name='notifications',
         help_text='The user who should receive this notification.')
     message = models.TextField(
         help_text='The message to deliver.')
@@ -159,7 +159,7 @@ class Notification(models.Model):
         help_text='The type of message: info, warning or error')
     sent_at = models.DateTimeField(auto_now=True,
         help_text='When this notification was created')
-    read_at = models.DateTimeField(null=True, default=None,
+    read_at = models.DateTimeField(null=True, blank=True, default=None,
         help_text='When this notification was read by the user.')
     related_task = models.ForeignKey(TaskStatus, null=True, default=None,
         help_text='A task related to this notification, if any.')
