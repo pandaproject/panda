@@ -1,7 +1,7 @@
-PANDA.views.EditDataset = Backbone.View.extend({
+PANDA.views.DatasetEdit = Backbone.View.extend({
     el: $("#content"),
     
-    template: PANDA.templates.edit_dataset,
+    template: PANDA.templates.dataset_edit,
     dataset: null,
 
     events: {

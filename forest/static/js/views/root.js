@@ -258,7 +258,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset(limit, page);
     },
 
-    goto_edit_dataset: function(id) {
+    goto_dataset_edit: function(id) {
         if (!this.authenticate()) {
             return;
         }
@@ -268,13 +268,13 @@ PANDA.views.Root = Backbone.View.extend({
         d = new PANDA.models.Dataset({ resource_uri: resource_uri });
 
         d.fetch({ success: _.bind(function() {
-            this.current_content_view = this.get_or_create_view("EditDataset");
+            this.current_content_view = this.get_or_create_view("DatasetEdit");
             this.current_content_view.dataset = d;
             this.current_content_view.reset();
         }, this)});
     },
 
-    goto_search_dataset: function(id, query, limit, page) {
+    goto_dataset_search: function(id, query, limit, page) {
         if (!this.authenticate()) {
             return;
         }

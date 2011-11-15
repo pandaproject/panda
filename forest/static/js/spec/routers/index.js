@@ -104,7 +104,7 @@ describe("Index Router", function() {
     });
 
     it("should route to edit dataset", function() {
-        this.controller_mock.expects("goto_edit_dataset").withExactArgs("17").once();
+        this.controller_mock.expects("goto_dataset_edit").withExactArgs("17").once();
 
         this.router.navigate("dataset/17", true);
 
@@ -112,7 +112,7 @@ describe("Index Router", function() {
     });
 
     it("should route to per-dataset search", function() {
-        this.controller_mock.expects("goto_search_dataset").withExactArgs("17", "query", undefined, undefined).once();
+        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", undefined, undefined).once();
 
         this.router.navigate("dataset/17/search/query", true);
 
@@ -120,7 +120,7 @@ describe("Index Router", function() {
     });
 
     it("should support per-dataset search limit", function() {
-        this.controller_mock.expects("goto_search_dataset").withExactArgs("17", "query", "10", undefined).once();
+        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", "10", undefined).once();
 
         this.router.navigate("dataset/17/search/query/10", true);
 
@@ -128,7 +128,7 @@ describe("Index Router", function() {
     });
 
     it("should support per-dataset search paging", function() {
-        this.controller_mock.expects("goto_search_dataset").withExactArgs("17", "query", "10", "2").once();
+        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", "10", "2").once();
 
         this.router.navigate("dataset/17/search/query/10/2", true);
 
