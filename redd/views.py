@@ -45,15 +45,14 @@ def make_user_login_response(user):
     nr = NotificationResource()
 
     notifications = user.notifications.filter(read_at__isnull=True)
-    notifications_data = {}
 
     bundles = [nr.build_bundle(obj=n) for n in notifications]
-    notifications_data['objects'] = [nr.full_dehydrate(b) for b in bundles]
+    notifications = [nr.full_dehydrate(b) for b in bundles]
 
     return {
         'email': user.email,
         'api_key': user.api_key.key,
-        'notifications': notifications_data,
+        'notifications': notifications
     }
 
 def panda_login(request):

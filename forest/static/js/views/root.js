@@ -161,7 +161,11 @@ PANDA.views.Root = Backbone.View.extend({
                 });
             } else {
                 $("#topbar-notifications .count").removeClass("important");
+                $("#topbar-notifications .dropdown-menu").append('<li><a href="#">No new notifications</a></li>');
             }
+            
+            $("#topbar-notifications .dropdown-menu").append('<li class="divider"></li>');
+            $("#topbar-notifications .dropdown-menu").append('<li><a href="#">View all notifications (TODO)</a></li>');
             
             $("#topbar-notifications .count").text(this._current_user.notifications.length);
 
