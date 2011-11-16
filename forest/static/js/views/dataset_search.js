@@ -35,8 +35,6 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
         task = this.dataset.current_task;
 
-        console.log(task);
-
         if (task && task.get("task_name") == "redd.tasks.DatasetImportTask") {
             if (task.get("status") == "STARTED") {
                 $("#dataset-search-form .alert-message").alert("info block-message", "<p><strong>Import in progress!</strong> This dataset is currently being made searchable. It will not yet appear in search results.</p>Status of import: " + task.get("message") + ".");
