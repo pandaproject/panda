@@ -132,14 +132,16 @@ class DatasetImportTask(AbortableTask):
         task_status.status = status
         task_status.message = 'Import complete'
         task_status.end = datetime.now()
+        
+        notification.message = 'Import of <strong>%s</strong> complete' % dataset.name
 
         if einfo:
             task_status.message = 'Import failed'
             task_status.traceback = u'\n'.join([einfo.traceback, unicode(retval)])
             
+            notification.message = 'Import of %s failed' % dataset.name
             notification.type = 'error'
         
-        notification.message = task_status.message
         notification.related_task = task_status
         notification.related_dataset = dataset
         
