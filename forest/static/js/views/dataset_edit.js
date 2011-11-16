@@ -66,6 +66,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             success: _.bind(function() {
                 //$("#edit-dataset-form .alert-message").alert("success", "Saved!");
                 window.location = "#dataset/" + this.dataset.get("id");
+                window.scrollTo(0, 0);
             }, this),
             error: function(model, response) {
                 try {
