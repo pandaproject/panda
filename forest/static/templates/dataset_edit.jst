@@ -2,35 +2,54 @@
     <form id="edit-dataset-form" class="form-stacked">
         <div class="alert-message"></div>
         <fieldset>
-            <legend>Edit <strong><%= name %></strong> <% if (row_count) { %>(<%= row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
-            <p>Created by <strong><%= creator.first_name %> <%= creator.last_name %></strong> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt; on <strong><%= moment(creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %></strong></p>
+            <legend>Edit <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
+            <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %></strong></p>
+
+            <h6>Categories</h6>
+
+             <div class="clearfix">
+                <div class="input">
+                    <ul class="input-list">
+                        <% _.each(categories, function(category) { %>
+                        <label>
+                            <input type="checkbox" name="categories" value="<%= category.id %>" <% if (_.find(dataset.categories, function(cat) { return cat.id == category.id; })) { %>checked="checked"<% } %>/>
+                            <span><%= category.name %></span>
+                        </label>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>           
+
             <h6>Details</h6>
+
             <div class="clearfix">
                 <label for="dataset-name">Dataset name</label>
                 <div class="input">
-                    <input class="xxlarge" id="dataset-name" name="name" size="30" type="text" value="<%= name %>" maxlength="256" />
+                    <input class="xxlarge" id="dataset-name" name="name" size="30" type="text" value="<%= dataset.name %>" maxlength="256" />
                     <span class="help-inline"></span>
                 </div>
             </div>
             <div class="clearfix">
                 <label for="dataset-description">Description</label>
                 <div class="input">
-                    <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= description %></textarea>
+                    <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= dataset.description %></textarea>
                     <span class="help-inline"></span>
                 </div>
             </div>
             <div class="clearfix">
                 <label>Uploaded filename</label>
                 <div class="input">
-                    <div class="uneditable-input" style="float: left; width:530px;"><%= data_upload.original_filename %></div>&nbsp;<a class="btn" href="/api/1.0/upload/<%= data_upload.id %>/download/" >Download original file (<%= data_upload.size %> bytes)</a>
+                    <div class="uneditable-input" style="float: left; width:530px;"><%= dataset.data_upload.original_filename %></div>&nbsp;<a class="btn" href="/api/1.0/upload/<%= dataset.data_upload.id %>/download/" >Download original file (<%= dataset.data_upload.size %> bytes)</a>
                 </div>
             </div>
+
             <h6>Sample data</h6>
+
             <table>
-                <% _.each(schema, function(s) { %>
+                <% _.each(dataset.schema, function(s) { %>
                     <th><%= s.column %></th>
                 <% }); %>
-                <% _.each(sample_data, function(r) { %>
+                <% _.each(dataset.sample_data, function(r) { %>
                     <tr>
                     <% _.each(r.data, function(d) { %>
                         <td><%= d %></td>
@@ -39,6 +58,7 @@
                 <% }); %>
             </table>
         </fieldset>
+
         <div class="actions">
             <input id="dataset-save" type="button" class="btn primary" value="Save" />
             <input type="button" class="btn danger" data-controls-modal="dataset-destroy-modal" data-backdrop="true" data-keyboard="true" value="Delete" />
@@ -52,7 +72,7 @@
         <h3>Are you sure you want to delete this dataset?</h3>
     </div>
     <div class="modal-body">
-        <p>This will irreversibly destroy <strong><%= name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
+        <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
     </div>
     <div class="modal-footer">
         <input type="button" class="btn modal-close" value="Cancel" />
@@ -66,8 +86,8 @@
         <h3>Error importing data</h3>
     </div>
     <div class="modal-body">
-        <% if (current_task && current_task.traceback) { %>
-        <%= current_task.traceback %>
+        <% if (dataset.current_task && dataset.current_task.traceback) { %>
+        <%= dataset.current_task.traceback %>
         <% } %>
     </div>
     <div class="modal-footer">

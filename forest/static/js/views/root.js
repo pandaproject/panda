@@ -13,6 +13,9 @@ PANDA.views.Root = Backbone.View.extend({
     current_content_view: null,
 
     initialize: function() {
+        // Bind local methods
+        _.bindAll(this, "get_categories", "get_category_by_id");
+
         // Override Backbone's sync handler with the authenticated version
         Backbone.noAuthSync = Backbone.sync;
         Backbone.sync = _.bind(this.sync, this);
@@ -91,6 +94,10 @@ PANDA.views.Root = Backbone.View.extend({
         }
             
         this.configure_topbar();
+    },
+
+    get_categories: function() {
+        return this._categories;
     },
 
     get_category_by_id: function(id) {

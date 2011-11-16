@@ -77,7 +77,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         if (full) {
             js['categories'] = this.categories.toJSON();
         } else {
-            js['categories'] = this.categories.map(function(cat) { return cat.resource_uri });
+            js['categories'] = this.categories.map(function(cat) { return cat.id });
         }
 
         if (this.creator != null) {

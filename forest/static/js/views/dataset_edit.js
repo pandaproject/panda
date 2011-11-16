@@ -30,7 +30,12 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(this.template(this.dataset.toJSON(true)));
+        context = {
+            'dataset': this.dataset.toJSON(true),
+            'categories': Redd.get_categories().toJSON()
+        }
+
+        this.el.html(this.template(context));
 
         task = this.dataset.current_task;
 
@@ -59,13 +64,25 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         s = {};
 
         _.each(form_values, _.bind(function(v, k) {
-            s[k] = v;
+            if (k == 'categories') {
+                // If only a single category is selected it will serialize as a string instead of a list
+                if (!_.isArray(v)) {
+                    v = [v];
+                }
+
+                categories = _.map(v, function(cat) {
+                    return Redd.get_category_by_id(cat).clone();
+                });
+
+                this.dataset.categories.reset(categories);
+            } else {
+                s[k] = v;
+            }
         }, this));
 
         this.dataset.save(s, {
             success: _.bind(function() {
-                //$("#edit-dataset-form .alert-message").alert("success", "Saved!");
-                window.location = "#dataset/" + this.dataset.get("id");
+                //window.location = "#dataset/" + this.dataset.get("id");
                 window.scrollTo(0, 0);
             }, this),
             error: function(model, response) {
