@@ -25,5 +25,26 @@
             "key": "edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b", 
             "created": "2011-11-04 00:00:00"
         }
+    },
+    {
+        "pk": 1, 
+        "model": "redd.category", 
+        "fields": {
+            "name": "Crime"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "redd.category", 
+        "fields": {
+            "name": "Education"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "redd.category", 
+        "fields": {
+            "name": "Politics"
+        }
     }
 ]

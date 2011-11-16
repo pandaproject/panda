@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from redd.api.category import CategoryResource
 from redd.api.data import DataResource
 from redd.api.datasets import DatasetResource
 from redd.api.notifications import NotificationResource

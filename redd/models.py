@@ -40,6 +40,10 @@ class TaskStatus(models.Model):
     traceback = models.TextField(blank=True, null=True, default=None,
         help_text='Traceback that exited this task, if it failed.')
 
+    class Meta:
+        verbose_name = 'Task Status'
+        verbose_name_plural = 'Task Statuses'
+
     def __unicode__(self):
         return u'%s (%i)' % (self.task_name, self.id)
 
@@ -64,6 +68,19 @@ class Upload(models.Model):
         Get the absolute path to this upload on disk.
         """
         return os.path.join(settings.MEDIA_ROOT, self.filename)
+
+class Category(models.Model):
+    """
+    A cateogory that contains Datasets.
+    """
+    name = models.CharField(max_length=64,
+        help_text='Category name.')
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __unicode__(self):
+        return self.name
 
 class Dataset(models.Model):
     """
@@ -91,6 +108,8 @@ class Dataset(models.Model):
         help_text='The user who created this dataset.')
     dialect = JSONField(
         help_text='Description of the format of the input CSV.')
+    categories = models.ManyToManyField(Category, related_name='datasets',
+        help_text='Categories containing this Dataset.')
 
     class Meta:
         ordering = ['-creation_date']

@@ -24,13 +24,15 @@ class DatasetResource(CustomResource):
     """
     API resource for Datasets.
     """
+    from redd.api.category import CategoryResource
     from redd.api.tasks import TaskResource
     from redd.api.uploads import UploadResource
     from redd.api.users import UserResource
 
-    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
-    current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
+    categories = fields.ToManyField(CategoryResource, 'categories', full=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True)
+    current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
+    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
 
     class Meta:
         queryset = Dataset.objects.all()
