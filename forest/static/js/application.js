@@ -8,6 +8,7 @@ PANDA.models = {};
 PANDA.views = {};
 PANDA.routers = {};
 PANDA.templates = {};
+PANDA.bootstrap = {};
 
 // A copy of the server-side settings.
 // AKA: The simplest thing that works.

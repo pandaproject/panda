@@ -15,8 +15,6 @@ PANDA.views.ListDatasets = Backbone.View.extend({
     },
 
     reset: function(category, limit, page) {
-        this.category = category;
-
         if (!limit) {
             limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
         }
@@ -30,8 +28,12 @@ PANDA.views.ListDatasets = Backbone.View.extend({
             offset: limit * (page - 1)
         };
 
-        if (this.category) {
-            data['categories'] = category;
+        if (category) {
+            // This could fail if the category was just created, but that's unlikely.
+            this.category = Redd.get_category_by_id(category);
+            data["categories"] = this.category.get("id");
+        } else {
+            this.category = null;
         }
 
         this.collection.fetch({ async: false, data: data });
@@ -42,7 +44,12 @@ PANDA.views.ListDatasets = Backbone.View.extend({
         context["settings"] = PANDA.settings;
         
         context["root_url"] = "#datasets";
-        context["category"] = this.category;
+
+        if (this.category) {
+            context["category"] = this.category.toJSON();
+        } else {
+            context["category"] = null;
+        }
 
         context["pager"] = this.pager_template(context);
         context["datasets"] = _.map(this.collection.results().datasets, function(d) {

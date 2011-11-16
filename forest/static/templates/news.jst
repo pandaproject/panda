@@ -1,7 +1,7 @@
 <div id="recent-datasets" class="span8">
     <h2>Recently added datasets</h2>
     <% _.each(recent.datasets, function(dataset) { %>
-        <h3><a href="#dataset/<%= dataset.id %>/search/"><%= dataset.name %></a></h3>
+        <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
         <% if (dataset.description) { %><p><em><%= dataset.description %></em></p><% } %>
         <p>Created <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").fromNow() %></p>
     <% }); %>

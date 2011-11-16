@@ -95,6 +95,8 @@
 
     <script type="text/javascript">
         $(function() {
+            PANDA.bootstrap = {{ bootstrap_data|safe }}; 
+
             window.Redd = new PANDA.views.Root();
             Redd.start_routing();
         })

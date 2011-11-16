@@ -6,13 +6,30 @@ import re
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from tastypie.serializers import Serializer
+
+from redd.api.category import CategoryResource
+from redd.models import Category
 
 def index(request):
     """
     Page shell for the client-side application.
+
+    Bootstraps read-once data onto the page.
     """
+    serializer = Serializer()
+    cr = CategoryResource()
+
+    categories = Category.objects.all()
+
+    bundles = [cr.build_bundle(obj=c) for c in categories]
+    categories = [cr.full_dehydrate(b) for b in bundles]
+
     return render_to_response('index.html', {
-        'STATIC_URL': settings.STATIC_URL
+        'STATIC_URL': settings.STATIC_URL,
+        'bootstrap_data': serializer.to_json({
+            'categories': categories
+        })
     })
 
 def jst(request):

@@ -1,7 +1,7 @@
 <div id="list-datasets">
     <h1>
     <% if (category) { %>
-    <%= category %> datasets
+    <%= category.name %> datasets
     <% } else { %>
     All datasets
     <% } %>
@@ -9,8 +9,7 @@
 
     <% if (datasets.length == 0) { %>
 
-        <p>You haven't uploaded any datasets yet.</p>
-        
+        <p>You haven't uploaded any <% if (category) { %><%= category.name %><% } %> datasets yet.</p>
         <p>Would you like to try <a href="#upload">uploading a dataset now?</a></p>
 
     <% } else { %>

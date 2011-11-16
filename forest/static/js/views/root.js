@@ -1,15 +1,24 @@
 PANDA.views.Root = Backbone.View.extend({
+    /*
+     * The singleton view which manages all others. Essentially, a "controller".
+     *
+     * A single instance of this object exists in the global namespace as "Redd".
+     */
     el: $("body"),
 
     views: {},
 
     _current_user: null,
+    _categories: null,
     current_content_view: null,
 
     initialize: function() {
         // Override Backbone's sync handler with the authenticated version
         Backbone.noAuthSync = Backbone.sync;
         Backbone.sync = _.bind(this.sync, this);
+
+        // Create objects from bootstrap data
+        this._categories = new PANDA.collections.Categories(PANDA.bootstrap.categories);
 
         // Setup global router
         this.router = new PANDA.routers.Index({ controller: this });
@@ -82,6 +91,10 @@ PANDA.views.Root = Backbone.View.extend({
         }
             
         this.configure_topbar();
+    },
+
+    get_category_by_id: function(id) {
+        return this._categories.find(function(cat) { return cat.get("id") == id; });
     },
 
     ajax: function(options) {
