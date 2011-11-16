@@ -44,7 +44,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 $("#dataset-search-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
             } 
         }
-
+        
         if (!this.query) {
             this.view.render();
         }

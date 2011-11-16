@@ -29,7 +29,7 @@ class DatasetResource(CustomResource):
     from redd.api.uploads import UploadResource
     from redd.api.users import UserResource
 
-    categories = fields.ToManyField(CategoryResource, 'categories', full=True)
+    categories = fields.ToManyField(CategoryResource, 'categories', full=True, null=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
     data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)

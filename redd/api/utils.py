@@ -23,7 +23,7 @@ class JSONApiField(ApiField):
     def convert(self, value):
         if value is None:
             return None
-        
+
         return value
 
 class CustomResource(ModelResource):

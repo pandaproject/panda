@@ -4,22 +4,29 @@ PANDA.models.Dataset = Backbone.Model.extend({
      */
     urlRoot: PANDA.API + "/dataset",
 
+    categories: null,
     creator: null,
     data_upload: null,
     current_task: null,
     data: null,
 
     initialize: function(attributes) {
-        if ("creator" in attributes) {
-            this.creator = new PANDA.models.User(attributes.creator);
+        if ("categories" in attributes) {
+            this.categories = new PANDA.collections.Categories(attributes.categories);
+        } else {
+            this.categories = new PANDA.collections.Categories();
         }
 
-        if ("data_upload" in attributes) {
-            this.data_upload = new PANDA.models.Upload(attributes.data_upload);
+        if ("creator" in attributes) {
+            this.creator = new PANDA.models.User(attributes.creator);
         }
         
         if ("current_task" in attributes) {
             this.current_task = new PANDA.models.Task(attributes.current_task);
+        }
+
+        if ("data_upload" in attributes) {
+            this.data_upload = new PANDA.models.Upload(attributes.data_upload);
         }
 
         this.data = new PANDA.collections.Data();
@@ -29,20 +36,24 @@ PANDA.models.Dataset = Backbone.Model.extend({
         /*
          * Extract embedded models from serialized data.
          */
+        this.categories = new PANDA.collections.Categories(response.categories);
+
         if (response.creator != null) {
             this.creator = new PANDA.models.User(response.creator);
-            delete response["creator"];
+        }
+        
+        if (response.current_task != null) {
+            this.current_task = new PANDA.models.Task(response.current_task);
         }
 
         if (response.data_upload != null) {
             this.data_upload = new PANDA.models.Upload(response.data_upload);
-            delete response["data_upload"];
         }
-
-        if (response.current_task != null) {
-            this.current_task = new PANDA.models.Task(response.current_task);
-            delete response["current_task"];
-        }
+        
+        delete response["categories"];
+        delete response["creator"];
+        delete response["current_task"];
+        delete response["data_upload"];
 
         // Does this dataset have embedded search results?
         if (response.objects != null) {
@@ -63,6 +74,12 @@ PANDA.models.Dataset = Backbone.Model.extend({
          */
         js = Backbone.Model.prototype.toJSON.call(this);
 
+        if (full) {
+            js['categories'] = this.categories.toJSON();
+        } else {
+            js['categories'] = this.categories.map(function(cat) { return cat.resource_uri });
+        }
+
         if (this.creator != null) {
             if (full) {
                 js['creator'] = this.creator.toJSON();
@@ -73,16 +90,6 @@ PANDA.models.Dataset = Backbone.Model.extend({
             js['creator'] = null;
         }
 
-        if (this.data_upload != null) {
-            if (full) {
-                js['data_upload'] = this.data_upload.toJSON();
-            } else {
-                js['data_upload'] = this.data_upload.id;
-            }
-        } else {
-            js['data_upload'] = null;
-        }
-
         if (this.current_task != null) {
             if (full) {
                 js['current_task'] = this.current_task.toJSON();
@@ -91,6 +98,16 @@ PANDA.models.Dataset = Backbone.Model.extend({
             }
         } else {
             js['current_task'] = null;
+        }
+
+        if (this.data_upload != null) {
+            if (full) {
+                js['data_upload'] = this.data_upload.toJSON();
+            } else {
+                js['data_upload'] = this.data_upload.id;
+            }
+        } else {
+            js['data_upload'] = null;
         }
 
         return js

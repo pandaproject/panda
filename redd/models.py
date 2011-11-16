@@ -88,7 +88,7 @@ class Dataset(models.Model):
     """
     name = models.CharField(max_length=256,
         help_text='User-supplied dataset name.')
-    description = models.TextField(
+    description = models.TextField(blank=True,
         help_text='User-supplied dataset description.')
     data_upload = models.ForeignKey(Upload,
         help_text='The upload corresponding to the data file for this dataset.')
@@ -108,7 +108,7 @@ class Dataset(models.Model):
         help_text='The user who created this dataset.')
     dialect = JSONField(
         help_text='Description of the format of the input CSV.')
-    categories = models.ManyToManyField(Category, related_name='datasets',
+    categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
 
     class Meta:
