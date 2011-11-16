@@ -14,7 +14,7 @@ class CategoryResource(ModelResource):
         queryset = Category.objects.all()
         resource_name = 'category'
         allowed_methods = ['get']
-        
+
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
         serializer = CustomSerializer()

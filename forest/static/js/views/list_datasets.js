@@ -5,6 +5,8 @@ PANDA.views.ListDatasets = Backbone.View.extend({
     pager_template: PANDA.templates.pager,
     dataset_template: PANDA.templates.dataset_block,
 
+    category: null,
+
     initialize: function(options) {
         _.bindAll(this, "render");
 
@@ -12,7 +14,9 @@ PANDA.views.ListDatasets = Backbone.View.extend({
         this.collection.bind("reset", this.render);
     },
 
-    reset: function(limit, page) {
+    reset: function(category, limit, page) {
+        this.category = category;
+
         if (!limit) {
             limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
         }
@@ -21,7 +25,16 @@ PANDA.views.ListDatasets = Backbone.View.extend({
             page = 1
         }
 
-        this.collection.fetch({ async: false, data: { limit: limit, offset: limit * (page - 1) } });
+        data = {
+            limit: limit,
+            offset: limit * (page - 1)
+        };
+
+        if (this.category) {
+            data['categories'] = category;
+        }
+
+        this.collection.fetch({ async: false, data: data });
     },
 
     render: function() {
@@ -29,6 +42,7 @@ PANDA.views.ListDatasets = Backbone.View.extend({
         context["settings"] = PANDA.settings;
         
         context["root_url"] = "#datasets";
+        context["category"] = this.category;
 
         context["pager"] = this.pager_template(context);
         context["datasets"] = _.map(this.collection.results().datasets, function(d) {

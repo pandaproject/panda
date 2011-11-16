@@ -38,6 +38,10 @@ class DatasetResource(CustomResource):
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
         always_return_data = True
+
+        filtering = {
+            'categories': ('exact', )
+        }
                 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()

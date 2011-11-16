@@ -249,13 +249,13 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset();
     },
 
-    goto_list_datasets: function(limit, page) {
+    goto_list_datasets: function(category, limit, page) {
         if (!this.authenticate()) {
             return;
         }
 
         this.current_content_view = this.get_or_create_view("ListDatasets");
-        this.current_content_view.reset(limit, page);
+        this.current_content_view.reset(category, limit, page);
     },
 
     goto_dataset_view: function(id) {

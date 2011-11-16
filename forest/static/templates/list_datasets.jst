@@ -1,5 +1,11 @@
 <div id="list-datasets">
-    <h1>Datasets</h1>
+    <h1>
+    <% if (category) { %>
+    <%= category %> datasets
+    <% } else { %>
+    All datasets
+    <% } %>
+    </h1>
 
     <% if (datasets.length == 0) { %>
 

@@ -80,7 +80,7 @@ describe("Index Router", function() {
     });
 
     it("should route to dataset browsing", function() {
-        this.controller_mock.expects("goto_list_datasets").withExactArgs(undefined, undefined).once();
+        this.controller_mock.expects("goto_list_datasets").withExactArgs(null, undefined, undefined).once();
 
         this.router.navigate("datasets", true);
 
@@ -88,7 +88,7 @@ describe("Index Router", function() {
     });
 
     it("should support dataset browsing limit", function() {
-        this.controller_mock.expects("goto_list_datasets").withExactArgs("10", undefined).once();
+        this.controller_mock.expects("goto_list_datasets").withExactArgs(null, "10", undefined).once();
 
         this.router.navigate("datasets/10", true);
 
@@ -96,9 +96,33 @@ describe("Index Router", function() {
     });
 
     it("should support dataset browser paging", function() {
-        this.controller_mock.expects("goto_list_datasets").withExactArgs("10", "2").once();
+        this.controller_mock.expects("goto_list_datasets").withExactArgs(null, "10", "2").once();
 
         this.router.navigate("datasets/10/2", true);
+
+        this.controller_mock.verify();
+    });
+
+    it("should route to browse by category", function() {
+        this.controller_mock.expects("goto_list_datasets").withExactArgs("1", undefined, undefined).once();
+
+        this.router.navigate("category/1", true);
+
+        this.controller_mock.verify();
+    });
+
+    it("should support category browsing limit", function() {
+        this.controller_mock.expects("goto_list_datasets").withExactArgs("1", "10", undefined).once();
+
+        this.router.navigate("category/1/10", true);
+
+        this.controller_mock.verify();
+    });
+
+    it("should support category browser paging", function() {
+        this.controller_mock.expects("goto_list_datasets").withExactArgs("1", "10", "2").once();
+
+        this.router.navigate("category/1/10/2", true);
 
         this.controller_mock.verify();
     });
@@ -106,7 +130,7 @@ describe("Index Router", function() {
     it("should route to edit dataset", function() {
         this.controller_mock.expects("goto_dataset_edit").withExactArgs("17").once();
 
-        this.router.navigate("dataset/17", true);
+        this.router.navigate("dataset/17/edit", true);
 
         this.controller_mock.verify();
     });
