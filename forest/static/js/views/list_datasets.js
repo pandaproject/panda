@@ -21,7 +21,7 @@ PANDA.views.ListDatasets = Backbone.View.extend({
             page = 1
         }
 
-        this.collection.fetch({ data: { limit: limit, offset: limit * (page - 1) } });
+        this.collection.fetch({ async: false, data: { limit: limit, offset: limit * (page - 1) } });
     },
 
     render: function() {
