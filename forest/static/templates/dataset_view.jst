@@ -2,6 +2,14 @@
     <fieldset>
         <legend>About <strong><%= name %></strong></legend>
         <p>Created by <strong><%= creator.first_name %> <%= creator.last_name %></strong> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt; on <strong><%= moment(creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %></strong></p>
+        
+        <h6>Categories</h6>
+
+        <p>
+            <% _.each(categories, function(category, index, list) { %>
+                <a href="#category/<%= category.id %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+            <% }); %>
+        </p>
 
         <h6>Description</h6>
 
