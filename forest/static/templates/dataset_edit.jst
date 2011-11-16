@@ -2,7 +2,9 @@
     <form id="edit-dataset-form" class="form-stacked">
         <div class="alert-message"></div>
         <fieldset>
-            <legend>Basic information</legend>
+            <legend>Edit <strong><%= name %></strong> <% if (row_count) { %>(<%= row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
+            <p>Created by <strong><%= creator.first_name %> <%= creator.last_name %></strong> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt; on <strong><%= moment(creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %></strong></p>
+            <h6>Details</h6>
             <div class="clearfix">
                 <label for="dataset-name">Dataset name</label>
                 <div class="input">
@@ -18,20 +20,12 @@
                 </div>
             </div>
             <div class="clearfix">
-                <label>Filename</label>
+                <label>Uploaded filename</label>
                 <div class="input">
-                    <div class="uneditable-input" style="float: left; width:530px;"><%= data_upload.original_filename %></div>&nbsp;<a href="/api/1.0/upload/<%= data_upload.id %>/download/" ><input id="dataset-download" type="button" class="btn" value="Download original file (<%= data_upload.size %> bytes)" /></a>
+                    <div class="uneditable-input" style="float: left; width:530px;"><%= data_upload.original_filename %></div>&nbsp;<a class="btn" href="/api/1.0/upload/<%= data_upload.id %>/download/" >Download original file (<%= data_upload.size %> bytes)</a>
                 </div>
             </div>
-            <div class="clearfix">
-                <label>Created by</label>
-                <div class="input">
-                    <p><%= creator.first_name %> <%= creator.last_name %> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt;</p>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Sample data <% if (row_count) { %>(<%= row_count %> rows total) <% } else { %>(total row count not available)<% } %></legend>
+            <h6>Sample data</h6>
             <table>
                 <% _.each(schema, function(s) { %>
                     <th><%= s.column %></th>
@@ -47,7 +41,6 @@
         </fieldset>
         <div class="actions">
             <input id="dataset-save" type="button" class="btn primary" value="Save" />
-            <a class="btn" href="#dataset/<%= id %>/search">Search this dataset</a>
             <input type="button" class="btn danger" data-controls-modal="dataset-destroy-modal" data-backdrop="true" data-keyboard="true" value="Delete" />
         </div>
     </form>

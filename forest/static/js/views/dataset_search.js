@@ -33,6 +33,20 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
 
+        task = this.dataset.current_task;
+
+        console.log(task);
+
+        if (task && task.get("task_name") == "redd.tasks.DatasetImportTask") {
+            if (task.get("status") == "STARTED") {
+                $("#dataset-search-form .alert-message").alert("info block-message", "<p><strong>Import in progress!</strong> This dataset is currently being made searchable. It will not yet appear in search results.</p>Status of import: " + task.get("message") + ".");
+            } else if (task.get("status") == "PENDING") {
+                $("#dataset-search-form .alert-message").alert("info block-message", "<p><strong>Queued for import!</strong> This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>");
+            } else if (task.get("status") == "FAILURE") {
+                $("#dataset-search-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
+            } 
+        }
+
         if (!this.query) {
             this.view.render();
         }

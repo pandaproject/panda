@@ -1,10 +1,20 @@
-<div id="dataset-search">
-    <form id="dataset-search-form">
-        <h3>Search <%= dataset.name %> (<%= dataset.row_count %> rows)</h3>
-        <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="<%= query %>" />
-        <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
-    </form>
-</div>
+<form id="dataset-search-form" class="form-stacked">
+    <div class="alert-message"></div>
+    <fieldset>
+        <legend>Search <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
+        <div class="clearfix">
+            <div class="input">
+            <% if (!dataset.imported) { %>
+                <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="Dataset not yet available for search" disabled="disabled" />
+                <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
+            <% } else { %>
+                <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="<%= query %>" />
+                <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
+            <% } %>
+            </div>
+        </div>
+    </fieldset>
+</form>
 
 <div id="dataset-search-results">
 </div>
