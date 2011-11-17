@@ -28,6 +28,77 @@
     },
     {
         "pk": 1, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "panda_user", 
+            "permissions": [
+                [
+                    "add_dataset", 
+                    "redd", 
+                    "dataset"
+                ], 
+                [
+                    "change_dataset", 
+                    "redd", 
+                    "dataset"
+                ], 
+                [
+                    "delete_dataset", 
+                    "redd", 
+                    "dataset"
+                ], 
+                [
+                    "change_notification", 
+                    "redd", 
+                    "notification"
+                ], 
+                [
+                    "add_upload", 
+                    "redd", 
+                    "upload"
+                ], 
+                [
+                    "change_upload", 
+                    "redd", 
+                    "upload"
+                ], 
+                [
+                    "delete_upload", 
+                    "redd", 
+                    "upload"
+                ]
+            ]
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "user@pandaproject.net", 
+            "first_name": "User", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-11-04 00:00:00", 
+            "groups": [1], 
+            "user_permissions": [], 
+            "password": "sha1$33a1d$62ae95c2d8ac599c28234d092e3f88d13e69ba67", 
+            "email": "panda@pandaproject.net", 
+            "date_joined": "2011-11-04 00:00:00"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "tastypie.apikey", 
+        "fields": {
+            "user": 2, 
+            "key": "edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84c", 
+            "created": "2011-11-04 00:00:00"
+        }
+    },
+    {
+        "pk": 1, 
         "model": "redd.category", 
         "fields": {
             "name": "Crime"

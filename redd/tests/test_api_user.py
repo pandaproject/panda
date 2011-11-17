@@ -62,9 +62,9 @@ class TestAPIUser(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        self.user = utils.get_test_user() 
+        self.user = utils.get_panda_user() 
         
-        self.auth_headers = utils.get_auth_headers()
+        self.auth_headers = utils.get_auth_headers('panda@pandaproject.net')
 
         self.client = Client()
 
@@ -89,8 +89,8 @@ class TestAPIUser(TestCase):
 
         body = json.loads(response.content)
 
-        self.assertEqual(len(body['objects']), 1)
-        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 2)
+        self.assertEqual(body['meta']['total_count'], 2)
         self.assertEqual(body['meta']['limit'], 5)
         self.assertEqual(body['meta']['offset'], 0)
         self.assertEqual(body['meta']['next'], None)

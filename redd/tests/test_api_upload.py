@@ -12,7 +12,7 @@ from redd.tests import utils
 
 class TestAPIUpload(TestCase):
     def setUp(self):
-        self.user = utils.get_test_user()
+        self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)
 
         self.auth_headers = utils.get_auth_headers()

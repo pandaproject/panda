@@ -10,7 +10,7 @@ from redd.tests import utils
 
 class TestLogin(TestCase):
     def setUp(self):
-        self.user = utils.get_test_user()
+        self.user = utils.get_panda_user()
         
         self.client = Client()
 
@@ -29,7 +29,7 @@ class TestLogin(TestCase):
         self.user.is_active = False
         self.user.save()
 
-        response = self.client.post('/login/', { 'email': 'panda@pandaproject.net', 'password': 'panda' }) 
+        response = self.client.post('/login/', { 'email': 'user@pandaproject.net', 'password': 'user' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -69,7 +69,7 @@ class TestLogin(TestCase):
 
 class TestRegistration(TestCase):
     def setUp(self):
-        self.user = utils.get_test_user()
+        self.user = utils.get_panda_user()
         
         self.client = Client()
 

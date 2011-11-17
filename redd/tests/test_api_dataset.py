@@ -27,7 +27,7 @@ class TestAPIDataset(TestCase):
 
         self.solr = utils.get_test_solr() 
 
-        self.user = utils.get_test_user()
+        self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)
         self.dataset = utils.get_test_dataset(self.upload, self.user)
 
