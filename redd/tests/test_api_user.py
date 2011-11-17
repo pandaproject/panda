@@ -64,7 +64,7 @@ class TestAPIUser(TestCase):
 
         self.user = utils.get_panda_user() 
         
-        self.auth_headers = utils.get_auth_headers('panda@pandaproject.net')
+        self.auth_headers = utils.get_auth_headers()
 
         self.client = Client()
 
@@ -96,7 +96,7 @@ class TestAPIUser(TestCase):
         self.assertEqual(body['meta']['next'], None)
         self.assertEqual(body['meta']['previous'], None)
 
-    def test_create(self):
+    def test_create_as_admin(self):
         new_user = {
             'email': 'tester@tester.com',
             'password': 'test',
@@ -104,7 +104,7 @@ class TestAPIUser(TestCase):
             'last_name': 'McTester'
         }
 
-        response = self.client.post('/api/1.0/user/', content_type='application/json', data=json.dumps(new_user), **self.auth_headers)
+        response = self.client.post('/api/1.0/user/', content_type='application/json', data=json.dumps(new_user), **utils.get_auth_headers('panda@pandaproject.net'))
 
         self.assertEqual(response.status_code, 201)
         
@@ -122,4 +122,16 @@ class TestAPIUser(TestCase):
         self.assertEqual(new_user.last_name, 'McTester')
         self.assertEqual(new_user.password[:5], 'sha1$')
         self.assertNotEqual(new_user.api_key, None)
+
+    def test_create_as_user(self):
+        new_user = {
+            'email': 'tester@tester.com',
+            'password': 'test',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
+        }
+
+        response = self.client.post('/api/1.0/user/', content_type='application/json', data=json.dumps(new_user), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 401)
 
