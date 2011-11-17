@@ -67,6 +67,6 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     not_found: function(path) {
-        this.controller.goto_not_found(path);
+        this.controller.goto_not_found();
     }
 });

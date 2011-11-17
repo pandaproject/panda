@@ -14,8 +14,22 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         $("#dataset-destroy").live("click", this.destroy);
     },
 
-    reset: function() {
-        this.render();
+    reset: function(id) {
+        this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + id + "/" });
+
+        this.dataset.fetch({
+            async: false,
+            success: _.bind(function() {
+                this.render();
+            }, this),
+            error: _.bind(function(model, response) {
+                if (response.status == 404) {
+                    Redd.goto_not_found(); 
+                } else {
+                    Redd.goto_server_error();
+                }
+            }, this)
+        });
     },
 
     validate: function() {

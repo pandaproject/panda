@@ -20,12 +20,23 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     reset: function(dataset_id, query, success_callback) {
         this.query = query;
         
-        this.dataset = new PANDA.models.Dataset({ resource_uri: "/api/1.0/dataset/" + dataset_id + "/" });
-        this.dataset.fetch({ async: false, success: _.bind(function(model, response) {
-            this.results.set_dataset(model);
-            this.view.set_dataset(model);
-            this.render();
-        }, this) });
+        this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_id + "/" });
+
+        this.dataset.fetch({
+            async: false,
+            success: _.bind(function(model, response) {
+                this.results.set_dataset(model);
+                this.view.set_dataset(model);
+                this.render();
+            }, this),
+            error: _.bind(function(model, response) {
+                if (response.status == 404) {
+                    Redd.goto_not_found(); 
+                } else {
+                    Redd.goto_server_error();
+                }
+            }, this)
+        });
     },
 
     render: function() {

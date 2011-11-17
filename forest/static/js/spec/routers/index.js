@@ -160,7 +160,7 @@ describe("Index Router", function() {
     });
 
     it("should 404 on bad routes", function() {
-        this.controller_mock.expects("goto_not_found").withExactArgs("wtf/1/2/3").once();
+        this.controller_mock.expects("goto_not_found").once();
 
         this.router.navigate("wtf/1/2/3", true);
 

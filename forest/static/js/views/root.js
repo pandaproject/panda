@@ -102,10 +102,16 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     get_categories: function() {
+        /*
+         * Retrieve global list of categories that was bootstrapped onto the page.
+         */
         return this._categories;
     },
 
     get_category_by_id: function(id) {
+        /*
+         * Retrieve a specific category by id.
+         */
         return this._categories.find(function(cat) { return cat.get("id") == id; });
     },
 
@@ -213,6 +219,9 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     clear_unread_notifications: function() {
+        /*
+         * Marks all of the current user's notifications as read.
+         */
         this._current_user.mark_notifications_read(_.bind(function() {
             this.configure_topbar();
         }, this));
@@ -297,15 +306,8 @@ PANDA.views.Root = Backbone.View.extend({
             return;
         }
 
-        resource_uri = PANDA.API + "/dataset/" + id + "/";
-
-        d = new PANDA.models.Dataset({ resource_uri: resource_uri });
-
-        d.fetch({ success: _.bind(function() {
-            this.current_content_view = this.get_or_create_view("DatasetEdit");
-            this.current_content_view.dataset = d;
-            this.current_content_view.reset();
-        }, this)});
+        this.current_content_view = this.get_or_create_view("DatasetEdit");
+        this.current_content_view.reset(id);
     },
 
     goto_dataset_search: function(id, query, limit, page) {
@@ -321,12 +323,19 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.search(query, limit, page);
     },
 
-    goto_not_found: function(path) {
+    goto_not_found: function() {
         if (!(this.current_content_view instanceof PANDA.views.NotFound)) {
             this.current_content_view = this.get_or_create_view("NotFound");
-            this.current_content_view.reset(path);
         }
 
-        this.current_content_view.reset(path);
+        this.current_content_view.reset();
+    },
+
+    goto_server_error: function() {
+        if (!(this.current_content_view instanceof PANDA.views.ServerError)) {
+            this.current_content_view = this.get_or_create_view("ServerError");
+        }
+
+        this.current_content_view.reset();
     }
 });
