@@ -16,7 +16,7 @@ PANDA.views.Root = Backbone.View.extend({
 
     initialize: function() {
         // Bind local methods
-        _.bindAll(this, "get_categories", "get_category_by_id");
+        _.bindAll(this, "get_categories", "get_category_by_id", "refresh_notifications");
 
         // Override Backbone's sync handler with the authenticated version
         Backbone.noAuthSync = Backbone.sync;
@@ -35,6 +35,9 @@ PANDA.views.Root = Backbone.View.extend({
         this.configure_topbar();
 
         $("#topbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
+
+        // Setup occasional updates of notifications
+        window.setInterval(this.refresh_notifications, PANDA.settings.PANDA_NOTIFICATIONS_INTERVAL);
 
         return this;
     },
@@ -216,6 +219,12 @@ PANDA.views.Root = Backbone.View.extend({
         }
     },
 
+    refresh_notifications: function() {
+        this._current_user.refresh_notifications(_.bind(function() {
+            this.configure_topbar();
+        }, this));
+    },
+
     clear_unread_notifications: function() {
         /*
          * Marks all of the current user's notifications as read.
@@ -347,7 +356,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("DatasetEdit");
         this.current_content_view.reset(id);
         
-        this.router.navigate("dataset/" + id + "/edit/");
+        this.router.navigate("dataset/" + id + "/edit");
     },
 
     goto_dataset_search: function(id, query, limit, page) {

@@ -14,13 +14,13 @@ PANDA.models.User = Backbone.Model.extend({
         }
     },
 
-    refresh_notifications: function(success) {
+    refresh_notifications: function(success_callback) {
         /*
          * Refresh notifications list from the server.
          */
         this.notifications.fetch({
             data: "read_at__isnull=True",
-            success: success
+            success: success_callback
         });
     },
 
