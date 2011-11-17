@@ -23,12 +23,13 @@ def index(request):
     categories = Category.objects.all()
 
     bundles = [cr.build_bundle(obj=c) for c in categories]
-    categories = [cr.full_dehydrate(b) for b in bundles]
+    categories_bootstrap = [cr.full_dehydrate(b) for b in bundles]
 
     return render_to_response('index.html', {
         'STATIC_URL': settings.STATIC_URL,
+        'categories': categories,
         'bootstrap_data': serializer.to_json({
-            'categories': categories
+            'categories': categories_bootstrap
         })
     })
 

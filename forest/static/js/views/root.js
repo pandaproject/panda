@@ -31,11 +31,6 @@ PANDA.views.Root = Backbone.View.extend({
         // Attempt to authenticate from cookies
         this.authenticate();
 
-        // Populate sidebar categories list
-        this._categories.each(function(category) {
-            $("#categories-list").append('<li><a href="#category/' + category.get("id") + '">' + category.get("name") + '</a></li>');
-        });
-
         // Configure the global topbar
         this.configure_topbar();
 
@@ -317,7 +312,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset(category, limit, page);
 
         if (category) {
-            path = "category";
+            path = "category/" + category;
         } else {
             path = "datasets";
         }
