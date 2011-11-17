@@ -64,7 +64,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     search_event: function() {
         this.query = $("#dataset-search-form #dataset-search-query").val();
 
-        window.location = "#dataset/" + this.dataset.get("id") + "/search/" + this.query;
+        Redd.goto_dataset_search(this.dataset.get("id"), this.query);
 
         return false;
     },

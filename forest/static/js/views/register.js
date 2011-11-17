@@ -62,8 +62,7 @@ PANDA.views.Register = Backbone.View.extend({
             data: $("#register-form").serialize(),
             success: function(data, status, xhr) {
                 Redd.set_current_user(new PANDA.models.User(data));
-
-                window.location = "#";
+                Redd.goto_search();
             },
             error: function(xhr, status, error) {
                 Redd.set_current_user(null);

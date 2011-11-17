@@ -8,6 +8,8 @@ PANDA.views.Root = Backbone.View.extend({
 
     views: {},
 
+    router: null,
+
     _current_user: null,
     _categories: null,
     current_content_view: null,
@@ -72,7 +74,7 @@ PANDA.views.Root = Backbone.View.extend({
             return true;
         }
 
-        window.location = "#login";
+        this.goto_login();
 
         return false;
     },
@@ -127,7 +129,8 @@ PANDA.views.Root = Backbone.View.extend({
         dfd.fail(function(responseXhr, status, error) {
             if (responseXhr.status == 401) {
                 this.set_current_user(null);
-                window.location = "#login";
+
+                this.goto_login();
             }
         });
 
@@ -152,7 +155,7 @@ PANDA.views.Root = Backbone.View.extend({
         // Handle authentication failures
         dfd.fail(function(xhr, status, error) {
             if (xhr.status == 401) {
-                window.location = "#login";
+                this.goto_login();
             }
         });
 
@@ -245,17 +248,21 @@ PANDA.views.Root = Backbone.View.extend({
     goto_login: function() {
         this.current_content_view = this.get_or_create_view("Login");
         this.current_content_view.reset();
+
+        this.router.navigate("login");
     },
     
     goto_logout: function() {
         this.set_current_user(null);
 
-        window.location = "#login";
+        this.goto_login();
     },
 
     goto_register: function() {
         this.current_content_view = this.get_or_create_view("Register");
         this.current_content_view.reset();
+        
+        this.router.navigate("register");
     },
 
     goto_search: function(query, limit, page) {
@@ -272,6 +279,22 @@ PANDA.views.Root = Backbone.View.extend({
         }
 
         this.current_content_view.search(query, limit, page);
+
+        path = "search/";
+
+        if (query) {
+            path += query;
+        }
+        
+        if (limit) {
+            path += "/" + limit;
+        }
+
+        if (page) {
+            path += "/" + page;
+        }
+
+        this.router.navigate(path);
     },
 
     goto_upload: function() {
@@ -281,6 +304,8 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view = this.get_or_create_view("Upload");
         this.current_content_view.reset();
+
+        this.router.navigate("upload");
     },
 
     goto_list_datasets: function(category, limit, page) {
@@ -290,6 +315,22 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view = this.get_or_create_view("ListDatasets");
         this.current_content_view.reset(category, limit, page);
+
+        if (category) {
+            path = "category";
+        } else {
+            path = "datasets";
+        }
+    
+        if (limit) {
+            path += "/" + limit;
+        }
+
+        if (page) {
+            path += "/" + page;
+        }
+
+        this.router.navigate(path);
     },
 
     goto_dataset_view: function(id) {
@@ -299,6 +340,8 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view = this.get_or_create_view("DatasetSearch");
         this.current_content_view.reset(id, null);
+
+        this.router.navigate("dataset/" + id);
     },
 
     goto_dataset_edit: function(id) {
@@ -308,6 +351,8 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view = this.get_or_create_view("DatasetEdit");
         this.current_content_view.reset(id);
+        
+        this.router.navigate("dataset/" + id + "/edit/");
     },
 
     goto_dataset_search: function(id, query, limit, page) {
@@ -321,6 +366,22 @@ PANDA.views.Root = Backbone.View.extend({
         }
 
         this.current_content_view.search(query, limit, page);
+
+        path = "dataset/" + id + "/search";
+
+        if (query) {
+            path += "/" + query;
+        }
+        
+        if (limit) {
+            path += "/" + limit;
+        }
+
+        if (page) {
+            path += "/" + page;
+        }
+
+        this.router.navigate(path);
     },
 
     goto_not_found: function() {

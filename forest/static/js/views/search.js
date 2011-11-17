@@ -35,7 +35,7 @@ PANDA.views.Search = Backbone.View.extend({
     search_event: function() {
         this.query = $("#search-form #search-query").val();
 
-        window.location = "#search/" + this.query;
+        Redd.goto_search(this.query);
 
         return false;
     },

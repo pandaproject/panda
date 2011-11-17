@@ -96,7 +96,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
         this.dataset.save(s, {
             success: _.bind(function() {
-                //window.location = "#dataset/" + this.dataset.get("id");
+                Redd.goto_dataset_view(this.dataset.get("id"));
                 window.scrollTo(0, 0);
             }, this),
             error: function(model, response) {
@@ -116,7 +116,8 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     destroy: function() {
         this.dataset.destroy({ success: _.bind(function() {
             this.dataset = null;
-            window.location = '#datasets';
+
+            Redd.goto_list_datasets();
         }, this)});
     }
 });

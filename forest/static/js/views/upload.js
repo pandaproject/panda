@@ -120,7 +120,7 @@ PANDA.views.Upload = Backbone.View.extend({
                 }, this)
             });
         } else if (responseJSON.forbidden) {
-            window.location = "#login";
+            Redd.goto_login();
         } else {
             this.step_one_error_message('Upload failed!');
         }
@@ -167,7 +167,7 @@ PANDA.views.Upload = Backbone.View.extend({
     },
 
     continue_event: function() {
-        window.location = "#dataset/" + this.dataset.get("id") + "/edit";
+        Redd.goto_dataset_edit( this.dataset.get("id"));
     }
 });
 
