@@ -56,16 +56,6 @@
                     "add_upload", 
                     "redd", 
                     "upload"
-                ], 
-                [
-                    "change_upload", 
-                    "redd", 
-                    "upload"
-                ], 
-                [
-                    "delete_upload", 
-                    "redd", 
-                    "upload"
                 ]
             ]
         }
