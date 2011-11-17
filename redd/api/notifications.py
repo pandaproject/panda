@@ -44,11 +44,3 @@ class NotificationResource(ModelResource):
         # TODO: trim paging data
         #return data
 
-    def override_urls(self):
-        """
-        Add urls for search endpoint.
-        """
-        return [
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/mark_read%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('mark_read'), name='api_mark_read')
-        ]
-
