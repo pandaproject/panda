@@ -15,14 +15,14 @@ class TestLogin(TestCase):
         self.client = Client()
 
     def test_login_success(self):
-        response = self.client.post('/login/', { 'email': 'panda@pandaproject.net', 'password': 'panda' }) 
+        response = self.client.post('/login/', { 'email': 'user@pandaproject.net', 'password': 'user' }) 
 
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
 
-        self.assertEqual(body['email'], 'panda@pandaproject.net')
-        self.assertEqual(body['api_key'], 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b')
+        self.assertEqual(body['email'], 'user@pandaproject.net')
+        self.assertEqual(body['api_key'], 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84c')
         self.assertEqual(body['notifications'], [])
 
     def test_login_disabled(self):
@@ -50,7 +50,7 @@ class TestLogin(TestCase):
         self.assertIn('incorrect', body['__all__'])
 
     def test_login_incorrect_password(self):
-        response = self.client.post('/login/', { 'email': 'panda@pandaproject.net', 'password': 'NOTPANDA' }) 
+        response = self.client.post('/login/', { 'email': 'user@pandaproject.net', 'password': 'NOPANDA' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -59,7 +59,7 @@ class TestLogin(TestCase):
         self.assertIn('incorrect', body['__all__'])
 
     def test_no_get(self):
-        response = self.client.get('/login/', { 'email': 'panda@pandaproject.net', 'password': 'NOTPANDA' }) 
+        response = self.client.get('/login/', { 'email': 'user@pandaproject.net', 'password': 'NOPANDA' }) 
 
         self.assertEqual(response.status_code, 400)
 
@@ -92,7 +92,7 @@ class TestRegistration(TestCase):
         self.assertEqual(new_user.last_name, 'PANDA')
 
     def test_registration_email_already_in_use(self):
-        response = self.client.post('/register/', { 'email': 'panda@pandaproject.net', 'password': 'panda' }) 
+        response = self.client.post('/register/', { 'email': 'user@pandaproject.net', 'password': 'NEWPANDA' }) 
 
         self.assertEqual(response.status_code, 400)
 

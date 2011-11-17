@@ -84,7 +84,7 @@
             "groups": [1], 
             "user_permissions": [], 
             "password": "sha1$33a1d$62ae95c2d8ac599c28234d092e3f88d13e69ba67", 
-            "email": "panda@pandaproject.net", 
+            "email": "user@pandaproject.net", 
             "date_joined": "2011-11-04 00:00:00"
         }
     },
