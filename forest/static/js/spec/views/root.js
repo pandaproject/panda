@@ -102,5 +102,27 @@ describe("Root view / global controller", function() {
             goto_login_stub.restore();
         });
     });
+
+    describe("Ajax", function() {
+        it("should check authentication on ajax requests", function() {
+            var auth_stub = sinon.stub(Redd, "authenticate").returns(true);
+
+            Redd.ajax({})
+
+            expect(auth_stub).toHaveBeenCalledOnce();
+        });
+
+        it("should route to login if ajax returns 401", function () {
+        });
+
+        it("should call the original failure callback", function() {
+        });
+
+        it("should call the original success callback", function() {
+        });
+
+        it("should return a deferred", function() {
+        });
+    });
 });
 
