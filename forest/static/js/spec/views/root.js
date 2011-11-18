@@ -98,30 +98,70 @@ describe("Root view / global controller", function() {
             expect(this.refresh_notifications_stub).not.toHaveBeenCalled();
             expect(goto_login_stub).toHaveBeenCalledOnce();
 
-            set_current_user_stub.restore();
             goto_login_stub.restore();
+            set_current_user_stub.restore();
         });
     });
 
     describe("Ajax", function() {
-        it("should check authentication on ajax requests", function() {
-            var auth_stub = sinon.stub(Redd, "authenticate").returns(true);
+        beforeEach(function() {
+            this.auth_stub = sinon.stub(Redd, "authenticate").returns(true);
+            this.set_current_user_stub = sinon.stub(Redd, "set_current_user");
+            this.goto_login_stub = sinon.stub(Redd, "goto_login");
+        });
 
+        afterEach(function() {
+            this.goto_login_stub.restore();
+            this.set_current_user_stub.restore();
+            this.auth_stub.restore();
+        });
+
+        it("should check authentication on ajax requests", function() {
             Redd.ajax({})
 
-            expect(auth_stub).toHaveBeenCalledOnce();
+            expect(this.auth_stub).toHaveBeenCalledOnce();
         });
 
         it("should route to login if ajax returns 401", function () {
+            Redd.ajax({})
+
+            expect(this.requests.length).toEqual(1);
+
+            this.requests[0].respond(401);
+
+            expect(this.set_current_user_stub).toHaveBeenCalledOnce();
+            expect(this.goto_login_stub).toHaveBeenCalledOnce();
         });
 
         it("should call the original failure callback", function() {
+            var test_callback = sinon.spy();
+
+            Redd.ajax({ error: test_callback })
+
+            expect(this.requests.length).toEqual(1);
+
+            this.requests[0].respond(500);
+
+            expect(test_callback).toHaveBeenCalledOnce();
         });
 
         it("should call the original success callback", function() {
+            var test_callback = sinon.spy();
+
+            Redd.ajax({ success: test_callback })
+
+            expect(this.requests.length).toEqual(1);
+
+            this.requests[0].respond(200);
+
+            expect(test_callback).toHaveBeenCalledOnce();
         });
 
         it("should return a deferred", function() {
+            var result = Redd.ajax({});
+
+            expect(result).not.toBeNull();
+            expect(result.then).toBeDefined();
         });
     });
 });

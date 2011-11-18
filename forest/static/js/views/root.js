@@ -126,13 +126,13 @@ PANDA.views.Root = Backbone.View.extend({
         this.authenticate();
 
         // Handle authentication failures
-        dfd.fail(function(responseXhr, status, error) {
+        dfd.fail(_.bind(function(responseXhr, status, error) {
             if (responseXhr.status == 401) {
                 this.set_current_user(null);
 
                 this.goto_login();
             }
-        });
+        }, this));
 
         // Trigger original error handler after checking for auth issues
         dfd.fail(options.error);
