@@ -8,10 +8,12 @@ PANDA.views.Root = Backbone.View.extend({
 
     views: {},
 
-    router: null,
-
+    _router: null,
     _current_user: null,
     _categories: null,
+
+    notifications_refresh_timer_id: null,
+
     current_content_view: null,
 
     initialize: function() {
@@ -26,7 +28,7 @@ PANDA.views.Root = Backbone.View.extend({
         this._categories = new PANDA.collections.Categories(PANDA.bootstrap.categories);
 
         // Setup global router
-        this.router = new PANDA.routers.Index({ controller: this });
+        this._router = new PANDA.routers.Index({ controller: this });
 
         // Attempt to authenticate from cookies
         this.authenticate();
@@ -37,7 +39,7 @@ PANDA.views.Root = Backbone.View.extend({
         $("#topbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
 
         // Setup occasional updates of notifications
-        window.setInterval(this.refresh_notifications, PANDA.settings.PANDA_NOTIFICATIONS_INTERVAL);
+        this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.PANDA_NOTIFICATIONS_INTERVAL);
 
         return this;
     },
@@ -67,7 +69,7 @@ PANDA.views.Root = Backbone.View.extend({
             this.set_current_user(new PANDA.models.User({ "email": email, "api_key": api_key }));
 
             // Fetch latest notifications (doubles as a verification of the user's credentials)
-            this._current_user.refresh_notifications(_.bind(this.configure_topbar, this));
+            this.refresh_notifications();
 
             return true;
         }
@@ -253,7 +255,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("Login");
         this.current_content_view.reset();
 
-        this.router.navigate("login");
+        this._router.navigate("login");
     },
     
     goto_logout: function() {
@@ -266,7 +268,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("Register");
         this.current_content_view.reset();
         
-        this.router.navigate("register");
+        this._router.navigate("register");
     },
 
     goto_search: function(query, limit, page) {
@@ -298,7 +300,7 @@ PANDA.views.Root = Backbone.View.extend({
             path += "/" + page;
         }
 
-        this.router.navigate(path);
+        this._router.navigate(path);
     },
 
     goto_upload: function() {
@@ -309,7 +311,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("Upload");
         this.current_content_view.reset();
 
-        this.router.navigate("upload");
+        this._router.navigate("upload");
     },
 
     goto_list_datasets: function(category, limit, page) {
@@ -334,7 +336,7 @@ PANDA.views.Root = Backbone.View.extend({
             path += "/" + page;
         }
 
-        this.router.navigate(path);
+        this._router.navigate(path);
     },
 
     goto_dataset_view: function(id) {
@@ -345,7 +347,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("DatasetSearch");
         this.current_content_view.reset(id, null);
 
-        this.router.navigate("dataset/" + id);
+        this._router.navigate("dataset/" + id);
     },
 
     goto_dataset_edit: function(id) {
@@ -356,7 +358,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("DatasetEdit");
         this.current_content_view.reset(id);
         
-        this.router.navigate("dataset/" + id + "/edit");
+        this._router.navigate("dataset/" + id + "/edit");
     },
 
     goto_dataset_search: function(id, query, limit, page) {
@@ -385,7 +387,7 @@ PANDA.views.Root = Backbone.View.extend({
             path += "/" + page;
         }
 
-        this.router.navigate(path);
+        this._router.navigate(path);
     },
 
     goto_not_found: function() {
