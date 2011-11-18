@@ -164,5 +164,140 @@ describe("Root view / global controller", function() {
             expect(result.then).toBeDefined();
         });
     });
+
+    describe("Subordinate views", function() {
+        beforeEach(function() {
+            this.fake_view = {
+                reset: sinon.spy(),
+                search: sinon.spy()
+            };
+
+            this.auth_stub = sinon.stub(Redd, "authenticate").returns(true);
+            this.get_or_create_view_stub = sinon.stub(Redd, "get_or_create_view").returns(this.fake_view);
+            this.navigate_stub = sinon.stub(Redd._router, "navigate");
+        });
+
+        afterEach(function() {
+            this.navigate_stub.restore();
+            this.get_or_create_view_stub.restore();
+            this.auth_stub.restore();
+        });
+
+        it("should load the login view", function() {
+            Redd.goto_login();
+
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("Login");
+            expect(this.fake_view.reset).toHaveBeenCalledOnce();
+            expect(this.navigate_stub).toHaveBeenCalledWith("login");
+        });
+
+        it("should logout and route to the login view", function() {
+            this.set_current_user_stub = sinon.stub(Redd, "set_current_user");
+            this.goto_login_stub = sinon.stub(Redd, "goto_login");
+
+            Redd.goto_logout();
+
+            expect(this.set_current_user_stub).toHaveBeenCalledWith(null);
+            expect(this.goto_login_stub).toHaveBeenCalledOnce();
+
+            this.goto_login_stub.restore();
+            this.set_current_user_stub.restore();
+        });
+
+        it("should load the register view", function() {
+            Redd.goto_register();
+
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("Register");
+            expect(this.fake_view.reset).toHaveBeenCalledOnce();
+            expect(this.navigate_stub).toHaveBeenCalledWith("register");
+        });
+
+        it("should load the search view", function() {
+            Redd.goto_search("test", "10", "2");
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("Search");
+            expect(this.fake_view.reset).toHaveBeenCalledWith("test");
+            expect(this.fake_view.search).toHaveBeenCalledWith("test", "10", "2");
+            expect(this.navigate_stub).toHaveBeenCalledWith("search/test/10/2");
+        });
+
+        it("should load the upload view", function() {
+            Redd.goto_upload();
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("Upload");
+            expect(this.fake_view.reset).toHaveBeenCalledOnce();
+            expect(this.navigate_stub).toHaveBeenCalledWith("upload");
+        });
+
+        it("should load the datasets view", function() {
+            Redd.goto_list_datasets(null, "10", "2");
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("ListDatasets");
+            expect(this.fake_view.reset).toHaveBeenCalledWith(null, "10", "2");
+            expect(this.navigate_stub).toHaveBeenCalledWith("datasets/10/2");
+        });
+
+        it("should load the category view", function() {
+            Redd.goto_list_datasets("1", "20", "1");
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("ListDatasets");
+            expect(this.fake_view.reset).toHaveBeenCalledWith("1", "20", "1");
+            expect(this.navigate_stub).toHaveBeenCalledWith("category/1/20/1");
+        });
+
+        it("should load the dataset view", function() {
+            Redd.goto_dataset_view("12");
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetSearch");
+            expect(this.fake_view.reset).toHaveBeenCalledWith("12");
+            expect(this.navigate_stub).toHaveBeenCalledWith("dataset/12");
+        });
+
+        it("should load the dataset edit view", function() {
+            Redd.goto_dataset_edit("12");
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetEdit");
+            expect(this.fake_view.reset).toHaveBeenCalledWith("12");
+            expect(this.navigate_stub).toHaveBeenCalledWith("dataset/12/edit");
+        });
+
+        it("should load the dataset search view", function() {
+            Redd.goto_dataset_search("12", "test", "10", "2");
+
+            expect(this.auth_stub).toHaveBeenCalledOnce();
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetSearch");
+            expect(this.fake_view.reset).toHaveBeenCalledWith("12", "test");
+            expect(this.fake_view.search).toHaveBeenCalledWith("test", "10", "2");
+            expect(this.navigate_stub).toHaveBeenCalledWith("dataset/12/search/test/10/2");
+        });
+
+        it("should render the 404 view but not change the url hash", function() {
+            var old_location = window.location;
+
+            Redd.goto_not_found();
+
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("NotFound");
+            expect(this.fake_view.reset).toHaveBeenCalledOnce();
+            expect(this.navigate_stub).not.toHaveBeenCalled();
+            expect(window.location).toEqual(old_location);
+        });
+
+        it("should render the 500 view but not change the url hash", function() {
+            var old_location = window.location;
+
+            Redd.goto_server_error();
+
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("ServerError");
+            expect(this.fake_view.reset).toHaveBeenCalledOnce();
+            expect(this.navigate_stub).not.toHaveBeenCalled();
+            expect(window.location).toEqual(old_location);
+        });
+    });
 });
 
