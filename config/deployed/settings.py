@@ -12,5 +12,5 @@ STATIC_ROOT = '/mnt/media'
 MEDIA_ROOT = '/mnt/panda' 
 
 # Django-compressor
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False 
 
