@@ -1,5 +1,5 @@
 body { padding-top: 40px; }
-#sidebar { width: 240px; }
+#sidebar { width: 240px; display:none; }
 .topbar { height: 30px; }
 .topbar .container { margin-left: 0; }
 .topbar div > ul a, .nav a { padding: 5px 5px 6px; }

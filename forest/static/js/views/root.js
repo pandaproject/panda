@@ -95,9 +95,11 @@ PANDA.views.Root = Backbone.View.extend({
         if (this._current_user) {
             $.cookie('email', this._current_user.get("email"));
             $.cookie('api_key', this._current_user.get("api_key"));
+            $("#sidebar").show();
         } else {
             $.cookie('email', null);
             $.cookie('api_key', null);
+            $("#sidebar").hide();
         }
             
         this.configure_topbar();
