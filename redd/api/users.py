@@ -2,7 +2,7 @@
 
 import random
 
-from django.contrib.auth.models import User, get_hexdigest
+from django.contrib.auth.models import Group, User, get_hexdigest
 from django.core.validators import email_re
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
@@ -42,7 +42,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
-        excludes = ['password', 'username']
+        excludes = ['password', 'username', 'is_superuser', 'is_staff']
         always_return_data = True
 
         authentication = CustomApiKeyAuthentication()
@@ -51,5 +51,17 @@ class UserResource(ModelResource):
         serializer = CustomSerializer()
 
     def obj_create(self, bundle, request=None, **kwargs):
-        return super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['username'], password=bundle.data['password'], **kwargs)
+        """
+        Create user using email ass username and optionally using a supplied password.
+
+        All users created via the API are automatically assigned to the panda_users group.
+        """
+        bundle = super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['username'], password=bundle.data['password'], **kwargs)
+
+        panda_user = Group.objects.get(name='panda_user')
+
+        bundle.obj.groups.add(panda_user)
+        bundle.obj.save()
+
+        return bundle
 

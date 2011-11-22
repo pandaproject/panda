@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from django.contrib.auth.models import Group
 from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
@@ -63,6 +64,7 @@ class TestAPIUser(TestCase):
         settings.CELERY_ALWAYS_EAGER = True
 
         self.user = utils.get_panda_user() 
+        self.panda_user_group = Group.objects.get(name='panda_user')
         
         self.auth_headers = utils.get_auth_headers()
 
@@ -75,7 +77,10 @@ class TestAPIUser(TestCase):
 
         body = json.loads(response.content)
 
+        self.assertNotIn('username', body)
         self.assertNotIn('password', body)
+        self.assertNotIn('is_superuser', body)
+        self.assertNotIn('is_staff', body)
 
     def test_get_unauthorized(self):
         response = self.client.get('/api/1.0/user/%i/' % self.user.id) 
@@ -122,6 +127,8 @@ class TestAPIUser(TestCase):
         self.assertEqual(new_user.last_name, 'McTester')
         self.assertEqual(new_user.password[:5], 'sha1$')
         self.assertNotEqual(new_user.api_key, None)
+
+        self.assertEqual(list(new_user.groups.all()), [self.panda_user_group])
 
     def test_create_as_user(self):
         new_user = {
