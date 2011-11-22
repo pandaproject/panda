@@ -48,6 +48,9 @@ describe("Dataset model", function() {
         expect(dataset.current_task).not.toBeNull();
         expect(dataset.current_task.get("task_name")).toEqual("redd.tasks.DatasetImportTask");
         expect(response.current_task).toBeUndefined();
+
+        expect(dataset.categories).not.toBeNull();
+        expect(dataset.categories.length).toEqual(0);
     });
 
     it("should serialize related models as URIs by default", function() {
@@ -58,6 +61,7 @@ describe("Dataset model", function() {
         expect(json.creator).toEqual("/api/1.0/user/1/");
         expect(json.data_upload).toEqual("/api/1.0/upload/1/");
         expect(json.current_task).toEqual("/api/1.0/task/1/");
+        expect(json.categories).toEqual([]);
     });
 
     it("should serialize related models in full when specified", function() {
@@ -73,6 +77,9 @@ describe("Dataset model", function() {
 
         expect(json.current_task).not.toBeNull();
         expect(json.current_task.task_name).toEqual("redd.tasks.DatasetImportTask");
+        
+        expect(json.categories).not.toBeNull();
+        expect(json.categories).toEqual([]);
     });
 
     it("should tell the server to import data", function() {
