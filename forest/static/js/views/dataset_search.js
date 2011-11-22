@@ -72,6 +72,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     search: function(query, limit, page) {
         this.query = query;
 
+        this.render();
         this.dataset.search(query, limit, page);
     }
 });
