@@ -113,6 +113,20 @@ class TestAPIData(TestCase):
             self.assertIn('resource_uri', result_dataset['objects'][0])
             self.assertIn('row', result_dataset['objects'][0])
 
+    def test_search_boolean_query(self):
+        self.dataset.import_data()
+
+        utils.wait()
+        
+        response = self.client.get('/api/1.0/data/search/?q=Brian+and+Tribune', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+
     def test_search_unauthorized(self):
         response = self.client.get('/api/1.0/data/search/?q=Christopher')
 

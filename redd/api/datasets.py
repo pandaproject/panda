@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-from django.conf import settings
 from django.conf.urls.defaults import url
-from sunburnt import SolrInterface
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
@@ -47,12 +45,6 @@ class DatasetResource(CustomResource):
         authorization = DjangoAuthorization()
         validation = DatasetValidation()
         serializer = CustomSerializer()
-    
-    def _solr(self):
-        """
-        Create a query interface for Solr.
-        """
-        return SolrInterface(settings.SOLR_ENDPOINT)
 
     def obj_create(self, bundle, request=None, **kwargs):
         """

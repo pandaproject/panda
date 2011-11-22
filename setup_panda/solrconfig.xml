@@ -133,9 +133,8 @@
 
   </requestHandler>
 
-  <!-- Update handlers -->
-  <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" />
-  <requestHandler name="/update/json" class="solr.JsonUpdateRequestHandler" />
+  <!-- Update handler -->
+  <requestHandler name="/update" class="solr.JsonUpdateRequestHandler" />
 
   <!-- Admin handler -->
   <requestHandler name="/admin/" 
@@ -158,13 +157,8 @@
     </lst>
   </requestHandler>
 
-  <!-- Response Writers -->
-  <!-- Configured as defaults
-  <queryResponseWriter name="xml" 
-                       default="true"
-                       class="solr.XMLResponseWriter" />
-     <queryResponseWriter name="json" class="solr.JSONResponseWriter"/>
-  -->
+  <!-- Response Writer -->
+  <queryResponseWriter name="json" default="true" class="solr.JSONResponseWriter"/>
 
   <!-- Legacy config for the admin interface -->
   <admin>

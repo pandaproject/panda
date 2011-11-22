@@ -53,14 +53,14 @@ class TestDataset(TestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
+        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 1)
 
     def test_delete(self):
         self.dataset.import_data()
 
         utils.wait()
 
-        self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
+        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 1)
 
         dataset_id = self.dataset.id
         self.dataset.delete()
@@ -70,5 +70,5 @@ class TestDataset(TestCase):
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)
 
-        self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 0)
+        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 0)
 

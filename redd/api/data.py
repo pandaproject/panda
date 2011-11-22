@@ -6,8 +6,6 @@ from django.conf import settings
 from django.conf.urls.defaults import url
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
-from sunburnt import SolrInterface
-from sunburnt.search import SolrSearch
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
@@ -15,6 +13,7 @@ from tastypie.paginator import Paginator
 from tastypie.resources import Resource
 from tastypie.utils.urls import trailing_slash
 
+from redd import solr
 from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 from redd.models import Dataset
 
@@ -69,12 +68,6 @@ class DataResource(Resource):
         authorization = DjangoAuthorization()
         serializer = CustomSerializer()
 
-    def _solr(self):
-        """
-        Create a query interface for Solr.
-        """
-        return SolrInterface(settings.SOLR_ENDPOINT)
-
     def dehydrate_data(self, bundle):
         """
         Convert csv data into a proper array for JSON serialization
@@ -122,23 +115,18 @@ class DataResource(Resource):
 
         TKTK: enforce proper limits from tastypie in solr query
         """
-        results = self._solr().query().execute(constructor=SolrObject)
+        response = solr.query('*:*')
 
-        return results
+        return [SolrObject(d) for d in response['response']['docs']]
 
     def obj_get_list(self, request=None, **kwargs):
         """
-        Query Solr with a list of terms.
+        TKTK: enforce proper limits from tastypie in solr query
+        TKTK: How is this different from get_object_list?
         """
-        q = copy(request.GET)
+        response = solr.query('*:*')
 
-        if 'format' in q: del q['format']
-        if 'limit' in q: del q['limit']
-        if 'offset' in q: del q['offset']
-
-        results = self._solr().query(**q).execute(constructor=SolrObject)
-
-        return results
+        return [SolrObject(d) for d in response['response']['docs']]
 
     def obj_get(self, request=None, **kwargs):
         """
@@ -149,9 +137,9 @@ class DataResource(Resource):
         else:
             get_id = request.GET.get('id', '')
 
-        obj = self._solr().query(id=get_id).execute(constructor=SolrObject)[0]
+        obj = solr.query('id:%s' % get_id)
 
-        return obj
+        return SolrObject(obj['response']['docs'][0])
 
     def override_urls(self):
         """
@@ -164,9 +152,6 @@ class DataResource(Resource):
     def search(self, request, **kwargs):
         """
         An endpoint for performing full-text searches.
-
-        TKTK -- implement field searches
-        TKTK -- implement wildcard + boolean searches
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -175,19 +160,18 @@ class DataResource(Resource):
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
 
-        s = SolrSearch(self._solr())
-        s = s.query(full_text=request.GET.get('q'))
-        s = s.group_by('dataset_id', limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, offset=0, sort='+row')
-        s = s.paginate(offset, limit)
-        s = s.execute()
+        response = solr.query_grouped(request.GET.get('q'), 'dataset_id', offset=offset, limit=limit)
+        groups = response['grouped']['dataset_id']['groups']
 
-        paginator = Paginator(request.GET, s, resource_uri=request.path_info)
-
+        paginator = Paginator(request.GET, groups, resource_uri=request.path_info)
         page = paginator.page()
 
         datasets = []
 
-        for dataset_id, group in s.result.groups.items():
+        for group in groups:
+            dataset_id = group['groupValue']
+            results = group['doclist']
+
             dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
             dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
 
@@ -204,15 +188,15 @@ class DataResource(Resource):
                     'next': None,
                     'offset': 0,
                     'previous': None,
-                    'total_count': group.numFound
+                    'total_count': results['numFound']
                 },
                 'objects': []
             }
 
-            if group.numFound > settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP:
+            if results['numFound']> settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP:
                 dataset['meta']['next'] = '?'.join([dataset_search_url, 'limit=%i&offset=%i' % (settings.PANDA_DEFAULT_SEARCH_ROWS, settings.PANDA_DEFAULT_SEARCH_ROWS)])
 
-            for obj in group.docs:
+            for obj in results['docs']:
                 bundle = self.build_bundle(obj=SolrObject(obj), request=request)
                 bundle = self.full_dehydrate(bundle)
                 dataset['objects'].append(bundle)
@@ -241,18 +225,15 @@ class DataResource(Resource):
         else:
             dataset_id = request.GET.get('id')
 
-        d = Dataset.objects.get(id=dataset_id)
+        dataset = Dataset.objects.get(id=dataset_id)
 
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
-        s = SolrSearch(self._solr())
-        s = s.query(full_text=request.GET.get('q'))
-        s = s.filter(dataset_id=dataset_id)
-        s = s.paginate(offset, limit)
-        s = s.execute()
+        response = solr.query('dataset_id:%s %s' % (dataset_id, request.GET.get('q')), offset=offset, limit=limit)
+        results = [SolrObject(d) for d in response['response']['docs']]
 
-        paginator = Paginator(request.GET, s, resource_uri=request.path_info)
+        paginator = Paginator(request.GET, results, resource_uri=request.path_info)
         page = paginator.page()
 
         dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
@@ -260,17 +241,17 @@ class DataResource(Resource):
         # Update with attributes from the dataset
         # (Resulting object matches a group from the search endpoint)
         page.update({
-            'id': d.id,
-            'name': d.name,
+            'id': dataset.id,
+            'name': dataset.name,
             'resource_uri': dataset_url,
-            'row_count': d.row_count,
-            'schema': d.schema
+            'row_count': dataset.row_count,
+            'schema': dataset.schema
         })
 
         objects = []
 
-        for obj in s.result.docs:
-            bundle = self.build_bundle(obj=SolrObject(obj), request=request)
+        for obj in results:
+            bundle = self.build_bundle(obj=obj, request=request)
             bundle = self.full_dehydrate(bundle)
             objects.append(bundle)
 

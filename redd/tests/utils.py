@@ -6,18 +6,15 @@ from time import sleep
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from sunburnt import SolrInterface
 
+from redd import solr
 from redd.models import Dataset, Upload
 
 TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
 
 def get_test_solr():
-    settings.SOLR_ENDPOINT = 'http://localhost:8983/solr/data_test'
-
-    solr = SolrInterface(settings.SOLR_ENDPOINT) 
-    solr.delete(queries='*:*', commit=True)
+    solr.delete('*:*')
 
     return solr
 

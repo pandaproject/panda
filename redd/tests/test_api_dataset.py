@@ -148,7 +148,7 @@ class TestAPIDataset(TestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(self.solr.query('Christopher').execute().result.numFound, 1)
+        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 1)
 
     def test_import_data_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)

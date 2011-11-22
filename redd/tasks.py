@@ -10,7 +10,8 @@ from celery.decorators import task
 from csvkit import CSVKitReader
 from django.conf import settings
 from django.utils import simplejson as json
-from sunburnt import SolrInterface
+
+from redd import solr
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -56,8 +57,6 @@ class DatasetImportTask(AbortableTask):
 
             return
 
-        solr = SolrInterface(settings.SOLR_ENDPOINT)
-
         f = open(dataset.data_upload.get_path(), 'r')
 
         dialect_params = {}
@@ -77,7 +76,7 @@ class DatasetImportTask(AbortableTask):
 
         for i, row in enumerate(reader, start=1):
             data = {
-                'id': uuid4(),
+                'id': unicode(uuid4()),
                 'dataset_id': dataset.id,
                 'row': i,
                 'full_text': '\n'.join(row),
@@ -150,8 +149,7 @@ class DatasetImportTask(AbortableTask):
 
         # If import failed, clear any data that might be staged for commit
         if task_status.status == 'FAILURE':
-            solr = SolrInterface(settings.SOLR_ENDPOINT)
-            solr.delete(queries='dataset_id: %i' % args[0], commit=True)
+            solr.delete('dataset_id:%i' % args[0], commit=True)
 
 @task
 def dataset_purge_data(dataset_id):
@@ -161,8 +159,7 @@ def dataset_purge_data(dataset_id):
     log = logging.getLogger('redd.tasks.dataset_purge_data')
     log.info('Beginning purge, dataset_id: %i' % dataset_id)
 
-    solr = SolrInterface(settings.SOLR_ENDPOINT)
-    solr.delete(queries='dataset_id: %i' % dataset_id, commit=True)
+    solr.delete('dataset_id:%i' % dataset_id)
 
     log.info('Finished purge, dataset_id: %i' % dataset_id)
     
