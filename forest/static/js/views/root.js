@@ -224,9 +224,11 @@ PANDA.views.Root = Backbone.View.extend({
     },
 
     refresh_notifications: function() {
-        this._current_user.refresh_notifications(_.bind(function() {
-            this.configure_topbar();
-        }, this));
+        if (this._current_user) {
+            this._current_user.refresh_notifications(_.bind(function() {
+                this.configure_topbar();
+            }, this));
+        }
     },
 
     clear_unread_notifications: function() {
