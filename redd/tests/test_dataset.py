@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.test import TestCase
 
+from redd import solr
 from redd.models import Dataset, TaskStatus
 from redd.tests import utils
 
@@ -10,7 +11,7 @@ class TestDataset(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        self.solr = utils.get_test_solr() 
+        utils.clear_solr() 
 
         self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)
@@ -34,6 +35,11 @@ class TestDataset(TestCase):
             'data': ['Brian', 'Boyer', 'Chicago Tribune']
         });
 
+    def test_metadata_searchable(self):
+        response = solr.query('contributors', core=settings.SOLR_DATASETS_CORE, sort='id asc')
+
+        self.assertEqual(response['response']['numFound'], 1)
+
     def test_import_data(self):
         self.dataset.import_data()
 
@@ -53,14 +59,14 @@ class TestDataset(TestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 1)
+        self.assertEqual(solr.query('Christopher')['response']['numFound'], 1)
 
     def test_delete(self):
         self.dataset.import_data()
 
         utils.wait()
 
-        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 1)
+        self.assertEqual(solr.query('Christopher')['response']['numFound'], 1)
 
         dataset_id = self.dataset.id
         self.dataset.delete()
@@ -70,5 +76,9 @@ class TestDataset(TestCase):
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)
 
-        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 0)
+        self.assertEqual(solr.query('Christopher')['response']['numFound'], 0)
+
+        response = solr.query('contributors', core=settings.SOLR_DATASETS_CORE, sort='id asc')
+
+        self.assertEqual(response['response']['numFound'], 0)
 

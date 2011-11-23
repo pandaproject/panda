@@ -10,12 +10,15 @@ from django.conf import settings
 from django.utils import simplejson as json
 import requests
 
-def add(documents, core=settings.SOLR_DATA_CORE):
+def add(documents, core=settings.SOLR_DATA_CORE, commit=False):
     """
     Add a document or list of documents to Solr.
+
+    Does not commit changes by default.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
-    requests.post(url, json.dumps(documents), headers={ 'Content-Type': 'application/json' })
+    params = { 'commit': 'true' } if commit else {}
+    requests.post(url, json.dumps(documents), params=params, headers={ 'Content-Type': 'application/json' })
 
 def commit(core=settings.SOLR_DATA_CORE):
     """
@@ -24,14 +27,15 @@ def commit(core=settings.SOLR_DATA_CORE):
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     requests.post(url, '[]', params={ 'commit': 'true' }, headers={ 'Content-Type': 'application/json' })
 
-def delete(q, core=settings.SOLR_DATA_CORE):
+def delete(q, core=settings.SOLR_DATA_CORE, commit=True):
     """
     Delete documents by query from the Solr index.
 
-    Automatically commits changes.
+    Commits changes by default.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
-    requests.post(url, json.dumps({ 'delete': { 'query': q } }), params={ 'commit': 'true' }, headers={ 'Content-Type': 'application/json' })
+    params = { 'commit': 'true' } if commit else {}
+    requests.post(url, json.dumps({ 'delete': { 'query': q } }), params=params, headers={ 'Content-Type': 'application/json' })
 
 def query(q, core=settings.SOLR_DATA_CORE, limit=10, offset=0, sort='row asc'):
     """

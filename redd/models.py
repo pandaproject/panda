@@ -7,9 +7,11 @@ from celery import states
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.dispatch import receiver
 from djcelery.models import TASK_STATE_CHOICES
 from tastypie.models import create_api_key
 
+from redd import solr
 from redd.fields import JSONField
 from redd.tasks import DatasetImportTask, dataset_purge_data
 from redd.utils import infer_schema, sample_data, sniff
@@ -147,17 +149,12 @@ class Dataset(models.Model):
         """
         Purge data from Solr when a dataset is deleted.
         """
-        dataset_id = self.id
-
         # Cancel import if necessary 
         if self.current_task and self.current_task.end is None and self.current_task.task_name == 'redd.tasks.DatasetImportTask': 
             async_result = AbortableAsyncResult(self.current_task.id)
             async_result.abort()
 
         super(Dataset, self).delete(*args, **kwargs)
-
-        # Execute solr delete
-        dataset_purge_data.apply_async(args=[dataset_id])
 
     def import_data(self):
         """
@@ -168,6 +165,24 @@ class Dataset(models.Model):
         self.save()
 
         DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
+
+@receiver(models.signals.post_save, sender=Dataset)
+def on_dataset_save(sender, **kwargs):
+    """
+    When a Dataset is saved, update its metadata in Solr
+    """
+    dataset = kwargs['instance']
+    full_text = '\n'.join([dataset.name, dataset.description, dataset.data_upload.original_filename])
+    solr.add([{ 'id': dataset.id, 'full_text': full_text }], core=settings.SOLR_DATASETS_CORE, commit=True)
+
+@receiver(models.signals.post_delete, sender=Dataset)
+def on_dataset_delete(sender, **kwargs):
+    """
+    When a Dataset is deleted, purge its data and metadata from Solr
+    """
+    dataset = kwargs['instance']
+    dataset_purge_data.apply_async(args=[dataset.id])
+    solr.delete('id:%i' % dataset.id, core=settings.SOLR_DATASETS_CORE)
 
 class Notification(models.Model):
     recipient = models.ForeignKey(User, related_name='notifications',

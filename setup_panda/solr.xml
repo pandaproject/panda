@@ -4,7 +4,9 @@
 
   <cores adminPath="/admin/cores" defaultCoreName="data">
     <core name="data" instanceDir="pandadata" />
+    <core name="datasets" instanceDir="pandadatasets" />
     <core name="data_test" instanceDir="pandadata_test" />
+    <core name="datasets_test" instanceDir="pandadatasets_test" />
   </cores>
 
 </solr>

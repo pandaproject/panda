@@ -6,6 +6,7 @@ from django.test.client import Client
 from django.utils import simplejson as json
 from tastypie.bundle import Bundle
 
+from redd import solr
 from redd.api.datasets import DatasetValidation
 from redd.models import Dataset
 from redd.tests import utils
@@ -25,7 +26,7 @@ class TestAPIDataset(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        self.solr = utils.get_test_solr() 
+        utils.clear_solr() 
 
         self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)
@@ -148,7 +149,7 @@ class TestAPIDataset(TestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(self.solr.query('Christopher')['response']['numFound'], 1)
+        self.assertEqual(solr.query('Christopher')['response']['numFound'], 1)
 
     def test_import_data_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)

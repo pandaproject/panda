@@ -226,21 +226,37 @@ def local_reset_solr():
     """
     local('cp setup_panda/solr.xml %(local_solr_home)s/solr.xml' % env)
 
+    # data
     local('mkdir -p %(local_solr_home)s/pandadata/conf' % env)
     local('mkdir -p %(local_solr_home)s/pandadata/lib' % env)
     local('rm -rf %(local_solr_home)s/pandadata/data' % env)
 
     local('cp setup_panda/panda.jar %(local_solr_home)s/pandadata/lib/panda.jar' % env)
     local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadata/conf/solrconfig.xml' % env)
-    local('cp setup_panda/schema.xml %(local_solr_home)s/pandadata/conf/schema.xml' % env)
+    local('cp setup_panda/data_schema.xml %(local_solr_home)s/pandadata/conf/schema.xml' % env)
 
+    # data_test
     local('mkdir -p %(local_solr_home)s/pandadata_test/conf' % env)
     local('mkdir -p %(local_solr_home)s/pandadata_test/lib' % env)
     local('rm -rf %(local_solr_home)s/pandadata_test/data' % env)
 
     local('cp setup_panda/panda.jar %(local_solr_home)s/pandadata_test/lib/panda.jar' % env)
     local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadata_test/conf/solrconfig.xml' % env)
-    local('cp setup_panda/schema.xml %(local_solr_home)s/pandadata_test/conf/schema.xml' % env)
+    local('cp setup_panda/data_schema.xml %(local_solr_home)s/pandadata_test/conf/schema.xml' % env)
+
+    # datasets
+    local('mkdir -p %(local_solr_home)s/pandadatasets/conf' % env)
+    local('rm -rf %(local_solr_home)s/pandadatasets/data' % env)
+
+    local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadatasets/conf/solrconfig.xml' % env)
+    local('cp setup_panda/datasets_schema.xml %(local_solr_home)s/pandadatasets/conf/schema.xml' % env)
+
+    # datasets_test
+    local('mkdir -p %(local_solr_home)s/pandadatasets_test/conf' % env)
+    local('rm -rf %(local_solr_home)s/pandadatasets_test/data' % env)
+
+    local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadatasets_test/conf/solrconfig.xml' % env)
+    local('cp setup_panda/datasets_schema.xml %(local_solr_home)s/pandadatasets_test/conf/schema.xml' % env)
 
 def local_solr():
     """

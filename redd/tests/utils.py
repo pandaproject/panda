@@ -13,10 +13,9 @@ from redd.models import Dataset, Upload
 TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
 
-def get_test_solr():
-    solr.delete('*:*')
-
-    return solr
+def clear_solr():
+    solr.delete('*:*', core=settings.SOLR_DATA_CORE)
+    solr.delete('*:*', core=settings.SOLR_DATASETS_CORE)
 
 def get_auth_headers(email='user@pandaproject.net'):
     user = User.objects.get(username=email)
