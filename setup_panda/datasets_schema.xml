@@ -5,7 +5,7 @@
     <types>
 
         <!-- Basic types -->
-        <fieldType name="int" class="solr.IntField" precisionStep="0" omitNorms="true" positionIncrementGap="0" />
+        <fieldType name="int" class="solr.IntField" omitNorms="true" />
 
         <!-- Full-text types -->
         <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">

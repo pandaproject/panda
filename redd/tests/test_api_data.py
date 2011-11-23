@@ -12,7 +12,7 @@ class TestAPIData(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        utils.clear_solr() 
+        utils.setup_test_solr() 
 
         self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)

@@ -10,7 +10,17 @@ from django.conf import settings
 from django.utils import simplejson as json
 import requests
 
-def add(documents, core=settings.SOLR_DATA_CORE, commit=False):
+class SolrError(Exception):
+    def __init__(self, response, *args, **kwargs):
+        self.status_code = response.status_code
+        self.response_body = response.read()
+
+        super(SolrError, self).__init__(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.response_body
+
+def add(core, documents, commit=False):
     """
     Add a document or list of documents to Solr.
 
@@ -20,14 +30,14 @@ def add(documents, core=settings.SOLR_DATA_CORE, commit=False):
     params = { 'commit': 'true' } if commit else {}
     requests.post(url, json.dumps(documents), params=params, headers={ 'Content-Type': 'application/json' })
 
-def commit(core=settings.SOLR_DATA_CORE):
+def commit(core):
     """
     Commit all staged changes to the Solr index.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     requests.post(url, '[]', params={ 'commit': 'true' }, headers={ 'Content-Type': 'application/json' })
 
-def delete(q, core=settings.SOLR_DATA_CORE, commit=True):
+def delete(core, q, commit=True):
     """
     Delete documents by query from the Solr index.
 
@@ -37,18 +47,19 @@ def delete(q, core=settings.SOLR_DATA_CORE, commit=True):
     params = { 'commit': 'true' } if commit else {}
     requests.post(url, json.dumps({ 'delete': { 'query': q } }), params=params, headers={ 'Content-Type': 'application/json' })
 
-def query(q, core=settings.SOLR_DATA_CORE, limit=10, offset=0, sort='row asc'):
+def query(core, q, limit=10, offset=0, sort='row asc'):
     """
     Execute a simple, raw query against the Solr index.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/select'])
     response = requests.get(url, params={ 'q': q, 'start': offset, 'rows': limit, 'sort': sort }, headers={ 'Content-Type': 'application/json' })
 
-    # TODO: handle error status codes
+    if response.status_code != 200:
+        raise SolrError(response)
 
     return json.loads(response.read())
 
-def query_grouped(q, group_field, core=settings.SOLR_DATA_CORE, limit=10, offset=0, sort='row asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
+def query_grouped(core, q, group_field, limit=10, offset=0, sort='row asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
     """
     Execute a query and return results in a grouped format
     appropriate for the PANDA API.
@@ -56,7 +67,8 @@ def query_grouped(q, group_field, core=settings.SOLR_DATA_CORE, limit=10, offset
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/select'])
     response = requests.get(url, params={ 'q': q, 'start': offset, 'rows': limit, 'sort': sort, 'group': 'true', 'group.field': group_field, 'group.limit': group_limit, 'group.offset': group_offset }, headers={ 'Content-Type': 'application/json' })
 
-    # TODO: handle errors
+    if response.status_code != 200:
+        raise SolrError(response)
 
     return json.loads(response.read())
 

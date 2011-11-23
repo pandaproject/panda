@@ -86,7 +86,7 @@ class DatasetImportTask(AbortableTask):
             add_buffer.append(data)
 
             if i % SOLR_ADD_BUFFER_SIZE == 0:
-                solr.add(add_buffer)
+                solr.add(settings.SOLR_DATA_CORE, add_buffer)
                 add_buffer = []
 
                 task_status.message = '%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100)
@@ -103,10 +103,10 @@ class DatasetImportTask(AbortableTask):
                     return
 
         if add_buffer:
-            solr.add(add_buffer)
+            solr.add(settings.SOLR_DATA_CORE, add_buffer)
             add_buffer = []
 
-        solr.commit()
+        solr.commit(settings.SOLR_DATA_CORE)
 
         task_status.message = '100% complete'
         task_status.save()
@@ -149,7 +149,7 @@ class DatasetImportTask(AbortableTask):
 
         # If import failed, clear any data that might be staged for commit
         if task_status.status == 'FAILURE':
-            solr.delete('dataset_id:%i' % args[0], commit=True)
+            solr.delete(settings.SOLR_DATA_CORE, 'dataset_id:%i' % args[0], commit=True)
 
 @task
 def dataset_purge_data(dataset_id):
@@ -159,7 +159,7 @@ def dataset_purge_data(dataset_id):
     log = logging.getLogger('redd.tasks.dataset_purge_data')
     log.info('Beginning purge, dataset_id: %i' % dataset_id)
 
-    solr.delete('dataset_id:%i' % dataset_id)
+    solr.delete(settings.SOLR_DATA_CORE, 'dataset_id:%i' % dataset_id)
 
     log.info('Finished purge, dataset_id: %i' % dataset_id)
     

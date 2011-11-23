@@ -11,7 +11,7 @@ class TestDataset(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        utils.clear_solr() 
+        utils.setup_test_solr() 
 
         self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)
@@ -36,7 +36,7 @@ class TestDataset(TestCase):
         });
 
     def test_metadata_searchable(self):
-        response = solr.query('contributors', core=settings.SOLR_DATASETS_CORE, sort='id asc')
+        response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='id asc')
 
         self.assertEqual(response['response']['numFound'], 1)
 
@@ -59,14 +59,14 @@ class TestDataset(TestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(solr.query('Christopher')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_delete(self):
         self.dataset.import_data()
 
         utils.wait()
 
-        self.assertEqual(solr.query('Christopher')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
         dataset_id = self.dataset.id
         self.dataset.delete()
@@ -76,9 +76,9 @@ class TestDataset(TestCase):
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)
 
-        self.assertEqual(solr.query('Christopher')['response']['numFound'], 0)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 0)
 
-        response = solr.query('contributors', core=settings.SOLR_DATASETS_CORE, sort='id asc')
+        response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='id asc')
 
         self.assertEqual(response['response']['numFound'], 0)
 

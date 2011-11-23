@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
+from django.conf import settings
 from django.conf.urls.defaults import url
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
+from tastypie.paginator import Paginator
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
+from redd import solr
 from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
 from redd.models import Dataset
 
@@ -57,8 +60,9 @@ class DatasetResource(CustomResource):
         Add urls for search endpoint.
         """
         return [
+            url(r'^(?P<resource_name>%s)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search_datasets'),
             url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search_dataset')
+            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search_dataset'), name='api_search_dataset')
         ]
 
     def import_data(self, request, **kwargs):
@@ -84,7 +88,7 @@ class DatasetResource(CustomResource):
 
         return self.create_response(request, bundle)
 
-    def search(self, request, **kwargs):
+    def search_dataset(self, request, **kwargs):
         """
         Endpoint to search a single dataset. Delegates to DataResource.search_dataset.
         """
@@ -93,4 +97,38 @@ class DatasetResource(CustomResource):
         data_resource = DataResource()
         
         return data_resource.search_dataset(request, **kwargs)
+
+    def search(self, request, **kwargs):
+        """
+        Full-text search over dataset metadata.
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
+        offset = int(request.GET.get('offset', 0))
+
+        response = solr.query(settings.SOLR_DATASETS_CORE, request.GET.get('q'), offset=offset, limit=limit, sort='id asc')
+        dataset_ids = [d['id'] for d in response['response']['docs']]
+
+        datasets = Dataset.objects.filter(id__in=dataset_ids)
+
+        paginator = Paginator(request.GET, datasets, resource_uri=request.path_info)
+        page = paginator.page()
+
+        page['meta']['total_count'] = response['response']['numFound']
+
+        objects = []
+
+        for obj in datasets:
+            bundle = self.build_bundle(obj=obj, request=request)
+            bundle = self.full_dehydrate(bundle)
+            objects.append(bundle)
+
+        page['objects'] = objects
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, page)
 

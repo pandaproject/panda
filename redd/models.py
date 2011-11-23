@@ -173,7 +173,7 @@ def on_dataset_save(sender, **kwargs):
     """
     dataset = kwargs['instance']
     full_text = '\n'.join([dataset.name, dataset.description, dataset.data_upload.original_filename])
-    solr.add([{ 'id': dataset.id, 'full_text': full_text }], core=settings.SOLR_DATASETS_CORE, commit=True)
+    solr.add(settings.SOLR_DATASETS_CORE, [{ 'id': dataset.id, 'full_text': full_text }], commit=True)
 
 @receiver(models.signals.post_delete, sender=Dataset)
 def on_dataset_delete(sender, **kwargs):
@@ -182,7 +182,7 @@ def on_dataset_delete(sender, **kwargs):
     """
     dataset = kwargs['instance']
     dataset_purge_data.apply_async(args=[dataset.id])
-    solr.delete('id:%i' % dataset.id, core=settings.SOLR_DATASETS_CORE)
+    solr.delete(settings.SOLR_DATASETS_CORE, 'id:%i' % dataset.id)
 
 class Notification(models.Model):
     recipient = models.ForeignKey(User, related_name='notifications',

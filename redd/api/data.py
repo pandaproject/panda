@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from copy import copy
-
 from django.conf import settings
 from django.conf.urls.defaults import url
 from django.core.urlresolvers import reverse
@@ -115,7 +113,7 @@ class DataResource(Resource):
 
         TKTK: enforce proper limits from tastypie in solr query
         """
-        response = solr.query('*:*')
+        response = solr.query(settings.SOLR_DATA_CORE, '*:*')
 
         return [SolrObject(d) for d in response['response']['docs']]
 
@@ -124,7 +122,7 @@ class DataResource(Resource):
         TKTK: enforce proper limits from tastypie in solr query
         TKTK: How is this different from get_object_list?
         """
-        response = solr.query('*:*')
+        response = solr.query(settings.SOLR_DATA_CORE, '*:*')
 
         return [SolrObject(d) for d in response['response']['docs']]
 
@@ -137,7 +135,7 @@ class DataResource(Resource):
         else:
             get_id = request.GET.get('id', '')
 
-        obj = solr.query('id:%s' % get_id)
+        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s' % get_id)
 
         return SolrObject(obj['response']['docs'][0])
 
@@ -160,7 +158,7 @@ class DataResource(Resource):
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
 
-        response = solr.query_grouped(request.GET.get('q'), 'dataset_id', offset=offset, limit=limit)
+        response = solr.query_grouped(settings.SOLR_DATA_CORE, request.GET.get('q'), 'dataset_id', offset=offset, limit=limit)
         groups = response['grouped']['dataset_id']['groups']
 
         paginator = Paginator(request.GET, groups, resource_uri=request.path_info)
@@ -230,7 +228,7 @@ class DataResource(Resource):
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
-        response = solr.query('dataset_id:%s %s' % (dataset_id, request.GET.get('q')), offset=offset, limit=limit)
+        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_id:%s %s' % (dataset_id, request.GET.get('q')), offset=offset, limit=limit)
         results = [SolrObject(d) for d in response['response']['docs']]
 
         paginator = Paginator(request.GET, results, resource_uri=request.path_info)

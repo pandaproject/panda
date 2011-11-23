@@ -26,7 +26,7 @@ class TestAPIDataset(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
-        utils.clear_solr() 
+        utils.setup_test_solr() 
 
         self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)
@@ -149,14 +149,14 @@ class TestAPIDataset(TestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(solr.query('Christopher')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_data_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
 
         self.assertEqual(response.status_code, 401)
 
-    def test_search(self):
+    def test_search_dataset(self):
         self.dataset.import_data()
 
         utils.wait()
@@ -191,8 +191,35 @@ class TestAPIDataset(TestCase):
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(body['objects'][0]['data'][0], 'Christopher')
 
-    def test_search_unauthorized(self):
+    def test_search_dataset_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
 
         self.assertEqual(response.status_code, 401)
+
+    def test_search(self):
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            data_upload=self.dataset.data_upload,
+            creator=self.dataset.creator)
+
+        # Should match both
+        response = self.client.get('/api/1.0/dataset/search/?q=contributors.csv', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['meta']['total_count'], 2)
+        self.assertEqual(len(body['objects']), 2)
+
+        # Should match only the second dataset
+        response = self.client.get('/api/1.0/dataset/search/?q=second', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(int(body['objects'][0]['id']), second_dataset.id)
 
