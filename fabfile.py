@@ -97,7 +97,7 @@ def install_requirements():
     """
     Install the required packages using pip.
     """
-    run('source %(env_path)s/bin/activate; pip install -q -r %(repo_path)s/requirements.txt' % env)
+    run('source %(env_path)s/bin/activate; pip install -r %(repo_path)s/requirements.txt' % env)
 
 """
 Commands - deployment
@@ -183,23 +183,39 @@ def reset_solr():
 
     sudo('cp %(repo_path)s/setup_panda/solr.xml %(solr_path)s/solr.xml' % env)
 
+    # data
     sudo('mkdir -p %(solr_path)s/pandadata/conf' % env)
     sudo('mkdir -p %(solr_path)s/pandadata/lib' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
     sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata/conf/solrconfig.xml' % env)
     sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
 
+    # data_test
     sudo('mkdir -p %(solr_path)s/pandadata_test/conf' % env)
     sudo('mkdir -p %(solr_path)s/pandadata_test/lib' % env)
-    sudo('rm -rf %(solr_path)s/pandadata_test:/data' % env)
+    sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/schema.xml %(solr_path)s/pandadata_test/conf/schema.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata_test/conf/schema.xml' % env)
     sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata_test/conf/solrconfig.xml' % env)
     sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata_test/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
+
+    # datasets
+    sudo('mkdir -p %(solr_path)s/pandadatasets/conf' % env)
+    sudo('rm -rf %(solr_path)s/pandadatasets/data' % env)
+
+    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadatasets/conf/solrconfig.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/datasets_schema.xml %(solr_path)s/pandadatasets/conf/schema.xml' % env)
+
+    # datasets_test
+    sudo('mkdir -p %(solr_path)s/pandadatasets_test/conf' % env)
+    sudo('rm -rf %(solr_path)s/pandadatasets_test/data' % env)
+
+    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadatasets_test/conf/solrconfig.xml' % env)
+    sudo('cp %(repo_path)s/setup_panda/datasets_schema.xml %(solr_path)s/pandadatasets_test/conf/schema.xml' % env)
 
     sudo('chown -R solr:solr %(solr_path)s' % env)
     sudo('service solr start')
