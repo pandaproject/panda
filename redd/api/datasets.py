@@ -108,8 +108,19 @@ class DatasetResource(CustomResource):
 
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
+        categories = request.GET.get('categories', 0)
+        query = request.GET.get('q')
 
-        response = solr.query(settings.SOLR_DATASETS_CORE, request.GET.get('q'), offset=offset, limit=limit, sort='id asc')
+        if categories and query:
+            q = 'categories:%s %s' % (categories, query)
+        elif categories:
+            q = 'categories:%s' % categories
+        else:
+            q = query
+
+        print query
+
+        response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='id asc')
         dataset_ids = [d['id'] for d in response['response']['docs']]
 
         datasets = Dataset.objects.filter(id__in=dataset_ids)

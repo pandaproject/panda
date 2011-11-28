@@ -246,7 +246,7 @@ describe("Root view / global controller", function() {
             expect(this.auth_stub).toHaveBeenCalledOnce();
             expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetsSearch");
             expect(this.fake_view.reset).toHaveBeenCalledWith("1", "test", "20", "1");
-            expect(this.navigate_stub).toHaveBeenCalledWith("category/1/20/1");
+            expect(this.navigate_stub).toHaveBeenCalledWith("category/1/test/20/1");
         });
 
         it("should load the dataset view", function() {

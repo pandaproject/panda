@@ -262,10 +262,16 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = 0;
         }
 
+        data = { q: query, limit: this.meta.limit, offset: this.meta.offset };
+
+        if (category) {
+            data["categories"] = category;
+        }
+
         Redd.ajax({
             url: PANDA.API + "/dataset/search/",
-            dataType: 'json',
-            data: { categories: category, q: query, limit: this.meta.limit, offset: this.meta.offset },
+            dataType: "json",
+            data: data,
             success: _.bind(function(response) {
                 var objs = this.parse(response);
 

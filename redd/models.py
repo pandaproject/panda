@@ -169,11 +169,26 @@ class Dataset(models.Model):
 @receiver(models.signals.post_save, sender=Dataset)
 def on_dataset_save(sender, **kwargs):
     """
-    When a Dataset is saved, update its metadata in Solr
+    When a Dataset is saved, update its metadata in Solr.
     """
     dataset = kwargs['instance']
+    categories = [c.id for c in dataset.categories.all()] 
     full_text = '\n'.join([dataset.name, dataset.description, dataset.data_upload.original_filename])
-    solr.add(settings.SOLR_DATASETS_CORE, [{ 'id': dataset.id, 'full_text': full_text }], commit=True)
+    solr.add(settings.SOLR_DATASETS_CORE, [{
+        'id': dataset.id,
+        'categories': categories,
+        'full_text': full_text
+    }], commit=True)
+
+@receiver(models.signals.m2m_changed, sender=Dataset.categories.through)
+def on_dataset_categories_change(sender, **kwargs):
+    """
+    When a dataset's categories changed, update it's metadata in Solr.
+
+    TODO: This gets called WAY to frequently--is there a way to only
+    call it when all changes have been made?
+    """
+    on_dataset_save(sender, **kwargs)
 
 @receiver(models.signals.post_delete, sender=Dataset)
 def on_dataset_delete(sender, **kwargs):

@@ -44,6 +44,7 @@
 
         <!-- Static fields -->
         <field name="id" type="int" indexed="true" stored="true" required="true" />
+        <field name="categories" type="int" indexed="true" stored="true" required="false" multiValued="true" />
         <field name="full_text" type="text_general" indexed="true" stored="false" />
 
     </fields>
