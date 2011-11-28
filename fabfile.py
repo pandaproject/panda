@@ -5,18 +5,11 @@ from fabric.api import *
 """
 Base configuration
 """
-#name of the deployed site if different from the name of the project
-env.site_name = 'panda'
-
 env.user = 'ubuntu'
 env.project_name = 'panda'
 env.database_password = 'panda'
-env.path = '/home/%(user)s/src/%(project_name)s' % env
-env.log_path = '/home/%(user)s/logs/%(project_name)s' % env
-env.env_path = '/home/%(user)s/.virtualenvs/%(project_name)s' % env
+env.path = '/opt/%(project_name)s' % env
 env.solr_path = '/opt/solr/panda/solr'
-env.repo_path = '%(path)s' % env
-env.python = 'python2.7'
 env.repository_url = 'git://github.com/pandaproject/panda.git'
 env.hosts = ['panda.beta.tribapps.com']
 
@@ -60,7 +53,6 @@ def setup():
     require('branch', provided_by=[stable, master, branch])
     
     setup_directories()
-    setup_virtualenv()
     clone_repo()
     checkout_latest()
     install_requirements()
@@ -72,32 +64,25 @@ def setup_directories():
     """
     Create directories necessary for deployment.
     """
-    run('mkdir -p %(path)s' % env)
-    
-def setup_virtualenv():
-    """
-    Setup a fresh virtualenv.
-    """
-    run('virtualenv -p %(python)s --no-site-packages %(env_path)s;' % env)
-    run('source %(env_path)s/bin/activate;' % env)
+    sudo('mkdir -p %(path)s' % env)
 
 def clone_repo():
     """
     Do initial clone of the git repository.
     """
-    run('git clone %(repository_url)s %(repo_path)s' % env)
+    sudo('git clone %(repository_url)s %(path)s' % env)
 
 def checkout_latest():
     """
     Pull the latest code on the specified branch.
     """
-    run('cd %(repo_path)s; git checkout %(branch)s; git pull origin %(branch)s' % env)
+    sudo('cd %(path)s; git checkout %(branch)s; git pull origin %(branch)s' % env)
 
 def install_requirements():
     """
     Install the required packages using pip.
     """
-    run('source %(env_path)s/bin/activate; pip install -r %(repo_path)s/requirements.txt' % env)
+    sudo('pip install -r %(path)s/requirements.txt' % env)
 
 """
 Commands - deployment
@@ -116,7 +101,7 @@ def collect_static_files():
     """
     Collect static files on the server.
     """
-    sudo('cd %(repo_path)s; %(env_path)s/bin/python manage.py collectstatic --noinput' % env, user="panda")
+    sudo('cd %(path)s; python manage.py collectstatic --noinput' % env, user="panda")
        
 def reload_app(): 
     """
@@ -129,7 +114,7 @@ def update_requirements():
     """
     Update the installed dependencies the server.
     """
-    run('source %(env_path)s/bin/activate; pip install -q -U -r %(repo_path)s/requirements.txt' % env)
+    sudo('pip install -U -r %(path)s/requirements.txt' % env)
     
 """
 Commands - data
@@ -170,7 +155,7 @@ def syncdb():
     """
     Sync the Django models to the database.
     """
-    sudo('cd %(repo_path)s; %(env_path)s/bin/python manage.py syncdb --noinput' % env, user="panda")
+    sudo('cd %(path)s; python manage.py syncdb --noinput' % env, user="panda")
 
 def reset_solr():
     """
@@ -181,16 +166,16 @@ def reset_solr():
 
     sudo('sudo mkdir -p %(solr_path)s' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/solr.xml %(solr_path)s/solr.xml' % env)
+    sudo('cp %(path)s/setup_panda/solr.xml %(solr_path)s/solr.xml' % env)
 
     # data
     sudo('mkdir -p %(solr_path)s/pandadata/conf' % env)
     sudo('mkdir -p %(solr_path)s/pandadata/lib' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata/conf/solrconfig.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata/lib/panda.jar' % env)
+    sudo('cp %(path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
+    sudo('cp %(path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata/conf/solrconfig.xml' % env)
+    sudo('cp %(path)s/setup_panda/panda.jar %(solr_path)s/pandadata/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
 
     # data_test
@@ -198,24 +183,24 @@ def reset_solr():
     sudo('mkdir -p %(solr_path)s/pandadata_test/lib' % env)
     sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata_test/conf/schema.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata_test/conf/solrconfig.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/panda.jar %(solr_path)s/pandadata_test/lib/panda.jar' % env)
+    sudo('cp %(path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata_test/conf/schema.xml' % env)
+    sudo('cp %(path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata_test/conf/solrconfig.xml' % env)
+    sudo('cp %(path)s/setup_panda/panda.jar %(solr_path)s/pandadata_test/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
 
     # datasets
     sudo('mkdir -p %(solr_path)s/pandadatasets/conf' % env)
     sudo('rm -rf %(solr_path)s/pandadatasets/data' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadatasets/conf/solrconfig.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/datasets_schema.xml %(solr_path)s/pandadatasets/conf/schema.xml' % env)
+    sudo('cp %(path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadatasets/conf/solrconfig.xml' % env)
+    sudo('cp %(path)s/setup_panda/datasets_schema.xml %(solr_path)s/pandadatasets/conf/schema.xml' % env)
 
     # datasets_test
     sudo('mkdir -p %(solr_path)s/pandadatasets_test/conf' % env)
     sudo('rm -rf %(solr_path)s/pandadatasets_test/data' % env)
 
-    sudo('cp %(repo_path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadatasets_test/conf/solrconfig.xml' % env)
-    sudo('cp %(repo_path)s/setup_panda/datasets_schema.xml %(solr_path)s/pandadatasets_test/conf/schema.xml' % env)
+    sudo('cp %(path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadatasets_test/conf/solrconfig.xml' % env)
+    sudo('cp %(path)s/setup_panda/datasets_schema.xml %(solr_path)s/pandadatasets_test/conf/schema.xml' % env)
 
     sudo('chown -R solr:solr %(solr_path)s' % env)
     sudo('service solr start')

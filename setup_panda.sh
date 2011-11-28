@@ -24,7 +24,7 @@ wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql python2.7-dev git libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk python-virtualenv libpq-dev
+apt-get install --yes git postgresql python2.7-dev git libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk libpq-dev
 pip install uwsgi
 
 # Setup Solr + Jetty
@@ -96,12 +96,10 @@ echo "CREATE USER panda WITH PASSWORD 'panda';" | sudo -u postgres psql postgres
 sudo -u postgres createdb -O panda panda
 
 # Get code (as normal user)
-sudo -u ubuntu mkdir /home/ubuntu/src
-cd /home/ubuntu/src
-sudo -u ubuntu git clone git://github.com/pandaproject/panda.git panda
-sudo -u ubuntu virtualenv -p python2.7 --no-site-packages /home/ubuntu/.virtualenvs/panda
-cd /home/ubuntu/src/panda
-sudo -u ubuntu /home/ubuntu/.virtualenvs/panda/bin/pip install -r requirements.txt
+cd /opt
+git clone git://github.com/pandaproject/panda.git panda
+cd /opt/panda
+pip install -r requirements.txt
 
 # Setup panda directories 
 mkdir /var/log/panda
