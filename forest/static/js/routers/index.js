@@ -8,12 +8,14 @@ PANDA.routers.Index = Backbone.Router.extend({
         "search/:query/:limit":                     "search",
         "search/:query/:limit/:page":               "search",
         "upload":                                   "upload",
-        "datasets":                                 "list_datasets",
-        "datasets/:limit":                          "list_datasets",
-        "datasets/:limit/:page":                    "list_datasets",
+        "datasets":                                 "datasets_search",
+        "datasets/:query":                          "datasets_search",
+        "datasets/:query/:limit":                   "datasets_search",
+        "datasets/:query/:limit/:page":             "datasets_search",
         "category/:id":                             "category",
-        "category/:id/:limit":                      "category",
-        "category/:id/:limit/:page":                "category",
+        "category/:id/:query":                      "category",
+        "category/:id/:query/:limit":               "category",
+        "category/:id/:query/:limit/:page":         "category",
         "dataset/:id":                              "dataset_view",
         "dataset/:id/edit":                         "dataset_edit",
         "dataset/:id/search/:query":                "dataset_search",
@@ -46,12 +48,12 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_upload();
     },
 
-    list_datasets: function(limit, page) {
-        this.controller.goto_list_datasets(null, limit, page);
+    datasets_search: function(query, limit, page) {
+        this.controller.goto_datasets_search(null, query, limit, page);
     },
 
-    category: function(id, limit, page) {
-        this.controller.goto_list_datasets(id, limit, page);
+    category: function(id, query, limit, page) {
+        this.controller.goto_datasets_search(id, query, limit, page);
     },
 
     dataset_view: function(id) {

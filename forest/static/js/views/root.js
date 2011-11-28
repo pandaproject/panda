@@ -318,18 +318,23 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate("upload");
     },
 
-    goto_list_datasets: function(category, limit, page) {
+    goto_datasets_search: function(category, query, limit, page) {
         if (!this.authenticate()) {
             return;
         }
 
-        this.current_content_view = this.get_or_create_view("ListDatasets");
-        this.current_content_view.reset(category, limit, page);
+        this.current_content_view = this.get_or_create_view("DatasetsSearch");
+        this.current_content_view.reset(category, query, limit, page);
+        
 
         if (category) {
             path = "category/" + category;
         } else {
             path = "datasets";
+        }
+
+        if (query) {
+            path += "/" + query;
         }
     
         if (limit) {

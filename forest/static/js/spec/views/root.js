@@ -232,20 +232,20 @@ describe("Root view / global controller", function() {
         });
 
         it("should load the datasets view", function() {
-            Redd.goto_list_datasets(null, "10", "2");
+            Redd.goto_datasets_search(null, null, "10", "2");
 
             expect(this.auth_stub).toHaveBeenCalledOnce();
-            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("ListDatasets");
-            expect(this.fake_view.reset).toHaveBeenCalledWith(null, "10", "2");
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetsSearch");
+            expect(this.fake_view.reset).toHaveBeenCalledWith(null, null, "10", "2");
             expect(this.navigate_stub).toHaveBeenCalledWith("datasets/10/2");
         });
 
         it("should load the category view", function() {
-            Redd.goto_list_datasets("1", "20", "1");
+            Redd.goto_datasets_search("1", "test", "20", "1");
 
             expect(this.auth_stub).toHaveBeenCalledOnce();
-            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("ListDatasets");
-            expect(this.fake_view.reset).toHaveBeenCalledWith("1", "20", "1");
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetsSearch");
+            expect(this.fake_view.reset).toHaveBeenCalledWith("1", "test", "20", "1");
             expect(this.navigate_stub).toHaveBeenCalledWith("category/1/20/1");
         });
 
