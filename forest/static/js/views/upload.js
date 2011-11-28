@@ -92,6 +92,12 @@ PANDA.views.Upload = Backbone.View.extend({
          * Handler for when a file upload reports its progress.
          */
         pct = Math.floor(loaded / total * 100);
+
+        // Don't render 100% until ajax request creating dataset has finished
+        if (pct == 100) {
+            pct = 99;
+        }
+
         $("#upload-progress .progress-value").css("width", pct + "%");
         $("#upload-progress .progress-text").html('<strong>' + pct + '%</strong> uploaded');
     },
@@ -110,6 +116,10 @@ PANDA.views.Upload = Backbone.View.extend({
             // Save the new dataset
             this.dataset.save({}, {
                 success: _.bind(function() {
+                    // Finish progress bar
+                    $("#upload-progress .progress-value").css("width", "100%");
+                    $("#upload-progress .progress-text").html('<strong>100%</strong> uploaded');
+
                     // Once saved immediately begin importing it
                     this.dataset.import_data(this.step_three);
                 }, this),
