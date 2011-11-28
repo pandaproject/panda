@@ -207,7 +207,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
 
     search: function(query, limit, page) {
         /*
-         * Query the search endpoint.
+         * Query the data search endpoint.
          *
          * TODO -- success and error callbacks
          */
@@ -229,6 +229,43 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             url: PANDA.API + "/data/search/",
             dataType: 'json',
             data: { q: query, limit: this.meta.limit, offset: this.meta.offset },
+            success: _.bind(function(response) {
+                var objs = this.parse(response);
+
+                datasets = _.map(objs, function(obj) {
+                    d = new PANDA.models.Dataset();
+                    d.set(d.parse(obj));
+
+                    return d;
+                });
+
+                this.reset(datasets);
+            }, this)
+        });
+    },
+
+    search_meta: function(category, query, limit, page) {
+        /*
+         * Query the metadata search endpoint.
+         */
+        if (limit) {
+            this.meta.limit = limit;
+        } else {
+            this.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_GROUPS;
+        }
+        
+        if (page) {
+            this.meta.page = page;
+            this.meta.offset = this.meta.limit * (this.meta.page - 1);
+        } else {
+            this.meta.page = 1;
+            this.meta.offset = 0;
+        }
+
+        Redd.ajax({
+            url: PANDA.API + "/dataset/search/",
+            dataType: 'json',
+            data: { categories: category, q: query, limit: this.meta.limit, offset: this.meta.offset },
             success: _.bind(function(response) {
                 var objs = this.parse(response);
 

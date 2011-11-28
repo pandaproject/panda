@@ -23,7 +23,7 @@
         <%= pager %>
 
         <% _.each(datasets, function(dataset) { %>
-            <% print(dataset_template(dataset)); %>
+            <%= dataset.name %>
         <% }); %>
 
         <%= pager %>

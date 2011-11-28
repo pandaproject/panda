@@ -325,7 +325,6 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view = this.get_or_create_view("DatasetsSearch");
         this.current_content_view.reset(category, query, limit, page);
-        
 
         if (category) {
             path = "category/" + category;

@@ -23,6 +23,7 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
         this.query = query;
 
         this.render();
+        this.datasets.search_meta(category, query, limit, page);
     },
 
     render: function() {
@@ -36,14 +37,6 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
         Redd.goto_datasets_search(this.category, this.query);
 
         return false;
-    },
-
-    search: function(category, query, limit, page) {
-        this.category = cateogry;
-        this.query = query;
-
-        this.render();
-        this.datasets.search(category, query, limit, page);
     }
 });
 
