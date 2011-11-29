@@ -1,16 +1,16 @@
 <form id="datasets-search-form" class="form-stacked">
     <div class="alert-message"></div>
     <fieldset>
-        <legend>Search Datasets</legend>
+        <legend>Find a dataset</legend>
         <div class="clearfix">
             <div class="input">
-                <select id="datasets-search-category" name="category">
+                <select id="datasets-search-category" name="category" class="span4">
                     <option value="">All</option>
                     <% categories.each(function(cat) { %>
                     <option value="<%= cat.get("id") %>" <% if (cat.get("id") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
                     <% }); %>
                 </select>
-                <input id="datasets-search-query" type="text" name="query" class="xxlarge" value="<%= query %>" />
+                <input id="datasets-search-query" type="text" name="query" class="span10" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="datasets-search-submit" class="btn primary" value="Search" />
             </div>
         </div>

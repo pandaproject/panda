@@ -8,7 +8,7 @@
                 <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="Dataset not yet available for search" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
-                <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="<%= query %>" />
+                <input id="dataset-search-query" type="text" name="query" class="span14" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
                 <% if (query) { %>
                 &nbsp;<a href="#dataset/<%= dataset.id %>">Back to dataset details</a>
