@@ -4,6 +4,12 @@
         <legend>Search Datasets</legend>
         <div class="clearfix">
             <div class="input">
+                <select id="datasets-search-category" name="category">
+                    <option value="">All</option>
+                    <% categories.each(function(cat) { %>
+                    <option value="<%= cat.get("id") %>" <% if (cat.get("id") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
+                    <% }); %>
+                </select>
                 <input id="datasets-search-query" type="text" name="query" class="xxlarge" value="<%= query %>" />
                 <input type="submit" id="datasets-search-submit" class="btn primary" value="Search" />
             </div>

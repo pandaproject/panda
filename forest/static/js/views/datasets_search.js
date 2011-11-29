@@ -27,11 +27,22 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(this.template({ query: this.query, datasets: this.datasets.results() }));
+        categories = Redd.get_categories();
+
+        console.log(categories);
+
+        this.el.html(this.template({
+            categories: categories,
+            category: this.category,
+            query: this.query,
+            datasets: this.datasets.results()
+        }));
+
         this.results.el = $("#datasets-search-results");
     },
 
     search_event: function() {
+        this.category = $("#datasets-search-form #datasets-search-category").val();
         this.query = $("#datasets-search-form #datasets-search-query").val();
 
         Redd.goto_datasets_search(this.category, this.query);

@@ -1,7 +1,14 @@
 <div id="search">
-    <form id="search-form">
-        <input id="search-query" type="text" name="query" class="span14" value="<%= query %>" placeholder="Enter a search query" />
-        <input type="submit" id="search-submit" class="btn primary" value="Search" />
+    <form id="search-form" class="form-stacked">
+        <fieldset>
+            <legend>Search all data</legend>
+            <div class="clearfix">
+                <div class="input">
+                    <input id="search-query" type="text" name="query" class="span14" value="<%= query %>" placeholder="Enter a search query" />
+                    <input type="submit" id="search-submit" class="btn primary" value="Search" />
+                </div>
+            </div>
+        </fieldset>
     </form>
 </div>
 
