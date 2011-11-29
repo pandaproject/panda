@@ -35,7 +35,7 @@
             <% _.each(datasets, function(dataset) { %>
                 <tr>
                     <td>
-                        <a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a><br />
+                        <a href="#" class="dataset-link" data-uri="<%= dataset.resource_uri %>"><%= dataset.name %></a><br />
                         <em><%= dataset.description %></em>
                     </td>
                     <td>
@@ -59,3 +59,13 @@
 
     <% } %>
 </div>
+
+<div id="dataset-view-modal" class="modal hide fade in">
+    <div class="modal-body">
+        <p>Body goes here.</p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn modal-close" value="Close" />
+    </div>
+</div>
+

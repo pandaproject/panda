@@ -82,13 +82,17 @@ body { padding-top: 40px; }
 #search-results {
 }
 
+.pager p { font-size: 1.5em; }
+
 /* Datasets search page */
 
 #datasets-results table {
     margin-top: 5px;
 }
 
-.pager p { font-size: 1.5em; }
+#dataset-view-modal {
+    position: absolute;
+}
 
 /* Upload page */
 
