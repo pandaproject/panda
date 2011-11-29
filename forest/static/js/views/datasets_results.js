@@ -1,7 +1,6 @@
 PANDA.views.DatasetsResults = Backbone.View.extend({
     template: PANDA.templates.datasets_results,
     pager_template: PANDA.templates.pager,
-    dataset_template: PANDA.templates.dataset_block,
 
     initialize: function(options) {
         _.bindAll(this, "render");

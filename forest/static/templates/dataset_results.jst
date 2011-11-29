@@ -13,7 +13,34 @@
 
     <%= pager %>
 
-    <%= dataset_block %>
+    <p>
+    <% if (dataset.meta.total_count > dataset.meta.limit) { %>
+        Showing <%= dataset.meta.offset + 1 %> through <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> of <%=dataset. meta.total_count %> matching rows
+    <% } else { %>
+        Showing <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %>
+    <% } %>
+        <% if (dataset.row_count) { %>
+        / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %>
+        <% } else { %>
+        / total row count not available
+        <% } %>
+    </p>
+
+    <table>
+        <tr>
+            <% _.each(dataset.schema, function(s) { %>
+            <th><%= s.column %></th>
+            <% }); %>
+        </tr>
+
+        <% _.each(dataset.data, function(d) { %>
+        <tr>
+            <% _.each(d.data, function(datum) { %>
+            <td><%= datum %></td>
+            <% }); %>
+        </tr>
+        <% }); %>
+    </table>
 
     <%= pager %>
 

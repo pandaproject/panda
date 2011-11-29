@@ -17,7 +17,51 @@
 <%= pager %>
 
 <% _.each(datasets, function(dataset) { %>
-    <% print(dataset_template(dataset.results())); %>
+    <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
+
+    <p>
+        <% if (dataset.description) { %>
+        <em><%= dataset.description %></em><br />
+        <% } %>
+        <% if (dataset.current_task && dataset.current_task.task_name == "redd.tasks.DatasetImportTask") { %>
+            <% if (dataset.current_task.status == 'FAILURE') { %>
+            <span class="label warning">Import failed</span>
+            <% } else if (dataset.current_task.status == 'PENDING') { %>
+            <span class="label">Queued for import</span>
+            <% } else if (dataset.current_task.status == 'STARTED') { %>
+            <span class="label notice">Import in progress</span>
+            <% } %>
+        <% } %>
+    </p>
+
+    <p>
+    <% if (dataset.meta.total_count > dataset.meta.limit) { %>
+        Showing <%= dataset.meta.offset + 1 %> through <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> of <%= dataset.meta.total_count %> matching rows
+    <% } else { %>
+        Showing <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %>
+    <% } %>
+        <% if (dataset.row_count) { %>
+        / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %>
+        <% } else { %>
+        / total row count not available
+        <% } %>
+    </p>
+
+    <table>
+        <tr>
+            <% _.each(dataset.schema, function(s) { %>
+            <th><%= s.column %></th>
+            <% }); %>
+        </tr>
+
+        <% _.each(dataset.data, function(d) { %>
+        <tr>
+            <% _.each(d.data, function(datum) { %>
+            <td><%= datum %></td>
+            <% }); %>
+        </tr>
+        <% }); %>
+    </table>
 
     <% if (dataset.data.meta.next) { %>
     <p><a class="scroll-up" href="#dataset/<%= dataset.get("id") %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
