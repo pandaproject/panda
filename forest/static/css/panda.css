@@ -90,10 +90,6 @@ body { padding-top: 40px; }
     margin-top: 5px;
 }
 
-#dataset-view-modal {
-    position: absolute;
-}
-
 /* Upload page */
 
 #upload-progress { margin-bottom: 10px; }

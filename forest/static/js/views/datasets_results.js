@@ -1,7 +1,7 @@
 PANDA.views.DatasetsResults = Backbone.View.extend({
     template: PANDA.templates.datasets_results,
     pager_template: PANDA.templates.pager,
-    view_template: PANDA.templates.dataset_view,
+    view_template: PANDA.templates.datasets_result_modal,
 
     initialize: function(options) {
         _.bindAll(this, "render", "dataset_link");
@@ -37,13 +37,17 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
 
         // Update dataset with complete attributes
         dataset.fetch({ success: _.bind(function(model, response) {
-            $("#dataset-view-modal .modal-body").html(this.view_template(model.toJSON(true)));
+            $("#dataset-view-modal").html(this.view_template(model.toJSON(true)));
 
-            $("#dataset-view-modal form .actions").remove();
+            $("#dataset-view-modal .dataset-search-form").submit(function() {
+                query = $("#dataset-view-modal .dataset-search-query").val();
 
-            $("#dataset-view-modal .modal-footer").empty();
-            $("#dataset-view-modal .modal-footer").append('<input type="button" class="btn modal-close" value="Close" />');
-            $("#dataset-view-modal .modal-footer").append('<a href="#dataset/' + model.get("id") + '" class="btn modal-close">Goto dataset</a>');
+                Redd.goto_dataset_search(model.get("id"), query); 
+                
+                $("#dataset-view-modal").modal("hide");
+
+                return false;
+            });
 
             $("#dataset-view-modal").modal("show");
         }, this) });

@@ -5,7 +5,7 @@
         <div class="clearfix">
             <div class="input">
             <% if (!dataset.imported) { %>
-                <input id="dataset-search-query" type="text" name="query" class="xxlarge" value="Dataset not yet available for search" disabled="disabled" />
+                <input id="dataset-search-query" type="text" name="query" class="span14" value="Dataset not yet available for search" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
                 <input id="dataset-search-query" type="text" name="query" class="span14" value="<%= query %>" placeholder="Enter a search query" />

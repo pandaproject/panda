@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <a href="#" class="close">&times;</a>
+    <h3><%= name %></h3>
+</div>
+<div class="modal-body">
+    <h6>Search</h6>
+
+    <form class="dataset-search-form form-stacked">
+        <fieldset>
+            <div class="clearfix">
+                <div class="input">
+                <% if (!imported) { %>
+                    <input class="dataset-search-query span7" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
+                    <input type="submit" class="btn primary" value="Search" disabled="disabled" />
+                <% } else { %>
+                    <input class="dataset-search-query span7" type="text" name="query" value="" placeholder="Enter a search query" />
+                    <input type="submit" class="btn primary" value="Search" />
+                <% } %>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <h6>Sample data</h6>
+
+    <table>
+        <% _.each(schema, function(s) { %>
+            <th><%= s.column %></th>
+        <% }); %>
+        <% _.each(sample_data, function(r) { %>
+            <tr>
+            <% _.each(r.data, function(d) { %>
+                <td><%= d %></td>
+            <% }); %>
+            </tr>
+        <% }); %>
+    </table> 
+</div>
+<div class="modal-footer">
+    <input type="button" class="btn modal-close" value="Close" />
+</div>
+
