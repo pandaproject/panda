@@ -1,5 +1,9 @@
 <div id="datasets-results">
-    <% if (datasets.length == 0) { %>
+    <% if (!query && !category) { %>
+        
+        <p>Select a category and/or enter search terms and click Search.</p>
+        
+    <% } else if (datasets.length == 0) { %>
 
         <p>No matching datasets found.</p>
         <% if (category) { %>

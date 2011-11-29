@@ -11,6 +11,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
     },
 
     render: function() {
+        console.log(this);
         context = this.search.datasets.meta;
         context["settings"] = PANDA.settings;
 

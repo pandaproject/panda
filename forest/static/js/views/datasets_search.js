@@ -23,7 +23,13 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
         this.query = query;
 
         this.render();
-        this.datasets.search_meta(category, query, limit, page);
+
+        // Bypass search if there are no query terms
+        if (!category && !query) {
+            this.results.render();
+        } else {
+            this.datasets.search_meta(category, query, limit, page);
+        }
     },
 
     render: function() {
