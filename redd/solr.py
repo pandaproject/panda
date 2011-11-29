@@ -13,7 +13,7 @@ import requests
 class SolrError(Exception):
     def __init__(self, response, *args, **kwargs):
         self.status_code = response.status_code
-        self.response_body = response.read()
+        self.response_body = response.content
 
         super(SolrError, self).__init__(*args, **kwargs)
 
@@ -57,7 +57,7 @@ def query(core, q, limit=10, offset=0, sort='row asc'):
     if response.status_code != 200:
         raise SolrError(response)
 
-    return json.loads(response.read())
+    return json.loads(response.content)
 
 def query_grouped(core, q, group_field, limit=10, offset=0, sort='row asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
     """
@@ -70,5 +70,5 @@ def query_grouped(core, q, group_field, limit=10, offset=0, sort='row asc', grou
     if response.status_code != 200:
         raise SolrError(response)
 
-    return json.loads(response.read())
+    return json.loads(response.content)
 
