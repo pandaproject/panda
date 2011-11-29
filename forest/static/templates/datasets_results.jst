@@ -9,9 +9,49 @@
     <% } else { %>
 
         <h2>Showing <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %></h2>
-        <% _.each(datasets, function(dataset) { %>
-            <a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a><br />
-        <% }); %>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Dataset 
+                    </th>
+                    <th>
+                        Categories
+                    </th>
+                    <th>
+                        Provenance 
+                    </th>
+                    <th>
+                        Columns
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            <% _.each(datasets, function(dataset) { %>
+                <tr>
+                    <td>
+                        <a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a><br />
+                        <em><%= dataset.description %></em>
+                    </td>
+                    <td>
+                        <% _.each(dataset.categories, function(cat, i, l) { %>
+                        <a href="#category/<%= cat.id %>"><%= cat.name %></a><% if (i < l.length - 1) { print(",") } %> 
+                        <% }); %>
+                    </td>
+                    <td>
+                        <%= dataset.creator.first_name %> <%= dataset.creator.last_name %> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt;<br />
+                        <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %><br />
+                    </td>
+                    <td>
+                        <% _.each(dataset.schema, function(s, i, l) { %>
+                        <%= s.column %><% if (i < l.length - 1) { print(",") } %>
+                        <% }); %>
+                    </td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
 
     <% } %>
 </div>
