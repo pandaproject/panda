@@ -247,6 +247,8 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
     search_meta: function(category, query, limit, page) {
         /*
          * Query the metadata search endpoint.
+         *
+         * Note: Models returned from this are not complete.
          */
         if (limit) {
             this.meta.limit = limit;
@@ -262,7 +264,12 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = 0;
         }
 
-        data = { q: query, limit: this.meta.limit, offset: this.meta.offset };
+        data = {
+            q: query,
+            limit: this.meta.limit,
+            offset: this.meta.offset,
+            simple: "true"
+        };
 
         if (category) {
             data["categories"] = category;

@@ -110,6 +110,7 @@ class DatasetResource(CustomResource):
         offset = int(request.GET.get('offset', 0))
         categories = request.GET.get('categories', 0)
         query = request.GET.get('q')
+        simple = True if request.GET.get('simple', 'false').lower() == 'true' else False
 
         if categories and query:
             q = 'categories:%s %s' % (categories, query)
@@ -117,8 +118,6 @@ class DatasetResource(CustomResource):
             q = 'categories:%s' % categories
         else:
             q = query
-
-        print query
 
         response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='id asc')
         dataset_ids = [d['id'] for d in response['response']['docs']]
@@ -135,6 +134,14 @@ class DatasetResource(CustomResource):
         for obj in datasets:
             bundle = self.build_bundle(obj=obj, request=request)
             bundle = self.full_dehydrate(bundle)
+
+            # Prune attributes we don't care about
+            if simple:
+                del bundle.data['data_upload']
+                del bundle.data['sample_data']
+                del bundle.data['current_task']
+                del bundle.data['dialect']
+
             objects.append(bundle)
 
         page['objects'] = objects
