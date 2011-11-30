@@ -7,12 +7,11 @@ from django.utils import simplejson as json
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
-from tastypie.paginator import Paginator
 from tastypie.resources import Resource
 from tastypie.utils.urls import trailing_slash
 
 from redd import solr
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomSerializer
 from redd.models import Dataset
 
 class SolrObject(object):
@@ -161,7 +160,7 @@ class DataResource(Resource):
         response = solr.query_grouped(settings.SOLR_DATA_CORE, request.GET.get('q'), 'dataset_id', offset=offset, limit=limit)
         groups = response['grouped']['dataset_id']['groups']
 
-        paginator = Paginator(request.GET, groups, resource_uri=request.path_info)
+        paginator = CustomPaginator(request.GET, groups, resource_uri=request.path_info, count=response['response']['numFound'])
         page = paginator.page()
 
         datasets = []
@@ -210,9 +209,6 @@ class DataResource(Resource):
     def search_dataset(self, request, **kwargs):
         """
         Perform a full-text search on only one dataset.
-
-        TKTK -- implement field searches
-        TKTK -- implement wildcard + boolean searches
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -231,7 +227,7 @@ class DataResource(Resource):
         response = solr.query(settings.SOLR_DATA_CORE, 'dataset_id:%s %s' % (dataset_id, request.GET.get('q')), offset=offset, limit=limit)
         results = [SolrObject(d) for d in response['response']['docs']]
 
-        paginator = Paginator(request.GET, results, resource_uri=request.path_info)
+        paginator = CustomPaginator(request.GET, results, resource_uri=request.path_info, count=response['response']['numFound'])
         page = paginator.page()
 
         dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })

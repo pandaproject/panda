@@ -4,12 +4,11 @@ from django.conf import settings
 from django.conf.urls.defaults import url
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
-from tastypie.paginator import Paginator
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from redd import solr
-from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomResource, CustomSerializer
 from redd.models import Dataset
 
 class DatasetValidation(Validation):
@@ -124,10 +123,8 @@ class DatasetResource(CustomResource):
 
         datasets = Dataset.objects.filter(id__in=dataset_ids)
 
-        paginator = Paginator(request.GET, datasets, resource_uri=request.path_info)
+        paginator = CustomPaginator(request.GET, datasets, resource_uri=request.path_info, count=response['response']['numFound'])
         page = paginator.page()
-
-        page['meta']['total_count'] = response['response']['numFound']
 
         objects = []
 

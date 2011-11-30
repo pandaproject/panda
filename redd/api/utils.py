@@ -5,6 +5,7 @@ from urllib import unquote
 from django.contrib.auth.models import User
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.fields import ApiField, CharField
+from tastypie.paginator import Paginator
 from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
 
@@ -69,4 +70,19 @@ class CustomSerializer(Serializer):
     """
     def format_datetime(self, data):
         return data.strftime('%Y-%m-%dT%H:%M:%S')
+
+class CustomPaginator(Paginator):
+    """
+    A customized paginator that accepts count as a property, rather
+    then inferring it from the length of the object array.
+    """
+    def __init__(self, request_data, objects, resource_uri=None, limit=None, offset=0, count=None):
+        self.count = count
+        super(CustomPaginator, self).__init__(request_data, objects, resource_uri, limit, offset)
+
+    def get_count(self):
+        if self.count is not None:
+            return self.count
+        
+        return super(CustomPaginator, self).get_count()
 

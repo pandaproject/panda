@@ -191,6 +191,24 @@ class TestAPIDataset(TestCase):
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(body['objects'][0]['data'][0], 'Christopher')
 
+    def test_search_dataset_meta(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/dataset/%i/search/?q=Tribune&limit=1' % self.dataset.id, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['meta']['limit'], 1)
+        self.assertEqual(body['meta']['offset'], 0)
+        self.assertEqual(body['meta']['total_count'], 2)
+        self.assertIs(body['meta']['previous'], None)
+        self.assertIsNot(body['meta']['next'], None)
+        self.assertEqual(len(body['objects']), 1)
+
     def test_search_dataset_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
 
