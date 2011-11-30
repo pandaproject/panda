@@ -3,7 +3,7 @@
 
     <p>Please enter a search query.</p>
 
-<% } else if (total_count == 0) { %>
+<% } else if (dataset.meta.total_count == 0) { %>
 
     <p>No rows matching query "<%= query %>" found in dataset <strong><%= dataset.name %></strong>.</p>
 

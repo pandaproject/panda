@@ -2,21 +2,21 @@
 
     <p>Please enter a search query.</p>
 
-<% } else if (total_count == 0) { %>
+<% } else if (datasets.meta.total_count == 0) { %>
 
     <p>No rows matching query "<%= query %>" found in any dataset.</p>
 
 <% } else { %>
 
-<% if (total_count > limit) { %>
-    <h2>Showing <%= offset + 1 %> through <% if(offset + limit < total_count) { print(offset + limit); } else { print(total_count); } %> of <%= total_count %> datasets with matching rows</h2>
+<% if (datasets.meta.total_count > datasets.meta.limit) { %>
+    <h2>Showing <%= datasets.meta.offset + 1 %> through <% if(datasets.meta.offset + datasets.meta.limit < datasets.meta.total_count) { print(datasets.meta.offset + datasets.meta.limit); } else { print(datasets.meta.total_count); } %> of <%= datasets.meta.total_count %> datasets with matching rows</h2>
 <% } else { %>
-    <h2>Showing <%= total_count %> dataset<% if (total_count > 1) { %>s<% } %> with matching rows</h2>
+    <h2>Showing <%= datasets.meta.total_count %> dataset<% if (datasets.meta.total_count > 1) { %>s<% } %> with matching rows</h2>
 <% } %>
 
 <%= pager %>
 
-<% _.each(datasets, function(dataset) { %>
+<% _.each(datasets.datasets, function(dataset) { %>
     <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
 
     <p>
@@ -63,8 +63,8 @@
         <% }); %>
     </table>
 
-    <% if (dataset.data.meta.next) { %>
-    <p><a class="scroll-up" href="#dataset/<%= dataset.get("id") %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
+    <% if (dataset.meta.next) { %>
+    <p><a class="scroll-up" href="#dataset/<%= dataset.id %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
     <% } %>
 <% }); %>
 
