@@ -23,7 +23,7 @@ PANDA.collections.Data = Backbone.Collection.extend({
         Parse page metadata in addition to objects.
         */
         this.meta = response.meta;
-        this.meta.page = Math.floor(this.meta.offset / this.meta.limit) + 1;
+        this.meta.page = Math.floor(this.meta.offset / this.meta.limit);
 
         return response.objects;
     },
