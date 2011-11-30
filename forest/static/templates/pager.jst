@@ -2,15 +2,15 @@
     <% if (previous || next) { %>
     <p>
         <% if (previous) { %>
-            <a href="<%= root_url %>/<%= limit %>/<%= page %>" class="prev scroll-up">&laquo;</a> 
+            <a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>" class="prev scroll-up">&laquo;</a> 
         <% } else { %>
             <span>&laquo;</span> 
         <% } %>
 
-        <%= page + 1 %>
+        <%= page %>
 
         <% if (next) { %>
-            <a href="<%= root_url %>/<%= limit %>/<%= page + 2 %>" class="next scroll-up">&raquo;</a>
+            <a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>" class="next scroll-up">&raquo;</a>
         <% } else { %>
             <span>&raquo;</span>
         <% } %>

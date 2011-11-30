@@ -160,7 +160,7 @@ class DataResource(Resource):
         response = solr.query_grouped(settings.SOLR_DATA_CORE, request.GET.get('q'), 'dataset_id', offset=offset, limit=limit)
         groups = response['grouped']['dataset_id']['groups']
 
-        paginator = CustomPaginator(request.GET, groups, resource_uri=request.path_info, count=len(groups))
+        paginator = CustomPaginator(request.GET, groups, resource_uri=request.path_info, count=response['grouped']['dataset_id']['ngroups'])
         page = paginator.page()
 
         datasets = []

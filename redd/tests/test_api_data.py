@@ -113,6 +113,35 @@ class TestAPIData(TestCase):
             self.assertIn('resource_uri', result_dataset['objects'][0])
             self.assertIn('row', result_dataset['objects'][0])
 
+    def test_search_meta(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        # Import second dataset so we can make sure both match 
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            data_upload=self.dataset.data_upload,
+            creator=self.dataset.creator)
+
+        second_dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/data/search/?q=Ryan&limit=1', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['limit'], 1)
+        self.assertEqual(body['meta']['offset'], 0)
+        self.assertEqual(body['meta']['total_count'], 2)
+        self.assertIs(body['meta']['previous'], None)
+        self.assertIsNot(body['meta']['next'], None)
+        self.assertEqual(len(body['objects']), 1)
+
     def test_search_boolean_query(self):
         self.dataset.import_data()
 
