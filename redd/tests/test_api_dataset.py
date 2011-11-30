@@ -223,3 +223,18 @@ class TestAPIDataset(TestCase):
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(int(body['objects'][0]['id']), second_dataset.id)
 
+    def test_search_simple(self):
+        response = self.client.get('/api/1.0/dataset/search/?q=contributors&simple=true', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
+        self.assertNotIn('data_upload', body['objects'][0])
+        self.assertNotIn('sample_data', body['objects'][0])
+        self.assertNotIn('current_task', body['objects'][0])
+        self.assertNotIn('dialect', body['objects'][0])
+
