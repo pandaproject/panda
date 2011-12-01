@@ -49,6 +49,10 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             'categories': Redd.get_categories().toJSON()
         }
 
+        // Nuke old modals
+        $("#dataset-traceback-modal").remove();
+        $("#dataset-destroy-modal").remove();
+
         this.el.html(this.template(context));
 
         task = this.dataset.current_task;
