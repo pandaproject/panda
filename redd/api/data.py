@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from django.conf import settings
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.conf.urls.defaults import url
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
@@ -136,6 +137,12 @@ class DataResource(Resource):
             get_id = request.GET.get('id', '')
 
         obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s' % get_id)
+
+        if len(obj['response']['docs']) < 1:
+            raise ObjectDoesNotExist()
+
+        if len(obj['response']['docs']) > 1:
+            raise MultipleObjectsReturned()
 
         return SolrObject(obj['response']['docs'][0])
 

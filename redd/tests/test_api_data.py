@@ -39,6 +39,14 @@ class TestAPIData(TestCase):
 
         self.assertEqual(list_result, get_result)
 
+    def test_get_404(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/data/not-a-valid-id/', **self.auth_headers)
+        self.assertEqual(response.status_code, 404)
+
     def test_list(self):
         self.dataset.import_data()
 

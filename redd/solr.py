@@ -56,7 +56,7 @@ def query(core, q, limit=10, offset=0, sort='row asc'):
 
     if response.status_code != 200:
         raise SolrError(response)
-
+    
     return json.loads(response.content)
 
 def query_grouped(core, q, group_field, limit=10, offset=0, sort='row asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
