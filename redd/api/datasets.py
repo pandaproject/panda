@@ -54,6 +54,18 @@ class DatasetResource(CustomResource):
         """
         return super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
 
+    def simplify_bundle(self, bundle):
+        """
+        Takes a dehydrated bundle and removes attributes to create a "simple"
+        view that is faster over the wire.
+        """
+        del bundle.data['data_upload']
+        del bundle.data['sample_data']
+        del bundle.data['current_task']
+        del bundle.data['dialect']
+
+        return bundle
+
     def override_urls(self):
         """
         Add urls for search endpoint.
@@ -134,10 +146,7 @@ class DatasetResource(CustomResource):
 
             # Prune attributes we don't care about
             if simple:
-                del bundle.data['data_upload']
-                del bundle.data['sample_data']
-                del bundle.data['current_task']
-                del bundle.data['dialect']
+                bundle = self.simplify_bundle(bundle)
 
             objects.append(bundle)
 

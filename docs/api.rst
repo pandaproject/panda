@@ -10,6 +10,8 @@ The following example URLs assuming your running a local development environment
 
 All API endpoints require a valid user and API key. By default PANDA will create a superuser with username ``panda`` and API key ``edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b``. All example URLs include these credentials for ease of experimentation.
 
+All endpoints that return lists support ``limit`` and ``offset`` parameters for pagination. Pagination data is returned in the ``meta`` attribute.
+
 Users
 =====
 
@@ -48,16 +50,16 @@ List
 
 http://localhost:8000/api/1.0/task/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
-List tasks with a specific status
----------------------------------
+List filtered by status 
+-----------------------
 
-List tasks that are queued, but have not yet started processing:
+List tasks that are PENDING (queued, but have not yet started processing):
 
 http://localhost:8000/api/1.0/task/?status=PENDING&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 
-List tasks that finished processing today
------------------------------------------
+List filtered by date
+---------------------
 
 List tasks that ended on October 31st, 2011:
 
@@ -107,6 +109,24 @@ Upload via AJAX
 
 ``curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv``
 
+Categories
+==========
+
+Schema
+------
+
+http://localhost:8000/api/1.0/category/schema/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+List
+----
+
+http://localhost:8000/api/1.0/category/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+Fetch
+-----
+
+http://localhost:8000/api/1.0/category/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
 Datasets
 ========
 
@@ -119,6 +139,11 @@ List
 ----
 
 http://localhost:8000/api/1.0/dataset/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+List filtered by category
+-------------------------
+
+http://localhost:8000/api/1.0/dataset/?categories=[id]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Fetch
 -----
@@ -137,12 +162,19 @@ Begin an import task using the dataset's current schema. Any data previously imp
 
 http://localhost:8000/api/1.0/dataset/[id]/import/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
-Search
-------
+Search within dataset
+---------------------
 
 Search for Data within one particular dataset. The response is a simplified Dataset object with added paging ("meta") data and embedded Data instances ("objects").
 
 http://localhost:8000/api/1.0/dataset/[id]/search/?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
+Search for datasets
+-------------------
+
+Full-text search for Datasets with matching metadata. By default returns complete Dataset objects. To return simplified objects suitable for rendering lists add ``simple=true`` to the query.
+
+http://localhost:8000/api/1.0/dataset/search/?q=test&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Data
 ========
@@ -165,7 +197,9 @@ http://localhost:8000/api/1.0/data/[id]/?format=json&username=panda&api_key=edfe
 Search
 ------
 
-Searches for Data within all Datasets. The response is an "meta" object with paging information for the matching datasets and an "objects" array which contains simplified Dataset objects and embedded search results identical to the per-Dataset search results.
+Searches for Data within all Datasets. The response is a "meta" object with paging information for the matching datasets and an "objects" array which contains simplified Dataset objects and embedded search results in the same format as the per-Dataset search results.
+
+Note that when using this endpoint the ``limit`` and ``offset`` parameters refer to the groups returned. If you wish to paginate the result sets of each dataset you can use ``group_limit`` and ``group_offset`` although this is typically not the behavior a user would expect.
 
 http://localhost:8000/api/1.0/data/[id]?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 

@@ -11,6 +11,7 @@ from tastypie.resources import Resource
 from tastypie.utils.urls import trailing_slash
 
 from redd import solr
+from redd.api.datasets import DatasetResource
 from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomSerializer
 from redd.models import Dataset
 
@@ -154,14 +155,29 @@ class DataResource(Resource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
+        query = request.GET.get('q')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
+        group_limit = int(request.GET.get('group_limit', settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP))
+        group_offset = int(request.GET.get('group_offset', 0))
 
-        response = solr.query_grouped(settings.SOLR_DATA_CORE, request.GET.get('q'), 'dataset_id', offset=offset, limit=limit)
+        response = solr.query_grouped(
+            settings.SOLR_DATA_CORE,
+            query,
+            'dataset_id',
+            offset=offset,
+            limit=limit,
+            group_limit=group_limit,
+            group_offset=group_offset
+        )
         groups = response['grouped']['dataset_id']['groups']
 
-        paginator = CustomPaginator(request.GET, groups, resource_uri=request.path_info, count=response['grouped']['dataset_id']['ngroups'])
-        page = paginator.page()
+        page = CustomPaginator(
+            request.GET,
+            groups,
+            resource_uri=request.path_info,
+            count=response['grouped']['dataset_id']['ngroups']
+        ).page()
 
         datasets = []
 
@@ -169,36 +185,32 @@ class DataResource(Resource):
             dataset_id = group['groupValue']
             results = group['doclist']
 
-            dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
             dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
 
-            d = Dataset.objects.get(id=dataset_id)
+            dataset_resource = DatasetResource()
+            dataset = Dataset.objects.get(id=dataset_id)
+            dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
+            dataset_bundle = dataset_resource.full_dehydrate(dataset_bundle)
+            dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
 
-            dataset = {
-                'id': d.id,
-                'name': d.name,
-                'resource_uri': dataset_url,
-                'row_count': d.row_count,
-                'schema': d.schema,
-                'meta': {
-                    'limit': settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP,
-                    'next': None,
-                    'offset': 0,
-                    'previous': None,
-                    'total_count': results['numFound']
-                },
-                'objects': []
-            }
+            objects = [SolrObject(obj) for obj in results['docs']]
 
-            if results['numFound']> settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP:
-                dataset['meta']['next'] = '?'.join([dataset_search_url, 'limit=%i&offset=%i' % (settings.PANDA_DEFAULT_SEARCH_ROWS, settings.PANDA_DEFAULT_SEARCH_ROWS)])
+            data_page = CustomPaginator(
+                { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
+                objects,
+                resource_uri=dataset_search_url,
+                count=results['numFound']
+            ).page()
 
-            for obj in results['docs']:
-                bundle = self.build_bundle(obj=SolrObject(obj), request=request)
-                bundle = self.full_dehydrate(bundle)
-                dataset['objects'].append(bundle)
+            dataset_bundle.data.update(data_page)
+            dataset_bundle.data['objects'] = []
 
-            datasets.append(dataset)
+            for obj in objects:
+                data_bundle = self.build_bundle(obj=obj, request=request)
+                data_bundle = self.full_dehydrate(data_bundle)
+                dataset_bundle.data['objects'].append(data_bundle)
+
+            datasets.append(dataset_bundle.data)
 
         page['objects'] = datasets
 
@@ -221,37 +233,40 @@ class DataResource(Resource):
 
         dataset = Dataset.objects.get(id=dataset_id)
 
+        query = request.GET.get('q')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
-        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_id:%s %s' % (dataset_id, request.GET.get('q')), offset=offset, limit=limit)
+        response = solr.query(
+            settings.SOLR_DATA_CORE,
+            'dataset_id:%s %s' % (dataset_id, query),
+            offset=offset,
+            limit=limit
+        )
+
+        dataset_resource = DatasetResource()
+        dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
+        dataset_bundle = dataset_resource.full_dehydrate(dataset_bundle)
+        dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
+       
         results = [SolrObject(d) for d in response['response']['docs']]
 
-        paginator = CustomPaginator(request.GET, results, resource_uri=request.path_info, count=response['response']['numFound'])
-        page = paginator.page()
-
-        dataset_url = reverse('api_dispatch_detail', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
-
-        # Update with attributes from the dataset
-        # (Resulting object matches a group from the search endpoint)
-        page.update({
-            'id': dataset.id,
-            'name': dataset.name,
-            'resource_uri': dataset_url,
-            'row_count': dataset.row_count,
-            'schema': dataset.schema
-        })
-
-        objects = []
+        page = CustomPaginator(
+            request.GET,
+            results,
+            resource_uri=request.path_info,
+            count=response['response']['numFound']
+        ).page() 
+        
+        dataset_bundle.data.update(page)
+        dataset_bundle.data['objects'] = []
 
         for obj in results:
             bundle = self.build_bundle(obj=obj, request=request)
             bundle = self.full_dehydrate(bundle)
-            objects.append(bundle)
-
-        page['objects'] = objects
+            dataset_bundle.data['objects'].append(bundle.data)
 
         self.log_throttled_access(request)
 
-        return self.create_response(request, page)
+        return self.create_response(request, dataset_bundle)
 

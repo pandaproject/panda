@@ -181,7 +181,7 @@ class TestAPIDataset(TestCase):
         body = json.loads(response.content)
         
         # Verify that correct attributes of the dataset are attached
-        self.assertEqual(body['id'], self.dataset.id)
+        self.assertEqual(int(body['id']), self.dataset.id)
         self.assertEqual(body['name'], self.dataset.name)
         self.assertEqual(body['row_count'], self.dataset.row_count)
         self.assertEqual(body['schema'], self.dataset.schema)

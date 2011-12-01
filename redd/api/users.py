@@ -52,7 +52,7 @@ class UserResource(ModelResource):
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
-        Create user using email ass username and optionally using a supplied password.
+        Create user using email as username and optionally using a supplied password.
 
         All users created via the API are automatically assigned to the panda_users group.
         """
