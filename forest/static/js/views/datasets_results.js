@@ -9,11 +9,6 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         this.search = options.search;
         this.search.datasets.bind("reset", this.render);
 
-        $("#dataset-view-modal").modal({
-            backdrop: true,
-            keyboard: true
-        });
-
         $(".dataset-link").live("click", this.dataset_link);
     },
 
@@ -28,7 +23,15 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         context["pager"] = this.pager_template(context);
         context["datasets"] = this.search.datasets.results()["datasets"];
 
+        // Remove any lingering modal from previous usage
+        $("#dataset-view-modal").remove();
+
         this.el.html(this.template(context));
+
+        // Recreate modal
+        $("#dataset-view-modal").modal({
+            keyboard: true
+        });
     },
 
     dataset_link: function(e) {
@@ -39,8 +42,8 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         dataset.fetch({ success: _.bind(function(model, response) {
             $("#dataset-view-modal").html(this.view_template(model.toJSON(true)));
 
-            $("#dataset-view-modal .dataset-search-form").submit(function() {
-                query = $("#dataset-view-modal .dataset-search-query").val();
+            $("#dataset-view-modal #dataset-modal-search-form").submit(function() {
+                query = $("#dataset-view-modal #dataset-modal-search-query").val();
 
                 Redd.goto_dataset_search(model.get("id"), query); 
                 

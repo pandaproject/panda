@@ -5,15 +5,15 @@
 <div class="modal-body">
     <h6>Search</h6>
 
-    <form class="dataset-search-form form-stacked">
+    <form id="dataset-modal-search-form" class="form-stacked">
         <fieldset>
             <div class="clearfix">
                 <div class="input">
                 <% if (!imported) { %>
-                    <input class="dataset-search-query span7" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
+                    <input id="dataset-modal-search-query" class="span7" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
                     <input type="submit" class="btn primary" value="Search" disabled="disabled" />
                 <% } else { %>
-                    <input class="dataset-search-query span7" type="text" name="query" value="" placeholder="Enter a search query" />
+                    <input id="dataset-modal-search-query" class="span7" type="text" name="query" value="" placeholder="Enter a search query" />
                     <input type="submit" class="btn primary" value="Search" />
                 <% } %>
                 </div>
