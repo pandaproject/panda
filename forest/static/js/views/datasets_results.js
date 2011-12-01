@@ -1,7 +1,7 @@
 PANDA.views.DatasetsResults = Backbone.View.extend({
     template: PANDA.templates.datasets_results,
     pager_template: PANDA.templates.pager,
-    view_template: PANDA.templates.datasets_result_modal,
+    view_template: PANDA.templates.modal_dataset_search,
 
     initialize: function(options) {
         _.bindAll(this, "render", "dataset_link");
@@ -24,12 +24,12 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         context["datasets"] = this.search.datasets.results()["datasets"];
 
         // Remove any lingering modal from previous usage
-        $("#dataset-view-modal").remove();
+        $("#modal-dataset-search").remove();
 
         this.el.html(this.template(context));
 
-        // Recreate modal
-        $("#dataset-view-modal").modal({
+        // Create new modal
+        $("#modal-dataset-search").modal({
             keyboard: true
         });
     },
@@ -40,19 +40,19 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
 
         // Update dataset with complete attributes
         dataset.fetch({ success: _.bind(function(model, response) {
-            $("#dataset-view-modal").html(this.view_template(model.toJSON(true)));
+            $("#modal-dataset-search").html(this.view_template(model.toJSON(true)));
 
-            $("#dataset-view-modal #dataset-modal-search-form").submit(function() {
-                query = $("#dataset-view-modal #dataset-modal-search-query").val();
+            $("#modal-dataset-search-form").submit(function() {
+                query = $("#modal-dataset-search-query").val();
 
                 Redd.goto_dataset_search(model.get("id"), query); 
                 
-                $("#dataset-view-modal").modal("hide");
+                $("#modal-dataset-search").modal("hide");
 
                 return false;
             });
 
-            $("#dataset-view-modal").modal("show");
+            $("#modal-dataset-search").modal("show");
         }, this) });
 
         return false;
