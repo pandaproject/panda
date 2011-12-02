@@ -122,6 +122,28 @@ class TestAPIDataset(TestCase):
         self.assertEqual(new_dataset.data_upload, self.upload)
         self.assertEqual(new_dataset.creator, self.user)
 
+    def test_create_as_new_user(self):
+        new_user = {
+            'email': 'tester@tester.com',
+            'password': 'test',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
+        }
+
+        response = self.client.post('/api/1.0/user/', content_type='application/json', data=json.dumps(new_user), **utils.get_auth_headers('panda@pandaproject.net'))
+
+        self.assertEqual(response.status_code, 201)
+        
+        new_dataset = {
+            'name': 'New dataset!',
+            'description': 'Its got yummy data!',
+            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+        }
+
+        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **utils.get_auth_headers('tester@tester.com'))
+
+        self.assertEqual(response.status_code, 201)        
+
     def test_import_data(self):
         response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id, **self.auth_headers)
 
