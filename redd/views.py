@@ -2,7 +2,7 @@
 
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.http import HttpResponse
 from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
@@ -107,6 +107,10 @@ def panda_register(request):
             return JSONResponse({ '__all__': 'Email is already registered' }, status=400)
         except User.DoesNotExist:
             user = User.objects.create(**bundle.data)
+
+            panda_user = Group.objects.get(name='panda_user')
+            user.groups.add(panda_user)
+            user.save()
 
         # Success
         return JSONResponse(make_user_login_response(user))

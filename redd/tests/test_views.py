@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.test.client import Client
 from django.utils import simplejson as json
 
@@ -70,6 +70,7 @@ class TestLogin(TestCase):
 class TestRegistration(TestCase):
     def setUp(self):
         self.user = utils.get_panda_user()
+        self.panda_user_group = Group.objects.get(name='panda_user')
         
         self.client = Client()
 
@@ -90,6 +91,8 @@ class TestRegistration(TestCase):
         self.assertEqual(new_user.email, 'newpanda@pandaproject.net')
         self.assertEqual(new_user.first_name, 'Mr.')
         self.assertEqual(new_user.last_name, 'PANDA')
+
+        self.assertEqual(list(new_user.groups.all()), [self.panda_user_group])
 
     def test_registration_email_already_in_use(self):
         response = self.client.post('/register/', { 'email': 'user@pandaproject.net', 'password': 'NEWPANDA' }) 
