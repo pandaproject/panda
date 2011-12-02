@@ -24,7 +24,7 @@
                         Categories
                     </th>
                     <th>
-                        Provenance 
+                        Created 
                     </th>
                     <th>
                         Columns
@@ -35,6 +35,7 @@
             <% _.each(datasets, function(dataset) { %>
                 <tr>
                     <td>
+                        <span class="sort-value hide"><%= dataset.name %></span>
                         <a href="#" class="dataset-link" data-uri="<%= dataset.resource_uri %>"><%= dataset.name %></a><br />
                         <em><%= dataset.description %></em>
                     </td>
@@ -44,8 +45,9 @@
                         <% }); %>
                     </td>
                     <td>
-                        <%= dataset.creator.first_name %> <%= dataset.creator.last_name %> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt;<br />
+                        <span class="sort-value hide"><%= dataset.creation_date %></span>
                         <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %><br />
+                        by <%= dataset.creator.first_name %> <%= dataset.creator.last_name %> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt;
                     </td>
                     <td>
                         <% _.each(dataset.schema, function(s, i, l) { %>

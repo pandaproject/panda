@@ -90,6 +90,24 @@ body { padding-top: 40px; }
     margin-top: 5px;
 }
 
+#datasets-results th {  
+    cursor: pointer; 
+    background-repeat: no-repeat; 
+    background-position: center right; 
+}
+
+#datasets-results th.no-sort-header {
+    background-image: url(/site_media/img/no-sort.gif);   
+} 
+
+#datasets-results th.sort-desc-header {
+    background-image: url(/site_media/img/desc.gif);     
+} 
+
+#datasets-results th.sort-asc-header {
+    background-image: url(/site_media/img/asc.gif);     
+} 
+
 /* Upload page */
 
 #upload-progress { margin-bottom: 10px; }
