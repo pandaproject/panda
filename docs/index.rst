@@ -21,6 +21,14 @@ Usage
 
 Coming soon...
 
+Adminstration
+=============
+
+.. toctree::
+    :maxdepth: 1
+
+    ops.rst
+
 Extending PANDA
 ===============
 
