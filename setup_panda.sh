@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # PANDA Project server setup script for Ubuntu 11.10
 # Must be executed with sudo!
@@ -24,7 +24,7 @@ wget $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql python2.7-dev git libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk libpq-dev
+apt-get install --yes git postgresql python2.7-dev git libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk libpq-dev python-pip
 pip install uwsgi
 
 # Setup Solr + Jetty
@@ -95,7 +95,7 @@ service postgresql restart
 echo "CREATE USER panda WITH PASSWORD 'panda';" | sudo -u postgres psql postgres
 sudo -u postgres createdb -O panda panda
 
-# Get code (as normal user)
+# Get code
 cd /opt
 git clone git://github.com/pandaproject/panda.git panda
 cd /opt/panda
@@ -113,15 +113,15 @@ mkdir /mnt/media
 chown panda:panda /mnt/media
 
 # Synchronize the database
-sudo -u panda DEPLOYMENT_TARGET=deployed /home/ubuntu/.virtualenvs/panda/bin/python manage.py syncdb --noinput
+sudo -u panda DEPLOYMENT_TARGET=deployed python manage.py syncdb --noinput
 
 # Collect static assets
-sudo -u panda DEPLOYMENT_TARGET=deployed /home/ubuntu/.virtualenvs/panda/bin/python manage.py collectstatic --noinput
+sudo -u panda DEPLOYMENT_TARGET=deployed python manage.py collectstatic --noinput
 
 # Start serving
 service uwsgi start
 
-# Celery
+# Setup Celery
 wget $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
 initctl reload-configuration
 service celeryd start
