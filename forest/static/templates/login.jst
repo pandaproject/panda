@@ -1,31 +1,35 @@
-<form id="login-form">
-    <div class="alert-message"></div>
-    <fieldset>
-        <legend>Login</legend>
-        <p class="TODO TEMPORARY" style="margin-left: 150px;">
-            The default username is <strong>user@pandaproject.net</strong>.<br />
-            The password is <strong>user</strong>.<br />
-            You may also <a href="#register">register a new account</a>.
-        </p>
-        <div class="clearfix">
-            <label for="email">Email</label>
-            <div class="input">
-                <input type="text" name="email" value="<%= email %>" />
-                <span class="help-inline"></span>
+<div id="login">
+    <h1>PANDA</h1>
+
+    <form id="login-form">
+        <div class="alert-message"></div>
+        <fieldset>
+            <legend>Login</legend>
+            <p class="TODO TEMPORARY" style="margin-left: 150px;">
+                The default username is <strong>user@pandaproject.net</strong>.<br />
+                The password is <strong>user</strong>.<br />
+                You may also <a href="#register">register a new account</a>.
+            </p>
+            <div class="clearfix">
+                <label for="email">Email</label>
+                <div class="input">
+                    <input type="text" name="email" value="<%= email %>" />
+                    <span class="help-inline"></span>
+                </div>
             </div>
-        </div>
-        <div class="clearfix">
-            <label for="password">Password</label>
-            <div class="input">
-                <input type="password" name="password" />
-                <span class="help-inline"></span>
+            <div class="clearfix">
+                <label for="password">Password</label>
+                <div class="input">
+                    <input type="password" name="password" />
+                    <span class="help-inline"></span>
+                </div>
             </div>
-        </div>
-        <div class="clearfix">
-            <div class="input">
-            <input type="submit" class="btn primary" value="Login" />
+            <div class="clearfix">
+                <div class="input">
+                <input type="submit" class="btn primary" value="Login" />
+                </div>
             </div>
-        </div>
-    </fieldset>
-</form>
+        </fieldset>
+    </form>
+</div>
 

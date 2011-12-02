@@ -13,6 +13,14 @@ body { padding-top: 40px; }
 
 .form-stacked { padding-left: 0px; }
 
+/* Login */
+
+#login h1 {
+    font-size: 44px;
+    color: #AA4040;
+    margin-left: 150px;
+}
+
 /* Dataset block */
 
 .btn.inline {
