@@ -211,7 +211,7 @@ PANDA.views.Root = Backbone.View.extend({
                 $("#topbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear unread</a></li>');
             }
 
-            $("#topbar-notifications .dropdown-menu").append('<li><a href="#">View all notifications (TODO)</a></li>');
+            $("#topbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View all notifications (TODO)\');">View all notifications</a></li>');
             
             $("#topbar-notifications .count").text(this._current_user.notifications.length);
 
