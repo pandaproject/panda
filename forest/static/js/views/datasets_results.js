@@ -41,8 +41,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
             },
             textExtraction: function(node) {
                 return $(node).children(".sort-value").text();
-            },
-            debug: true
+            }
         });
 
         // Create new modal
