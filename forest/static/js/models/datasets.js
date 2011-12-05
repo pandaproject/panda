@@ -161,7 +161,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         }
 
         Redd.ajax({
-            url: PANDA.API + "/dataset/" + this.get("id") + "/search/",
+            url: PANDA.API + "/dataset/" + this.get("slug") + "/search/",
             dataType: 'json',
             data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
             success: _.bind(this.process_search_results, this)
@@ -226,7 +226,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         }
 
         Redd.ajax({
-            url: PANDA.API + "/data/search/",
+            url: PANDA.API + "/data/",
             dataType: 'json',
             data: { q: query, limit: this.meta.limit, offset: this.meta.offset },
             success: _.bind(function(response) {
@@ -276,7 +276,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         }
 
         Redd.ajax({
-            url: PANDA.API + "/dataset/search/",
+            url: PANDA.API + "/dataset/",
             dataType: "json",
             data: data,
             success: _.bind(function(response) {

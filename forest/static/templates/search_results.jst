@@ -17,7 +17,7 @@
 <%= pager %>
 
 <% _.each(datasets.datasets, function(dataset) { %>
-    <h3><a href="#dataset/<%= dataset.id %>"><%= dataset.name %></a></h3>
+    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h3>
 
     <p>
         <% if (dataset.description) { %>
@@ -64,7 +64,7 @@
     </table>
 
     <% if (dataset.meta.next) { %>
-    <p><a class="scroll-up" href="#dataset/<%= dataset.id %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
+    <p><a class="scroll-up" href="#dataset/<%= dataset.slug %>/search/<%= query %>/<%= settings.PANDA_DEFAULT_SEARCH_ROWS %>/1">View more results from this dataset &raquo;</a></p>
     <% } %>
 <% }); %>
 

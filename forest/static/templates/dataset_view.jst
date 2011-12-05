@@ -7,7 +7,7 @@
 
         <p>
             <% _.each(categories, function(category, index, list) { %>
-                <a href="#category/<%= category.id %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+                <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
             <% }); %>
         </p>
 
@@ -32,7 +32,7 @@
     </fieldset>
 
     <div class="actions">
-        <a class="btn" href="#dataset/<%= id %>/edit">Edit</a>
+        <a class="btn" href="#dataset/<%= slug %>/edit">Edit</a>
         <a class="btn" href="/api/1.0/upload/<%= data_upload.id %>/download/" >Download original file (<%= data_upload.size %> bytes)</a>
     </div>
 </form>

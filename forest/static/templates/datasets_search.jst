@@ -7,7 +7,7 @@
                 <select id="datasets-search-category" name="category" class="span4">
                     <option value="">All</option>
                     <% categories.each(function(cat) { %>
-                    <option value="<%= cat.get("id") %>" <% if (cat.get("id") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
+                    <option value="<%= cat.get("slug") %>" <% if (cat.get("slug") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
                     <% }); %>
                 </select>
                 <input id="datasets-search-query" type="text" name="query" class="span10" value="<%= query %>" placeholder="Enter a search query" />

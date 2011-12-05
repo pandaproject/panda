@@ -62,7 +62,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
             $("#modal-dataset-search-form").submit(function() {
                 query = $("#modal-dataset-search-query").val();
 
-                Redd.goto_dataset_search(model.get("id"), query); 
+                Redd.goto_dataset_search(model.get("slug"), query); 
                 
                 $("#modal-dataset-search").modal("hide");
 

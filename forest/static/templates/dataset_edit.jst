@@ -2,7 +2,7 @@
     <form id="edit-dataset-form" class="form-stacked">
         <div class="actions on-top">
             <input type="button" class="btn primary dataset-save" value="Save" />
-            <a class="btn scroll-up" href="#dataset/<%= dataset.id %>">Cancel</a>
+            <a class="btn scroll-up" href="#dataset/<%= dataset.slug %>">Cancel</a>
             <input type="button" class="btn danger" data-controls-modal="dataset-destroy-modal" data-backdrop="true" data-keyboard="true" value="Delete" />
         </div>
         <div class="alert-message"></div>
@@ -17,7 +17,7 @@
                     <ul class="input-list">
                         <% _.each(categories, function(category) { %>
                         <label>
-                            <input type="checkbox" name="categories" value="<%= category.id %>" <% if (_.find(dataset.categories, function(cat) { return cat.id == category.id; })) { %>checked="checked"<% } %>/>
+                            <input type="checkbox" name="categories" value="<%= category.slug %>" <% if (_.find(dataset.categories, function(cat) { return cat.slug == category.slug; })) { %>checked="checked"<% } %>/>
                             <span><%= category.name %></span>
                         </label>
                         <% }); %>
@@ -66,7 +66,7 @@
 
         <div class="actions">
             <input type="button" class="btn primary dataset-save" value="Save" />
-            <a class="btn scroll-up" href="#dataset/<%= dataset.id %>">Cancel</a>
+            <a class="btn scroll-up" href="#dataset/<%= dataset.slug %>">Cancel</a>
             <input type="button" class="btn danger" data-controls-modal="dataset-destroy-modal" data-backdrop="true" data-keyboard="true" value="Delete" />
         </div>
     </form>

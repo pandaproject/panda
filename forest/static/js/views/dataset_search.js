@@ -17,10 +17,10 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.view = new PANDA.views.DatasetView();
     },
 
-    reset: function(dataset_id, query, success_callback) {
+    reset: function(dataset_slug, query, success_callback) {
         this.query = query;
         
-        this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_id + "/" });
+        this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
 
         this.dataset.fetch({
             async: false,
@@ -64,7 +64,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     search_event: function() {
         this.query = $("#dataset-search-form #dataset-search-query").val();
 
-        Redd.goto_dataset_search(this.dataset.get("id"), this.query);
+        Redd.goto_dataset_search(this.dataset.get("slug"), this.query);
 
         return false;
     },

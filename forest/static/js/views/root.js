@@ -18,7 +18,7 @@ PANDA.views.Root = Backbone.View.extend({
 
     initialize: function() {
         // Bind local methods
-        _.bindAll(this, "get_categories", "get_category_by_id", "refresh_notifications");
+        _.bindAll(this, "get_categories", "get_category_by_slug", "refresh_notifications");
 
         // Override Backbone's sync handler with the authenticated version
         Backbone.noAuthSync = Backbone.sync;
@@ -112,11 +112,11 @@ PANDA.views.Root = Backbone.View.extend({
         return this._categories;
     },
 
-    get_category_by_id: function(id) {
+    get_category_by_slug: function(slug) {
         /*
-         * Retrieve a specific category by id.
+         * Retrieve a specific category by slug.
          */
-        return this._categories.find(function(cat) { return cat.get("id") == id; });
+        return this._categories.find(function(cat) { return cat.get("slug") == slug; });
     },
 
     ajax: function(options) {
@@ -347,41 +347,41 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate(path);
     },
 
-    goto_dataset_view: function(id) {
+    goto_dataset_view: function(slug) {
         if (!this.authenticate()) {
             return;
         }
 
         this.current_content_view = this.get_or_create_view("DatasetSearch");
-        this.current_content_view.reset(id, null);
+        this.current_content_view.reset(slug, null);
 
-        this._router.navigate("dataset/" + id);
+        this._router.navigate("dataset/" + slug);
     },
 
-    goto_dataset_edit: function(id) {
+    goto_dataset_edit: function(slug) {
         if (!this.authenticate()) {
             return;
         }
 
         this.current_content_view = this.get_or_create_view("DatasetEdit");
-        this.current_content_view.reset(id);
+        this.current_content_view.reset(slug);
         
-        this._router.navigate("dataset/" + id + "/edit");
+        this._router.navigate("dataset/" + slug + "/edit");
     },
 
-    goto_dataset_search: function(id, query, limit, page) {
+    goto_dataset_search: function(slug, query, limit, page) {
         if (!this.authenticate()) {
             return;
         }
 
         if (!(this.current_content_view instanceof PANDA.views.DatasetSearch)) {
             this.current_content_view = this.get_or_create_view("DatasetSearch");
-            this.current_content_view.reset(id, query);
+            this.current_content_view.reset(slug, query);
         }
 
         this.current_content_view.search(query, limit, page);
 
-        path = "dataset/" + id + "/search";
+        path = "dataset/" + slug + "/search";
 
         if (query) {
             path += "/" + query;

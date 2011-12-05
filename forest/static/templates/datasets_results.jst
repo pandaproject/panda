@@ -41,7 +41,7 @@
                     </td>
                     <td>
                         <% _.each(dataset.categories, function(cat, i, l) { %>
-                        <a href="#category/<%= cat.id %>"><%= cat.name %></a><% if (i < l.length - 1) { print(",") } %> 
+                        <a href="#category/<%= cat.slug %>"><%= cat.name %></a><% if (i < l.length - 1) { print(",") } %> 
                         <% }); %>
                     </td>
                     <td>

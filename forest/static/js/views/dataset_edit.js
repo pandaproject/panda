@@ -14,8 +14,8 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         $("#dataset-destroy").live("click", this.destroy);
     },
 
-    reset: function(id) {
-        this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + id + "/" });
+    reset: function(slug) {
+        this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + slug + "/" });
 
         this.dataset.fetch({
             async: false,
@@ -89,7 +89,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 }
 
                 categories = _.map(v, function(cat) {
-                    return Redd.get_category_by_id(cat).clone();
+                    return Redd.get_category_by_slug(cat).clone();
                 });
 
                 this.dataset.categories.reset(categories);
@@ -100,7 +100,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
         this.dataset.save(s, {
             success: _.bind(function() {
-                Redd.goto_dataset_view(this.dataset.get("id"));
+                Redd.goto_dataset_view(this.dataset.get("slug"));
                 window.scrollTo(0, 0);
             }, this),
             error: function(model, response) {
@@ -121,7 +121,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         this.dataset.destroy({ success: _.bind(function() {
             this.dataset = null;
 
-            Redd.goto_list_datasets();
+            Redd.goto_search();
         }, this)});
     }
 });

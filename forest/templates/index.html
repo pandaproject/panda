@@ -48,7 +48,7 @@
                     <ul id="categories-list">
                         <li><a href="#datasets">Find a dataset</a></li>
                         {% for category in categories %}
-                        <li><a href="#category/{{ category.id }}">{{ category.name }}</a></li>
+                        <li><a href="#category/{{ category.slug }}">{{ category.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </nav>

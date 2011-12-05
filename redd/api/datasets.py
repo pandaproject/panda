@@ -8,7 +8,7 @@ from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from redd import solr
-from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, SlugResource, CustomSerializer
 from redd.models import Dataset
 
 class DatasetValidation(Validation):
@@ -20,7 +20,7 @@ class DatasetValidation(Validation):
 
         return errors
 
-class DatasetResource(CustomResource):
+class DatasetResource(SlugResource):
     """
     API resource for Datasets.
     """
@@ -71,9 +71,10 @@ class DatasetResource(CustomResource):
         Add urls for search endpoint.
         """
         return [
-            url(r'^(?P<resource_name>%s)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search_datasets'),
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search_dataset'), name='api_search_dataset')
+            url(r'^(?P<resource_name>%s)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_dispatch_list'),
+            url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
+            url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search_dataset'), name='api_search_dataset')
         ]
 
     def import_data(self, request, **kwargs):
@@ -84,12 +85,12 @@ class DatasetResource(CustomResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        if 'pk' in kwargs:
-            get_id = kwargs['pk']
+        if 'slug' in kwargs:
+            slug = kwargs['slug']
         else:
-            get_id = request.GET.get('id')
+            slug = request.GET.get('slug')
 
-        dataset = Dataset.objects.get(id=get_id)
+        dataset = Dataset.objects.get(slug=slug)
         dataset.import_data()
 
         bundle = self.build_bundle(obj=dataset, request=request)
@@ -120,7 +121,7 @@ class DatasetResource(CustomResource):
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
         categories = request.GET.get('categories', 0)
-        query = request.GET.get('q')
+        query = request.GET.get('q', '')
         simple = True if request.GET.get('simple', 'false').lower() == 'true' else False
 
         if categories and query:

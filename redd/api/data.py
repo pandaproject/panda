@@ -108,25 +108,6 @@ class DataResource(Resource):
 
         return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
 
-    def get_object_list(self, request):
-        """
-        Get all objects.
-
-        TKTK: enforce proper limits from tastypie in solr query
-        """
-        response = solr.query(settings.SOLR_DATA_CORE, '*:*')
-
-        return [SolrObject(d) for d in response['response']['docs']]
-
-    def obj_get_list(self, request=None, **kwargs):
-        """
-        TKTK: enforce proper limits from tastypie in solr query
-        TKTK: How is this different from get_object_list?
-        """
-        response = solr.query(settings.SOLR_DATA_CORE, '*:*')
-
-        return [SolrObject(d) for d in response['response']['docs']]
-
     def obj_get(self, request=None, **kwargs):
         """
         Query Solr for a single item by primary key.
@@ -151,7 +132,7 @@ class DataResource(Resource):
         Add urls for search endpoint.
         """
         return [
-            url(r'^(?P<resource_name>%s)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_search'),
+            url(r'^(?P<resource_name>%s)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_dispatch_list'),
         ]
 
     def search(self, request, **kwargs):
@@ -162,7 +143,7 @@ class DataResource(Resource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        query = request.GET.get('q')
+        query = request.GET.get('q', '')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
         group_limit = int(request.GET.get('group_limit', settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP))
@@ -192,8 +173,6 @@ class DataResource(Resource):
             dataset_id = group['groupValue']
             results = group['doclist']
 
-            dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'pk': dataset_id })
-
             dataset_resource = DatasetResource()
             dataset = Dataset.objects.get(id=dataset_id)
             dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
@@ -201,6 +180,8 @@ class DataResource(Resource):
             dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
 
             objects = [SolrObject(obj) for obj in results['docs']]
+            
+            dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'slug': dataset.slug })
 
             data_page = CustomPaginator(
                 { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
@@ -233,12 +214,12 @@ class DataResource(Resource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        if 'pk' in kwargs:
-            dataset_id = kwargs['pk']
+        if 'slug' in kwargs:
+            slug = kwargs['slug']
         else:
-            dataset_id = request.GET.get('id')
+            slug = request.GET.get('slug')
 
-        dataset = Dataset.objects.get(id=dataset_id)
+        dataset = Dataset.objects.get(slug=slug)
 
         query = request.GET.get('q')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
@@ -246,7 +227,7 @@ class DataResource(Resource):
 
         response = solr.query(
             settings.SOLR_DATA_CORE,
-            'dataset_id:%s %s' % (dataset_id, query),
+            'dataset_id:%s %s' % (dataset.id, query),
             offset=offset,
             limit=limit
         )
