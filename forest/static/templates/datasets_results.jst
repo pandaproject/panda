@@ -46,7 +46,7 @@
                     </td>
                     <td>
                         <span class="sort-value hide"><%= dataset.creation_date %></span>
-                        <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:mm a") %><br />
+                        <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %><br />
                         by <%= dataset.creator.first_name %> <%= dataset.creator.last_name %> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt;
                     </td>
                     <td>

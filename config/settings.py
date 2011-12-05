@@ -32,7 +32,7 @@ DATABASES = {
     }
 }
 
-TIME_ZONE = None 
+TIME_ZONE = 'Etc/UTC' 
 USE_TZ = False 
 
 LANGUAGE_CODE = 'en-us'

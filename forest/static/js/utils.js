@@ -77,6 +77,13 @@ $.fn.show_errors = function(errors, alert_prefix) {
     }, this));
 }
 
+moment.fn.toLocalTimezone = function() {
+    /*
+     * Convert UTC datetimes to the user's local timezone.
+     */
+    return this.subtract("minutes", this._d.getTimezoneOffset());
+}
+
 $(".alert-message .close").live("click", function() {
     /*
      * Close handler for alerts.
