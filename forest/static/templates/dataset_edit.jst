@@ -8,7 +8,7 @@
         <div class="alert-message"></div>
         <fieldset>
             <legend>Edit <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
-            <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:m a") %></strong></p>
+            <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").format("MMMM D, YYYY @ h:mm a") %></strong></p>
 
             <h6>Categories</h6>
 
