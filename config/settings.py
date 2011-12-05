@@ -184,6 +184,11 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
             'propogate': False
+        },
+        'requests.packages.urllib3.connectionpool': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propogate': False
         }
     }
 }
