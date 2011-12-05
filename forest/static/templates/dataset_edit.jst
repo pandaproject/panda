@@ -1,5 +1,10 @@
 <div id="edit-dataset">
     <form id="edit-dataset-form" class="form-stacked">
+        <div class="actions on-top">
+            <input type="button" class="btn primary dataset-save" value="Save" />
+            <a class="btn scroll-up" href="#dataset/<%= dataset.id %>">Cancel</a>
+            <input type="button" class="btn danger" data-controls-modal="dataset-destroy-modal" data-backdrop="true" data-keyboard="true" value="Delete" />
+        </div>
         <div class="alert-message"></div>
         <fieldset>
             <legend>Edit <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
@@ -60,7 +65,7 @@
         </fieldset>
 
         <div class="actions">
-            <input id="dataset-save" type="button" class="btn primary" value="Save" />
+            <input type="button" class="btn primary dataset-save" value="Save" />
             <a class="btn scroll-up" href="#dataset/<%= dataset.id %>">Cancel</a>
             <input type="button" class="btn danger" data-controls-modal="dataset-destroy-modal" data-backdrop="true" data-keyboard="true" value="Delete" />
         </div>

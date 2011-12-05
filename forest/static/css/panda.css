@@ -12,6 +12,7 @@ body { padding-top: 40px; }
 .alert-message { display: none; }
 
 .form-stacked { padding-left: 0px; }
+.actions.on-top { margin-top: 0px; }
 
 /* Login */
 

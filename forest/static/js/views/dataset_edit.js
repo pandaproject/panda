@@ -5,7 +5,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     dataset: null,
 
     events: {
-        "click #dataset-save":      "save"
+        "click .actions .dataset-save":      "save"
     },
 
     initialize: function() {
