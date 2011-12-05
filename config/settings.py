@@ -80,6 +80,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'longerusername',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -88,6 +89,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.staticfiles',
 
+    'south',
     'tastypie',
     'djcelery',
     'compressor',

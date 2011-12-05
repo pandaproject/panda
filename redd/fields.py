@@ -3,6 +3,7 @@
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils import simplejson as json
+from south.modelsinspector import add_introspection_rules
 
 class JSONField(models.TextField):
     """
@@ -45,4 +46,6 @@ class JSONField(models.TextField):
         value = self._get_val_from_obj(obj)
 
         return self.get_db_prep_value(value)
+
+add_introspection_rules([], ["^redd\.fields\.JSONField"])
 

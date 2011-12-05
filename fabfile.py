@@ -155,7 +155,7 @@ def syncdb():
     """
     Sync the Django models to the database.
     """
-    sudo('cd %(path)s; python manage.py syncdb --noinput' % env, user="panda")
+    sudo('cd %(path)s; python manage.py migrate --noinput' % env, user="panda")
 
 def reset_solr():
     """
@@ -219,7 +219,10 @@ def local_reset_database():
     """
     Reset the local database.
     """
-    local('dropdb %(project_name)s && createdb -O %(project_name)s %(project_name)s && python manage.py syncdb --noinput' % env)
+    local('dropdb %(project_name)s' % env)
+    local('createdb -O %(project_name)s %(project_name)s' % env)
+    local('python manage.py syncdb --noinput' % env)
+    local('python manage.py migrate --noinput --no-initial-data' % env)
 
 def local_reset_solr():
     """
