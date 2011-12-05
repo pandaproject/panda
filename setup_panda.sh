@@ -9,6 +9,10 @@ CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 echo "export DEPLOYMENT_TARGET=\"deployed\"" > /home/ubuntu/.bash_profile
 export DEPLOYMENT_TARGET="deployed"
 
+# Set timezone
+echo "America/Chicago" | tee /etc/timezone
+dpkg-reconfigure --frontend noninteractive tzdata
+
 # Make sure SSH comes up on reboot
 ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
 ln -s /etc/init.d/ssh /etc/rc3.d/S20ssh
