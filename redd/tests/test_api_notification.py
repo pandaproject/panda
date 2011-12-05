@@ -3,14 +3,16 @@
 from datetime import datetime
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
 from redd.models import Notification, User 
 from redd.tests import utils
 
-class TestAPINotifications(TestCase):
+class TestAPINotifications(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
         

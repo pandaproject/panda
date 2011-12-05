@@ -11,7 +11,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from djcelery.models import TASK_STATE_CHOICES
-from tastypie.models import create_api_key
+from tastypie.models import ApiKey
 
 from redd import solr
 from redd.fields import JSONField
@@ -24,7 +24,13 @@ NOTIFICATION_TYPE_CHOICES = (
     ('error', 'error')
 )
 
-models.signals.post_save.connect(create_api_key, sender=User)
+@receiver(models.signals.post_save, sender=User)
+def create_api_key(sender, **kwargs):
+    """
+    A signal for hooking up automatic ``ApiKey`` creation.
+    """
+    if kwargs.get('created') is True:
+        ApiKey.objects.get_or_create(user=kwargs.get('instance'))
 
 class SluggedModel(models.Model):
     """

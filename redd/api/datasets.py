@@ -48,12 +48,6 @@ class DatasetResource(SlugResource):
         validation = DatasetValidation()
         serializer = CustomSerializer()
 
-    def obj_create(self, bundle, request=None, **kwargs):
-        """
-        Set creating user on create.
-        """
-        return super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
-
     def simplify_bundle(self, bundle):
         """
         Takes a dehydrated bundle and removes attributes to create a "simple"
@@ -71,48 +65,14 @@ class DatasetResource(SlugResource):
         Add urls for search endpoint.
         """
         return [
-            url(r'^(?P<resource_name>%s)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_dispatch_list'),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
             url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/search%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search_dataset'), name='api_search_dataset')
         ]
 
-    def import_data(self, request, **kwargs):
+    def get_list(self, request, **kwargs):
         """
-        Dummy endpoint for kicking off data import tasks.
-        """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-
-        if 'slug' in kwargs:
-            slug = kwargs['slug']
-        else:
-            slug = request.GET.get('slug')
-
-        dataset = Dataset.objects.get(slug=slug)
-        dataset.import_data()
-
-        bundle = self.build_bundle(obj=dataset, request=request)
-        bundle = self.full_dehydrate(bundle)
-
-        self.log_throttled_access(request)
-
-        return self.create_response(request, bundle)
-
-    def search_dataset(self, request, **kwargs):
-        """
-        Endpoint to search a single dataset. Delegates to DataResource.search_dataset.
-        """
-        from redd.api.data import DataResource
-        
-        data_resource = DataResource()
-        
-        return data_resource.search_dataset(request, **kwargs)
-
-    def search(self, request, **kwargs):
-        """
-        Full-text search over dataset metadata.
+        List endpoint using Solr. Provides full-text search via the "q" parameter."
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -156,4 +116,43 @@ class DatasetResource(SlugResource):
         self.log_throttled_access(request)
 
         return self.create_response(request, page)
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        Set creating user on create.
+        """
+        return super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
+
+    def import_data(self, request, **kwargs):
+        """
+        Dummy endpoint for kicking off data import tasks.
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if 'slug' in kwargs:
+            slug = kwargs['slug']
+        else:
+            slug = request.GET.get('slug')
+
+        dataset = Dataset.objects.get(slug=slug)
+        dataset.import_data()
+
+        bundle = self.build_bundle(obj=dataset, request=request)
+        bundle = self.full_dehydrate(bundle)
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, bundle)
+
+    def search_dataset(self, request, **kwargs):
+        """
+        Endpoint to search a single dataset. Delegates to DataResource.search_dataset.
+        """
+        from redd.api.data import DataResource
+        
+        data_resource = DataResource()
+        
+        return data_resource.search_dataset(request, **kwargs)
 

@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
 from redd.models import Dataset
 from redd.tests import utils
 
-class TestAPIData(TestCase):
+class TestAPIData(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
@@ -31,13 +33,20 @@ class TestAPIData(TestCase):
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
 
-        list_result = body['objects'][0]
+        # Returned as a list of datasets
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
+        self.assertEqual(body['objects'][0]['meta']['total_count'], 4)
+        self.assertEqual(len(body['objects'][0]['objects']), 4)
 
-        response = self.client.get('/api/1.0/data/%s/' % list_result['id'], **self.auth_headers)
+        datum = body['objects'][0]['objects'][0]
+
+        response = self.client.get('/api/1.0/data/%s/' % datum['id'], **self.auth_headers)
         self.assertEqual(response.status_code, 200)
         get_result = json.loads(response.content)
 
-        self.assertEqual(list_result, get_result)
+        self.assertEqual(datum, get_result)
 
     def test_get_404(self):
         self.dataset.import_data()
@@ -58,12 +67,17 @@ class TestAPIData(TestCase):
 
         body = json.loads(response.content)
 
-        self.assertEqual(body['meta']['total_count'], 4)
-        self.assertEqual(body['objects'][0]['dataset'], '/api/1.0/dataset/%i/' % self.dataset.id)
-        self.assertIn('data', body['objects'][0])
-        self.assertIn('id', body['objects'][0])
-        self.assertIn('resource_uri', body['objects'][0])
-        self.assertIn('row', body['objects'][0])
+        # Returned as a list of datasets
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
+        self.assertEqual(body['objects'][0]['meta']['total_count'], 4)
+        self.assertEqual(len(body['objects'][0]['objects']), 4)
+
+        self.assertIn('data', body['objects'][0]['objects'][0])
+        self.assertIn('id', body['objects'][0]['objects'][0])
+        self.assertIn('resource_uri', body['objects'][0]['objects'][0])
+        self.assertIn('row', body['objects'][0]['objects'][0])
 
     def test_list_unauthorized(self):
         response = self.client.get('/api/1.0/data/')
@@ -72,7 +86,7 @@ class TestAPIData(TestCase):
 
     def test_create_denied(self):
         new_data = {
-            'dataset': '/api/1.0/dataset/%i/' % self.dataset.id,
+            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
             'data': ['1', '2', '3']
         }
 
@@ -95,7 +109,7 @@ class TestAPIData(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/search/?q=Christopher', **self.auth_headers)
+        response = self.client.get('/api/1.0/data/?q=Christopher', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -136,7 +150,7 @@ class TestAPIData(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/search/?q=Ryan&limit=1', **self.auth_headers)
+        response = self.client.get('/api/1.0/data/?q=Ryan&limit=1', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -155,7 +169,7 @@ class TestAPIData(TestCase):
 
         utils.wait()
         
-        response = self.client.get('/api/1.0/data/search/?q=Brian+and+Tribune', **self.auth_headers)
+        response = self.client.get('/api/1.0/data/?q=Brian+and+Tribune', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -165,7 +179,7 @@ class TestAPIData(TestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_search_unauthorized(self):
-        response = self.client.get('/api/1.0/data/search/?q=Christopher')
+        response = self.client.get('/api/1.0/data/?q=Christopher')
 
         self.assertEqual(response.status_code, 401)   
 

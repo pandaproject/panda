@@ -58,5 +58,5 @@ def get_test_dataset(upload, creator):
         creator=creator)        
 
 def wait():
-    sleep(3)
+    sleep(1)
 

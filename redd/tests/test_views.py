@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
-from unittest import TestCase
-
 from django.contrib.auth.models import Group, User
+from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
 from redd.tests import utils
 
-class TestLogin(TestCase):
+class TestLogin(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         self.user = utils.get_panda_user()
         
@@ -67,7 +68,9 @@ class TestLogin(TestCase):
 
         self.assertEqual(body, None)
 
-class TestRegistration(TestCase):
+class TestRegistration(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         self.user = utils.get_panda_user()
         self.panda_user_group = Group.objects.get(name='panda_user')

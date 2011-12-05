@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 from redd import solr
 from redd.models import Dataset, TaskStatus
 from redd.tests import utils
 
-class TestDataset(TestCase):
+class TestDataset(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 

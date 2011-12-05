@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 from tastypie.bundle import Bundle
@@ -22,7 +22,9 @@ class TestDatasetValidation(TestCase):
 
         self.assertIn("name", errors)
 
-class TestAPIDataset(TestCase):
+class TestAPIDataset(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 
@@ -45,7 +47,7 @@ class TestAPIDataset(TestCase):
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
-        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id, **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/' % self.dataset.slug, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -71,7 +73,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(body['data_upload'], json.loads(upload_response.content))
 
     def test_get_unauthorized(self):
-        response = self.client.get('/api/1.0/dataset/%i/' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%s/' % self.dataset.slug)
 
         self.assertEqual(response.status_code, 401)
 
@@ -145,7 +147,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(response.status_code, 201)        
 
     def test_import_data(self):
-        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id, **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug, **self.auth_headers)
 
         utils.wait() 
 
@@ -174,7 +176,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_data_unauthorized(self):
-        response = self.client.get('/api/1.0/dataset/%i/import/' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug)
 
         self.assertEqual(response.status_code, 401)
 
@@ -196,7 +198,7 @@ class TestAPIDataset(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id, **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/search/?q=Christopher' % self.dataset.slug, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -218,7 +220,7 @@ class TestAPIDataset(TestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/dataset/%i/search/?q=Tribune&limit=1' % self.dataset.id, **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/search/?q=Tribune&limit=1' % self.dataset.slug, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -232,7 +234,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_search_dataset_unauthorized(self):
-        response = self.client.get('/api/1.0/dataset/%i/search/?q=Christopher' % self.dataset.id)
+        response = self.client.get('/api/1.0/dataset/%s/search/?q=Christopher' % self.dataset.slug)
 
         self.assertEqual(response.status_code, 401)
 
@@ -243,7 +245,7 @@ class TestAPIDataset(TestCase):
             creator=self.dataset.creator)
 
         # Should match both
-        response = self.client.get('/api/1.0/dataset/search/?q=contributors.csv', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/?q=contributors.csv', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -253,7 +255,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(len(body['objects']), 2)
 
         # Should match only the second dataset
-        response = self.client.get('/api/1.0/dataset/search/?q=second', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/?q=second', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -264,7 +266,7 @@ class TestAPIDataset(TestCase):
         self.assertEqual(int(body['objects'][0]['id']), second_dataset.id)
 
     def test_search_simple(self):
-        response = self.client.get('/api/1.0/dataset/search/?q=contributors&simple=true', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/?q=contributors&simple=true', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 

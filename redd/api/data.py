@@ -127,17 +127,9 @@ class DataResource(Resource):
 
         return SolrObject(obj['response']['docs'][0])
 
-    def override_urls(self):
+    def get_list(self, request, **kwargs):
         """
-        Add urls for search endpoint.
-        """
-        return [
-            url(r'^(?P<resource_name>%s)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('search'), name='api_dispatch_list'),
-        ]
-
-    def search(self, request, **kwargs):
-        """
-        An endpoint for performing full-text searches.
+        List endpoint using Solr. Provides full-text search via the "q" parameter."
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)

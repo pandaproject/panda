@@ -2,7 +2,7 @@
 
 from django.contrib.auth.models import Group
 from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 from tastypie.bundle import Bundle
@@ -59,7 +59,9 @@ class TestUserValidation(TestCase):
 
         self.assertEqual(bundle.data['password'][:5], 'sha1$')
 
-class TestAPIUser(TestCase):
+class TestAPIUser(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
 

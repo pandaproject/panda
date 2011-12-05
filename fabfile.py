@@ -158,7 +158,7 @@ def syncdb():
     with cd('%(path)s' % env):
         sudo('python manage.py syncdb --noinput' % env, user='panda')
         sudo('python manage.py migrate --noinput' % env, user='panda')
-        sudo('python manage.py loaddata init_panda.json' % env)
+        sudo('python manage.py loaddata redd/fixtures/init_panda.json' % env)
 
 def reset_solr():
     """
@@ -226,7 +226,7 @@ def local_reset_database():
     local('createdb -O %(project_name)s %(project_name)s' % env)
     local('python manage.py syncdb --noinput' % env)
     local('python manage.py migrate --noinput' % env)
-    local('python manage.py loaddata init_panda.json' % env)
+    local('python manage.py loaddata redd/fixtures/init_panda.json' % env)
 
 def local_reset_solr():
     """

@@ -3,14 +3,16 @@
 from datetime import datetime
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
 from redd.models import TaskStatus
 from redd.tests import utils
 
-class TestAPITaskStatus(TestCase):
+class TestAPITaskStatus(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
         

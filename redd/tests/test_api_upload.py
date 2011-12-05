@@ -3,14 +3,16 @@
 import os.path
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
 from redd.models import Upload
 from redd.tests import utils
 
-class TestAPIUpload(TestCase):
+class TestAPIUpload(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
     def setUp(self):
         self.user = utils.get_panda_user()
         self.upload = utils.get_test_upload(self.user)

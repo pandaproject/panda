@@ -122,6 +122,12 @@ CELERYD_CONCURRENCY = 1
 CELERY_IGNORE_RESULT = True
 CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
 
+# South
+SOUTH_TESTS_MIGRATE = False
+
+# Hack, see: http://stackoverflow.com/questions/3898239/souths-syncdb-migrate-creates-pages-of-output
+import south.logger
+
 # Logging
 LOGGING = {
     'version': 1,
@@ -174,6 +180,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False
         },
+        'south': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propogate': False
+        }
     }
 }
 
