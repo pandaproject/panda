@@ -70,6 +70,10 @@ body { padding-top: 40px; }
     margin-left: 0px;
 }
 
+#recent-datasets h3 {
+    line-height: 1.3em;
+}
+
 #news {
     border: 1px solid whiteSmoke;
     padding: 10px;
