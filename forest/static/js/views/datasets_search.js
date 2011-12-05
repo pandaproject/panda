@@ -27,8 +27,10 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
         // Bypass search if there are no query terms
         if (!category && !query) {
             this.results.render();
-        } else {
+        } else if (category) {
             this.datasets.search_meta(Redd.get_category_by_slug(category).get("id"), query, limit, page);
+        } else {
+            this.datasets.search_meta(null, query, limit, page);
         }
     },
 
