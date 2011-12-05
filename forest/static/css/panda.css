@@ -21,16 +21,6 @@ body { padding-top: 40px; }
     margin-left: 150px;
 }
 
-/* Dataset block */
-
-.btn.inline {
-    padding: 3px 7px;
-    font-size: 11px;
-    position: relative;
-    top: -3px;
-    margin-left: 5px;
-}
-
 /* Sidebar */
 
 #sidebar-menu {
@@ -115,6 +105,10 @@ body { padding-top: 40px; }
 #datasets-results th.sort-asc-header {
     background-image: url(/site_media/img/asc.gif);     
 } 
+
+/* Edit page */
+
+#edit-dataset .actions .danger { float: right; }
 
 /* Upload page */
 
