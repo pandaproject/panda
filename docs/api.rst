@@ -4,9 +4,9 @@ API Documentation
 
 The PANDA application is built on top of a REST API that can be used to power custom applications or import/export data in novel ways.
 
-The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriven/django-tastypie>`_ as closely as possible. Until more complete documentation is ready, please refer to Tastypie's documentation on `Interacting with the API <http://django-tastypie.readthedocs.org/en/latest/interacting.html>`_ to become familiar with the common idiom.
+The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriven/django-tastypie>`_ except where doing so would create untenable limitations. Until more complete documentation is ready, please refer to Tastypie's documentation on `Interacting with the API <http://django-tastypie.readthedocs.org/en/latest/interacting.html>`_ to become familiar with the common idiom.
 
-The following example URLs assuming your running a local development environment. For a production environment replace ``localhost:8000`` with your domain name. If making requests from the command line the ``format=json`` query-string is not necessary.
+The following example URLs assume you're running a local development environment. For a production environment replace ``localhost:8000`` with your domain name. If making requests from the command line the ``format=json`` query-string is not necessary.
 
 All API endpoints require a valid user and API key. By default PANDA will create a superuser with username ``panda`` and API key ``edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b``. All example URLs include these credentials for ease of experimentation.
 
@@ -112,6 +112,8 @@ Upload via AJAX
 Categories
 ==========
 
+Categories are referenced by slug, rather than integer id.
+
 Schema
 ------
 
@@ -125,10 +127,12 @@ http://localhost:8000/api/1.0/category/?format=json&username=panda&api_key=edfe6
 Fetch
 -----
 
-http://localhost:8000/api/1.0/category/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+http://localhost:8000/api/1.0/category/[slug]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Datasets
 ========
+
+Datasets are referenced by slug, rather than integer id.
 
 Schema
 ------
@@ -145,10 +149,17 @@ List filtered by category
 
 http://localhost:8000/api/1.0/dataset/?categories=[id]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
+Search for datasets
+-------------------
+
+The Dataset list endpoint is overloaded to provide full-text search over metadata. By default this returns complete Dataset objects. To return simplified objects suitable for rendering lists add ``simple=true`` to the query.
+
+http://localhost:8000/api/1.0/dataset/?q=test&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+
 Fetch
 -----
 
-http://localhost:8000/api/1.0/dataset/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+http://localhost:8000/api/1.0/dataset/[slug]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Create
 ------
@@ -167,17 +178,12 @@ Search within dataset
 
 Search for Data within one particular dataset. The response is a simplified Dataset object with added paging ("meta") data and embedded Data instances ("objects").
 
-http://localhost:8000/api/1.0/dataset/[id]/search/?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
-
-Search for datasets
--------------------
-
-Full-text search for Datasets with matching metadata. By default returns complete Dataset objects. To return simplified objects suitable for rendering lists add ``simple=true`` to the query.
-
-http://localhost:8000/api/1.0/dataset/search/?q=test&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+http://localhost:8000/api/1.0/dataset/[slug]/search/?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Data
 ========
+
+Data are referenced by UUIDs, rather than integer id.
 
 Schema
 ------
@@ -192,14 +198,14 @@ http://localhost:8000/api/1.0/data/?format=json&username=panda&api_key=edfe6c5ff
 Fetch
 -----
 
-http://localhost:8000/api/1.0/data/[id]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+http://localhost:8000/api/1.0/data/[uuid]/?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Search
 ------
 
-Searches for Data within all Datasets. The response is a "meta" object with paging information for the matching datasets and an "objects" array which contains simplified Dataset objects and embedded search results in the same format as the per-Dataset search results.
+Searches for Data within all Datasets. The response is a list of "meta" object with paging information for the matching datasets and an "objects" array which contains simplified **Dataset** objects and embedded search results in the same format as the per-Dataset search results.
 
 Note that when using this endpoint the ``limit`` and ``offset`` parameters refer to the groups returned. If you wish to paginate the result sets of each dataset you can use ``group_limit`` and ``group_offset`` although this is typically not the behavior a user would expect.
 
-http://localhost:8000/api/1.0/data/[id]?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+http://localhost:8000/api/1.0/data/?q=[query]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
