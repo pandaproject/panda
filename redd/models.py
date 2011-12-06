@@ -226,7 +226,18 @@ def on_dataset_save(sender, **kwargs):
     """
     dataset = kwargs['instance']
     categories = [c.id for c in dataset.categories.all()] 
-    full_text = '\n'.join([dataset.name, dataset.description, dataset.data_upload.original_filename])
+
+    full_text_data = [
+        dataset.name,
+        dataset.description,
+        dataset.data_upload.original_filename
+    ]
+    full_text_data.extend([s['column'] for s in dataset.schema])
+
+    full_text = '\n'.join(full_text_data)
+
+    print full_text
+
     solr.add(settings.SOLR_DATASETS_CORE, [{
         'id': dataset.id,
         'categories': categories,
