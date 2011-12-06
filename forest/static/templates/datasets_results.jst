@@ -1,9 +1,5 @@
 <div id="datasets-results">
-    <% if (!query && !category) { %>
-        
-        <p>Select a category and/or enter search terms and click Search.</p>
-        
-    <% } else if (datasets.length == 0) { %>
+    <% if (datasets.length == 0) { %>
 
         <p>No matching datasets found.</p>
         <% if (category) { %>
@@ -12,7 +8,15 @@
 
     <% } else { %>
 
-        <h2>Showing <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %></h2>
+        <% if (!query && !category) { %>
+            <% if (datasets.length > 1) { %>
+                <h3>Showing <%= datasets.length %> most recent datasets</h3>
+            <% } else { %>
+                <h3>Showing 1 dataset</h3>
+            <% } %>
+        <% } else { %>
+            <h3>Showing <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %></h3>
+        <% } %>
 
         <table>
             <thead>

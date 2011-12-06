@@ -17,35 +17,19 @@
 <%= pager %>
 
 <% _.each(datasets.datasets, function(dataset) { %>
-    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h3>
+    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></h3>
 
-    <p>
-        <% if (dataset.description) { %>
-        <em><%= dataset.description %></em><br />
-        <% } %>
-        <% if (dataset.current_task && dataset.current_task.task_name == "redd.tasks.DatasetImportTask") { %>
-            <% if (dataset.current_task.status == 'FAILURE') { %>
-            <span class="label warning">Import failed</span>
-            <% } else if (dataset.current_task.status == 'PENDING') { %>
-            <span class="label">Queued for import</span>
-            <% } else if (dataset.current_task.status == 'STARTED') { %>
-            <span class="label notice">Import in progress</span>
-            <% } %>
-        <% } %>
-    </p>
-
-    <p>
-    <% if (dataset.meta.total_count > dataset.meta.limit) { %>
-        Showing <%= dataset.meta.offset + 1 %> through <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> of <%= dataset.meta.total_count %> matching rows
-    <% } else { %>
-        Showing <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %>
+    <% if (dataset.description) { %>
+    <p><em><%= dataset.description %></em><br /></p>
     <% } %>
-        <% if (dataset.row_count) { %>
-        / <%= dataset.row_count %> total row<% if (dataset.row_count > 1) { %>s<% } %>
-        <% } else { %>
-        / total row count not available
-        <% } %>
-    </p>
+
+    <h3>
+    <% if (dataset.meta.total_count > dataset.meta.limit) { %>
+        Showing <%= dataset.meta.offset + 1 %> through <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> of <%= dataset.meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %>
+    <% } else { %>
+        Showing <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %>
+    <% } %>
+    </h3>
 
     <table>
         <tr>

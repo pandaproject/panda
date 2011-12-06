@@ -236,8 +236,6 @@ def on_dataset_save(sender, **kwargs):
 
     full_text = '\n'.join(full_text_data)
 
-    print full_text
-
     solr.add(settings.SOLR_DATASETS_CORE, [{
         'id': dataset.id,
         'categories': categories,
