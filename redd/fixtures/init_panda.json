@@ -91,21 +91,24 @@
         "pk": 1, 
         "model": "redd.category", 
         "fields": {
-            "name": "Crime"
+            "name": "Crime",
+            "slug": "crime"
         }
     }, 
     {
         "pk": 2, 
         "model": "redd.category", 
         "fields": {
-            "name": "Education"
+            "name": "Education",
+            "slug": "education"
         }
     }, 
     {
         "pk": 3, 
         "model": "redd.category", 
         "fields": {
-            "name": "Politics"
+            "name": "Politics",
+            "slug": "politics"
         }
     }
 ]
