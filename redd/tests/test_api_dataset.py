@@ -116,7 +116,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
 
-    def test_create(self):
+    def test_create_post(self):
         new_dataset = {
             'name': 'New dataset!',
             'description': 'Its got yummy data!',
@@ -130,6 +130,41 @@ class TestAPIDataset(TransactionTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(body['name'], 'New dataset!')
+        self.assertEqual(body['slug'], 'new-dataset')
+        self.assertEqual(body['description'], 'Its got yummy data!')
+        self.assertEqual(body['row_count'], None)
+        self.assertNotEqual(body['schema'], None)
+        self.assertNotEqual(body['sample_data'], None)
+        self.assertEqual(body['current_task'], None)
+        self.assertEqual(body['data_upload']['filename'], self.upload.filename)
+        self.assertEqual(body['creator']['email'], self.user.email)
+
+        new_dataset = Dataset.objects.get(id=body['id'])
+
+        self.assertEqual(new_dataset.name, 'New dataset!')
+        self.assertEqual(new_dataset.description, 'Its got yummy data!')
+        self.assertEqual(new_dataset.row_count, None)
+        self.assertNotEqual(new_dataset.schema, None)
+        self.assertNotEqual(new_dataset.sample_data, None)
+        self.assertEqual(new_dataset.current_task, None)
+        self.assertEqual(new_dataset.data_upload, self.upload)
+        self.assertEqual(new_dataset.creator, self.user)
+
+    def test_create_put(self):
+        new_dataset = {
+            'name': 'New dataset!',
+            'description': 'Its got yummy data!',
+            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+        }
+
+        response = self.client.put('/api/1.0/dataset/new-id/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['name'], 'New dataset!')
+        self.assertEqual(body['slug'], 'new-id')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
         self.assertNotEqual(body['schema'], None)
