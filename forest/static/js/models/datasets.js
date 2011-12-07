@@ -161,7 +161,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         }
 
         Redd.ajax({
-            url: PANDA.API + "/dataset/" + this.get("slug") + "/search/",
+            url: PANDA.API + "/dataset/" + this.get("slug") + "/data/",
             dataType: 'json',
             data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
             success: _.bind(this.process_search_results, this)
