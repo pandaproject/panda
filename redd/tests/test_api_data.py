@@ -136,6 +136,11 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('resource_uri', body)
         self.assertIn('row', body)
 
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 5)
+
     def test_create_dataset_endpoint(self):
         self.dataset.import_data()
 
@@ -154,6 +159,34 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('dataset', body)
         self.assertIn('resource_uri', body)
         self.assertIn('row', body)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 5)
+
+    def test_created_search(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        new_data = {
+            'data': ['Flibbity!', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.get('/api/1.0/data/?q=flibbity', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
 
     def test_create_too_few_fields(self):
         new_data = {
