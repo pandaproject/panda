@@ -4,16 +4,19 @@ from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
-from tastypie import fields
+from tastypie import fields, http
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
+from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.resources import Resource
+from tastypie.utils.mime import build_content_type
 from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.datasets import DatasetResource
 from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomSerializer
 from redd.models import Dataset
+from redd.utils import make_row_data
 
 class SolrObject(object):
     """
@@ -53,20 +56,12 @@ class DataValidation(Validation):
 
     TODO: validate data matches schema 
     """
-    def is_valid(self, bundle, dataset_slug):
+    def is_valid(self, bundle, request=None):
         errors = {}
 
         if 'data' not in bundle.data or not bundle.data['data']:
             errors['data'] = ['This field is required.']
             return errors
-        
-        dataset = Dataset.objects.get(slug=dataset_slug)
-
-        field_count = len(bundle.data['data'])
-        expected_field_count = len(dataset.schema)
-
-        if field_count != expected_field_count:
-            errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]
 
         return errors
 
@@ -78,18 +73,22 @@ class DataResource(Resource):
         help_text='Unique id of this row of data.')
     dataset_id = fields.IntegerField(attribute='dataset_id',
         help_text='Unique id of the dataset this row of data belongs to.')
-    row = fields.IntegerField(attribute='row',
+    row = fields.IntegerField(attribute='row', null=True, blank=True,
         help_text='Row number of this data in the source dataset.')
     data = fields.CharField(attribute='data',
         help_text='An ordered list of values corresponding to the columns in the parent dataset.')
 
     class Meta:
         resource_name = 'data'
-        allowed_methods = ['get']
+        allowed_methods = ['get', 'post', 'put', 'delete']
+        always_return_data = True
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
         serializer = CustomSerializer()
+        validation = DataValidation()
+
+        object_class = SolrObject
 
     def dehydrate_data(self, bundle):
         """
@@ -171,6 +170,12 @@ class DataResource(Resource):
         raise NotImplementedError() 
 
     def get_list(self, request, **kwargs):
+        """
+        Retrieve a list of Data objects, optionally applying full-text search.
+
+        Because these objects are sometimes wrapped in Datasets we override
+        this instead of obj_get_list().
+        """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
@@ -187,10 +192,81 @@ class DataResource(Resource):
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
-        Create a new Data as part of a Dataset.
+        Add Data to a Dataset.
 
-        Must be called using the dataset-nested version of the url
-        or with "dataset=[slug]" in the querystring.
+        TODO: committing everytime this is called doesn't make sense, especially
+        since this function is called multiple times in put_list().
+        """
+        if 'dataset' in bundle.data:
+            dataset = DatasetResource().get_via_uri(bundle.data.pop('dataset'))
+        elif 'dataset_slug' in kwargs:
+            dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
+        else:
+            response = http.HttpBadRequest(content='When creating Data you must specify a Dataset either by using a /api/x.y/dataset/[slug]/data/ endpoint or by providing a dataset uri in the body of the document.')
+            raise ImmediateHttpResponse(response=response)
+
+        # Additional validation
+        errors = {}
+
+        field_count = len(bundle.data['data'])
+        expected_field_count = len(dataset.schema)
+
+        if field_count != expected_field_count:
+            errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]
+
+        # Cribbed from is_valid()
+        if errors:
+            if request:
+                desired_format = self.determine_format(request)
+            else:
+                desired_format = self._meta.default_format
+
+            serialized = self.serialize(request, errors, desired_format)
+            response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
+            raise ImmediateHttpResponse(response=response)
+
+        if 'row' in bundle.data:
+            row = bundle.data['row']
+        else:
+            row = None
+
+        data = make_row_data(dataset, bundle.data['data'], row)
+
+        solr.add(settings.SOLR_DATA_CORE, [data], commit=True)
+
+        dataset.row_count += 1
+        dataset.save()
+
+        bundle.obj = SolrObject(data)
+
+        return bundle
+
+    def Xput_detail(self, request, **kwargs):
+        """
+        deserialized = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
+        deserialized = self.alter_deserialized_detail_data(request, deserialized)
+        bundle = self.build_bundle(data=dict_strip_unicode_keys(deserialized), request=request)
+        self.is_valid(bundle, request)
+
+        try:
+            updated_bundle = self.obj_update(bundle, request=request, **self.remove_api_resource_names(kwargs))
+
+            if not self._meta.always_return_data:
+                return http.HttpNoContent()
+            else:
+                updated_bundle = self.full_dehydrate(updated_bundle)
+                updated_bundle = self.alter_detail_data_to_serialize(request, updated_bundle)
+                return self.create_response(request, updated_bundle, response_class=http.HttpAccepted)
+        except (NotFound, MultipleObjectsReturned):
+            updated_bundle = self.obj_create(bundle, request=request, **self.remove_api_resource_names(kwargs))
+            location = self.get_resource_uri(updated_bundle)
+
+            if not self._meta.always_return_data:
+                return http.HttpCreated(location=location)
+            else:
+                updated_bundle = self.full_dehydrate(updated_bundle)
+                updated_bundle = self.alter_detail_data_to_serialize(request, updated_bundle)
+                return self.create_response(request, updated_bundle, response_class=http.HttpCreated, location=location)
         """
         pass
 

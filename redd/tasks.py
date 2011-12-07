@@ -3,15 +3,14 @@
 from datetime import datetime
 import logging
 from math import floor
-from uuid import uuid4
 
 from celery.contrib.abortable import AbortableTask
 from celery.decorators import task
 from csvkit import CSVKitReader
 from django.conf import settings
-from django.utils import simplejson as json
 
 from redd import solr
+from redd.utils import make_row_data
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -75,13 +74,7 @@ class DatasetImportTask(AbortableTask):
         add_buffer = []
 
         for i, row in enumerate(reader, start=1):
-            data = {
-                'id': unicode(uuid4()),
-                'dataset_id': dataset.id,
-                'row': i,
-                'full_text': '\n'.join(row),
-                'data': json.dumps(row)
-            }
+            data = make_row_data(dataset, row, i)
 
             add_buffer.append(data)
 

@@ -28,14 +28,24 @@ def add(core, documents, commit=False):
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     params = { 'commit': 'true' } if commit else {}
-    requests.post(url, json.dumps(documents), params=params, headers={ 'Content-Type': 'application/json' })
+    response = requests.post(url, json.dumps(documents), params=params, headers={ 'Content-Type': 'application/json' })
+
+    if response.status_code != 200:
+        raise SolrError(response)
+    
+    return json.loads(response.content)
 
 def commit(core):
     """
     Commit all staged changes to the Solr index.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
-    requests.post(url, '[]', params={ 'commit': 'true' }, headers={ 'Content-Type': 'application/json' })
+    response = requests.post(url, '[]', params={ 'commit': 'true' }, headers={ 'Content-Type': 'application/json' })
+    
+    if response.status_code != 200:
+        raise SolrError(response)
+    
+    return json.loads(response.content)
 
 def delete(core, q, commit=True):
     """
@@ -45,7 +55,12 @@ def delete(core, q, commit=True):
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     params = { 'commit': 'true' } if commit else {}
-    requests.post(url, json.dumps({ 'delete': { 'query': q } }), params=params, headers={ 'Content-Type': 'application/json' })
+    response = requests.post(url, json.dumps({ 'delete': { 'query': q } }), params=params, headers={ 'Content-Type': 'application/json' })
+    
+    if response.status_code != 200:
+        raise SolrError(response)
+    
+    return json.loads(response.content)
 
 def query(core, q, limit=10, offset=0, sort='row asc'):
     """

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 from itertools import islice
+from uuid import uuid4
 
 from csvkit import CSVKitReader
 from csvkit.sniffer import sniff_dialect
 from csvkit.typeinference import normalize_table
 from django.conf import settings
+from django.utils import simplejson as json
 
 def sniff(f):
     return sniff_dialect(f.read(settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE))
@@ -38,4 +40,17 @@ def sample_data(f, dialect, sample_size=5):
         })
 
     return samples 
+
+def make_row_data(dataset, row, row_number=None):
+    data = {
+        'id': unicode(uuid4()),
+        'dataset_id': dataset.id,
+        'full_text': '\n'.join(row),
+        'data': json.dumps(row)
+    }
+
+    if row_number:
+        data['row'] = row_number
+
+    return data
 

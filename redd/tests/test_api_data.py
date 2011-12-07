@@ -29,23 +29,6 @@ class TestDataValidation(TransactionTestCase):
         self.assertIn('data', errors)
         self.assertIn('required', errors['data'][0])
 
-    def test_too_few_fields(self):
-        bundle = Bundle(data={
-            'data': ['Mr.', 'PANDA']
-        })
-
-        errors = self.validator.is_valid(bundle, self.dataset.slug)
-
-        self.assertIn("data", errors)
-
-    def test_too_many_fields(self):
-        bundle = Bundle(data={
-            'data': ['Mr.', 'PANDA', 'PANDA Project', 'PANDAs everywhere']
-        })
-
-        errors = self.validator.is_valid(bundle, self.dataset.slug)
-
-        self.assertIn('data', errors)
 
 class TestAPIData(TransactionTestCase):
     fixtures = ['init_panda.json']
@@ -123,15 +106,76 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)   
 
-    def test_create_denied(self):
+    def test_create_no_dataset(self):
         new_data = {
-            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
             'data': ['1', '2', '3']
         }
 
         response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
 
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_data_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        new_data = {
+            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), params={ 'dataset': self.dataset.slug }, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+        body = json.loads(response.content)
+        self.assertEqual(body['data'], new_data['data'])
+        self.assertEqual(body['dataset'], new_data['dataset'])
+        self.assertIn('id', body)
+        self.assertIn('dataset', body)
+        self.assertIn('resource_uri', body)
+        self.assertIn('row', body)
+
+    def test_create_dataset_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        new_data = {
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+        body = json.loads(response.content)
+        self.assertEqual(body['data'], new_data['data'])
+        self.assertIn('id', body)
+        self.assertIn('dataset', body)
+        self.assertIn('resource_uri', body)
+        self.assertIn('row', body)
+
+    def test_create_too_few_fields(self):
+        new_data = {
+            'data': ['Mr.', 'PANDA']
+        }
+
+        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 400)
+        body = json.loads(response.content)
+        self.assertIn('data', body)
+
+    def test_create_too_many_fields(self):
+        new_data = {
+            'data': ['Mr.', 'PANDA', 'PANDA Project', 'PANDAs everywhere']
+        }
+
+        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 400)
+        body = json.loads(response.content)
+        self.assertIn('data', body)
 
     def test_search(self):
         self.dataset.import_data()
