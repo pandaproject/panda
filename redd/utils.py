@@ -41,9 +41,9 @@ def sample_data(f, dialect, sample_size=5):
 
     return samples 
 
-def make_row_data(dataset, row, row_number=None):
+def make_row_data(dataset, row, row_number=None, pk=None):
     data = {
-        'id': unicode(uuid4()),
+        'id': pk or unicode(uuid4()),
         'dataset_id': dataset.id,
         'full_text': '\n'.join(row),
         'data': json.dumps(row)

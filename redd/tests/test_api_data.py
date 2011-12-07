@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.http import HttpRequest
 from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
@@ -125,7 +124,7 @@ class TestAPIData(TransactionTestCase):
             'data': ['1', '2', '3']
         }
 
-        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), params={ 'dataset': self.dataset.slug }, **self.auth_headers)
+        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
 
         self.assertEqual(response.status_code, 201)
         body = json.loads(response.content)
@@ -209,6 +208,60 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(response.status_code, 400)
         body = json.loads(response.content)
         self.assertIn('data', body)
+
+    def test_update_data_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        update_data = {
+            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+
+        # Dataset objects were returned
+        data = body['objects'][0]['objects'][0]
+
+        response = self.client.put('/api/1.0/data/%s/' % data['id'], content_type='application/json', data=json.dumps(update_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+        body = json.loads(response.content)
+        self.assertEqual(body['data'], update_data['data'])
+        self.assertEqual(body['dataset'], data['dataset'])
+        self.assertEqual(body['resource_uri'], data['resource_uri'])
+        self.assertEqual(body['row'], None)
+
+    def test_update_dataset_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        update_data = {
+            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+
+        # Dataset objects were returned
+        data = body['objects'][0]['objects'][0]
+
+        response = self.client.put('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, data['id']), content_type='application/json', data=json.dumps(update_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+        body = json.loads(response.content)
+        self.assertEqual(body['data'], update_data['data'])
+        self.assertEqual(body['dataset'], data['dataset'])
+        self.assertEqual(body['resource_uri'], data['resource_uri'])
+        self.assertEqual(body['row'], None)
 
     def test_search(self):
         self.dataset.import_data()

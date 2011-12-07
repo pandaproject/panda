@@ -7,7 +7,7 @@ from django.utils import simplejson as json
 from tastypie import fields, http
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
-from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.exceptions import BadRequest, NotFound, ImmediateHttpResponse
 from tastypie.resources import Resource
 from tastypie.utils.mime import build_content_type
 from tastypie.validation import Validation
@@ -49,12 +49,6 @@ class SolrObject(object):
 class DataValidation(Validation):
     """
     Tastypie Validation for Data objects.
-
-    Unfortunatnely, since Tastypie does not pass **kwargs to the
-    validation, this object is used manually by DataResource's
-    write/update endpoints.
-
-    TODO: validate data matches schema 
     """
     def is_valid(self, bundle, request=None):
         errors = {}
@@ -154,7 +148,7 @@ class DataResource(Resource):
         obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s dataset_id:%s' % (get_id, dataset_id))
 
         if len(obj['response']['docs']) < 1:
-            raise ObjectDoesNotExist()
+            raise NotFound()
 
         if len(obj['response']['docs']) > 1:
             raise MultipleObjectsReturned()
@@ -190,22 +184,23 @@ class DataResource(Resource):
 
         return self.create_response(request, results)
 
-    def obj_create(self, bundle, request=None, **kwargs):
+    def get_dataset_from_bundle_request_or_kwargs(self, bundle, request, **kwargs):
         """
-        Add Data to a Dataset.
+        Extract a dataset from one of the variety of places it might be hiding.
 
-        TODO: committing everytime this is called doesn't make sense, especially
-        since this function is called multiple times in put_list().
+        TODO: what if url and body refer to different datasets?
         """
         if 'dataset' in bundle.data:
-            dataset = DatasetResource().get_via_uri(bundle.data.pop('dataset'))
+            return DatasetResource().get_via_uri(bundle.data.pop('dataset'))
         elif 'dataset_slug' in kwargs:
-            dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
+            return Dataset.objects.get(slug=kwargs.pop('dataset_slug'))
         else:
-            response = http.HttpBadRequest(content='When creating Data you must specify a Dataset either by using a /api/x.y/dataset/[slug]/data/ endpoint or by providing a dataset uri in the body of the document.')
-            raise ImmediateHttpResponse(response=response)
+            raise BadRequest('When creating or updating Data you must specify a Dataset either by using a /api/x.y/dataset/[slug]/data/ endpoint or by providing a dataset uri in the body of the document.')
 
-        # Additional validation
+    def validate_bundle_data(self, bundle, request, dataset):
+        """
+        Perform additional validation that isn't possible with the Validation object.
+        """
         errors = {}
 
         field_count = len(bundle.data['data'])
@@ -225,6 +220,17 @@ class DataResource(Resource):
             response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
             raise ImmediateHttpResponse(response=response)
 
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        Add Data to a Dataset.
+
+        TODO: committing everytime this is called doesn't make sense, especially
+        since this function is called multiple times in put_list().
+        """
+        dataset = self.get_dataset_from_bundle_request_or_kwargs(bundle, request, **kwargs)
+
+        self.validate_bundle_data(bundle, request, dataset)
+
         if 'row' in bundle.data:
             row = bundle.data['row']
         else:
@@ -243,9 +249,31 @@ class DataResource(Resource):
 
     def obj_update(self, bundle, request=None, **kwargs):
         """
-        TODO
+        Update an existing Data.
         """
-        pass
+        dataset = self.get_dataset_from_bundle_request_or_kwargs(bundle, request, **kwargs)
+        
+        if 'dataset_slug' in kwargs:
+            del kwargs['dataset_slug']
+
+        # Verify it exists
+        data = self.obj_get(request, dataset_slug=dataset.slug, **kwargs)
+        
+        self.validate_bundle_data(bundle, request, dataset)
+
+        if 'row' in bundle.data:
+            row = bundle.data['row']
+        else:
+            row = None
+
+        data = make_row_data(dataset, bundle.data['data'], row, kwargs['pk'])
+
+        # Overwrite primary key
+        solr.add(settings.SOLR_DATA_CORE, [data], commit=True)
+        
+        bundle.obj = SolrObject(data)
+
+        return bundle
 
     def obj_delete(self, request=None, **kwargs):
         """

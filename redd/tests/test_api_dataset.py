@@ -164,6 +164,7 @@ class TestAPIDataset(TransactionTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(body['name'], 'New dataset!')
+        # TODO: This is wrong.
         self.assertEqual(body['slug'], 'new-id')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
@@ -176,6 +177,7 @@ class TestAPIDataset(TransactionTestCase):
         new_dataset = Dataset.objects.get(id=body['id'])
 
         self.assertEqual(new_dataset.name, 'New dataset!')
+        self.assertEqual(new_dataset.slug, 'new-id')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
         self.assertNotEqual(new_dataset.schema, None)
