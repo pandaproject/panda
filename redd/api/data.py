@@ -252,7 +252,7 @@ class DataResource(Resource):
 
             objects = [SolrObject(obj) for obj in results['docs']]
             
-            dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': self._meta.api_name, 'resource_name': 'dataset', 'slug': dataset.slug })
+            dataset_search_url = reverse('api_dataset_data_list', kwargs={ 'api_name': self._meta.api_name, 'dataset_resource_name': 'dataset', 'resource_name': 'data', 'dataset_slug': dataset.slug })
 
             data_page = CustomPaginator(
                 { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
