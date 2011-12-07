@@ -273,7 +273,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         }
 
         if (category) {
-            data["categories"] = category;
+            data["category"] = category;
         }
 
         Redd.ajax({

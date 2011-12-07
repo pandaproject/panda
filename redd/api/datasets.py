@@ -9,7 +9,7 @@ from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, SlugResource, CustomSerializer
-from redd.models import Dataset
+from redd.models import Category, Dataset
 
 class DatasetValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -39,10 +39,6 @@ class DatasetResource(SlugResource):
         resource_name = 'dataset'
         always_return_data = True
 
-        filtering = {
-            'categories': ('exact', )
-        }
-                
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
         validation = DatasetValidation()
@@ -87,14 +83,19 @@ class DatasetResource(SlugResource):
 
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
-        categories = request.GET.get('categories', 0)
+        category_slug = request.GET.get('category', None)
         query = request.GET.get('q', '')
         simple = True if request.GET.get('simple', 'false').lower() == 'true' else False
 
-        if categories and query:
-            q = 'categories:%s %s' % (categories, query)
-        elif categories:
-            q = 'categories:%s' % categories
+        if category_slug:
+            category = Category.objects.get(slug=category_slug)
+        else:
+            category = None
+
+        if category and query:
+            q = 'categories:%s %s' % (category.id, query)
+        elif category:
+            q = 'categories:%s' % category.id
         else:
             q = query
 

@@ -8,7 +8,7 @@ from tastypie.bundle import Bundle
 
 from redd import solr
 from redd.api.datasets import DatasetValidation
-from redd.models import Dataset
+from redd.models import Category, Dataset
 from redd.tests import utils
 
 class TestDatasetValidation(TestCase):
@@ -90,6 +90,31 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['meta']['offset'], 0)
         self.assertEqual(body['meta']['next'], None)
         self.assertEqual(body['meta']['previous'], None)
+
+    def test_list_filtered_by_category_miss(self):
+        response = self.client.get('/api/1.0/dataset/', data={ 'category': 'crime' }, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(len(body['objects']), 0)
+        self.assertEqual(body['meta']['total_count'], 0)
+
+    def test_list_filtered_by_category_hit(self):
+        category = Category.objects.get(slug='crime')
+        self.dataset.categories.add(category)
+        self.dataset.save()
+
+        response = self.client.get('/api/1.0/dataset/', data={ 'category': 'crime' }, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
 
     def test_create(self):
         new_dataset = {

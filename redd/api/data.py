@@ -50,6 +50,8 @@ class DataValidation(Validation):
     Unfortunatnely, since Tastypie does not pass **kwargs to the
     validation, this object is used manually by DataResource's
     write/update endpoints.
+
+    TODO: validate data matches schema 
     """
     def is_valid(self, bundle, dataset_slug):
         errors = {}
@@ -185,7 +187,10 @@ class DataResource(Resource):
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
-        TODO
+        Create a new Data as part of a Dataset.
+
+        Must be called using the dataset-nested version of the url
+        or with "dataset=[slug]" in the querystring.
         """
         pass
 

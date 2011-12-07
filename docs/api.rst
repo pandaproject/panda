@@ -147,7 +147,7 @@ http://localhost:8000/api/1.0/dataset/?format=json&username=panda&api_key=edfe6c
 List filtered by category
 -------------------------
 
-http://localhost:8000/api/1.0/dataset/?categories=[id]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+http://localhost:8000/api/1.0/dataset/?category=[slug]&format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 Search for datasets
 -------------------
