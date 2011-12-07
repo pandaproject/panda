@@ -141,12 +141,16 @@ class DataResource(Resource):
         """
         Query Solr for a single item by primary key.
         """
-        if 'pk' in kwargs:
-            get_id = kwargs['pk']
-        else:
-            get_id = request.GET.get('id', '')
+        get_id = kwargs['pk']
+        
+        try:
+            slug = kwargs['dataset_slug']
+            dataset = Dataset.objects.get(slug=slug)
+            dataset_id = unicode(dataset.id)
+        except KeyError:
+            dataset_id = '*'
 
-        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s' % get_id)
+        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s dataset_id:%s' % (get_id, dataset_id))
 
         if len(obj['response']['docs']) < 1:
             raise ObjectDoesNotExist()
@@ -165,16 +169,51 @@ class DataResource(Resource):
         raise NotImplementedError() 
 
     def get_list(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        
+        # Was this called from a url nested in a dataset?
+        if 'dataset_slug' in kwargs:
+            results = self.search_dataset_data(request, **kwargs)
+        else:
+            results = self.search_all_data(request)
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, results)
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def obj_update(self, bundle, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def obj_delete(self, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def obj_delete_list(self, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def search_all_data(self, request, **kwargs):
         """
         List endpoint using Solr. Provides full-text search via the "q" parameter."
 
         We override get_list() rather than obj_get_list() since the Data objects
         are wrapped in Datasets.
         """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-
         query = request.GET.get('q', '')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
@@ -213,7 +252,7 @@ class DataResource(Resource):
 
             objects = [SolrObject(obj) for obj in results['docs']]
             
-            dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': kwargs['api_name'], 'resource_name': 'dataset', 'slug': dataset.slug })
+            dataset_search_url = reverse('api_search_dataset', kwargs={'api_name': self._meta.api_name, 'resource_name': 'dataset', 'slug': dataset.slug })
 
             data_page = CustomPaginator(
                 { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
@@ -234,50 +273,15 @@ class DataResource(Resource):
 
         page['objects'] = datasets
 
-        self.log_throttled_access(request)
+        return page
 
-        return self.create_response(request, page)
-
-    def obj_create(self, bundle, request=None, **kwargs):
-        """
-        TODO
-        """
-        pass
-
-    def obj_update(self, bundle, request=None, **kwargs):
-        """
-        TODO
-        """
-        pass
-
-    def obj_delete(self, request=None, **kwargs):
-        """
-        TODO
-        """
-        pass
-
-    def obj_delete_list(self, request=None, **kwargs):
-        """
-        TODO
-        """
-        pass
-
-    def search_dataset(self, request, **kwargs):
+    def search_dataset_data(self, request, **kwargs):
         """
         Perform a full-text search on only one dataset.
         """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
+        dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        if 'slug' in kwargs:
-            slug = kwargs['slug']
-        else:
-            slug = request.GET.get('slug')
-
-        dataset = Dataset.objects.get(slug=slug)
-
-        query = request.GET.get('q')
+        query = request.GET.get('q', '')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
@@ -310,7 +314,5 @@ class DataResource(Resource):
             bundle = self.full_dehydrate(bundle)
             dataset_bundle.data['objects'].append(bundle.data)
 
-        self.log_throttled_access(request)
-
-        return self.create_response(request, dataset_bundle)
+        return dataset_bundle
 
