@@ -1,12 +1,51 @@
 #!/usr/bin/env python
 
 from django.conf import settings
+from django.http import HttpRequest
 from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
+from tastypie.bundle import Bundle
 
+from redd.api.data import DataValidation
 from redd.models import Dataset
 from redd.tests import utils
+
+class TestDataValidation(TransactionTestCase):
+    fixtures = ['init_panda.json']
+
+    def setUp(self):
+        self.validator = DataValidation()
+
+        self.user = utils.get_panda_user()
+        self.upload = utils.get_test_upload(self.user)
+        self.dataset = utils.get_test_dataset(self.upload, self.user)
+
+    def test_required_fields(self):
+        bundle = Bundle(data={})
+
+        errors = self.validator.is_valid(bundle, None)
+
+        self.assertIn('data', errors)
+        self.assertIn('required', errors['data'][0])
+
+    def test_too_few_fields(self):
+        bundle = Bundle(data={
+            'data': ['Mr.', 'PANDA']
+        })
+
+        errors = self.validator.is_valid(bundle, self.dataset.slug)
+
+        self.assertIn("data", errors)
+
+    def test_too_many_fields(self):
+        bundle = Bundle(data={
+            'data': ['Mr.', 'PANDA', 'PANDA Project', 'PANDAs everywhere']
+        })
+
+        errors = self.validator.is_valid(bundle, self.dataset.slug)
+
+        self.assertIn('data', errors)
 
 class TestAPIData(TransactionTestCase):
     fixtures = ['init_panda.json']

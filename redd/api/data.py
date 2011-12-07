@@ -2,14 +2,13 @@
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from django.conf.urls.defaults import url
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
 from tastypie.resources import Resource
-from tastypie.utils.urls import trailing_slash
+from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.datasets import DatasetResource
@@ -44,11 +43,34 @@ class SolrObject(object):
     def to_dict(self):
         return self._data
 
+class DataValidation(Validation):
+    """
+    Tastypie Validation for Data objects.
+
+    Unfortunatnely, since Tastypie does not pass **kwargs to the
+    validation, this object is used manually by DataResource's
+    write/update endpoints.
+    """
+    def is_valid(self, bundle, dataset_slug):
+        errors = {}
+
+        if 'data' not in bundle.data or not bundle.data['data']:
+            errors['data'] = ['This field is required.']
+            return errors
+        
+        dataset = Dataset.objects.get(slug=dataset_slug)
+
+        field_count = len(bundle.data['data'])
+        expected_field_count = len(dataset.schema)
+
+        if field_count != expected_field_count:
+            errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]
+
+        return errors
+
 class DataResource(Resource):
     """
     API resource for row data.
-
-    TKTK: implement write API
     """
     id = fields.CharField(attribute='id',
         help_text='Unique id of this row of data.')
@@ -108,6 +130,13 @@ class DataResource(Resource):
 
         return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
 
+    def get_object_list():
+        """
+        Intentionally not implemented. Should never be invoked.
+        Endpoints handle their own object retrieval.
+        """
+        raise NotImplementedError() 
+
     def obj_get(self, request=None, **kwargs):
         """
         Query Solr for a single item by primary key.
@@ -127,9 +156,20 @@ class DataResource(Resource):
 
         return SolrObject(obj['response']['docs'][0])
 
+    def obj_get_list(self, request=None, **kwargs):
+        """
+        Intentionally not implemented. Should never be invoked.
+        
+        See get_list().
+        """
+        raise NotImplementedError() 
+
     def get_list(self, request, **kwargs):
         """
         List endpoint using Solr. Provides full-text search via the "q" parameter."
+
+        We override get_list() rather than obj_get_list() since the Data objects
+        are wrapped in Datasets.
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -197,6 +237,30 @@ class DataResource(Resource):
         self.log_throttled_access(request)
 
         return self.create_response(request, page)
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def obj_update(self, bundle, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def obj_delete(self, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
+
+    def obj_delete_list(self, request=None, **kwargs):
+        """
+        TODO
+        """
+        pass
 
     def search_dataset(self, request, **kwargs):
         """
