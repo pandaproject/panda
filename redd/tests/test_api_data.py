@@ -189,6 +189,33 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(self.dataset.row_count, 5)
 
+    def test_create_data_endpoint_bulk(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        new_data = { 'objects': [
+            {
+                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+                'data': ['1', '2', '3']
+            },
+            {
+                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+                'data': ['4', '5', '6']
+            }
+        ]}
+
+        response = self.client.put('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+        body = json.loads(response.content)
+        self.assertEqual(len(body['objects']), 2)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 6)
+
     def test_create_dataset_endpoint(self):
         self.dataset.import_data()
 
@@ -212,6 +239,33 @@ class TestAPIData(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(self.dataset.row_count, 5)
+
+    def test_create_dataset_endpoint_bulk(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        new_data = { 'objects': [
+            {
+                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+                'data': ['1', '2', '3']
+            },
+            {
+                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+                'data': ['4', '5', '6']
+            }
+        ]}
+
+        response = self.client.put('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+        body = json.loads(response.content)
+        self.assertEqual(len(body['objects']), 2)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 6)
 
     def test_created_search(self):
         self.dataset.import_data()

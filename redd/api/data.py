@@ -311,10 +311,16 @@ class DataResource(Resource):
 
     def obj_delete_list(self, request=None, **kwargs):
         """
-        Don't support disabling entire collection. Will also implicitly disable
-        put_list().
+        A bit of a hack: this prevents put_list() from nuking the collection prior
+        to creating/updating Data.
         """
-        raise NotImplementedError() 
+        pass
+
+    def delete_list(self, request, **kwargs):
+        """
+        Don't support deleting entire collection.
+        """
+        raise NotImplementedError()
 
     def search_all_data(self, request, **kwargs):
         """
