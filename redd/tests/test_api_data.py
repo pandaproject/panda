@@ -361,6 +361,11 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 204)
 
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 3)
+
     def test_delete_dataset_endpoint(self):
         self.dataset.import_data()
 
@@ -376,6 +381,11 @@ class TestAPIData(TransactionTestCase):
         response = self.client.delete('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, data['id']), content_type='application/json', **self.auth_headers)
 
         self.assertEqual(response.status_code, 204)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 3)
 
     def test_deleted_search(self):
         self.dataset.import_data()
