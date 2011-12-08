@@ -184,18 +184,27 @@ class DataResource(Resource):
 
         return self.create_response(request, results)
 
-    def get_dataset_from_bundle_request_or_kwargs(self, bundle, request, **kwargs):
+    def get_dataset_from_bundle_request_or_kwargs(self, bundle, request=None, **kwargs):
         """
         Extract a dataset from one of the variety of places it might be hiding.
-
-        TODO: what if url and body refer to different datasets?
         """
+        bundle_dataset = None
+        kwargs_dataset = None
+
         if 'dataset' in bundle.data:
-            return DatasetResource().get_via_uri(bundle.data.pop('dataset'))
-        elif 'dataset_slug' in kwargs:
-            return Dataset.objects.get(slug=kwargs.pop('dataset_slug'))
-        else:
+            bundle_dataset = DatasetResource().get_via_uri(bundle.data.pop('dataset'))
+
+        if 'dataset_slug' in kwargs:
+            kwargs_dataset = Dataset.objects.get(slug=kwargs.pop('dataset_slug'))
+
+        if not bundle_dataset and not kwargs_dataset:
             raise BadRequest('When creating or updating Data you must specify a Dataset either by using a /api/x.y/dataset/[slug]/data/ endpoint or by providing a dataset uri in the body of the document.')
+
+        if bundle_dataset and kwargs_dataset:
+            if bundle_dataset.id != kwargs_dataset.id:
+                raise BadRequest('Dataset specified in request body does not agree with dataset API endpoint used.')
+
+        return bundle_dataset or kwargs_dataset
 
     def validate_bundle_data(self, bundle, request, dataset):
         """

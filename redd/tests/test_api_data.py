@@ -5,8 +5,9 @@ from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 from tastypie.bundle import Bundle
+from tastypie.exceptions import BadRequest
 
-from redd.api.data import DataValidation
+from redd.api.data import DataResource, DataValidation
 from redd.models import Dataset
 from redd.tests import utils
 
@@ -104,6 +105,46 @@ class TestAPIData(TransactionTestCase):
         response = self.client.get('/api/1.0/data/')
 
         self.assertEqual(response.status_code, 401)   
+
+    def test_get_dataset_from_bundle_request_or_kwargs_bundle(self):
+        data_resource = DataResource()
+
+        bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug })
+        
+        dataset = data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, None)
+
+        self.assertEqual(dataset.id, self.dataset.id)
+
+    def test_get_dataset_from_bundle_request_or_kwargs_kwargs(self):
+        data_resource = DataResource()
+
+        bundle = Bundle(data={})
+        
+        dataset = data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+
+        self.assertEqual(dataset.id, self.dataset.id)
+
+    def test_get_dataset_from_bundle_request_or_kwargs_agree(self):
+        data_resource = DataResource()
+
+        bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug })
+        
+        dataset = data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+
+        self.assertEqual(dataset.id, self.dataset.id)
+
+    def test_get_dataset_from_bundle_request_or_kwargs_conflict(self):
+        data_resource = DataResource()
+
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            data_upload=self.dataset.data_upload,
+            creator=self.dataset.creator)
+
+        bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % second_dataset.slug })
+        
+        with self.assertRaises(BadRequest):
+            data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
 
     def test_create_no_dataset(self):
         new_data = {
