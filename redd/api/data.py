@@ -289,9 +289,25 @@ class DataResource(Resource):
 
     def obj_delete(self, request=None, **kwargs):
         """
-        TODO
+        Delete a Data.
+
+        TODO: See note in obj_create about committing.
         """
-        pass
+        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s' % kwargs['pk'])
+
+        if len(obj['response']['docs']) < 1:
+            raise NotFound()
+
+        if len(obj['response']['docs']) > 1:
+            raise MultipleObjectsReturned()
+
+        data = obj['response']['docs'][0]
+        dataset = Dataset.objects.get(id=data['dataset_id'])
+
+        solr.delete(settings.SOLR_DATA_CORE, 'id:%s' % kwargs['pk'], commit=True)
+
+        dataset.row_count -= 1
+        dataset.save()
 
     def obj_delete_list(self, request=None, **kwargs):
         """
