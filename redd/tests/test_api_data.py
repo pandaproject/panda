@@ -146,6 +146,14 @@ class TestAPIData(TransactionTestCase):
         with self.assertRaises(BadRequest):
             data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
 
+    def test_get_dataset_from_bundle_request_or_kwargs_none(self):
+        data_resource = DataResource()
+
+        bundle = Bundle(data={})
+        
+        with self.assertRaises(BadRequest):
+            data_resource.get_dataset_from_bundle_request_or_kwargs(bundle)
+
     def test_create_no_dataset(self):
         new_data = {
             'data': ['1', '2', '3']
@@ -303,6 +311,38 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['dataset'], data['dataset'])
         self.assertEqual(body['resource_uri'], data['resource_uri'])
         self.assertEqual(body['row'], None)
+
+    def test_updated_search(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        update_data = {
+            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+            'data': ['Flibbity!', '2', '3']
+        }
+
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+
+        # Dataset objects were returned
+        data = body['objects'][0]['objects'][0]
+
+        response = self.client.put('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, data['id']), content_type='application/json', data=json.dumps(update_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+
+        response = self.client.get('/api/1.0/data/?q=flibbity', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
 
     def test_search(self):
         self.dataset.import_data()
