@@ -188,14 +188,17 @@ class DataResource(Resource):
         """
         Extract a dataset from one of the variety of places it might be hiding.
         """
+        bundle_uri = bundle.data.pop('dataset', None)
+        kwargs_slug = kwargs.pop('dataset_slug', None)
+
         bundle_dataset = None
         kwargs_dataset = None
 
-        if 'dataset' in bundle.data:
-            bundle_dataset = DatasetResource().get_via_uri(bundle.data.pop('dataset'))
+        if bundle_uri:
+            bundle_dataset = DatasetResource().get_via_uri(bundle_uri)
 
-        if 'dataset_slug' in kwargs:
-            kwargs_dataset = Dataset.objects.get(slug=kwargs.pop('dataset_slug'))
+        if kwargs_slug:
+            kwargs_dataset = Dataset.objects.get(slug=kwargs_slug)
 
         if not bundle_dataset and not kwargs_dataset:
             raise BadRequest('When creating or updating Data you must specify a Dataset either by using a /api/x.y/dataset/[slug]/data/ endpoint or by providing a dataset uri in the body of the document.')
@@ -292,9 +295,10 @@ class DataResource(Resource):
 
     def obj_delete_list(self, request=None, **kwargs):
         """
-        TODO
+        Don't support disabling entire collection. Will also implicitly disable
+        put_list().
         """
-        pass
+        raise NotImplementedError() 
 
     def search_all_data(self, request, **kwargs):
         """

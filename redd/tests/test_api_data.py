@@ -344,6 +344,66 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
 
+    def test_delete_data_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+
+        # Dataset objects were returned
+        data = body['objects'][0]['objects'][0]
+
+        response = self.client.delete('/api/1.0/data/%s/' % data['id'], content_type='application/json', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_dataset_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/dataset/%s/data/' % self.dataset.slug, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+
+        data = body['objects'][0]
+
+        response = self.client.delete('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, data['id']), content_type='application/json', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 204)
+
+    def test_deleted_search(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+
+        # Dataset objects were returned
+        data = body['objects'][0]['objects'][0]
+
+        response = self.client.delete('/api/1.0/data/%s/' % data['id'], content_type='application/json', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 204)
+
+        response = self.client.get('/api/1.0/data/?q=%s' % data['data'][0], **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['total_count'], 0)
+        self.assertEqual(len(body['objects']), 0)
+
     def test_search(self):
         self.dataset.import_data()
 
