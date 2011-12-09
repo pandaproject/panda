@@ -48,6 +48,8 @@ To create a new user, POST a JSON document containing at least ``username`` and 
 Tasks
 =====
 
+The Task API is read-only.
+
 Schema
 ------
 
@@ -68,6 +70,10 @@ List filtered by status
 List tasks that are PENDING (queued, but have not yet started processing)::
 
     http://localhost:8000/api/1.0/task/?status=PENDING
+
+.. note::
+
+    Possible task statuses are ``PENDING``, ``STARTED``, ``SUCCESS``, and ``FAILURE``.
 
 
 List filtered by date
@@ -103,8 +109,6 @@ List
 
     http://localhost:8000/api/1.0/upload/
 
-Filtering is currently not supported.
-
 Fetch
 -----
 
@@ -124,19 +128,21 @@ Upload as form-data
 
 When accessing PANDA via curl, your username and API key can be specified with the headers ``PANDA_USERNAME`` and ``PANDA_API_KEY``, respectively::
 
-    curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" -F file=@README.csv http://localhost:8000/upload/
+    curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    -F file=@README.csv http://localhost:8000/upload/
 
 Upload via AJAX
 ---------------
 
 ::
 
-    curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv
+    curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv
 
 Categories
 ==========
 
-Categories are referenced by slug, rather than integer id.
+Categories are identified by slug, rather than by integer id (though they do have one).
 
 Schema
 ------
@@ -162,7 +168,7 @@ Fetch
 Datasets
 ========
 
-Datasets are referenced by slug, rather than integer id.
+Datasets are identified by slug, rather than by integer id (though they do have one).
 
 Schema
 ------
@@ -188,7 +194,11 @@ List filtered by category
 Search for datasets
 -------------------
 
-The Dataset list endpoint is overloaded to provide full-text search over metadata. By default this returns complete Dataset objects. To return simplified objects suitable for rendering lists add ``simple=true`` to the query::
+.. note::
+
+    The Dataset list endpoint also provides full-text search over datasets' metadata. By default this returns complete Dataset objects. To return simplified objects suitable for rendering lists add ``simple=true`` to the query.
+
+::
 
     http://localhost:8000/api/1.0/dataset/?q=[query]
 
@@ -214,14 +224,14 @@ Begin an import task using the dataset's current schema. Any data previously imp
 Search within dataset
 ---------------------
 
-Search for Data within one particular dataset. The response is a simplified Dataset object with added paging ("meta") data and embedded Data instances ("objects")::
+Search for Data within one particular dataset. The response is a simplified Dataset object with added paging (``meta``) data and embedded Data instances (``objects``)::
 
     http://localhost:8000/api/1.0/dataset/[slug]/search/?q=[query]
 
 Data
 ========
 
-Data are referenced by UUIDs, rather than integer id.
+Data objects are referenced by `UUIDs <http://en.wikipedia.org/wiki/Universally_unique_identifier>`_. They do not have a unique integer id.
 
 Schema
 ------
