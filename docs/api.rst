@@ -194,9 +194,11 @@ List filtered by category
 Search for datasets
 -------------------
 
+The Dataset list endpoint also provides full-text search over datasets' metadata via the ``q`` parameter.
+
 .. note::
 
-    The Dataset list endpoint also provides full-text search over datasets' metadata. By default this returns complete Dataset objects. To return simplified objects suitable for rendering lists add ``simple=true`` to the query.
+    By default search results are complete Dataset objects, however, it's frequently useful to return simplified objects for rendering lists, etc. To return simplified objects just add ``simple=true`` to the query.
 
 ::
 
@@ -221,47 +223,78 @@ Begin an import task using the dataset's current schema. Any data previously imp
 
     http://localhost:8000/api/1.0/dataset/[id]/import/
 
-Search within dataset
----------------------
-
-Search for Data within one particular dataset. The response is a simplified Dataset object with added paging (``meta``) data and embedded Data instances (``objects``)::
-
-    http://localhost:8000/api/1.0/dataset/[slug]/search/?q=[query]
-
 Data
 ========
 
-Data objects are referenced by `UUIDs <http://en.wikipedia.org/wiki/Universally_unique_identifier>`_. They do not have a unique integer id.
+Data objects are referenced by `UUIDs <http://en.wikipedia.org/wiki/Universally_unique_identifier>`_. They do not have a unique integer id. Furthermore, Data objects are accessible at **two** separate endpoints, a global endpoint at ``/api/1.0/data/`` and a per-dataset endpoint at ``/api/1.0/dataset/[slug]/data/``. There are some slight differences in how these endpoints function, which are detailed below.
+
+.. warning::
+
+    Due to the nuances of implementing an API over Solr, this endpoint differs in significant ways from a "normal" Tastypie API endpoint. Please read this documentation carefully.
 
 Schema
 ------
 
-::
+Schema is only accessible at the global endpoint::
 
     http://localhost:8000/api/1.0/data/schema/
 
 List
 ----
 
+Using the global endpoint will list all data in PANDA. The response is a ``meta`` object with paging information and an ``objects`` array containing simplified **Dataset** objects, each of which contains its own ``meta`` object and an ``objects`` array containing **Data** objects. The Datasets group the Data objects.
+
+When using this endpoint the ``limit`` and ``offset`` parameters refer to the groups returned. If you wish to paginate the result sets of each dataset you can use ``group_limit`` and ``group_offset`` although this is typically not the behavior a user would expect.
+
 ::
 
     http://localhost:8000/api/1.0/data/
 
-Fetch
------
+Using the per-dataset endpoint will return a single simplified **Dataset** object (not an array) with an embedded ``meta`` object and an embedded ``objects`` array containing **Data** objects. Only the Data from a single dataset will be returned.
 
 ::
 
-    http://localhost:8000/api/1.0/data/[uuid]/
-
+    http://localhost:8000/api/1.0/dataset/[slug]/data/
+    
 Search
 ------
 
-Searches for Data within all Datasets. The response is a list of "meta" object with paging information for the matching datasets and an "objects" array which contains simplified **Dataset** objects and embedded search results in the same format as the per-Dataset search results.
-
-Note that when using this endpoint the ``limit`` and ``offset`` parameters refer to the groups returned. If you wish to paginate the result sets of each dataset you can use ``group_limit`` and ``group_offset`` although this is typically not the behavior a user would expect.
-
-::
+The list endpoint is overloaded to provide full-text search via the ``q`` parameter::
 
     http://localhost:8000/api/1.0/data/?q=[query]
+
+For a single dataset::
+
+    http://localhost:8000/api/1.0/dataset/[slug]/data/?q=[query]
+
+Fetch
+-----
+
+Any Data::
+
+    http://localhost:8000/api/1.0/data/[uuid]/
+
+Only Data within a single dataset (will return a ``404`` if you request a UUID which belongs to another Dataset)::
+
+    http://localhost:8000/api/1.0/dataset/[slug]/data/[uuid]/
+
+Create
+------
+
+TODO
+
+Update
+------
+
+TODO
+
+Bulk create/update
+------------------
+
+TODO
+
+Delete
+------
+
+TODO
 
