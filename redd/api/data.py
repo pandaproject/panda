@@ -173,7 +173,7 @@ class DataResource(Resource):
             response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
             raise ImmediateHttpResponse(response=response)
 
-    # Object handling
+    # Data access methods
 
     def get_object_list():
         """
@@ -268,6 +268,13 @@ class DataResource(Resource):
 
         return bundle
 
+    def obj_delete_list(self, request=None, **kwargs):
+        """
+        A bit of a hack: this prevents put_list() from nuking the collection prior
+        to creating/updating Data.
+        """
+        pass
+
     def obj_delete(self, request=None, **kwargs):
         """
         Delete a Data.
@@ -289,13 +296,6 @@ class DataResource(Resource):
 
         dataset.row_count -= 1
         dataset.save()
-
-    def obj_delete_list(self, request=None, **kwargs):
-        """
-        A bit of a hack: this prevents put_list() from nuking the collection prior
-        to creating/updating Data.
-        """
-        pass
 
     # Views
 
