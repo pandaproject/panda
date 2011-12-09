@@ -306,13 +306,22 @@ Update functions similarly to create, however you must use the HTTP ``PUT`` verb
         row: 42
     }
 
-Bulk create/update
-------------------
+Bulk create
+-----------
 
-TODO
+To create objects in bulk you may ``PUT`` a an array of objects to either the global or a per-dataset endpoint.
+
+.. note::
+
+    This action differs from both normal Tastypie behavior and the REST standard. It may change in the future.
 
 Delete
 ------
+
+TODO
+
+Delete all data from a dataset
+------------------------------
 
 TODO
 
