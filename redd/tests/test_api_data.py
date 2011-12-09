@@ -29,7 +29,6 @@ class TestDataValidation(TransactionTestCase):
         self.assertIn('data', errors)
         self.assertIn('required', errors['data'][0])
 
-
 class TestAPIData(TransactionTestCase):
     fixtures = ['init_panda.json']
 
@@ -106,34 +105,34 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)   
 
-    def test_get_dataset_from_bundle_request_or_kwargs_bundle(self):
+    def test_get_dataset_from_bundle_or_kwargs_bundle(self):
         data_resource = DataResource()
 
         bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug })
         
-        dataset = data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, None)
+        dataset = data_resource.get_dataset_from_bundle_or_kwargs(bundle)
 
         self.assertEqual(dataset.id, self.dataset.id)
 
-    def test_get_dataset_from_bundle_request_or_kwargs_kwargs(self):
+    def test_get_dataset_from_bundle_or_kwargs_kwargs(self):
         data_resource = DataResource()
 
         bundle = Bundle(data={})
         
-        dataset = data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+        dataset = data_resource.get_dataset_from_bundle_or_kwargs(bundle, dataset_slug=self.dataset.slug)
 
         self.assertEqual(dataset.id, self.dataset.id)
 
-    def test_get_dataset_from_bundle_request_or_kwargs_agree(self):
+    def test_get_dataset_from_bundle_or_kwargs_agree(self):
         data_resource = DataResource()
 
         bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug })
         
-        dataset = data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+        dataset = data_resource.get_dataset_from_bundle_or_kwargs(bundle, dataset_slug=self.dataset.slug)
 
         self.assertEqual(dataset.id, self.dataset.id)
 
-    def test_get_dataset_from_bundle_request_or_kwargs_conflict(self):
+    def test_get_dataset_from_bundle_or_kwargs_conflict(self):
         data_resource = DataResource()
 
         second_dataset = Dataset.objects.create(
@@ -144,15 +143,15 @@ class TestAPIData(TransactionTestCase):
         bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % second_dataset.slug })
         
         with self.assertRaises(BadRequest):
-            data_resource.get_dataset_from_bundle_request_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+            data_resource.get_dataset_from_bundle_or_kwargs(bundle, dataset_slug=self.dataset.slug)
 
-    def test_get_dataset_from_bundle_request_or_kwargs_none(self):
+    def test_get_dataset_from_bundle_or_kwargs_none(self):
         data_resource = DataResource()
 
         bundle = Bundle(data={})
         
         with self.assertRaises(BadRequest):
-            data_resource.get_dataset_from_bundle_request_or_kwargs(bundle)
+            data_resource.get_dataset_from_bundle_or_kwargs(bundle)
 
     def test_create_no_dataset(self):
         new_data = {
@@ -441,6 +440,29 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(self.dataset.row_count, 3)
 
+    def test_delete_list_data_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.delete('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete_list_dataset_endpoint(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        response = self.client.delete('/api/1.0/dataset/%s/data/' % self.dataset.slug, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 204)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 0)
+
     def test_deleted_search(self):
         self.dataset.import_data()
 
@@ -471,7 +493,7 @@ class TestAPIData(TransactionTestCase):
     def test_delete_list(self):
         response = self.client.delete('/api/1.0/data/', **self.auth_headers)
 
-        self.assertEqual(response.status_code, 501)
+        self.assertEqual(response.status_code, 405)
 
     def test_post_detail(self):
         new_data = {

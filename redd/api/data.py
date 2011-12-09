@@ -123,7 +123,7 @@ class DataResource(Resource):
 
         return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
 
-    def get_dataset_from_bundle_request_or_kwargs(self, bundle, request=None, **kwargs):
+    def get_dataset_from_bundle_or_kwargs(self, bundle, **kwargs):
         """
         Extract a dataset from one of the variety of places it might be hiding.
         """
@@ -177,16 +177,18 @@ class DataResource(Resource):
 
     def get_object_list():
         """
-        Intentionally not implemented. Should never be invoked.
-        Endpoints handle their own object retrieval.
+        Bypassed, should never be invoked. 
+
+        Since Solr queries are not lazy, fetching a complete list
+        of objects never makes sense.
         """
         raise NotImplementedError() 
 
     def obj_get_list(self, request=None, **kwargs):
         """
-        Intentionally not implemented. Should never be invoked.
+        Bypassed, should never be invoked. 
         
-        See get_list().
+        See ``get_list``.
         """
         raise NotImplementedError() 
 
@@ -215,12 +217,12 @@ class DataResource(Resource):
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
-        Add Data to a Dataset.
+        Add one Data to a Dataset.
 
         TODO: committing everytime this is called doesn't make sense, especially
         since this function is called multiple times in put_list().
         """
-        dataset = self.get_dataset_from_bundle_request_or_kwargs(bundle, request, **kwargs)
+        dataset = self.get_dataset_from_bundle_or_kwargs(bundle, **kwargs)
 
         self.validate_bundle_data(bundle, request, dataset)
 
@@ -244,7 +246,7 @@ class DataResource(Resource):
         """
         Update an existing Data.
         """
-        dataset = self.get_dataset_from_bundle_request_or_kwargs(bundle, request, **kwargs)
+        dataset = self.get_dataset_from_bundle_or_kwargs(bundle, **kwargs)
         
         if 'dataset_slug' in kwargs:
             del kwargs['dataset_slug']
@@ -270,16 +272,16 @@ class DataResource(Resource):
 
     def obj_delete_list(self, request=None, **kwargs):
         """
-        A bit of a hack: this prevents put_list() from nuking the collection prior
+        A bit of a hack: this prevents ``put_list() from nuking the collection prior
         to creating/updating Data.
         """
         pass
 
     def obj_delete(self, request=None, **kwargs):
         """
-        Delete a Data.
+        Delete a ``Data``.
 
-        TODO: See note in obj_create about committing.
+        TODO: See note in ``obj_create`` about committing.
         """
         obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s' % kwargs['pk'])
 
@@ -301,45 +303,78 @@ class DataResource(Resource):
 
     def get_list(self, request, **kwargs):
         """
-        Retrieve a list of Data objects, optionally applying full-text search.
+        Retrieve a list of ``Data`` objects, optionally applying full-text search.
 
-        Because these objects are sometimes wrapped in Datasets we override
-        this instead of obj_get_list().
+        Bypasses ``obj_get_list``, making it unnecessary.
         """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-        
         # Was this called from a url nested in a dataset?
         if 'dataset_slug' in kwargs:
             results = self.search_dataset_data(request, **kwargs)
         else:
             results = self.search_all_data(request)
 
-        self.log_throttled_access(request)
-
         return self.create_response(request, results)
 
     def get_detail(self, request, **kwargs):
+        """
+        Handled by the underlying implementation.
+
+        See ``obj_get``.
+        """
         return super(DataResource, self).get_detail(request, **kwargs)
 
     def put_list(self, request, **kwargs):
+        """
+        Handled by the underlying implementation, however, note that
+        this version does not delete all ``Data`` prior to creating
+        new ones.
+
+        See ``obj_delete_list`` and ``obj_create``.
+        """
         return super(DataResource, self).put_list(request, **kwargs)
 
     def put_detail(self, request, **kwargs):
+        """
+        Handled by the underlying implementation.
+
+        See ``obj_update``.
+        """
         return super(DataResource, self).put_detail(request, **kwargs)
 
     def post_list(self, request, **kwargs):
+        """
+        Handled by the underlying implementation.
+
+        See ``obj_create``.
+        """
         return super(DataResource, self).post_list(request, **kwargs)
 
     def post_detail(self, request, **kwargs):
+        """
+        Handled by the underlying implementation, which means this is
+        not supported.
+        """
         return super(DataResource, self).post_detail(request, **kwargs)
 
     def delete_list(self, request, **kwargs):
         """
-        Don't support deleting entire collection.
+        Delete all ``Data`` in a ``Dataset``. Must be called from a data
+        url nested under a Dataset. Deleting *all* ``Data`` objects is
+        not supported.
         """
-        return http.HttpNotImplemented() 
+        dataset_slug = kwargs.pop('dataset_slug', None)
+
+        if not dataset_slug:
+            return http.HttpMethodNotAllowed() 
+
+        dataset = Dataset.objects.get(slug=dataset_slug)
+
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_id:%s' % dataset.id, commit=True)
+
+        dataset.row_count = 0
+        dataset.save()
+
+        return http.HttpNoContent()
 
     def delete_detail(self, request, **kwargs):
         return super(DataResource, self).delete_detail(request, **kwargs)

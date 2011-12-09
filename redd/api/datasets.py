@@ -77,10 +77,6 @@ class DatasetResource(SlugResource):
         """
         List endpoint using Solr. Provides full-text search via the "q" parameter."
         """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
         category_slug = request.GET.get('category', None)
@@ -120,8 +116,6 @@ class DatasetResource(SlugResource):
             objects.append(bundle)
 
         page['objects'] = objects
-
-        self.log_throttled_access(request)
 
         return self.create_response(request, page)
 
