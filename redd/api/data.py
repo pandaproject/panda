@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned 
 from django.core.urlresolvers import reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
@@ -93,8 +93,6 @@ class DataResource(Resource):
     def dehydrate(self, bundle):
         """
         Trim the dataset_id field and add a proper relationship.
-
-        TKTK -- better way to do this?
         """
         from redd.api.datasets import DatasetResource
 
@@ -125,65 +123,6 @@ class DataResource(Resource):
 
         return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
 
-    def get_object_list():
-        """
-        Intentionally not implemented. Should never be invoked.
-        Endpoints handle their own object retrieval.
-        """
-        raise NotImplementedError() 
-
-    def obj_get(self, request=None, **kwargs):
-        """
-        Query Solr for a single item by primary key.
-        """
-        get_id = kwargs['pk']
-        
-        try:
-            slug = kwargs['dataset_slug']
-            dataset = Dataset.objects.get(slug=slug)
-            dataset_id = unicode(dataset.id)
-        except KeyError:
-            dataset_id = '*'
-
-        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s dataset_id:%s' % (get_id, dataset_id))
-
-        if len(obj['response']['docs']) < 1:
-            raise NotFound()
-
-        if len(obj['response']['docs']) > 1:
-            raise MultipleObjectsReturned()
-
-        return SolrObject(obj['response']['docs'][0])
-
-    def obj_get_list(self, request=None, **kwargs):
-        """
-        Intentionally not implemented. Should never be invoked.
-        
-        See get_list().
-        """
-        raise NotImplementedError() 
-
-    def get_list(self, request, **kwargs):
-        """
-        Retrieve a list of Data objects, optionally applying full-text search.
-
-        Because these objects are sometimes wrapped in Datasets we override
-        this instead of obj_get_list().
-        """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
-        
-        # Was this called from a url nested in a dataset?
-        if 'dataset_slug' in kwargs:
-            results = self.search_dataset_data(request, **kwargs)
-        else:
-            results = self.search_all_data(request)
-
-        self.log_throttled_access(request)
-
-        return self.create_response(request, results)
-
     def get_dataset_from_bundle_request_or_kwargs(self, bundle, request=None, **kwargs):
         """
         Extract a dataset from one of the variety of places it might be hiding.
@@ -212,6 +151,8 @@ class DataResource(Resource):
     def validate_bundle_data(self, bundle, request, dataset):
         """
         Perform additional validation that isn't possible with the Validation object.
+
+        TODO: override is_valid() instead.
         """
         errors = {}
 
@@ -231,6 +172,46 @@ class DataResource(Resource):
             serialized = self.serialize(request, errors, desired_format)
             response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
             raise ImmediateHttpResponse(response=response)
+
+    # Object handling
+
+    def get_object_list():
+        """
+        Intentionally not implemented. Should never be invoked.
+        Endpoints handle their own object retrieval.
+        """
+        raise NotImplementedError() 
+
+    def obj_get_list(self, request=None, **kwargs):
+        """
+        Intentionally not implemented. Should never be invoked.
+        
+        See get_list().
+        """
+        raise NotImplementedError() 
+
+    def obj_get(self, request=None, **kwargs):
+        """
+        Query Solr for a single item by primary key.
+        """
+        get_id = kwargs['pk']
+        
+        try:
+            slug = kwargs['dataset_slug']
+            dataset = Dataset.objects.get(slug=slug)
+            dataset_id = unicode(dataset.id)
+        except KeyError:
+            dataset_id = '*'
+
+        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s dataset_id:%s' % (get_id, dataset_id))
+
+        if len(obj['response']['docs']) < 1:
+            raise NotFound()
+
+        if len(obj['response']['docs']) > 1:
+            raise MultipleObjectsReturned()
+
+        return SolrObject(obj['response']['docs'][0])
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
@@ -316,11 +297,54 @@ class DataResource(Resource):
         """
         pass
 
+    # Views
+
+    def get_list(self, request, **kwargs):
+        """
+        Retrieve a list of Data objects, optionally applying full-text search.
+
+        Because these objects are sometimes wrapped in Datasets we override
+        this instead of obj_get_list().
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        
+        # Was this called from a url nested in a dataset?
+        if 'dataset_slug' in kwargs:
+            results = self.search_dataset_data(request, **kwargs)
+        else:
+            results = self.search_all_data(request)
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, results)
+
+    def get_detail(self, request, **kwargs):
+        return super(DataResource, self).get_detail(request, **kwargs)
+
+    def put_list(self, request, **kwargs):
+        return super(DataResource, self).put_list(request, **kwargs)
+
+    def put_detail(self, request, **kwargs):
+        return super(DataResource, self).put_detail(request, **kwargs)
+
+    def post_list(self, request, **kwargs):
+        return super(DataResource, self).post_list(request, **kwargs)
+
+    def post_detail(self, request, **kwargs):
+        return super(DataResource, self).post_detail(request, **kwargs)
+
     def delete_list(self, request, **kwargs):
         """
         Don't support deleting entire collection.
         """
         return http.HttpNotImplemented() 
+
+    def delete_detail(self, request, **kwargs):
+        return super(DataResource, self).delete_detail(request, **kwargs)
+
+    # Search
 
     def search_all_data(self, request, **kwargs):
         """
