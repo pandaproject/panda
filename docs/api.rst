@@ -281,12 +281,30 @@ Only Data within a single dataset (will return a ``404`` if you request a UUID w
 Create
 ------
 
-TODO
+To create a new Data object, send an HTTP ``POST`` request to the list endpoint with the new object in the body. An example object::
+
+    {
+        'data': [
+            'column A value',
+            'column B value',
+            'column C value'
+        ],
+        dataset: '/api/1.0/dataset/[slug]/'
+    }
+
+When using the global list endpoint you must include the dataset attribute, however, if posting to a per-dataset list endpoint you may omit it.
 
 Update
 ------
 
-TODO
+Update functions similarly to create, however you must use the HTTP ``PUT`` verb and you must send your requests to a specific Data object, such ``/api/1.0/data/[uuid]`` or ``/api/1.0/dataset/[slug]/data/[uuid]``. This will delete the existing object and replace with the one you've sent, reusing the same UUID. If you want to maintain the row number of the original object (if any), you must include it in the request, e.g.::
+
+    {
+        'data': [
+            ...
+        ],
+        row: 42
+    }
 
 Bulk create/update
 ------------------
