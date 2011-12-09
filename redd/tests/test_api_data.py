@@ -468,6 +468,21 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 0)
         self.assertEqual(len(body['objects']), 0)
 
+    def test_delete_list(self):
+        response = self.client.delete('/api/1.0/data/', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 501)
+
+    def test_post_detail(self):
+        new_data = {
+            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/data/im-a-fake-uuid/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 501)
+
     def test_search(self):
         self.dataset.import_data()
 

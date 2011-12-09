@@ -320,7 +320,7 @@ class DataResource(Resource):
         """
         Don't support deleting entire collection.
         """
-        raise NotImplementedError()
+        return http.HttpNotImplemented() 
 
     def search_all_data(self, request, **kwargs):
         """
