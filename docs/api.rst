@@ -309,7 +309,7 @@ Update functions similarly to create, however you must use the HTTP ``PUT`` verb
 Bulk create
 -----------
 
-To create objects in bulk you may ``PUT`` a an array of objects to either the global or a per-dataset endpoint.
+To create objects in bulk you may ``PUT`` an array of objects to either the global or a per-dataset endpoint.
 
 .. note::
 
@@ -318,10 +318,18 @@ To create objects in bulk you may ``PUT`` a an array of objects to either the gl
 Delete
 ------
 
-TODO
+To delete an object send a ``DELETE`` request to its detail url, either at the global or a per-dataset endpoint. The body of the request should be empty.
 
 Delete all data from a dataset
 ------------------------------
 
-TODO
+In addition to deleting individual objects, its possible to delete all objects within a dataset, by sending a ``DELETE`` request to the root per-dataset endpoint. The body of the request should be empty.
+
+::
+
+    http://localhost:8000/api/1.0/dataset/[slug]/data/
+
+.. note::
+
+    Sending a ``DELETE`` to the root of the global data endpoint will have no affect and return a 405 (Method Not Allowed). 
 
