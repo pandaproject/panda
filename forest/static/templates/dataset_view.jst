@@ -1,6 +1,6 @@
 <form class="form-stacked">
     <fieldset>
-        <legend>About <strong><%= name %></strong></legend>
+        <legend>About <strong><%= name %></strong> <% if (row_count) { %>(<%= row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
         <p>Created by <strong><%= creator.first_name %> <%= creator.last_name %></strong> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt; on <strong><%= moment(creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong></p>
         
         <h6>Categories</h6>
@@ -17,6 +17,8 @@
 
         <% if (sample_data) { %>
         <h6>Sample data</h6>
+
+        <p><% if (row_count) { %>Showing <%= sample_data.length %> sample rows from <%= row_count %> total rows in this dataset.<% } else { %>Showing <%= sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
 
         <table>
             <% _.each(schema, function(s) { %>
