@@ -147,13 +147,13 @@ class Dataset(SluggedModel):
         help_text='User-supplied dataset description.')
     data_upload = models.ForeignKey(Upload, null=True, blank=True,
         help_text='The upload corresponding to the data file for this dataset.')
-    schema = JSONField(null=True, blank=True,
+    schema = JSONField(null=True, default=None,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
     imported = models.BooleanField(default=False,
         help_text='Has this dataset been imported yet?')
     row_count = models.IntegerField(null=True, blank=True,
         help_text='The number of rows in this dataset. Only available once the dataset has been imported.')
-    sample_data = JSONField(null=True, blank=True,
+    sample_data = JSONField(null=True, default=None,
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
@@ -161,7 +161,7 @@ class Dataset(SluggedModel):
         help_text='The date this dataset was initially created.')
     creator = models.ForeignKey(User,
         help_text='The user who created this dataset.')
-    dialect = JSONField(null=True, blank=True,
+    dialect = JSONField(null=True, default=None,
         help_text='Description of the format of the input CSV.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')

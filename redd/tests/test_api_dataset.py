@@ -150,6 +150,33 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.data_upload, self.upload)
         self.assertEqual(new_dataset.creator, self.user)
 
+    def test_create_post_no_data_upload(self):
+        new_dataset = {
+            'name': 'This dataset does not have an upload!'
+        }
+
+        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['name'], 'This dataset does not have an upload!')
+        self.assertEqual(body['row_count'], None)
+        self.assertEqual(body['schema'], None)
+        self.assertEqual(body['sample_data'], None)
+        self.assertEqual(body['current_task'], None)
+        self.assertEqual(body['data_upload'], None)
+
+        new_dataset = Dataset.objects.get(id=body['id'])
+
+        self.assertEqual(new_dataset.name, 'This dataset does not have an upload!')
+        self.assertEqual(new_dataset.row_count, None)
+        self.assertEqual(new_dataset.schema, None)
+        self.assertEqual(new_dataset.sample_data, None)
+        self.assertEqual(new_dataset.current_task, None)
+        self.assertEqual(new_dataset.data_upload, None)
+
     def test_create_put(self):
         new_dataset = {
             'name': 'New dataset!',
