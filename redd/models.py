@@ -236,6 +236,10 @@ class Dataset(SluggedModel):
                 'data': data
             })
 
+        # Enable searching
+        if not self.imported:
+            self.imported = True
+
         if not self.row_count:
             self.row_count = 0
 

@@ -252,7 +252,18 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 400)
         body = json.loads(response.content)
-        self.assertIn('__all__', body)
+        self.assertIn('dataset', body)
+
+    def test_create_not_imported(self):
+        new_data = {
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 400)
+        body = json.loads(response.content)
+        self.assertIn('dataset', body)
 
     def test_create_makes_sample(self):
         self.dataset.import_data()
