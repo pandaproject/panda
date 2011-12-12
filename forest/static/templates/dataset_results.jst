@@ -14,11 +14,7 @@
     <%= pager %>
 
     <h3>
-    <% if (dataset.meta.total_count > dataset.meta.limit) { %>
-        Showing <%= dataset.meta.offset + 1 %> through <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> of <%=dataset. meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %>
-    <% } else { %>
-        Showing <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %>
-    <% } %>
+        <%= dataset. meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %> (<%= dataset.row_count %> total rows)
     </h3>
 
     <table>

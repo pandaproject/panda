@@ -8,27 +8,19 @@
 
 <% } else { %>
 
-<% if (datasets.meta.total_count > datasets.meta.limit) { %>
-    <h2>Showing <%= datasets.meta.offset + 1 %> through <% if(datasets.meta.offset + datasets.meta.limit < datasets.meta.total_count) { print(datasets.meta.offset + datasets.meta.limit); } else { print(datasets.meta.total_count); } %> of <%= datasets.meta.total_count %> datasets with matching rows</h2>
-<% } else { %>
-    <h2>Showing <%= datasets.meta.total_count %> dataset<% if (datasets.meta.total_count > 1) { %>s<% } %> with matching rows</h2>
-<% } %>
+<h2>Found <%= datasets.meta.total_count %> dataset<% if (datasets.meta.total_count > 1) { %>s<% } %> with matching rows</h2>
 
 <%= pager %>
 
 <% _.each(datasets.datasets, function(dataset) { %>
-    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></h3>
+    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h3>
 
     <% if (dataset.description) { %>
     <p><em><%= dataset.description %></em><br /></p>
     <% } %>
 
     <h3>
-    <% if (dataset.meta.total_count > dataset.meta.limit) { %>
-        Showing <%= dataset.meta.offset + 1 %> through <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> of <%= dataset.meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %>
-    <% } else { %>
-        Showing <% if(dataset.meta.offset + dataset.meta.limit < dataset.meta.total_count) { print(dataset.meta.offset + dataset.meta.limit); } else { print(dataset.meta.total_count); } %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %>
-    <% } %>
+        <%= dataset.meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %> (<%= dataset.row_count %> total rows)
     </h3>
 
     <table>

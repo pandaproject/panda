@@ -8,15 +8,13 @@
 
     <% } else { %>
 
+        <h3>
         <% if (!query && !category) { %>
-            <% if (datasets.length > 1) { %>
-                <h3>Showing <%= datasets.length %> most recent datasets</h3>
-            <% } else { %>
-                <h3>Showing 1 dataset</h3>
-            <% } %>
+            Showing most recent datasets
         <% } else { %>
-            <h3>Showing <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %></h3>
+            Found <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %>
         <% } %>
+        </h3>
 
         <table>
             <thead>
