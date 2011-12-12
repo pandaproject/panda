@@ -10,7 +10,7 @@ from csvkit import CSVKitReader
 from django.conf import settings
 
 from redd import solr
-from redd.utils import make_row_data
+from redd.utils import make_solr_row
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -74,7 +74,7 @@ class DatasetImportTask(AbortableTask):
         add_buffer = []
 
         for i, row in enumerate(reader, start=1):
-            data = make_row_data(dataset, row, i)
+            data = make_solr_row(dataset, row, i)
 
             add_buffer.append(data)
 

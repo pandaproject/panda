@@ -25,7 +25,7 @@ def infer_schema(f, dialect, sample_size=100):
         'type': t
     } for h, t in zip(headers, type_names)]
 
-def sample_data(f, dialect, sample_size=5):
+def sample_data(f, dialect, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
     reader = CSVKitReader(f, **dialect)
     headers = reader.next()
         
@@ -39,16 +39,16 @@ def sample_data(f, dialect, sample_size=5):
 
     return samples 
 
-def make_row_data(dataset, row, row_number=None, pk=None):
-    data = {
+def make_solr_row(dataset, data, row_number=None, pk=None):
+    solr_row = {
         'id': pk or unicode(uuid4()),
         'dataset_id': dataset.id,
-        'full_text': '\n'.join(row),
-        'data': json.dumps(row)
+        'full_text': '\n'.join(data),
+        'data': json.dumps(data)
     }
 
     if row_number:
-        data['row'] = row_number
+        solr_row['row'] = row_number
 
-    return data
+    return solr_row
 

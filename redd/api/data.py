@@ -16,7 +16,6 @@ from redd import solr
 from redd.api.datasets import DatasetResource
 from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomSerializer
 from redd.models import Dataset
-from redd.utils import make_row_data
 
 class SolrObject(object):
     """
@@ -233,17 +232,9 @@ class DataResource(Resource):
         else:
             row = None
 
-        data = make_row_data(dataset, bundle.data['data'], row)
+        row = dataset.add_row(bundle.data['data'], row)
 
-        solr.add(settings.SOLR_DATA_CORE, [data], commit=True)
-
-        if not dataset.row_count:
-            dataset.row_count = 0
-
-        dataset.row_count += 1
-        dataset.save()
-
-        bundle.obj = SolrObject(data)
+        bundle.obj = SolrObject(row)
 
         return bundle
 
@@ -257,7 +248,7 @@ class DataResource(Resource):
             del kwargs['dataset_slug']
 
         # Verify it exists
-        data = self.obj_get(request, dataset_slug=dataset.slug, **kwargs)
+        self.obj_get(request, dataset_slug=dataset.slug, **kwargs)
         
         self.validate_bundle_data(bundle, request, dataset)
 
@@ -266,12 +257,9 @@ class DataResource(Resource):
         else:
             row = None
 
-        data = make_row_data(dataset, bundle.data['data'], row, kwargs['pk'])
-
-        # Overwrite primary key
-        solr.add(settings.SOLR_DATA_CORE, [data], commit=True)
+        row = dataset.update_row(kwargs['pk'], bundle.data['data'], row)
         
-        bundle.obj = SolrObject(data)
+        bundle.obj = SolrObject(row)
 
         return bundle
 

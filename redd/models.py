@@ -13,10 +13,9 @@ from django.template.defaultfilters import slugify
 from djcelery.models import TASK_STATE_CHOICES
 from tastypie.models import ApiKey
 
-from redd import solr
+from redd import solr, utils
 from redd.fields import JSONField
 from redd.tasks import DatasetImportTask, dataset_purge_data
-from redd.utils import infer_schema, sample_data, sniff
 
 NOTIFICATION_TYPE_CHOICES = (
     ('info', 'info'),
@@ -179,7 +178,7 @@ class Dataset(SluggedModel):
         if self.data_upload:
             if not self.dialect:
                 with open(self.data_upload.get_path(), 'r') as f:
-                    csv_dialect = sniff(f)
+                    csv_dialect = utils.sniff(f)
                     self.dialect = {
                         'lineterminator': csv_dialect.lineterminator,
                         'skipinitialspace': csv_dialect.skipinitialspace,
@@ -191,11 +190,11 @@ class Dataset(SluggedModel):
 
             if not self.schema:
                 with open(self.data_upload.get_path(), 'r') as f:
-                    self.schema = infer_schema(f, self.dialect)
+                    self.schema = utils.infer_schema(f, self.dialect)
 
             if not self.sample_data:
                 with open(self.data_upload.get_path(), 'r') as f:
-                    self.sample_data = sample_data(f, self.dialect)
+                    self.sample_data = utils.sample_data(f, self.dialect)
 
         super(Dataset, self).save(*args, **kwargs)
 
@@ -219,6 +218,41 @@ class Dataset(SluggedModel):
         self.save()
 
         DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
+
+    def add_row(self, data, row=None):
+        """
+        Add a row to this dataset.
+        """
+        solr_row = utils.make_solr_row(self, data, row)
+
+        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
+
+        if not self.sample_data:
+            self.sample_data = []
+        
+        if len(self.sample_data) < 5:
+            self.sample_data.append({
+                'row': row,
+                'data': data
+            })
+
+        if not self.row_count:
+            self.row_count = 0
+
+        self.row_count += 1
+        self.save()
+
+        return solr_row
+
+    def update_row(self, pk, data, row=None):
+        """
+        Update a row in this dataset.
+        """
+        solr_row = utils.make_solr_row(self, data, row, pk)
+
+        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
+
+        return solr_row
 
 @receiver(models.signals.post_save, sender=Dataset)
 def on_dataset_save(sender, **kwargs):
