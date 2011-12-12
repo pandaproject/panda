@@ -239,6 +239,21 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(self.dataset.row_count, 5)
 
+    def test_create_no_schema(self):
+        self.dataset.data_upload = None
+        self.dataset.schema = None
+        self.dataset.save()
+
+        new_data = {
+            'data': ['1', '2', '3']
+        }
+
+        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 400)
+        body = json.loads(response.content)
+        self.assertIn('__all__', body)
+
     def test_create_dataset_endpoint_bulk(self):
         self.dataset.import_data()
 

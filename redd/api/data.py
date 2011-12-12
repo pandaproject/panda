@@ -155,10 +155,14 @@ class DataResource(Resource):
         errors = {}
 
         field_count = len(bundle.data['data'])
-        expected_field_count = len(dataset.schema)
 
-        if field_count != expected_field_count:
-            errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]
+        if dataset.schema is None:
+            errors['__all__'] = ['Can not create or modify data for a dataset without a schema.']
+        else:
+            expected_field_count = len(dataset.schema)
+
+            if field_count != expected_field_count:
+                errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]
 
         # Cribbed from is_valid()
         if errors:
