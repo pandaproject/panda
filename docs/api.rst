@@ -2,6 +2,7 @@
 API Documentation
 =================
 
+
 The PANDA application is built on top of a REST API that can be used to power custom applications or import/export data in novel ways.
 
 The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriven/django-tastypie>`_ except in important cases where doing so would create unacceptable limitations. If this documentation seems incomplete, refer to Tastypie's page on `Interacting with the API <http://django-tastypie.readthedocs.org/en/latest/interacting.html>`_ to become familiar with the common idiom.
@@ -12,12 +13,31 @@ The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriv
 
         ?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
-All endpoints that return lists support the ``limit`` and ``offset`` parameters for pagination. Pagination information is always returned in the ``meta`` attribute.
+All endpoints that return lists support the ``limit`` and ``offset`` parameters for pagination. Pagination information is always returned in the embedded ``meta`` object.
 
 Users
 =====
 
-The user model can be queried to retrieve information about PANDA users, however, passwords and API keys are not included in responses.
+User objects can be queried to retrieve information about PANDA users, however, passwords and API keys are not included in responses.
+
+Example User object:
+
+.. highlight:: javascript
+
+::
+
+    {
+        date_joined: "2011-11-04T00:00:00",
+        email: "panda@pandaproject.net",
+        first_name: "Redd",
+        id: "1",
+        is_active: true,
+        last_login: "2011-11-04T00:00:00",
+        last_name: "",
+        resource_uri: "/api/1.0/user/1/"
+    }
+
+.. highlight:: guess
 
 Schema
 ------
@@ -49,6 +69,25 @@ Tasks
 =====
 
 The Task API is read-only.
+
+Example Task object:
+
+.. highlight:: javascript
+
+::
+
+    {
+        end: "2011-12-12T15:11:25",
+        id: "1",
+        message: "Import complete",
+        resource_uri: "/api/1.0/task/1/",
+        start: "2011-12-12T15:11:25",
+        status: "SUCCESS",
+        task_name: "redd.tasks.DatasetImportTask",
+        traceback: null
+    }
+
+.. highlight:: guess
 
 Schema
 ------
@@ -94,6 +133,23 @@ Uploads
 =======
 
 Due to limitations in upload file-handling, it is not possible to create Uploads via the normal API. Instead file should be uploaded to http://localhost:8000/upload/ either as form data or as an AJAX request. Examples of how to upload files with curl are at the end of this section.
+
+Example Upload object:
+
+.. highlight:: javascript
+
+::
+
+    {
+        creator: "/api/1.0/user/2/",
+        filename: "contributors.csv",
+        id: "1",
+        original_filename: "contributors.csv",
+        resource_uri: "/api/1.0/upload/1/",
+        size: 157
+    }
+
+.. highlight:: guess
 
 Schema
 ------
@@ -144,6 +200,22 @@ Categories
 
 Categories are identified by slug, rather than by integer id (though they do have one).
 
+Example Category object:
+
+.. highlight:: javascript
+
+::
+
+    {
+        id: "1",
+        name: "Crime",
+        resource_uri: "/api/1.0/category/crime/",
+        slug: "crime"
+    }
+
+.. highlight:: guess
+
+
 Schema
 ------
 
@@ -169,6 +241,117 @@ Datasets
 ========
 
 Datasets are identified by slug, rather than by integer id (though they do have one).
+
+Example Dataset object:
+
+.. highlight:: javascript
+
+::
+
+    {
+        categories: [ ],
+        creation_date: "2011-12-12T15:11:25",
+        creator: {
+            date_joined: "2011-11-04T00:00:00",
+            email: "user@pandaproject.net",
+            first_name: "User",
+            id: "2",
+            is_active: true,
+            last_login: "2011-12-12T15:10:01",
+            last_name: "",
+            resource_uri: "/api/1.0/user/2/"
+        },
+        current_task: {
+            end: "2011-12-12T15:11:25",
+            id: "1",
+            message: "Import complete",
+            resource_uri: "/api/1.0/task/1/",
+            start: "2011-12-12T15:11:25",
+            status: "SUCCESS",
+            task_name: "redd.tasks.DatasetImportTask",
+            traceback: null
+        },
+        data_upload: {
+        creator: "/api/1.0/user/2/",
+        filename: "contributors.csv",
+        id: "1",
+        original_filename: "contributors.csv",
+        resource_uri: "/api/1.0/upload/1/",
+        size: 157
+        },
+        description: "",
+        dialect: {
+            delimiter: ",",
+            doublequote: false,
+            lineterminator: "
+            ",
+            quotechar: """,
+            quoting: 0,
+            skipinitialspace: false
+        },
+        id: "1",
+        imported: true,
+        name: "contributors",
+        resource_uri: "/api/1.0/dataset/contributors/",
+        row_count: 4,
+        sample_data: [
+            {
+                data: [
+                    "Brian",
+                    "Boyer",
+                    "Chicago Tribune"
+                ],
+                row: 1
+            },
+            {
+                data: [
+                    "Joseph",
+                    "Germuska",
+                    "Chicago Tribune"
+                ],
+                row: 2
+            },
+            {
+                data: [
+                    "Ryan",
+                    "Pitts",
+                    "The Spokesman-Review"
+                ],
+                row: 3
+            },
+            {
+                data: [
+                    "Christopher",
+                    "Groskopf",
+                    "PANDA Project"
+                ],
+                row: 4
+            }
+        ],
+        schema: [
+            {
+                column: "first_name",
+                indexed: false,
+                meta_type: null,
+                simple_type: "unicode"
+            },
+            {
+                column: "last_name",
+                indexed: false,
+                meta_type: null,
+                simple_type: "unicode"
+            },
+            {
+                column: "employer",
+                indexed: false,
+                meta_type: null,
+                simple_type: "unicode"
+            }
+        ],
+        slug: "contributors"
+    }
+
+.. highlight:: guess
 
 Schema
 ------
@@ -227,6 +410,26 @@ Data
 ========
 
 Data objects are referenced by `UUIDs <http://en.wikipedia.org/wiki/Universally_unique_identifier>`_. They do not have a unique integer id. Furthermore, Data objects are accessible at **two** separate endpoints, a global endpoint at ``/api/1.0/data/`` and a per-dataset endpoint at ``/api/1.0/dataset/[slug]/data/``. There are some slight differences in how these endpoints function, which are detailed below.
+
+Example Data object:
+
+.. highlight:: javascript
+
+::
+
+    {
+        data: [
+            "Brian",
+            "Boyer",
+            "Chicago Tribune"
+        ],
+        dataset: "/api/1.0/dataset/contributors/",
+        id: "ee7d9706-06fc-4f0b-a97c-493549f06577",
+        resource_uri: "/api/1.0/data/ee7d9706-06fc-4f0b-a97c-493549f06577/",
+        row: 1
+    }
+
+.. highlight:: guess
 
 .. warning::
 
@@ -292,7 +495,7 @@ To create a new Data object, send an HTTP ``POST`` request to the list endpoint 
         dataset: '/api/1.0/dataset/[slug]/'
     }
 
-When using the global list endpoint you must include the dataset attribute, however, if posting to a per-dataset list endpoint you may omit it.
+When using the global list endpoint you must include the dataset property, however, if posting to a per-dataset list endpoint you may omit it.
 
 Update
 ------
