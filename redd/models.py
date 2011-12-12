@@ -213,8 +213,6 @@ class Dataset(SluggedModel):
     def import_data(self):
         """
         Execute the data import task for this Dataset. Will use the currently configured schema.
-
-        TODO: Needs to fail if data_upload does not exist.
         """
         self.current_task = TaskStatus.objects.create(
             task_name=DatasetImportTask.name)

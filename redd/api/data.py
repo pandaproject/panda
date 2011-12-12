@@ -151,9 +151,6 @@ class DataResource(Resource):
     def validate_bundle_data(self, bundle, request, dataset):
         """
         Perform additional validation that isn't possible with the Validation object.
-
-        TODO: override is_valid() instead.
-        TODO: fails if dataset.schema is None.
         """
         errors = {}
 

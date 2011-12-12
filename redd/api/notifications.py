@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 
-from datetime import datetime
-
-from django.conf.urls.defaults import url
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
-from tastypie.utils.urls import trailing_slash
 
 from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
 from redd.models import Notification 

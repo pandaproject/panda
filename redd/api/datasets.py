@@ -12,9 +12,6 @@ from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, SlugReso
 from redd.models import Category, Dataset
 
 class DatasetValidation(Validation):
-    """
-    TODO: validate schema/sample_data/dialect.
-    """
     def is_valid(self, bundle, request=None):
         errors = {}
 
