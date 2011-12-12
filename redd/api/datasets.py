@@ -98,7 +98,8 @@ class DatasetResource(SlugResource):
         else:
             q = query
 
-        response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='id asc')
+        response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='id desc')
+        print response
         dataset_ids = [d['id'] for d in response['response']['docs']]
 
         datasets = Dataset.objects.filter(id__in=dataset_ids)

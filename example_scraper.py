@@ -30,10 +30,12 @@ response = requests.post(API + '/dataset/', json.dumps(dataset), params=AUTH_PAR
 dataset = json.loads(response.content)
 
 # Write data
-data = {
+data = { 'objects': [{
     'data': ['The', 'PANDA', 'lives.']
-}
+}, {
+    'data': ['More', 'data', 'here.']   
+}]}
 
-response = requests.post(API + '/dataset/%s/data/' % dataset['slug'], json.dumps(data), params=AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
+response = requests.put(API + '/dataset/%s/data/' % dataset['slug'], json.dumps(data), params=AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
 
 print response.content

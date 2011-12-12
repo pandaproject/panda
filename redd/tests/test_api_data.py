@@ -290,11 +290,9 @@ class TestAPIData(TransactionTestCase):
 
         new_data = { 'objects': [
             {
-                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
                 'data': ['1', '2', '3']
             },
             {
-                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
                 'data': ['4', '5', '6']
             }
         ]}
