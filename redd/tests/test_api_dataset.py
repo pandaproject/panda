@@ -269,6 +269,16 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_import_no_data_upload(self):
+        self.dataset.data_upload = None
+        self.dataset.save()
+
+        response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 400)
+        body = json.loads(response.content)
+        self.assertIn('__all__', body)
+
     def test_get_datum(self):
         self.dataset.import_data()
 

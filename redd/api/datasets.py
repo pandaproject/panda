@@ -3,7 +3,10 @@
 from django.conf import settings
 from django.conf.urls.defaults import url
 from tastypie import fields
+from tastypie import http
 from tastypie.authorization import DjangoAuthorization
+from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.utils.mime import build_content_type
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
@@ -139,6 +142,23 @@ class DatasetResource(SlugResource):
             slug = request.GET.get('slug')
 
         dataset = Dataset.objects.get(slug=slug)
+
+        errors = {}
+
+        if not dataset.data_upload:
+            errors['__all__'] = ['Can not import data for a dataset which does not have a data_upload set.']
+
+        # Cribbed from is_valid()
+        if errors:
+            if request:
+                desired_format = self.determine_format(request)
+            else:
+                desired_format = self._meta.default_format
+
+            serialized = self.serialize(request, errors, desired_format)
+            response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
+            raise ImmediateHttpResponse(response=response)
+
         dataset.import_data()
 
         bundle = self.build_bundle(obj=dataset, request=request)
