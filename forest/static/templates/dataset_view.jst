@@ -15,6 +15,7 @@
 
         <p><%= description || "<em>Edit this dataset to add a description.</em>" %></p>
 
+        <% if (sample_data) { %>
         <h6>Sample data</h6>
 
         <table>
@@ -29,10 +30,13 @@
                 </tr>
             <% }); %>
         </table>
+        <% } %>
     </fieldset>
 
     <div class="actions">
         <a class="btn" href="#dataset/<%= slug %>/edit">Edit</a>
+        <% if (data_upload) { %>
         <a class="btn" href="/api/1.0/upload/<%= data_upload.id %>/download/" >Download original file (<%= data_upload.size %> bytes)</a>
+        <% } %>
     </div>
 </form>

@@ -12,6 +12,9 @@ from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, SlugReso
 from redd.models import Category, Dataset
 
 class DatasetValidation(Validation):
+    """
+    TODO: validate schema/sample_data/dialect.
+    """
     def is_valid(self, bundle, request=None):
         errors = {}
 
@@ -32,7 +35,7 @@ class DatasetResource(SlugResource):
     categories = fields.ToManyField(CategoryResource, 'categories', full=True, null=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
-    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True)
+    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True, null=True)
 
     class Meta:
         queryset = Dataset.objects.all()

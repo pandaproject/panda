@@ -153,6 +153,7 @@ class DataResource(Resource):
         Perform additional validation that isn't possible with the Validation object.
 
         TODO: override is_valid() instead.
+        TODO: fails if dataset.schema is None.
         """
         errors = {}
 
@@ -234,6 +235,9 @@ class DataResource(Resource):
         data = make_row_data(dataset, bundle.data['data'], row)
 
         solr.add(settings.SOLR_DATA_CORE, [data], commit=True)
+
+        if not dataset.row_count:
+            dataset.row_count = 0
 
         dataset.row_count += 1
         dataset.save()

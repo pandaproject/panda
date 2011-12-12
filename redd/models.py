@@ -145,7 +145,7 @@ class Dataset(SluggedModel):
         help_text='User-supplied dataset name.')
     description = models.TextField(blank=True,
         help_text='User-supplied dataset description.')
-    data_upload = models.ForeignKey(Upload,
+    data_upload = models.ForeignKey(Upload, null=True, blank=True,
         help_text='The upload corresponding to the data file for this dataset.')
     schema = JSONField(null=True, blank=True,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
@@ -161,7 +161,7 @@ class Dataset(SluggedModel):
         help_text='The date this dataset was initially created.')
     creator = models.ForeignKey(User,
         help_text='The user who created this dataset.')
-    dialect = JSONField(
+    dialect = JSONField(null=True, blank=True,
         help_text='Description of the format of the input CSV.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
@@ -176,25 +176,26 @@ class Dataset(SluggedModel):
         """
         Override save to do fast, first-N type inference on the data and populated the schema.
         """
-        if not self.dialect:
-            with open(self.data_upload.get_path(), 'r') as f:
-                csv_dialect = sniff(f)
-                self.dialect = {
-                    'lineterminator': csv_dialect.lineterminator,
-                    'skipinitialspace': csv_dialect.skipinitialspace,
-                    'quoting': csv_dialect.quoting,
-                    'delimiter': csv_dialect.delimiter,
-                    'quotechar': csv_dialect.quotechar,
-                    'doublequote': csv_dialect.doublequote
-                }
+        if self.data_upload:
+            if not self.dialect:
+                with open(self.data_upload.get_path(), 'r') as f:
+                    csv_dialect = sniff(f)
+                    self.dialect = {
+                        'lineterminator': csv_dialect.lineterminator,
+                        'skipinitialspace': csv_dialect.skipinitialspace,
+                        'quoting': csv_dialect.quoting,
+                        'delimiter': csv_dialect.delimiter,
+                        'quotechar': csv_dialect.quotechar,
+                        'doublequote': csv_dialect.doublequote
+                    }
 
-        if not self.schema:
-            with open(self.data_upload.get_path(), 'r') as f:
-                self.schema = infer_schema(f, self.dialect)
+            if not self.schema:
+                with open(self.data_upload.get_path(), 'r') as f:
+                    self.schema = infer_schema(f, self.dialect)
 
-        if not self.sample_data:
-            with open(self.data_upload.get_path(), 'r') as f:
-                self.sample_data = sample_data(f, self.dialect)
+            if not self.sample_data:
+                with open(self.data_upload.get_path(), 'r') as f:
+                    self.sample_data = sample_data(f, self.dialect)
 
         super(Dataset, self).save(*args, **kwargs)
 
@@ -212,6 +213,8 @@ class Dataset(SluggedModel):
     def import_data(self):
         """
         Execute the data import task for this Dataset. Will use the currently configured schema.
+
+        TODO: Needs to fail if data_upload does not exist.
         """
         self.current_task = TaskStatus.objects.create(
             task_name=DatasetImportTask.name)
@@ -229,10 +232,14 @@ def on_dataset_save(sender, **kwargs):
 
     full_text_data = [
         dataset.name,
-        dataset.description,
-        dataset.data_upload.original_filename
-    ]
-    full_text_data.extend([s['column'] for s in dataset.schema])
+        dataset.description
+    ] 
+
+    if dataset.data_upload:
+        full_text_data.append(dataset.data_upload.original_filename)
+
+    if dataset.schema:
+        full_text_data.extend([s['column'] for s in dataset.schema])
 
     full_text = '\n'.join(full_text_data)
 

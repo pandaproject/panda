@@ -9,9 +9,9 @@ The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriv
 
 .. note::
 
-    You will probably want to try these URLs in your browser. In order to make them work you'll need to use the ``format``, ``username``, and ``api_key`` query string parameters. For example, to authenticate as the default administrative user that comes with PANDA, append the following query string to any url described on this page::
+    You will probably want to try these URLs in your browser. In order to make them work you'll need to use the ``format``, ``email``, and ``api_key`` query string parameters. For example, to authenticate as the default administrative user that comes with PANDA, append the following query string to any url described on this page::
 
-        ?format=json&username=panda&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
+        ?format=json&email=panda@pandaproject.net&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
 All endpoints that return lists support the ``limit`` and ``offset`` parameters for pagination. Pagination information is always returned in the embedded ``meta`` object.
 
@@ -182,9 +182,9 @@ Download original file
 Upload as form-data
 -------------------
 
-When accessing PANDA via curl, your username and API key can be specified with the headers ``PANDA_USERNAME`` and ``PANDA_API_KEY``, respectively::
+When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
 
-    curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     -F file=@README.csv http://localhost:8000/upload/
 
 Upload via AJAX
@@ -192,7 +192,7 @@ Upload via AJAX
 
 ::
 
-    curl -H "PANDA_USERNAME: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv
 
 Categories
@@ -487,12 +487,12 @@ Create
 To create a new Data object, send an HTTP ``POST`` request to the list endpoint with the new object in the body. An example object::
 
     {
-        'data': [
-            'column A value',
-            'column B value',
-            'column C value'
+        "data": [
+            "column A value",
+            "column B value",
+            "column C value"
         ],
-        dataset: '/api/1.0/dataset/[slug]/'
+        "dataset": "/api/1.0/dataset/[slug]/"
     }
 
 When using the global list endpoint you must include the dataset property, however, if posting to a per-dataset list endpoint you may omit it.
@@ -503,16 +503,27 @@ Update
 Update functions similarly to create, however you must use the HTTP ``PUT`` verb and you must send your requests to a specific Data object, such ``/api/1.0/data/[uuid]`` or ``/api/1.0/dataset/[slug]/data/[uuid]``. This will delete the existing object and replace with the one you've sent, reusing the same UUID. If you want to maintain the row number of the original object (if any), you must include it in the request, e.g.::
 
     {
-        'data': [
+        "data": [
             ...
         ],
-        row: 42
+        "row": 42
     }
 
 Bulk create
 -----------
 
-To create objects in bulk you may ``PUT`` an array of objects to either the global or a per-dataset endpoint.
+To create objects in bulk you may ``PUT`` an array of objects to either the global or a per-dataset endpoint. The body of the requested should be formatted like::
+
+    {
+        "objects": [
+            {
+                ...second object data here...
+            },
+            {
+                ...first object data here...
+            }
+        ]
+    }
 
 .. note::
 
