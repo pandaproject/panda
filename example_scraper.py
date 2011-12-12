@@ -15,19 +15,13 @@ dataset = {
     'name': 'Test Dataset from API',
     'schema': [{
         'column': 'A',
-        'simple_type': 'unicode',
-        'meta_type': None,
-        'indexed': False
+        'type': 'unicode'
     }, {
         'column': 'B',
-        'simple_type': 'unicode',
-        'meta_type': None,
-        'indexed': False
+        'type': 'unicode'
     }, {
         'column': 'C',
-        'simple_type': 'unicode',
-        'meta_type': None,
-        'indexed': False
+        'type': 'unicode'
     }]
 }
 
@@ -37,7 +31,7 @@ dataset = json.loads(response.content)
 
 # Write data
 data = {
-    'data': ['1', '2', '3']
+    'data': ['The', 'PANDA', 'lives.']
 }
 
 response = requests.post(API + '/dataset/%s/data/' % dataset['slug'], json.dumps(data), params=AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })

@@ -22,9 +22,7 @@ def infer_schema(f, dialect, sample_size=100):
 
     return [{
         'column': h,
-        'simple_type': t,
-        'meta_type': None,
-        'indexed': False
+        'type': t
     } for h, t in zip(headers, type_names)]
 
 def sample_data(f, dialect, sample_size=5):

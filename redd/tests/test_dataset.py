@@ -24,9 +24,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(len(self.dataset.schema), 3)
         self.assertEqual(self.dataset.schema[0], {
             'column': 'first_name',
-            'simple_type': 'unicode',
-            'meta_type': None,
-            'indexed': False
+            'type': 'unicode'
         });
 
     def test_sample_data_created(self):
