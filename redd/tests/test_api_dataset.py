@@ -288,43 +288,17 @@ class TestAPIDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         # Get id of a datum in Solr
-        datum = solr.query(settings.SOLR_DATA_CORE, 'dataset_id:%s Brian' % self.dataset.id)['response']['docs'][0]
+        datum = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s Brian' % self.dataset.slug)['response']['docs'][0]
 
-        response = self.client.get('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, datum['id']), **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, datum['external_id']), **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
         
         # Verify that correct attributes of the dataset are attached
-        self.assertEqual(body['id'], datum['id'])
-        self.assertEqual(body['row'], 1)
+        self.assertEqual(body['external_id'], datum['external_id'])
         self.assertEqual(body['dataset'], '/api/1.0/dataset/%s/' % self.dataset.slug)
-
-    def test_get_datum_from_wrong_dataset(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        # Refetch dataset so that attributes will be updated
-        self.dataset = Dataset.objects.get(id=self.dataset.id)
-
-        # Import second dataset so we can make sure only one is matched
-        second_dataset = Dataset.objects.create(
-            name='Second dataset',
-            data_upload=self.dataset.data_upload,
-            creator=self.dataset.creator)
-
-        second_dataset.import_data()
-
-        utils.wait()
-
-        # Get id of a datum in Solr
-        datum = solr.query(settings.SOLR_DATA_CORE, 'dataset_id:%s Brian' % second_dataset.id)['response']['docs'][0]
-
-        response = self.client.get('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, datum['id']), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 404)
 
     def test_get_data(self):
         self.dataset.import_data()
