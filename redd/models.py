@@ -217,7 +217,7 @@ class Dataset(SluggedModel):
             task_name=DatasetImportTask.name)
         self.save()
 
-        DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
+        DatasetImportTask.apply_async([self.slug], task_id=self.current_task.id)
 
     def add_row(self, data, external_id=None):
         """
@@ -308,8 +308,8 @@ def on_dataset_delete(sender, **kwargs):
     When a Dataset is deleted, purge its data and metadata from Solr
     """
     dataset = kwargs['instance']
-    dataset_purge_data.apply_async(args=[dataset.id])
-    solr.delete(settings.SOLR_DATASETS_CORE, 'dataset_slug:%s' % dataset.slug)
+    dataset_purge_data.apply_async(args=[dataset.slug])
+    solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset.slug)
 
 class Notification(models.Model):
     recipient = models.ForeignKey(User, related_name='notifications',

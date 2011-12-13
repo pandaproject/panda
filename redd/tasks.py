@@ -27,16 +27,16 @@ class DatasetImportTask(AbortableTask):
                 pass
         return i + 1
 
-    def run(self, dataset_id, *args, **kwargs):
+    def run(self, dataset_slug, *args, **kwargs):
         """
         Execute import.
         """
         from redd.models import Dataset
 
         log = logging.getLogger('redd.tasks.DatasetImportTask')
-        log.info('Beginning import, dataset_id: %i' % dataset_id)
+        log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
-        dataset = Dataset.objects.get(id=dataset_id)
+        dataset = Dataset.objects.get(slug=dataset_slug)
 
         task_status = dataset.current_task
         task_status.status = 'STARTED' 
@@ -52,7 +52,7 @@ class DatasetImportTask(AbortableTask):
             task_status.message = 'Aborted during preperation'
             task_status.save()
 
-            log.warning('Import aborted, dataset_id: %i' % dataset_id)
+            log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
             return
 
@@ -91,7 +91,7 @@ class DatasetImportTask(AbortableTask):
                     task_status.message = 'Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100)
                     task_status.save()
 
-                    log.warning('Import aborted, dataset_id: %i' % dataset_id)
+                    log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
                     return
 
@@ -108,7 +108,7 @@ class DatasetImportTask(AbortableTask):
         dataset.row_count = i
         dataset.save()
 
-        log.info('Finished import, dataset_id: %i' % dataset_id)
+        log.info('Finished import, dataset_slug: %s' % dataset_slug)
 
     def after_return(self, status, retval, task_id, args, kwargs, einfo):
         """
@@ -116,7 +116,7 @@ class DatasetImportTask(AbortableTask):
         """
         from redd.models import Dataset, Notification, TaskStatus
         
-        dataset = Dataset.objects.get(id=args[0])
+        dataset = Dataset.objects.get(slug=args[0])
         task_status = TaskStatus.objects.get(id=self.request.id)
 
         notification = Notification(recipient=dataset.creator) 
@@ -142,17 +142,17 @@ class DatasetImportTask(AbortableTask):
 
         # If import failed, clear any data that might be staged for commit
         if task_status.status == 'FAILURE':
-            solr.delete(settings.SOLR_DATA_CORE, 'dataset_id:%i' % args[0], commit=True)
+            solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % args[0], commit=True)
 
 @task
-def dataset_purge_data(dataset_id):
+def dataset_purge_data(dataset_slug):
     """
     Purge a dataset from Solr.
     """
     log = logging.getLogger('redd.tasks.dataset_purge_data')
-    log.info('Beginning purge, dataset_id: %i' % dataset_id)
+    log.info('Beginning purge, dataset_slug: %s' % dataset_slug)
 
-    solr.delete(settings.SOLR_DATA_CORE, 'dataset_id:%i' % dataset_id)
+    solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset_slug)
 
-    log.info('Finished purge, dataset_id: %i' % dataset_id)
+    log.info('Finished purge, dataset_slug: %s' % dataset_slug)
     
