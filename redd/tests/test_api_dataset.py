@@ -40,7 +40,7 @@ class TestAPIDataset(TransactionTestCase):
 
     def test_get(self):
         # Import so that there will be a task object
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 
@@ -280,7 +280,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertIn('__all__', body)
 
     def test_get_datum(self):
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 
@@ -301,7 +301,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['dataset'], '/api/1.0/dataset/%s/' % self.dataset.slug)
 
     def test_get_data(self):
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 
@@ -314,7 +314,7 @@ class TestAPIDataset(TransactionTestCase):
             data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
-        second_dataset.import_data()
+        second_dataset.import_data(0)
 
         utils.wait()
 
@@ -333,10 +333,10 @@ class TestAPIDataset(TransactionTestCase):
         # Test that only one dataset was matched
         self.assertEqual(body['meta']['total_count'], 4)
         self.assertEqual(len(body['objects']), 4)
-        self.assertEqual(body['objects'][0]['data'][0], 'Brian')
+        self.assertEqual(body['objects'][0]['data'][1], 'Brian')
 
     def test_search_data(self):
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 
@@ -349,7 +349,7 @@ class TestAPIDataset(TransactionTestCase):
             data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
-        second_dataset.import_data()
+        second_dataset.import_data(0)
 
         utils.wait()
 
@@ -368,10 +368,10 @@ class TestAPIDataset(TransactionTestCase):
         # Test that only one dataset was matched
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
-        self.assertEqual(body['objects'][0]['data'][0], 'Christopher')
+        self.assertEqual(body['objects'][0]['data'][1], 'Christopher')
 
     def test_search_data_limit(self):
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 

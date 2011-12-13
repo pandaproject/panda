@@ -22,7 +22,7 @@ class TestAPITaskStatus(TransactionTestCase):
         self.upload = utils.get_test_upload(self.user)
         self.dataset = utils.get_test_dataset(self.upload, self.user)
 
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 

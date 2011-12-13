@@ -55,7 +55,7 @@ def get_test_dataset(upload, creator):
         name='Contributors',
         description='Biographic information about contributors to the PANDA project.',
         data_upload=upload,
-        creator=creator)        
+        creator=creator)
 
 def wait():
     sleep(1)

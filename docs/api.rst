@@ -402,7 +402,7 @@ To create a new Dataset, POST a JSON document containing at least ``name`` and `
 Import
 ------
 
-Begin an import task using the dataset's current schema. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task::
+Begin an import task. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task::
 
     http://localhost:8000/api/1.0/dataset/[id]/import/
 

@@ -27,7 +27,7 @@ class DatasetImportTask(AbortableTask):
                 pass
         return i + 1
 
-    def run(self, dataset_slug, *args, **kwargs):
+    def run(self, dataset_slug, external_id_field_index, *args, **kwargs):
         """
         Execute import.
         """
@@ -74,7 +74,12 @@ class DatasetImportTask(AbortableTask):
         add_buffer = []
 
         for i, row in enumerate(reader, start=1):
-            data = make_solr_row(dataset, row, external_id=i)
+            external_id = None
+
+            if external_id_field_index is not None:
+                external_id = row[external_id_field_index]
+
+            data = make_solr_row(dataset, row, external_id=external_id)
 
             add_buffer.append(data)
 

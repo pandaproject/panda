@@ -209,15 +209,15 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).delete(*args, **kwargs)
 
-    def import_data(self):
+    def import_data(self, external_id_field_index=None):
         """
-        Execute the data import task for this Dataset. Will use the currently configured schema.
+        Execute the data import task for this Dataset
         """
         self.current_task = TaskStatus.objects.create(
             task_name=DatasetImportTask.name)
         self.save()
 
-        DatasetImportTask.apply_async([self.slug], task_id=self.current_task.id)
+        DatasetImportTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
 
     def add_row(self, data, external_id=None):
         """

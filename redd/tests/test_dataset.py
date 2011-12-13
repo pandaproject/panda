@@ -21,27 +21,24 @@ class TestDataset(TransactionTestCase):
 
     def test_schema_created(self):
         self.assertNotEqual(self.dataset.schema, None)
-        self.assertEqual(len(self.dataset.schema), 3)
+        self.assertEqual(len(self.dataset.schema), 4)
         self.assertEqual(self.dataset.schema[0], {
-            'column': 'first_name',
-            'type': 'unicode'
+            'column': 'id',
+            'type': 'int'
         });
 
     def test_sample_data_created(self):
         self.assertNotEqual(self.dataset.sample_data, None)
         self.assertEqual(len(self.dataset.sample_data), 4)
-        self.assertEqual(self.dataset.sample_data[0], {
-            'row': 1,
-            'data': ['Brian', 'Boyer', 'Chicago Tribune']
-        });
+        self.assertEqual(self.dataset.sample_data[0], ['1', 'Brian', 'Boyer', 'Chicago Tribune']);
 
     def test_metadata_searchable(self):
-        response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='id asc')
+        response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='slug asc')
 
         self.assertEqual(response['response']['numFound'], 1)
 
     def test_import_data(self):
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         task = self.dataset.current_task
 
@@ -62,7 +59,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_delete(self):
-        self.dataset.import_data()
+        self.dataset.import_data(0)
 
         utils.wait()
 
@@ -78,7 +75,7 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 0)
 
-        response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='id asc')
+        response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='slug asc')
 
         self.assertEqual(response['response']['numFound'], 0)
 
