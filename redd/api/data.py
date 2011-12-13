@@ -62,8 +62,6 @@ class DataResource(Resource):
     """
     API resource for data.
     """
-    id = fields.CharField(attribute='id',
-        help_text='Unique id of this row of data.')
     dataset_slug = fields.CharField(attribute='dataset_slug',
         help_text='Slug of the dataset this row of data belongs to.')
     external_id = fields.CharField(attribute='external_id', null=True, blank=True,
@@ -93,27 +91,25 @@ class DataResource(Resource):
         """
         Trim the dataset_slug field and add a proper relationship.
         """
-        from redd.api.datasets import DatasetResource
-
         dataset = Dataset.objects.get(slug=bundle.data['dataset_slug'])
-        dr = DatasetResource()
-        uri = dr.get_resource_uri(dataset)
 
         del bundle.data['dataset_slug']
-        bundle.data['dataset'] = uri
+        bundle.data['dataset'] = DatasetResource().get_resource_uri(dataset)
 
         return bundle
 
     def get_resource_uri(self, bundle_or_obj):
         """
         Build a canonical uri for a datum.
+
+        If the resource doesn't have an external_id it is
+        considered "unaddressable" and this will return None.
         """
         dr = DatasetResource()
 
         kwargs = {
             'api_name': self._meta.api_name,
-            # TODO: should be dynamic
-            'dataset_resource_name': 'dataset',
+            'dataset_resource_name': dr._meta.resource_name,
             'resource_name': self._meta.resource_name,
         }
 
@@ -123,6 +119,9 @@ class DataResource(Resource):
         else:
             kwargs['dataset_slug'] = bundle_or_obj.dataset_slug
             kwargs['external_id'] = bundle_or_obj.external_id
+ 
+        if not kwargs['external_id']:
+            return None
 
         return dr._build_reverse_url('api_dataset_data_detail', kwargs=kwargs)
 
@@ -241,9 +240,9 @@ class DataResource(Resource):
         """
         dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
         
-        # Verify it exists
+        # Verify old row exists 
         self.obj_get(request, **kwargs)
-        
+
         self.validate_bundle_data(bundle, request, dataset)
 
         if 'external_id' in bundle.data:
@@ -251,8 +250,12 @@ class DataResource(Resource):
         else:
             external_id = kwargs['external_id'] 
 
+        # Delete old row
+        dataset.delete_row(external_id)
+
+        # Add new row
         row = dataset.update_row(external_id, bundle.data['data'])
-        
+
         bundle.obj = SolrObject(row)
 
         return bundle
@@ -280,10 +283,7 @@ class DataResource(Resource):
 
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (kwargs['dataset_slug'], kwargs['external_id']), commit=True)
-
-        dataset.row_count -= 1
-        dataset.save()
+        dataset.delete_row(kwargs['external_id'])
 
     # Views
 

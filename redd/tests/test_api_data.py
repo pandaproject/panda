@@ -93,7 +93,6 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(body['objects'][0]['objects']), 4)
 
         self.assertIn('data', body['objects'][0]['objects'][0])
-        self.assertIn('id', body['objects'][0]['objects'][0])
         self.assertIn('resource_uri', body['objects'][0]['objects'][0])
         self.assertIn('external_id', body['objects'][0]['objects'][0])
 
@@ -142,7 +141,6 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(response.status_code, 201)
         body = json.loads(response.content)
         self.assertEqual(body['data'], new_data['data'])
-        self.assertIn('id', body)
         self.assertIn('dataset', body)
         self.assertIn('resource_uri', body)
         self.assertIn('external_id', body)
@@ -290,7 +288,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['data'], update_data['data'])
         self.assertEqual(body['dataset'], data['dataset'])
         self.assertEqual(body['resource_uri'], data['resource_uri'])
-        self.assertEqual(body['external_id'], None)
+        self.assertEqual(body['external_id'], data['external_id'])
 
     def test_updated_search(self):
         self.dataset.import_data()
@@ -433,7 +431,6 @@ class TestAPIData(TransactionTestCase):
             self.assertEqual(result_dataset['schema'], db_dataset.schema)
 
             self.assertEqual(result_dataset['objects'][0]['data'][0], 'Christopher')
-            self.assertIn('id', result_dataset['objects'][0])
             self.assertIn('resource_uri', result_dataset['objects'][0])
             self.assertIn('external_id', result_dataset['objects'][0])
 

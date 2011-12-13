@@ -257,7 +257,13 @@ class Dataset(SluggedModel):
         return solr_row
 
     def delete_row(self, external_id):
-        pass
+        """
+        Delete a row in this dataset
+        """
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (self.slug, external_id), commit=True)
+
+        self.row_count -= 1
+        self.save()
 
 @receiver(models.signals.post_save, sender=Dataset)
 def on_dataset_save(sender, **kwargs):
