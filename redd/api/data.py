@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
 from tastypie.authorization import DjangoAuthorization
@@ -128,23 +128,26 @@ class DataResource(Resource):
     def get_dataset_from_kwargs(self, bundle, **kwargs):
         """
         Extract a dataset from one of the variety of places it might be hiding.
-
-        TODO: doesn't need to actually fetch Datasets in order to compare slugs
         """
         kwargs_slug = kwargs['dataset_slug']
-        kwargs_dataset = Dataset.objects.get(slug=kwargs_slug)
 
         bundle_uri = bundle.data.pop('dataset', None)
-        bundle_dataset = None
+        bundle_slug = None
 
         if bundle_uri:
-            bundle_dataset = DatasetResource().get_via_uri(bundle_uri)
+            prefix = get_script_prefix()
 
-        if bundle_dataset and kwargs_dataset:
-            if bundle_dataset.id != kwargs_dataset.id:
-                raise BadRequest('Dataset specified in request body does not agree with dataset API endpoint used.')
+            if prefix and bundle_uri.startswith(prefix):
+                bundle_uri = bundle_uri[len(prefix)-1:]
 
-        return bundle_dataset or kwargs_dataset
+            view, args, kwargs = resolve(bundle_uri)
+
+            bundle_slug = kwargs['slug']
+
+        if bundle_slug and bundle_slug != kwargs_slug:
+            raise BadRequest('Dataset specified in request body does not agree with dataset API endpoint used.')
+
+        return Dataset.objects.get(slug=kwargs_slug) 
 
     def validate_bundle_data(self, bundle, request, dataset):
         """
