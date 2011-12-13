@@ -362,6 +362,10 @@ class DataResource(Resource):
         """
         List endpoint using Solr. Provides full-text search via the "q" parameter."
         """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
         query = request.GET.get('q', '')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
@@ -420,6 +424,8 @@ class DataResource(Resource):
             datasets.append(dataset_bundle.data)
 
         page['objects'] = datasets
+
+        self.log_throttled_access(request)
 
         return self.create_response(request, page)
 
