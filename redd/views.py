@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
 
+from redd.api.data import DataResource
 from redd.api.users import UserValidation
 from redd.api.notifications import NotificationResource
 from redd.api.utils import CustomApiKeyAuthentication

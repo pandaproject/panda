@@ -4,13 +4,12 @@ from django.conf.urls.defaults import include, patterns, url
 from tastypie.api import Api
 from tastypie.utils.urls import trailing_slash
 
-from redd.api import CategoryResource, DataResource, DatasetResource, NotificationResource, TaskResource, UploadResource, UserResource
+from redd.api import CategoryResource, DatasetResource, NotificationResource, TaskResource, UploadResource, UserResource
 from redd import views
 
 api_1_0 = Api(api_name='1.0')
 api_1_0.register(CategoryResource())
 api_1_0.register(DatasetResource())
-api_1_0.register(DataResource())
 api_1_0.register(NotificationResource())
 api_1_0.register(TaskResource())
 api_1_0.register(UploadResource())

@@ -31,24 +31,21 @@ def sample_data(f, dialect, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
         
     samples = []
 
-    for i, row in enumerate(islice(reader, sample_size), start=1):
-        samples.append({
-            'row': i, 
-            'data': row,
-        })
+    for row in islice(reader, sample_size):
+        samples.append(row)
 
     return samples 
 
-def make_solr_row(dataset, data, row_number=None, pk=None):
+def make_solr_row(dataset, data, pk=None, external_id=None):
     solr_row = {
         'id': pk or unicode(uuid4()),
-        'dataset_id': dataset.id,
+        'dataset_slug': dataset.slug,
         'full_text': '\n'.join(data),
         'data': json.dumps(data)
     }
 
-    if row_number:
-        solr_row['row'] = row_number
+    if external_id:
+        solr_row['external_id'] = external_id
 
     return solr_row
 

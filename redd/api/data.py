@@ -60,14 +60,14 @@ class DataValidation(Validation):
 
 class DataResource(Resource):
     """
-    API resource for row data.
+    API resource for data.
     """
     id = fields.CharField(attribute='id',
         help_text='Unique id of this row of data.')
-    dataset_id = fields.IntegerField(attribute='dataset_id',
-        help_text='Unique id of the dataset this row of data belongs to.')
-    row = fields.IntegerField(attribute='row', null=True, blank=True,
-        help_text='Row number of this data in the source dataset.')
+    dataset_slug = fields.CharField(attribute='dataset_slug',
+        help_text='Slug of the dataset this row of data belongs to.')
+    external_id = fields.CharField(attribute='external_id', null=True, blank=True,
+        help_text='Per-dataset unique identifier for this row of data.')
     data = fields.CharField(attribute='data',
         help_text='An ordered list of values corresponding to the columns in the parent dataset.')
 
@@ -91,15 +91,15 @@ class DataResource(Resource):
 
     def dehydrate(self, bundle):
         """
-        Trim the dataset_id field and add a proper relationship.
+        Trim the dataset_slug field and add a proper relationship.
         """
         from redd.api.datasets import DatasetResource
 
-        dataset = Dataset.objects.get(id=bundle.data['dataset_id'])
+        dataset = Dataset.objects.get(slug=bundle.data['dataset_slug'])
         dr = DatasetResource()
         uri = dr.get_resource_uri(dataset)
 
-        del bundle.data['dataset_id']
+        del bundle.data['dataset_slug']
         bundle.data['dataset'] = uri
 
         return bundle
@@ -108,38 +108,38 @@ class DataResource(Resource):
         """
         Build a canonical uri for a datum.
         """
+        dr = DatasetResource()
+
         kwargs = {
+            'api_name': self._meta.api_name,
+            # TODO: should be dynamic
+            'dataset_resource_name': 'dataset',
             'resource_name': self._meta.resource_name,
         }
 
         if isinstance(bundle_or_obj, Bundle):
-            kwargs['pk'] = bundle_or_obj.obj.id
+            kwargs['dataset_slug'] = bundle_or_obj.obj.dataset_slug
+            kwargs['external_id'] = bundle_or_obj.obj.external_id
         else:
-            kwargs['pk'] = bundle_or_obj.id
+            kwargs['dataset_slug'] = bundle_or_obj.dataset_slug
+            kwargs['external_id'] = bundle_or_obj.external_id
 
-        if self._meta.api_name is not None:
-            kwargs['api_name'] = self._meta.api_name
+        return dr._build_reverse_url('api_dataset_data_detail', kwargs=kwargs)
 
-        return self._build_reverse_url('api_dispatch_detail', kwargs=kwargs)
-
-    def get_dataset_from_bundle_or_kwargs(self, bundle, **kwargs):
+    def get_dataset_from_kwargs(self, bundle, **kwargs):
         """
         Extract a dataset from one of the variety of places it might be hiding.
-        """
-        bundle_uri = bundle.data.pop('dataset', None)
-        kwargs_slug = kwargs.pop('dataset_slug', None)
 
+        TODO: doesn't need to actually fetch Datasets in order to compare slugs
+        """
+        kwargs_slug = kwargs['dataset_slug']
+        kwargs_dataset = Dataset.objects.get(slug=kwargs_slug)
+
+        bundle_uri = bundle.data.pop('dataset', None)
         bundle_dataset = None
-        kwargs_dataset = None
 
         if bundle_uri:
             bundle_dataset = DatasetResource().get_via_uri(bundle_uri)
-
-        if kwargs_slug:
-            kwargs_dataset = Dataset.objects.get(slug=kwargs_slug)
-
-        if not bundle_dataset and not kwargs_dataset:
-            raise BadRequest('When creating or updating Data you must specify a Dataset either by using a /api/x.y/dataset/[slug]/data/ endpoint or by providing a dataset uri in the body of the document.')
 
         if bundle_dataset and kwargs_dataset:
             if bundle_dataset.id != kwargs_dataset.id:
@@ -200,24 +200,18 @@ class DataResource(Resource):
         """
         Query Solr for a single item by primary key.
         """
-        get_id = kwargs['pk']
-        
-        try:
-            slug = kwargs['dataset_slug']
-            dataset = Dataset.objects.get(slug=slug)
-            dataset_id = unicode(dataset.id)
-        except KeyError:
-            dataset_id = '*'
+        dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
+        dataset_slug = unicode(dataset.slug)
+    
+        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (dataset_slug, kwargs['external_id']))
 
-        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s dataset_id:%s' % (get_id, dataset_id))
-
-        if len(obj['response']['docs']) < 1:
+        if len(response['response']['docs']) < 1:
             raise NotFound()
 
-        if len(obj['response']['docs']) > 1:
+        if len(response['response']['docs']) > 1:
             raise MultipleObjectsReturned()
 
-        return SolrObject(obj['response']['docs'][0])
+        return SolrObject(response['response']['docs'][0])
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
@@ -226,16 +220,16 @@ class DataResource(Resource):
         TODO: committing everytime this is called doesn't make sense, especially
         since this function is called multiple times in put_list().
         """
-        dataset = self.get_dataset_from_bundle_or_kwargs(bundle, **kwargs)
+        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
 
         self.validate_bundle_data(bundle, request, dataset)
 
-        if 'row' in bundle.data:
-            row = bundle.data['row']
+        if 'external_id' in bundle.data:
+            external_id = bundle.data['external_id']
         else:
-            row = None
+            external_id = None
 
-        row = dataset.add_row(bundle.data['data'], row)
+        row = dataset.add_row(bundle.data['data'], external_id=external_id)
 
         bundle.obj = SolrObject(row)
 
@@ -245,22 +239,19 @@ class DataResource(Resource):
         """
         Update an existing Data.
         """
-        dataset = self.get_dataset_from_bundle_or_kwargs(bundle, **kwargs)
+        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
         
-        if 'dataset_slug' in kwargs:
-            del kwargs['dataset_slug']
-
         # Verify it exists
-        self.obj_get(request, dataset_slug=dataset.slug, **kwargs)
+        self.obj_get(request, **kwargs)
         
         self.validate_bundle_data(bundle, request, dataset)
 
-        if 'row' in bundle.data:
-            row = bundle.data['row']
+        if 'external_id' in bundle.data:
+            external_id = bundle.data['external_id']
         else:
-            row = None
+            external_id = kwargs['external_id'] 
 
-        row = dataset.update_row(kwargs['pk'], bundle.data['data'], row)
+        row = dataset.update_row(external_id, bundle.data['data'])
         
         bundle.obj = SolrObject(row)
 
@@ -279,18 +270,17 @@ class DataResource(Resource):
 
         TODO: See note in ``obj_create`` about committing.
         """
-        obj = solr.query(settings.SOLR_DATA_CORE, 'id:%s' % kwargs['pk'])
+        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (kwargs['dataset_slug'], kwargs['external_id']))
 
-        if len(obj['response']['docs']) < 1:
+        if len(response['response']['docs']) < 1:
             raise NotFound()
 
-        if len(obj['response']['docs']) > 1:
+        if len(response['response']['docs']) > 1:
             raise MultipleObjectsReturned()
 
-        data = obj['response']['docs'][0]
-        dataset = Dataset.objects.get(id=data['dataset_id'])
+        dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        solr.delete(settings.SOLR_DATA_CORE, 'id:%s' % kwargs['pk'], commit=True)
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (kwargs['dataset_slug'], kwargs['external_id']), commit=True)
 
         dataset.row_count -= 1
         dataset.save()
@@ -303,11 +293,7 @@ class DataResource(Resource):
 
         Bypasses ``obj_get_list``, making it unnecessary.
         """
-        # Was this called from a url nested in a dataset?
-        if 'dataset_slug' in kwargs:
-            results = self.search_dataset_data(request, **kwargs)
-        else:
-            results = self.search_all_data(request)
+        results = self.search_dataset_data(request, **kwargs)
 
         return self.create_response(request, results)
 
@@ -358,14 +344,9 @@ class DataResource(Resource):
         url nested under a Dataset. Deleting *all* ``Data`` objects is
         not supported.
         """
-        dataset_slug = kwargs.pop('dataset_slug', None)
+        dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        if not dataset_slug:
-            return http.HttpMethodNotAllowed() 
-
-        dataset = Dataset.objects.get(slug=dataset_slug)
-
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_id:%s' % dataset.id, commit=True)
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset.slug, commit=True)
 
         dataset.row_count = 0
         dataset.save()
@@ -380,9 +361,6 @@ class DataResource(Resource):
     def search_all_data(self, request, **kwargs):
         """
         List endpoint using Solr. Provides full-text search via the "q" parameter."
-
-        We override get_list() rather than obj_get_list() since the Data objects
-        are wrapped in Datasets.
         """
         query = request.GET.get('q', '')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
@@ -393,29 +371,29 @@ class DataResource(Resource):
         response = solr.query_grouped(
             settings.SOLR_DATA_CORE,
             query,
-            'dataset_id',
+            'dataset_slug',
             offset=offset,
             limit=limit,
             group_limit=group_limit,
             group_offset=group_offset
         )
-        groups = response['grouped']['dataset_id']['groups']
+        groups = response['grouped']['dataset_slug']['groups']
 
         page = CustomPaginator(
             request.GET,
             groups,
             resource_uri=request.path_info,
-            count=response['grouped']['dataset_id']['ngroups']
+            count=response['grouped']['dataset_slug']['ngroups']
         ).page()
 
         datasets = []
 
         for group in groups:
-            dataset_id = group['groupValue']
+            dataset_slug = group['groupValue']
             results = group['doclist']
 
             dataset_resource = DatasetResource()
-            dataset = Dataset.objects.get(id=dataset_id)
+            dataset = Dataset.objects.get(slug=dataset_slug)
             dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
             dataset_bundle = dataset_resource.full_dehydrate(dataset_bundle)
             dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
@@ -443,11 +421,13 @@ class DataResource(Resource):
 
         page['objects'] = datasets
 
-        return page
+        return self.create_response(request, page)
 
     def search_dataset_data(self, request, **kwargs):
         """
         Perform a full-text search on only one dataset.
+
+        See ``get_list``.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
@@ -457,7 +437,7 @@ class DataResource(Resource):
 
         response = solr.query(
             settings.SOLR_DATA_CORE,
-            'dataset_id:%s %s' % (dataset.id, query),
+            'dataset_slug:%s %s' % (dataset.slug, query),
             offset=offset,
             limit=limit
         )

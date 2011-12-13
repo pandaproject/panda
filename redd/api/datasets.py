@@ -65,7 +65,7 @@ class DatasetResource(SlugResource):
         """
         from redd.api.data import DataResource
         
-        data_resource = DataResource()
+        data_resource = DataResource(api_name=self._meta.api_name)
 
         return [
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
@@ -73,7 +73,8 @@ class DatasetResource(SlugResource):
             
             # Nested urls for accessing data
             url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_list'), name='api_dataset_data_list'),
-            url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)/(?P<pk>\w[\w/-]+)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_detail'), name='api_dataset_data_detail')
+            url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)/(?P<external_id>[\w\d_-]+)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_detail'), name='api_dataset_data_detail'),
+            url(r'^data%s' % trailing_slash(), data_resource.wrap_view('search_all_data'), name='api_data_search')
         ]
 
     def get_list(self, request, **kwargs):
@@ -98,10 +99,11 @@ class DatasetResource(SlugResource):
         else:
             q = query
 
-        response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='id desc')
-        dataset_ids = [d['id'] for d in response['response']['docs']]
+        # TODO: fix sort
+        response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='slug desc')
+        dataset_slugs = [d['slug'] for d in response['response']['docs']]
 
-        datasets = Dataset.objects.filter(id__in=dataset_ids)
+        datasets = Dataset.objects.filter(slug__in=dataset_slugs)
 
         paginator = CustomPaginator(request.GET, datasets, resource_uri=request.path_info, count=response['response']['numFound'])
         page = paginator.page()

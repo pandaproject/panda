@@ -60,8 +60,8 @@
 
         <!-- Static fields -->
         <field name="id" type="string" indexed="true" stored="true" required="true" />
-        <field name="dataset_id" type="string" indexed="true" stored="true" required="true" />
-        <field name="row" type="int" indexed="true" stored="true" />
+        <field name="dataset_slug" type="string" indexed="true" stored="true" required="true" />
+        <field name="external_id" type="string" indexed="true" stored="true" />
         <field name="full_text" type="text_general" indexed="true" stored="false" />
         <field name="data" type="string" indexed="false" stored="true" required="true" />
 

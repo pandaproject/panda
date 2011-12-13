@@ -50,20 +50,17 @@ class TestAPIData(TransactionTestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/data/' % self.dataset.slug, **self.auth_headers)
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
 
         # Returned as a list of datasets
-        self.assertEqual(body['meta']['total_count'], 1)
-        self.assertEqual(len(body['objects']), 1)
-        self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
-        self.assertEqual(body['objects'][0]['meta']['total_count'], 4)
-        self.assertEqual(len(body['objects'][0]['objects']), 4)
+        self.assertEqual(body['meta']['total_count'], 4)
+        self.assertEqual(len(body['objects']), 4)
 
-        datum = body['objects'][0]['objects'][0]
+        datum = body['objects'][0]
 
-        response = self.client.get('/api/1.0/data/%s/' % datum['id'], **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, datum['external_id']), **self.auth_headers)
         self.assertEqual(response.status_code, 200)
         get_result = json.loads(response.content)
 
@@ -74,10 +71,11 @@ class TestAPIData(TransactionTestCase):
 
         utils.wait()
 
-        response = self.client.get('/api/1.0/data/not-a-valid-id/', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/data/not-a-valid-id/' % self.dataset.id, **self.auth_headers)
         self.assertEqual(response.status_code, 404)
 
     def test_list(self):
+        # TODO: fix search / global list!
         self.dataset.import_data()
 
         utils.wait()
@@ -98,41 +96,27 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('data', body['objects'][0]['objects'][0])
         self.assertIn('id', body['objects'][0]['objects'][0])
         self.assertIn('resource_uri', body['objects'][0]['objects'][0])
-        self.assertIn('row', body['objects'][0]['objects'][0])
+        self.assertIn('external_id', body['objects'][0]['objects'][0])
 
-    def test_list_unauthorized(self):
-        response = self.client.get('/api/1.0/data/')
-
-        self.assertEqual(response.status_code, 401)   
-
-    def test_get_dataset_from_bundle_or_kwargs_bundle(self):
-        data_resource = DataResource()
-
-        bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug })
-        
-        dataset = data_resource.get_dataset_from_bundle_or_kwargs(bundle)
-
-        self.assertEqual(dataset.id, self.dataset.id)
-
-    def test_get_dataset_from_bundle_or_kwargs_kwargs(self):
+    def test_get_dataset_from_kwargs(self):
         data_resource = DataResource()
 
         bundle = Bundle(data={})
         
-        dataset = data_resource.get_dataset_from_bundle_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+        dataset = data_resource.get_dataset_from_kwargs(bundle, dataset_slug=self.dataset.slug)
 
         self.assertEqual(dataset.id, self.dataset.id)
 
-    def test_get_dataset_from_bundle_or_kwargs_agree(self):
+    def test_get_dataset_from_kwargs_agree(self):
         data_resource = DataResource()
 
         bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug })
         
-        dataset = data_resource.get_dataset_from_bundle_or_kwargs(bundle, dataset_slug=self.dataset.slug)
+        dataset = data_resource.get_dataset_from_kwargs(bundle, dataset_slug=self.dataset.slug)
 
         self.assertEqual(dataset.id, self.dataset.id)
 
-    def test_get_dataset_from_bundle_or_kwargs_conflict(self):
+    def test_get_dataset_from_kwargs_conflict(self):
         data_resource = DataResource()
 
         second_dataset = Dataset.objects.create(
@@ -143,77 +127,7 @@ class TestAPIData(TransactionTestCase):
         bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % second_dataset.slug })
         
         with self.assertRaises(BadRequest):
-            data_resource.get_dataset_from_bundle_or_kwargs(bundle, dataset_slug=self.dataset.slug)
-
-    def test_get_dataset_from_bundle_or_kwargs_none(self):
-        data_resource = DataResource()
-
-        bundle = Bundle(data={})
-        
-        with self.assertRaises(BadRequest):
-            data_resource.get_dataset_from_bundle_or_kwargs(bundle)
-
-    def test_create_no_dataset(self):
-        new_data = {
-            'data': ['1', '2', '3']
-        }
-
-        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 400)
-
-    def test_create_data_endpoint(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        new_data = {
-            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
-            'data': ['1', '2', '3']
-        }
-
-        response = self.client.post('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 201)
-        body = json.loads(response.content)
-        self.assertEqual(body['data'], new_data['data'])
-        self.assertEqual(body['dataset'], new_data['dataset'])
-        self.assertIn('id', body)
-        self.assertIn('dataset', body)
-        self.assertIn('resource_uri', body)
-        self.assertIn('row', body)
-
-        # Refresh
-        self.dataset = Dataset.objects.get(id=self.dataset.id)
-
-        self.assertEqual(self.dataset.row_count, 5)
-
-    def test_create_data_endpoint_bulk(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        new_data = { 'objects': [
-            {
-                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
-                'data': ['1', '2', '3']
-            },
-            {
-                'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
-                'data': ['4', '5', '6']
-            }
-        ]}
-
-        response = self.client.put('/api/1.0/data/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 202)
-        body = json.loads(response.content)
-        self.assertEqual(len(body['objects']), 2)
-
-        # Refresh
-        self.dataset = Dataset.objects.get(id=self.dataset.id)
-
-        self.assertEqual(self.dataset.row_count, 6)
+            data_resource.get_dataset_from_kwargs(bundle, dataset_slug=self.dataset.slug)
 
     def test_create_dataset_endpoint(self):
         self.dataset.import_data()
@@ -232,12 +146,37 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('id', body)
         self.assertIn('dataset', body)
         self.assertIn('resource_uri', body)
-        self.assertIn('row', body)
+        self.assertIn('external_id', body)
 
         # Refresh
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(self.dataset.row_count, 5)
+
+    def test_create_dataset_endpoint_bulk(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        new_data = { 'objects': [
+            {
+                'data': ['1', '2', '3']
+            },
+            {
+                'data': ['4', '5', '6']
+            }
+        ]}
+
+        response = self.client.put('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+        body = json.loads(response.content)
+        self.assertEqual(len(body['objects']), 2)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 6)
 
     def test_create_no_schema(self):
         self.dataset.data_upload = None
@@ -283,31 +222,6 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(len(self.dataset.sample_data), 5)
 
-    def test_create_dataset_endpoint_bulk(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        new_data = { 'objects': [
-            {
-                'data': ['1', '2', '3']
-            },
-            {
-                'data': ['4', '5', '6']
-            }
-        ]}
-
-        response = self.client.put('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 202)
-        body = json.loads(response.content)
-        self.assertEqual(len(body['objects']), 2)
-
-        # Refresh
-        self.dataset = Dataset.objects.get(id=self.dataset.id)
-
-        self.assertEqual(self.dataset.row_count, 6)
-
     def test_created_search(self):
         self.dataset.import_data()
 
@@ -321,6 +235,7 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 201)
 
+        # TODO: fix
         response = self.client.get('/api/1.0/data/?q=flibbity', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
@@ -353,33 +268,6 @@ class TestAPIData(TransactionTestCase):
         body = json.loads(response.content)
         self.assertIn('data', body)
 
-    def test_update_data_endpoint(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        update_data = {
-            'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
-            'data': ['1', '2', '3']
-        }
-
-        response = self.client.get('/api/1.0/data/', **self.auth_headers)
-
-        self.assertEqual(response.status_code, 200)
-        body = json.loads(response.content)
-
-        # Dataset objects were returned
-        data = body['objects'][0]['objects'][0]
-
-        response = self.client.put('/api/1.0/data/%s/' % data['id'], content_type='application/json', data=json.dumps(update_data), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 202)
-        body = json.loads(response.content)
-        self.assertEqual(body['data'], update_data['data'])
-        self.assertEqual(body['dataset'], data['dataset'])
-        self.assertEqual(body['resource_uri'], data['resource_uri'])
-        self.assertEqual(body['row'], None)
-
     def test_update_dataset_endpoint(self):
         self.dataset.import_data()
 
@@ -390,13 +278,12 @@ class TestAPIData(TransactionTestCase):
             'data': ['1', '2', '3']
         }
 
-        response = self.client.get('/api/1.0/data/', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/data/' % self.dataset.slug, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
 
-        # Dataset objects were returned
-        data = body['objects'][0]['objects'][0]
+        data = body['objects'][0]
 
         response = self.client.put('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, data['id']), content_type='application/json', data=json.dumps(update_data), **self.auth_headers)
 
@@ -405,7 +292,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['data'], update_data['data'])
         self.assertEqual(body['dataset'], data['dataset'])
         self.assertEqual(body['resource_uri'], data['resource_uri'])
-        self.assertEqual(body['row'], None)
+        self.assertEqual(body['external_id'], None)
 
     def test_updated_search(self):
         self.dataset.import_data()
@@ -429,6 +316,7 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 202)
 
+        # TODO: fix
         response = self.client.get('/api/1.0/data/?q=flibbity', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
@@ -438,28 +326,6 @@ class TestAPIData(TransactionTestCase):
         # Verify that the group count is correct
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
-
-    def test_delete_data_endpoint(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        response = self.client.get('/api/1.0/data/', **self.auth_headers)
-
-        self.assertEqual(response.status_code, 200)
-        body = json.loads(response.content)
-
-        # Dataset objects were returned
-        data = body['objects'][0]['objects'][0]
-
-        response = self.client.delete('/api/1.0/data/%s/' % data['id'], content_type='application/json', **self.auth_headers)
-
-        self.assertEqual(response.status_code, 204)
-
-        # Refresh
-        self.dataset = Dataset.objects.get(id=self.dataset.id)
-
-        self.assertEqual(self.dataset.row_count, 3)
 
     def test_delete_dataset_endpoint(self):
         self.dataset.import_data()
@@ -482,15 +348,6 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(self.dataset.row_count, 3)
 
-    def test_delete_list_data_endpoint(self):
-        self.dataset.import_data()
-
-        utils.wait()
-
-        response = self.client.delete('/api/1.0/data/', **self.auth_headers)
-
-        self.assertEqual(response.status_code, 405)
-
     def test_delete_list_dataset_endpoint(self):
         self.dataset.import_data()
 
@@ -510,6 +367,7 @@ class TestAPIData(TransactionTestCase):
 
         utils.wait()
 
+        # TODO: fix
         response = self.client.get('/api/1.0/data/', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
@@ -532,18 +390,13 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 0)
         self.assertEqual(len(body['objects']), 0)
 
-    def test_delete_list(self):
-        response = self.client.delete('/api/1.0/data/', **self.auth_headers)
-
-        self.assertEqual(response.status_code, 405)
-
     def test_post_detail(self):
         new_data = {
             'dataset': '/api/1.0/dataset/%s/' % self.dataset.slug,
             'data': ['1', '2', '3']
         }
 
-        response = self.client.post('/api/1.0/data/im-a-fake-uuid/', content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+        response = self.client.post('/api/1.0/dataset/%s/data/im-a-fake-uuid/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
 
         self.assertEqual(response.status_code, 501)
 
@@ -562,6 +415,7 @@ class TestAPIData(TransactionTestCase):
 
         utils.wait()
 
+        # TODO: fix
         response = self.client.get('/api/1.0/data/?q=Christopher', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
@@ -586,7 +440,7 @@ class TestAPIData(TransactionTestCase):
             self.assertEqual(result_dataset['objects'][0]['data'][0], 'Christopher')
             self.assertIn('id', result_dataset['objects'][0])
             self.assertIn('resource_uri', result_dataset['objects'][0])
-            self.assertIn('row', result_dataset['objects'][0])
+            self.assertIn('external_id', result_dataset['objects'][0])
 
     def test_search_meta(self):
         self.dataset.import_data()
@@ -603,6 +457,7 @@ class TestAPIData(TransactionTestCase):
 
         utils.wait()
 
+        # TODO: fix
         response = self.client.get('/api/1.0/data/?q=Ryan&limit=1', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
@@ -622,6 +477,7 @@ class TestAPIData(TransactionTestCase):
 
         utils.wait()
         
+        # TODO: fix
         response = self.client.get('/api/1.0/data/?q=Brian+and+Tribune', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
@@ -632,6 +488,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_search_unauthorized(self):
+        # TODO: fix
         response = self.client.get('/api/1.0/data/?q=Christopher')
 
         self.assertEqual(response.status_code, 401)   

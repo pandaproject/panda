@@ -74,7 +74,7 @@ class DatasetImportTask(AbortableTask):
         add_buffer = []
 
         for i, row in enumerate(reader, start=1):
-            data = make_solr_row(dataset, row, i)
+            data = make_solr_row(dataset, row, external_id=i)
 
             add_buffer.append(data)
 

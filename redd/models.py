@@ -149,9 +149,9 @@ class Dataset(SluggedModel):
     schema = JSONField(null=True, default=None,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
     imported = models.BooleanField(default=False,
-        help_text='Has this dataset been imported yet?')
+        help_text='Has this dataset been imported yet? (Or has data been added via the API?)')
     row_count = models.IntegerField(null=True, blank=True,
-        help_text='The number of rows in this dataset. Only available once the dataset has been imported.')
+        help_text='The number of rows in this dataset. Only available once the dataset has been imported or data has been added via the API.')
     sample_data = JSONField(null=True, default=None,
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
@@ -219,11 +219,11 @@ class Dataset(SluggedModel):
 
         DatasetImportTask.apply_async([self.id], task_id=self.current_task.id)
 
-    def add_row(self, data, row=None):
+    def add_row(self, data, external_id=None):
         """
         Add a row to this dataset.
         """
-        solr_row = utils.make_solr_row(self, data, row)
+        solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
 
@@ -231,10 +231,7 @@ class Dataset(SluggedModel):
             self.sample_data = []
         
         if len(self.sample_data) < 5:
-            self.sample_data.append({
-                'row': row,
-                'data': data
-            })
+            self.sample_data.append(data)
 
         # Enable searching
         if not self.imported:
@@ -248,15 +245,19 @@ class Dataset(SluggedModel):
 
         return solr_row
 
-    def update_row(self, pk, data, row=None):
+    def update_row(self, external_id, data):
         """
         Update a row in this dataset.
         """
-        solr_row = utils.make_solr_row(self, data, row, pk)
+        solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
+        # TODO: delete before create
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
 
         return solr_row
+
+    def delete_row(self, external_id):
+        pass
 
 @receiver(models.signals.post_save, sender=Dataset)
 def on_dataset_save(sender, **kwargs):
@@ -280,7 +281,7 @@ def on_dataset_save(sender, **kwargs):
     full_text = '\n'.join(full_text_data)
 
     solr.add(settings.SOLR_DATASETS_CORE, [{
-        'id': dataset.id,
+        'slug': dataset.slug,
         'categories': categories,
         'full_text': full_text
     }], commit=True)
@@ -302,7 +303,7 @@ def on_dataset_delete(sender, **kwargs):
     """
     dataset = kwargs['instance']
     dataset_purge_data.apply_async(args=[dataset.id])
-    solr.delete(settings.SOLR_DATASETS_CORE, 'id:%i' % dataset.id)
+    solr.delete(settings.SOLR_DATASETS_CORE, 'dataset_slug:%s' % dataset.slug)
 
 class Notification(models.Model):
     recipient = models.ForeignKey(User, related_name='notifications',
