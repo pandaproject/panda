@@ -231,7 +231,7 @@ class TestAPIData(TransactionTestCase):
         response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
 
         self.assertEqual(response.status_code, 201)
-
+        
         response = self.client.get('/api/1.0/data/?q=flibbity', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)

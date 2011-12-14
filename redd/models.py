@@ -230,7 +230,7 @@ class Dataset(SluggedModel):
 
         return response['response']['docs'][0]
 
-    def add_row(self, data, external_id=None):
+    def add_row(self, data, external_id=None, commit=True):
         """
         Add a row to this dataset.
         """
@@ -239,7 +239,7 @@ class Dataset(SluggedModel):
 
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
-        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
+        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=commit)
 
         if not self.sample_data:
             self.sample_data = []
@@ -259,22 +259,22 @@ class Dataset(SluggedModel):
 
         return solr_row
 
-    def update_row(self, external_id, data):
+    def update_row(self, external_id, data, commit=True):
         """
         Update a row in this dataset.
         """
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
-        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
+        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=commit)
 
         return solr_row
 
-    def delete_row(self, external_id):
+    def delete_row(self, external_id, commit=True):
         """
         Delete a row in this dataset
         """
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=commit)
 
         self.row_count -= 1
         self.save()
