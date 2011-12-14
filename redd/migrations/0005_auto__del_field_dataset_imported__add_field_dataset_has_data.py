@@ -4,26 +4,13 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
-from redd.models import Category, Dataset 
-
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        db.rename_column('redd_dataset', 'imported', 'has_data')
         
-        # Adding field 'Dataset.slug'
-        db.add_column('redd_dataset', 'slug', self.gf('django.db.models.fields.SlugField')(default='', max_length=256, db_index=True), keep_default=False)
-
-        # Adding field 'Category.slug'
-        db.add_column('redd_category', 'slug', self.gf('django.db.models.fields.SlugField')(default='', max_length=256, db_index=True), keep_default=False)
-
     def backwards(self, orm):
-        
-        # Deleting field 'Dataset.slug'
-        db.delete_column('redd_dataset', 'slug')
-
-        # Deleting field 'Category.slug'
-        db.delete_column('redd_category', 'slug')
-
+        db.rename_column('redd_dataset', 'has_data', 'imported')
 
     models = {
         'auth.group': {
@@ -74,15 +61,15 @@ class Migration(SchemaMigration):
             'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'creator': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'current_task': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['redd.TaskStatus']", 'null': 'True', 'blank': 'True'}),
-            'data_upload': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['redd.Upload']"}),
+            'data_upload': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['redd.Upload']", 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'dialect': ('redd.fields.JSONField', [], {}),
+            'dialect': ('redd.fields.JSONField', [], {'default': 'None', 'null': 'True'}),
+            'has_data': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'imported': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
             'row_count': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'sample_data': ('redd.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
-            'schema': ('redd.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
+            'sample_data': ('redd.fields.JSONField', [], {'default': 'None', 'null': 'True'}),
+            'schema': ('redd.fields.JSONField', [], {'default': 'None', 'null': 'True'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '256', 'db_index': 'True'})
         },
         'redd.notification': {

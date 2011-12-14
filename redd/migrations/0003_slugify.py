@@ -1,29 +1,20 @@
 # encoding: utf-8
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-from redd.models import Category, Dataset 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        
-        # Adding field 'Dataset.slug'
-        db.add_column('redd_dataset', 'slug', self.gf('django.db.models.fields.SlugField')(default='', max_length=256, db_index=True), keep_default=False)
+        for dataset in orm.Dataset.objects.all():
+            dataset.save()
 
-        # Adding field 'Category.slug'
-        db.add_column('redd_category', 'slug', self.gf('django.db.models.fields.SlugField')(default='', max_length=256, db_index=True), keep_default=False)
+        for category in orm.Category.objects.all():
+            category.save()
 
     def backwards(self, orm):
-        
-        # Deleting field 'Dataset.slug'
-        db.delete_column('redd_dataset', 'slug')
-
-        # Deleting field 'Category.slug'
-        db.delete_column('redd_category', 'slug')
-
+        pass
 
     models = {
         'auth.group': {

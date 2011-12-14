@@ -149,10 +149,10 @@ class Dataset(SluggedModel):
         help_text='The upload corresponding to the data file for this dataset.')
     schema = JSONField(null=True, default=None,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
-    imported = models.BooleanField(default=False,
-        help_text='Has this dataset been imported yet? (Or has data been added via the API?)')
+    has_data = models.BooleanField(default=False,
+        help_text='Has data for this dataset been imported or added via the API?')
     row_count = models.IntegerField(null=True, blank=True,
-        help_text='The number of rows in this dataset. Only available once the dataset has been imported or data has been added via the API.')
+        help_text='The number of rows in this dataset. Only available once the dataset has data.')
     sample_data = JSONField(null=True, default=None,
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
@@ -165,6 +165,8 @@ class Dataset(SluggedModel):
         help_text='Description of the format of the input CSV.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
+    #modified = models.BooleanField(default=False,
+        #help_text='Has this dataset ever been modified via the API?')
 
     class Meta:
         ordering = ['-creation_date']
@@ -249,8 +251,8 @@ class Dataset(SluggedModel):
             self.sample_data.append(data)
 
         # Enable searching
-        if not self.imported:
-            self.imported = True
+        if not self.has_data:
+            self.has_data = True
 
         if not self.row_count:
             self.row_count = 0
@@ -284,6 +286,10 @@ class Dataset(SluggedModel):
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=commit)
 
         self.row_count -= 1
+
+        if self.row_count == 0:
+            self.has_data = False
+
         self.save()
 
     def _count_rows(self):

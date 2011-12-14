@@ -162,7 +162,7 @@ class DataResource(Resource):
 
         field_count = len(bundle.data['data'])
 
-        if dataset.data_upload and not dataset.imported:
+        if dataset.data_upload and not dataset.has_data:
             errors['dataset'] = ['Can not create or modify data for a dataset which has data_upload, but has not completed the import process.']
 
         if dataset.schema is None:

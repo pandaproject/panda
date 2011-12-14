@@ -9,7 +9,7 @@
         <fieldset>
             <div class="clearfix">
                 <div class="input">
-                <% if (!imported) { %>
+                <% if (!has_data) { %>
                     <input id="modal-dataset-search-query" class="span7" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
                     <input type="submit" class="btn primary" value="Search" disabled="disabled" />
                 <% } else { %>

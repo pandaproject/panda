@@ -4,7 +4,7 @@
         <legend>Search <strong><%= dataset.name %></strong></legend>
         <div class="clearfix">
             <div class="input">
-            <% if (!dataset.imported) { %>
+            <% if (!dataset.has_data) { %>
                 <input id="dataset-search-query" type="text" name="query" class="span14" value="Dataset not yet available for search" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
