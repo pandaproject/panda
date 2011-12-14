@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.core.exceptions import MultipleObjectsReturned 
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
@@ -212,7 +211,7 @@ class DataResource(Resource):
 
         return SolrObject(row)
 
-    def obj_create(self, bundle, request=None, commit=True, **kwargs):
+    def obj_create(self, bundle, request=None, commit=True, check_for_existing=True, **kwargs):
         """
         Add one Data to a Dataset.
         """
@@ -225,21 +224,18 @@ class DataResource(Resource):
         else:
             external_id = None
 
-        row = dataset.add_row(bundle.data['data'], external_id=external_id, commit=commit)
+        row = dataset.add_row(bundle.data['data'], external_id=external_id, commit=commit, check_for_existing=check_for_existing)
 
         bundle.obj = SolrObject(row)
 
         return bundle
 
-    def obj_update(self, bundle, request=None, commit=True, **kwargs):
+    def obj_update(self, bundle, request=None, commit=True, check_for_existing=True, **kwargs):
         """
         Update an existing Data.
         """
         dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
         
-        # Verify old row exists 
-        self.obj_get(request, **kwargs)
-
         self.validate_bundle_data(bundle, request, dataset)
 
         if 'external_id' in bundle.data:
@@ -248,10 +244,10 @@ class DataResource(Resource):
             external_id = kwargs['external_id'] 
 
         # Delete old row
-        dataset.delete_row(external_id)
+        dataset.delete_row(external_id, check_for_existing=check_for_existing)
 
         # Add new row
-        row = dataset.update_row(external_id, bundle.data['data'], commit=commit)
+        row = dataset.update_row(external_id, bundle.data['data'], commit=commit, check_for_existing=False)
 
         bundle.obj = SolrObject(row)
 
@@ -263,21 +259,13 @@ class DataResource(Resource):
         """
         raise NotImplementedError()
 
-    def obj_delete(self, request=None, commit=True, **kwargs):
+    def obj_delete(self, request=None, commit=True, check_for_existing=True, **kwargs):
         """
         Delete a ``Data``.
         """
-        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (kwargs['dataset_slug'], kwargs['external_id']))
-
-        if len(response['response']['docs']) < 1:
-            raise NotFound()
-
-        if len(response['response']['docs']) > 1:
-            raise MultipleObjectsReturned()
-
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        dataset.delete_row(kwargs['external_id'], commit=commit)
+        dataset.delete_row(kwargs['external_id'], commit=commit, check_for_existing=check_for_existing)
 
     def rollback(self, bundles):
         """
@@ -309,7 +297,7 @@ class DataResource(Resource):
         """
         Changes from underlying implemention: 
 
-        * ``obj_delete_list`` is never called, so objects are not deleted before updates are issued
+        * ``obj_delete_list`` is never called, but objects are deleted before being created. 
         * All objects are validated before any objects are created, so ``rollback`` is unnecessary.
         * A single Solr commit is made at the end (optimization).
 
@@ -331,7 +319,13 @@ class DataResource(Resource):
             bundles.append(bundle)
 
         for bundle in bundles:
-            self.obj_create(bundle, request=request, commit=False, **self.remove_api_resource_names(kwargs))
+            clean_kwargs = self.remove_api_resource_names(kwargs)
+
+            # If an external id was specified, delete the old object
+            if 'external_id' in bundle.data and bundle.data['external_id']:
+                self.obj_delete(request, commit=False, check_for_existing=False, external_id=bundle.data['external_id'], **clean_kwargs)
+
+            self.obj_create(bundle, request=request, commit=False, check_for_existing=False, **clean_kwargs)
 
         solr.commit(settings.SOLR_DATA_CORE)
 
@@ -342,8 +336,6 @@ class DataResource(Resource):
             to_be_serialized['objects'] = [self.full_dehydrate(bundle) for bundle in bundles]
             to_be_serialized = self.alter_list_data_to_serialize(request, to_be_serialized)
             return self.create_response(request, to_be_serialized, response_class=http.HttpAccepted)
-
-        return super(DataResource, self).put_list(request, **kwargs)
 
     def put_detail(self, request, **kwargs):
         """

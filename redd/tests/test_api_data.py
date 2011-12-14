@@ -290,6 +290,33 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['resource_uri'], data['resource_uri'])
         self.assertEqual(body['external_id'], data['external_id'])
 
+    def test_update_bulk(self):
+        self.dataset.import_data(0)
+
+        utils.wait()
+
+        new_data = { 'objects': [
+            {
+                'data': ['1', 'A', 'B', 'C'],
+                'external_id': '1'
+            },
+            {
+                'data': ['2', 'D', 'E', 'F'],
+                'external_id': '2'
+            }
+        ]}
+
+        response = self.client.put('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+        body = json.loads(response.content)
+        self.assertEqual(len(body['objects']), 2)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 4)
+
     def test_updated_search(self):
         self.dataset.import_data(0)
 

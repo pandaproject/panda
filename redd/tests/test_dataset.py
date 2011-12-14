@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TransactionTestCase
 from django.utils import simplejson as json
 
@@ -124,7 +125,7 @@ class TestDataset(TransactionTestCase):
 
         new_row =['1', 'Somebody', 'Else', 'Somewhere']
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ObjectDoesNotExist):
             self.dataset.add_row(new_row, external_id='1')
 
     def test_update_row(self):
@@ -144,6 +145,16 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(json.loads(row['data']), update_row)
         self.assertEqual(self.dataset.row_count, 4)
         self.assertEqual(self.dataset._count_rows(), 4)
+
+    def test_update_row_not_found(self):
+        self.dataset.import_data(0)
+
+        utils.wait()
+
+        update_row =['5', 'Somebody', 'Else', 'Somewhere']
+
+        with self.assertRaises(ObjectDoesNotExist):
+            self.dataset.update_row('5', update_row)
 
     def test_update_row_old_data_deleted(self):
         self.dataset.import_data(0)
@@ -170,4 +181,12 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(row, None)
         self.assertEqual(self.dataset.row_count, 3)
         self.assertEqual(self.dataset._count_rows(), 3)
+
+    def test_delete_row_not_found(self):
+        self.dataset.import_data(0)
+
+        utils.wait()
+
+        with self.assertRaises(ObjectDoesNotExist):
+            self.dataset.delete_row('5')
 

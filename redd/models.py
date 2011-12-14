@@ -7,6 +7,7 @@ from celery.contrib.abortable import AbortableAsyncResult
 from celery import states
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -230,12 +231,12 @@ class Dataset(SluggedModel):
 
         return response['response']['docs'][0]
 
-    def add_row(self, data, external_id=None, commit=True):
+    def add_row(self, data, external_id=None, commit=True, check_for_existing=True):
         """
         Add a row to this dataset.
         """
-        if external_id and self.get_row(external_id):
-            raise ValueError('A row with external_id %s already exists.' % external_id)
+        if check_for_existing and external_id and self.get_row(external_id):
+            raise ObjectDoesNotExist('A row with external_id %s already exists.' % external_id)
 
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
@@ -259,10 +260,13 @@ class Dataset(SluggedModel):
 
         return solr_row
 
-    def update_row(self, external_id, data, commit=True):
+    def update_row(self, external_id, data, commit=True, check_for_existing=True):
         """
         Update a row in this dataset.
         """
+        if check_for_existing and not self.get_row(external_id):
+            raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
+
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
@@ -270,10 +274,13 @@ class Dataset(SluggedModel):
 
         return solr_row
 
-    def delete_row(self, external_id, commit=True):
+    def delete_row(self, external_id, commit=True, check_for_existing=True):
         """
         Delete a row in this dataset
         """
+        if check_for_existing and not self.get_row(external_id):
+            raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
+
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=commit)
 
         self.row_count -= 1
