@@ -235,6 +235,25 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(response.status_code, 201)        
 
+    def test_update_readonly(self):
+        response = self.client.get('/api/1.0/dataset/%s/' % self.dataset.slug, content_type='application/json', **utils.get_auth_headers('panda@pandaproject.net'))
+
+        data = json.loads(response.content)
+
+        row_count = data['row_count']
+        data['row_count'] = 2717
+
+        response = self.client.put('/api/1.0/dataset/%s/' % self.dataset.slug, content_type='application/json', data=json.dumps(data), **utils.get_auth_headers('panda@pandaproject.net'))
+
+        new_data = json.loads(response.content)
+
+        self.assertEqual(new_data['row_count'], row_count)
+
+        # Refresh
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, row_count)
+
     def test_import_data(self):
         response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug, **self.auth_headers)
 

@@ -11,7 +11,7 @@ from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from redd import solr
-from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, SlugResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, JSONApiField, SlugResource, CustomSerializer
 from redd.models import Category, Dataset
 
 class DatasetValidation(Validation):
@@ -33,9 +33,18 @@ class DatasetResource(SlugResource):
     from redd.api.users import UserResource
 
     categories = fields.ToManyField(CategoryResource, 'categories', full=True, null=True)
-    creator = fields.ForeignKey(UserResource, 'creator', full=True)
-    current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True)
+    creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
+    current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True, readonly=True)
     data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True, null=True)
+
+    # Read only fields
+    slug = fields.CharField(attribute='slug', readonly=True)
+    has_data = fields.BooleanField(attribute='has_data', readonly=True)
+    sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
+    dialect = JSONApiField(attribute='dialect', readonly=True, null=True)
+    row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
+    creation_date = fields.DateTimeField(attribute='creation_date', readonly=True)
+    modified = fields.BooleanField(attribute='modified', readonly=True)
 
     class Meta:
         queryset = Dataset.objects.all()

@@ -20,6 +20,7 @@ class NotificationResource(ModelResource):
     class Meta:
         queryset = Notification.objects.all()
         resource_name = 'notification'
+        allowed_methods = ['get']
         limit = 1000    # Don't paginate notifications
         
         authentication = CustomApiKeyAuthentication()
