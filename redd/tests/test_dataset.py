@@ -116,6 +116,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(row['external_id'], '5')
         self.assertEqual(json.loads(row['data']), new_row)
         self.assertEqual(self.dataset.row_count, 5)
+        self.assertEqual(self.dataset.modified, True)
         self.assertEqual(self.dataset._count_rows(), 5)
 
     def test_add_row_already_exists(self):
@@ -144,6 +145,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(row['external_id'], '1')
         self.assertEqual(json.loads(row['data']), update_row)
         self.assertEqual(self.dataset.row_count, 4)
+        self.assertEqual(self.dataset.modified, True)
         self.assertEqual(self.dataset._count_rows(), 4)
 
     def test_update_row_not_found(self):
@@ -180,6 +182,7 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(row, None)
         self.assertEqual(self.dataset.row_count, 3)
+        self.assertEqual(self.dataset.modified, True)
         self.assertEqual(self.dataset._count_rows(), 3)
 
     def test_delete_row_not_found(self):
