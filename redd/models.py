@@ -165,8 +165,8 @@ class Dataset(SluggedModel):
         help_text='Description of the format of the input CSV.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
-    #modified = models.BooleanField(default=False,
-        #help_text='Has this dataset ever been modified via the API?')
+    modified = models.BooleanField(default=False,
+        help_text='Has this dataset ever been modified via the API?')
 
     class Meta:
         ordering = ['-creation_date']
@@ -258,6 +258,7 @@ class Dataset(SluggedModel):
             self.row_count = 0
 
         self.row_count += 1
+        self.modified = True
         self.save()
 
         return solr_row
@@ -273,6 +274,9 @@ class Dataset(SluggedModel):
 
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=commit)
+
+        self.modified = True
+        self.save()
 
         return solr_row
 
@@ -290,6 +294,7 @@ class Dataset(SluggedModel):
         if self.row_count == 0:
             self.has_data = False
 
+        self.modified = True
         self.save()
 
     def _count_rows(self):
