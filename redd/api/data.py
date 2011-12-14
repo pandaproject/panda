@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import re
+
 from django.conf import settings
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
@@ -53,8 +55,11 @@ class DataValidation(Validation):
         errors = {}
 
         if 'data' not in bundle.data or not bundle.data['data']:
-            errors['data'] = ['This field is required.']
-            return errors
+            errors['data'] = ['The data field is required.']
+
+        if 'external_id' in bundle.data:
+            if not re.match('^[\w\d_-]+$', bundle.data['external_id']):
+                errors['external_id'] = ['external_id can only contain letters, numbers, underscores and dashes.']
 
         return errors
 

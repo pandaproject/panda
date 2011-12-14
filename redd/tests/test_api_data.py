@@ -29,6 +29,18 @@ class TestDataValidation(TransactionTestCase):
         self.assertIn('data', errors)
         self.assertIn('required', errors['data'][0])
 
+    def test_external_id_valid(self):
+        bundle = Bundle(data={ 'external_id': 'a1_-' })
+        errors = self.validator.is_valid(bundle, None)
+
+        self.assertNotIn('external_id', errors)
+
+    def test_external_id_invalid(self):
+        bundle = Bundle(data={ 'external_id': 'no spaces' })
+        errors = self.validator.is_valid(bundle, None)
+
+        self.assertIn('external_id', errors)
+
 class TestAPIData(TransactionTestCase):
     fixtures = ['init_panda.json']
 
