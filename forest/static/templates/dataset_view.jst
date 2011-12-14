@@ -2,6 +2,9 @@
     <fieldset>
         <legend>About <strong><%= name %></strong> <% if (row_count) { %>(<%= row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
         <p>Created by <strong><%= creator.first_name %> <%= creator.last_name %></strong> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt; on <strong><%= moment(creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong></p>
+        <% if (modified) { %>
+        <div><span class="alert-message block-message info" style="display: inline-block;"><strong>Note:</strong> Data in this dataset has been created or modified via the API.</span></div>
+        <% } %>
         
         <h6>Categories</h6>
 

@@ -1,141 +1,19 @@
 #!/usr/bin/env python
 
-import os.path
-import re
-
 from celery.contrib.abortable import AbortableAsyncResult
-from celery import states
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.dispatch import receiver
-from django.template.defaultfilters import slugify
-from djcelery.models import TASK_STATE_CHOICES
-from tastypie.models import ApiKey
 
 from redd import solr, utils
 from redd.fields import JSONField
+from redd.models.category import Category
+from redd.models.slugged_model import SluggedModel
+from redd.models.task_status import TaskStatus
+from redd.models.upload import Upload
 from redd.tasks import DatasetImportTask, dataset_purge_data
-
-NOTIFICATION_TYPE_CHOICES = (
-    ('info', 'info'),
-    ('warning', 'warning'),
-    ('error', 'error')
-)
-
-@receiver(models.signals.post_save, sender=User)
-def create_api_key(sender, **kwargs):
-    """
-    A signal for hooking up automatic ``ApiKey`` creation.
-    """
-    if kwargs.get('created') is True:
-        ApiKey.objects.get_or_create(user=kwargs.get('instance'))
-
-class SluggedModel(models.Model):
-    """
-    Extend this class to get a slug field and slug generated from a model
-    field. We call the 'get_slug_text', '__unicode__' or '__str__'
-    methods (in that order) on save() to get text to slugify. The slug may
-    have numbers appended to make sure the slug is unique.
-    """
-    slug = models.SlugField(max_length=256)
-    
-    class Meta:
-        abstract = True
-    
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.generate_unique_slug()  
-        
-        super(SluggedModel, self).save(*args, **kwargs)
-
-    def generate_unique_slug(self):
-        """
-        Customized unique_slug function
-        """
-        if hasattr(self, 'get_slug_text') and callable(self.get_slug_text):
-            slug_txt = self.get_slug_text()
-        elif hasattr(self, '__unicode__'):
-            slug_txt = unicode(self)
-        elif hasattr(self, '__str__'):
-            slug_txt = str(self)
-        else:
-            return
-
-        slug = slugify(slug_txt)
-        all_slugs = set(sl.values()[0] for sl in self.__class__.objects.values("slug"))
-
-        if slug in all_slugs:
-            counterFinder = re.compile(r'-\d+$')
-            counter = 2
-            slug = '%s-%i' % (slug, counter)
-
-            while slug in all_slugs:
-                slug = re.sub(counterFinder, '-%i' % counter, slug)
-                counter += 1
-
-        return slug 
-
-class TaskStatus(models.Model):
-    """
-    An object to track the status of a Celery task, as the
-    data available in AsyncResult is not sufficient.
-    """
-    task_name = models.CharField(max_length=255,
-        help_text='Identifying name for this task.')
-    status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES,
-        help_text='Current state of this task.')
-    message = models.CharField(max_length=255, blank=True,
-        help_text='A human-readable message indicating the progress of this task.')
-    start = models.DateTimeField(null=True,
-        help_text='Date and time that this task began processing.')
-    end = models.DateTimeField(null=True,
-        help_text='Date and time that this task ceased processing (either complete or failed).')
-    traceback = models.TextField(blank=True, null=True, default=None,
-        help_text='Traceback that exited this task, if it failed.')
-
-    class Meta:
-        verbose_name = 'Task Status'
-        verbose_name_plural = 'Task Statuses'
-
-    def __unicode__(self):
-        return u'%s (%i)' % (self.task_name, self.id)
-
-class Upload(models.Model):
-    """
-    A file uploaded to PANDA (either a table or metadata file).
-    """
-    filename = models.CharField(max_length=256,
-        help_text='Filename as stored in PANDA.')
-    original_filename = models.CharField(max_length=256,
-        help_text='Filename as originally uploaded.')
-    size = models.IntegerField(
-        help_text='Size of the file in bytes.')
-    creator = models.ForeignKey(User,
-        help_text='The user who uploaded this file.')
-
-    def __unicode__(self):
-        return self.filename
-
-    def get_path(self):
-        """
-        Get the absolute path to this upload on disk.
-        """
-        return os.path.join(settings.MEDIA_ROOT, self.filename)
-
-class Category(SluggedModel):
-    """
-    A cateogory that contains Datasets.
-    """
-    name = models.CharField(max_length=64,
-        help_text='Category name.')
-
-    class Meta:
-        verbose_name_plural = 'Categories'
-
-    def __unicode__(self):
-        return self.name
 
 class Dataset(SluggedModel):
     """
@@ -169,6 +47,7 @@ class Dataset(SluggedModel):
         help_text='Has this dataset ever been modified via the API?')
 
     class Meta:
+        app_label = 'redd'
         ordering = ['-creation_date']
 
     def __unicode__(self):
@@ -349,20 +228,4 @@ def on_dataset_delete(sender, **kwargs):
     dataset = kwargs['instance']
     dataset_purge_data.apply_async(args=[dataset.slug])
     solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset.slug)
-
-class Notification(models.Model):
-    recipient = models.ForeignKey(User, related_name='notifications',
-        help_text='The user who should receive this notification.')
-    message = models.TextField(
-        help_text='The message to deliver.')
-    type = models.CharField(max_length=16, choices=NOTIFICATION_TYPE_CHOICES, default='info',
-        help_text='The type of message: info, warning or error')
-    sent_at = models.DateTimeField(auto_now=True,
-        help_text='When this notification was created')
-    read_at = models.DateTimeField(null=True, blank=True, default=None,
-        help_text='When this notification was read by the user.')
-    related_task = models.ForeignKey(TaskStatus, null=True, default=None,
-        help_text='A task related to this notification, if any.')
-    related_dataset = models.ForeignKey(Dataset, null=True, default=None,
-        help_text='A dataset related to this notification, if any.')
 
