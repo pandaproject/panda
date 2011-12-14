@@ -288,7 +288,7 @@ class TestAPIDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         # Get id of a datum in Solr
-        datum = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s Brian' % self.dataset.slug)['response']['docs'][0]
+        datum = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND Brian' % self.dataset.slug)['response']['docs'][0]
 
         response = self.client.get('/api/1.0/dataset/%s/data/%s/' % (self.dataset.slug, datum['external_id']), **self.auth_headers)
 

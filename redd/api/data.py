@@ -203,17 +203,13 @@ class DataResource(Resource):
         Query Solr for a single item by primary key.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
-        dataset_slug = unicode(dataset.slug)
-    
-        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (dataset_slug, kwargs['external_id']))
 
-        if len(response['response']['docs']) < 1:
+        row = dataset.get_row(kwargs['external_id'])
+
+        if not row:
             raise NotFound()
 
-        if len(response['response']['docs']) > 1:
-            raise MultipleObjectsReturned()
-
-        return SolrObject(response['response']['docs'][0])
+        return SolrObject(row)
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
@@ -276,7 +272,7 @@ class DataResource(Resource):
 
         TODO: See note in ``obj_create`` about committing.
         """
-        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (kwargs['dataset_slug'], kwargs['external_id']))
+        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (kwargs['dataset_slug'], kwargs['external_id']))
 
         if len(response['response']['docs']) < 1:
             raise NotFound()
@@ -440,13 +436,18 @@ class DataResource(Resource):
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        query = request.GET.get('q', '')
+        query = request.GET.get('q', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
+        if query:
+            solr_query = 'dataset_slug:%s AND %s' % (dataset.slug, query)
+        else:
+            solr_query = 'dataset_slug:%s' % dataset.slug
+
         response = solr.query(
             settings.SOLR_DATA_CORE,
-            'dataset_slug:%s %s' % (dataset.slug, query),
+            solr_query,
             offset=offset,
             limit=limit
         )

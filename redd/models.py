@@ -219,10 +219,24 @@ class Dataset(SluggedModel):
 
         DatasetImportTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
 
+    def get_row(self, external_id):
+        """
+        Fetch a row from this dataset.
+        """
+        response = solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), limit=1)
+
+        if len(response['response']['docs']) < 1:
+            return None
+
+        return response['response']['docs'][0]
+
     def add_row(self, data, external_id=None):
         """
         Add a row to this dataset.
         """
+        if external_id and self.get_row(external_id):
+            raise ValueError('A row with external_id %s already exists.' % external_id)
+
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
@@ -251,7 +265,7 @@ class Dataset(SluggedModel):
         """
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
-        # TODO: delete before create
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
 
         return solr_row
@@ -260,10 +274,17 @@ class Dataset(SluggedModel):
         """
         Delete a row in this dataset
         """
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s external_id:%s' % (self.slug, external_id), commit=True)
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
 
         self.row_count -= 1
         self.save()
+
+    def _count_rows(self):
+        """
+        Count the number of rows currently stored in Solr for this Dataset.
+        Useful for sanity checks.
+        """
+        return solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug)['response']['numFound']
 
 @receiver(models.signals.post_save, sender=Dataset)
 def on_dataset_save(sender, **kwargs):
