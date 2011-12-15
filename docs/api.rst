@@ -397,7 +397,13 @@ Fetch
 Create
 ------
 
-To create a new Dataset, POST a JSON document containing at least ``name`` and ``data_upload`` properties to ``http://localhost:8000/api/1.0/dataset/``. The ``data_upload`` property may be either an embedded Upload object, or a URI to an existing Upload (for example, ``/api/1.0/upload/17/``). Other properties such as ``description`` may also be set.
+To create a new Dataset, ``POST`` a JSON document containing at least ``name`` and ``data_upload`` properties to ``/api/1.0/dataset/``. The ``data_upload`` property may be either an embedded Upload object, or a URI to an existing Upload (for example, ``/api/1.0/upload/17/``). Other properties such as ``description`` may also be set.
+
+.. note::
+
+    The slug field is normally read-only. If you need to create a Dataset with a "well known" slug, you may ``PUT`` the document to that slug and it will be created.
+    
+    For example, if I wanted to create a dataset that I knew would be accessible at ``/api/1.0/dataset/my-slug/``, I could ``PUT`` my JSON document to that URL and it would be created. If a document with this slug already exists it will be overwritten!
 
 Import
 ------

@@ -150,6 +150,27 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.data_upload, self.upload)
         self.assertEqual(new_dataset.creator, self.user)
 
+    def test_create_post_slug(self):
+        # Verify that new slugs are NOT created via POST.
+        new_dataset = {
+            'slug': 'new-id',
+            'name': 'New dataset!',
+            'description': 'Its got yummy data!',
+            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+        }
+
+        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['slug'], 'new-dataset')
+
+        new_dataset = Dataset.objects.get(id=body['id'])
+
+        self.assertEqual(new_dataset.slug, 'new-dataset')
+
     def test_create_post_no_data_upload(self):
         new_dataset = {
             'name': 'This dataset does not have an upload!'
@@ -191,7 +212,6 @@ class TestAPIDataset(TransactionTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(body['name'], 'New dataset!')
-        # TODO: This is wrong.
         self.assertEqual(body['slug'], 'new-id')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
