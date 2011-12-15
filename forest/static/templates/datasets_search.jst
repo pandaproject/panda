@@ -10,7 +10,7 @@
                     <option value="<%= cat.get("slug") %>" <% if (cat.get("slug") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
                     <% }); %>
                 </select>
-                <input id="datasets-search-query" type="text" name="query" class="span10" value="<%= query %>" placeholder="Enter a search query" />
+                <input id="datasets-search-query" type="text" name="query" class="span7" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="datasets-search-submit" class="btn primary" value="Search" />
             </div>
         </div>

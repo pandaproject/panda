@@ -49,6 +49,7 @@ class DatasetResource(SlugResource):
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
+        allowed_methods = ['get', 'post', 'put', 'delete']
         always_return_data = True
 
         authentication = CustomApiKeyAuthentication()
@@ -77,6 +78,7 @@ class DatasetResource(SlugResource):
         data_resource = DataResource(api_name=self._meta.api_name)
 
         return [
+            url(r"^(?P<resource_name>%s)/schema%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_schema'), name="api_get_schema"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
             
