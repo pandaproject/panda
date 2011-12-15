@@ -409,51 +409,53 @@ Begin an import task. Any data previously imported for this dataset will be lost
 Data
 ========
 
-Data objects are referenced by `UUIDs <http://en.wikipedia.org/wiki/Universally_unique_identifier>`_. They do not have a unique integer id. Furthermore, Data objects are accessible at **two** separate endpoints, a global endpoint at ``/api/1.0/data/`` and a per-dataset endpoint at ``/api/1.0/dataset/[slug]/data/``. There are some slight differences in how these endpoints function, which are detailed below.
+Data objects are referenced by a unicode ``external_id`` property, specified at the time they are created. This property must be unique within a given ``Dataset``, but does not need to be unique globally. Data objects are accessible at per-dataset endpoints (e.g. ``/api/1.0/dataset/[slug]/data/``). There is also a cross-dataset Data search endpoint at ``/api/1.0/data``, however, this endpoint can only be used for search--not for create, update, or delete. (See below for more.)
 
-Example Data object:
+.. warning::
+
+    The ``external_id`` property of a Data object is the only way it can be referenced. In order to work with Data via the API you must include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
 
 .. highlight:: javascript
 
-::
+An example ``Data`` object with an ``external_id``::
 
     {
-        data: [
+        "data": [
+            "1",
             "Brian",
             "Boyer",
             "Chicago Tribune"
         ],
-        dataset: "/api/1.0/dataset/contributors/",
-        id: "ee7d9706-06fc-4f0b-a97c-493549f06577",
-        resource_uri: "/api/1.0/data/ee7d9706-06fc-4f0b-a97c-493549f06577/",
-        row: 1
+        "dataset": "/api/1.0/dataset/contributors/",
+        "external_id": "1",
+        "resource_uri": "/api/1.0/dataset/contributors/data/1/"
+    }
+
+An example ``Data`` object **without** an ``external_id``, note that it also has no ``resource_uri``::
+
+    {
+        "data": [
+            "1",
+            "Brian",
+            "Boyer",
+            "Chicago Tribune"
+        ],
+        "dataset": "/api/1.0/dataset/contributors/",
+        "external_id": null,
+        "resource_uri": null
     }
 
 .. highlight:: guess
 
-.. warning::
-
-    Due to the nuances of implementing an API over Solr, this endpoint differs in significant ways from a "normal" Tastypie API endpoint. Please read this documentation carefully.
-
 Schema
 ------
 
-Schema is only accessible at the global endpoint::
-
-    http://localhost:8000/api/1.0/data/schema/
+There is no schema endpoint for Data.
 
 List
 ----
 
-Using the global endpoint will list all data in PANDA. The response is a ``meta`` object with paging information and an ``objects`` array containing simplified **Dataset** objects, each of which contains its own ``meta`` object and an ``objects`` array containing **Data** objects. The Datasets group the Data objects.
-
-When using this endpoint the ``limit`` and ``offset`` parameters refer to the groups returned. If you wish to paginate the result sets of each dataset you can use ``group_limit`` and ``group_offset`` although this is typically not the behavior a user would expect.
-
-::
-
-    http://localhost:8000/api/1.0/data/
-
-Using the per-dataset endpoint will return a single simplified **Dataset** object (not an array) with an embedded ``meta`` object and an embedded ``objects`` array containing **Data** objects. Only the Data from a single dataset will be returned.
+When listing data, PANDA will return a simplified ``Dataset`` object with an embedded ``meta`` object and an embedded ``objects`` array containing ``Data`` objects. The added Dataset metadata is purely for convenience when building user interfaces. 
 
 ::
 
@@ -462,24 +464,18 @@ Using the per-dataset endpoint will return a single simplified **Dataset** objec
 Search
 ------
 
-The list endpoint is overloaded to provide full-text search via the ``q`` parameter::
-
-    http://localhost:8000/api/1.0/data/?q=[query]
-
-For a single dataset::
+Full-text queries function as "filters" over the normal ``Data`` list. Therefore, search results will be in the same format as the list results described above::
 
     http://localhost:8000/api/1.0/dataset/[slug]/data/?q=[query]
+
+For details on searching Data across all Datasets, see below.
 
 Fetch
 -----
 
-Any Data::
+To fetch a single ``Data`` from a given ``Dataset``::
 
-    http://localhost:8000/api/1.0/data/[uuid]/
-
-Only Data within a single dataset (will return a ``404`` if you request a UUID which belongs to another Dataset)::
-
-    http://localhost:8000/api/1.0/dataset/[slug]/data/[uuid]/
+    http://localhost:8000/api/1.0/dataset/[slug]/data/[external_id]/
 
 Create
 ------
@@ -492,58 +488,83 @@ To create a new Data object, send an HTTP ``POST`` request to the list endpoint 
             "column B value",
             "column C value"
         ],
-        "dataset": "/api/1.0/dataset/[slug]/"
+        "external_id": "id_value"
     }
 
-When using the global list endpoint you must include the dataset property, however, if posting to a per-dataset list endpoint you may omit it.
+This object would be ``POST``'ed to::
+
+    http://localhost:8000/api/1.0/dataset/[slug]/data/
 
 Update
 ------
 
-Update functions similarly to create, however you must use the HTTP ``PUT`` verb and you must send your requests to a specific Data object, such ``/api/1.0/data/[uuid]`` or ``/api/1.0/dataset/[slug]/data/[uuid]``. This will delete the existing object and replace with the one you've sent, reusing the same UUID. If you want to maintain the row number of the original object (if any), you must include it in the request, e.g.::
+Update functions similarly to create, however you must use the HTTP ``PUT`` verb and you must send your requests to a specific Data object, such as ``/api/1.0/dataset/[slug]/data/[external_id]/``. This will delete the existing object and replace with the one you've sent. You must include the ``external_id`` property if you intend it to be preserved::
 
     {
         "data": [
-            ...
+            "new column A value",
+            "new column B value",
+            "new column C value"
         ],
-        "row": 42
+        "external_id": "id_value"
     }
 
-Bulk create
------------
+This object would be ``PUT`` to::
 
-To create objects in bulk you may ``PUT`` an array of objects to either the global or a per-dataset endpoint. The body of the requested should be formatted like::
+    http://localhost:8000/api/1.0/dataset/[slug]/data/id_value/
+
+Bulk create and update
+----------------------
+
+To create or update objects in bulk you may ``PUT`` an array of objects to the per-dataset data endpoint. Any object with a matching ``external_id`` will be deleted and then new objects will be created. The body of the request should be formatted like::
 
     {
         "objects": [
             {
-                ...second object data here...
+                "data": [
+                    "column A value",
+                    "column B value",
+                    "column C value"
+                ],
+                "external_id": "1"
             },
             {
-                ...first object data here...
+                "data": [
+                    "column A value",
+                    "column B value",
+                    "column C value"
+                ],
+                "external_id": "2"
             }
         ]
     }
 
 .. note::
 
-    This action differs from both normal Tastypie behavior and the REST standard. It may change in the future.
+    This action differs from both normal Tastypie behavior and typical REST behavior, however, it is the most straightforward way to allow for bulk object creation.
 
 Delete
 ------
 
-To delete an object send a ``DELETE`` request to its detail url, either at the global or a per-dataset endpoint. The body of the request should be empty.
+To delete an object send a ``DELETE`` request to its detail url. The body of the request should be empty.
 
 Delete all data from a dataset
 ------------------------------
 
-In addition to deleting individual objects, its possible to delete all objects within a dataset, by sending a ``DELETE`` request to the root per-dataset endpoint. The body of the request should be empty.
+In addition to deleting individual objects, its possible to delete all objects within a dataset, by sending a ``DELETE`` request to the root per-dataset data endpoint. The body of the request should be empty.
 
 ::
 
     http://localhost:8000/api/1.0/dataset/[slug]/data/
 
-.. note::
+Global search
+=============
 
-    Sending a ``DELETE`` to the root of the global data endpoint will have no affect and return a 405 (Method Not Allowed). 
+Searching all data functions slightly differently than searching within a single dataset. Global search requests go to their own endpoint::
+
+    http:://localhost:8000/api/1.0/data/?q=[query]
+
+The response is a ``meta`` object with paging information and an ``objects`` array containing simplified ``Dataset`` objects, each of which contains its own ``meta`` object and an ``objects`` array containing ``Data`` objects. **Each Dataset contains a group of matching Data.**
+
+When using this endpoint the ``limit`` and ``offset`` parameters refer to the ``Datasets`` (that is, the **groups**) returned. If you wish to paginate the result sets within each group you can use ``group_limit`` and ``group_offset``, however, this is rarely useful behavior.
 
