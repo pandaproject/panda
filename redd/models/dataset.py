@@ -37,7 +37,7 @@ class Dataset(SluggedModel):
         help_text='The currently executed or last finished task related to this dataset.') 
     creation_date = models.DateTimeField(auto_now=True,
         help_text='The date this dataset was initially created.')
-    creator = models.ForeignKey(User,
+    creator = models.ForeignKey(User, related_name='datasets',
         help_text='The user who created this dataset.')
     dialect = JSONField(null=True, default=None,
         help_text='Description of the format of the input CSV.')
@@ -79,6 +79,37 @@ class Dataset(SluggedModel):
                     self.sample_data = utils.sample_data(f, self.dialect)
 
         super(Dataset, self).save(*args, **kwargs)
+
+    def update_full_text(self, commit=True):
+        """
+        Update the full-text search metadata for this dataset stored in Solr.
+        """
+        category_ids = []
+
+        full_text_data = [
+            self.name,
+            self.description,
+            '%s %s' % (self.creator.first_name, self.creator.last_name),
+            self.creator.email
+        ]
+
+        for category in self.categories.all():
+            category_ids.append(category.id)
+            full_text_data.append(category.name)
+
+        if self.data_upload:
+            full_text_data.append(self.data_upload.original_filename)
+
+        if self.schema:
+            full_text_data.extend([s['column'] for s in self.schema])
+
+        full_text = '\n'.join(full_text_data)
+
+        solr.add(settings.SOLR_DATASETS_CORE, [{
+            'slug': self.slug,
+            'categories': category_ids,
+            'full_text': full_text
+        }], commit=commit)
 
     def delete(self, *args, **kwargs):
         """
@@ -161,7 +192,7 @@ class Dataset(SluggedModel):
 
     def delete_row(self, external_id, commit=True, check_for_existing=True):
         """
-        Delete a row in this dataset
+        Delete a row in this dataset.
         """
         if check_for_existing and not self.get_row(external_id):
             raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
@@ -188,27 +219,7 @@ def on_dataset_save(sender, **kwargs):
     """
     When a Dataset is saved, update its metadata in Solr.
     """
-    dataset = kwargs['instance']
-    categories = [c.id for c in dataset.categories.all()] 
-
-    full_text_data = [
-        dataset.name,
-        dataset.description
-    ] 
-
-    if dataset.data_upload:
-        full_text_data.append(dataset.data_upload.original_filename)
-
-    if dataset.schema:
-        full_text_data.extend([s['column'] for s in dataset.schema])
-
-    full_text = '\n'.join(full_text_data)
-
-    solr.add(settings.SOLR_DATASETS_CORE, [{
-        'slug': dataset.slug,
-        'categories': categories,
-        'full_text': full_text
-    }], commit=True)
+    kwargs['instance'].update_full_text(commit=True)
 
 @receiver(models.signals.m2m_changed, sender=Dataset.categories.through)
 def on_dataset_categories_change(sender, **kwargs):
@@ -223,7 +234,7 @@ def on_dataset_categories_change(sender, **kwargs):
 @receiver(models.signals.post_delete, sender=Dataset)
 def on_dataset_delete(sender, **kwargs):
     """
-    When a Dataset is deleted, purge its data and metadata from Solr
+    When a Dataset is deleted, purge its data and metadata from Solr.
     """
     dataset = kwargs['instance']
     dataset_purge_data.apply_async(args=[dataset.slug])
