@@ -340,6 +340,7 @@ class DataResource(Resource):
             to_be_serialized = {}
             to_be_serialized['objects'] = [self.full_dehydrate(bundle) for bundle in bundles]
             to_be_serialized = self.alter_list_data_to_serialize(request, to_be_serialized)
+
             return self.create_response(request, to_be_serialized, response_class=http.HttpAccepted)
 
     def put_detail(self, request, **kwargs):

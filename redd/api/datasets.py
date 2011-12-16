@@ -49,7 +49,7 @@ class DatasetResource(SlugResource):
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
-        allowed_methods = ['get', 'post', 'put', 'delete']
+        allowed_methods = ['get', 'post', 'put', 'delete', 'patch']
         always_return_data = True
 
         authentication = CustomApiKeyAuthentication()

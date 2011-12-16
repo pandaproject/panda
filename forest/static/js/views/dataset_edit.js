@@ -81,8 +81,13 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
         s = {};
 
+        // Ensure categories is cleared
+        if (!("categories" in form_values)) {
+            this.dataset.categories.reset();
+        }
+
         _.each(form_values, _.bind(function(v, k) {
-            if (k == 'categories') {
+            if (k == "categories") {
                 // If only a single category is selected it will serialize as a string instead of a list
                 if (!_.isArray(v)) {
                     v = [v];
@@ -98,7 +103,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             }
         }, this));
 
-        this.dataset.save(s, {
+        this.dataset.patch(s, {
             success: _.bind(function() {
                 Redd.goto_dataset_view(this.dataset.get("slug"));
                 window.scrollTo(0, 0);

@@ -9,9 +9,13 @@
         <h6>Categories</h6>
 
         <p>
+            <% if (categories.length > 0) { %>
             <% _.each(categories, function(category, index, list) { %>
                 <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
             <% }); %>
+            <% } else { %>
+            None selected.
+            <% } %>
         </p>
 
         <h6>Description</h6>
