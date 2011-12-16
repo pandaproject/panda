@@ -3,7 +3,6 @@
 from celery.contrib.abortable import AbortableAsyncResult
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.dispatch import receiver
 
@@ -162,6 +161,30 @@ class Dataset(SluggedModel):
 
         return solr_row
 
+    def add_many_rows(self, data, commit=True):
+        """
+        Shortcut for adding rows in bulk. 
+
+        ``data`` must be an array of tuples in the format (data_array, external_id)
+        """
+        solr_rows = [utils.make_solr_row(self, d[0], external_id=d[1]) for d in data]
+
+        solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=commit)
+
+        if not self.sample_data:
+            self.sample_data = []
+        
+        if len(self.sample_data) < 5:
+            needed = 5 - len(self.sample_data)
+            self.sample_data.extend([d[0] for d in data[:needed]])
+
+        if commit:
+            self.row_count = self._count_rows()
+            self.modified = True
+            self.save()
+
+        return solr_rows
+        
     def delete_row(self, external_id, commit=True):
         """
         Delete a row in this dataset.

@@ -304,6 +304,7 @@ class DataResource(Resource):
             raise BadRequest("Invalid data sent.")
 
         bundles = []
+        data = []
 
         dataset = self.get_dataset_from_kwargs(None, **kwargs)
 
@@ -313,11 +314,17 @@ class DataResource(Resource):
             self.is_valid(bundle, request)
 
             bundles.append(bundle)
+            data.append((
+                bundle.data['data'],
+                bundle.data.get('external_id', None) 
+            ))
+        
+            self.validate_bundle_data(bundle, request, dataset)
+        
+        solr_rows = dataset.add_many_rows(data)
 
-        for bundle in bundles:
-            clean_kwargs = self.remove_api_resource_names(kwargs)
-
-            self.obj_create(bundle, request=request, commit=False, dataset=dataset, **clean_kwargs)
+        for bundle, solr_row in zip(bundles, solr_rows):
+            bundle.obj = SolrObject(solr_row)
 
         # Commit bulk changes
         solr.commit(settings.SOLR_DATA_CORE)
