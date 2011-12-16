@@ -219,13 +219,11 @@ class DataResource(Resource):
 
         return SolrObject(row)
 
-    def obj_create(self, bundle, request=None, commit=True, dataset=None, **kwargs):
+    def obj_create(self, bundle, request=None, commit=True, **kwargs):
         """
         Add one Data to a Dataset.
         """
-        # ``put_list`` provides its own dataset, otherwise we need to look it up
-        if not dataset:
-            dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
+        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
 
         self.validate_bundle_data(bundle, request, dataset)
 
@@ -289,13 +287,11 @@ class DataResource(Resource):
 
     def put_list(self, request, **kwargs):
         """
-        Changes from underlying implemention: 
+        A custom bulk create/update handler. Notes: 
 
-        * ``obj_delete_list`` is never called, but objects are deleted before being created. 
+        * ``obj_delete_list`` is never called, objects are overwritten instead.
         * All objects are validated before any objects are created, so ``rollback`` is unnecessary.
-        * A single Solr commit is made at the end (optimization).
-
-        Also see ``obj_create``.
+        * A single dataset save and Solr commit are made at the end (optimization!).
         """
         deserialized = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
         deserialized = self.alter_deserialized_list_data(request, deserialized)
