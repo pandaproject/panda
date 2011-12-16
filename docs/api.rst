@@ -419,7 +419,7 @@ Data objects are referenced by a unicode ``external_id`` property, specified at 
 
 .. warning::
 
-    The ``external_id`` property of a Data object is the only way it can be referenced. In order to work with Data via the API you must include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
+    The ``external_id`` property of a Data object is the only way it can be accessed through the API. In order to work with Data via the API you must include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
 
 .. highlight:: javascript
 
@@ -483,10 +483,12 @@ To fetch a single ``Data`` from a given ``Dataset``::
 
     http://localhost:8000/api/1.0/dataset/[slug]/data/[external_id]/
 
-Create
-------
+Create and update
+-----------------
 
-To create a new Data object, send an HTTP ``POST`` request to the list endpoint with the new object in the body. An example object::
+Because Data is stored in Solr (rather than a SQL database), there is no functional difference between Create and Update. In either case any Data with the same ``external_id`` will be overwritten when the new Data is created. Because of this requests may be either ``POST``'ed to the list endpoint or ``PUT`` to the detail endpoint.
+
+An example POST::
 
     {
         "data": [
@@ -501,18 +503,14 @@ This object would be ``POST``'ed to::
 
     http://localhost:8000/api/1.0/dataset/[slug]/data/
 
-Update
-------
-
-Update functions similarly to create, however you must use the HTTP ``PUT`` verb and you must send your requests to a specific Data object, such as ``/api/1.0/dataset/[slug]/data/[external_id]/``. This will delete the existing object and replace with the one you've sent. You must include the ``external_id`` property if you intend it to be preserved::
+An example ``PUT``::
 
     {
         "data": [
             "new column A value",
             "new column B value",
             "new column C value"
-        ],
-        "external_id": "id_value"
+        ]
     }
 
 This object would be ``PUT`` to::
@@ -522,7 +520,7 @@ This object would be ``PUT`` to::
 Bulk create and update
 ----------------------
 
-To create or update objects in bulk you may ``PUT`` an array of objects to the per-dataset data endpoint. Any object with a matching ``external_id`` will be deleted and then new objects will be created. The body of the request should be formatted like::
+To create or update objects in bulk you may ``PUT`` an array of objects to the list endpoint. Any object with a matching ``external_id`` will be deleted and then new objects will be created. The body of the request should be formatted like::
 
     {
         "objects": [
@@ -544,10 +542,6 @@ To create or update objects in bulk you may ``PUT`` an array of objects to the p
             }
         ]
     }
-
-.. note::
-
-    This action differs from both normal Tastypie behavior and typical REST behavior, however, it is the most straightforward way to allow for bulk object creation.
 
 Delete
 ------
