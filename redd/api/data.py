@@ -135,9 +135,12 @@ class DataResource(Resource):
         Extract a dataset from one of the variety of places it might be hiding.
         """
         kwargs_slug = kwargs['dataset_slug']
-
-        bundle_uri = bundle.data.pop('dataset', None)
+        
+        bundle_uri = None
         bundle_slug = None
+
+        if bundle:
+            bundle_uri = bundle.data.pop('dataset', None)
 
         if bundle_uri:
             prefix = get_script_prefix()
@@ -216,11 +219,13 @@ class DataResource(Resource):
 
         return SolrObject(row)
 
-    def obj_create(self, bundle, request=None, commit=True, **kwargs):
+    def obj_create(self, bundle, request=None, commit=True, dataset=None, **kwargs):
         """
         Add one Data to a Dataset.
         """
-        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
+        # ``put_list`` provides its own dataset, otherwise we need to look it up
+        if not dataset:
+            dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
 
         self.validate_bundle_data(bundle, request, dataset)
 
@@ -300,6 +305,8 @@ class DataResource(Resource):
 
         bundles = []
 
+        dataset = self.get_dataset_from_kwargs(None, **kwargs)
+
         for object_data in deserialized['objects']:
             bundle = self.build_bundle(data=dict_strip_unicode_keys(object_data), request=request)
 
@@ -310,12 +317,12 @@ class DataResource(Resource):
         for bundle in bundles:
             clean_kwargs = self.remove_api_resource_names(kwargs)
 
-            self.obj_create(bundle, request=request, commit=False, **clean_kwargs)
+            self.obj_create(bundle, request=request, commit=False, dataset=dataset, **clean_kwargs)
 
         # Commit bulk changes
         solr.commit(settings.SOLR_DATA_CORE)
 
-        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
+        # Update dataset
         dataset.row_count = dataset._count_rows()
         dataset.modified = True
         dataset.save()
