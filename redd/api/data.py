@@ -3,6 +3,7 @@
 import re
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
@@ -162,7 +163,7 @@ class DataResource(Resource):
 
         field_count = len(bundle.data['data'])
 
-        if dataset.data_upload and not dataset.has_data:
+        if dataset.data_upload and not dataset.row_count:
             errors['dataset'] = ['Can not create or modify data for a dataset which has data_upload, but has not completed the import process.']
 
         if dataset.schema is None:
@@ -216,7 +217,7 @@ class DataResource(Resource):
 
         return SolrObject(row)
 
-    def obj_create(self, bundle, request=None, commit=True, check_for_existing=True, **kwargs):
+    def obj_create(self, bundle, request=None, commit=True, **kwargs):
         """
         Add one Data to a Dataset.
         """
@@ -229,13 +230,13 @@ class DataResource(Resource):
         else:
             external_id = None
 
-        row = dataset.add_row(bundle.data['data'], external_id=external_id, commit=commit, check_for_existing=check_for_existing)
+        row = dataset.add_row(bundle.data['data'], external_id=external_id, commit=commit)
 
         bundle.obj = SolrObject(row)
 
         return bundle
 
-    def obj_update(self, bundle, request=None, commit=True, check_for_existing=True, **kwargs):
+    def obj_update(self, bundle, request=None, commit=True, **kwargs):
         """
         Update an existing Data.
         """
@@ -249,10 +250,10 @@ class DataResource(Resource):
             external_id = kwargs['external_id'] 
 
         # Delete old row
-        dataset.delete_row(external_id, check_for_existing=check_for_existing)
+        dataset.delete_row(external_id)
 
         # Add new row
-        row = dataset.update_row(external_id, bundle.data['data'], commit=commit, check_for_existing=False)
+        row = dataset.update_row(external_id, bundle.data['data'], commit=commit)
 
         bundle.obj = SolrObject(row)
 
@@ -264,13 +265,13 @@ class DataResource(Resource):
         """
         raise NotImplementedError()
 
-    def obj_delete(self, request=None, commit=True, check_for_existing=True, **kwargs):
+    def obj_delete(self, request=None, commit=True, **kwargs):
         """
         Delete a ``Data``.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        dataset.delete_row(kwargs['external_id'], commit=commit, check_for_existing=check_for_existing)
+        dataset.delete_row(kwargs['external_id'], commit=commit)
 
     def rollback(self, bundles):
         """
@@ -328,9 +329,12 @@ class DataResource(Resource):
 
             # If an external id was specified, delete the old object
             if 'external_id' in bundle.data and bundle.data['external_id']:
-                self.obj_delete(request, commit=False, check_for_existing=False, external_id=bundle.data['external_id'], **clean_kwargs)
+                try:
+                    self.obj_delete(request, commit=False, external_id=bundle.data['external_id'], **clean_kwargs)
+                except ObjectDoesNotExist:
+                    pass
 
-            self.obj_create(bundle, request=request, commit=False, check_for_existing=False, **clean_kwargs)
+            self.obj_create(bundle, request=request, commit=False, **clean_kwargs)
 
         solr.commit(settings.SOLR_DATA_CORE)
 

@@ -39,7 +39,6 @@ class DatasetResource(SlugResource):
 
     # Read only fields
     slug = fields.CharField(attribute='slug', readonly=True)
-    has_data = fields.BooleanField(attribute='has_data', readonly=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
     dialect = JSONApiField(attribute='dialect', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)

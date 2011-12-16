@@ -109,7 +109,6 @@ class DatasetImportTask(AbortableTask):
         task_status.message = '100% complete'
         task_status.save()
 
-        dataset.has_data = True
         dataset.row_count = i
         dataset.save()
 

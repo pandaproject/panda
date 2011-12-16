@@ -27,8 +27,6 @@ class Dataset(SluggedModel):
         help_text='The upload corresponding to the data file for this dataset.')
     schema = JSONField(null=True, default=None,
         help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
-    has_data = models.BooleanField(default=False,
-        help_text='Has data for this dataset been imported or added via the API?')
     row_count = models.IntegerField(null=True, blank=True,
         help_text='The number of rows in this dataset. Only available once the dataset has data.')
     sample_data = JSONField(null=True, default=None,
@@ -143,11 +141,12 @@ class Dataset(SluggedModel):
 
         return response['response']['docs'][0]
 
-    def add_row(self, data, external_id=None, commit=True, check_for_existing=True):
+    def add_row(self, data, external_id=None, commit=True):
         """
         Add a row to this dataset.
         """
-        if check_for_existing and external_id and self.get_row(external_id):
+        if external_id and self.get_row(external_id):
+            # TODO: raise a more sensible exception
             raise ObjectDoesNotExist('A row with external_id %s already exists.' % external_id)
 
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
@@ -160,10 +159,6 @@ class Dataset(SluggedModel):
         if len(self.sample_data) < 5:
             self.sample_data.append(data)
 
-        # Enable searching
-        if not self.has_data:
-            self.has_data = True
-
         if not self.row_count:
             self.row_count = 0
 
@@ -173,11 +168,11 @@ class Dataset(SluggedModel):
 
         return solr_row
 
-    def update_row(self, external_id, data, commit=True, check_for_existing=True):
+    def update_row(self, external_id, data, commit=True):
         """
         Update a row in this dataset.
         """
-        if check_for_existing and not self.get_row(external_id):
+        if not self.get_row(external_id):
             raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
 
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
@@ -190,19 +185,16 @@ class Dataset(SluggedModel):
 
         return solr_row
 
-    def delete_row(self, external_id, commit=True, check_for_existing=True):
+    def delete_row(self, external_id, commit=True):
         """
         Delete a row in this dataset.
         """
-        if check_for_existing and not self.get_row(external_id):
+        if not self.get_row(external_id):
             raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
 
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=commit)
 
         self.row_count -= 1
-
-        if self.row_count == 0:
-            self.has_data = False
 
         self.modified = True
         self.save()

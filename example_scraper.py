@@ -57,7 +57,7 @@ for i, row in enumerate(data['data']):
     # First 8 columns are metadata
     put_data['objects'].append({
         'data': row[-5:],
-        'external_id': row[0]   # per-dataset id
+        'external_id': unicode(row[0])   # per-dataset id
     })
 
     if i % 100 == 0:

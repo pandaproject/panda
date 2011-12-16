@@ -21,7 +21,7 @@ admin.site.register(User, UserModelAdmin)
 
 # Custom Redd admins
 class DatasetAdmin(admin.ModelAdmin):
-    readonly_fields = ('data_upload', 'schema', 'has_data', 'row_count', 'sample_data', 'current_task', 'creation_date', 'creator', 'dialect')
+    readonly_fields = ('data_upload', 'schema', 'row_count', 'sample_data', 'current_task', 'creation_date', 'creator', 'dialect')
 
 admin.site.register(Category)
 admin.site.register(Dataset, DatasetAdmin)
