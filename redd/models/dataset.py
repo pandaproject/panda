@@ -143,12 +143,8 @@ class Dataset(SluggedModel):
 
     def add_row(self, data, external_id=None, commit=True):
         """
-        Add a row to this dataset.
+        Add (or overwrite) a row to this dataset.
         """
-        if external_id and self.get_row(external_id):
-            # TODO: raise a more sensible exception
-            raise ObjectDoesNotExist('A row with external_id %s already exists.' % external_id)
-
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=commit)
@@ -159,29 +155,10 @@ class Dataset(SluggedModel):
         if len(self.sample_data) < 5:
             self.sample_data.append(data)
 
-        if not self.row_count:
-            self.row_count = 0
-
-        self.row_count += 1
-        self.modified = True
-        self.save()
-
-        return solr_row
-
-    def update_row(self, external_id, data, commit=True):
-        """
-        Update a row in this dataset.
-        """
-        if not self.get_row(external_id):
-            raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
-
-        solr_row = utils.make_solr_row(self, data, external_id=external_id)
-
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
-        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=commit)
-
-        self.modified = True
-        self.save()
+        if commit:
+            self.row_count = self._count_rows()
+            self.modified = True
+            self.save()
 
         return solr_row
 
@@ -189,15 +166,12 @@ class Dataset(SluggedModel):
         """
         Delete a row in this dataset.
         """
-        if not self.get_row(external_id):
-            raise ObjectDoesNotExist('A row with external_id %s does not exist.' % external_id)
-
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=commit)
-
-        self.row_count -= 1
-
-        self.modified = True
-        self.save()
+    
+        if commit:
+            self.row_count = self._count_rows()
+            self.modified = True
+            self.save()
 
     def _count_rows(self):
         """

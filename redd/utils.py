@@ -36,16 +36,18 @@ def sample_data(f, dialect, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
 
     return samples 
 
-def make_solr_row(dataset, data, pk=None, external_id=None):
+def make_solr_row(dataset, data, external_id=None):
     solr_row = {
-        'id': pk or unicode(uuid4()),
         'dataset_slug': dataset.slug,
         'full_text': '\n'.join(data),
         'data': json.dumps(data)
     }
 
     if external_id:
+        solr_row['id'] = '%s-%s' % (dataset.slug, external_id)
         solr_row['external_id'] = external_id
+    else:
+        solr_row['id'] = unicode(uuid4())
 
     return solr_row
 

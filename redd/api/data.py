@@ -3,7 +3,6 @@
 import re
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
@@ -227,6 +226,8 @@ class DataResource(Resource):
 
         if 'external_id' in bundle.data:
             external_id = bundle.data['external_id']
+        elif 'external_id' in kwargs:
+            external_id = kwargs['external_id']
         else:
             external_id = None
 
@@ -238,26 +239,9 @@ class DataResource(Resource):
 
     def obj_update(self, bundle, request=None, commit=True, **kwargs):
         """
-        Update an existing Data.
+        Overwrite an existing Data.
         """
-        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
-        
-        self.validate_bundle_data(bundle, request, dataset)
-
-        if 'external_id' in bundle.data:
-            external_id = bundle.data['external_id']
-        else:
-            external_id = kwargs['external_id'] 
-
-        # Delete old row
-        dataset.delete_row(external_id)
-
-        # Add new row
-        row = dataset.update_row(external_id, bundle.data['data'], commit=commit)
-
-        bundle.obj = SolrObject(row)
-
-        return bundle
+        return self.obj_create(bundle, request, commit, **kwargs)
 
     def obj_delete_list(self, request=None, **kwargs):
         """
@@ -270,7 +254,6 @@ class DataResource(Resource):
         Delete a ``Data``.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
-
         dataset.delete_row(kwargs['external_id'], commit=commit)
 
     def rollback(self, bundles):
@@ -327,16 +310,15 @@ class DataResource(Resource):
         for bundle in bundles:
             clean_kwargs = self.remove_api_resource_names(kwargs)
 
-            # If an external id was specified, delete the old object
-            if 'external_id' in bundle.data and bundle.data['external_id']:
-                try:
-                    self.obj_delete(request, commit=False, external_id=bundle.data['external_id'], **clean_kwargs)
-                except ObjectDoesNotExist:
-                    pass
-
             self.obj_create(bundle, request=request, commit=False, **clean_kwargs)
 
+        # Commit bulk changes
         solr.commit(settings.SOLR_DATA_CORE)
+
+        dataset = self.get_dataset_from_kwargs(bundle, **kwargs)
+        dataset.row_count = dataset._count_rows()
+        dataset.modified = True
+        dataset.save()
 
         if not self._meta.always_return_data:
             return http.HttpNoContent()

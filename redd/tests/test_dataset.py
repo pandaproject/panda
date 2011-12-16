@@ -91,15 +91,6 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(row['external_id'], '1')
         self.assertEqual(json.loads(row['data']), ['1', 'Brian', 'Boyer', 'Chicago Tribune'])
 
-    def test_get_row_not_found(self):
-        self.dataset.import_data(0)
-
-        utils.wait()
-
-        row = self.dataset.get_row('5')
-
-        self.assertEqual(row, None)
-
     def test_add_row(self):
         self.dataset.import_data(0)
 
@@ -119,56 +110,6 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(self.dataset.modified, True)
         self.assertEqual(self.dataset._count_rows(), 5)
 
-    def test_add_row_already_exists(self):
-        self.dataset.import_data(0)
-
-        utils.wait()
-
-        new_row =['1', 'Somebody', 'Else', 'Somewhere']
-
-        with self.assertRaises(ObjectDoesNotExist):
-            self.dataset.add_row(new_row, external_id='1')
-
-    def test_update_row(self):
-        self.dataset.import_data(0)
-
-        utils.wait()
-
-        # Refresh dataset so row_count is available
-        self.dataset = Dataset.objects.get(id=self.dataset.id)
-
-        update_row =['1', 'Somebody', 'Else', 'Somewhere']
-
-        self.dataset.update_row('1', update_row)
-        row = self.dataset.get_row('1')
-
-        self.assertEqual(row['external_id'], '1')
-        self.assertEqual(json.loads(row['data']), update_row)
-        self.assertEqual(self.dataset.row_count, 4)
-        self.assertEqual(self.dataset.modified, True)
-        self.assertEqual(self.dataset._count_rows(), 4)
-
-    def test_update_row_not_found(self):
-        self.dataset.import_data(0)
-
-        utils.wait()
-
-        update_row =['5', 'Somebody', 'Else', 'Somewhere']
-
-        with self.assertRaises(ObjectDoesNotExist):
-            self.dataset.update_row('5', update_row)
-
-    def test_update_row_old_data_deleted(self):
-        self.dataset.import_data(0)
-
-        utils.wait()
-
-        update_row =['1', 'Somebody', 'Else', 'Somewhere']
-
-        self.dataset.update_row('1', update_row)
-
-        self.assertEqual(self.dataset._count_rows(), 4)
-
     def test_delete_row(self):
         self.dataset.import_data(0)
 
@@ -184,12 +125,4 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 3)
         self.assertEqual(self.dataset.modified, True)
         self.assertEqual(self.dataset._count_rows(), 3)
-
-    def test_delete_row_not_found(self):
-        self.dataset.import_data(0)
-
-        utils.wait()
-
-        with self.assertRaises(ObjectDoesNotExist):
-            self.dataset.delete_row('5')
 
