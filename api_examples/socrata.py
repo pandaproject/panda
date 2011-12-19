@@ -17,7 +17,7 @@ PANDA_DATASET_SLUG = 'foia-request-log-311'
 
 PANDA_DATASET_URL = '%s/dataset/%s/' % (PANDA_API, PANDA_DATASET_SLUG)
 PANDA_DATA_URL = '%s/dataset/%s/data/' % (PANDA_API, PANDA_DATASET_SLUG)
-PANDA_BULK_UPDATE_SIZE = 100
+PANDA_BULK_UPDATE_SIZE = 1000
 
 SOCRATA_URL = 'http://data.cityofchicago.org/api/views/j2p9-gdf5/rows.json?unwrapped=true'
 
@@ -73,7 +73,7 @@ for i, row in enumerate(data):
         'external_id': unicode(row[0])   # per-dataset id
     })
 
-    if i % PANDA_BULK_UPDATE_SIZE == 0:
+    if i and i % PANDA_BULK_UPDATE_SIZE == 0:
         print 'Updating %i rows...' % PANDA_BULK_UPDATE_SIZE
 
         panda_put(PANDA_DATA_URL, json.dumps(data))
