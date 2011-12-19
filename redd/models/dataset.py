@@ -12,7 +12,7 @@ from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
 from redd.models.task_status import TaskStatus
 from redd.models.upload import Upload
-from redd.tasks import DatasetImportTask, dataset_purge_data
+from redd.tasks import FileImportTask, dataset_purge_data
 
 class Dataset(SluggedModel):
     """
@@ -113,7 +113,7 @@ class Dataset(SluggedModel):
         Purge data from Solr when a dataset is deleted.
         """
         # Cancel import if necessary 
-        if self.current_task and self.current_task.end is None and self.current_task.task_name == 'redd.tasks.DatasetImportTask': 
+        if self.current_task and self.current_task.end is None and self.current_task.task_name == 'redd.tasks.FileImportTask': 
             async_result = AbortableAsyncResult(self.current_task.id)
             async_result.abort()
 
@@ -124,10 +124,10 @@ class Dataset(SluggedModel):
         Execute the data import task for this Dataset
         """
         self.current_task = TaskStatus.objects.create(
-            task_name=DatasetImportTask.name)
+            task_name=FileImportTask.name)
         self.save()
 
-        DatasetImportTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
+        FileImportTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
 
     def get_row(self, external_id):
         """

@@ -14,11 +14,11 @@ from redd.utils import make_solr_row
 
 SOLR_ADD_BUFFER_SIZE = 500
 
-class DatasetImportTask(AbortableTask):
+class FileImportTask(AbortableTask):
     """
     Task to import all data for a dataset from a data file.
     """
-    name = 'redd.tasks.DatasetImportTask'
+    name = 'redd.tasks.FileImportTask'
 
     def _count_lines(self, filename):
         """
@@ -35,7 +35,7 @@ class DatasetImportTask(AbortableTask):
         """
         from redd.models import Dataset
 
-        log = logging.getLogger('redd.tasks.DatasetImportTask')
+        log = logging.getLogger('redd.tasks.FileImportTask')
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)

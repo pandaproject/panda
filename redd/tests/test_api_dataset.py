@@ -284,7 +284,7 @@ class TestAPIDataset(TransactionTestCase):
         body = json.loads(response.content)
 
         self.assertNotEqual(body['current_task'], None)
-        self.assertEqual(body['current_task']['task_name'], 'redd.tasks.DatasetImportTask')
+        self.assertEqual(body['current_task']['task_name'], 'redd.tasks.FileImportTask')
         
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
@@ -296,7 +296,7 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertNotEqual(task, None)
         self.assertEqual(task.status, 'SUCCESS')
-        self.assertEqual(task.task_name, 'redd.tasks.DatasetImportTask')
+        self.assertEqual(task.task_name, 'redd.tasks.FileImportTask')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)

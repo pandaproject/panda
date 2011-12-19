@@ -46,7 +46,7 @@ describe("Dataset model", function() {
         expect(response.data_upload).toBeUndefined();
 
         expect(dataset.current_task).not.toBeNull();
-        expect(dataset.current_task.get("task_name")).toEqual("redd.tasks.DatasetImportTask");
+        expect(dataset.current_task.get("task_name")).toEqual("redd.tasks.FileImportTask");
         expect(response.current_task).toBeUndefined();
 
         expect(dataset.categories).not.toBeNull();
@@ -76,7 +76,7 @@ describe("Dataset model", function() {
         expect(json.data_upload.original_filename).toEqual("contributors.csv");
 
         expect(json.current_task).not.toBeNull();
-        expect(json.current_task.task_name).toEqual("redd.tasks.DatasetImportTask");
+        expect(json.current_task.task_name).toEqual("redd.tasks.FileImportTask");
         
         expect(json.categories).not.toBeNull();
         expect(json.categories).toEqual([]);

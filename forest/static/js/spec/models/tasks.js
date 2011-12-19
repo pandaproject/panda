@@ -29,7 +29,7 @@ describe("Task model", function() {
 
         this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.task);
 
-        expect(task.get("task_name")).toEqual("redd.tasks.DatasetImportTask");
+        expect(task.get("task_name")).toEqual("redd.tasks.FileImportTask");
     });
 });
 
