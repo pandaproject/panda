@@ -5,7 +5,7 @@ import logging
 from math import floor
 
 from celery.contrib.abortable import AbortableTask
-from celery.decorators import task
+
 from csvkit import CSVKitReader
 from django.conf import settings
 
@@ -18,6 +18,8 @@ class DatasetImportTask(AbortableTask):
     """
     Task to import all data for a dataset from a data file.
     """
+    name = 'redd.tasks.DatasetImportTask'
+
     def _count_lines(self, filename):
         """
         Efficiently count the number of lines in a file.
@@ -148,15 +150,3 @@ class DatasetImportTask(AbortableTask):
         if task_status.status == 'FAILURE':
             solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % args[0], commit=True)
 
-@task
-def dataset_purge_data(dataset_slug):
-    """
-    Purge a dataset from Solr.
-    """
-    log = logging.getLogger('redd.tasks.dataset_purge_data')
-    log.info('Beginning purge, dataset_slug: %s' % dataset_slug)
-
-    solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset_slug)
-
-    log.info('Finished purge, dataset_slug: %s' % dataset_slug)
-    
