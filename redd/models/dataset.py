@@ -12,7 +12,7 @@ from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
 from redd.models.task_status import TaskStatus
 from redd.models.upload import Upload
-from redd.tasks import FileImportTask, dataset_purge_data
+from redd.tasks import FileImportTask, PurgeDataTask 
 
 class Dataset(SluggedModel):
     """
@@ -226,6 +226,6 @@ def on_dataset_delete(sender, **kwargs):
     When a Dataset is deleted, purge its data and metadata from Solr.
     """
     dataset = kwargs['instance']
-    dataset_purge_data.apply_async(args=[dataset.slug])
+    PurgeDataTask.apply_async(args=[dataset.slug])
     solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset.slug)
 

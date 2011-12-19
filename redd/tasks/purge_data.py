@@ -3,19 +3,21 @@
 import logging
 
 from django.conf import settings
-from celery.decorators import task
+from celery.task import Task
 
 from redd import solr
 
-@task(name='redd.tasks.dataset_purge_data')
-def dataset_purge_data(dataset_slug):
+class PurgeDataTask(Task):
     """
     Purge a dataset from Solr.
     """
-    log = logging.getLogger('redd.tasks.dataset_purge_data')
-    log.info('Beginning purge, dataset_slug: %s' % dataset_slug)
+    name = 'redd.tasks.PurgeDataTask'
 
-    solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset_slug)
+    def run(self, dataset_slug):
+        log = logging.getLogger('redd.tasks.PurgeDataTask')
+        log.info('Beginning purge, dataset_slug: %s' % dataset_slug)
 
-    log.info('Finished purge, dataset_slug: %s' % dataset_slug)
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset_slug)
+
+        log.info('Finished purge, dataset_slug: %s' % dataset_slug)
 
