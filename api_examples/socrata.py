@@ -26,7 +26,7 @@ def panda_get(url):
     return requests.get(url, params=PANDA_AUTH_PARAMS)
 
 def panda_put(url, data):
-    return requests.post(url, data, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
+    return requests.put(url, data, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
 
 # Check if dataset exists
 response = panda_get(PANDA_DATASET_URL)
@@ -76,12 +76,12 @@ for i, row in enumerate(data):
     if i and i % PANDA_BULK_UPDATE_SIZE == 0:
         print 'Updating %i rows...' % PANDA_BULK_UPDATE_SIZE
 
-        panda_put(PANDA_DATA_URL, json.dumps(data))
+        panda_put(PANDA_DATA_URL, json.dumps(put_data))
         put_data['objects'] = []
         
 if put_data['objects']:
     print 'Updating %i rows' % len(put_data['objects'])
-    panda_put(PANDA_DATA_URL, json.dumps(data))
+    panda_put(PANDA_DATA_URL, json.dumps(put_data))
 
 print 'Done'
 
