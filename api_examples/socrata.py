@@ -18,7 +18,7 @@ PANDA_DATASET_SLUG = 'foia-request-log-311'
 PANDA_DATASET_URL = '%s/dataset/%s/' % (PANDA_API, PANDA_DATASET_SLUG)
 PANDA_DATA_URL = '%s/dataset/%s/data/' % (PANDA_API, PANDA_DATASET_SLUG)
 
-SOCRATA_URL = 'http://data.cityofchicago.org/api/views/j2p9-gdf5/rows.json'
+SOCRATA_URL = 'http://data.cityofchicago.org/api/views/j2p9-gdf5/rows.json?unwrapped=true'
 
 # Utility functions
 def panda_get(url):
@@ -65,7 +65,7 @@ put_data = {
     'objects': []
 }
 
-for i, row in enumerate(data['data']):
+for i, row in enumerate(data):
     # First 8 columns are metadata
     put_data['objects'].append({
         'data': row[-5:],
