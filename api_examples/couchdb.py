@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 """
-Example showing how to import data from the Socrata API.
+Example showing how to import data from a CouchDB instance.
+
+Uses Couch's _changes feed to propogate updates and deletes into PANDA.
 """
 
 import json
