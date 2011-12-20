@@ -23,6 +23,8 @@ COUCHDB_ROOT_URL = 'http://datacouch.com/db/dc07acde3002cb1f62a08de546916097cd'
 COUCHDB_ROWS_URL = 'http://datacouch.com/db/dc07acde3002cb1f62a08de546916097cd/rows'
 COUCHDB_CHANGES_URL = 'http://datacouch.com/db/dc07acde3002cb1f62a08de546916097cd/_changes'
 
+LAST_SEQ_FILENAME = 'last_seq'
+
 # Utility functions
 def panda_get(url):
     return requests.get(url, params=PANDA_AUTH_PARAMS)
@@ -34,11 +36,11 @@ def panda_delete(url):
     return requests.delete(url, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
 
 def write_last_seq(last_seq):
-    with open('last_seq', 'w') as f:
+    with open(LAST_SEQ_FILENAME, 'w') as f:
         f.write(str(last_seq))
 
 def read_last_seq():
-    with open('last_seq') as f:
+    with open(LAST_SEQ_FILENAME) as f:
         return f.read().strip()
 
 def couchdb_row_to_panda_data(row):
