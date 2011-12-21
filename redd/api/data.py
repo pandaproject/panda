@@ -323,14 +323,6 @@ class DataResource(Resource):
         for bundle, solr_row in zip(bundles, solr_rows):
             bundle.obj = SolrObject(solr_row)
 
-        # Commit bulk changes
-        solr.commit(settings.SOLR_DATA_CORE)
-
-        # Update dataset
-        dataset.row_count = dataset._count_rows()
-        dataset.last_modified = datetime.now()
-        dataset.save()
-
         if not self._meta.always_return_data:
             return http.HttpNoContent()
         else:
@@ -374,6 +366,8 @@ class DataResource(Resource):
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset.slug, commit=True)
 
         dataset.row_count = 0
+        dataset.last_modified = datetime.now()
+        dataset.last_modification = 'All rows deleted'
         dataset.save()
 
         return http.HttpNoContent()

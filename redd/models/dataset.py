@@ -44,6 +44,8 @@ class Dataset(SluggedModel):
         help_text='Categories containing this Dataset.')
     last_modified = models.DateTimeField(null=True, blank=True, default=None,
         help_text='When, if ever, was this dataset last modified via the API?')
+    last_modification = models.TextField(null=True, blank=True, default=None,
+        help_text='Description of the last modification made to this Dataset.')
 
     class Meta:
         app_label = 'redd'
@@ -159,6 +161,7 @@ class Dataset(SluggedModel):
         if commit:
             self.row_count = self._count_rows()
             self.last_modified = datetime.now()
+            self.last_modification = '1 row added or updated'
             self.save()
 
         return solr_row
@@ -181,8 +184,12 @@ class Dataset(SluggedModel):
             self.sample_data.extend([d[0] for d in data[:needed]])
 
         if commit:
+            old_row_count = self.row_count
             self.row_count = self._count_rows()
+            added = self.row_count - (old_row_count or 0)
+            updated = len(data) - added
             self.last_modified = datetime.now()
+            self.last_modification = '%i rows added, %i updated' % (added, updated)
             self.save()
 
         return solr_rows
@@ -196,6 +203,7 @@ class Dataset(SluggedModel):
         if commit:
             self.row_count = self._count_rows()
             self.last_modified = datetime.now()
+            self.last_modification = '1 row deleted'
             self.save()
 
     def _count_rows(self):
