@@ -112,6 +112,11 @@ body { padding-top: 40px; }
     background-image: url(/site_media/img/asc.gif);     
 } 
 
+.modal .sample-data {
+    max-height: 300px;
+    overflow: scroll;
+}
+
 /* Edit page */
 
 #edit-dataset .actions .danger { float: right; }
