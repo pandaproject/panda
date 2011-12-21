@@ -162,9 +162,10 @@ class Dataset(SluggedModel):
 
         old_row_count = self.row_count
         self.row_count = self._count_rows()
+        added = self.row_count - (old_row_count or 0)
         self.last_modified = datetime.now()
         self.last_modified_by = user
-        self.last_modification = '1 row added or updated'
+        self.last_modification = '1 row %s' % ('added' if added else 'updated')
         self.save()
 
         return solr_row
@@ -192,7 +193,14 @@ class Dataset(SluggedModel):
         updated = len(data) - added
         self.last_modified = datetime.now()
         self.last_modified_by = user
-        self.last_modification = '%i rows added, %i updated' % (added, updated)
+
+        if added and updated: 
+            self.last_modification = '%i rows added and %i updated' % (added, updated)
+        elif added:
+            self.last_modification = '%i rows added' % added
+        else:
+            self.last_modification = '%i rows updated' % updated
+
         self.save()
 
         return solr_rows
@@ -215,9 +223,10 @@ class Dataset(SluggedModel):
         """
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug, commit=True)
 
+        old_row_count = self.row_count
         self.row_count = 0
         self.last_modified = datetime.now()
-        self.last_modification = 'All rows deleted'
+        self.last_modification = 'All %i rows deleted' % old_row_count
         self.save()
 
     def _count_rows(self):

@@ -18,7 +18,7 @@ PANDA_DATASET_SLUG = 'smith-county-criminal-cases'
 
 PANDA_DATASET_URL = '%s/dataset/%s/' % (PANDA_API, PANDA_DATASET_SLUG)
 PANDA_DATA_URL = '%s/dataset/%s/data/' % (PANDA_API, PANDA_DATASET_SLUG)
-PANDA_BULK_UPDATE_SIZE = 100
+PANDA_BULK_UPDATE_SIZE = 1000
 
 SCRAPERWIKI_URL = 'https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=jsondict&name=tyler_criminal_records&query=select%20*%20from%20%60swdata%60'
 COLUMNS = ['cause_number', 'date_filed', 'defendant_name', 'defendant_birthdate', 'offense', 'crime_date', 'degree', 'disposed', 'court', 'warrant_status', 'attorney', 'view_url']
