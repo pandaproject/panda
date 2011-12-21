@@ -220,7 +220,7 @@ class DataResource(Resource):
 
         return SolrObject(row)
 
-    def obj_create(self, bundle, request=None, commit=True, **kwargs):
+    def obj_create(self, bundle, request=None, **kwargs):
         """
         Add one Data to a Dataset.
         """
@@ -235,17 +235,17 @@ class DataResource(Resource):
         else:
             external_id = None
 
-        row = dataset.add_row(bundle.data['data'], external_id=external_id, commit=commit)
+        row = dataset.add_row(request.user, bundle.data['data'], external_id=external_id)
 
         bundle.obj = SolrObject(row)
 
         return bundle
 
-    def obj_update(self, bundle, request=None, commit=True, **kwargs):
+    def obj_update(self, bundle, request=None, **kwargs):
         """
         Overwrite an existing Data.
         """
-        return self.obj_create(bundle, request, commit, **kwargs)
+        return self.obj_create(bundle, request, **kwargs)
 
     def obj_delete_list(self, request=None, **kwargs):
         """
@@ -253,12 +253,12 @@ class DataResource(Resource):
         """
         raise NotImplementedError()
 
-    def obj_delete(self, request=None, commit=True, **kwargs):
+    def obj_delete(self, request=None, **kwargs):
         """
         Delete a ``Data``.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
-        dataset.delete_row(kwargs['external_id'], commit=commit)
+        dataset.delete_row(request.user, kwargs['external_id'])
 
     def rollback(self, bundles):
         """
@@ -318,7 +318,7 @@ class DataResource(Resource):
         
             self.validate_bundle_data(bundle, request, dataset)
         
-        solr_rows = dataset.add_many_rows(data)
+        solr_rows = dataset.add_many_rows(request.user, data)
 
         for bundle, solr_row in zip(bundles, solr_rows):
             bundle.obj = SolrObject(solr_row)
@@ -362,13 +362,7 @@ class DataResource(Resource):
         not supported.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
-
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset.slug, commit=True)
-
-        dataset.row_count = 0
-        dataset.last_modified = datetime.now()
-        dataset.last_modification = 'All rows deleted'
-        dataset.save()
+        dataset.delete_all_rows(request.user) 
 
         return http.HttpNoContent()
 

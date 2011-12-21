@@ -46,6 +46,8 @@ class Dataset(SluggedModel):
         help_text='When, if ever, was this dataset last modified via the API?')
     last_modification = models.TextField(null=True, blank=True, default=None,
         help_text='Description of the last modification made to this Dataset.')
+    last_modified_by = models.ForeignKey(User, null=True, blank=True,
+        help_text='The user, if any, who last modified this dataset.')
 
     class Meta:
         app_label = 'redd'
@@ -144,13 +146,13 @@ class Dataset(SluggedModel):
 
         return response['response']['docs'][0]
 
-    def add_row(self, data, external_id=None, commit=True):
+    def add_row(self, user, data, external_id=None):
         """
         Add (or overwrite) a row to this dataset.
         """
         solr_row = utils.make_solr_row(self, data, external_id=external_id)
 
-        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=commit)
+        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
 
         if not self.sample_data:
             self.sample_data = []
@@ -158,15 +160,16 @@ class Dataset(SluggedModel):
         if len(self.sample_data) < 5:
             self.sample_data.append(data)
 
-        if commit:
-            self.row_count = self._count_rows()
-            self.last_modified = datetime.now()
-            self.last_modification = '1 row added or updated'
-            self.save()
+        old_row_count = self.row_count
+        self.row_count = self._count_rows()
+        self.last_modified = datetime.now()
+        self.last_modified_by = user
+        self.last_modification = '1 row added or updated'
+        self.save()
 
         return solr_row
 
-    def add_many_rows(self, data, commit=True):
+    def add_many_rows(self, user, data):
         """
         Shortcut for adding rows in bulk. 
 
@@ -174,7 +177,7 @@ class Dataset(SluggedModel):
         """
         solr_rows = [utils.make_solr_row(self, d[0], external_id=d[1]) for d in data]
 
-        solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=commit)
+        solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=True)
 
         if not self.sample_data:
             self.sample_data = []
@@ -183,28 +186,39 @@ class Dataset(SluggedModel):
             needed = 5 - len(self.sample_data)
             self.sample_data.extend([d[0] for d in data[:needed]])
 
-        if commit:
-            old_row_count = self.row_count
-            self.row_count = self._count_rows()
-            added = self.row_count - (old_row_count or 0)
-            updated = len(data) - added
-            self.last_modified = datetime.now()
-            self.last_modification = '%i rows added, %i updated' % (added, updated)
-            self.save()
+        old_row_count = self.row_count
+        self.row_count = self._count_rows()
+        added = self.row_count - (old_row_count or 0)
+        updated = len(data) - added
+        self.last_modified = datetime.now()
+        self.last_modified_by = user
+        self.last_modification = '%i rows added, %i updated' % (added, updated)
+        self.save()
 
         return solr_rows
         
-    def delete_row(self, external_id, commit=True):
+    def delete_row(self, user, external_id):
         """
         Delete a row in this dataset.
         """
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=commit)
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
     
-        if commit:
-            self.row_count = self._count_rows()
-            self.last_modified = datetime.now()
-            self.last_modification = '1 row deleted'
-            self.save()
+        self.row_count = self._count_rows()
+        self.last_modified = datetime.now()
+        self.last_modified_by = user
+        self.last_modification = '1 row deleted'
+        self.save()
+
+    def delete_all_rows(self, user,):
+        """
+        Delete all rows in this dataset.
+        """
+        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug, commit=True)
+
+        self.row_count = 0
+        self.last_modified = datetime.now()
+        self.last_modification = 'All rows deleted'
+        self.save()
 
     def _count_rows(self):
         """

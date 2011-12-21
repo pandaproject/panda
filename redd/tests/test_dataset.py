@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.test import TransactionTestCase
 from django.utils import simplejson as json
 
@@ -101,7 +100,7 @@ class TestDataset(TransactionTestCase):
 
         new_row =['5', 'Somebody', 'Else', 'Somewhere']
 
-        self.dataset.add_row(new_row, external_id='5')
+        self.dataset.add_row(self.user, new_row, external_id='5')
         row = self.dataset.get_row('5')
 
         self.assertEqual(row['external_id'], '5')
@@ -118,7 +117,7 @@ class TestDataset(TransactionTestCase):
         # Refresh dataset so row_count is available
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
-        self.dataset.delete_row('1')
+        self.dataset.delete_row(self.user, '1')
         row = self.dataset.get_row('1')
 
         self.assertEqual(row, None)

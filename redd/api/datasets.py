@@ -36,8 +36,8 @@ class DatasetResource(SlugResource):
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True, readonly=True)
     data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True, null=True)
+    last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, readonly=True, null=True)
 
-    # Read only fields
     slug = fields.CharField(attribute='slug', readonly=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
     dialect = JSONApiField(attribute='dialect', readonly=True, null=True)
