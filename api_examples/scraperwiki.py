@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Example showing how to import data from the Socrata API.
+Example showing how to import data from the Scraperwiki API.
 """
 
 import json
@@ -52,7 +52,7 @@ if response.status_code == 404:
 
     response = panda_put(PANDA_DATASET_URL, json.dumps(dataset))
 
-# Fetch latest data from Socrata
+# Fetch latest data from Scraperwiki
 print 'Fetching latest data'
 response = requests.get(SCRAPERWIKI_URL)
 
