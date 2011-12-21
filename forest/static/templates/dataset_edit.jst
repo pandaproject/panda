@@ -8,10 +8,14 @@
         <div class="alert-message"></div>
         <fieldset>
             <legend>Edit <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
-            <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong></p>
+            <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.
+            <br />
             <% if (dataset.last_modified) { %>
-            <div><span class="alert-message block-message info" style="display: inline-block;"><strong>Note:</strong> Data in this dataset has been created or modified via the API.</span></div>
+            Last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%=dataset. last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
+            <% } else { %>
+            Never modified.
             <% } %>
+            </p>
 
             <h6>Categories</h6>
 
