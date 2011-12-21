@@ -43,7 +43,7 @@ class DatasetResource(SlugResource):
     dialect = JSONApiField(attribute='dialect', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
     creation_date = fields.DateTimeField(attribute='creation_date', readonly=True)
-    modified = fields.BooleanField(attribute='modified', readonly=True)
+    last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)
 
     class Meta:
         queryset = Dataset.objects.all()

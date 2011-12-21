@@ -39,7 +39,7 @@ def sample_data(f, dialect, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
 def make_solr_row(dataset, data, external_id=None):
     solr_row = {
         'dataset_slug': dataset.slug,
-        'full_text': '\n'.join(data),
+        'full_text': '\n'.join([unicode(d) for d in data]),
         'data': json.dumps(data)
     }
 

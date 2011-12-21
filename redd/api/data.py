@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from datetime import datetime
 import re
 
 from django.conf import settings
@@ -327,7 +328,7 @@ class DataResource(Resource):
 
         # Update dataset
         dataset.row_count = dataset._count_rows()
-        dataset.modified = True
+        dataset.last_modified = datetime.now()
         dataset.save()
 
         if not self._meta.always_return_data:

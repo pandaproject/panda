@@ -28,7 +28,9 @@ def panda_get(url):
     return requests.get(url, params=PANDA_AUTH_PARAMS)
 
 def panda_put(url, data):
-    return requests.put(url, data, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
+    response = requests.put(url, data, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
+    print response.content
+    return response
 
 def slugify(value):
     """

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from datetime import datetime
+
 from celery.contrib.abortable import AbortableAsyncResult
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -40,8 +42,8 @@ class Dataset(SluggedModel):
         help_text='Description of the format of the input CSV.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
-    modified = models.BooleanField(default=False,
-        help_text='Has this dataset ever been modified via the API?')
+    last_modified = models.DateTimeField(null=True, blank=True, default=None,
+        help_text='When, if ever, was this dataset last modified via the API?')
 
     class Meta:
         app_label = 'redd'
@@ -156,7 +158,7 @@ class Dataset(SluggedModel):
 
         if commit:
             self.row_count = self._count_rows()
-            self.modified = True
+            self.last_modified = datetime.now()
             self.save()
 
         return solr_row
@@ -180,7 +182,7 @@ class Dataset(SluggedModel):
 
         if commit:
             self.row_count = self._count_rows()
-            self.modified = True
+            self.last_modified = datetime.now()
             self.save()
 
         return solr_rows
@@ -193,7 +195,7 @@ class Dataset(SluggedModel):
     
         if commit:
             self.row_count = self._count_rows()
-            self.modified = True
+            self.last_modified = datetime.now()
             self.save()
 
     def _count_rows(self):
