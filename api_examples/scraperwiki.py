@@ -45,7 +45,7 @@ response = panda_get(PANDA_DATASET_URL)
 # Create dataset if necessary
 if response.status_code == 404:
     dataset = {
-        'name': 'Smith County Criminal Case Records',
+            'name': 'Scraperwiki: Smith County Criminal Case Records',
         'description': 'Results of the scraper at <a href="https://scraperwiki.com/scrapers/tyler_criminal_records/">https://scraperwiki.com/scrapers/tyler_criminal_records/</a>.',
         'schema': [{ 'column': c, 'type': 'unicode' } for c in COLUMNS ]
     }

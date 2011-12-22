@@ -57,8 +57,8 @@ response = panda_get(PANDA_DATASET_URL)
 # Create dataset if necessary
 if response.status_code == 404:
     dataset = {
-        'name': 'CouchDB Example',
-        'description': 'Blah',
+        'name': 'CouchDB: PANDA Contributors',
+        'description': 'A list of contributors to PANDA imported from a dataset on DataCouch: <a href="http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd">http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd</a>.',
         'schema': [{
             'column': 'First Name',
             'type': 'unicode'
@@ -143,8 +143,6 @@ else:
 
         for deleted in delete_ids:
             response = panda_delete('%s%s/' % (PANDA_DATA_URL, deleted))
-
-            print response
 
     # Update location for next run
     write_last_seq(data['last_seq'])
