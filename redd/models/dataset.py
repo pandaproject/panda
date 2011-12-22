@@ -34,7 +34,7 @@ class Dataset(SluggedModel):
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
-    creation_date = models.DateTimeField(auto_now=True,
+    creation_date = models.DateTimeField(auto_now_add=True,
         help_text='The date this dataset was initially created.')
     creator = models.ForeignKey(User, related_name='datasets',
         help_text='The user who created this dataset.')

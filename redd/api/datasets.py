@@ -42,7 +42,7 @@ class DatasetResource(SlugResource):
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
     dialect = JSONApiField(attribute='dialect', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
-    creation_date = fields.DateTimeField(attribute='creation_date', readonly=True)
+    creation_date = fields.DateTimeField(attribute='creation_date', readonly=True, null=True)
     last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)
     last_modification = fields.CharField(attribute='last_modification', readonly=True, null=True)
 
