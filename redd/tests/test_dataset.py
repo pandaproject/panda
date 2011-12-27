@@ -102,8 +102,6 @@ class TestDataset(TransactionTestCase):
         # Refresh from database
         task = TaskStatus.objects.get(id=task.id)
 
-        print task.traceback
-
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)

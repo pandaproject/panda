@@ -85,6 +85,9 @@ class Dataset(SluggedModel):
                 elif data_type == 'xls':
                     with open(self.data_upload.get_path(), 'rb') as f:
                         self.schema = utils.xls_infer_schema(f, self.dialect)
+                elif data_type == 'xlsx':
+                    with open(self.data_upload.get_path(), 'rb') as f:
+                        self.schema = utils.xlsx_infer_schema(f, self.dialect)
                 else:
                     self.schema = []
 
@@ -95,6 +98,9 @@ class Dataset(SluggedModel):
                 elif data_type == 'xls':
                     with open(self.data_upload.get_path(), 'rb') as f:
                         self.sample_data = utils.xls_sample_data(f)
+                elif data_type == 'xlsx':
+                    with open(self.data_upload.get_path(), 'rb') as f:
+                        self.sample_data = utils.xlsx_sample_data(f)
                 else:
                     self.sample_data = []
 

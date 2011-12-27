@@ -9,6 +9,7 @@ from csvkit.sniffer import sniff_dialect
 from csvkit.typeinference import normalize_table, NULL_TIME
 from django.conf import settings
 from django.utils import simplejson as json
+from openpyxl.reader.excel import load_workbook
 import xlrd
 
 def csv_sniff(f):
@@ -37,6 +38,19 @@ def xls_infer_schema(f, sample_size=100):
 
     return [{
         'column': h,
+        'type': 'unicode'
+    } for h in headers]
+
+def xlsx_infer_schema(f, sample_size=100):
+    book = load_workbook(f, use_iterators=True)
+    sheet = book.get_active_sheet()
+
+    headers = sheet.iter_rows().next()
+
+    # TODO - actually figure out types
+
+    return [{
+        'column': h.internal_value,
         'type': 'unicode'
     } for h in headers]
 
@@ -93,11 +107,44 @@ def xls_sample_data(f, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
 
     samples = []
 
-    for i in range(1, min(sheet.nrows, sample_size)):
+    for i in range(1, min(sheet.nrows, sample_size + 1)):
         values = sheet.row_values(i)
         types = sheet.row_types(i)
 
         values = [xls_normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
+
+        samples.append(values)
+
+    return samples
+
+def xlsx_sample_data(f, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
+    book = load_workbook(f, use_iterators=True)
+    sheet = book.get_active_sheet()
+
+    samples = []
+
+    for i, row in enumerate(sheet.iter_rows()):
+        if i == 0:
+            continue
+
+        if i == sample_size + 1:
+            break
+
+        values = []
+
+        for c in row:
+            value = c.internal_value
+
+            if value.__class__ is datetime.datetime:
+                value = xlsx_normalize_date(value)
+            elif value.__class__ is float:
+                if value % 1 == 0:
+                    value = int(value)
+
+            if value.__class__ in (datetime.datetime, datetime.date, datetime.time):
+                value = value.isoformat()
+
+            values.append(value)
 
         samples.append(values)
 
