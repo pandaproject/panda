@@ -6,9 +6,8 @@ from math import floor
 from django.conf import settings
 import xlrd
 
-from redd import solr
+from redd import solr, utils
 from redd.tasks.import_file import ImportFileTask
-from redd.utils import make_solr_row, xls_normalize_date
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -44,14 +43,14 @@ class ImportXLSTask(ImportFileTask):
             values = sheet.row_values(i)
             types = sheet.row_types(i)
 
-            values = [xls_normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
+            values = [utils.xls.normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
 
             external_id = None
 
             if external_id_field_index is not None:
                 external_id = values[external_id_field_index]
 
-            data = make_solr_row(dataset, values, external_id=external_id)
+            data = utils.solr.make_data_row(dataset, values, external_id=external_id)
 
             add_buffer.append(data)
 

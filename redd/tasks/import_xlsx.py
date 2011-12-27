@@ -7,9 +7,8 @@ from math import floor
 from django.conf import settings
 from openpyxl.reader.excel import load_workbook
 
-from redd import solr
+from redd import solr, utils
 from redd.tasks.import_file import ImportFileTask
-from redd.utils import make_solr_row, xlsx_normalize_date
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -52,7 +51,7 @@ class ImportXLSXTask(ImportFileTask):
                 value = c.internal_value
 
                 if value.__class__ is datetime.datetime:
-                    value = xlsx_normalize_date(value)
+                    value = utils.xlsx.normalize_date(value)
                 elif value.__class__ is float:
                     if value % 1 == 0:
                         value = int(value)
@@ -67,7 +66,7 @@ class ImportXLSXTask(ImportFileTask):
             if external_id_field_index is not None:
                 external_id = values[external_id_field_index]
 
-            data = make_solr_row(dataset, values, external_id=external_id)
+            data = utils.solr.make_data_row(dataset, values, external_id=external_id)
 
             add_buffer.append(data)
 

@@ -6,9 +6,8 @@ from math import floor
 from csvkit import CSVKitReader
 from django.conf import settings
 
-from redd import solr
+from redd import solr, utils
 from redd.tasks.import_file import ImportFileTask 
-from redd.utils import make_solr_row
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -73,7 +72,7 @@ class ImportCSVTask(ImportFileTask):
             if external_id_field_index is not None:
                 external_id = row[external_id_field_index]
 
-            data = make_solr_row(dataset, row, external_id=external_id)
+            data = utils.solr.make_data_row(dataset, row, external_id=external_id)
 
             add_buffer.append(data)
 

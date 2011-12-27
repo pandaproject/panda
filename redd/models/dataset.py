@@ -66,7 +66,7 @@ class Dataset(SluggedModel):
 
                 if data_type == 'csv':
                     with open(self.data_upload.get_path(), 'r') as f:
-                        csv_dialect = utils.csv_sniff(f)
+                        csv_dialect = utils.csv.sniff(f)
                         self.dialect = {
                             'lineterminator': csv_dialect.lineterminator,
                             'skipinitialspace': csv_dialect.skipinitialspace,
@@ -81,26 +81,26 @@ class Dataset(SluggedModel):
             if not self.schema:
                 if data_type == 'csv':
                     with open(self.data_upload.get_path(), 'r') as f:
-                        self.schema = utils.csv_infer_schema(f, self.dialect)
+                        self.schema = utils.csv.infer_schema(f, self.dialect)
                 elif data_type == 'xls':
                     with open(self.data_upload.get_path(), 'rb') as f:
-                        self.schema = utils.xls_infer_schema(f, self.dialect)
+                        self.schema = utils.xls.infer_schema(f, self.dialect)
                 elif data_type == 'xlsx':
                     with open(self.data_upload.get_path(), 'rb') as f:
-                        self.schema = utils.xlsx_infer_schema(f, self.dialect)
+                        self.schema = utils.xlsx.infer_schema(f, self.dialect)
                 else:
                     self.schema = []
 
             if not self.sample_data:
                 if data_type == 'csv':
                     with open(self.data_upload.get_path(), 'r') as f:
-                        self.sample_data = utils.csv_sample_data(f, self.dialect)
+                        self.sample_data = utils.csv.sample_data(f, self.dialect)
                 elif data_type == 'xls':
                     with open(self.data_upload.get_path(), 'rb') as f:
-                        self.sample_data = utils.xls_sample_data(f)
+                        self.sample_data = utils.xls.sample_data(f)
                 elif data_type == 'xlsx':
                     with open(self.data_upload.get_path(), 'rb') as f:
-                        self.sample_data = utils.xlsx_sample_data(f)
+                        self.sample_data = utils.xlsx.sample_data(f)
                 else:
                     self.sample_data = []
 
@@ -178,7 +178,7 @@ class Dataset(SluggedModel):
         """
         Add (or overwrite) a row to this dataset.
         """
-        solr_row = utils.make_solr_row(self, data, external_id=external_id)
+        solr_row = utils.solr.make_data_row(self, data, external_id=external_id)
 
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
 
@@ -204,7 +204,7 @@ class Dataset(SluggedModel):
 
         ``data`` must be an array of tuples in the format (data_array, external_id)
         """
-        solr_rows = [utils.make_solr_row(self, d[0], external_id=d[1]) for d in data]
+        solr_rows = [utils.solr.make_data_row(self, d[0], external_id=d[1]) for d in data]
 
         solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=True)
 
