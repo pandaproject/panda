@@ -37,7 +37,7 @@ class ImportXLSXTask(ImportFileTask):
 
         book = load_workbook(f, use_iterators=True)
         sheet = book.get_active_sheet()
-        row_count = sheet.nrows
+        row_count = sheet.get_highest_row()
         
         add_buffer = []
 
@@ -60,7 +60,7 @@ class ImportXLSXTask(ImportFileTask):
                 if value.__class__ in (datetime.datetime, datetime.date, datetime.time):
                     value = value.isoformat()
 
-            values.append(value)
+                values.append(value)
 
             external_id = None
 

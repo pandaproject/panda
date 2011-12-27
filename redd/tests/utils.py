@@ -13,6 +13,8 @@ from redd.models import Dataset, Upload
 TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
 TEST_XLS_FILENAME = 'contributors.xls'
+TEST_EXCEL_XLSX_FILENAME = 'contributors.excel.xlsx'
+TEST_OO_XLSX_FILENAME = 'contributors.oo.xlsx'
 
 def setup_test_solr():
     settings.SOLR_DATA_CORE = 'data_test'
@@ -34,37 +36,20 @@ def get_admin_user():
 def get_panda_user():
     return User.objects.get(username='user@pandaproject.net')
 
-def get_test_upload(creator):
+def get_test_upload(creator, filename=TEST_DATA_FILENAME):
     # Ensure panda subdir has been created
     try:
         os.mkdir(settings.MEDIA_ROOT)
     except OSError:
         pass
 
-    src = os.path.join(TEST_DATA_PATH, TEST_DATA_FILENAME)
-    dst = os.path.join(settings.MEDIA_ROOT, TEST_DATA_FILENAME)
+    src = os.path.join(TEST_DATA_PATH, filename)
+    dst = os.path.join(settings.MEDIA_ROOT, filename)
     copyfile(src, dst)
 
     return Upload.objects.create(
-        filename=TEST_DATA_FILENAME,
-        original_filename=TEST_DATA_FILENAME,
-        size=os.path.getsize(dst),
-        creator=creator)
-
-def get_test_xls_upload(creator):
-    # Ensure panda subdir has been created
-    try:
-        os.mkdir(settings.MEDIA_ROOT)
-    except OSError:
-        pass
-
-    src = os.path.join(TEST_DATA_PATH, TEST_XLS_FILENAME)
-    dst = os.path.join(settings.MEDIA_ROOT, TEST_XLS_FILENAME)
-    copyfile(src, dst)
-
-    return Upload.objects.create(
-        filename=TEST_XLS_FILENAME,
-        original_filename=TEST_XLS_FILENAME,
+        filename=filename,
+        original_filename=filename,
         size=os.path.getsize(dst),
         creator=creator)
 

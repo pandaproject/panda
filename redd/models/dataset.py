@@ -82,9 +82,11 @@ class Dataset(SluggedModel):
                 if data_type == 'csv':
                     with open(self.data_upload.get_path(), 'r') as f:
                         self.schema = utils.csv_infer_schema(f, self.dialect)
-                else:
+                elif data_type == 'xls':
                     with open(self.data_upload.get_path(), 'rb') as f:
                         self.schema = utils.xls_infer_schema(f, self.dialect)
+                else:
+                    self.schema = []
 
             if not self.sample_data:
                 if data_type == 'csv':
