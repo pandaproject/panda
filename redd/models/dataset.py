@@ -61,9 +61,9 @@ class Dataset(SluggedModel):
         Override save to do fast, first-N type inference on the data and populated the schema.
         """
         if self.data_upload:
-            if not self.dialect:
-                data_type = self.data_upload.infer_data_type()
+            data_type = self.data_upload.infer_data_type()
 
+            if not self.dialect:
                 if data_type == 'csv':
                     with open(self.data_upload.get_path(), 'r') as f:
                         csv_dialect = utils.csv.sniff(f)
@@ -79,30 +79,10 @@ class Dataset(SluggedModel):
                     self.dialect = {}
 
             if not self.schema:
-                if data_type == 'csv':
-                    with open(self.data_upload.get_path(), 'r') as f:
-                        self.schema = utils.csv.infer_schema(f, self.dialect)
-                elif data_type == 'xls':
-                    with open(self.data_upload.get_path(), 'rb') as f:
-                        self.schema = utils.xls.infer_schema(f, self.dialect)
-                elif data_type == 'xlsx':
-                    with open(self.data_upload.get_path(), 'rb') as f:
-                        self.schema = utils.xlsx.infer_schema(f, self.dialect)
-                else:
-                    self.schema = []
+                self.schema = utils.infer_schema(data_type, self.data_upload.get_path(), self.dialect)
 
             if not self.sample_data:
-                if data_type == 'csv':
-                    with open(self.data_upload.get_path(), 'r') as f:
-                        self.sample_data = utils.csv.sample_data(f, self.dialect)
-                elif data_type == 'xls':
-                    with open(self.data_upload.get_path(), 'rb') as f:
-                        self.sample_data = utils.xls.sample_data(f)
-                elif data_type == 'xlsx':
-                    with open(self.data_upload.get_path(), 'rb') as f:
-                        self.sample_data = utils.xlsx.sample_data(f)
-                else:
-                    self.sample_data = []
+                self.sample_data = utils.sample_data(data_type, self.data_upload.get_path(), self.dialect)
 
         super(Dataset, self).save(*args, **kwargs)
 

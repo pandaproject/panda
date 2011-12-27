@@ -3,21 +3,21 @@
 import datetime
 
 from csvkit.typeinference import NULL_TIME
-from django.conf import settings
 from openpyxl.reader.excel import load_workbook
 
-def infer_schema(f, sample_size=100):
-    book = load_workbook(f, use_iterators=True)
-    sheet = book.get_active_sheet()
+def infer_schema(path, dialect, sample_size):
+    with open(path, 'rb') as f:
+        book = load_workbook(f, use_iterators=True)
+        sheet = book.get_active_sheet()
 
-    headers = sheet.iter_rows().next()
+        headers = sheet.iter_rows().next()
 
-    # TODO - actually figure out types
+        # TODO - actually figure out types
 
-    return [{
-        'column': h.internal_value,
-        'type': 'unicode'
-    } for h in headers]
+        return [{
+            'column': h.internal_value,
+            'type': 'unicode'
+        } for h in headers]
 
 def normalize_date(dt):
     if dt.time() == NULL_TIME:
@@ -35,36 +35,37 @@ def normalize_date(dt):
 
     return dt.isoformat()
 
-def sample_data(f, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
-    book = load_workbook(f, use_iterators=True)
-    sheet = book.get_active_sheet()
+def sample_data(path, dialect, sample_size):
+    with open(path, 'rb') as f:
+        book = load_workbook(f, use_iterators=True)
+        sheet = book.get_active_sheet()
 
-    samples = []
+        samples = []
 
-    for i, row in enumerate(sheet.iter_rows()):
-        if i == 0:
-            continue
+        for i, row in enumerate(sheet.iter_rows()):
+            if i == 0:
+                continue
 
-        if i == sample_size + 1:
-            break
+            if i == sample_size + 1:
+                break
 
-        values = []
+            values = []
 
-        for c in row:
-            value = c.internal_value
+            for c in row:
+                value = c.internal_value
 
-            if value.__class__ is datetime.datetime:
-                value = normalize_date(value)
-            elif value.__class__ is float:
-                if value % 1 == 0:
-                    value = int(value)
+                if value.__class__ is datetime.datetime:
+                    value = normalize_date(value)
+                elif value.__class__ is float:
+                    if value % 1 == 0:
+                        value = int(value)
 
-            if value.__class__ in (datetime.datetime, datetime.date, datetime.time):
-                value = value.isoformat()
+                if value.__class__ in (datetime.datetime, datetime.date, datetime.time):
+                    value = value.isoformat()
 
-            values.append(value)
+                values.append(value)
 
-        samples.append(values)
+            samples.append(values)
 
-    return samples
+        return samples
 

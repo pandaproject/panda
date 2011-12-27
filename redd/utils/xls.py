@@ -2,21 +2,21 @@
 
 import datetime
 
-from django.conf import settings
 import xlrd
 
-def infer_schema(f, sample_size=100):
-    book = xlrd.open_workbook(file_contents=f.read())
-    sheet = book.sheet_by_index(0)
+def infer_schema(path, dialect, sample_size):
+    with open(path, 'rb') as f:
+        book = xlrd.open_workbook(file_contents=f.read())
+        sheet = book.sheet_by_index(0)
 
-    headers = sheet.row_values(0)
+        headers = sheet.row_values(0)
 
-    # TODO - actually figure out types
+        # TODO - actually figure out types
 
-    return [{
-        'column': h,
-        'type': 'unicode'
-    } for h in headers]
+        return [{
+            'column': h,
+            'type': 'unicode'
+        } for h in headers]
 
 def normalize_date(v, datemode):
     """
@@ -38,19 +38,20 @@ def normalize_date(v, datemode):
         # Date and time
         return datetime.datetime(*v_tuple).isoformat()
 
-def sample_data(f, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
-    book = xlrd.open_workbook(file_contents=f.read(), on_demand=True)
-    sheet = book.sheet_by_index(0)
+def sample_data(path, dialect, sample_size):
+    with open(path, 'rb') as f:
+        book = xlrd.open_workbook(file_contents=f.read(), on_demand=True)
+        sheet = book.sheet_by_index(0)
 
-    samples = []
+        samples = []
 
-    for i in range(1, min(sheet.nrows, sample_size + 1)):
-        values = sheet.row_values(i)
-        types = sheet.row_types(i)
+        for i in range(1, min(sheet.nrows, sample_size + 1)):
+            values = sheet.row_values(i)
+            types = sheet.row_types(i)
 
-        values = [normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
+            values = [normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
 
-        samples.append(values)
+            samples.append(values)
 
-    return samples
+        return samples
 
