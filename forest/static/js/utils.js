@@ -2,6 +2,12 @@
  * This module contains global utilities--mostly jQuery extension.
  */
 
+if (typeof String.prototype.startsWith != 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.slice(0, str.length) == str;
+    };
+}
+
 $.fn.serializeObject = function() {
     /*
      * Serialize a form to a Javascript object.

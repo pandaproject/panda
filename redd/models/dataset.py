@@ -14,7 +14,7 @@ from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
 from redd.models.task_status import TaskStatus
 from redd.models.upload import Upload
-from redd.tasks import FileImportTask, PurgeDataTask 
+from redd.tasks import ImportCSVTask, PurgeDataTask 
 
 class Dataset(SluggedModel):
     """
@@ -34,7 +34,7 @@ class Dataset(SluggedModel):
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
-    creation_date = models.DateTimeField(auto_now_add=True,
+    creation_date = models.DateTimeField(auto_now_add=True, null=True,
         help_text='The date this dataset was initially created.')
     creator = models.ForeignKey(User, related_name='datasets',
         help_text='The user who created this dataset.')
@@ -119,7 +119,7 @@ class Dataset(SluggedModel):
         Purge data from Solr when a dataset is deleted.
         """
         # Cancel import if necessary 
-        if self.current_task and self.current_task.end is None and self.current_task.task_name == 'redd.tasks.FileImportTask': 
+        if self.current_task and self.current_task.end is None and self.current_task.task_name.startswith('redd.tasks.import'): 
             async_result = AbortableAsyncResult(self.current_task.id)
             async_result.abort()
 
@@ -130,10 +130,10 @@ class Dataset(SluggedModel):
         Execute the data import task for this Dataset
         """
         self.current_task = TaskStatus.objects.create(
-            task_name=FileImportTask.name)
+            task_name=ImportCSVTask.name)
         self.save()
 
-        FileImportTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
+        ImportCSVTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
 
     def get_row(self, external_id):
         """

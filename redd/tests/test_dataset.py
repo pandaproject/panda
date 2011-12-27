@@ -38,14 +38,14 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(response['response']['numFound'], 1)
 
-    def est_import_data(self):
+    def test_import_data(self):
         self.dataset.import_data(0)
 
         task = self.dataset.current_task
 
         self.assertNotEqual(task, None)
         self.assertNotEqual(task.id, None)
-        self.assertEqual(task.task_name, 'redd.tasks.FileImportTask')
+        self.assertEqual(task.task_name, 'redd.tasks.import.csv')
 
         utils.wait()
 
