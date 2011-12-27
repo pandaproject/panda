@@ -62,24 +62,39 @@ class Dataset(SluggedModel):
         """
         if self.data_upload:
             if not self.dialect:
-                with open(self.data_upload.get_path(), 'r') as f:
-                    csv_dialect = utils.sniff(f)
-                    self.dialect = {
-                        'lineterminator': csv_dialect.lineterminator,
-                        'skipinitialspace': csv_dialect.skipinitialspace,
-                        'quoting': csv_dialect.quoting,
-                        'delimiter': csv_dialect.delimiter,
-                        'quotechar': csv_dialect.quotechar,
-                        'doublequote': csv_dialect.doublequote
-                    }
+                data_type = self.data_upload.infer_data_type()
+
+                if data_type == 'csv':
+                    with open(self.data_upload.get_path(), 'r') as f:
+                        csv_dialect = utils.csv_sniff(f)
+                        self.dialect = {
+                            'lineterminator': csv_dialect.lineterminator,
+                            'skipinitialspace': csv_dialect.skipinitialspace,
+                            'quoting': csv_dialect.quoting,
+                            'delimiter': csv_dialect.delimiter,
+                            'quotechar': csv_dialect.quotechar,
+                            'doublequote': csv_dialect.doublequote
+                        }
+                else:
+                    self.dialect = {}
 
             if not self.schema:
-                with open(self.data_upload.get_path(), 'r') as f:
-                    self.schema = utils.infer_schema(f, self.dialect)
+                if data_type == 'csv':
+                    with open(self.data_upload.get_path(), 'r') as f:
+                        self.schema = utils.csv_infer_schema(f, self.dialect)
+                else:
+                    with open(self.data_upload.get_path(), 'rb') as f:
+                        self.schema = utils.xls_infer_schema(f, self.dialect)
 
             if not self.sample_data:
-                with open(self.data_upload.get_path(), 'r') as f:
-                    self.sample_data = utils.sample_data(f, self.dialect)
+                if data_type == 'csv':
+                    with open(self.data_upload.get_path(), 'r') as f:
+                        self.sample_data = utils.csv_sample_data(f, self.dialect)
+                elif data_type == 'xls':
+                    with open(self.data_upload.get_path(), 'rb') as f:
+                        self.sample_data = utils.xls_sample_data(f)
+                else:
+                    self.sample_data = []
 
         super(Dataset, self).save(*args, **kwargs)
 

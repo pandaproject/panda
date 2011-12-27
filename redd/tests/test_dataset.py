@@ -59,6 +59,31 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
+    def test_import_xls(self):
+        xls_upload = utils.get_test_xls_upload(self.user)
+        self.dataset.data_upload = xls_upload
+        self.dataset.save()
+
+        self.dataset.import_data()
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertNotEqual(task.id, None)
+        self.assertEqual(task.task_name, 'redd.tasks.import.xls')
+
+        utils.wait()
+
+        # Refresh from database
+        task = TaskStatus.objects.get(id=task.id)
+
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
+
     def test_delete(self):
         self.dataset.import_data(0)
 

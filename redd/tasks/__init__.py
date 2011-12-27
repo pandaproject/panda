@@ -6,10 +6,12 @@ from redd.tasks.import_xls import ImportXLSTask
 from redd.tasks.purge_data import PurgeDataTask
 
 def get_import_task_type_for_upload(upload):
-    extension = upload.filename[-4:]
+    data_type = upload.infer_data_type()
 
-    if extension == '.csv':
+    if data_type == 'csv':
         return ImportCSVTask
-    elif extension == '.xls':
+    elif data_type == 'xls':
         return ImportXLSTask
+
+    return None
 
