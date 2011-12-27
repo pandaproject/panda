@@ -27,7 +27,7 @@ class ImportCSVTask(ImportFileTask):
                 pass
         return i + 1
 
-    def run(self, dataset_slug, external_id_field_index, *args, **kwargs):
+    def run(self, dataset_slug, external_id_field_index=None, *args, **kwargs):
         """
         Execute import.
         """

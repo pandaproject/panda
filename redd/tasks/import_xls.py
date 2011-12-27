@@ -19,7 +19,7 @@ class ImportXLSTask(ImportFileTask):
     """
     name = 'redd.tasks.import.xls'
 
-    def run(self, dataset_slug, external_id_field_index, *args, **kwargs):
+    def run(self, dataset_slug, *args, **kwargs):
         """
         Execute import.
         """

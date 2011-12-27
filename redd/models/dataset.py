@@ -14,7 +14,7 @@ from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
 from redd.models.task_status import TaskStatus
 from redd.models.upload import Upload
-from redd.tasks import ImportCSVTask, PurgeDataTask 
+from redd.tasks import get_import_task_type_for_upload, PurgeDataTask 
 
 class Dataset(SluggedModel):
     """
@@ -129,11 +129,16 @@ class Dataset(SluggedModel):
         """
         Execute the data import task for this Dataset
         """
-        self.current_task = TaskStatus.objects.create(
-            task_name=ImportCSVTask.name)
+        task_type = get_import_task_type_for_upload(self.data_upload) 
+
+        self.current_task = TaskStatus.objects.create(task_name=task_type.name)
         self.save()
 
-        ImportCSVTask.apply_async([self.slug, external_id_field_index], task_id=self.current_task.id)
+        task_type.apply_async(
+            args=[self.slug],
+            kwargs={ 'external_id_field_index': external_id_field_index },
+            task_id=self.current_task.id
+        )
 
     def get_row(self, external_id):
         """

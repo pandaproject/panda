@@ -38,8 +38,8 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(response['response']['numFound'], 1)
 
-    def test_import_data(self):
-        self.dataset.import_data(0)
+    def test_import_csv(self):
+        self.dataset.import_data()
 
         task = self.dataset.current_task
 
