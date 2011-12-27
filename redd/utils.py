@@ -68,7 +68,7 @@ def xls_normalize_date(v, datemode):
         return datetime.datetime(*v_tuple).isoformat()
 
 def xls_sample_data(f, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
-    book = xlrd.open_workbook(file_contents=f.read())
+    book = xlrd.open_workbook(file_contents=f.read(), on_demand=True)
     sheet = book.sheet_by_index(0)
 
     samples = []

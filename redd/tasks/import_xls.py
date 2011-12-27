@@ -35,7 +35,7 @@ class ImportXLSTask(ImportFileTask):
 
         f = open(dataset.data_upload.get_path(), 'rb')
 
-        book = xlrd.open_workbook(file_contents=f.read())
+        book = xlrd.open_workbook(file_contents=f.read(), on_demand=True)
         sheet = book.sheet_by_index(0)
         row_count = sheet.nrows
         
