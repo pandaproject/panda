@@ -15,3 +15,5 @@ sphinx==1.0.7
 requests==0.8.3
 south==0.7.3
 -e git://github.com/GoodCloud/django-longer-username.git#egg=longerusername
+hg+https://bitbucket.org/ericgazoni/openpyxl#egg=openpyxl
+xlrd==0.7.1

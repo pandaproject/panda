@@ -3,15 +3,20 @@
 from redd.tasks.import_file import ImportFileTask
 from redd.tasks.import_csv import ImportCSVTask
 from redd.tasks.import_xls import ImportXLSTask
+from redd.tasks.import_xlsx import ImportXLSXTask
 from redd.tasks.purge_data import PurgeDataTask
+
+TASKS_BY_TYPE = {
+    'csv': ImportCSVTask,
+    'xls': ImportXLSTask,
+    'xlsx': ImportXLSXTask
+}
 
 def get_import_task_type_for_upload(upload):
     data_type = upload.infer_data_type()
 
-    if data_type == 'csv':
-        return ImportCSVTask
-    elif data_type == 'xls':
-        return ImportXLSTask
-
-    return None
+    try:
+        return TASKS_BY_TYPE[data_type]
+    except KeyError:
+        return None
 

@@ -72,7 +72,7 @@ class ImportFileTask(AbortableTask):
         Save final status, results, etc.
         """
         from redd.models import Dataset, Notification
-        
+
         dataset = Dataset.objects.get(slug=args[0])
         task_status = dataset.current_task 
 

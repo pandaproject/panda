@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from csvkit import CSVKitReader
 from csvkit.sniffer import sniff_dialect
-from csvkit.typeinference import normalize_table
+from csvkit.typeinference import normalize_table, NULL_TIME
 from django.conf import settings
 from django.utils import simplejson as json
 import xlrd
@@ -42,7 +42,7 @@ def xls_infer_schema(f, sample_size=100):
 
 def csv_sample_data(f, dialect, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
     reader = CSVKitReader(f, **dialect)
-    headers = reader.next()
+    reader.next() # skip headers
         
     samples = []
 
@@ -52,6 +52,10 @@ def csv_sample_data(f, dialect, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
     return samples 
 
 def xls_normalize_date(v, datemode):
+    """
+    Convert an xldate to a date, time, or datetime
+    depending on its value.
+    """
     v_tuple = xlrd.xldate_as_tuple(v, datemode)
 
     if v_tuple == (0, 0, 0, 0, 0, 0):
@@ -66,6 +70,22 @@ def xls_normalize_date(v, datemode):
     else:
         # Date and time
         return datetime.datetime(*v_tuple).isoformat()
+
+def xlsx_normalize_date(dt):
+    if dt.time() == NULL_TIME:
+        return dt.date().isoformat()
+
+    if dt.microsecond == 0:
+        return dt.isoformat()
+
+    ms = dt.microsecond
+
+    if ms < 1000:
+        return dt.replace(microsecond=0).isoformat()
+    elif ms > 999000:
+        return dt.replace(second=dt.second + 1, microsecond=0).isoformat()
+
+    return dt.isoformat()
 
 def xls_sample_data(f, sample_size=settings.PANDA_SAMPLE_DATA_ROWS):
     book = xlrd.open_workbook(file_contents=f.read(), on_demand=True)

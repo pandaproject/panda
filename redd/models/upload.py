@@ -32,12 +32,14 @@ class Upload(models.Model):
         return os.path.join(settings.MEDIA_ROOT, self.filename)
 
     def infer_data_type(self):
-        extension = self.filename[-4:]
+        extension = os.path.splitext(self.filename)[1]
 
         if extension == '.csv':
             return 'csv' 
         elif extension == '.xls':
             return 'xls'
+        elif extension == '.xlsx':
+            return 'xlsx'
 
         return None
 

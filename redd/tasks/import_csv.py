@@ -32,7 +32,7 @@ class ImportCSVTask(ImportFileTask):
         Execute import.
         """
         from redd.models import Dataset
-
+        
         log = logging.getLogger('redd.tasks.import.csv')
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 

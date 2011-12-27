@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 
+import datetime
 import logging
 from math import floor
 
 from django.conf import settings
-import xlrd
+from openpyxl.reader.excel import load_workbook
 
 from redd import solr
 from redd.tasks.import_file import ImportFileTask
-from redd.utils import make_solr_row, xls_normalize_date
+from redd.utils import make_solr_row, xlsx_normalize_date
 
 SOLR_ADD_BUFFER_SIZE = 500
 
-class ImportXLSTask(ImportFileTask):
+class ImportXLSXTask(ImportFileTask):
     """
-    Task to import all data for a dataset from an Excel XLS file.
+    Task to import all data for a dataset from an Excel/OpenOffice XLSX file.
     """
-    name = 'redd.tasks.import.xls'
+    name = 'redd.tasks.import.xlsx'
 
     def run(self, dataset_slug, external_id_field_index=None, *args, **kwargs):
         """
@@ -24,7 +25,7 @@ class ImportXLSTask(ImportFileTask):
         """
         from redd.models import Dataset
         
-        log = logging.getLogger('redd.tasks.import.xls')
+        log = logging.getLogger('redd.tasks.import.xlsx')
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)
@@ -34,17 +35,32 @@ class ImportXLSTask(ImportFileTask):
 
         f = open(dataset.data_upload.get_path(), 'rb')
 
-        book = xlrd.open_workbook(file_contents=f.read(), on_demand=True)
-        sheet = book.sheet_by_index(0)
+        book = load_workbook(f, use_iterators=True)
+        sheet = book.get_active_sheet()
         row_count = sheet.nrows
         
         add_buffer = []
 
-        for i in range(1, row_count):
-            values = sheet.row_values(i)
-            types = sheet.row_types(i)
+        for i, row in enumerate(sheet.iter_rows()):
+            # Skip header
+            if i == 0:
+                continue
 
-            values = [xls_normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
+            values = []
+
+            for c in row:
+                value = c.internal_value
+
+                if value.__class__ is datetime.datetime:
+                    value = xlsx_normalize_date(value)
+                elif value.__class__ is float:
+                    if value % 1 == 0:
+                        value = int(value)
+
+                if value.__class__ in (datetime.datetime, datetime.date, datetime.time):
+                    value = value.isoformat()
+
+            values.append(value)
 
             external_id = None
 
