@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from datetime import datetime
+import datetime
 import logging
 from math import floor
 
@@ -9,7 +9,7 @@ import xlrd
 
 from redd import solr
 from redd.tasks.import_file import ImportFileTask
-from redd.utils import make_solr_row
+from redd.utils import make_solr_row, xls_normalize_date
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -31,10 +31,7 @@ class ImportXLSTask(ImportFileTask):
         dataset = Dataset.objects.get(slug=dataset_slug)
 
         task_status = dataset.current_task
-        task_status.status = 'STARTED' 
-        task_status.start = datetime.now()
-        task_status.message = 'Preparing to import'
-        task_status.save()
+        self.task_start(task_status, 'Preparing to import')
 
         f = open(dataset.data_upload.get_path(), 'rb')
 
@@ -46,6 +43,9 @@ class ImportXLSTask(ImportFileTask):
 
         for i in range(1, row_count):
             values = sheet.row_values(i)
+            types = sheet.row_types(i)
+
+            values = [xls_normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
 
             external_id = None
 
@@ -64,10 +64,7 @@ class ImportXLSTask(ImportFileTask):
                 task_status.save()
 
                 if self.is_aborted():
-                    task_status.status = 'ABORTED'
-                    task_status.end = datetime.now()
-                    task_status.message = 'Aborted after importing %.0f%%' % floor(float(i) / float(row_count) * 100)
-                    task_status.save()
+                    self.task_abort(self.task_status, 'Aborted after importing %.0f%%' % floor(float(i) / float(row_count) * 100))
 
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
@@ -79,8 +76,7 @@ class ImportXLSTask(ImportFileTask):
 
         solr.commit(settings.SOLR_DATA_CORE)
 
-        task_status.message = '100% complete'
-        task_status.save()
+        self.task_update(task_status, '100% complete')
 
         dataset.row_count = row_count - 1
         dataset.save()
