@@ -36,6 +36,14 @@ class NotificationResource(ModelResource):
     def apply_authorization_limits(self, request, object_list):
         return object_list.filter(recipient=request.user)
 
+    def save_related(self, bundle):
+        """
+        Overriding this is a bit of a dirty-hack, but we really don't want
+        Dataset being saved whenever a notification is updated (because it
+        kicks off Solr indexing).
+        """
+        pass
+
     #def alter_list_data_to_serialize(request, data):
         # TODO: trim paging data
         #return data
