@@ -32,9 +32,7 @@ class ImportXLSXTask(ImportFileTask):
         task_status = dataset.current_task
         self.task_start(task_status, 'Preparing to import')
 
-        f = open(dataset.data_upload.get_path(), 'rb')
-
-        book = load_workbook(f, use_iterators=True)
+        book = load_workbook(dataset.data_upload.get_path(), use_iterators=True)
         sheet = book.get_active_sheet()
         row_count = sheet.get_highest_row()
         
