@@ -10,7 +10,6 @@ body { padding-top: 40px; }
 .container-fluid { padding: 0; }
 .content { padding: 20px 30px 30px 30px; }
 .alert-message { display: none; }
-#categories-list .category { list-style: disc inside; }
 
 .form-stacked { padding-left: 0px; }
 .actions.on-top { margin-top: 0px; }
@@ -62,6 +61,19 @@ body { padding-top: 40px; }
 
 #sidebar-menu li {
     margin-bottom: 7px;
+}
+
+#categories-list {
+    margin-bottom: 10px;
+}
+
+#categories-list .category {
+    list-style: disc inside;
+}
+
+#sidebar-menu .add-category {
+    margin-left: 25px;
+    font-size: smaller;
 }
 
 /* News page */

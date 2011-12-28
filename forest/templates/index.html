@@ -51,6 +51,7 @@
                         <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }}</a></li>
                         {% endfor %}
                     </ul>
+                    <div class="add-category"><a data-content="To keep things organized only administrators can add categories." data-original-title="Contact your admin!" data-offset="5" href="javascript: return false;" rel="popover">Need another category?</a></div>
                 </nav>
             </div>
         </div>
@@ -64,6 +65,8 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.tablesorter.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-modal.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-twipsy.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-popover.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone-tastypie.js"></script>
@@ -108,6 +111,8 @@
 
             window.Redd = new PANDA.views.Root();
             Redd.start_routing();
+
+            $('a[rel="popover"]').popover();
         })
     </script>
 </body>
