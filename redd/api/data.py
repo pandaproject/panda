@@ -168,10 +168,10 @@ class DataResource(Resource):
         if dataset.data_upload and not dataset.row_count:
             errors['dataset'] = ['Can not create or modify data for a dataset which has data_upload, but has not completed the import process.']
 
-        if dataset.schema is None:
-            errors['dataset'] = ['Can not create or modify data for a dataset without a schema.']
+        if dataset.columns is None:
+            errors['dataset'] = ['Can not create or modify data for a dataset without columns.']
         else:
-            expected_field_count = len(dataset.schema)
+            expected_field_count = len(dataset.columns)
 
             if field_count != expected_field_count:
                 errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]

@@ -8,18 +8,12 @@ from openpyxl.reader.excel import load_workbook
 def sniff_dialect(path):
     return {}
 
-def infer_schema(path, dialect, sample_size):
+def extract_column_names(path, dialect):
     book = load_workbook(path, use_iterators=True)
     sheet = book.get_active_sheet()
-
     headers = sheet.iter_rows().next()
 
-    # TODO - actually figure out types
-
-    return [{
-        'column': h.internal_value,
-        'type': 'unicode'
-    } for h in headers]
+    return headers
 
 def normalize_date(dt):
     if dt.time() == NULL_TIME:

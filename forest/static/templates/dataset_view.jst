@@ -31,8 +31,8 @@
         <p><% if (row_count) { %>Showing <%= sample_data.length %> sample rows from <%= row_count %> total rows in this dataset.<% } else { %>Showing <%= sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
 
         <table>
-            <% _.each(schema, function(s) { %>
-                <th><%= s.column %></th>
+            <% _.each(columns, function(c) { %>
+                <th><%= c %></th>
             <% }); %>
             <% _.each(sample_data, function(r) { %>
                 <tr>

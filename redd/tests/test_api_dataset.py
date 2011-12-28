@@ -57,7 +57,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['description'], self.dataset.description)
         self.assertEqual(body['row_count'], self.dataset.row_count)
         self.assertEqual(body['sample_data'], self.dataset.sample_data)
-        self.assertEqual(body['schema'], self.dataset.schema)
+        self.assertEqual(body['columns'], self.dataset.columns)
         self.assertEqual(body['creator']['email'], self.dataset.creator.email)
 
         task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id, **self.auth_headers)
@@ -133,7 +133,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['slug'], 'new-dataset')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
-        self.assertNotEqual(body['schema'], None)
+        self.assertNotEqual(body['columns'], None)
         self.assertNotEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['data_upload']['filename'], self.upload.filename)
@@ -144,7 +144,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.name, 'New dataset!')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertNotEqual(new_dataset.schema, None)
+        self.assertNotEqual(new_dataset.columns, None)
         self.assertNotEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.data_upload, self.upload)
@@ -184,7 +184,7 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(body['name'], 'This dataset does not have an upload!')
         self.assertEqual(body['row_count'], None)
-        self.assertEqual(body['schema'], None)
+        self.assertEqual(body['columns'], None)
         self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['data_upload'], None)
@@ -193,7 +193,7 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(new_dataset.name, 'This dataset does not have an upload!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertEqual(new_dataset.schema, None)
+        self.assertEqual(new_dataset.columns, None)
         self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.data_upload, None)
@@ -215,7 +215,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['slug'], 'new-id')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
-        self.assertNotEqual(body['schema'], None)
+        self.assertNotEqual(body['columns'], None)
         self.assertNotEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['data_upload']['filename'], self.upload.filename)
@@ -227,7 +227,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.slug, 'new-id')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertNotEqual(new_dataset.schema, None)
+        self.assertNotEqual(new_dataset.columns, None)
         self.assertNotEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.data_upload, self.upload)
@@ -290,7 +290,7 @@ class TestAPIDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(self.dataset.row_count, 4)
-        self.assertNotEqual(self.dataset.schema, None)
+        self.assertNotEqual(self.dataset.columns, None)
 
         task = self.dataset.current_task
 
@@ -367,7 +367,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(int(body['id']), self.dataset.id)
         self.assertEqual(body['name'], self.dataset.name)
         self.assertEqual(body['row_count'], self.dataset.row_count)
-        self.assertEqual(body['schema'], self.dataset.schema)
+        self.assertEqual(body['columns'], self.dataset.columns)
 
         # Test that only one dataset was matched
         self.assertEqual(body['meta']['total_count'], 4)
@@ -402,7 +402,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(int(body['id']), self.dataset.id)
         self.assertEqual(body['name'], self.dataset.name)
         self.assertEqual(body['row_count'], self.dataset.row_count)
-        self.assertEqual(body['schema'], self.dataset.schema)
+        self.assertEqual(body['columns'], self.dataset.columns)
 
         # Test that only one dataset was matched
         self.assertEqual(body['meta']['total_count'], 1)

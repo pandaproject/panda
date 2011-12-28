@@ -187,9 +187,9 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(self.dataset.row_count, 6)
 
-    def test_create_no_schema(self):
+    def test_create_no_columns(self):
         self.dataset.data_upload = None
-        self.dataset.schema = None
+        self.dataset.columns = None
         self.dataset.save()
 
         new_data = {
@@ -467,7 +467,7 @@ class TestAPIData(TransactionTestCase):
             
             self.assertEqual(result_dataset['name'], db_dataset.name)
             self.assertEqual(result_dataset['row_count'], db_dataset.row_count)
-            self.assertEqual(result_dataset['schema'], db_dataset.schema)
+            self.assertEqual(result_dataset['columns'], db_dataset.columns)
 
             self.assertEqual(result_dataset['objects'][0]['data'][1], 'Christopher')
             self.assertIn('resource_uri', result_dataset['objects'][0])

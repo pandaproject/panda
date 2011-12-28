@@ -63,8 +63,8 @@
             <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
 
             <table>
-                <% _.each(dataset.schema, function(s) { %>
-                    <th><%= s.column %></th>
+                <% _.each(dataset.columns, function(c) { %>
+                    <th><%= c %></th>
                 <% }); %>
                 <% _.each(dataset.sample_data, function(r) { %>
                     <tr>

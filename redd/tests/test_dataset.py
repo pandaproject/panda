@@ -22,13 +22,10 @@ class TestDataset(TransactionTestCase):
         self.upload = utils.get_test_upload(self.user)
         self.dataset = utils.get_test_dataset(self.upload, self.user)
 
-    def test_schema_created(self):
-        self.assertNotEqual(self.dataset.schema, None)
-        self.assertEqual(len(self.dataset.schema), 4)
-        self.assertEqual(self.dataset.schema[0], {
-            'column': 'id',
-            'type': 'int'
-        });
+    def test_columns_extracted(self):
+        self.assertNotEqual(self.dataset.columns, None)
+        self.assertEqual(len(self.dataset.columns), 4)
+        self.assertEqual(self.dataset.columns, ['id', 'first_name', 'last_name', 'employer']);
 
     def test_sample_data_created(self):
         self.assertNotEqual(self.dataset.sample_data, None)

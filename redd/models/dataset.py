@@ -26,8 +26,8 @@ class Dataset(SluggedModel):
         help_text='User-supplied dataset description.')
     data_upload = models.ForeignKey(Upload, null=True, blank=True,
         help_text='The upload corresponding to the data file for this dataset.')
-    schema = JSONField(null=True, default=None,
-        help_text='An ordered list of dictionaries describing the attributes of this dataset\'s columns.')
+    columns = JSONField(null=True, default=None,
+        help_text='An list of names for this dataset\'s columns.')
     row_count = models.IntegerField(null=True, blank=True,
         help_text='The number of rows in this dataset. Only available once the dataset has data.')
     sample_data = JSONField(null=True, default=None,
@@ -58,7 +58,7 @@ class Dataset(SluggedModel):
 
     def save(self, *args, **kwargs):
         """
-        Override save to do fast, first-N type inference on the data and populated the schema.
+        Override save extract metadata from the upload.
         """
         if self.data_upload:
             data_type = self.data_upload.infer_data_type()
@@ -67,8 +67,8 @@ class Dataset(SluggedModel):
             if self.dialect is None:
                 self.dialect = utils.sniff_dialect(data_type, path)
 
-            if self.schema is None:
-                self.schema = utils.infer_schema(data_type, path, self.dialect)
+            if self.columns is None:
+                self.columns = utils.extract_column_names(data_type, path, self.dialect)
 
             if self.sample_data is None:
                 self.sample_data = utils.sample_data(data_type, path, self.dialect)
@@ -92,11 +92,11 @@ class Dataset(SluggedModel):
             category_ids.append(category.id)
             full_text_data.append(category.name)
 
-        if self.data_upload:
+        if self.data_upload is not None:
             full_text_data.append(self.data_upload.original_filename)
 
-        if self.schema:
-            full_text_data.extend([s['column'] for s in self.schema])
+        if self.columns is not None:
+            full_text_data.extend(self.columns)
 
         full_text = '\n'.join(full_text_data)
 

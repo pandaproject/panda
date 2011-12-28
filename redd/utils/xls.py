@@ -7,18 +7,12 @@ import xlrd
 def sniff_dialect(path):
     return {} 
 
-def infer_schema(path, dialect, sample_size):
+def extract_column_names(path, dialect):
     book = xlrd.open_workbook(path, on_demand=True)
     sheet = book.sheet_by_index(0)
-
     headers = sheet.row_values(0)
 
-    # TODO - actually figure out types
-
-    return [{
-        'column': h,
-        'type': 'unicode'
-    } for h in headers]
+    return headers
 
 def normalize_date(v, datemode):
     """

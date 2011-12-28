@@ -52,8 +52,8 @@
                         by <%= dataset.creator.first_name %> <%= dataset.creator.last_name %> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt;
                     </td>
                     <td>
-                        <% _.each(dataset.schema, function(s, i, l) { %>
-                        <%= s.column %><% if (i < l.length - 1) { print(",") } %>
+                        <% _.each(dataset.columns, function(c, i, l) { %>
+                        <%= c %><% if (i < l.length - 1) { print(",") } %>
                         <% }); %>
                     </td>
                 </tr>
