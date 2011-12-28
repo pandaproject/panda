@@ -32,7 +32,7 @@ class ImportCSVTask(ImportFileTask):
         """
         from redd.models import Dataset
         
-        log = logging.getLogger('redd.tasks.import.csv')
+        log = logging.getLogger(self.name)
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)
@@ -94,6 +94,8 @@ class ImportCSVTask(ImportFileTask):
             add_buffer = []
 
         solr.commit(settings.SOLR_DATA_CORE)
+
+        f.close()
 
         self.task_update(task_status, '100% complete')
 

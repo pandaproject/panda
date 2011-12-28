@@ -14,7 +14,7 @@ from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
 from redd.models.task_status import TaskStatus
 from redd.models.upload import Upload
-from redd.tasks import get_import_task_type_for_upload, PurgeDataTask 
+from redd.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask 
 
 class Dataset(SluggedModel):
     """
@@ -120,7 +120,7 @@ class Dataset(SluggedModel):
 
     def import_data(self, external_id_field_index=None):
         """
-        Execute the data import task for this Dataset
+        Execute the data import task for this Dataset.
         """
         task_type = get_import_task_type_for_upload(self.data_upload) 
 
@@ -130,6 +130,21 @@ class Dataset(SluggedModel):
         task_type.apply_async(
             args=[self.slug],
             kwargs={ 'external_id_field_index': external_id_field_index },
+            task_id=self.current_task.id
+        )
+
+    def export_data(self, filename=None):
+        """
+        Execute the data export task for this Dataset.
+        """
+        task_type = ExportCSVTask
+
+        self.current_task = TaskStatus.objects.create(task_name=task_type.name)
+        self.save()
+
+        task_type.apply_async(
+            args=[self.slug],
+            kwargs={ 'filename': filename },
             task_id=self.current_task.id
         )
 

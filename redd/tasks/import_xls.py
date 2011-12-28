@@ -23,7 +23,7 @@ class ImportXLSTask(ImportFileTask):
         """
         from redd.models import Dataset
         
-        log = logging.getLogger('redd.tasks.import.xls')
+        log = logging.getLogger(self.name)
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)

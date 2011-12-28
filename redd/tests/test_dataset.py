@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os.path
+
 from django.conf import settings
 from django.test import TransactionTestCase
 from django.utils import simplejson as json
@@ -199,4 +201,35 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 3)
         self.assertNotEqual(self.dataset.last_modified, None)
         self.assertEqual(self.dataset._count_rows(), 3)
+
+    def test_export_csv(self):
+        self.dataset.import_data()
+
+        utils.wait()
+
+        self.dataset.export_data('test_export.csv')
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertNotEqual(task.id, None)
+        self.assertEqual(task.task_name, 'redd.tasks.export.csv')
+
+        utils.wait()
+
+        # Refresh from database
+        task = TaskStatus.objects.get(id=task.id)
+
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        with open(os.path.join(utils.TEST_DATA_PATH, utils.TEST_DATA_FILENAME), 'r') as f:
+            imported_csv = f.read()
+
+        with open(os.path.join(settings.MEDIA_ROOT, 'test_export.csv')) as f:
+            exported_csv = f.read()
+
+        self.assertEqual(imported_csv, exported_csv)
 
