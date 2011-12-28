@@ -13,13 +13,6 @@
         <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" omitNorms="true" positionIncrementGap="0" />
         <fieldType name="date" class="solr.TrieDateField" omitNorms="true" precisionStep="0" positionIncrementGap="0" />
 
-        <!-- Fast types -->
-        <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" omitNorms="true" positionIncrementGap="0" />
-        <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" omitNorms="true" positionIncrementGap="0" />
-        <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" omitNorms="true" positionIncrementGap="0" />
-        <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" omitNorms="true" positionIncrementGap="0" />
-        <fieldType name="tdate" class="solr.TrieDateField" omitNorms="true" precisionStep="6" positionIncrementGap="0" />
-
         <!-- Full-text types -->
         <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
             <analyzer type="index">
@@ -64,21 +57,6 @@
         <field name="external_id" type="string" indexed="true" stored="true" />
         <field name="full_text" type="text_general" indexed="true" stored="false" />
         <field name="data" type="string" indexed="false" stored="true" required="true" />
-
-        <!-- Dynamic typed fields that directly correspond to Python types -->
-        <dynamicField name="*_unicode"  type="string"  indexed="true"  stored="true" />
-        <dynamicField name="*_int"  type="long"   indexed="true"  stored="true" />
-        <dynamicField name="*_bool"  type="boolean" indexed="true"  stored="true" />
-        <dynamicField name="*_float"  type="float"  indexed="true"  stored="true" />
-        <dynamicField name="*_none" type="ignored" />
-
-        <!-- Dynamic, typed fileds that correspond to Python types after some processing -->
-        <dynamicField name="*_datetime" type="date"    indexed="true"  stored="true" />
-        <dynamicField name="*_date" type="string"    indexed="true"  stored="true" />
-
-        <!-- Dynamic, typed fields that don't correspond to Python types -->
-        <dynamicField name="*_time" type="string"    indexed="true"  stored="true" />
-        <!--<dynamicField name="*_loc"  type="location" indexed="true" stored="true" />-->
 
     </fields>
 

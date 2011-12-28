@@ -6,7 +6,8 @@
 
         <!-- Basic types -->
         <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" />
-        <fieldType name="int" class="solr.IntField" omitNorms="true" />
+        <fieldType name="int" class="solr.TrieIntField" precisionStep="0" omitNorms="true" positionIncrementGap="0" />
+        <fieldType name="date" class="solr.TrieDateField" omitNorms="true" precisionStep="0" positionIncrementGap="0" />
 
         <!-- Full-text types -->
         <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
@@ -45,6 +46,7 @@
 
         <!-- Static fields -->
         <field name="slug" type="string" indexed="true" stored="true" required="true" />
+        <field name="creation_date" type="date" indexed="true" stored="false" required="true" />
         <field name="categories" type="int" indexed="true" stored="true" required="false" multiValued="true" />
         <field name="full_text" type="text_general" indexed="true" stored="false" />
 

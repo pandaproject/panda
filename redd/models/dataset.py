@@ -102,6 +102,7 @@ class Dataset(SluggedModel):
 
         solr.add(settings.SOLR_DATASETS_CORE, [{
             'slug': self.slug,
+            'creation_date': self.creation_date.isoformat() + 'Z',
             'categories': category_ids,
             'full_text': full_text
         }], commit=commit)
