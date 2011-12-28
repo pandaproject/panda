@@ -26,21 +26,22 @@ class ImportCSVTask(ImportFileTask):
                 pass
         return i + 1
 
-    def run(self, dataset_slug, external_id_field_index=None, *args, **kwargs):
+    def run(self, dataset_slug, upload_id, external_id_field_index=None, *args, **kwargs):
         """
         Execute import.
         """
-        from redd.models import Dataset
+        from redd.models import Dataset, Upload
         
         log = logging.getLogger(self.name)
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)
+        upload = Upload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
         self.task_start(task_status, 'Preparing to import')
 
-        line_count = self._count_lines(dataset.data_upload.get_path())
+        line_count = self._count_lines(upload.get_path())
 
         if self.is_aborted():
             self.task_abort(task_status, 'Aborted during preperation')
@@ -49,7 +50,7 @@ class ImportCSVTask(ImportFileTask):
 
             return
 
-        f = open(dataset.data_upload.get_path(), 'r')
+        f = open(upload.get_path(), 'r')
 
         dialect_params = {}
 

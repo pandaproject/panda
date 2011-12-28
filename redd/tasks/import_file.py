@@ -61,7 +61,7 @@ class ImportFileTask(AbortableTask):
         task_status.traceback = formatted_traceback
         task_status.save()
 
-    def run(self, dataset_slug, *args, **kwargs):
+    def run(self, dataset_slug, upload_id, *args, **kwargs):
         """
         Execute import.
         """

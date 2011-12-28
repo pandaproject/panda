@@ -128,7 +128,7 @@ class Dataset(SluggedModel):
         self.save()
 
         task_type.apply_async(
-            args=[self.slug],
+            args=[self.slug, self.data_upload.id],
             kwargs={ 'external_id_field_index': external_id_field_index },
             task_id=self.current_task.id
         )

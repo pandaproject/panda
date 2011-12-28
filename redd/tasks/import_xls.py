@@ -17,21 +17,22 @@ class ImportXLSTask(ImportFileTask):
     """
     name = 'redd.tasks.import.xls'
 
-    def run(self, dataset_slug, external_id_field_index=None, *args, **kwargs):
+    def run(self, dataset_slug, upload_id, external_id_field_index=None, *args, **kwargs):
         """
         Execute import.
         """
-        from redd.models import Dataset
+        from redd.models import Dataset, Upload
         
         log = logging.getLogger(self.name)
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)
+        upload = Upload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
         self.task_start(task_status, 'Preparing to import')
 
-        book = xlrd.open_workbook(dataset.data_upload.get_path(), on_demand=True)
+        book = xlrd.open_workbook(upload.get_path(), on_demand=True)
         sheet = book.sheet_by_index(0)
         row_count = sheet.nrows
         
