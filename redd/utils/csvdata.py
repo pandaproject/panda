@@ -3,12 +3,22 @@
 from itertools import islice
 
 from csvkit import CSVKitReader
-from csvkit.sniffer import sniff_dialect
+from csvkit.sniffer import sniff_dialect as csvkit_sniff
 from csvkit.typeinference import normalize_table
 from django.conf import settings
 
-def sniff(f):
-    return sniff_dialect(f.read(settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE))
+def sniff_dialect(path):
+    with open(path, 'r') as f:
+        csv_dialect = csvkit_sniff(f.read(settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE))
+
+        return {
+            'lineterminator': csv_dialect.lineterminator,
+            'skipinitialspace': csv_dialect.skipinitialspace,
+            'quoting': csv_dialect.quoting,
+            'delimiter': csv_dialect.delimiter,
+            'quotechar': csv_dialect.quotechar,
+            'doublequote': csv_dialect.doublequote
+        }
 
 def infer_schema(path, dialect, sample_size):
     with open(path, 'r') as f:

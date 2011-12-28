@@ -4,6 +4,9 @@ import datetime
 
 import xlrd
 
+def sniff_dialect(path):
+    return {} 
+
 def infer_schema(path, dialect, sample_size):
     book = xlrd.open_workbook(path, on_demand=True)
     sheet = book.sheet_by_index(0)

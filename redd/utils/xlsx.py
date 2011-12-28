@@ -5,6 +5,9 @@ import datetime
 from csvkit.typeinference import NULL_TIME
 from openpyxl.reader.excel import load_workbook
 
+def sniff_dialect(path):
+    return {}
+
 def infer_schema(path, dialect, sample_size):
     book = load_workbook(path, use_iterators=True)
     sheet = book.get_active_sheet()

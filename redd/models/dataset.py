@@ -62,27 +62,16 @@ class Dataset(SluggedModel):
         """
         if self.data_upload:
             data_type = self.data_upload.infer_data_type()
+            path = self.data_upload.get_path()
 
-            if not self.dialect:
-                if data_type == 'csv':
-                    with open(self.data_upload.get_path(), 'r') as f:
-                        csv_dialect = utils.csv.sniff(f)
-                        self.dialect = {
-                            'lineterminator': csv_dialect.lineterminator,
-                            'skipinitialspace': csv_dialect.skipinitialspace,
-                            'quoting': csv_dialect.quoting,
-                            'delimiter': csv_dialect.delimiter,
-                            'quotechar': csv_dialect.quotechar,
-                            'doublequote': csv_dialect.doublequote
-                        }
-                else:
-                    self.dialect = {}
+            if self.dialect is None:
+                self.dialect = utils.sniff_dialect(data_type, path)
 
-            if not self.schema:
-                self.schema = utils.infer_schema(data_type, self.data_upload.get_path(), self.dialect)
+            if self.schema is None:
+                self.schema = utils.infer_schema(data_type, path, self.dialect)
 
-            if not self.sample_data:
-                self.sample_data = utils.sample_data(data_type, self.data_upload.get_path(), self.dialect)
+            if self.sample_data is None:
+                self.sample_data = utils.sample_data(data_type, path, self.dialect)
 
         super(Dataset, self).save(*args, **kwargs)
 
