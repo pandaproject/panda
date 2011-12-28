@@ -1,19 +1,27 @@
-<div class="pager">
-    <% if (previous || next) { %>
-    <p>
+<% if (previous || next) { %>
+<div class="pagination">
+    <ul>
         <% if (previous) { %>
-            <a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>" class="prev scroll-up">&laquo;</a> 
+            <li class="prev"><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
         <% } else { %>
-            <span>&laquo;</span> 
+            <li class="prev disabled"><a href="#">&larr; Previous</a></li> 
         <% } %>
 
-        <%= page %>
+        <% for (n=Math.max(1, page - 5); n < page; n=n + 1) { %>
+            <li><a href="<%= root_url %>/<%= limit %>/<%= n %>"><%= n %></a> 
+        <% } %>
+
+        <li class="active"><a href="javascript: return false;"><%= page %></a></li>
+
+        <% for (n=page + 1; n < page + 5 && n <= Math.ceil(total_count / limit); n=n + 1) { %>
+            <li><a href="<%= root_url %>/<%= limit %>/<%= n %>"><%= n %></a> 
+        <% } %>
 
         <% if (next) { %>
-            <a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>" class="next scroll-up">&raquo;</a>
+            <li class="next"><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
         <% } else { %>
-            <span>&raquo;</span>
+            <li class="next disabled"><a href="#">Next &rarr;</a></li> 
         <% } %>
-    </p>
-    <% } %>
+    </ul>
 </div>
+<% } %>
