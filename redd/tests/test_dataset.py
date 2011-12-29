@@ -19,18 +19,8 @@ class TestDataset(TransactionTestCase):
         utils.setup_test_solr() 
 
         self.user = utils.get_panda_user()
-        self.upload = utils.get_test_upload(self.user)
-        self.dataset = utils.get_test_dataset(self.upload, self.user)
-
-    def test_columns_extracted(self):
-        self.assertNotEqual(self.dataset.columns, None)
-        self.assertEqual(len(self.dataset.columns), 4)
-        self.assertEqual(self.dataset.columns, ['id', 'first_name', 'last_name', 'employer']);
-
-    def test_sample_data_created(self):
-        self.assertNotEqual(self.dataset.sample_data, None)
-        self.assertEqual(len(self.dataset.sample_data), 4)
-        self.assertEqual(self.dataset.sample_data[0], ['1', 'Brian', 'Boyer', 'Chicago Tribune']);
+        self.dataset = utils.get_test_dataset(self.user)
+        self.upload = utils.get_test_upload(self.user, self.dataset)
 
     def test_metadata_searchable(self):
         response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='slug asc')
@@ -38,7 +28,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(response['response']['numFound'], 1)
 
     def test_import_csv(self):
-        self.dataset.import_data()
+        self.dataset.import_data(self.upload)
 
         task = self.dataset.current_task
 
@@ -59,11 +49,9 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_xls(self):
-        xls_upload = utils.get_test_upload(self.user, utils.TEST_XLS_FILENAME)
-        self.dataset.data_upload = xls_upload
-        self.dataset.save()
+        xls_upload = utils.get_test_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
 
-        self.dataset.import_data()
+        self.dataset.import_data(xls_upload)
 
         task = self.dataset.current_task
 
@@ -84,11 +72,9 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_excel_xlsx(self):
-        xlsx_upload = utils.get_test_upload(self.user, utils.TEST_EXCEL_XLSX_FILENAME)
-        self.dataset.data_upload = xlsx_upload
-        self.dataset.save()
+        xlsx_upload = utils.get_test_upload(self.user, self.dataset, utils.TEST_EXCEL_XLSX_FILENAME)
 
-        self.dataset.import_data()
+        self.dataset.import_data(xlsx_upload)
 
         task = self.dataset.current_task
 
@@ -109,11 +95,9 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_oo_xlsx(self):
-        xlsx_upload = utils.get_test_upload(self.user, utils.TEST_OO_XLSX_FILENAME)
-        self.dataset.data_upload = xlsx_upload
-        self.dataset.save()
+        xlsx_upload = utils.get_test_upload(self.user, self.dataset, utils.TEST_OO_XLSX_FILENAME)
 
-        self.dataset.import_data()
+        self.dataset.import_data(xlsx_upload)
 
         task = self.dataset.current_task
 
@@ -134,7 +118,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_delete(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload)
 
         utils.wait()
 
@@ -155,7 +139,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(response['response']['numFound'], 0)
 
     def test_get_row(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -165,7 +149,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(json.loads(row['data']), ['1', 'Brian', 'Boyer', 'Chicago Tribune'])
 
     def test_add_row(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -184,7 +168,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(self.dataset._count_rows(), 5)
 
     def test_delete_row(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -200,7 +184,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(self.dataset._count_rows(), 3)
 
     def test_export_csv(self):
-        self.dataset.import_data()
+        self.dataset.import_data(self.upload)
 
         utils.wait()
 

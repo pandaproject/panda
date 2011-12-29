@@ -13,10 +13,8 @@ TASKS_BY_TYPE = {
 }
 
 def get_import_task_type_for_upload(upload):
-    data_type = upload.infer_data_type()
-
     try:
-        return TASKS_BY_TYPE[data_type]
+        return TASKS_BY_TYPE[upload.data_type]
     except KeyError:
         return None
 

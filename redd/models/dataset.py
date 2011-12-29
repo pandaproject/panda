@@ -13,7 +13,6 @@ from redd.fields import JSONField
 from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
 from redd.models.task_status import TaskStatus
-from redd.models.upload import Upload
 from redd.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask 
 
 class Dataset(SluggedModel):
@@ -24,22 +23,21 @@ class Dataset(SluggedModel):
         help_text='User-supplied dataset name.')
     description = models.TextField(blank=True,
         help_text='User-supplied dataset description.')
-    data_upload = models.ForeignKey(Upload, null=True, blank=True,
-        help_text='The upload corresponding to the data file for this dataset.')
+    # uploads =  models.ToMany(Upload, null=True)
+    initial_upload = models.ForeignKey('Upload', null=True, blank=True, related_name='initial_upload_for',
+        help_text='The upload used to create this dataset, if any was used.')
     columns = JSONField(null=True, default=None,
         help_text='An list of names for this dataset\'s columns.')
-    row_count = models.IntegerField(null=True, blank=True,
-        help_text='The number of rows in this dataset. Only available once the dataset has data.')
     sample_data = JSONField(null=True, default=None,
-        help_text='Example data from the first few rows of the dataset.')
+        help_text='Example data rows from the dataset.')
+    row_count = models.IntegerField(null=True, blank=True,
+        help_text='The number of rows in this dataset. Null if no data has been added/imported.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
     creation_date = models.DateTimeField(null=True,
         help_text='The date this dataset was initially created.')
     creator = models.ForeignKey(User, related_name='datasets',
         help_text='The user who created this dataset.')
-    dialect = JSONField(null=True, default=None,
-        help_text='Description of the format of the input CSV.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
     last_modified = models.DateTimeField(null=True, blank=True, default=None,
@@ -60,19 +58,6 @@ class Dataset(SluggedModel):
         """
         Override save extract metadata from the upload.
         """
-        if self.data_upload:
-            data_type = self.data_upload.infer_data_type()
-            path = self.data_upload.get_path()
-
-            if self.dialect is None:
-                self.dialect = utils.sniff_dialect(data_type, path)
-
-            if self.columns is None:
-                self.columns = utils.extract_column_names(data_type, path, self.dialect)
-
-            if self.sample_data is None:
-                self.sample_data = utils.sample_data(data_type, path, self.dialect)
-
         if not self.creation_date:
             self.creation_date = datetime.now()
 
@@ -95,8 +80,8 @@ class Dataset(SluggedModel):
             category_ids.append(category.id)
             full_text_data.append(category.name)
 
-        if self.data_upload is not None:
-            full_text_data.append(self.data_upload.original_filename)
+        if self.initial_upload is not None:
+            full_text_data.append(self.initial_upload.original_filename)
 
         if self.columns is not None:
             full_text_data.extend(self.columns)
@@ -121,17 +106,33 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).delete(*args, **kwargs)
 
-    def import_data(self, external_id_field_index=None):
+    def import_data(self, upload, external_id_field_index=None):
         """
-        Execute the data import task for this Dataset.
+        Import data into this ``Dataset`` from a given ``Upload``. 
         """
-        task_type = get_import_task_type_for_upload(self.data_upload) 
+        task_type = get_import_task_type_for_upload(upload)
+
+        if not task_type:
+            # TODO - politely raise hell
+            raise TypeError()
+        
+        if self.columns is None:
+            self.columns = upload.columns 
+        else:
+            # TODO - validate!
+            pass
+
+        if self.sample_data is None:
+            self.sample_data = upload.sample_data
+        else:
+            # TODO - extend?
+            pass
 
         self.current_task = TaskStatus.objects.create(task_name=task_type.name)
         self.save()
 
         task_type.apply_async(
-            args=[self.slug, self.data_upload.id],
+            args=[self.slug, upload.id],
             kwargs={ 'external_id_field_index': external_id_field_index },
             task_id=self.current_task.id
         )

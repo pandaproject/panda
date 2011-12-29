@@ -56,7 +56,7 @@ class ImportCSVTask(ImportFileTask):
 
         # This code is absolutely terrifying
         # (Also, it works.)
-        for k, v in dataset.dialect.items():
+        for k, v in upload.dialect.items():
             if isinstance(v, basestring):
                 dialect_params[k] = v.decode('string_escape')
             else:

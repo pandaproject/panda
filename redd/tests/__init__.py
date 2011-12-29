@@ -7,6 +7,7 @@ from redd.tests.test_api_task_status import TestAPITaskStatus
 from redd.tests.test_api_upload import TestAPIUpload
 from redd.tests.test_api_user import TestUserValidation, TestAPIUser
 from redd.tests.test_dataset import TestDataset
+from redd.tests.test_upload import TestUpload
 from redd.tests.test_utils import TestCSV, TestXLS, TestXLSX
 from redd.tests.test_views import TestLogin, TestRegistration
 

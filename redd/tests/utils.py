@@ -36,7 +36,15 @@ def get_admin_user():
 def get_panda_user():
     return User.objects.get(username='user@pandaproject.net')
 
-def get_test_upload(creator, filename=TEST_DATA_FILENAME):
+def get_test_dataset(creator):
+    dataset = Dataset.objects.create(
+        name='Contributors',
+        description='Biographic information about contributors to the PANDA project.',
+        creator=creator)
+
+    return dataset
+
+def get_test_upload(creator, dataset, filename=TEST_DATA_FILENAME):
     # Ensure panda subdir has been created
     try:
         os.mkdir(settings.MEDIA_ROOT)
@@ -51,14 +59,8 @@ def get_test_upload(creator, filename=TEST_DATA_FILENAME):
         filename=filename,
         original_filename=filename,
         size=os.path.getsize(dst),
-        creator=creator)
-
-def get_test_dataset(upload, creator):
-    return Dataset.objects.create(
-        name='Contributors',
-        description='Biographic information about contributors to the PANDA project.',
-        data_upload=upload,
-        creator=creator)
+        creator=creator,
+        dataset=dataset)
 
 def wait():
     sleep(1)
