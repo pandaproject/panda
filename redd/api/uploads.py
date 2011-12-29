@@ -17,9 +17,11 @@ class UploadResource(ModelResource):
     """
     API resource for Uploads.
     """
+    #from redd.api.datasets import DatasetResource
     from redd.api.users import UserResource
 
     creator = fields.ForeignKey(UserResource, 'creator')
+    dataset = fields.ForeignKey('redd.api.datasets.DatasetResource', 'dataset')
 
     class Meta:
         queryset = Upload.objects.all()

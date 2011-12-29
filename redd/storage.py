@@ -7,7 +7,7 @@ from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
 from redd.api import UploadResource
-from redd.models import Upload
+from redd.models import Dataset, Upload
 
 class PANDAUploadBackend(AbstractUploadBackend):
     """
@@ -63,11 +63,14 @@ class PANDAUploadBackend(AbstractUploadBackend):
         path = os.path.join(settings.MEDIA_ROOT, filename)
         size = os.path.getsize(path)
 
+        dataset = Dataset.objects.get(slug=request.REQUEST['dataset_slug'])
+
         upload = Upload.objects.create(
             filename=filename,
             original_filename=self._original_filename,
             size=size,
-            creator=request.user)
+            creator=request.user,
+            dataset=dataset)
 
         resource = UploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)

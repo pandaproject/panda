@@ -15,7 +15,8 @@ class TestAPIUpload(TransactionTestCase):
 
     def setUp(self):
         self.user = utils.get_panda_user()
-        self.upload = utils.get_test_upload(self.user)
+        self.dataset = utils.get_test_dataset(self.user)
+        self.upload = utils.get_test_upload(self.user, self.dataset)
 
         self.auth_headers = utils.get_auth_headers()
 
@@ -80,7 +81,7 @@ class TestAPIUpload(TransactionTestCase):
 
     def test_upload_file(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
-            response = self.client.post('/upload/', data={ 'file': f }, **self.auth_headers)
+            response = self.client.post('/upload/', data={ 'file': f, 'dataset_slug': self.dataset.slug }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
