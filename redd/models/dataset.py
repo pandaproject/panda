@@ -34,7 +34,7 @@ class Dataset(SluggedModel):
         help_text='Example data from the first few rows of the dataset.')
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
         help_text='The currently executed or last finished task related to this dataset.') 
-    creation_date = models.DateTimeField(auto_now_add=True, null=True,
+    creation_date = models.DateTimeField(null=True,
         help_text='The date this dataset was initially created.')
     creator = models.ForeignKey(User, related_name='datasets',
         help_text='The user who created this dataset.')
@@ -72,6 +72,9 @@ class Dataset(SluggedModel):
 
             if self.sample_data is None:
                 self.sample_data = utils.sample_data(data_type, path, self.dialect)
+
+        if not self.creation_date:
+            self.creation_date = datetime.now()
 
         super(Dataset, self).save(*args, **kwargs)
 

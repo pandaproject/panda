@@ -23,16 +23,18 @@ def normalize_date(v, datemode):
 
     if v_tuple == (0, 0, 0, 0, 0, 0):
         # Midnight 
-        return datetime.time(*v_tuple[3:]).isoformat()
+        dt = datetime.time(*v_tuple[3:])
     elif v_tuple[3:] == (0, 0, 0):
         # Date only
-        return datetime.date(*v_tuple[:3]).isoformat()
+        dt = datetime.date(*v_tuple[:3])
     elif v_tuple[:3] == (0, 0, 0):
         # Time only
-        return datetime.time(*v_tuple[3:]).isoformat()
+        dt = datetime.time(*v_tuple[3:])
     else:
         # Date and time
-        return datetime.datetime(*v_tuple).isoformat()
+        dt = datetime.datetime(*v_tuple)
+
+    return dt.isoformat()
 
 def sample_data(path, dialect, sample_size):
     book = xlrd.open_workbook(path, on_demand=True)
@@ -44,9 +46,18 @@ def sample_data(path, dialect, sample_size):
         values = sheet.row_values(i)
         types = sheet.row_types(i)
 
-        values = [normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
+        normal_values = []
 
-        samples.append(values)
+        for v, t in zip(values, types):
+            if t == xlrd.biffh.XL_CELL_DATE:
+                v = normalize_date(v, book.datemode)
+            elif t == xlrd.biffh.XL_CELL_NUMBER:
+                if v % 1 == 0:
+                    v = int(v)
+
+            normal_values.append(unicode(v))
+
+        samples.append(normal_values)
 
     return samples
 

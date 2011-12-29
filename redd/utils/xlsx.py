@@ -13,7 +13,7 @@ def extract_column_names(path, dialect):
     sheet = book.get_active_sheet()
     headers = sheet.iter_rows().next()
 
-    return headers
+    return [h.internal_value for h in headers]
 
 def normalize_date(dt):
     if dt.time() == NULL_TIME:
@@ -58,7 +58,7 @@ def sample_data(path, dialect, sample_size):
             if value.__class__ in (datetime.datetime, datetime.date, datetime.time):
                 value = value.isoformat()
 
-            values.append(value)
+            values.append(unicode(value))
 
         samples.append(values)
 

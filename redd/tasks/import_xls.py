@@ -42,7 +42,16 @@ class ImportXLSTask(ImportFileTask):
             values = sheet.row_values(i)
             types = sheet.row_types(i)
 
-            values = [utils.xls.normalize_date(v, book.datemode) if t == xlrd.biffh.XL_CELL_DATE else v for v, t in zip(values, types)]
+            normal_values = []
+
+            for v, t in zip(values, types):
+                if t == xlrd.biffh.XL_CELL_DATE:
+                    v = utils.xls.normalize_date(v, book.datemode)
+                elif t == xlrd.biffh.XL_CELL_NUMBER:
+                    if v % 1 == 0:
+                        v = int(v)
+
+                normal_values.append(unicode(v))
 
             external_id = None
 
