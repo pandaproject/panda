@@ -131,7 +131,6 @@ class TestAPIData(TransactionTestCase):
 
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
         bundle = Bundle(data={ 'dataset': '/api/1.0/dataset/%s/' % second_dataset.slug })
@@ -188,21 +187,6 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 6)
 
     def test_create_no_columns(self):
-        self.dataset.data_upload = None
-        self.dataset.columns = None
-        self.dataset.save()
-
-        new_data = {
-            'data': ['5', 'A', 'B', 'C']
-        }
-
-        response = self.client.post('/api/1.0/dataset/%s/data/' % self.dataset.slug, content_type='application/json', data=json.dumps(new_data), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 400)
-        body = json.loads(response.content)
-        self.assertIn('dataset', body)
-
-    def test_create_not_imported(self):
         new_data = {
             'data': ['5', 'A', 'B', 'C']
         }
@@ -255,6 +239,10 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_create_too_few_fields(self):
+        self.dataset.import_data(self.upload, 0)
+
+        utils.wait()
+
         new_data = {
             'data': ['5', 'Mr.', 'PANDA']
         }
@@ -266,6 +254,10 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('data', body)
 
     def test_create_too_many_fields(self):
+        self.dataset.import_data(self.upload, 0)
+
+        utils.wait()
+
         new_data = {
             'data': ['5', 'Mr.', 'PANDA', 'PANDA Project', 'PANDAs everywhere']
         }
@@ -441,7 +433,6 @@ class TestAPIData(TransactionTestCase):
         # Import second dataset so we can make sure both match 
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
         second_dataset.import_data(self.upload, 0)
@@ -481,7 +472,6 @@ class TestAPIData(TransactionTestCase):
         # Import second dataset so we can make sure both match 
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
         second_dataset.import_data(self.upload, 0)

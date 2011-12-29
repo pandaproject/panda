@@ -241,7 +241,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, row_count)
 
     def test_import_data(self):
-        response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug, **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
 
         utils.wait() 
 
@@ -256,7 +256,9 @@ class TestAPIDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(self.dataset.row_count, 4)
-        self.assertNotEqual(self.dataset.columns, None)
+        self.assertEqual(self.dataset.columns, self.upload.columns)
+        self.assertEqual(self.dataset.initial_upload, self.upload)
+        self.assertEqual(self.dataset.sample_data, self.upload.sample_data)
 
         task = self.dataset.current_task
 
@@ -270,19 +272,9 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_data_unauthorized(self):
-        response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug)
+        response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id))
 
         self.assertEqual(response.status_code, 401)
-
-    def test_import_no_data_upload(self):
-        self.dataset.data_upload = None
-        self.dataset.save()
-
-        response = self.client.get('/api/1.0/dataset/%s/import/' % self.dataset.slug, **self.auth_headers)
-
-        self.assertEqual(response.status_code, 400)
-        body = json.loads(response.content)
-        self.assertIn('__all__', body)
 
     def test_get_datum(self):
         self.dataset.import_data(self.upload, 0)

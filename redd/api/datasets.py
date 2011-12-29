@@ -12,7 +12,7 @@ from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, JSONApiField, SlugResource, CustomSerializer
-from redd.models import Category, Dataset
+from redd.models import Category, Dataset, Upload
 
 class DatasetValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -80,7 +80,7 @@ class DatasetResource(SlugResource):
         return [
             url(r"^(?P<resource_name>%s)/schema%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_schema'), name="api_get_schema"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-            url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
+            url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import/(?P<upload_id>\d+)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
             
             # Nested urls for accessing data
             url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_list'), name='api_dataset_data_list'),
@@ -154,11 +154,9 @@ class DatasetResource(SlugResource):
             slug = request.GET.get('slug')
 
         dataset = Dataset.objects.get(slug=slug)
+        upload = Upload.objects.get(id=kwargs['upload_id'])
 
         errors = {}
-
-        if not dataset.initial_upload:
-            errors['__all__'] = ['Can not import data for a dataset which does not have an initial upload.']
 
         # Cribbed from is_valid()
         if errors:
@@ -171,7 +169,7 @@ class DatasetResource(SlugResource):
             response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
             raise ImmediateHttpResponse(response=response)
 
-        dataset.import_data()
+        dataset.import_data(upload)
 
         bundle = self.build_bundle(obj=dataset, request=request)
         bundle = self.full_dehydrate(bundle)
