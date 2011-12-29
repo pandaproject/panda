@@ -6,7 +6,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
     categories: null,
     creator: null,
-    data_upload: null,
+    uploads: null,
     current_task: null,
     data: null,
 
@@ -98,16 +98,6 @@ PANDA.models.Dataset = Backbone.Model.extend({
             }
         } else {
             js['current_task'] = null;
-        }
-
-        if (this.data_upload != null) {
-            if (full) {
-                js['data_upload'] = this.data_upload.toJSON();
-            } else {
-                js['data_upload'] = this.data_upload.id;
-            }
-        } else {
-            js['data_upload'] = null;
         }
 
         if (full) {
