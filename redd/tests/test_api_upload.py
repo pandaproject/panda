@@ -33,6 +33,12 @@ class TestAPIUpload(TransactionTestCase):
         self.assertEqual(body['original_filename'], self.upload.original_filename)
         self.assertEqual(body['size'], self.upload.size)
         self.assertEqual(body['creator'], '/api/1.0/user/%i/' % self.user.id)
+        self.assertNotEqual(body['creation_date'], None)
+        self.assertEqual(body['dataset'], '/api/1.0/dataset/%s/' % self.dataset.slug)
+        self.assertEqual(body['data_type'], 'csv')
+        self.assertEqual(body['columns'], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(len(body['sample_data']), 4)
+        self.assertEqual(body['sample_data'][0], ['1', 'Brian', 'Boyer', 'Chicago Tribune'])
 
     def test_get_unauthorized(self):
         response = self.client.get('/api/1.0/upload/%i/' % self.upload.id)

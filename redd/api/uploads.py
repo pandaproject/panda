@@ -7,13 +7,12 @@ from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
-from tastypie.resources import ModelResource
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
 from redd.models import Upload
 
-class UploadResource(ModelResource):
+class UploadResource(CustomResource):
     """
     API resource for Uploads.
     """
