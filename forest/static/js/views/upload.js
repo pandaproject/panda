@@ -84,6 +84,13 @@ PANDA.views.Upload = Backbone.View.extend({
         /*
          * Handler for when a file upload starts.
          */
+        this.dataset = new PANDA.models.Dataset({
+            name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName
+        });
+
+        this.dataset.save({}, { async: false })
+        this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") });
+
         this.step_two();
     },
 
@@ -107,32 +114,16 @@ PANDA.views.Upload = Backbone.View.extend({
          * Handler for when a file upload is completed.
          */
         if (responseJSON.success) {
-            // Create a dataset and relate it to the upload
-            this.dataset = new PANDA.models.Dataset({
-                name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName,
-                data_upload: responseJSON 
-            });
+            // Finish progress bar
+            $("#upload-progress .progress-value").css("width", "100%");
+            $("#upload-progress .progress-text").html("<strong>100%</strong> uploaded");
 
-            // Save the new dataset
-            this.dataset.save({}, {
-                success: _.bind(function() {
-                    // Finish progress bar
-                    $("#upload-progress .progress-value").css("width", "100%");
-                    $("#upload-progress .progress-text").html('<strong>100%</strong> uploaded');
-
-                    // Once saved immediately begin importing it
-                    this.dataset.import_data(this.step_three);
-                }, this),
-                error: _.bind(function(modal, response) {
-                    error = $.parseJSON(response.responseText);
-                    $("#upload-traceback-modal .modal-body").text(error.traceback);
-                    this.step_two_error_message('Error creating dataset!&nbsp;<input type="button" class="btn" data-controls-modal="upload-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" />');
-                }, this)
-            });
+            // Once saved immediately begin importing it
+            this.dataset.import_data(responseJSON["id"], this.step_three);
         } else if (responseJSON.forbidden) {
             Redd.goto_login();
         } else {
-            this.step_one_error_message('Upload failed!');
+            this.step_one_error_message("Upload failed!");
         }
     },
 

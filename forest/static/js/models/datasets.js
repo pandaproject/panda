@@ -25,8 +25,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.current_task = new PANDA.models.Task(attributes.current_task);
         }
 
-        if ("data_upload" in attributes) {
-            this.data_upload = new PANDA.models.Upload(attributes.data_upload);
+        if ("uploads" in attributes) {
+            this.uploads = new PANDA.collections.Uploads(attributes.uploads);
+        } else {
+            this.uploads = new PANDA.collections.Uploads();
         }
 
         this.data = new PANDA.collections.Data();
@@ -46,14 +48,12 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.current_task = new PANDA.models.Task(response.current_task);
         }
 
-        if (response.data_upload != null) {
-            this.data_upload = new PANDA.models.Upload(response.data_upload);
-        }
+        this.uploads = new PANDA.collections.Uploads(response.uploads);
         
         delete response["categories"];
         delete response["creator"];
         delete response["current_task"];
-        delete response["data_upload"];
+        delete response["uploads"];
 
         // Does this dataset have embedded search results?
         if (response.objects != null) {
@@ -110,6 +110,12 @@ PANDA.models.Dataset = Backbone.Model.extend({
             js['data_upload'] = null;
         }
 
+        if (full) {
+            js['uploads'] = this.uploads.toJSON();
+        } else {
+            js['uploads'] = this.uploads.map(function(upload) { return upload.id });
+        }
+
         return js
     },
 
@@ -123,7 +129,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         return results;
     },
 
-    import_data: function(success_callback) {
+    import_data: function(upload_id, success_callback) {
         /*
          * Kick off the dataset import and update the model with
          * the task id and status.
@@ -131,7 +137,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
          * TODO - error callback
          */
         Redd.ajax({
-            url: this.url() + "import/",
+            url: this.url() + "import/" + upload_id + "/",
             dataType: 'json',
             success: _.bind(function(response) {
                 this.set(response);

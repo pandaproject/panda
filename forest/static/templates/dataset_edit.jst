@@ -48,13 +48,15 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
-            <% if (dataset.data_upload) { %>
+            <% if (dataset.uploads.length > 0) { %>
+            <h6>Related files</h6>
+            <% _.each(dataset.uploads, function(upload) { %>
             <div class="clearfix">
-                <label>Uploaded filename</label>
                 <div class="input">
-                    <div class="uneditable-input" style="float: left; width:530px;"><%= dataset.data_upload.original_filename %></div>&nbsp;<a class="btn" href="/api/1.0/upload/<%= dataset.data_upload.id %>/download/" >Download original file (<%= dataset.data_upload.size %> bytes)</a>
+                    <div class="uneditable-input" style="float: left; width:530px;"><strong><%= upload.original_filename %></strong> uploaded <%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></div>&nbsp;<a class="btn" href="/api/1.0/upload/<%= upload.id %>/download/" >Download (<%= upload.size %> bytes)</a>
                 </div>
             </div>
+            <% }); %>
             <% } %>
 
             <% if (dataset.sample_data) { %>

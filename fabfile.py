@@ -281,11 +281,13 @@ def make_fixtures():
     * Local server (runserver, celeryd and solr) must be running.
     """
     local('python manage.py flush --noinput')
-    local('curl --data-binary "<delete><query>*:*</query></delete>" -H "Content-type:application/xml" "http://localhost:8983/solr/update?commit=true"')
+    local('python manage.py loaddata redd/fixtures/init_panda.json' % env)
+    local('curl --data-binary "{ \\"delete\\": { \\"query\\": \\"*:*\\" } }" -H "Content-type:application/xml" "http://localhost:8983/solr/data/update?commit=true"')
+    local('curl --data-binary "{ \\"delete\\": { \\"query\\": \\"*:*\\" } }" -H "Content-type:application/xml" "http://localhost:8983/solr/datasets/update?commit=true"')
 
-    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -F file=@test_data/contributors.csv "http://localhost:8000/upload/"' % env)
-    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -H "Content-Type: application/json" --data-binary "{ \\"name\\": \\"Test\\", \\"data_upload\\": \\"/api/1.0/upload/1/\\" }" "http://localhost:8000/api/1.0/dataset/"' % env)
-    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" "http://localhost:8000/api/1.0/dataset/1/import/"' % env)
+    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -H "Content-Type: application/json" --data-binary "{ \\"name\\": \\"Test\\" }" "http://localhost:8000/api/1.0/dataset/"' % env)
+    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -F file=@test_data/contributors.csv -F dataset_slug=test "http://localhost:8000/upload/"' % env)
+    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" "http://localhost:8000/api/1.0/dataset/test/import/1/"' % env)
 
     mock_xhr_responses = ['window.MOCK_XHR_RESPONSES = {};']
 
@@ -295,16 +297,16 @@ def make_fixtures():
     response = local('curl "http://localhost:8000/api/1.0/task/?format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.tasks = \'' + response.replace('\\', '\\\\') + '\';')
 
-    response = local('curl "http://localhost:8000/api/1.0/dataset/1/?format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    response = local('curl "http://localhost:8000/api/1.0/dataset/test/?format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.dataset = \'' + response.replace('\\', '\\\\') + '\';')
 
     response = local('curl "http://localhost:8000/api/1.0/dataset/?format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.datasets = \'' + response.replace('\\', '\\\\') + '\';')
 
-    response = local('curl "http://localhost:8000/api/1.0/data/search/?q=Tribune&format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    response = local('curl "http://localhost:8000/api/1.0/data/?q=Tribune&format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.search = \'' + response.replace('\\', '\\\\') + '\';')
 
-    response = local('curl "http://localhost:8000/api/1.0/dataset/1/search/?q=Tribune&format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
+    response = local('curl "http://localhost:8000/api/1.0/dataset/test/data/?q=Tribune&format=json&email=%(local_test_email)s&api_key=%(local_test_api_key)s"' % env, capture=True)
     mock_xhr_responses.append('MOCK_XHR_RESPONSES.dataset_search = \'' + response.replace('\\', '\\\\') + '\';')
 
     # Task
