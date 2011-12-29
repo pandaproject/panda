@@ -59,16 +59,7 @@ if response.status_code == 404:
     dataset = {
         'name': 'CouchDB: PANDA Contributors',
         'description': 'A list of contributors to PANDA imported from a dataset on DataCouch: <a href="http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd">http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd</a>.',
-        'schema': [{
-            'column': 'First Name',
-            'type': 'unicode'
-        }, {
-            'column': 'Last Name',
-            'type': 'unicode'
-        }, {
-            'column': 'Employer',
-            'type': 'unicode'
-        }]
+        'columns': ['First Name', 'Last Name', 'Employer']
     }
 
     response = panda_put(PANDA_DATASET_URL, json.dumps(dataset))

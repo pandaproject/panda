@@ -36,22 +36,7 @@ if response.status_code == 404:
     dataset = {
         'name': 'Socrata: FOIA Request Log - Office of the Mayor',
         'description': 'FOIA requests made to the mayor\'s office imported from the Socrata dataset at <a href="http://data.cityofchicago.org/FOIA/FOIA-Request-Log-Office-of-the-Mayor/srzw-dcvg">http://data.cityofchicago.org/FOIA/FOIA-Request-Log-Office-of-the-Mayor/srzw-dcvg</a>.',
-        'schema': [{
-            'column': 'Requestor Name',
-            'type': 'unicode'
-        }, {
-            'column': 'Organization',
-            'type': 'unicode'
-        }, {
-            'column': 'Description of Request',
-            'type': 'unicode'
-        }, {
-            'column': 'Date Received',
-            'type': 'unicode'
-        }, {
-            'column': 'Due Date',
-            'type': 'unicode'
-        }]
+        'columns': ['Requestor Name', 'Organization', 'Description of Request', 'Date Received', 'Due Date']
     }
 
     response = panda_put(PANDA_DATASET_URL, json.dumps(dataset))
