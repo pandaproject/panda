@@ -16,7 +16,6 @@ class UploadResource(CustomResource):
     """
     API resource for Uploads.
     """
-    #from redd.api.datasets import DatasetResource
     from redd.api.users import UserResource
 
     creator = fields.ForeignKey(UserResource, 'creator')

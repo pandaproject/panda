@@ -31,8 +31,8 @@ class TestAPIDataset(TransactionTestCase):
         utils.setup_test_solr() 
 
         self.user = utils.get_panda_user()
-        self.upload = utils.get_test_upload(self.user)
-        self.dataset = utils.get_test_dataset(self.upload, self.user)
+        self.dataset = utils.get_test_dataset(self.user)
+        self.upload = utils.get_test_upload(self.user, self.dataset)
 
         self.auth_headers = utils.get_auth_headers() 
 
@@ -40,7 +40,7 @@ class TestAPIDataset(TransactionTestCase):
 
     def test_get(self):
         # Import so that there will be a task object
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -66,11 +66,8 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(body['current_task'], json.loads(task_response.content))
 
-        upload_response = self.client.get('/api/1.0/upload/%i/' % self.dataset.data_upload.id, **self.auth_headers)
-
-        self.assertEqual(upload_response.status_code, 200)
-
-        self.assertEqual(body['data_upload'], json.loads(upload_response.content))
+        self.assertEqual(len(body['uploads']), 1)
+        self.assertEqual(body['initial_upload'], '/api/1.0/upload/%i/' % self.dataset.initial_upload.id)
 
     def test_get_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%s/' % self.dataset.slug)
@@ -119,8 +116,7 @@ class TestAPIDataset(TransactionTestCase):
     def test_create_post(self):
         new_dataset = {
             'name': 'New dataset!',
-            'description': 'Its got yummy data!',
-            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+            'description': 'Its got yummy data!'
         }
 
         response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
@@ -133,30 +129,29 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['slug'], 'new-dataset')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
-        self.assertNotEqual(body['columns'], None)
-        self.assertNotEqual(body['sample_data'], None)
+        self.assertEqual(body['columns'], None)
+        self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
-        self.assertEqual(body['data_upload']['filename'], self.upload.filename)
-        self.assertEqual(body['creator']['email'], self.user.email)
+        self.assertEqual(body['initial_upload'], None)
+        self.assertEqual(body['uploads'], [])
 
         new_dataset = Dataset.objects.get(id=body['id'])
 
         self.assertEqual(new_dataset.name, 'New dataset!')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertNotEqual(new_dataset.columns, None)
-        self.assertNotEqual(new_dataset.sample_data, None)
+        self.assertEqual(new_dataset.columns, None)
+        self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
-        self.assertEqual(new_dataset.data_upload, self.upload)
-        self.assertEqual(new_dataset.creator, self.user)
+        self.assertEqual(new_dataset.initial_upload, None)
+        self.assertEqual(new_dataset.uploads.count(), 0)
 
     def test_create_post_slug(self):
         # Verify that new slugs are NOT created via POST.
         new_dataset = {
             'slug': 'new-id',
             'name': 'New dataset!',
-            'description': 'Its got yummy data!',
-            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+            'description': 'Its got yummy data!'
         }
 
         response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
@@ -171,38 +166,10 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(new_dataset.slug, 'new-dataset')
 
-    def test_create_post_no_data_upload(self):
-        new_dataset = {
-            'name': 'This dataset does not have an upload!'
-        }
-
-        response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
-
-        self.assertEqual(response.status_code, 201)
-
-        body = json.loads(response.content)
-
-        self.assertEqual(body['name'], 'This dataset does not have an upload!')
-        self.assertEqual(body['row_count'], None)
-        self.assertEqual(body['columns'], None)
-        self.assertEqual(body['sample_data'], None)
-        self.assertEqual(body['current_task'], None)
-        self.assertEqual(body['data_upload'], None)
-
-        new_dataset = Dataset.objects.get(id=body['id'])
-
-        self.assertEqual(new_dataset.name, 'This dataset does not have an upload!')
-        self.assertEqual(new_dataset.row_count, None)
-        self.assertEqual(new_dataset.columns, None)
-        self.assertEqual(new_dataset.sample_data, None)
-        self.assertEqual(new_dataset.current_task, None)
-        self.assertEqual(new_dataset.data_upload, None)
-
     def test_create_put(self):
         new_dataset = {
             'name': 'New dataset!',
-            'description': 'Its got yummy data!',
-            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+            'description': 'Its got yummy data!'
         }
 
         response = self.client.put('/api/1.0/dataset/new-id/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
@@ -215,11 +182,11 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['slug'], 'new-id')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
-        self.assertNotEqual(body['columns'], None)
-        self.assertNotEqual(body['sample_data'], None)
+        self.assertEqual(body['columns'], None)
+        self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
-        self.assertEqual(body['data_upload']['filename'], self.upload.filename)
-        self.assertEqual(body['creator']['email'], self.user.email)
+        self.assertEqual(body['initial_upload'], None)
+        self.assertEqual(body['uploads'], [])
 
         new_dataset = Dataset.objects.get(id=body['id'])
 
@@ -227,11 +194,11 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.slug, 'new-id')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertNotEqual(new_dataset.columns, None)
-        self.assertNotEqual(new_dataset.sample_data, None)
+        self.assertEqual(new_dataset.columns, None)
+        self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
-        self.assertEqual(new_dataset.data_upload, self.upload)
-        self.assertEqual(new_dataset.creator, self.user)
+        self.assertEqual(new_dataset.initial_upload, None)
+        self.assertEqual(new_dataset.uploads.count(), 0)
 
     def test_create_as_new_user(self):
         new_user = {
@@ -247,8 +214,7 @@ class TestAPIDataset(TransactionTestCase):
         
         new_dataset = {
             'name': 'New dataset!',
-            'description': 'Its got yummy data!',
-            'data_upload': '/api/1.0/upload/%i/' % self.upload.id
+            'description': 'Its got yummy data!'
         }
 
         response = self.client.post('/api/1.0/dataset/', content_type='application/json', data=json.dumps(new_dataset), **utils.get_auth_headers('tester@tester.com'))
@@ -319,7 +285,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertIn('__all__', body)
 
     def test_get_datum(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -340,7 +306,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['dataset'], '/api/1.0/dataset/%s/' % self.dataset.slug)
 
     def test_get_data(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -350,10 +316,10 @@ class TestAPIDataset(TransactionTestCase):
         # Import second dataset so we can make sure only one is matched
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
-        second_dataset.import_data(0)
+        # Bending a rules a bit since this upload is associated with the other dataset
+        second_dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -375,7 +341,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['objects'][0]['data'][1], 'Brian')
 
     def test_search_data(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -385,10 +351,10 @@ class TestAPIDataset(TransactionTestCase):
         # Import second dataset so we can make sure only one is matched
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload,
             creator=self.dataset.creator)
 
-        second_dataset.import_data(0)
+        # Bending the rules again...
+        second_dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -410,7 +376,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['objects'][0]['data'][1], 'Christopher')
 
     def test_search_data_limit(self):
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
@@ -435,11 +401,11 @@ class TestAPIDataset(TransactionTestCase):
     def test_search_datasets(self):
         second_dataset = Dataset.objects.create(
             name='Second dataset',
-            data_upload=self.dataset.data_upload,
+            description='contributors',
             creator=self.dataset.creator)
 
         # Should match both
-        response = self.client.get('/api/1.0/dataset/?q=contributors.csv', **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/?q=contributors', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -469,8 +435,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
-        self.assertNotIn('data_upload', body['objects'][0])
+        self.assertNotIn('uploads', body['objects'][0])
         self.assertNotIn('sample_data', body['objects'][0])
         self.assertNotIn('current_task', body['objects'][0])
-        self.assertNotIn('dialect', body['objects'][0])
 

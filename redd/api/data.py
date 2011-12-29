@@ -165,8 +165,8 @@ class DataResource(Resource):
 
         field_count = len(bundle.data['data'])
 
-        if dataset.data_upload and not dataset.row_count:
-            errors['dataset'] = ['Can not create or modify data for a dataset which has data_upload, but has not completed the import process.']
+        if dataset.initial_upload and not dataset.row_count:
+            errors['dataset'] = ['Can not create or modify data for a dataset which has initial_upload, but has not completed the import process.']
 
         if dataset.columns is None:
             errors['dataset'] = ['Can not create or modify data for a dataset without columns.']

@@ -26,7 +26,7 @@ class Upload(models.Model):
         help_text='The user who uploaded this file.')
     creation_date = models.DateTimeField(
         help_text='The date this file was uploaded.')
-    dataset = models.ForeignKey(Dataset,
+    dataset = models.ForeignKey(Dataset, related_name='uploads',
         help_text='The dataset this upload is associated with.')
 
     data_type = models.CharField(max_length=4, null=True, blank=True,

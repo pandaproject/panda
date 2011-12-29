@@ -128,6 +128,10 @@ class Dataset(SluggedModel):
             # TODO - extend?
             pass
 
+        # If this is the first import and the API hasn't been used, save that information
+        if self.initial_upload is None and self.row_count is None:
+            self.initial_upload = upload
+
         self.current_task = TaskStatus.objects.create(task_name=task_type.name)
         self.save()
 

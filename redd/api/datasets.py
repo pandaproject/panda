@@ -35,16 +35,17 @@ class DatasetResource(SlugResource):
     categories = fields.ToManyField(CategoryResource, 'categories', full=True, null=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True, readonly=True)
-    data_upload = fields.ForeignKey(UploadResource, 'data_upload', full=True, null=True)
+    uploads = fields.ToManyField('redd.api.uploads.UploadResource', 'uploads', full=True, null=True)
     last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, readonly=True, null=True)
+    initial_upload = fields.ForeignKey(UploadResource, 'initial_upload', readonly=True, null=True)
 
     slug = fields.CharField(attribute='slug', readonly=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
-    dialect = JSONApiField(attribute='dialect', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
     creation_date = fields.DateTimeField(attribute='creation_date', readonly=True, null=True)
     last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)
     last_modification = fields.CharField(attribute='last_modification', readonly=True, null=True)
+    last_modified_by = fields.CharField(attribute='last_modified_by', readonly=True, null=True)
 
     class Meta:
         queryset = Dataset.objects.all()
@@ -62,10 +63,9 @@ class DatasetResource(SlugResource):
         Takes a dehydrated bundle and removes attributes to create a "simple"
         view that is faster over the wire.
         """
-        del bundle.data['data_upload']
+        del bundle.data['uploads']
         del bundle.data['sample_data']
         del bundle.data['current_task']
-        del bundle.data['dialect']
 
         return bundle
 
@@ -157,8 +157,8 @@ class DatasetResource(SlugResource):
 
         errors = {}
 
-        if not dataset.data_upload:
-            errors['__all__'] = ['Can not import data for a dataset which does not have a data_upload set.']
+        if not dataset.initial_upload:
+            errors['__all__'] = ['Can not import data for a dataset which does not have an initial upload.']
 
         # Cribbed from is_valid()
         if errors:

@@ -19,10 +19,10 @@ class TestAPINotifications(TransactionTestCase):
         utils.setup_test_solr()
         
         self.user = utils.get_panda_user()
-        self.upload = utils.get_test_upload(self.user)
-        self.dataset = utils.get_test_dataset(self.upload, self.user)
+        self.dataset = utils.get_test_dataset(self.user)
+        self.upload = utils.get_test_upload(self.user, self.dataset)
 
-        self.dataset.import_data(0)
+        self.dataset.import_data(self.upload, 0)
 
         utils.wait()
 
