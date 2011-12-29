@@ -41,9 +41,8 @@ describe("Dataset model", function() {
         expect(dataset.creator.get("email")).toEqual("panda@pandaproject.net");
         expect(response.creator).toBeUndefined();
 
-        expect(dataset.data_upload).not.toBeNull();
-        expect(dataset.data_upload.get("original_filename")).toEqual("contributors.csv");
-        expect(response.data_upload).toBeUndefined();
+        expect(dataset.uploads).not.toBeNull();
+        expect(dataset.initial_upload).not.toBeNull();
 
         expect(dataset.current_task).not.toBeNull();
         expect(dataset.current_task.get("task_name")).toEqual("redd.tasks.import.csv");
@@ -59,7 +58,8 @@ describe("Dataset model", function() {
         json = dataset.toJSON();
 
         expect(json.creator).toEqual("/api/1.0/user/1/");
-        expect(json.data_upload).toEqual("/api/1.0/upload/1/");
+        expect(json.uploads).toEqual(["/api/1.0/upload/1/"]);
+        expect(json.initial_upload).toEqual("/api/1.0/upload/1/");
         expect(json.current_task).toEqual("/api/1.0/task/1/");
         expect(json.categories).toEqual([]);
     });
@@ -72,8 +72,8 @@ describe("Dataset model", function() {
         expect(json.creator).not.toBeNull();
         expect(json.creator.email).toEqual("panda@pandaproject.net");
 
-        expect(json.data_upload).not.toBeNull();
-        expect(json.data_upload.original_filename).toEqual("contributors.csv");
+        expect(json.uploads.length).toEqual(1);
+        expect(json.initial_upload).not.toBeNull();
 
         expect(json.current_task).not.toBeNull();
         expect(json.current_task.task_name).toEqual("redd.tasks.import.csv");
@@ -87,10 +87,10 @@ describe("Dataset model", function() {
 
         success_spy = sinon.spy();
 
-        dataset.import_data(success_spy);
+        dataset.import_data(1, success_spy);
 
         expect(this.requests.length).toEqual(1);
-        expect(this.requests[0].url).toEqual("/api/1.0/dataset/1/import/");
+        expect(this.requests[0].url).toEqual("/api/1.0/dataset/test/import/1/");
 
         this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.dataset);
 
@@ -107,8 +107,8 @@ describe("Dataset model", function() {
         this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.dataset_search);
 
         expect(dataset.data.models.length).toEqual(2)
-        expect(dataset.data.models[0].attributes.data[0]).toEqual("Brian");
-        expect(dataset.data.models[1].attributes.data[0]).toEqual("Joseph");
+        expect(dataset.data.models[0].attributes.data[1]).toEqual("Brian");
+        expect(dataset.data.models[1].attributes.data[1]).toEqual("Joseph");
     });
 
     it("should serialize embedded search data", function() {
@@ -188,8 +188,8 @@ describe("Dataset collection", function() {
 
         expect(datasets.models.length).toEqual(1);
         expect(datasets.models[0].data.models.length).toEqual(2);
-        expect(datasets.models[0].data.models[0].attributes.data[0]).toEqual("Brian");
-        expect(datasets.models[0].data.models[1].attributes.data[0]).toEqual("Joseph");
+        expect(datasets.models[0].data.models[0].attributes.data[1]).toEqual("Brian");
+        expect(datasets.models[0].data.models[1].attributes.data[1]).toEqual("Joseph");
     });
 
     it("should serialize search results from all datasets", function() {
