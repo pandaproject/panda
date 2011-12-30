@@ -30,9 +30,6 @@ PANDA.views.Root = Backbone.View.extend({
         // Setup global router
         this._router = new PANDA.routers.Index({ controller: this });
 
-        // Attempt to authenticate from cookies
-        this.authenticate();
-
         // Configure the global topbar
         this.configure_topbar();
 
@@ -74,7 +71,7 @@ PANDA.views.Root = Backbone.View.extend({
             return true;
         }
 
-        this.goto_login();
+        this.goto_login(window.location.hash);
 
         return false;
     },
@@ -132,7 +129,7 @@ PANDA.views.Root = Backbone.View.extend({
             if (responseXhr.status == 401) {
                 this.set_current_user(null);
 
-                this.goto_login();
+                this.goto_login(window.location.hash);
             }
         }, this));
 
@@ -157,7 +154,7 @@ PANDA.views.Root = Backbone.View.extend({
         // Handle authentication failures
         dfd.fail(function(xhr, status, error) {
             if (xhr.status == 401) {
-                this.goto_login();
+                this.goto_login(window.location.hash);
             }
         });
 
@@ -255,9 +252,9 @@ PANDA.views.Root = Backbone.View.extend({
         return this.views[name];
     },
 
-    goto_login: function() {
+    goto_login: function(next) {
         this.current_content_view = this.get_or_create_view("Login");
-        this.current_content_view.reset();
+        this.current_content_view.reset(next);
 
         this._router.navigate("login");
     },

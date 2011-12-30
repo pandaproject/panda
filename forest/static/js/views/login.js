@@ -7,11 +7,15 @@ PANDA.views.Login = Backbone.View.extend({
         "submit #login-form":   "login"
     },
 
+    next: null,
+
     initialize: function() {
         _.bindAll(this, "render");
     },
 
-    reset: function() {
+    reset: function(next) {
+        this.next = next;
+        console.trace();
         this.render();
     },
 
@@ -50,10 +54,15 @@ PANDA.views.Login = Backbone.View.extend({
             dataType: 'json',
             type: 'POST',
             data: $("#login-form").serialize(),
-            success: function(data, status, xhr) {
+            success: _.bind(function(data, status, xhr) {
                 Redd.set_current_user(new PANDA.models.User(data));
-                Redd.goto_search();
-            },
+
+                if (!_.isUndefined(this.next) && !_.isNull(this.next)) {
+                    window.location.hash = this.next;
+                } else {
+                    Redd.goto_search();
+                }
+            }, this),
             error: function(xhr, status, error) {
                 Redd.set_current_user(null); 
 
