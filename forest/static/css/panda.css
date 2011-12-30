@@ -142,6 +142,8 @@ body { padding-top: 40px; }
 .step.disabled { color: lightgray; }
 .step.disabled h2 { color: lightgray; }
 
+#step-2 .notes h4:first-child { margin-top: -8px; }
+
 /* Utils */
 
 .progress { position: relative; }

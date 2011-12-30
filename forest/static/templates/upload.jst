@@ -17,6 +17,18 @@
 
         <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
 
+        <div class="alert-message block-message warn notes xls">
+            <h4><strong>Excel styles will be lost!</strong></h4>
+            <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
+            <ul>
+                <li>The date <strong>12/30/2011</strong> in Excel will become <strong>2011-12-30</strong> in PANDA.</li>
+                <li>A number shown rounded in Excel, <strong>12</strong>, will be expanded in PANDA, <strong>12.011113</strong>.</li>
+                <li>A value with prepended zeroes, <strong>000097</strong>, will be simplified to <strong>97</strong>. (If the leading zeroes were applied with a format.)
+            </ul>
+            <h4><strong>Only the first worksheet will be searchable!</strong></h4>
+            <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
+        </div>
+
         <div id="upload-progress" class="progress">
             <div class="progress-value" style="background-color: #57A957; width: 0%;">
                 <div class="progress-text">

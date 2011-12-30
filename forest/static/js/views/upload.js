@@ -55,7 +55,6 @@ PANDA.views.Upload = Backbone.View.extend({
             messages: {
                 typeError: "{file} is not a supported type. Only CSV, XLS, and XLSX files are currently supported.",
                 sizeError: "{file} is too large, the maximum file size is 1 gigabyte.",
-                //minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
                 emptyError: "{file} is empty.",
                 onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
             }
@@ -89,9 +88,9 @@ PANDA.views.Upload = Backbone.View.extend({
         });
 
         this.dataset.save({}, { async: false })
-        this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") });
+        this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
 
-        this.step_two();
+        this.step_two(fileName);
     },
 
     on_progress: function(id, fileName, loaded, total) {
@@ -141,6 +140,7 @@ PANDA.views.Upload = Backbone.View.extend({
     step_one: function() {
         $(".alert-message").hide();
         $("#step-2").addClass("disabled");
+        $("#step-2 .notes").hide();
         this.on_progress(null, null, 0, 1);
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
@@ -151,11 +151,17 @@ PANDA.views.Upload = Backbone.View.extend({
         this.create_upload_button();
     },
 
-    step_two: function() {
+    step_two: function(fileName) {
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
+
+        var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
+
+        if (ext == 'xls' || ext == 'xlsx') {
+            $("#step-2 .notes.xls").show();
+        }
 
         $("#step-2").removeClass("disabled");
     },
