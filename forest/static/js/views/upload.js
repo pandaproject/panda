@@ -120,7 +120,7 @@ PANDA.views.Upload = Backbone.View.extend({
             // Once saved immediately begin importing it
             this.dataset.import_data(responseJSON["id"], this.step_three);
         } else if (responseJSON.forbidden) {
-            Redd.goto_login();
+            Redd.goto_login(window.location.hash);
         } else {
             this.step_one_error_message("Upload failed!");
         }
