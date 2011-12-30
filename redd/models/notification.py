@@ -33,4 +33,5 @@ class Notification(models.Model):
 
     class Meta:
         app_label = 'redd'
+        ordering = ['-sent_at'] 
 
