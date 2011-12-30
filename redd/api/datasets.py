@@ -21,6 +21,15 @@ class DatasetValidation(Validation):
         if 'name' not in bundle.data or not bundle.data['name']:
             errors['name'] = ['This field is required.']
 
+        if 'columns' in bundle.data:
+            if bundle.data['columns'] is None:
+                pass
+            else:
+                if not isinstance(bundle.data['columns'], list):
+                    errors['columns'] = ['Columns must be a list of column names.']
+                elif any([not isinstance(c, basestring) for c in bundle.data['columns']]):
+                    errors['columns'] = ['Column names must be strings.']
+
         return errors
 
 class DatasetResource(SlugResource):

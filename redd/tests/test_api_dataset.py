@@ -20,7 +20,35 @@ class TestDatasetValidation(TestCase):
 
         errors = self.validator.is_valid(bundle)
 
-        self.assertIn("name", errors)
+        self.assertIn('name', errors)
+
+    def test_columns_are_null(self):
+        bundle = Bundle(data={ 'columns': None })
+
+        errors = self.validator.is_valid(bundle)
+
+        self.assertNotIn('columns', errors)
+
+    def test_columns_are_array(self):
+        bundle = Bundle(data={ 'columns': {} })
+
+        errors = self.validator.is_valid(bundle)
+
+        self.assertIn('columns', errors)
+
+    def test_columns_names_are_strings(self):
+        bundle = Bundle(data={ 'columns': [1, 'str'] })
+
+        errors = self.validator.is_valid(bundle)
+
+        self.assertIn('columns', errors)
+
+    def test_columns_are_valid(self):
+        bundle = Bundle(data={ 'columns': ['1', 'str'] })
+
+        errors = self.validator.is_valid(bundle)
+
+        self.assertNotIn('columns', errors)
 
 class TestAPIDataset(TransactionTestCase):
     fixtures = ['init_panda.json']
