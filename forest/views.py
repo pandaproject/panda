@@ -4,6 +4,7 @@ import os
 import re
 
 from django.conf import settings
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from tastypie.serializers import Serializer
@@ -20,7 +21,7 @@ def index(request):
     serializer = Serializer()
     cr = CategoryResource()
 
-    categories = Category.objects.all()
+    categories = Category.objects.annotate(dataset_count=Count('datasets'))
 
     bundles = [cr.build_bundle(obj=c) for c in categories]
     categories_bootstrap = [cr.full_dehydrate(b) for b in bundles]

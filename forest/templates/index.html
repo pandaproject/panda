@@ -48,7 +48,9 @@
                     <ul id="categories-list">
                         <li><a href="#datasets">Find a dataset</a></li>
                         {% for category in categories %}
+                        {% if category.dataset_count > 0 %}
                         <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }}</a></li>
+                        {% endif %}
                         {% endfor %}
                     </ul>
                     <div class="add-category"><a data-content="To keep things organized only administrators can add categories." data-original-title="Contact your admin!" data-offset="5" href="javascript: return false;" rel="popover">Need another category?</a></div>
