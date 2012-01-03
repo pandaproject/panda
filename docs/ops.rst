@@ -2,9 +2,9 @@
 Systems Administration (Ops)
 ============================
 
-If you are an advanced user and you're going to run a PANDA server, you may want to know how it all works. This page lays out the users, services, and files that are part of the standard PANDA setup.
+If you are an advanced user and you're going to run a PANDA server, you may want to know how it all works. This page lays out the users, services and files that are part of the standard PANDA setup.
 
-This might also be thought of as a guide to what you would need to change, in the event you need to run PANDA in a non-standard configuration.
+This might also be thought of as a guide to what you may need to change in the event you want to run PANDA in a non-standard configuration.
 
 Users
 =====
@@ -12,7 +12,7 @@ Users
 panda
 -----
 
-Runs the ``uwsgi`` and ``celeryd`` services and owns their logs. Owns ``/mnt/media`` (compressed assets) and ``/mnt/panda`` (uploaded files). This user should be used to execute Django management commands, etc::
+Runs the ``uwsgi`` and ``celeryd`` services and owns their logs. Owns ``/mnt/media`` (compressed assets) and ``/mnt/panda`` (uploaded files). Only this user should be used to execute Django management commands, etc::
 
     sudo -u panda -E python manage.py shell
 
@@ -34,7 +34,7 @@ Runs the ``solr`` service and owns its files (``/opt/solr``), indices and logs.
 ubuntu
 ------
 
-The standard Ubuntu login user. Must be used to SSH into the system and run sudo. Has read-only access to files and logs, but not execute any system commands.
+The standard Ubuntu login user. Must be used to SSH into the system and run sudo. Has read-only access to files and logs, but can not execute any system commands.
 
 www-data
 --------
@@ -74,7 +74,7 @@ Files
 
 * ``/mnt/media`` - compressed assets
 * ``/mnt/panda`` - file uploads
-* ``/opt/panda`` - applications source code
+* ``/opt/panda`` - application source code
 * ``/opt/solr`` - Solr application
 * ``/var/log/celeryd`` - destination for celery logs if output was not captured and routed to panda logs (exists only as a failsafe)
 * ``/var/log/nginx`` - destination for access logs
