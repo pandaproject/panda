@@ -23,7 +23,7 @@ class ImportFileTask(AbortableTask):
         Mark that task has begun.
         """
         task_status.status = 'STARTED' 
-        task_status.start = datetime.now()
+        task_status.start = datetime.utcnow()
         task_status.message = message 
         task_status.save()
 
@@ -39,7 +39,7 @@ class ImportFileTask(AbortableTask):
         Mark that task has aborted.
         """
         task_status.status = 'ABORTED'
-        task_status.end = datetime.now()
+        task_status.end = datetime.utcnow()
         task_status.message = message
         task_status.save()
 
@@ -48,7 +48,7 @@ class ImportFileTask(AbortableTask):
         Mark that task has completed.
         """
         task_status.status = 'SUCCESS'
-        task_status.end = datetime.now()
+        task_status.end = datetime.utcnow()
         task_status.message = message
         task_status.save()
 

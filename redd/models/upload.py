@@ -61,7 +61,7 @@ class Upload(models.Model):
                 self.sample_data = utils.sample_data(self.data_type, path, self.dialect)
 
         if not self.creation_date:
-            self.creation_date = datetime.now()
+            self.creation_date = datetime.utcnow()
 
         super(Upload, self).save(*args, **kwargs)
 

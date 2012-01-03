@@ -59,7 +59,7 @@ class Dataset(SluggedModel):
         Override save extract metadata from the upload.
         """
         if not self.creation_date:
-            self.creation_date = datetime.now()
+            self.creation_date = datetime.utcnow()
 
         super(Dataset, self).save(*args, **kwargs)
 
@@ -184,7 +184,7 @@ class Dataset(SluggedModel):
         old_row_count = self.row_count
         self.row_count = self._count_rows()
         added = self.row_count - (old_row_count or 0)
-        self.last_modified = datetime.now()
+        self.last_modified = datetime.utcnow()
         self.last_modified_by = user
         self.last_modification = '1 row %s' % ('added' if added else 'updated')
         self.save()
@@ -212,7 +212,7 @@ class Dataset(SluggedModel):
         self.row_count = self._count_rows()
         added = self.row_count - (old_row_count or 0)
         updated = len(data) - added
-        self.last_modified = datetime.now()
+        self.last_modified = datetime.utcnow()
         self.last_modified_by = user
 
         if added and updated: 
@@ -233,7 +233,7 @@ class Dataset(SluggedModel):
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
     
         self.row_count = self._count_rows()
-        self.last_modified = datetime.now()
+        self.last_modified = datetime.utcnow()
         self.last_modified_by = user
         self.last_modification = '1 row deleted'
         self.save()
@@ -246,7 +246,7 @@ class Dataset(SluggedModel):
 
         old_row_count = self.row_count
         self.row_count = 0
-        self.last_modified = datetime.now()
+        self.last_modified = datetime.utcnow()
         self.last_modification = 'All %i rows deleted' % old_row_count
         self.save()
 

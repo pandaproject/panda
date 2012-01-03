@@ -35,7 +35,7 @@ class ExportCSVTask(ExportFileTask):
         self.task_start(task_status, 'Preparing to import')
 
         if not filename:
-            filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.now().isoformat())
+            filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())
 
         f = open(os.path.join(settings.MEDIA_ROOT, filename), 'w')
         writer = CSVKitWriter(f)

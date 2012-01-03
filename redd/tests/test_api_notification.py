@@ -91,7 +91,7 @@ class TestAPINotifications(TransactionTestCase):
     def test_update(self):
         notification = Notification.objects.get(related_dataset=self.dataset)
 
-        data = json.dumps({ 'read_at': datetime.now().strftime('%Y-%m-%dT%H:%M:%S') })
+        data = json.dumps({ 'read_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S') })
 
         response = self.client.put('/api/1.0/notification/%i/' % notification.id, data=data, content_type='application/json', **self.auth_headers) 
 
@@ -107,7 +107,7 @@ class TestAPINotifications(TransactionTestCase):
 
         notification = Notification.objects.get(related_dataset=self.dataset)
 
-        data = json.dumps({ 'read_at': datetime.now().strftime('%Y-%m-%dT%H:%M:%S') })
+        data = json.dumps({ 'read_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S') })
 
         response = self.client.put('/api/1.0/notification/%i/' % notification.id, data=data, content_type='application/json', **utils.get_auth_headers('nobody@nobody.com')) 
 
