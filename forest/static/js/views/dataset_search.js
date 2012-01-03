@@ -43,7 +43,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         // Nuke old modals
         $("#dataset-traceback-modal").remove();
 
-        this.el.html(this.template({ query: this.query, dataset: this.dataset.results() }));
+        this.el.html(this.template({ query: this.query, dataset: this.dataset.results(), search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT }));
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
 
@@ -62,6 +62,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         if (!this.query) {
             this.view.render();
         }
+
+        $('a[rel="popover"]').popover();
     },
 
     search_event: function() {

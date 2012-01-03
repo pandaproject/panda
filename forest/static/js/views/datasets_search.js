@@ -41,10 +41,13 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
             categories: categories,
             category: this.category,
             query: this.query,
-            datasets: this.datasets.results()
+            datasets: this.datasets.results(),
+            search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT
         }));
 
         this.results.el = $("#datasets-search-results");
+
+        $('a[rel="popover"]').popover();
     },
 
     search_event: function() {

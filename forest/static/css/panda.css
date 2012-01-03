@@ -14,6 +14,8 @@ body { padding-top: 40px; }
 .form-stacked { padding-left: 0px; }
 .actions.on-top { margin-top: 0px; }
 
+.popover .content ul li { color: black; }
+
 /* Login */
 
 #login h1 {
