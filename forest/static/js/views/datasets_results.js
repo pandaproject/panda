@@ -18,9 +18,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
 
         context["query"] = this.search.query;
         context["category"] = this.search.category;
-        context["root_url"] = "#datasets";
 
-        context["pager"] = this.pager_template(context);
         context["datasets"] = this.search.datasets.results()["datasets"];
 
         // Remove any lingering modal from previous usage

@@ -8,8 +8,6 @@
 
 <% } else { %>
 
-<h2>Found <%= datasets.meta.total_count %> dataset<% if (datasets.meta.total_count > 1) { %>s<% } %> with matching rows</h2>
-
 <%= pager %>
 
 <% _.each(datasets.datasets, function(dataset) { %>

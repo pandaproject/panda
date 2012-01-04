@@ -1,27 +1,18 @@
-<% if (previous || next) { %>
-<div class="pagination">
-    <ul>
-        <% if (previous) { %>
-            <li class="prev"><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
-        <% } else { %>
-            <li class="prev disabled"><a href="#">&larr; Previous</a></li> 
-        <% } %>
+<div class="pager">
+    <h3><%= offset + 1 %>-<%= Math.min(offset + limit, total_count) %> of <%= total_count %> matching <%= pager_unit %><% if (total_count > 1) { %>s<% } %> <% if (row_count) { %>(<%= row_count %> total <%= pager_unit %>s)<% } %></h3>
+    <div class="pagination">
+        <ul>
+            <% if (previous) { %>
+                <li class="prev"><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
+            <% } else { %>
+                <li class="prev disabled"><a href="javascript: return false;">&larr; Previous</a></li> 
+            <% } %>
 
-        <% for (n=Math.max(1, page - 5); n < page; n=n + 1) { %>
-            <li><a href="<%= root_url %>/<%= limit %>/<%= n %>"><%= n %></a> 
-        <% } %>
-
-        <li class="active"><a href="javascript: return false;"><%= page %></a></li>
-
-        <% for (n=page + 1; n < page + 5 && n <= Math.ceil(total_count / limit); n=n + 1) { %>
-            <li><a href="<%= root_url %>/<%= limit %>/<%= n %>"><%= n %></a> 
-        <% } %>
-
-        <% if (next) { %>
-            <li class="next"><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
-        <% } else { %>
-            <li class="next disabled"><a href="#">Next &rarr;</a></li> 
-        <% } %>
-    </ul>
+            <% if (next) { %>
+                <li class="next"><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
+            <% } else { %>
+                <li class="next disabled"><a href="javascript: return false;">Next &rarr;</a></li> 
+            <% } %>
+        </ul>
+    </div>
 </div>
-<% } %>

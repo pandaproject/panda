@@ -13,10 +13,6 @@
 
     <%= pager %>
 
-    <h3>
-        <%= dataset. meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %> (<%= dataset.row_count %> total rows)
-    </h3>
-
     <table>
         <tr>
             <% _.each(dataset.columns, function(c) { %>

@@ -16,6 +16,9 @@ body { padding-top: 40px; }
 
 .popover .content ul li { color: black; }
 
+.pager h3 { float: left; margin-right: 8px; }
+.pager .pagination { margin: 0 0 8px 0; }
+
 /* Login */
 
 #login h1 {
