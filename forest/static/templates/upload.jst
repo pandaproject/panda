@@ -17,6 +17,14 @@
 
         <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
 
+        <div id="upload-progress" class="progress">
+            <div class="progress-value" style="background-color: #57A957; width: 0%;">
+                <div class="progress-text">
+                     <strong>0%</strong> uploaded.
+                </div>
+            </div>
+        </div>
+
         <div class="alert-message block-message warn notes xls">
             <h4><strong>Excel styles will be lost!</strong></h4>
             <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
@@ -27,14 +35,6 @@
             </ul>
             <h4><strong>Only the first worksheet will be searchable!</strong></h4>
             <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
-        </div>
-
-        <div id="upload-progress" class="progress">
-            <div class="progress-value" style="background-color: #57A957; width: 0%;">
-                <div class="progress-text">
-                     <strong>0%</strong> uploaded.
-                </div>
-            </div>
         </div>
 
         <div id="step-2-alert" class="alert-message"></div>
