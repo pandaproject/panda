@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
+from config.settings import *
+
 import logging
 log = logging.getLogger('settings')
-
-from config.settings import *
 
 SETTINGS = 'deployed'
 
