@@ -1,0 +1,16 @@
+server {
+	listen 80;
+
+        client_max_body_size 1G;
+
+	location /site_media/ {
+		alias /mnt/media/;
+		expires 1h;
+		access_log off;		
+	}
+
+	location / {
+		uwsgi_pass unix://var/run/uwsgi/uwsgi.sock;
+		include uwsgi_params;
+	}
+}

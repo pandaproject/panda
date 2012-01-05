@@ -83,8 +83,8 @@ wget $CONFIG_URL/uwsgi.conf -O /etc/init/uwsgi.conf
 initctl reload-configuration
 
 # Setup nginx
-wget $CONFIG_URL/nginx.conf -O /etc/nginx/nginx.conf
-initctl reload-configuration
+wget $CONFIG_URL/nginx -O /etc/nginx/sites-available/panda
+ln -s /etc/nginx/sites-available/panda /etc/nginx/sites-enabled/panda
 service nginx restart
 
 # Setup Postgres
