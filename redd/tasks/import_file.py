@@ -4,6 +4,7 @@ from datetime import datetime
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
+from django.core.mail import send_mail
 
 from redd import solr
 
@@ -76,12 +77,6 @@ class ImportFileTask(AbortableTask):
         dataset = Dataset.objects.get(slug=args[0])
         task_status = dataset.current_task 
 
-        notification = Notification(
-            recipient=dataset.creator,
-            related_task=task_status,
-            related_dataset=dataset
-        )
-
         if einfo:
             self.task_exception(
                 task_status,
@@ -89,14 +84,25 @@ class ImportFileTask(AbortableTask):
                 u'\n'.join([einfo.traceback, unicode(retval)])
             )
             
-            notification.message = 'Import of %s failed' % dataset.name
-            notification.type = 'error'
+            email_message = 'Import of %s failed:\n%shttp://%s/#dataset/%s' % (dataset.name, settings.SITE_DOMAIN, dataset.slug)
+            notification_message = 'Import of <strong>%s</strong> failed' % dataset.name
+            notification_type = 'error'
         else:
             self.task_complete(task_status, 'Import complete')
             
-            notification.message = 'Import of %s complete' % dataset.name
+            email_message = 'Import of %s failed:\n\nhttp://%s/#dataset/%s' % (dataset.name, settings.SITE_DOMAIN, dataset.slug)
+            notification_message = 'Import of <strong>%s</strong> complete' % dataset.name
+            notification_type = 'info'
         
-        notification.save()
+        notification = Notification.objects.create(
+            recipient=dataset.creator,
+            related_task=task_status,
+            related_dataset=dataset,
+            message=notification_message,
+            type=notification_type
+        )
+
+        send_mail(notification.type, email_message, settings.DEFAULT_FROM_EMAIL, [dataset.creator.username])
 
         # If import failed, clear any data that might be staged
         if task_status.status == 'FAILURE':

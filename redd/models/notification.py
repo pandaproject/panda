@@ -1,8 +1,6 @@
 #!/user/bin/env python
 
-from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.db import models
 
 from redd.models.dataset import Dataset
@@ -36,14 +34,4 @@ class Notification(models.Model):
     class Meta:
         app_label = 'redd'
         ordering = ['-sent_at'] 
-
-    def save(self, email=True, *args, **kwargs):
-        """
-        Email notifications to users. 
-        """    
-        super(Notification, self).save(*args, **kwargs)
-
-        if email:
-            send_mail(self.type + ': ' + self.message, self.message, settings.DEFAULT_FROM_EMAIL, [self.recipient.username])
-
 

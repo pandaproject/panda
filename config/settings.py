@@ -107,6 +107,7 @@ INSTALLED_APPS = (
 # Email
 # run "python -m smtpd -n -c DebuggingServer localhost:1025" to see outgoing
 # messages dumped to the terminal
+SITE_DOMAIN = 'localhost:8000'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = ''

@@ -18,6 +18,9 @@ MEDIA_ROOT = '/mnt/panda'
 # Django-compressor
 COMPRESS_ENABLED = True 
 
+if SITE_DOMAIN == '':
+    print 'WARNING: Running in production mode, but SITE_DOMAIN is not set!'
+    
 if EMAIL_HOST == 'localhost':
     print 'WARNING: Running in production mode, but EMAIL_HOST is set to localhost!'
 
