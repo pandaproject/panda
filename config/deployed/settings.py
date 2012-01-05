@@ -17,5 +17,5 @@ MEDIA_ROOT = '/mnt/panda'
 COMPRESS_ENABLED = True 
 
 if EMAIL_HOST == 'localhost':
-    raise ValueError('EMAIL_HOST not configured!')
+    print 'WARNING: Running in production mode, but EMAIL_HOST is set to localhost!'
 
