@@ -115,6 +115,8 @@ chown panda:panda /mnt/media
 
 # Synchronize the database
 sudo -u panda DEPLOYMENT_TARGET=deployed python manage.py syncdb --noinput
+sudo -u panda DEPLOYMENT_TARGET=deployed python manage.py migrate --noinput
+sudo -u panda DEPLOYMENT_TARGET=deployed python manage.py loaddata redd/fixtures/init_panda.json
 
 # Collect static assets
 sudo -u panda DEPLOYMENT_TARGET=deployed python manage.py collectstatic --noinput
