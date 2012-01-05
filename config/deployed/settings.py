@@ -5,6 +5,8 @@ log = logging.getLogger('settings')
 
 from config.settings import *
 
+SETTINGS = 'deployed'
+
 DEBUG = True 
 TEMPLATE_DEBUG = DEBUG
 
@@ -19,3 +21,4 @@ COMPRESS_ENABLED = True
 
 if EMAIL_HOST == 'localhost':
     log.warn('EMAIL_HOST not configured!') 
+
