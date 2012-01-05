@@ -4,9 +4,9 @@ from datetime import datetime
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
-from django.core.mail import send_mail
 
 from redd import solr
+from redd.utils.email import panda_email
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -102,7 +102,7 @@ class ImportFileTask(AbortableTask):
             type=notification_type
         )
 
-        send_mail(notification.type, email_message, settings.DEFAULT_FROM_EMAIL, [dataset.creator.username])
+        panda_email(notification.type, email_message, [dataset.creator.username])
 
         # If import failed, clear any data that might be staged
         if task_status.status == 'FAILURE':
