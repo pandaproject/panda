@@ -86,13 +86,13 @@ class ImportFileTask(AbortableTask):
             
             email_message = 'Import of %s failed:\n%shttp://%s/#dataset/%s' % (dataset.name, settings.SITE_DOMAIN, dataset.slug)
             notification_message = 'Import of <strong>%s</strong> failed' % dataset.name
-            notification_type = 'error'
+            notification_type = 'Error'
         else:
             self.task_complete(task_status, 'Import complete')
             
             email_message = 'Import of %s failed:\n\nhttp://%s/#dataset/%s' % (dataset.name, settings.SITE_DOMAIN, dataset.slug)
             notification_message = 'Import of <strong>%s</strong> complete' % dataset.name
-            notification_type = 'info'
+            notification_type = 'Info'
         
         notification = Notification.objects.create(
             recipient=dataset.creator,

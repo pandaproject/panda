@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block form_top %}
+    <p>{% trans "Enter an email address. The user will be emailed a link to complete the signup process." %}</p>
+{% endblock %}
+
+{% block after_field_sets %}
+<script type="text/javascript">document.getElementById("id_username").focus();</script>
+{% endblock %}
