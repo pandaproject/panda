@@ -85,6 +85,7 @@ initctl reload-configuration
 # Setup nginx
 wget $CONFIG_URL/nginx -O /etc/nginx/sites-available/panda
 ln -s /etc/nginx/sites-available/panda /etc/nginx/sites-enabled/panda
+rm /etc/nginx/sites-enabled/default
 service nginx restart
 
 # Setup Postgres
