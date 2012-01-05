@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import logging
+log = logging.getLogger('settings')
+
 from config.settings import *
 
 DEBUG = True 
@@ -14,3 +17,5 @@ MEDIA_ROOT = '/mnt/panda'
 # Django-compressor
 COMPRESS_ENABLED = True 
 
+if EMAIL_HOST == 'localhost':
+    log.warn('EMAIL_HOST not configured!') 

@@ -272,6 +272,9 @@ def local_solr():
     """
     local('cd %(local_solr)s && java -Xms256M -Xmx512G -Dsolr.solr.home=%(local_solr_home)s -jar start.jar' % env)
 
+def local_email():
+    local('python -m smtpd -n -c DebuggingServer localhost:1025')
+
 def make_fixtures():
     """
     Creates a consistent set of local test data and generates fixtures.

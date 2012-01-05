@@ -35,14 +35,25 @@ This script will setup the complete application, *except* for Solr. Be sure to r
     # Start the task queue
     python manage.py celeryd
 
-    # Open another terminal
+Open a new terminal in the PANDA directory and enter::
+
+    # Start PANDA 
     workon panda
     python manage.py runserver
+
+Open *another* termianl in the PANDA directory and enter::
+
+    # Run a local email server
+    workon panda
+    fab local_email
 
 Setup Solr
 ==========
 
-Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following instructions will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_::
+Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_. If you've just started the PANDA server, open a new termianl in the PANDA directory and enter these commands::
+
+    # Get into the env
+    workon panda
 
     # Install solr 3.4.0
     brew update
@@ -52,9 +63,11 @@ Installing Solr can be tricky and will vary quite a bit depending on your operat
     sudo mkdir /var/solr
     sudo chown $USER /var/solr
 
-    # Ensure you are in the PANDA source directory and your virtualenv is active
     # This command will install all Solr configuration
     fab local_reset_solr
+
+    # To start Solr
+    fab local_solr
 
 Running Python unit tests
 =========================

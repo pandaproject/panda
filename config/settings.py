@@ -105,7 +105,9 @@ INSTALLED_APPS = (
 # messages dumped to the terminal
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
-DEFAULT_FROM_EMAIL = 'do.not.reply@panda.tribapps.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'do.not.reply@pandaproject.net'
 
 # Django-compressor
 COMPRESS_ENABLED = False 
