@@ -2,9 +2,6 @@
 
 from config.settings import *
 
-import logging
-log = logging.getLogger('settings')
-
 SETTINGS = 'deployed'
 
 DEBUG = True 
@@ -20,5 +17,5 @@ MEDIA_ROOT = '/mnt/panda'
 COMPRESS_ENABLED = True 
 
 if EMAIL_HOST == 'localhost':
-    log.warn('EMAIL_HOST not configured!') 
+    raise ValueError('EMAIL_HOST not configured!')
 
