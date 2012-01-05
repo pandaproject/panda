@@ -94,7 +94,7 @@ class ImportFileTask(AbortableTask):
         else:
             self.task_complete(task_status, 'Import complete')
             
-            notification.message = 'Import of <strong>%s</strong> complete' % dataset.name
+            notification.message = 'Import of %s complete' % dataset.name
         
         notification.save()
 

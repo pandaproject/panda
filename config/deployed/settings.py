@@ -2,9 +2,11 @@
 
 from config.settings import *
 
+# Running in deployed mode
 SETTINGS = 'deployed'
 
-DEBUG = True 
+# Debug
+DEBUG = True    # TEMP 
 TEMPLATE_DEBUG = DEBUG
 
 # Static media
