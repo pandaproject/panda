@@ -32,20 +32,32 @@ This script will setup the complete application, *except* for Solr. Be sure to r
     createdb -O panda panda
     python manage.py syncdb --noinput
 
-    # Start the task queue
-    python manage.py celeryd
+    # Start PANDA
+    python manage.py runserver
 
 Open a new terminal in the PANDA directory and enter::
 
-    # Start PANDA 
+    # Start the task queue 
     workon panda
-    python manage.py runserver
+    python manage.py celeryd
 
 Open *another* termianl in the PANDA directory and enter::
 
     # Run a local email server
     workon panda
     fab local_email
+
+.. note::
+
+    **Power users!** You can launch the runserver, celeryd, email and Solr termianls simultaneously using `screen <http://www.gnu.org/software/screen/>`_. Just run::
+
+    screen -c panda.screenrc
+
+    Or::
+
+    fab local_screens
+
+    Note that if you use custom screen configuration this will not apply to these screens.
 
 Setup Solr
 ==========

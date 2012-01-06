@@ -266,6 +266,12 @@ def local_reset_solr():
     local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadatasets_test/conf/solrconfig.xml' % env)
     local('cp setup_panda/datasets_schema.xml %(local_solr_home)s/pandadatasets_test/conf/schema.xml' % env)
 
+def local_screens():
+    """
+    Start all development environment commands in screen.
+    """
+    local('screen -c panda.screenrc')
+
 def local_solr():
     """
     Start the local Solr instance.

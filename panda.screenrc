@@ -1,0 +1,9 @@
+caption always
+caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
+startup_message off
+
+screen -t "runserver" python manage.py runserver
+screen -t "celeryd" python manage.py celeryd 
+screen -t "solr" fab local_solr
+screen -t "email" fab local_email
+
