@@ -106,7 +106,7 @@ class UserModelAdmin(UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active')
     search_fields = ('first_name', 'last_name', 'email')
     ordering = ('email',)
 
