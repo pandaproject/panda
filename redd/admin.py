@@ -4,6 +4,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.admin import helpers
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
 from django.db import models
@@ -27,6 +28,10 @@ admin.site.unregister(WorkerState)
 admin.site.register(ApiKey)
 
 class PandaUserCreationForm(forms.ModelForm):
+    """
+    Custom User creation form that eliminates duplication between username
+    and email.
+    """
     class Meta:
         model = User
         fields = ("username",)
@@ -35,35 +40,74 @@ class PandaUserCreationForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data["username"]
+        
         try:
             User.objects.get(username=username)
         except User.DoesNotExist:
             return username
+
         raise forms.ValidationError(_("A user with that email address already exists."))
 
     def save(self, commit=True):
         user = super(PandaUserCreationForm, self).save(commit=False)
-        # TODO
-        #user.set_password(self.cleaned_data["password1"])
-        # TODO - add to panda_user group
+        user.email = user.username
+
         if commit:
             user.save()
+
         return user
 
-# Add API key reference to User admin
+class PandaUserChangeForm(UserChangeForm):
+    """
+    Customized User change form that allows password to be blank.
+    (for editing unactivated accounts)
+    """
+    def __init__(self, *args, **kwargs):
+        super(PandaUserChangeForm, self).__init__(*args, **kwargs)
+
+        self.fields['password'].required = False
+
+class PandaApiKeyInline(ApiKeyInline):
+    """
+    Customized ApiKeyInline that doesn't allow the creation date to be modified.
+    """
+    readonly_fields = ('created',)
+
 class UserModelAdmin(UserAdmin):
-    inlines = [ApiKeyInline]
+    """
+    Heavily modified admin page for editing Users. Eliminates duplication between
+    username and email fields. Hides unnecessary cruft. Makes timestamp fields
+    readonly. Etc.
+    """
+    inlines = [PandaApiKeyInline]
     add_form = PandaUserCreationForm
+    form = PandaUserChangeForm
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username',)}
+            'fields': ('username', 'first_name', 'last_name')}
         ),
     )
 
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+
+    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('first_name', 'last_name', 'email')
+    ordering = ('email',)
+
+    readonly_fields = ('last_login', 'date_joined')
+
     def add_view(self, request, form_url='', extra_context=None):
-        "The 'add' admin view for this model."
+        """
+        This method is overriden in its entirety so that the ApiKey inline won't be
+        displayed/parsed on the add_form page.
+        """
         model = self.model
         opts = model._meta
 
