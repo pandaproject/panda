@@ -4,7 +4,7 @@ import random
 import sha
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.db import models
 from django.dispatch import receiver
 from tastypie.models import ApiKey
@@ -23,12 +23,16 @@ __all__ = ['Category', 'Dataset', 'Notification', 'TaskStatus', 'Upload', 'UserP
 @receiver(models.signals.post_save, sender=User)
 def on_user_post_save(sender, instance, created, **kwargs):
     """
-    When a User is created, create an API key and send them an activation email.
+    When a User is created, create an API key for them,
+    add them to the panda_user group and send them an activation email.
     When a User is saved, update their Datasets' metadata in Solr. 
     """
     # Setup activation
     if created and not kwargs.get('raw', False):
         ApiKey.objects.get_or_create(user=instance)
+
+        panda_users = Group.objects.get(name='panda_user')
+        instance.groups.add(panda_users)
 
         salt = sha.new(str(random.random())).hexdigest()[:5]
         activation_key = sha.new(salt + instance.username).hexdigest()
