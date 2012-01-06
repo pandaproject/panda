@@ -49,15 +49,15 @@ Open *another* termianl in the PANDA directory and enter::
 
 .. note::
 
-    **Power users!** You can launch the runserver, celeryd, email and Solr termianls simultaneously using `screen <http://www.gnu.org/software/screen/>`_. Just run::
+    **Power users!** You can launch the runserver, celeryd, email and solr commands simultaneously using `screen <http://www.gnu.org/software/screen/>`_. Just run::
 
-    screen -c panda.screenrc
+        screen -c panda.screenrc
 
-    Or::
+    This command is also aliased as::
 
-    fab local_screens
+        fab local_screens
 
-    Note that if you use custom screen configuration this will not apply to these screens.
+    Note that if you use a custom .screenrc configuration your settings will not apply to these screens.
 
 Setup Solr
 ==========
