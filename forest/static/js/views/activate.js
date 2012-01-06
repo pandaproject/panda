@@ -15,11 +15,32 @@ PANDA.views.Activate = Backbone.View.extend({
 
     reset: function(activation_key) {
         this.activation_key = activation_key;
-        this.render();
+
+        $.ajax({
+            url: '/check_activation_key/' + activation_key,
+            dataType: 'json',
+            type: 'GET',
+            success: _.bind(function(data, status, xhr) {
+                data = $.parseJSON(xhr.responseText);
+
+                this.render(data);
+            }, this),
+            error: _.bind(function(xhr, status, error) {
+                this.render({});
+
+                try {
+                    errors = $.parseJSON(xhr.responseText);
+                } catch(e) {
+                    errors = { "__all__": "Unknown error" }; 
+                }
+
+                $("#activation-form").show_errors(errors, "Activation failed!");
+            }, this)
+        });
     },
 
-    render: function() {
-        this.el.html(this.template({ key: this.activation_key }));
+    render: function(data) {
+        this.el.html(this.template(data));
     },
 
     validate: function() {

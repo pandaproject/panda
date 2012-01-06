@@ -29,7 +29,6 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     activate: function(activation_key) {
-        console.log("activate!");
         this.controller.goto_activate(activation_key);
     },
 

@@ -3,29 +3,31 @@
 
     <form id="activation-form" class="form-stacked">
         <div class="alert-message"></div>
+        <% if (typeof(email) !== 'undefined') { %>
         <fieldset>
             <legend>Activate your account</legend>
             <div class="clearfix">
                 <label for="email">Email</label>
                 <div class="input">
-                    <input type="text" name="email" />
+                    <input type="text" name="email" value="<%= email %>" />
                     <span class="help-inline"></span>
                 </div>
             </div>
             <div class="clearfix">
                 <label for="first_name">First name</label>
                 <div class="input">
-                    <input type="text" name="first_name" />
+                    <input type="text" name="first_name" value="<%= first_name %>" />
                     <span class="help-inline"></span>
                 </div>
             </div>
             <div class="clearfix">
                 <label for="last_name">Last name</label>
                 <div class="input">
-                    <input type="text" name="last_name" />
+                    <input type="text" name="last_name" value="<%= last_name %>" />
                     <span class="help-inline"></span>
                 </div>
             </div>
+            <input type="hidden" name="activation_key" value="<%= activation_key %>" />
         </fieldset>
         <fieldset>
             <div class="clearfix">
@@ -48,5 +50,6 @@
                 </div>
             </div>
         </fieldset>
+        <% } %>
     </form>
 </div>

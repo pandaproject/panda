@@ -17,6 +17,8 @@ api_1_0.register(UserResource())
 
 urlpatterns = patterns('',
     url(r'^login%s$' % trailing_slash(), views.panda_login, name="login"),
+    url(r'^check_activation_key/(?P<activation_key>[\w\d]+)%s$' % trailing_slash(), views.check_activation_key, name="check_activation_key"),
+    url(r'^activate%s$' % trailing_slash(), views.activate, name="activate"),
     url(r'^upload%s$' % trailing_slash(), views.upload, name="upload"),
 
     (r'^api/', include(api_1_0.urls)),

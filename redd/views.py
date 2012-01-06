@@ -2,11 +2,15 @@
 
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.http import HttpResponse
+from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
 
 from redd.api.notifications import NotificationResource
+from redd.api.users import UserValidation
 from redd.api.utils import CustomApiKeyAuthentication
+from redd.models import UserProfile
 from redd.storage import PANDAUploadBackend
 
 class JSONResponse(HttpResponse):
@@ -75,6 +79,73 @@ def panda_login(request):
         else:
             # Invalid login
             return JSONResponse({ '__all__': 'Email or password is incorrect' }, status=400)
+    else:
+        # Invalid request
+        return JSONResponse(None, status=400)
+
+def check_activation_key(request, activation_key):
+    """
+    Test if an activation key is valid and if so fetch information
+    about the user to populate the form.
+    """
+    try:
+        user_profile = UserProfile.objects.get(activation_key=activation_key)
+    except UserProfile.DoesNotExist:
+        return JSONResponse({ '__all__': 'Invalid activation key!' }, status=400)
+
+    user = user_profile.user 
+
+    if user.is_active:
+        return JSONResponse({ '__all__': 'User is already active!' }, status=400)
+
+    return JSONResponse({
+        'activation_key': user_profile.activation_key,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name
+    })
+
+def activate(request):
+    """
+    PANDA user activation.
+    """
+    if request.method == 'POST':
+        validator = UserValidation()
+
+        data = dict([(k, v) for k, v in request.POST.items()])
+
+        try:
+            user_profile = UserProfile.objects.get(activation_key=data['activation_key'])
+        except UserProfile.DoesNotExist:
+            return JSONResponse({ '__all__': 'Invalid activation key!' }, status=400)
+
+        user = user_profile.user
+
+        if user.is_active:
+            return JSONResponse({ '__all__': 'User is already active!' }, status=400)
+
+        if 'reenter_password' in data:
+            del data['reenter_password']
+
+        bundle = Bundle(data=data)
+
+        errors = validator.is_valid(bundle)
+
+        if errors:
+            return JSONResponse(errors, status=400) 
+
+        user.username = bundle.data['email']
+        user.email = bundle.data['email']
+        user.first_name = bundle.data['first_name']
+        user.last_name = bundle.data['last_name']
+
+        user.set_password(data['password'])
+        user.is_active = True
+
+        user.save()
+
+        # Success
+        return JSONResponse(make_user_login_response(user))
     else:
         # Invalid request
         return JSONResponse(None, status=400)
