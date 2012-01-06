@@ -79,6 +79,8 @@ class UserProfileInline(admin.StackedInline):
     TODO
     """
     model = UserProfile
+    
+    readonly_fields = ('activation_key',)
 
 class UserModelAdmin(UserAdmin):
     """
