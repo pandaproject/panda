@@ -31,14 +31,6 @@ describe("Index Router", function() {
         this.controller_mock.verify();
     });
 
-    it("should route to the registration page", function() {
-        this.controller_mock.expects("goto_register").once();
-
-        this.router.navigate("register", true);
-
-        this.controller_mock.verify();
-    });
-
     it("should route to search", function() {
         this.controller_mock.expects("goto_search").withExactArgs(undefined, undefined, undefined).once();
 

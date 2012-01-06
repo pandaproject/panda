@@ -204,14 +204,6 @@ describe("Root view / global controller", function() {
             this.set_current_user_stub.restore();
         });
 
-        it("should load the register view", function() {
-            Redd.goto_register();
-
-            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("Register");
-            expect(this.fake_view.reset).toHaveBeenCalledOnce();
-            expect(this.navigate_stub).toHaveBeenCalledWith("register");
-        });
-
         it("should load the search view", function() {
             Redd.goto_search("test", "10", "2");
 

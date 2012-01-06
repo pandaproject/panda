@@ -2,12 +2,9 @@
 
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import Group, User
 from django.http import HttpResponse
-from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
 
-from redd.api.users import UserValidation
 from redd.api.notifications import NotificationResource
 from redd.api.utils import CustomApiKeyAuthentication
 from redd.storage import PANDAUploadBackend
@@ -78,42 +75,6 @@ def panda_login(request):
         else:
             # Invalid login
             return JSONResponse({ '__all__': 'Email or password is incorrect' }, status=400)
-    else:
-        # Invalid request
-        return JSONResponse(None, status=400)
-
-def panda_register(request):
-    """
-    PANDA user registeration.
-    """
-    if request.method == 'POST':
-        validator = UserValidation()
-
-        data = dict([(k, v) for k, v in request.POST.items()])
-
-        if 'reenter_password' in data:
-            del data['reenter_password']
-
-        bundle = Bundle(data=data)
-
-        errors = validator.is_valid(bundle)
-
-        if errors:
-            return JSONResponse(errors, status=400) 
-
-        try:
-            user = User.objects.get(username=bundle.data['email'])
-
-            return JSONResponse({ '__all__': 'Email is already registered' }, status=400)
-        except User.DoesNotExist:
-            user = User.objects.create(**bundle.data)
-
-            panda_user = Group.objects.get(name='panda_user')
-            user.groups.add(panda_user)
-            user.save()
-
-        # Success
-        return JSONResponse(make_user_login_response(user))
     else:
         # Invalid request
         return JSONResponse(None, status=400)

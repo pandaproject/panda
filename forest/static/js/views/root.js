@@ -175,8 +175,6 @@ PANDA.views.Root = Backbone.View.extend({
             $("#topbar-email").hide();
             $("#topbar-notifications").hide();
             $("#topbar-logout").hide();
-            $("#topbar-login").css("display", "block");
-            $("#topbar-register").css("display", "block");
         } else {
             $("#topbar-email a").text(this._current_user.get("email"));
 
@@ -215,8 +213,6 @@ PANDA.views.Root = Backbone.View.extend({
             $("#topbar-email").css("display", "block");
             $("#topbar-notifications").css("display", "block");
             $("#topbar-logout").css("display", "block");
-            $("#topbar-login").hide();
-            $("#topbar-register").hide();
         }
     },
 
@@ -263,13 +259,6 @@ PANDA.views.Root = Backbone.View.extend({
         this.set_current_user(null);
 
         this.goto_login();
-    },
-
-    goto_register: function() {
-        this.current_content_view = this.get_or_create_view("Register");
-        this.current_content_view.reset();
-        
-        this._router.navigate("register");
     },
 
     goto_search: function(query, limit, page) {
