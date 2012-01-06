@@ -19,6 +19,13 @@ body { padding-top: 40px; }
 .pager h3 { float: left; margin-right: 8px; }
 .pager .pagination { margin: 0 0 8px 0; }
 
+/* Activate */
+
+#activate h1 {
+    font-size: 44px;
+    color: #AA4040;
+}
+
 /* Login */
 
 #login h1 {

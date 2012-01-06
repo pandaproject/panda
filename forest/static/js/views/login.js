@@ -15,7 +15,6 @@ PANDA.views.Login = Backbone.View.extend({
 
     reset: function(next) {
         this.next = next;
-        console.trace();
         this.render();
     },
 
@@ -77,7 +76,7 @@ PANDA.views.Login = Backbone.View.extend({
         });
 
         return false;
-    },
+    }
 });
 
 

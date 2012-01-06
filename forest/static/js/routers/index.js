@@ -1,5 +1,6 @@
 PANDA.routers.Index = Backbone.Router.extend({
     routes: {
+        "activate/:activation_key":                     "activate",
         "login":                                        "login",
         "logout":                                       "logout",
         "":                                             "search",
@@ -25,6 +26,11 @@ PANDA.routers.Index = Backbone.Router.extend({
 
     initialize: function(options) {
         this.controller = options.controller;
+    },
+
+    activate: function(activation_key) {
+        console.log("activate!");
+        this.controller.goto_activate(activation_key);
     },
 
     login: function() {
