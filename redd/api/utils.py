@@ -100,6 +100,9 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return self._unauthorized()
 
+        if not user.is_active:
+            return self._unauthorized()
+
         request.user = user
 
         return self.get_key(user, api_key)

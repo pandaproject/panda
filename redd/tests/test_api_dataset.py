@@ -102,6 +102,17 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_get_inactive(self):
+        self.user.is_active = False
+        self.user.save()
+
+        response = self.client.get('/api/1.0/dataset/%s/' % self.dataset.slug, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 401)
+
+        self.user.is_active = True
+        self.user.save()
+
     def test_list(self):
         response = self.client.get('/api/1.0/dataset/', data={ 'limit': 5 }, **self.auth_headers)
 
