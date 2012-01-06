@@ -6,14 +6,14 @@ kombu-sqlalchemy==1.1.0
 python-dateutil==1.5.0
 lxml==2.3.1
 httplib2==0.7.1
--e git://github.com/onyxfish/django-ajax-uploader.git#egg=ajaxuploader
--e git://github.com/onyxfish/csvkit.git#egg=csvkit
--e git://github.com/toastdriven/django-tastypie.git#egg=tastypie
+git://github.com/onyxfish/django-ajax-uploader.git#egg=ajaxuploader
+git://github.com/onyxfish/csvkit.git#egg=csvkit
+git://github.com/toastdriven/django-tastypie.git#egg=tastypie
 django_compressor==1.1
 BeautifulSoup==3.2.0
 sphinx==1.0.7
 requests==0.8.3
 south==0.7.3
--e git://github.com/GoodCloud/django-longer-username.git#egg=longerusername
--e hg+https://bitbucket.org/ericgazoni/openpyxl#egg=openpyxl
+git://github.com/GoodCloud/django-longer-username.git#egg=longerusername
+hg+https://bitbucket.org/ericgazoni/openpyxl#egg=openpyxl
 xlrd==0.7.1
