@@ -41,7 +41,7 @@ Open a new terminal in the PANDA directory and enter::
     workon panda
     python manage.py celeryd
 
-Open *another* termianl in the PANDA directory and enter::
+Open *another* terminal in the PANDA directory and enter::
 
     # Run a local email server
     workon panda
