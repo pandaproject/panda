@@ -2,8 +2,8 @@ caption always
 caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
 startup_message off
 
-screen -t "runserver" python manage.py runserver
-screen -t "celeryd" python manage.py celeryd 
-screen -t "solr" fab local_solr
-screen -t "email" fab local_email
+screen -t "runserver" bash -c "python manage.py runserver; exec bash -i"
+screen -t "celeryd" bash -c "python manage.py celeryd; exec bash -i"
+screen -t "solr" bash -c "fab local_solr; exec bash -i"
+screen -t "email" bash -c "fab local_email; exec bash -i"
 

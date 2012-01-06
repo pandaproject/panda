@@ -15,7 +15,7 @@ from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, Tas
 from tastypie.admin import ApiKeyInline
 from tastypie.models import ApiKey
 
-from redd.models import Category, TaskStatus 
+from redd.models import Category, TaskStatus, UserProfile
 
 # Hide celery monitors
 admin.site.unregister(CrontabSchedule)
@@ -51,6 +51,7 @@ class PandaUserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(PandaUserCreationForm, self).save(commit=False)
         user.email = user.username
+        user.is_active = False
 
         if commit:
             user.save()
@@ -73,13 +74,19 @@ class PandaApiKeyInline(ApiKeyInline):
     """
     readonly_fields = ('created',)
 
+class UserProfileInline(admin.StackedInline):
+    """
+    TODO
+    """
+    model = UserProfile
+
 class UserModelAdmin(UserAdmin):
     """
     Heavily modified admin page for editing Users. Eliminates duplication between
     username and email fields. Hides unnecessary cruft. Makes timestamp fields
     readonly. Etc.
     """
-    inlines = [PandaApiKeyInline]
+    inlines = [UserProfileInline, PandaApiKeyInline]
     add_form = PandaUserCreationForm
     form = PandaUserChangeForm
 

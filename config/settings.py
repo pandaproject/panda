@@ -104,6 +104,8 @@ INSTALLED_APPS = (
     'forest'
 )
 
+AUTH_PROFILE_MODULE = 'redd.UserProfile'
+
 # Email
 # run "python -m smtpd -n -c DebuggingServer localhost:1025" to see outgoing
 # messages dumped to the terminal
