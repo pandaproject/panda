@@ -13,7 +13,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, TaskState, WorkerState
 from tastypie.admin import ApiKeyInline
-from tastypie.models import ApiKey
 
 from redd.models import Category, TaskStatus, UserProfile
 
@@ -23,9 +22,6 @@ admin.site.unregister(IntervalSchedule)
 admin.site.unregister(PeriodicTask)
 admin.site.unregister(TaskState)
 admin.site.unregister(WorkerState)
-
-# Register tastypie models
-admin.site.register(ApiKey)
 
 class PandaUserCreationForm(forms.ModelForm):
     """
