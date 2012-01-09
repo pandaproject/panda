@@ -16,10 +16,19 @@ Installation
     local_development.rst
     production.rst
 
+Configuration
+=============
+
+.. toctree::
+    :maxdepth: 1
+
+    DNS (Domain name) <dns.rst>
+    Email <email.rst>
+
 Usage
 =====
 
-Coming soon...
+Coming soon..
 
 Adminstration
 =============

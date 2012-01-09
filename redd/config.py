@@ -26,7 +26,7 @@ EMAIL_GROUP = ConfigurationGroup(
 config_register(StringValue(
     EMAIL_GROUP,
     'EMAIL_HOST',
-    description='Hostname or IP of the SMTP server to use for email.',
+    description='Hostname or IP of the SMTP server.',
     default='localhost',
     ordering=0
 ))
@@ -34,7 +34,7 @@ config_register(StringValue(
 config_register(PositiveIntegerValue(
     EMAIL_GROUP,
     'EMAIL_PORT',
-    description='Hostname or IP of the SMTP server to use for email.',
+    description='Port number of the SMTP server.',
     default=1025,
     ordering=1
 ))
@@ -42,7 +42,7 @@ config_register(PositiveIntegerValue(
 config_register(StringValue(
     EMAIL_GROUP,
     'EMAIL_HOST_USER',
-    description='Username for the SMTP server to use for email. (Leave blank if authentication is not required.)',
+    description='Username for the SMTP server.',
     default='',
     ordering=2
 ))
@@ -50,7 +50,7 @@ config_register(StringValue(
 config_register(StringValue(
     EMAIL_GROUP,
     'EMAIL_HOST_PASSWORD',
-    description='Password for the SMTP server to use for email. (Leave blank if authentication is not required.)',
+    description='Password for the SMTP server.',
     default='',
     ordering=3
 ))
@@ -58,7 +58,7 @@ config_register(StringValue(
 config_register(BooleanValue(
     EMAIL_GROUP,
     'EMAIL_USE_TLS',
-    description='Whether or not to use TLS encryption when communicating with the SMTP server to use for email.',
+    description='Use TLS encryption when connecting to the SMTP server?',
     default=False,
     ordering=4
 ))

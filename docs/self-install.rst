@@ -2,14 +2,6 @@
 Installing on your own hardware
 ===============================
 
-Getting ready
-=============
-
-Email
------
-
-Before you installing PANDA you're going to need access to an SMTP server for sending email. If you don't know what that is or you don't have easy access to one, please read our `guide to Email <email.html>`_.
-
 Installation
 ============
 
@@ -32,17 +24,4 @@ SSH into your server and run the following setup commands:
     sudo bash setup_panda.sh
 
 Note that the setup script **must** be run with sudo.
-
-Configuration
-=============
-
-DNS
----
-
-TODO
-
-Email
------
-
-TODO
 
