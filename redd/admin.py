@@ -6,6 +6,7 @@ from django.contrib.admin import helpers
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import Group, User
+from django.contrib.sites.models import Site
 from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.utils.encoding import force_unicode
@@ -183,6 +184,9 @@ class UserModelAdmin(UserAdmin):
 admin.site.unregister(Group)
 admin.site.unregister(User)
 admin.site.register(User, UserModelAdmin)
+
+# Hide sites framework
+admin.site.unregister(Site)
 
 admin.site.register(Category)
 admin.site.register(TaskStatus)

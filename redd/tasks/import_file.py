@@ -4,9 +4,10 @@ from datetime import datetime
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
+from livesettings import config_value
 
 from redd import solr
-from redd.utils.email import panda_email
+from redd.utils.mail import send_mail
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -84,13 +85,13 @@ class ImportFileTask(AbortableTask):
                 u'\n'.join([einfo.traceback, unicode(retval)])
             )
             
-            email_message = 'Import of %s failed:\n%shttp://%s/#dataset/%s' % (dataset.name, settings.SITE_DOMAIN, dataset.slug)
+            email_message = 'Import of %s failed:\n%shttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
             notification_message = 'Import of <strong>%s</strong> failed' % dataset.name
             notification_type = 'Error'
         else:
             self.task_complete(task_status, 'Import complete')
             
-            email_message = 'Import of %s failed:\n\nhttp://%s/#dataset/%s' % (dataset.name, settings.SITE_DOMAIN, dataset.slug)
+            email_message = 'Import of %s complete:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
             notification_message = 'Import of <strong>%s</strong> complete' % dataset.name
             notification_type = 'Info'
         
@@ -102,7 +103,7 @@ class ImportFileTask(AbortableTask):
             type=notification_type
         )
 
-        panda_email(notification.type, email_message, [dataset.creator.username])
+        send_mail(notification.type, email_message, [dataset.creator.username])
 
         # If import failed, clear any data that might be staged
         if task_status.status == 'FAILURE':

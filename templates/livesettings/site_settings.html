@@ -1,0 +1,118 @@
+{% extends "admin/base_site.html" %}
+{% load i18n adminmedia admin_modify config_tags %}
+
+{% block stylesheet %}{% admin_media_prefix %}css/forms.css{% endblock %}
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url admin:jsi18n %}"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
+{% if DJANGO_PRE_12 %}
+<script type="text/javascript" src="{% admin_media_prefix %}js/admin/CollapsedFieldsets.js"></script>
+<script type="text/javascript">
+var uncollapse = function () {
+    CollapsedFieldsets.uncollapse_all();
+    return false;
+}
+</script>
+{% else %}
+<script type="text/javascript" src="{% admin_media_prefix %}js/jquery.init.js"></script>
+<script type="text/javascript" src="{% admin_media_prefix %}js/collapse.js"></script>
+<script type="text/javascript">
+var $ = django.jQuery,
+uncollapse = function() {
+           $("fieldset.collapse a.collapse-toggle").each(function() {
+               var elt = $(this);
+               if (elt.text() == gettext('Show')) {
+                   elt.click();
+               }
+           });
+           $('fieldset').removeClass('collapsed');
+           return false
+};
+</script>
+{% endif %}
+{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/base.css" />
+<style type="text/css">
+ul.fieldref { margin: 0; padding: 0; font-size: 9px; }
+ul.fieldref li { float: left; margin: 0 10px 0 0; list-style: none; }
+fieldset.collapsed h2 { display: block !important; }
+fieldset.collapsed h2 a { display: inline !important; }
+div.fieldcontainer { float: left; margin-right: 0; }
+</style>
+{% endblock %}
+{% block coltype %}colMS{% endblock %}
+{% block bodyclass %}dashboard{% endblock %}
+{% block userlinks %}<a href="/admin/doc/">{% trans 'Documentation' %}</a> / <a href="/admin/password_change/">{% trans 'Change password' %}</a> / <a href="/admin/logout/">{% trans 'Log out' %}</a>{% endblock %}
+{% block breadcrumbs %}{% if not is_popup %}
+<div class="breadcrumbs">
+        <a href="/admin/">{% trans "Home" %}</a> &rsaquo;
+        {% trans "Edit Site Settings" %}
+</div>
+{% endif %}{% endblock %}
+{% block content %}
+<span style="clear: both;"></span>
+<div id="content-main">
+{% if not use_db %}
+        <p>{% trans "Livesettings are disabled for this site." %}</p>
+        <p>{% trans "All configuration options must be edited in the site settings.py file" %}</p>
+        </div>
+        {% admin_site_views 'satchmo_site_settings' %}
+{% else %}
+        {% if form.errors %}
+                <p class="errornote">
+                {% blocktrans count form.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+                </p>
+        {% endif %}
+        {% if form.fields %}
+        <form method="post" id="settingsform">{% csrf_token %}
+          {% for field in form %}
+            {% if field.is_hidden %}
+              <tr style="display: none;"><td>{{ field }}</td></tr>
+            {% else %}
+            {% ifchanged field.field.group %}{% with field.field.group as group %}
+              {% if not forloop.first %}
+                  </table>
+                </fieldset>
+              {% endif %}
+              <fieldset class="module collapse">
+                <h2 id="{{ group.key }}">{{ group.name }}</h2>
+                <table summary="{% blocktrans with group.name as name %}Group settings: {{ name }}{% endblocktrans %}" style="width: 100%">
+                  {% endwith %}{% endifchanged %}
+                  {% if field.errors %}
+                    <tr class="error">
+                      <td colspan="2">{{ field.errors }}</td>
+                    </tr>
+                  {% endif %}
+                  <tr{% if field.errors %} class="error"{% endif %}>
+                    <td style="width: 50%;">
+                      {{ field.label_tag }}
+                      {% if field.help_text %}
+                      <p class="help">{{ field.help_text|break_at:40|safe }}</p>
+                      {% endif %}
+                      {% if field.field.default_text %}
+                      <p class="help">{{ field.field.default_text|break_at:40}}</p>
+                      {% endif %}
+                    </td>
+                    <td>{{ field }}</td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </table>
+          </fieldset>
+        </div>
+        {# REMOVED #}
+        {# {% admin_site_views 'satchmo_site_settings' %} #}
+        <br class="clear:both;" />
+        <input type="submit" value="{% trans 'Update Settings' %}" />
+        {# REMOVED #}
+        {# <p><a onclick="javascript:return uncollapse();" href="#">{% trans 'Uncollapse all' %}</a></p> #}
+        {# <p><a href="{% url settings_export %}">{% trans 'Export' %}</a></p> #}
+        </form>
+        {% else %}
+                <p>{% trans "You don't have permission to edit values." %}</p>
+        {% endif %}
+{% endif %}
+</div>
+{% endblock %}

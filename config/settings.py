@@ -26,6 +26,8 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
 
+SITE_ID = 1
+
 # Default connection to socket
 DATABASES = {
     'default': {
@@ -93,29 +95,20 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.humanize',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
 
     'south',
     'tastypie',
     'djcelery',
     'compressor',
+    'livesettings',
 
     'redd',
     'forest'
 )
 
 AUTH_PROFILE_MODULE = 'redd.UserProfile'
-
-# Email
-# run "python -m smtpd -n -c DebuggingServer localhost:1025" to see outgoing
-# messages dumped to the terminal
-SITE_DOMAIN = 'localhost:8000'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'do.not.reply@pandaproject.net'
 
 # Django-compressor
 COMPRESS_ENABLED = False 
@@ -193,6 +186,11 @@ LOGGING = {
         'south': {
             'handlers': ['console'],
             'level': 'INFO',
+            'propogate': False
+        },
+        'keyedcache': {
+            'handlers': ['console'],
+            'level': 'ERROR',
             'propogate': False
         },
         'requests.packages.urllib3.connectionpool': {
