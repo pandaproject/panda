@@ -119,12 +119,12 @@ mkdir /mnt/media
 chown panda:panda /mnt/media
 
 # Synchronize the database
-sudo -u panda python manage.py syncdb --noinput
-sudo -u panda python manage.py migrate --noinput
-sudo -u panda python manage.py loaddata redd/fixtures/init_panda.json
+sudo -u panda -E python manage.py syncdb --noinput
+sudo -u panda -E python manage.py migrate --noinput
+sudo -u panda -E python manage.py loaddata redd/fixtures/init_panda.json
 
 # Collect static assets
-sudo -u panda python manage.py collectstatic --noinput
+sudo -u panda -E python manage.py collectstatic --noinput
 
 # Start serving
 service uwsgi start
