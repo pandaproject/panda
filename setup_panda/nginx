@@ -4,7 +4,7 @@ server {
         client_max_body_size 1G;
 
 	location /site_media/ {
-		alias /mnt/media/;
+		alias /var/lib/panda/media/;
 		expires 1h;
 		access_log off;		
 	}
