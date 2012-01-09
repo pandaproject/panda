@@ -22,9 +22,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-LOGIN_URL = '/login/'
-LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/admin/login/'
+LOGOUT_URL = '/admin/logout/'
+LOGIN_REDIRECT_URL = '/admin/'
 
 SITE_ID = 1
 
