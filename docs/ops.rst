@@ -12,7 +12,7 @@ Users
 panda
 -----
 
-Runs the ``uwsgi`` and ``celeryd`` services and owns their logs. Owns ``/mnt/media`` (compressed assets) and ``/mnt/panda`` (uploaded files). Only this user should be used to execute Django management commands, etc::
+Runs the ``uwsgi`` and ``celeryd`` services and owns their logs. Owns ``/var/lib/panda/media`` (compressed assets) and ``/var/lib/panda/uploads`` (uploaded files). Only this user should be used to execute Django management commands, etc::
 
     sudo -u panda -E python manage.py shell
 
@@ -72,8 +72,8 @@ Python application server. Runs over a socket at ``/var/run/uwsgi/wsgi.sock``.
 Files
 =====
 
-* ``/mnt/media`` - compressed assets
-* ``/mnt/panda`` - file uploads
+* ``/var/lib/panda/media`` - compressed assets
+* ``/var/lib/panda/uploads`` - file uploads
 * ``/opt/panda`` - application source code
 * ``/opt/solr`` - Solr application
 * ``/var/log/celeryd`` - destination for celery logs if output was not captured and routed to panda logs (exists only as a failsafe)

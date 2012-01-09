@@ -10,10 +10,10 @@ DEBUG = True    # TEMP
 TEMPLATE_DEBUG = DEBUG
 
 # Static media
-STATIC_ROOT = '/mnt/media'
+STATIC_ROOT = '/var/lib/panda/media'
 
 # Uploads 
-MEDIA_ROOT = '/mnt/panda' 
+MEDIA_ROOT = '/var/lib/panda/uploads' 
 
 # Django-compressor
 COMPRESS_ENABLED = True 

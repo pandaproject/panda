@@ -116,11 +116,11 @@ mkdir /var/log/panda
 touch /var/log/panda/panda.log
 chown -R panda:panda /var/log/panda
 
-mkdir /mnt/panda
-chown panda:panda /mnt/panda
+mkdir /var/lib/panda
+mkdir /var/lib/panda/uploads
+mkdir /var/lib/panda/media
 
-mkdir /mnt/media
-chown panda:panda /mnt/media
+chown -R panda:panda /var/lib/panda
 
 # Synchronize the database
 sudo -u panda -E python manage.py syncdb --noinput
