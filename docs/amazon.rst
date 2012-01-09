@@ -15,16 +15,22 @@ Installation
 Method #1 - EC2, using an AMI
 -----------------------------
 
-This is the absolute simplest possible way to make a PANDA...
+This is the absolute simplest possible way to make a PANDA. Log into your EC2 Dashboard and click Launch Instance. On the "Community AMIs" tab search for ``ami-8fae79e6``. When the image comes up (it may take a moment), click "Select".
 
-TODO
+You'll need to select an **Instance Type**. You're welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation most organizations will run it on an ``m1.small`` instance. This should provide adequate capacity for small to medium size groups. We don't recommend trying to run it on an ``t1.micro`` unless you'll only be using it for testing.
+
+Leave all the other settings as their defaults and launch your instance.
 
 Method #2 - EC2, using a user_data script
 -----------------------------------------
 
 This method is also very easy and has the advantage that you don't have to wait for an "official" PANDA release. If you want to run the latest code, this is the easiest way to do it!
 
-Start a new EC2 server based Ubuntu 11.10 AMI ``ami-a7f539ce``. In the "Advanced Instance Options" section of the launch wizard, paste the following script into the "User Data" box:
+Log into your EC2 Dashboard and click Launch Instance. On the "Community AMIs" tab search for ``ami-a7f539ce``. This is the official Ubuntu 11.10 AMI. When the image comes up (it may take a moment), click "Select".
+
+See the notes above regarding instance sizes. We recommend you select ``m1.small``.
+
+On the next page, under the "Advanced Instance Options" section, paste the following script into the **User Data** field:
 
 .. code-block:: bash
 
@@ -33,7 +39,9 @@ Start a new EC2 server based Ubuntu 11.10 AMI ``ami-a7f539ce``. In the "Advanced
     wget https://raw.github.com/pandaproject/panda/master/setup_panda.sh
     bash setup_panda.sh
 
-The disadvantage of this method is that you will need to wait while the setup script is run. This will probably take 15-20 minutes. You can periodically check to see if your instance is ready by visiting it's public DNS name in your web browser.
+Leave all other settings as their defaults and launch your instance.
+
+The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes. You can periodically check to see if your instance is ready by visiting it's Public DNS name in your web browser. You'll find this name in the details pane when you select your instance from the list on the EC2 Management Console. It will look like ``ec2-50-16-157-39.compute-1.amazonaws.com``.
 
 .. note::
 
