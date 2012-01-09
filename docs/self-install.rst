@@ -8,7 +8,7 @@ Installation
 Server requirements
 -------------------
 
-PANDA requires a server running Ubuntu 11.04. Whether you want to run PANDA in a virtual machine or on the old Compaq under your desk, as long as it can run Ubuntu 11.04, you should be fine.
+PANDA requires a server running Ubuntu 11.10. Whether you want to run PANDA in a virtual machine or on the old Compaq under your desk, as long as it can run Ubuntu 11.10, you should be fine.
 
 TODO: link to Ubuntu download
 TODO: document minimum requirements for a performant panda

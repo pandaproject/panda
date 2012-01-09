@@ -41,7 +41,7 @@ On the next page, under the "Advanced Instance Options" section, paste the follo
 
 Leave all other settings as their defaults and launch your instance.
 
-The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes. You can periodically check to see if your instance is ready by visiting it's Public DNS name in your web browser. You'll find this name in the details pane when you select your instance from the list on the EC2 Management Console. It will look like ``ec2-50-16-157-39.compute-1.amazonaws.com``.
+The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes. You can periodically check to see if your instance is ready by visiting it's Public DNS name in your web browser. You'll find this name in the details pane when you select your instance from the list. It will look like this: ``ec2-50-16-157-39.compute-1.amazonaws.com``.
 
 .. note::
 
