@@ -9,3 +9,4 @@ media
 .project
 .settings
 docs/_build
+beta_settings.py
