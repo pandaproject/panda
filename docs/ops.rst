@@ -14,7 +14,7 @@ panda
 
 Runs the ``uwsgi`` and ``celeryd`` services and owns their logs. Owns ``/mnt/media`` (compressed assets) and ``/mnt/panda`` (uploaded files). Only this user should be used to execute Django management commands, etc::
 
-    sudo -u panda -E python manage.py shell
+    sudo -u panda python manage.py shell
 
 postgres
 --------
