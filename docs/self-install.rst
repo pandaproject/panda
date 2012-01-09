@@ -33,3 +33,16 @@ SSH into your server and run the following setup commands:
 
 Note that the setup script **must** be run with sudo.
 
+Configuration
+=============
+
+DNS
+---
+
+TODO
+
+Email
+-----
+
+TODO
+

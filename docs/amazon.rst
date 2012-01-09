@@ -30,7 +30,9 @@ Method #2 - EC2, using a user_data script
 
 This method is also very easy and has the advantage that you don't have to wait for an "official" PANDA release. If you want to run the latest code, this is the easiest way to do it!
 
-Start a new EC2 server based Ubuntu 11.10 AMI ``ami-a7f539ce``. In the "Advanced Instance Options" section of the launch wizard, paste the following script into the "User Data" box::
+Start a new EC2 server based Ubuntu 11.10 AMI ``ami-a7f539ce``. In the "Advanced Instance Options" section of the launch wizard, paste the following script into the "User Data" box:
+
+.. code-block:: bash
 
     #!/bin/bash
 
@@ -42,4 +44,17 @@ The disadvantage of this method is that you will need to wait while the setup sc
 .. note::
 
     If you're familiar with EC2 user_data scripts, than you've probably realized that you could accomplish this same thing by SSHing into your new server and running the above commands with sudo. You're right! In fact this is exactly what we do in our guide to `Installing on your own hardware <self-install.html>`_. 
+
+Configuration
+=============
+
+DNS
+---
+
+TODO
+
+Email
+-----
+
+TODO
 
