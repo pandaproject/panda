@@ -15,7 +15,9 @@ Use the tools appropriate to your operating system to install the following pack
 Setup PANDA
 ===========
 
-This script will setup the complete application, *except* for Solr. Be sure to read the comments as some steps require opening additional terminals.::
+This script will setup the complete application, *except* for Solr. Be sure to read the comments as some steps require opening additional terminals.:
+
+.. code-block:: bash
 
     # Get source and requirements
     git clone git://github.com/pandaproject/panda.git
@@ -35,13 +37,17 @@ This script will setup the complete application, *except* for Solr. Be sure to r
     # Start PANDA
     python manage.py runserver
 
-Open a new terminal in the PANDA directory and enter::
+Open a new terminal in the PANDA directory and enter:
+
+.. code-block:: bash
 
     # Start the task queue 
     workon panda
     python manage.py celeryd
 
-Open *another* terminal in the PANDA directory and enter::
+Open *another* terminal in the PANDA directory and enter:
+
+.. code-block:: bash
 
     # Run a local email server
     workon panda
@@ -62,7 +68,9 @@ Open *another* terminal in the PANDA directory and enter::
 Setup Solr
 ==========
 
-Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_. If you've just started the PANDA server, open a new termianl in the PANDA directory and enter these commands::
+Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_. If you've just started the PANDA server, open a new termianl in the PANDA directory and enter these commands:
+
+.. code-block:: bash
 
     # Get into the env
     workon panda
@@ -84,7 +92,9 @@ Installing Solr can be tricky and will vary quite a bit depending on your operat
 Running Python unit tests
 =========================
 
-To run the unit tests start Solr and execute the test runner, like so::
+To run the unit tests start Solr and execute the test runner, like so:
+
+.. code-block:: bash
 
     # Ensure you are in the PANDA source directory and your virtualenv is active
     # You may need to customize the fabfile so it can find your Solr installation.
@@ -100,5 +110,5 @@ To run the unit tests start Solr and execute the test runner, like so::
 Running Javascript unit tests
 =============================
 
-Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests first start the test server with ``python manage.py runserver``, then open the file ``forest/static/js/SpecRunner.html`` in your browser (e.g. ```file://localhost/Users/onyxfish/src/panda/forest/static/js/SpecRunner.html```.
+Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests first start the test server with ``python manage.py runserver``, then open the file ``forest/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/forest/static/js/SpecRunner.html``.
 

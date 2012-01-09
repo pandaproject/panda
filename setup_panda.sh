@@ -139,4 +139,3 @@ initctl reload-configuration
 service celeryd start
 
 echo "PANDA installation complete."
-

@@ -22,9 +22,7 @@ User objects can be queried to retrieve information about PANDA users, however, 
 
 Example User object:
 
-.. highlight:: javascript
-
-::
+.. code-block:: javascript
 
     {
         date_joined: "2011-11-04T00:00:00",
@@ -36,8 +34,6 @@ Example User object:
         last_name: "",
         resource_uri: "/api/1.0/user/1/"
     }
-
-.. highlight:: guess
 
 Schema
 ------
@@ -72,9 +68,7 @@ The Task API is read-only.
 
 Example Task object:
 
-.. highlight:: javascript
-
-::
+.. code-block:: javascript
 
     {
         end: "2011-12-12T15:11:25",
@@ -86,8 +80,6 @@ Example Task object:
         task_name: "redd.tasks.DatasetImportTask",
         traceback: null
     }
-
-.. highlight:: guess
 
 Schema
 ------
@@ -136,9 +128,7 @@ Due to limitations in upload file-handling, it is not possible to create Uploads
 
 Example Upload object:
 
-.. highlight:: javascript
-
-::
+.. code-block:: javascript
 
     {
         creator: "/api/1.0/user/2/",
@@ -148,8 +138,6 @@ Example Upload object:
         resource_uri: "/api/1.0/upload/1/",
         size: 157
     }
-
-.. highlight:: guess
 
 Schema
 ------
@@ -202,9 +190,7 @@ Categories are identified by slug, rather than by integer id (though they do hav
 
 Example Category object:
 
-.. highlight:: javascript
-
-::
+.. code-block:: javascript
 
     {
         id: "1",
@@ -212,9 +198,6 @@ Example Category object:
         resource_uri: "/api/1.0/category/crime/",
         slug: "crime"
     }
-
-.. highlight:: guess
-
 
 Schema
 ------
@@ -244,9 +227,7 @@ Datasets are identified by slug, rather than by integer id (though they do have 
 
 Example Dataset object:
 
-.. highlight:: javascript
-
-::
+.. code-block:: javascript
 
     {
         categories: [ ],
@@ -351,8 +332,6 @@ Example Dataset object:
         slug: "contributors"
     }
 
-.. highlight:: guess
-
 Schema
 ------
 
@@ -421,9 +400,9 @@ Data objects are referenced by a unicode ``external_id`` property, specified at 
 
     The ``external_id`` property of a Data object is the only way it can be accessed through the API. In order to work with Data via the API you must include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
 
-.. highlight:: javascript
+An example ``Data`` object with an ``external_id``:
 
-An example ``Data`` object with an ``external_id``::
+.. code-block:: javascript
 
     {
         "data": [
@@ -437,7 +416,9 @@ An example ``Data`` object with an ``external_id``::
         "resource_uri": "/api/1.0/dataset/contributors/data/1/"
     }
 
-An example ``Data`` object **without** an ``external_id``, note that it also has no ``resource_uri``::
+An example ``Data`` object **without** an ``external_id``, note that it also has no ``resource_uri``:
+
+.. code-block:: javascript
 
     {
         "data": [
@@ -450,8 +431,6 @@ An example ``Data`` object **without** an ``external_id``, note that it also has
         "external_id": null,
         "resource_uri": null
     }
-
-.. highlight:: guess
 
 Schema
 ------

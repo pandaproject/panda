@@ -11,7 +11,7 @@ Installation
 ============
 
 .. toctree::
-    :maxdepth: 1 
+    :maxdepth: 2 
 
     local_development.rst
     production.rst
@@ -25,7 +25,7 @@ Adminstration
 =============
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     ops.rst
 
@@ -33,7 +33,7 @@ Extending PANDA
 ===============
 
 .. toctree::
-    :maxdepth: 1 
+    :maxdepth: 2 
 
     api.rst
 
