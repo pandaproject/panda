@@ -30,16 +30,27 @@ SSH into your server and run these commands:
 
 .. code-block:: bash
 
+    # You'll be prompted for a passphrase.
+    # Use anything, but remember what it is.
     openssl genrsa -des3 -out panda.key 1024
+
+    # After entering your passphrase you'll be prompted for a
+    # variety of information which you can either fill in or leave blank.
     openssl req -new -key panda.key -out panda.csr
+
     cp panda.key panda.key.org
+
+    # You'll need your passphrase again here.
     openssl rsa -in panda.key.org -out panda.key
     openssl x509 -req -days 365 -in panda.csr -signkey panda.key -out panda.crt
+
+    rm panda.csr
+    rm panda.key.org
 
 Installing your certificate
 ===========================
 
-Once you've got a key and certificat you'll need to install them in the correct location:
+Once you've got a key and certificate you'll need to install them in the correct location:
 
 .. code-block:: bash
 
@@ -58,7 +69,7 @@ The last thing you'll need to do is reconfigure PANDA's webserver (nginx) to use
 
 .. code-block:: bash
 
-    sudo wget https://raw.github.com/pandaproject/panda/master/setup_panda/nginx_ssl /etc/nginx/sites-available/nginx
+    sudo wget https://raw.github.com/pandaproject/panda/master/setup_panda/nginx_ssl -O /etc/nginx/sites-available/panda
     sudo service nginx restart
 
 Your PANDA should now redirect all unsecured requests to a secure ``https://`` url.
