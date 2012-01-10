@@ -19,6 +19,11 @@ Using SendGrid
 
 TODO
 
+Using SES
+---------
+
+TODO
+
 Using Gmail
 -----------
 
@@ -46,7 +51,7 @@ Replace ``localhost:8000`` with your PANDA's domain name.
 
 You'll be prompted to login. If this is you're first time you can use the default username, ``panda@pandaproject.net`` and the default password ``panda``.
 
-Once you've logged in a list of configuration options. In the section titled "Email settings", fill in the details of your SMTP connection and then click "Update Settings".
+Once you've logged you'll see a list of configuration options. In the section titled "Email settings", fill in the details of your SMTP connection and then click "Update Settings".
 
 To test the new connection click the "Home" link at the top of the screen and then the link to "Add" a new User. Fill in your own email address and click Save. You should get an activation email in your inbox!
 
