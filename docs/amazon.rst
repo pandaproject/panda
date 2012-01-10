@@ -2,8 +2,13 @@
 Installing on Amazon EC2
 ========================
 
-Security groups
-===============
+Registering for EC2
+===================
+
+TODO
+
+Configuring your Security Group
+===============================
 
 Before setting up your PANDA server, you will need to configure your security group so that web requests will reach be able to reach it.
 
@@ -15,9 +20,11 @@ Installation
 Method #1 - EC2, using an AMI
 -----------------------------
 
-This is the absolute simplest possible way to make a PANDA. Log into your EC2 Dashboard and click Launch Instance. On the "Community AMIs" tab search for ``ami-77ab7c1e``. When the image comes up (it may take a moment), click "Select".
+This is the absolute simplest possible way to make a PANDA. Log into your EC2 Dashboard and click "Launch Instance". On the "Community AMIs" tab search for ``ami-77ab7c1e``. When the image comes up (it may take a moment), click "Select".
 
-You'll need to select an **Instance Type**. You're welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation most organizations will run it on an ``m1.small`` instance. This should provide adequate capacity for small to medium size groups. We don't recommend trying to run it on an ``t1.micro`` unless you'll only be using it for testing.
+.. _notes above regarding instance types:
+
+You'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (At a cost of roughly $70 per month.) This should provide adequate capacity for small to medium size groups. We don't recommend trying to run it on a ``t1.micro`` unless you'll only be using it for testing.
 
 Leave all the other settings as their defaults and launch your instance.
 
@@ -26,9 +33,9 @@ Method #2 - EC2, using a user_data script
 
 This method is also very easy and has the advantage that you don't have to wait for an "official" PANDA release. If you want to run the latest code, this is the easiest way to do it!
 
-Log into your EC2 Dashboard and click Launch Instance. On the "Community AMIs" tab search for ``ami-a7f539ce``. This is the official Ubuntu 11.10 AMI. When the image comes up (it may take a moment), click "Select".
+Log into your EC2 Dashboard and click "Launch Instance". On the "Community AMIs" tab search for ``ami-a7f539ce``. This is the official Ubuntu 11.10 AMI. When the AMI appears in the list (it may take a moment), click "Select".
 
-See the notes above regarding instance sizes. We recommend you select ``m1.small``.
+See the `notes above regarding instance types`_. We recommend you select ``m1.small``.
 
 On the next page, under the "Advanced Instance Options" section, paste the following script into the **User Data** field:
 

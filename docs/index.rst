@@ -11,7 +11,7 @@ Installation
 ============
 
 .. toctree::
-    :maxdepth: 2 
+    :maxdepth: 1 
 
     local_development.rst
     production.rst

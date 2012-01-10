@@ -2,19 +2,15 @@
 Production deployment
 =====================
 
-We provide documentation on two ways of installing PANDA for production use: one using Amazon's EC2 server and another using hardware of your choice.
+We provide documentation for two different ways of installing PANDA for production use. Non-advanced users and those who desire the simplest setup possible should install their PANDA on Amazon's EC2 service. This is the best supported option.
 
-Amazon EC2
-==========
+Those who are concerned about the security of storing their data in the cloud or who have access to dedicated hardware may choose to install PANDA on their server. Although we make every effort to support this, we can not offer any guarantee of compatability. 
 
-Non-advanced users and those who desire the simplest setup possible should plan to install their PANDA on Amazon's EC2 service. This is the best supported option.
+I am...
 
-`Click here for complete instructions for installing Amazon EC2 <amazon.html>`_.
+.. toctree::
+    :maxdepth: 1
 
-Self-install
-============
-
-Those who are concerned about the security of storing in the cloud or who have access to dedicated hardware may wish to install PANDA on their server. Although we make every effort to support this, we can not offer any guarantee of compatability. 
-
-`Click here for complete instructions for installing on your own hardware <self-install.html>`_.
+    amazon.rst
+    Installing on my own hardware <self-install.rst>
 
