@@ -24,6 +24,7 @@ Configuration
 
     DNS (Domain name) <dns.rst>
     Email <email.rst>
+    SSL <ssl.rst>
 
 Usage
 =====

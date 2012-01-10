@@ -1,0 +1,24 @@
+server {
+    listen 80;
+    rewrite ^ https://$host$request_uri permanent;
+}
+
+server {
+    listen 443;
+    ssl on;
+    ssl_certificate /etc/nginx/panda.crt;
+    ssl_certificate_key /etc/nginx/panda.key;
+
+    client_max_body_size 1G;
+
+    location /site_media/ {
+        alias /var/lib/panda/media/;
+        expires 1h;
+        access_log off;		
+    }
+
+    location / {
+        uwsgi_pass unix://var/run/uwsgi/uwsgi.sock;
+        include uwsgi_params;
+    }
+}
