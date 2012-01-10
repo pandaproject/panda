@@ -15,7 +15,7 @@ Installation
 Method #1 - EC2, using an AMI
 -----------------------------
 
-This is the absolute simplest possible way to make a PANDA. Log into your EC2 Dashboard and click Launch Instance. On the "Community AMIs" tab search for ``ami-8fae79e6``. When the image comes up (it may take a moment), click "Select".
+This is the absolute simplest possible way to make a PANDA. Log into your EC2 Dashboard and click Launch Instance. On the "Community AMIs" tab search for ``ami-77ab7c1e``. When the image comes up (it may take a moment), click "Select".
 
 You'll need to select an **Instance Type**. You're welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation most organizations will run it on an ``m1.small`` instance. This should provide adequate capacity for small to medium size groups. We don't recommend trying to run it on an ``t1.micro`` unless you'll only be using it for testing.
 
