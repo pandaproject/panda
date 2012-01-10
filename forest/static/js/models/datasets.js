@@ -210,7 +210,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
      * A collection of PANDA.models.Dataset equivalents.
      */
     model: PANDA.models.Dataset,
-    url: PANDA.API + "/dataset",
+    urlRoot: PANDA.API + "/dataset",
     
     meta: {
         page: 1,

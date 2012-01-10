@@ -10,7 +10,7 @@ PANDA.collections.Categories = Backbone.Collection.extend({
     A collection of PANDA.models.Category equivalents.
     */
     model: PANDA.models.Category,
-    url: PANDA.API + "/category",
+    urlRoot: PANDA.API + "/category",
 
     comparator: function(category) {
         /*

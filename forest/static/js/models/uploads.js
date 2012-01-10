@@ -10,7 +10,7 @@ PANDA.collections.Uploads = Backbone.Collection.extend({
     A collection of redd.models.Upload equivalents.
     */
     model: PANDA.models.Upload,
-    url: PANDA.API + "/upload"
+    urlRoot: PANDA.API + "/upload"
 });
 
 

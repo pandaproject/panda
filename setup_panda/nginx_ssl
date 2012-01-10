@@ -1,6 +1,6 @@
 server {
     listen 80;
-    rewrite ^ https://$host$request_uri permanent;
+    rewrite ^ https://$host$request_uri? permanent;
 }
 
 server {
