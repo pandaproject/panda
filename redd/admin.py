@@ -60,6 +60,9 @@ class PandaUserChangeForm(UserChangeForm):
     Customized User change form that allows password to be blank.
     (for editing unactivated accounts)
     """
+    class Media:
+        js = ('panda_user_change_form.js',)
+
     def __init__(self, *args, **kwargs):
         super(PandaUserChangeForm, self).__init__(*args, **kwargs)
 
@@ -73,7 +76,7 @@ class PandaApiKeyInline(ApiKeyInline):
 
 class UserProfileInline(admin.StackedInline):
     """
-    TODO
+    Inline for UserProfile which does not allow the activation key to be modified. 
     """
     model = UserProfile
     
