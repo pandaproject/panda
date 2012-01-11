@@ -9,7 +9,7 @@ PANDA is:
 * A search engine for your news data.
 * An archive of your newsworthy datasets.
 * `Extensible <api.html>`_.
-* Self-hosted.
+* `Self-hosted <production.html>`_.
 
 PANDA is *not*:
 ===============
