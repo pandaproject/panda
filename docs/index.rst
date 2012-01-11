@@ -7,6 +7,14 @@ About
 
 .. include:: ../README
 
+Read this first
+===============
+
+.. toctree::
+    :maxdepth: 1
+
+    what_is_panda.rst
+
 Installation
 ============
 
