@@ -7,10 +7,11 @@ def get_connection():
     return mail.get_connection(
         host=config_value('EMAIL', 'EMAIL_HOST'),
         port=config_value('EMAIL', 'EMAIL_PORT'),
-        username=config_value('EMAIL', 'EMAIL_HOST_USER'),
-        password=config_value('EMAIL', 'EMAIL_HOST_PASSWORD'),
+        # See http://bugs.python.org/issue8489
+        username=str(config_value('EMAIL', 'EMAIL_HOST_USER')),
+        password=str(config_value('EMAIL', 'EMAIL_HOST_PASSWORD')),
         use_tls=config_value('EMAIL', 'EMAIL_USE_TLS')) 
 
 def send_mail(subject, message, recipients):
-    mail.send_mail('[PANDA] %s' % subject, message, config_value('EMAIL', 'DEFAULT_FROM_EMAIL'), recipients, connection=get_connection())
+    mail.send_mail('[PANDA] %s' % subject, message, str(config_value('EMAIL', 'DEFAULT_FROM_EMAIL')), recipients, connection=get_connection())
 

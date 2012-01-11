@@ -24,10 +24,10 @@ To sign up for CritSend visit `their website <http://www.critsend.com/>`_ and en
 Once you receive notification that your registration has been validated, you'll be able to use the following settings to configure your PANDA:
 
 * Host: ``smtp.critsend.com`` (if you're hosting on Amazon EC2 then use ``aws-smtp.critsend.com``)
-* Port: ``25``
+* Port: ``587``
 * User: ``YOUR_CRITSEND_USERNAME``
 * Password: ``YOUR_CRITSEND_PASSWORD``
-* Use TLS: ``False``
+* Use TLS: ``True``
 * From address: ``YOUR_FROM_ADDRESS``
 
 If you wish to setup advanced features such as SPF and Domain Keys to ensure your email is not flagged as SPAM, CritSend has `documentation on how to do this <http://www.critsend.com/senders>`_.

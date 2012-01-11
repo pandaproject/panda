@@ -2,8 +2,8 @@
 What is PANDA?
 ==============
 
-What PANDA is
-=============
+PANDA is:
+=========
 
 * A place for journalists to store data.
 * A search engine for your news data.
@@ -11,8 +11,8 @@ What PANDA is
 * `Extensible <api.html>`_.
 * Self-hosted.
 
-What PANDA is *not*:
-====================
+PANDA is *not*:
+===============
 
 * A publishing system.
 * A universal backend for your newsapps.
