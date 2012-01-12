@@ -20,6 +20,9 @@ PANDA.views.Root = Backbone.View.extend({
         // Bind local methods
         _.bindAll(this, "get_categories", "get_category_by_slug", "refresh_notifications");
 
+        // Track Ajax events
+        this.track_ajax_events();
+
         // Override Backbone's sync handler with the authenticated version
         Backbone.noAuthSync = Backbone.sync;
         Backbone.sync = _.bind(this.sync, this);
@@ -39,6 +42,16 @@ PANDA.views.Root = Backbone.View.extend({
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.PANDA_NOTIFICATIONS_INTERVAL);
 
         return this;
+    },
+
+    track_ajax_events: function() {
+        $(document).ajaxStart(function() {
+            $("#loading-indicator").show();
+        });
+
+        $(document).ajaxComplete(function() {
+            $("#loading-indicator").hide();
+        });
     },
 
     start_routing: function() {
