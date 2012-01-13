@@ -10,11 +10,11 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
 from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
-from redd.models import Upload
+from redd.models import DataUpload
 
-class UploadResource(CustomResource):
+class DataUploadResource(CustomResource):
     """
-    API resource for Uploads.
+    API resource for DataUploads.
     """
     from redd.api.users import UserResource
 
@@ -22,7 +22,7 @@ class UploadResource(CustomResource):
     dataset = fields.ForeignKey('redd.api.datasets.DatasetResource', 'dataset')
 
     class Meta:
-        queryset = Upload.objects.all()
+        queryset = DataUpload.objects.all()
         resource_name = 'upload'
         allowed_methods = ['get']
 
@@ -51,7 +51,7 @@ class UploadResource(CustomResource):
         else:
             get_id = request.GET.get('id', '')
 
-        upload = Upload.objects.get(id=get_id)
+        upload = DataUpload.objects.get(id=get_id)
         path = upload.get_path()
 
         self.log_throttled_access(request)

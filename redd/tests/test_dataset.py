@@ -20,7 +20,7 @@ class TestDataset(TransactionTestCase):
 
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
-        self.upload = utils.get_test_upload(self.user, self.dataset)
+        self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
     def test_metadata_searchable(self):
         response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='slug asc')
@@ -49,7 +49,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_xls(self):
-        xls_upload = utils.get_test_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
+        xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
 
         self.dataset.import_data(xls_upload)
 
@@ -72,7 +72,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_excel_xlsx(self):
-        xlsx_upload = utils.get_test_upload(self.user, self.dataset, utils.TEST_EXCEL_XLSX_FILENAME)
+        xlsx_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_EXCEL_XLSX_FILENAME)
 
         self.dataset.import_data(xlsx_upload)
 
@@ -95,7 +95,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
     def test_import_oo_xlsx(self):
-        xlsx_upload = utils.get_test_upload(self.user, self.dataset, utils.TEST_OO_XLSX_FILENAME)
+        xlsx_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_OO_XLSX_FILENAME)
 
         self.dataset.import_data(xlsx_upload)
 

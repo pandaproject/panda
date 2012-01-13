@@ -51,11 +51,6 @@
                     "change_notification", 
                     "redd", 
                     "notification"
-                ], 
-                [
-                    "add_upload", 
-                    "redd", 
-                    "upload"
                 ]
             ]
         }

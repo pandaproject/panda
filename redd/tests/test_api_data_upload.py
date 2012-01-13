@@ -7,16 +7,16 @@ from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
 
-from redd.models import Upload
+from redd.models import DataUpload
 from redd.tests import utils
 
-class TestAPIUpload(TransactionTestCase):
+class TestAPIDataUpload(TransactionTestCase):
     fixtures = ['init_panda.json']
 
     def setUp(self):
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
-        self.upload = utils.get_test_upload(self.user, self.dataset)
+        self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
         self.auth_headers = utils.get_auth_headers()
 
@@ -95,7 +95,7 @@ class TestAPIUpload(TransactionTestCase):
         
         self.assertEqual(body['success'], True)
 
-        upload = Upload.objects.get(id=body['id'])
+        upload = DataUpload.objects.get(id=body['id'])
 
         self.assertEqual(body['original_filename'], upload.original_filename)
         self.assertEqual(body['size'], os.path.getsize(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)))

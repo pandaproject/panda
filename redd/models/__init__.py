@@ -14,13 +14,14 @@ from redd import config # Needed for autodiscovery
 from redd import solr
 from redd.models.category import Category
 from redd.models.dataset import Dataset
+from redd.models.data_upload import DataUpload
 from redd.models.notification import Notification 
+from redd.models.related_upload import RelatedUpload
 from redd.models.task_status import TaskStatus
-from redd.models.upload import Upload
 from redd.models.user_profile import UserProfile
 from redd.utils.mail import send_mail
 
-__all__ = ['Category', 'Dataset', 'Notification', 'TaskStatus', 'Upload', 'UserProfile']
+__all__ = ['Category', 'Dataset', 'DataUpload', 'Notification', 'RelatedUpload', 'TaskStatus', 'UserProfile']
 
 @receiver(models.signals.post_save, sender=User)
 def on_user_post_save(sender, instance, created, **kwargs):
@@ -52,9 +53,13 @@ def on_user_post_save(sender, instance, created, **kwargs):
                   [instance.email])
     # Update full text
     else:
+        has_datasets = False
+
         # TODO - shouldn't really do this for a password change...
         for dataset in instance.datasets.all():
+            has_datasets = True
             dataset.update_full_text(commit=False)
 
-        solr.commit(settings.SOLR_DATASETS_CORE)
+        if has_datasets:
+            solr.commit(settings.SOLR_DATASETS_CORE)
 

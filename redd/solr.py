@@ -41,7 +41,7 @@ def commit(core):
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     response = requests.post(url, '[]', params={ 'commit': 'true' }, headers={ 'Content-Type': 'application/json' })
-    
+
     if response.status_code != 200:
         raise SolrError(response)
     

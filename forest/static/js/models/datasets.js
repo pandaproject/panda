@@ -6,7 +6,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
     categories: null,
     creator: null,
-    uploads: null,
+    data_uploads: null,
     current_task: null,
     data: null,
 
@@ -25,10 +25,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.current_task = new PANDA.models.Task(attributes.current_task);
         }
 
-        if ("uploads" in attributes) {
-            this.uploads = new PANDA.collections.Uploads(attributes.uploads);
+        if ("data_uploads" in attributes) {
+            this.data_uploads = new PANDA.collections.Uploads(attributes.data_uploads);
         } else {
-            this.uploads = new PANDA.collections.Uploads();
+            this.data_uploads = new PANDA.collections.Uploads();
         }
 
         this.data = new PANDA.collections.Data();
@@ -48,12 +48,12 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.current_task = new PANDA.models.Task(response.current_task);
         }
 
-        this.uploads = new PANDA.collections.Uploads(response.uploads);
+        this.data_uploads = new PANDA.collections.Uploads(response.data_uploads);
         
         delete response["categories"];
         delete response["creator"];
         delete response["current_task"];
-        delete response["uploads"];
+        delete response["data_uploads"];
 
         // Does this dataset have embedded search results?
         if (response.objects != null) {
@@ -101,9 +101,9 @@ PANDA.models.Dataset = Backbone.Model.extend({
         }
 
         if (full) {
-            js['uploads'] = this.uploads.toJSON();
+            js['data_uploads'] = this.data_uploads.toJSON();
         } else {
-            js['uploads'] = this.uploads.map(function(upload) { return upload.id });
+            js['data_uploads'] = this.data_uploads.map(function(data_uploads) { return data_uploads.id });
         }
 
         return js
@@ -119,7 +119,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         return results;
     },
 
-    import_data: function(upload_id, success_callback) {
+    import_data: function(data_uploads_id, success_callback) {
         /*
          * Kick off the dataset import and update the model with
          * the task id and status.
@@ -127,7 +127,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
          * TODO - error callback
          */
         Redd.ajax({
-            url: this.url() + "import/" + upload_id + "/",
+            url: this.url() + "import/" + data_uploads_id + "/",
             dataType: 'json',
             success: _.bind(function(response) {
                 this.set(response);

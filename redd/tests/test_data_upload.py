@@ -5,7 +5,7 @@ from django.test import TransactionTestCase
 
 from redd.tests import utils
 
-class TestUpload(TransactionTestCase):
+class TestDataUpload(TransactionTestCase):
     fixtures = ['init_panda.json']
 
     def setUp(self):
@@ -13,10 +13,10 @@ class TestUpload(TransactionTestCase):
 
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
-        self.upload = utils.get_test_upload(self.user, self.dataset)
+        self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
     def test_created(self):
-        upload = utils.get_test_upload(self.user, self.dataset)
+        upload = utils.get_test_data_upload(self.user, self.dataset)
 
         self.assertEqual(upload.original_filename, utils.TEST_DATA_FILENAME)
         self.assertEqual(upload.creator, self.user)

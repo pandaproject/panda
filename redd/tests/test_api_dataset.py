@@ -60,7 +60,7 @@ class TestAPIDataset(TransactionTestCase):
 
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
-        self.upload = utils.get_test_upload(self.user, self.dataset)
+        self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
         self.auth_headers = utils.get_auth_headers() 
 
@@ -94,7 +94,7 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(body['current_task'], json.loads(task_response.content))
 
-        self.assertEqual(len(body['uploads']), 1)
+        self.assertEqual(len(body['data_uploads']), 1)
         self.assertEqual(body['initial_upload'], '/api/1.0/upload/%i/' % self.dataset.initial_upload.id)
 
     def test_get_unauthorized(self):
@@ -172,7 +172,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['initial_upload'], None)
-        self.assertEqual(body['uploads'], [])
+        self.assertEqual(body['data_uploads'], [])
 
         new_dataset = Dataset.objects.get(id=body['id'])
 
@@ -183,7 +183,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.initial_upload, None)
-        self.assertEqual(new_dataset.uploads.count(), 0)
+        self.assertEqual(new_dataset.data_uploads.count(), 0)
 
     def test_create_post_slug(self):
         # Verify that new slugs are NOT created via POST.
@@ -225,7 +225,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['initial_upload'], None)
-        self.assertEqual(body['uploads'], [])
+        self.assertEqual(body['data_uploads'], [])
 
         new_dataset = Dataset.objects.get(id=body['id'])
 
@@ -237,7 +237,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.initial_upload, None)
-        self.assertEqual(new_dataset.uploads.count(), 0)
+        self.assertEqual(new_dataset.data_uploads.count(), 0)
 
     def test_create_as_new_user(self):
         new_user = {
@@ -466,7 +466,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
-        self.assertNotIn('uploads', body['objects'][0])
+        self.assertNotIn('data_uploads', body['objects'][0])
         self.assertNotIn('sample_data', body['objects'][0])
         self.assertNotIn('current_task', body['objects'][0])
 

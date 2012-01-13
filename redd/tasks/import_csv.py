@@ -30,13 +30,13 @@ class ImportCSVTask(ImportFileTask):
         """
         Execute import.
         """
-        from redd.models import Dataset, Upload
+        from redd.models import Dataset, DataUpload
         
         log = logging.getLogger(self.name)
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
 
         dataset = Dataset.objects.get(slug=dataset_slug)
-        upload = Upload.objects.get(id=upload_id)
+        upload = DataUpload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
         self.task_start(task_status, 'Preparing to import')

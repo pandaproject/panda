@@ -6,8 +6,8 @@ import os
 from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
-from redd.api import UploadResource
-from redd.models import Dataset, Upload
+from redd.api import DataUploadResource
+from redd.models import Dataset, DataUpload
 
 class PANDAUploadBackend(AbstractUploadBackend):
     """
@@ -54,7 +54,7 @@ class PANDAUploadBackend(AbstractUploadBackend):
 
     def upload_complete(self, request, filename):
         """
-        Close the destination file and create an Upload object in the
+        Close the destination file and create a DataUpload object in the
         database recording its existence.
         """
         self._dest.close()
@@ -65,14 +65,14 @@ class PANDAUploadBackend(AbstractUploadBackend):
 
         dataset = Dataset.objects.get(slug=request.REQUEST['dataset_slug'])
 
-        upload = Upload.objects.create(
+        upload = DataUpload.objects.create(
             filename=filename,
             original_filename=self._original_filename,
             size=size,
             creator=request.user,
             dataset=dataset)
 
-        resource = UploadResource()
+        resource = DataUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
 
         return resource.full_dehydrate(bundle).data

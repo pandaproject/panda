@@ -41,7 +41,7 @@ describe("Dataset model", function() {
         expect(dataset.creator.get("email")).toEqual("panda@pandaproject.net");
         expect(response.creator).toBeUndefined();
 
-        expect(dataset.uploads).not.toBeNull();
+        expect(dataset.data_uploads).not.toBeNull();
         expect(dataset.initial_upload).not.toBeNull();
 
         expect(dataset.current_task).not.toBeNull();
@@ -58,7 +58,7 @@ describe("Dataset model", function() {
         json = dataset.toJSON();
 
         expect(json.creator).toEqual("/api/1.0/user/1/");
-        expect(json.uploads).toEqual(["/api/1.0/upload/1/"]);
+        expect(json.data_uploads).toEqual(["/api/1.0/upload/1/"]);
         expect(json.initial_upload).toEqual("/api/1.0/upload/1/");
         expect(json.current_task).toEqual("/api/1.0/task/1/");
         expect(json.categories).toEqual([]);
@@ -72,7 +72,7 @@ describe("Dataset model", function() {
         expect(json.creator).not.toBeNull();
         expect(json.creator.email).toEqual("panda@pandaproject.net");
 
-        expect(json.uploads.length).toEqual(1);
+        expect(json.data_uploads.length).toEqual(1);
         expect(json.initial_upload).not.toBeNull();
 
         expect(json.current_task).not.toBeNull();

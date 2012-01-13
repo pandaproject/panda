@@ -19,7 +19,7 @@ class TestDataValidation(TransactionTestCase):
 
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
-        self.upload = utils.get_test_upload(self.user, self.dataset)
+        self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
     def test_required_fields(self):
         bundle = Bundle(data={})
@@ -51,7 +51,7 @@ class TestAPIData(TransactionTestCase):
 
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
-        self.upload = utils.get_test_upload(self.user, self.dataset)
+        self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
         self.auth_headers = utils.get_auth_headers()
 

@@ -12,7 +12,7 @@ from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, JSONApiField, SlugResource, CustomSerializer
-from redd.models import Category, Dataset, Upload
+from redd.models import Category, Dataset, DataUpload
 
 class DatasetValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -38,15 +38,16 @@ class DatasetResource(SlugResource):
     """
     from redd.api.category import CategoryResource
     from redd.api.tasks import TaskResource
-    from redd.api.uploads import UploadResource
+    from redd.api.data_uploads import DataUploadResource
     from redd.api.users import UserResource
 
     categories = fields.ToManyField(CategoryResource, 'categories', full=True, null=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True, readonly=True)
-    uploads = fields.ToManyField('redd.api.uploads.UploadResource', 'uploads', full=True, null=True)
+    #related_uploads = fields.ToManyField('redd.api.related_uploads.UploadResource', 'related_uploads', full=True, null=True)
+    data_uploads = fields.ToManyField('redd.api.data_uploads.DataUploadResource', 'data_uploads', full=True, null=True)
     last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, readonly=True, null=True)
-    initial_upload = fields.ForeignKey(UploadResource, 'initial_upload', readonly=True, null=True)
+    initial_upload = fields.ForeignKey(DataUploadResource, 'initial_upload', readonly=True, null=True)
 
     slug = fields.CharField(attribute='slug', readonly=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
@@ -72,7 +73,8 @@ class DatasetResource(SlugResource):
         Takes a dehydrated bundle and removes attributes to create a "simple"
         view that is faster over the wire.
         """
-        del bundle.data['uploads']
+        del bundle.data['data_uploads']
+        #del bundle.data['related_uploads']
         del bundle.data['sample_data']
         del bundle.data['current_task']
 
@@ -163,7 +165,7 @@ class DatasetResource(SlugResource):
             slug = request.GET.get('slug')
 
         dataset = Dataset.objects.get(slug=slug)
-        upload = Upload.objects.get(id=kwargs['upload_id'])
+        upload = DataUpload.objects.get(id=kwargs['upload_id'])
 
         errors = {}
 

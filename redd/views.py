@@ -2,7 +2,6 @@
 
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer

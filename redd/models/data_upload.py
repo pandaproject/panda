@@ -1,42 +1,30 @@
 #!/usr/bin/env python
 
-from datetime import datetime
 import os.path
 
-from django.contrib.auth.models import User
-from django.conf import settings
 from django.db import models
 
-from redd.fields import JSONField
 from redd import utils
+from redd.fields import JSONField
+from redd.models.base_upload import BaseUpload
 
-class Upload(models.Model):
+class DataUpload(BaseUpload):
     """
-    A file uploaded to PANDA (either a table or metadata file).
+    A data file uploaded to PANDA (either a table or metadata file).
     """
     from redd.models.dataset import Dataset
-    
-    filename = models.CharField(max_length=256,
-        help_text='Filename as stored in PANDA.')
-    original_filename = models.CharField(max_length=256,
-        help_text='Filename as originally uploaded.')
-    size = models.IntegerField(
-        help_text='Size of the file in bytes.')
-    creator = models.ForeignKey(User,
-        help_text='The user who uploaded this file.')
-    creation_date = models.DateTimeField(
-        help_text='The date this file was uploaded.')
-    dataset = models.ForeignKey(Dataset, related_name='uploads',
+
+    dataset = models.ForeignKey(Dataset, related_name='data_uploads',
         help_text='The dataset this upload is associated with.')
 
     data_type = models.CharField(max_length=4, null=True, blank=True,
-        help_text='The type of this file, if identified. An empty string indicates the type is no known.')
+        help_text='The type of this file, if known.')
     dialect = JSONField(null=True,
-        help_text = 'Description of the formatting of this file, if applicable.')
+        help_text = 'Description of the formatting of this file.')
     columns = JSONField(null=True,
-        help_text='An list of names for this uploads columns, if it contains data.')
+        help_text='An list of names for this uploads columns.')
     sample_data = JSONField(null=True,
-        help_text = 'Example data from this file, if it contains data.')
+        help_text = 'Example data from this file.')
 
     class Meta:
         app_label = 'redd'
@@ -60,16 +48,7 @@ class Upload(models.Model):
             if self.sample_data is None:
                 self.sample_data = utils.sample_data(self.data_type, path, self.dialect)
 
-        if not self.creation_date:
-            self.creation_date = datetime.utcnow()
-
-        super(Upload, self).save(*args, **kwargs)
-
-    def get_path(self):
-        """
-        Get the absolute path to this upload on disk.
-        """
-        return os.path.join(settings.MEDIA_ROOT, self.filename)
+        super(DataUpload, self).save(*args, **kwargs)
 
     def _infer_data_type(self):
         """

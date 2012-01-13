@@ -24,7 +24,8 @@ class Dataset(SluggedModel):
     description = models.TextField(blank=True,
         help_text='User-supplied dataset description.')
     # uploads =  models.ToMany(Upload, null=True)
-    initial_upload = models.ForeignKey('Upload', null=True, blank=True, related_name='initial_upload_for',
+    # data_uploads =  models.ToMany(DataUpload, null=True)
+    initial_upload = models.ForeignKey('DataUpload', null=True, blank=True, related_name='initial_upload_for',
         help_text='The upload used to create this dataset, if any was used.')
     columns = JSONField(null=True, default=None,
         help_text='An list of names for this dataset\'s columns.')
@@ -108,7 +109,7 @@ class Dataset(SluggedModel):
 
     def import_data(self, upload, external_id_field_index=None):
         """
-        Import data into this ``Dataset`` from a given ``Upload``. 
+        Import data into this ``Dataset`` from a given ``DataUpload``. 
         """
         task_type = get_import_task_type_for_upload(upload)
 
