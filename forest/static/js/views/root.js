@@ -313,15 +313,15 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate(path);
     },
 
-    goto_upload: function() {
+    goto_data_upload: function() {
         if (!this.authenticate()) {
             return;
         }
 
-        this.current_content_view = this.get_or_create_view("Upload");
+        this.current_content_view = this.get_or_create_view("DataUpload");
         this.current_content_view.reset();
 
-        this._router.navigate("upload");
+        this._router.navigate("data_upload");
     },
 
     goto_datasets_search: function(category, query, limit, page) {

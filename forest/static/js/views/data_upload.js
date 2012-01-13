@@ -24,14 +24,14 @@ CustomUploadButton = {
     }
 }
 
-PANDA.views.Upload = Backbone.View.extend({
+PANDA.views.DataUpload = Backbone.View.extend({
     el: $("#content"),
 
     events: {
         "click #upload-continue":      "continue_event"
     },
     
-    template: PANDA.templates.upload,
+    template: PANDA.templates.data_upload,
 
     file_uploader: null,
     dataset: null,

@@ -63,10 +63,10 @@ describe("Index Router", function() {
         this.controller_mock.verify();
     });
 
-    it("should route to the upload page", function() {
-        this.controller_mock.expects("goto_upload").once();
+    it("should route to the data upload page", function() {
+        this.controller_mock.expects("goto_data_upload").once();
 
-        this.router.navigate("upload", true);
+        this.router.navigate("data_upload", true);
 
         this.controller_mock.verify();
     });
