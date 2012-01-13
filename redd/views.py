@@ -10,7 +10,7 @@ from redd.api.notifications import NotificationResource
 from redd.api.users import UserValidation
 from redd.api.utils import CustomApiKeyAuthentication
 from redd.models import UserProfile
-from redd.storage import PANDAUploadBackend
+from redd.storage import PANDADataUploadBackend
 
 class JSONResponse(HttpResponse):
     """
@@ -36,7 +36,7 @@ class SecureAjaxFileUploader(AjaxFileUploader):
 
         return self._ajax_upload(request)
 
-upload = SecureAjaxFileUploader(backend=PANDAUploadBackend)
+data_upload = SecureAjaxFileUploader(backend=PANDADataUploadBackend)
 
 def make_user_login_response(user):
     """

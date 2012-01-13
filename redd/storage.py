@@ -9,7 +9,7 @@ from django.conf import settings
 from redd.api import DataUploadResource
 from redd.models import Dataset, DataUpload
 
-class PANDAUploadBackend(AbstractUploadBackend):
+class PANDADataUploadBackend(AbstractUploadBackend):
     """
     Customized backend to handle AJAX uploads.
     """

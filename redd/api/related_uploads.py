@@ -10,9 +10,9 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
 from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
-from redd.models import DataUpload
+from redd.models import RelatedUpload
 
-class DataUploadResource(CustomResource):
+class RelatedUploadResource(CustomResource):
     """
     API resource for DataUploads.
     """
@@ -22,8 +22,8 @@ class DataUploadResource(CustomResource):
     dataset = fields.ForeignKey('redd.api.datasets.DatasetResource', 'dataset')
 
     class Meta:
-        queryset = DataUpload.objects.all()
-        resource_name = 'data_upload'
+        queryset = RelatedUpload.objects.all()
+        resource_name = 'related_upload'
         allowed_methods = ['get']
 
         authentication = CustomApiKeyAuthentication()
@@ -35,7 +35,7 @@ class DataUploadResource(CustomResource):
         Add urls for search endpoint.
         """
         return [
-            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('download'), name='api_download_data_upload'),
+            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('download'), name='api_download_related_upload'),
         ]
 
     def download(self, request, **kwargs):
@@ -51,7 +51,7 @@ class DataUploadResource(CustomResource):
         else:
             get_id = request.GET.get('id', '')
 
-        upload = DataUpload.objects.get(id=get_id)
+        upload = RelatedUpload.objects.get(id=get_id)
         path = upload.get_path()
 
         self.log_throttled_access(request)

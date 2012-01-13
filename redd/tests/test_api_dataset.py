@@ -94,8 +94,9 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(body['current_task'], json.loads(task_response.content))
 
+        self.assertEqual(len(body['related_uploads']), 0)
         self.assertEqual(len(body['data_uploads']), 1)
-        self.assertEqual(body['initial_upload'], '/api/1.0/upload/%i/' % self.dataset.initial_upload.id)
+        self.assertEqual(body['initial_upload'], '/api/1.0/data_upload/%i/' % self.dataset.initial_upload.id)
 
     def test_get_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%s/' % self.dataset.slug)
@@ -172,6 +173,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['initial_upload'], None)
+        self.assertEqual(body['related_uploads'], [])
         self.assertEqual(body['data_uploads'], [])
 
         new_dataset = Dataset.objects.get(id=body['id'])
@@ -183,6 +185,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.initial_upload, None)
+        self.assertEqual(new_dataset.related_uploads.count(), 0)
         self.assertEqual(new_dataset.data_uploads.count(), 0)
 
     def test_create_post_slug(self):
@@ -466,6 +469,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['meta']['total_count'], 1)
         self.assertEqual(len(body['objects']), 1)
         self.assertEqual(int(body['objects'][0]['id']), self.dataset.id)
+        self.assertNotIn('related_uploads', body['objects'][0])
         self.assertNotIn('data_uploads', body['objects'][0])
         self.assertNotIn('sample_data', body['objects'][0])
         self.assertNotIn('current_task', body['objects'][0])

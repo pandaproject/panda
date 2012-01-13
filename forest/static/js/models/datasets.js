@@ -7,6 +7,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
     categories: null,
     creator: null,
     data_uploads: null,
+    related_uploads: null,
     current_task: null,
     data: null,
 
@@ -26,9 +27,15 @@ PANDA.models.Dataset = Backbone.Model.extend({
         }
 
         if ("data_uploads" in attributes) {
-            this.data_uploads = new PANDA.collections.Uploads(attributes.data_uploads);
+            this.data_uploads = new PANDA.collections.DataUploads(attributes.data_uploads);
         } else {
-            this.data_uploads = new PANDA.collections.Uploads();
+            this.data_uploads = new PANDA.collections.DataUploads();
+        }
+
+        if ("related_uploads" in attributes) {
+            this.related_uploads = new PANDA.collections.RelatedUploads(attributes.related_uploads);
+        } else {
+            this.related_uploads = new PANDA.collections.RelatedUploads();
         }
 
         this.data = new PANDA.collections.Data();
@@ -48,12 +55,14 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.current_task = new PANDA.models.Task(response.current_task);
         }
 
-        this.data_uploads = new PANDA.collections.Uploads(response.data_uploads);
+        this.data_uploads = new PANDA.collections.DataUploads(response.data_uploads);
+        this.related_uploads = new PANDA.collections.RelatedUploads(response.related_uploads);
         
         delete response["categories"];
         delete response["creator"];
         delete response["current_task"];
         delete response["data_uploads"];
+        delete response["related_uploads"];
 
         // Does this dataset have embedded search results?
         if (response.objects != null) {
@@ -104,6 +113,12 @@ PANDA.models.Dataset = Backbone.Model.extend({
             js['data_uploads'] = this.data_uploads.toJSON();
         } else {
             js['data_uploads'] = this.data_uploads.map(function(data_uploads) { return data_uploads.id });
+        }
+        
+        if (full) {
+            js['related_uploads'] = this.related_uploads.toJSON();
+        } else {
+            js['related_uploads'] = this.related_uploads.map(function(related_uploads) { return related_uploads.id });
         }
 
         return js

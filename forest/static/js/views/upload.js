@@ -44,7 +44,7 @@ PANDA.views.Upload = Backbone.View.extend({
         this.render();
 
         this.file_uploader = new qq.FileUploaderBasic({
-            action: "/upload/",
+            action: "/data_upload/",
             multiple: false,
             allowedExtensions: ["csv", "xls", "xlsx"],
             onSubmit: this.on_submit,

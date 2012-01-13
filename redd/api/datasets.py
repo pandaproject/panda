@@ -44,7 +44,7 @@ class DatasetResource(SlugResource):
     categories = fields.ToManyField(CategoryResource, 'categories', full=True, null=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True, readonly=True)
-    #related_uploads = fields.ToManyField('redd.api.related_uploads.UploadResource', 'related_uploads', full=True, null=True)
+    related_uploads = fields.ToManyField('redd.api.related_uploads.RelatedUploadResource', 'related_uploads', full=True, null=True)
     data_uploads = fields.ToManyField('redd.api.data_uploads.DataUploadResource', 'data_uploads', full=True, null=True)
     last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, readonly=True, null=True)
     initial_upload = fields.ForeignKey(DataUploadResource, 'initial_upload', readonly=True, null=True)
@@ -74,7 +74,7 @@ class DatasetResource(SlugResource):
         view that is faster over the wire.
         """
         del bundle.data['data_uploads']
-        #del bundle.data['related_uploads']
+        del bundle.data['related_uploads']
         del bundle.data['sample_data']
         del bundle.data['current_task']
 

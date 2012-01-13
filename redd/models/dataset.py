@@ -23,10 +23,10 @@ class Dataset(SluggedModel):
         help_text='User-supplied dataset name.')
     description = models.TextField(blank=True,
         help_text='User-supplied dataset description.')
-    # uploads =  models.ToMany(Upload, null=True)
+    # related_uploads =  models.ToMany(RelatedUpload, null=True)
     # data_uploads =  models.ToMany(DataUpload, null=True)
     initial_upload = models.ForeignKey('DataUpload', null=True, blank=True, related_name='initial_upload_for',
-        help_text='The upload used to create this dataset, if any was used.')
+        help_text='The data upload used to create this dataset, if any was used.')
     columns = JSONField(null=True, default=None,
         help_text='An list of names for this dataset\'s columns.')
     sample_data = JSONField(null=True, default=None,
@@ -57,7 +57,7 @@ class Dataset(SluggedModel):
 
     def save(self, *args, **kwargs):
         """
-        Override save extract metadata from the upload.
+        Save the date of creation.
         """
         if not self.creation_date:
             self.creation_date = datetime.utcnow()

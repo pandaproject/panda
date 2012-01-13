@@ -23,7 +23,7 @@ class TestAPIDataUpload(TransactionTestCase):
         self.client = Client()
 
     def test_get(self):
-        response = self.client.get('/api/1.0/upload/%i/' % self.upload.id, **self.auth_headers)
+        response = self.client.get('/api/1.0/data_upload/%i/' % self.upload.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -41,12 +41,12 @@ class TestAPIDataUpload(TransactionTestCase):
         self.assertEqual(body['sample_data'][0], ['1', 'Brian', 'Boyer', 'Chicago Tribune'])
 
     def test_get_unauthorized(self):
-        response = self.client.get('/api/1.0/upload/%i/' % self.upload.id)
+        response = self.client.get('/api/1.0/data_upload/%i/' % self.upload.id)
 
         self.assertEqual(response.status_code, 401)
 
     def test_list(self):
-        response = self.client.get('/api/1.0/upload/', data={ 'limit': 5 }, **self.auth_headers)
+        response = self.client.get('/api/1.0/data_upload/', data={ 'limit': 5 }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -66,12 +66,12 @@ class TestAPIDataUpload(TransactionTestCase):
             'size': 20
         }
 
-        response = self.client.post('/api/1.0/upload/', content_type='application/json', data=json.dumps(new_upload), **self.auth_headers)
+        response = self.client.post('/api/1.0/data_upload/', content_type='application/json', data=json.dumps(new_upload), **self.auth_headers)
 
         self.assertEqual(response.status_code, 405)
 
     def test_download(self):
-        response = self.client.get('/api/1.0/upload/%i/download/' % self.upload.id, **self.auth_headers)
+        response = self.client.get('/api/1.0/data_upload/%i/download/' % self.upload.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Disposition'], 'attachment; filename=%s' % self.upload.original_filename)
@@ -81,13 +81,13 @@ class TestAPIDataUpload(TransactionTestCase):
             self.assertEqual(f.read(), response.content)
 
     def test_download_unauthorized(self):
-        response = self.client.get('/api/1.0/upload/%i/download/' % self.upload.id)
+        response = self.client.get('/api/1.0/data_upload/%i/download/' % self.upload.id)
 
         self.assertEqual(response.status_code, 401)
 
     def test_upload_file(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
-            response = self.client.post('/upload/', data={ 'file': f, 'dataset_slug': self.dataset.slug }, **self.auth_headers)
+            response = self.client.post('/data_upload/', data={ 'file': f, 'dataset_slug': self.dataset.slug }, **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -104,7 +104,7 @@ class TestAPIDataUpload(TransactionTestCase):
 
     def test_upload_unauthorized(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
-            response = self.client.post('/upload/', data={ 'file': f })
+            response = self.client.post('/data_upload/', data={ 'file': f })
 
         self.assertEqual(response.status_code, 200)
 
