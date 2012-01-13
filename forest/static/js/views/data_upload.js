@@ -40,8 +40,28 @@ PANDA.views.DataUpload = Backbone.View.extend({
         _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one_error_message", "step_two_error_message", "step_one", "step_two", "step_three", "continue_event");
     },
 
-    reset: function() {
-        this.render();
+    reset: function(dataset_slug) {
+        if (dataset_slug) {
+            this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
+
+            this.dataset.fetch({
+                async: false,
+                success: _.bind(function(model, response) {
+                    this.render();
+                }, this),
+                error: _.bind(function(model, response) {
+                    if (response.status == 404) {
+                        Redd.goto_not_found(); 
+                    } else {
+                        Redd.goto_server_error();
+                    }
+                }, this)
+            });
+        }
+    },
+
+    render: function() {
+        this.el.html(this.template());
 
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/data_upload/",
@@ -59,12 +79,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
                 onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
             }
         });
-
+        
         this.create_upload_button();
-    },
-
-    render: function() {
-        this.el.html(this.template());
     },
 
     create_upload_button: function() {
@@ -83,11 +99,14 @@ PANDA.views.DataUpload = Backbone.View.extend({
         /*
          * Handler for when a file upload starts.
          */
-        this.dataset = new PANDA.models.Dataset({
-            name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName
-        });
+        if (!self.dataset) {
+            this.dataset = new PANDA.models.Dataset({
+                name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName
+            });
 
-        this.dataset.save({}, { async: false })
+            this.dataset.save({}, { async: false })
+        }
+
         this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
 
         this.step_two(fileName);
