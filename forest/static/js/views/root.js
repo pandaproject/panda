@@ -321,7 +321,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("DataUpload");
         this.current_content_view.reset();
 
-        this._router.navigate("data_upload");
+        this._router.navigate("upload");
     },
 
     goto_datasets_search: function(category, query, limit, page) {
