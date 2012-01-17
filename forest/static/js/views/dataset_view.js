@@ -22,7 +22,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         context = {
             'dataset': this.dataset.toJSON(true),
-            'categories': Redd.get_categories().toJSON(),
+            'categories': this.dataset.categories.toJSON(),
             'data_uploads_html': data_uploads_html,
             'related_uploads_html': related_uploads_html
         }
