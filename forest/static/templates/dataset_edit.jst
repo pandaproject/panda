@@ -49,25 +49,19 @@
                 </div>
             </div>
 
-            <% if (dataset.data_uploads.length > 0) { %>
             <h6>Data files</h6>
-            <% _.each(dataset.data_uploads, function(upload) { %>
             <ul class="data-uploads">
                 <% _.each(data_uploads_html, function(u) { %>
                     <%= u %>
                 <% }); %>
             </ul>
-            <% }); %>
-            <% } %>
 
             <h6>Related files</h6>
-            <% if (dataset.related_uploads.length > 0) { %>
             <ul class="related-uploads">
                 <% _.each(related_uploads_html, function(u) { %>
                     <%= u %>
                 <% }); %>
             </ul>
-            <% } %>
             <span id="related-upload-file-wrapper">
             </span>
 
