@@ -6,10 +6,10 @@ import os
 from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
-from redd.api import DataUploadResource
-from redd.models import Dataset, DataUpload
+from redd.api import DataUploadResource, RelatedUploadResource
+from redd.models import Dataset, DataUpload, RelatedUpload
 
-class PANDADataUploadBackend(AbstractUploadBackend):
+class PANDAAbstractUploadBackend(AbstractUploadBackend):
     """
     Customized backend to handle AJAX uploads.
     """
@@ -54,10 +54,19 @@ class PANDADataUploadBackend(AbstractUploadBackend):
 
     def upload_complete(self, request, filename):
         """
-        Close the destination file and create a DataUpload object in the
-        database recording its existence.
+        Close the destination file.
         """
         self._dest.close()
+
+class PANDADataUploadBackend(PANDAAbstractUploadBackend):
+    """
+    Backend specifically for DataUploads.
+    """
+    def upload_complete(self, request, filename):
+        """
+        Create a DataUpload object.
+        """
+        super(PANDADataUploadBackend, self).upload_complete(request, filename)
 
         root, ext = os.path.splitext(filename)
         path = os.path.join(settings.MEDIA_ROOT, filename)
@@ -73,6 +82,34 @@ class PANDADataUploadBackend(AbstractUploadBackend):
             dataset=dataset)
 
         resource = DataUploadResource()
+        bundle = resource.build_bundle(obj=upload, request=request)
+
+        return resource.full_dehydrate(bundle).data
+
+class PANDARelatedUploadBackend(PANDAAbstractUploadBackend):
+    """
+    Backend specifically for RelatedUploads.
+    """
+    def upload_complete(self, request, filename):
+        """
+        Create a RelatedUpload object.
+        """
+        super(PANDARelatedUploadBackend, self).upload_complete(request, filename)
+
+        root, ext = os.path.splitext(filename)
+        path = os.path.join(settings.MEDIA_ROOT, filename)
+        size = os.path.getsize(path)
+
+        dataset = Dataset.objects.get(slug=request.REQUEST['dataset_slug'])
+
+        upload = RelatedUpload.objects.create(
+            filename=filename,
+            original_filename=self._original_filename,
+            size=size,
+            creator=request.user,
+            dataset=dataset)
+
+        resource = RelatedUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
 
         return resource.full_dehydrate(bundle).data

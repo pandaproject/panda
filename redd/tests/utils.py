@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from redd import solr
-from redd.models import Dataset, DataUpload
+from redd.models import Dataset, DataUpload, RelatedUpload
 
 TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
@@ -56,6 +56,24 @@ def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME):
     copyfile(src, dst)
 
     return DataUpload.objects.create(
+        filename=filename,
+        original_filename=filename,
+        size=os.path.getsize(dst),
+        creator=creator,
+        dataset=dataset)
+
+def get_test_related_upload(creator, dataset, filename=TEST_DATA_FILENAME):
+    # Ensure panda subdir has been created
+    try:
+        os.mkdir(settings.MEDIA_ROOT)
+    except OSError:
+        pass
+
+    src = os.path.join(TEST_DATA_PATH, filename)
+    dst = os.path.join(settings.MEDIA_ROOT, filename)
+    copyfile(src, dst)
+
+    return RelatedUpload.objects.create(
         filename=filename,
         original_filename=filename,
         size=os.path.getsize(dst),

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^check_activation_key/(?P<activation_key>[\w\d]+)%s$' % trailing_slash(), views.check_activation_key, name="check_activation_key"),
     url(r'^activate%s$' % trailing_slash(), views.activate, name="activate"),
     url(r'^data_upload%s$' % trailing_slash(), views.data_upload, name="data_upload"),
+    url(r'^related_upload%s$' % trailing_slash(), views.related_upload, name="related_upload"),
 
     (r'^api/', include(api_1_0.urls)),
 )

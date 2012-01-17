@@ -5,6 +5,7 @@ from redd.tests.test_api_dataset import TestDatasetValidation, TestAPIDataset
 from redd.tests.test_api_notification import TestAPINotifications
 from redd.tests.test_api_task_status import TestAPITaskStatus
 from redd.tests.test_api_data_upload import TestAPIDataUpload
+from redd.tests.test_api_related_upload import TestAPIRelatedUpload
 from redd.tests.test_api_user import TestUserValidation, TestAPIUser
 from redd.tests.test_dataset import TestDataset
 from redd.tests.test_data_upload import TestDataUpload

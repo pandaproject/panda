@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from django.contrib.auth.models import Group, User
 from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
