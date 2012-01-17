@@ -99,7 +99,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         /*
          * Handler for when a file upload starts.
          */
-        if (!self.dataset) {
+        if (!this.dataset) {
             this.dataset = new PANDA.models.Dataset({
                 name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName
             });

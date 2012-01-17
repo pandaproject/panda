@@ -52,24 +52,32 @@
             <% if (dataset.data_uploads.length > 0) { %>
             <h6>Data files</h6>
             <% _.each(dataset.data_uploads, function(upload) { %>
-            <div class="clearfix">
-                <div class="input">
-                    <div><strong><a href="/api/1.0/upload/<%= upload.id %>/download/"><%= upload.original_filename %></a></strong> (<strong><%= upload.size %> bytes</strong>) uploaded on <%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></div>&nbsp;
-                </div>
-            </div>
+            <ul class="data-uploads">
+                <% _.each(data_uploads_html, function(u) { %>
+                    <%= u %>
+                <% }); %>
+            </ul>
             <% }); %>
             <% } %>
 
-            <% if (dataset.related_uploads.length > 0) { %>
             <h6>Related files</h6>
-            <% _.each(dataset.related_uploads, function(upload) { %>
-            <div class="clearfix">
-                <div class="input">
-                    <div><strong><a href="/api/1.0/upload/<%= upload.id %>/download/"><%= upload.original_filename %></a></strong> (<strong><%= upload.size %> bytes</strong>) uploaded on <%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></div>&nbsp;
+            <% if (dataset.related_uploads.length > 0) { %>
+            <ul class="related-uploads">
+                <% _.each(related_uploads_html, function(u) { %>
+                    <%= u %>
+                <% }); %>
+            </ul>
+            <% } %>
+            <span id="related-upload-file-wrapper">
+            </span>
+
+            <div id="related-upload-progress" class="progress">
+                <div class="progress-value" style="background-color: #57A957; width: 0%;">
+                    <div class="progress-text">
+                         <strong>0%</strong> uploaded.
+                    </div>
                 </div>
             </div>
-            <% }); %>
-            <% } %>
 
             <% if (dataset.sample_data) { %>
             <h6>Sample data</h6>

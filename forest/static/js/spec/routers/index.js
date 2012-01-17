@@ -66,7 +66,15 @@ describe("Index Router", function() {
     it("should route to the data upload page", function() {
         this.controller_mock.expects("goto_data_upload").once();
 
-        this.router.navigate("data_upload", true);
+        this.router.navigate("upload", true);
+
+        this.controller_mock.verify();
+    });
+
+    it("should route to the per-dataset data upload page", function() {
+        this.controller_mock.expects("goto_data_upload").withExactArgs("foo");
+
+        this.router.navigate("dataset/foo/upload", true);
 
         this.controller_mock.verify();
     });

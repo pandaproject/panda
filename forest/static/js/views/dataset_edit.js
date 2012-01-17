@@ -2,6 +2,8 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     el: $("#content"),
     
     template: PANDA.templates.dataset_edit,
+    data_upload_template: PANDA.templates.data_upload_item,
+    related_upload_template: PANDA.templates.related_upload_item,
     dataset: null,
 
     events: {
@@ -9,7 +11,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "save", "destroy");
+        _.bindAll(this, "render", "save", "destroy", "create_related_upload_button", "on_related_upload_submit", "on_related_upload_progress", "on_related_upload_complete", "on_related_upload_message");
 
         $("#dataset-destroy").live("click", this.destroy);
     },
@@ -44,9 +46,19 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     render: function() {
+        data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
+            return this.data_upload_template(data_upload.toJSON());
+        }, this));
+
+        related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
+            return this.related_upload_template(related_upload.toJSON());
+        }, this));
+
         context = {
             'dataset': this.dataset.toJSON(true),
-            'categories': Redd.get_categories().toJSON()
+            'categories': Redd.get_categories().toJSON(),
+            'data_uploads_html': data_uploads_html,
+            'related_uploads_html': related_uploads_html
         }
 
         // Nuke old modals
@@ -66,6 +78,84 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 $("#edit-dataset-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
             } 
         }
+
+        this.related_uploader = new qq.FileUploaderBasic({
+            action: "/related_upload/",
+            multiple: false,
+            onSubmit: this.on_related_upload_submit,
+            onProgress: this.on_related_upload_progress,
+            onComplete: this.on_related_upload_complete,
+            showMessage: this.on_related_upload_message,
+            maxSizeLimit: 1024 * 1024 * 1024,   // 1 GB
+            messages: {
+                sizeError: "{file} is too large, the maximum file size is 1 gigabyte.",
+                emptyError: "{file} is empty.",
+                onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
+            }
+        });
+        
+        this.create_related_upload_button();
+    },
+
+    create_related_upload_button: function() {
+        $("#related-upload-file-wrapper").html('<input type="file" id="upload-file" />');
+
+        btn = CustomUploadButton.init({
+            onChange: _.bind(function(input) {
+                this.related_uploader._onInputChange(input);
+            }, this)
+        });
+
+        this.related_uploader._button = btn;
+    },
+
+    on_related_upload_submit: function(id, fileName) {
+        /*
+         * Handler for when a file upload starts.
+         */
+        this.related_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
+
+        $("#related-upload-progress").show()
+    },
+
+    on_related_upload_progress: function(id, fileName, loaded, total) {
+        /*
+         * Handler for when a file upload reports its progress.
+         */
+        pct = Math.floor(loaded / total * 100);
+
+        // Don't render 100% until ajax request creating dataset has finished
+        if (pct == 100) {
+            pct = 99;
+        }
+
+        $("#related-upload-progress .progress-value").css("width", pct + "%");
+        $("#related-upload-progress .progress-text").html('<strong>' + pct + '%</strong> uploaded');
+    },
+
+    on_related_upload_complete: function(id, fileName, responseJSON) {
+        /*
+         * Handler for when a file upload is completed.
+         */
+        if (responseJSON.success) {
+            // Finish progress bar
+            $("#related-upload-progress").hide()
+
+            related_upload = new PANDA.models.RelatedUpload(responseJSON);
+            this.dataset.related_uploads.add(related_upload);
+
+            $(".related-uploads").append(this.related_upload_template(related_upload.toJSON()));
+        } else if (responseJSON.forbidden) {
+            Redd.goto_login(window.location.hash);
+        } else {
+            $("#related-upload-progress").hide()
+            this.on_related_upload_message("Upload failed!");
+        }
+    },
+
+    on_related_upload_message: function(message) {
+        // TODO
+        console.log(message);
     },
 
     save: function() {

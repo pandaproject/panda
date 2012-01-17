@@ -215,10 +215,10 @@ describe("Root view / global controller", function() {
         });
 
         it("should load the upload view", function() {
-            Redd.goto_upload();
+            Redd.goto_data_upload();
 
             expect(this.auth_stub).toHaveBeenCalledOnce();
-            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("Upload");
+            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DataUpload");
             expect(this.fake_view.reset).toHaveBeenCalledOnce();
             expect(this.navigate_stub).toHaveBeenCalledWith("upload");
         });

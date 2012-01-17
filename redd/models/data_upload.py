@@ -28,6 +28,7 @@ class DataUpload(BaseUpload):
 
     class Meta:
         app_label = 'redd'
+        ordering = ['creation_date']
 
     def __unicode__(self):
         return self.filename

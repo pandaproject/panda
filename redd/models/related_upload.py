@@ -15,4 +15,5 @@ class RelatedUpload(BaseUpload):
 
     class Meta:
         app_label = 'redd'
+        ordering = ['creation_date']
 
