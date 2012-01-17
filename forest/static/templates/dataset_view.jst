@@ -1,9 +1,9 @@
 <form class="form-stacked">
     <fieldset>
-        <legend>About <strong><%= name %></strong> <% if (row_count) { %>(<%= row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
-        <p>Created by <strong><%= creator.first_name %> <%= creator.last_name %></strong> &lt;<a href="mailto:<%= creator.email %>"><%= creator.email %></a>&gt; on <strong><%= moment(creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
-        <% if (last_modified) { %>
-        Last modified by <strong><%= last_modified_by.first_name %> <%= last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= last_modified_by.email %>"><%= last_modified_by.email %></a>&gt; on <strong><%= moment(last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= last_modification %>.</p>
+        <legend>About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
+        <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
+        <% if (dataset.last_modified) { %>
+        Last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
         <% } else { %>
         Never modified.
         <% } %>
@@ -23,40 +23,36 @@
 
         <h6>Description</h6>
 
-        <p><%= description || "<em>Edit this dataset to add a description.</em>" %></p>
+        <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
 
-        <% if (data_uploads.length > 0) { %>
+        <% if (dataset.data_uploads.length > 0) { %>
         <h6>Data files</h6>
-        <% _.each(data_uploads, function(upload) { %>
-        <div class="clearfix">
-            <div class="input">
-                <div><strong><a href="/api/1.0/data_upload/<%= upload.id %>/download/"><%= upload.original_filename %></a></strong> (<strong><%= upload.size %> bytes</strong>) uploaded on <%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></div>&nbsp;
-            </div>
-        </div>
-        <% }); %>
+        <ul class="data-uploads">
+            <% _.each(data_uploads_html, function(u) { %>
+                <%= u %>
+            <% }); %>
+        </ul>
         <% } %>
 
-        <% if (related_uploads.length > 0) { %>
+        <% if (dataset.related_uploads.length > 0) { %>
         <h6>Related files</h6>
-        <% _.each(related_uploads, function(upload) { %>
-        <div class="clearfix">
-            <div class="input">
-                <div><strong><a href="/api/1.0/related_upload/<%= upload.id %>/download/"><%= upload.original_filename %></a></strong> (<strong><%= upload.size %> bytes</strong>) uploaded on <%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></div>&nbsp;
-            </div>
-        </div>
-        <% }); %>
+        <ul class="related-uploads">
+            <% _.each(related_uploads_html, function(u) { %>
+                <%= u %>
+            <% }); %>
+        </ul>
         <% } %>
 
-        <% if (sample_data) { %>
+        <% if (dataset.sample_data) { %>
         <h6>Sample data</h6>
 
-        <p><% if (row_count) { %>Showing <%= sample_data.length %> sample rows from <%= row_count %> total rows in this dataset.<% } else { %>Showing <%= sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
+        <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
 
         <table>
-            <% _.each(columns, function(c) { %>
+            <% _.each(dataset.columns, function(c) { %>
                 <th><%= c %></th>
             <% }); %>
-            <% _.each(sample_data, function(r) { %>
+            <% _.each(dataset.sample_data, function(r) { %>
                 <tr>
                 <% _.each(r, function(d) { %>
                     <td><%= d %></td>
@@ -68,7 +64,7 @@
     </fieldset>
 
     <div class="actions">
-        <a class="btn" href="#dataset/<%= slug %>/edit">Edit</a>
+        <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
     </div>
 </form>
 
@@ -78,7 +74,7 @@
         <h3>Error importing data</h3>
     </div>
     <div class="modal-body">
-        <% if (current_task && current_task.traceback) { %>
+        <% if (dataset.current_task && dataset.current_task.traceback) { %>
         <%= current_task.traceback %>
         <% } %>
     </div>
