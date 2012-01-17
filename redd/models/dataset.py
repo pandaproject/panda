@@ -81,8 +81,11 @@ class Dataset(SluggedModel):
             category_ids.append(category.id)
             full_text_data.append(category.name)
 
-        if self.initial_upload is not None:
-            full_text_data.append(self.initial_upload.original_filename)
+        for data_upload in self.data_uploads.all():
+            full_text_data.append(data_upload.original_filename)
+
+        for related_upload in self.related_uploads.all():
+            full_text_data.append(related_upload.original_filename)
 
         if self.columns is not None:
             full_text_data.extend(self.columns)
