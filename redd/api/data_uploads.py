@@ -24,7 +24,7 @@ class DataUploadResource(CustomResource):
     class Meta:
         queryset = DataUpload.objects.all()
         resource_name = 'data_upload'
-        allowed_methods = ['get']
+        allowed_methods = ['get', 'delete']
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()

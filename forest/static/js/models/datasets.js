@@ -134,12 +134,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
         return results;
     },
 
-    import_data: function(data_uploads_id, success_callback) {
+    import_data: function(data_uploads_id, success_callback, error_callback) {
         /*
          * Kick off the dataset import and update the model with
          * the task id and status.
-         *
-         * TODO - error callback
          */
         Redd.ajax({
             url: this.url() + "import/" + data_uploads_id + "/",
@@ -147,7 +145,11 @@ PANDA.models.Dataset = Backbone.Model.extend({
             success: _.bind(function(response) {
                 this.set(response);
                 success_callback(this); 
-            }, this)
+            }, this),
+            error: function(xhr, textStatus) {
+                error = JSON.parse(xhr.responseText);
+                error_callback(error);
+            }
         });
     },
 

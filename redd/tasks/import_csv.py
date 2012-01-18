@@ -100,8 +100,15 @@ class ImportCSVTask(ImportFileTask):
 
         self.task_update(task_status, '100% complete')
 
-        dataset.row_count = i
+        if not dataset.row_count:
+            dataset.row_count = i
+        else:
+            dataset.row_count += i
+
         dataset.save()
+
+        upload.imported = True
+        upload.save()
 
         log.info('Finished import, dataset_slug: %s' % dataset_slug)
 

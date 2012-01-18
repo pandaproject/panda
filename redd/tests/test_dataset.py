@@ -7,7 +7,7 @@ from django.test import TransactionTestCase
 from django.utils import simplejson as json
 
 from redd import solr
-from redd.models import Dataset, TaskStatus
+from redd.models import Dataset, DataUpload, TaskStatus
 from redd.tests import utils
 
 class TestDataset(TransactionTestCase):
@@ -39,8 +39,13 @@ class TestDataset(TransactionTestCase):
         utils.wait()
 
         # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        upload = DataUpload.objects.get(id=self.upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
@@ -62,8 +67,13 @@ class TestDataset(TransactionTestCase):
         utils.wait()
 
         # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        xls_upload = DataUpload.objects.get(id=xls_upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(xls_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
@@ -85,8 +95,13 @@ class TestDataset(TransactionTestCase):
         utils.wait()
 
         # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        xlsx_upload = DataUpload.objects.get(id=xlsx_upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(xlsx_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
@@ -108,12 +123,67 @@ class TestDataset(TransactionTestCase):
         utils.wait()
 
         # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        xlsx_upload = DataUpload.objects.get(id=xlsx_upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(xlsx_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
+
+    def test_import_additional_data_same_columns(self):
+        self.dataset.import_data(self.upload)
+
+        utils.wait()
+
+        xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
+        
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.import_data(xls_upload)
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        upload = DataUpload.objects.get(id=self.upload.id)
+        xls_upload = DataUpload.objects.get(id=xls_upload.id)
+        
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.row_count, 8)
+        self.assertEqual(upload.imported, True)
+        self.assertEqual(xls_upload.imported, True)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 2)
+    
+    def test_import_additional_data_different_columns(self):
+        self.dataset.import_data(self.upload)
+
+        utils.wait()
+
+        xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
+        xls_upload.columns = ['id', 'first_name', 'last_name', 'employer', 'MORE COLUMNS!']
+        xls_upload.save()
+        
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertRaises(TypeError, self.dataset.import_data, xls_upload)
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        upload = DataUpload.objects.get(id=self.upload.id)
+        xls_upload = DataUpload.objects.get(id=xls_upload.id)
+        
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(upload.imported, True)
+        self.assertEqual(xls_upload.imported, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 

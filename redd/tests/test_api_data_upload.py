@@ -113,3 +113,8 @@ class TestAPIDataUpload(TransactionTestCase):
         self.assertEqual(body['success'], False)
         self.assertEqual(body['forbidden'], True)
 
+    def test_delete(self):
+        response = self.client.delete('/api/1.0/data_upload/%i/' % self.upload.id, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 204)
+

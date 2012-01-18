@@ -20,11 +20,13 @@ class DataUpload(BaseUpload):
     data_type = models.CharField(max_length=4, null=True, blank=True,
         help_text='The type of this file, if known.')
     dialect = JSONField(null=True,
-        help_text = 'Description of the formatting of this file.')
+        help_text='Description of the formatting of this file.')
     columns = JSONField(null=True,
         help_text='An list of names for this uploads columns.')
     sample_data = JSONField(null=True,
-        help_text = 'Example data from this file.')
+        help_text='Example data from this file.')
+    imported = models.BooleanField(default=False,
+        help_text='Has this upload ever been imported into its parent dataset.')
 
     class Meta:
         app_label = 'redd'

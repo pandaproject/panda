@@ -51,6 +51,11 @@
                     "change_notification", 
                     "redd", 
                     "notification"
+                ], 
+                [
+                    "delete_dataupload", 
+                    "redd", 
+                    "dataupload"
                 ]
             ]
         }

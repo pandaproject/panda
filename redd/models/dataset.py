@@ -117,14 +117,14 @@ class Dataset(SluggedModel):
         task_type = get_import_task_type_for_upload(upload)
 
         if not task_type:
-            # TODO - politely raise hell
-            raise TypeError()
+            # TODO - politely raise hell (should normally be caught on client)
+            raise TypeError('Unsupported file type.')
         
-        if self.columns is None:
-            self.columns = upload.columns 
+        if self.columns:
+            if upload.columns != self.columns:
+                raise TypeError('Columns in new data file do not match existing dataset.')
         else:
-            # TODO - validate!
-            pass
+            self.columns = upload.columns
 
         if self.sample_data is None:
             self.sample_data = upload.sample_data

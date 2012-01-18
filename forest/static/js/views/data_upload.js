@@ -140,12 +140,22 @@ PANDA.views.DataUpload = Backbone.View.extend({
          * Handler for when a file upload is completed.
          */
         if (responseJSON.success) {
+            upload = new PANDA.models.DataUpload(responseJSON);
+
             // Finish progress bar
             $("#upload-progress .progress-value").css("width", "100%");
             $("#upload-progress .progress-text").html("<strong>100%</strong> uploaded");
 
             // Once saved immediately begin importing it
-            this.dataset.import_data(responseJSON["id"], this.step_three);
+            this.dataset.import_data(
+                upload.get("id"),
+                this.step_three,
+                _.bind(function(error) {
+                    // Preemptive import errors (mismatched columns, wrong file type, etc.)
+                    upload.destroy()
+                    this.step_one_error_message(error.error_message);
+                }, this));
+            
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else {
