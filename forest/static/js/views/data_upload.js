@@ -58,6 +58,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
                 }, this)
             });
         } else {
+            this.dataset = null;
             this.render();
         }
     },
