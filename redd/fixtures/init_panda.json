@@ -56,6 +56,11 @@
                     "delete_dataupload", 
                     "redd", 
                     "dataupload"
+                ], 
+                [
+                    "delete_relatedupload", 
+                    "redd", 
+                    "relatedupload"
                 ]
             ]
         }

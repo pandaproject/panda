@@ -24,7 +24,7 @@ class RelatedUploadResource(CustomResource):
     class Meta:
         queryset = RelatedUpload.objects.all()
         resource_name = 'related_upload'
-        allowed_methods = ['get']
+        allowed_methods = ['get', 'delete']
 
         authentication = CustomApiKeyAuthentication()
         authorization = DjangoAuthorization()
