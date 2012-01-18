@@ -4,6 +4,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     template: PANDA.templates.dataset_edit,
     data_upload_template: PANDA.templates.data_upload_item,
     related_upload_template: PANDA.templates.related_upload_item,
+    related_upload_destroy_template: PANDA.templates.modal_related_upload_destroy,
     dataset: null,
 
     events: {
@@ -72,8 +73,9 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         }
 
         // Nuke old modals
-        $("#dataset-traceback-modal").remove();
-        $("#dataset-destroy-modal").remove();
+        $("#modal-dataset-traceback").remove();
+        $("#modal-dataset-destroy").remove();
+        $("#modal-related-upload-destroy").remove();
 
         this.el.html(this.template(context));
 
@@ -85,7 +87,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             } else if (task.get("status") == "PENDING") {
                 $("#edit-dataset-form .alert-message").alert("info block-message", "<p><strong>Queued for import!</strong> This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>");
             } else if (task.get("status") == "FAILURE") {
-                $("#edit-dataset-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="dataset-traceback-modal" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
+                $("#edit-dataset-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="modal-dataset-traceback" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
             } 
         }
 
@@ -154,7 +156,12 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             related_upload = new PANDA.models.RelatedUpload(responseJSON);
             this.dataset.related_uploads.add(related_upload);
 
-            $(".related-uploads").append(this.related_upload_template(related_upload.toJSON()));
+            console.log(related_upload)
+
+            $(".related-uploads").append(this.related_upload_template({ 
+                editable: true,
+                upload: related_upload.toJSON()
+            }));
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else {
@@ -235,8 +242,18 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         uri = element.attr("data-uri"); 
         upload = this.dataset.related_uploads.get(uri);
 
-        upload.destroy()
-        element.parent("li").remove();
+        $("#modal-related-upload-destroy").html(this.related_upload_destroy_template({ upload: upload.toJSON() }));
+
+        $("#related-upload-destroy").click(function() {
+            upload.destroy();
+            element.parent("li").remove();
+
+            $("#modal-related-upload-destroy").modal("hide");
+
+            return false;
+        });
+
+        $("#modal-related-upload-destroy").modal("show");
 
         return false;
     }
