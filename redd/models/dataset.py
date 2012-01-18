@@ -9,6 +9,7 @@ from django.db import models
 from django.dispatch import receiver
 
 from redd import solr, utils
+from redd.exceptions import DataImportError
 from redd.fields import JSONField
 from redd.models.category import Category
 from redd.models.slugged_model import SluggedModel
@@ -114,15 +115,18 @@ class Dataset(SluggedModel):
         """
         Import data into this ``Dataset`` from a given ``DataUpload``. 
         """
+        if upload.imported:
+            raise DataImportError('This file has already been imported.')
+
         task_type = get_import_task_type_for_upload(upload)
 
         if not task_type:
             # TODO - politely raise hell (should normally be caught on client)
-            raise TypeError('Unsupported file type.')
+            raise DataImportError('This file type is not supported for data import.')
         
         if self.columns:
             if upload.columns != self.columns:
-                raise TypeError('Columns in new data file do not match existing dataset.')
+                raise DataImportError('The columns in this file do not match those in the dataset.')
         else:
             self.columns = upload.columns
 

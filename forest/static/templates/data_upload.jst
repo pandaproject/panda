@@ -6,6 +6,13 @@
         <% } %>
     </h1>
 
+    <% if (dataset) { %>
+    <div class="alert-message block-message warn" style="display: block;">
+        <p>
+            <strong>Note:</strong> When adding data to an existing dataset the file you upload must have <strong>exactly</strong> the same columns as the existing data.</p>
+    </div>
+    <% } %>
+
     <div id="step-1" class="step">
         <h2>Step 1</h2>
         

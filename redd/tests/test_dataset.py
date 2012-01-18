@@ -7,6 +7,7 @@ from django.test import TransactionTestCase
 from django.utils import simplejson as json
 
 from redd import solr
+from redd.exceptions import DataImportError
 from redd.models import Dataset, DataUpload, TaskStatus
 from redd.tests import utils
 
@@ -173,7 +174,7 @@ class TestDataset(TransactionTestCase):
         # Refresh from database
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
-        self.assertRaises(TypeError, self.dataset.import_data, xls_upload)
+        self.assertRaises(DataImportError, self.dataset.import_data, xls_upload)
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
