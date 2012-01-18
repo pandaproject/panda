@@ -56,6 +56,12 @@
                 <% }); %>
             </ul>
 
+            <div class="clearfix">
+                <div class="input">
+                    <a href="#dataset/<%= dataset.slug %>/upload" class="btn">Upload more data</a>
+                </div>
+            </div>
+
             <h6>Related files</h6>
             <ul class="related-uploads">
                 <% _.each(related_uploads_html, function(u) { %>

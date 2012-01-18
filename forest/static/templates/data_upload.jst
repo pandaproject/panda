@@ -1,9 +1,14 @@
 <div id="upload">
-    <h1>Upload</h1>
+    <h1>
+        Upload
+        <% if (dataset) { %>
+            to <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a>
+        <% } %>
+    </h1>
 
     <div id="step-1" class="step">
         <h2>Step 1</h2>
-
+        
         <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:<p>
 
         <span id="upload-file-wrapper">
