@@ -13,11 +13,20 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
     render: function() {
         data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
-            return this.data_upload_template(data_upload.toJSON());
+            context = {
+                upload: data_upload.toJSON()
+            }
+
+            return this.data_upload_template(context);
         }, this));
 
         related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
-            return this.related_upload_template(related_upload.toJSON());
+            context = {
+                editable: false,
+                upload: related_upload.toJSON()
+            }
+
+            return this.related_upload_template(context);
         }, this));
 
         context = {

@@ -7,13 +7,14 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     dataset: null,
 
     events: {
-        "click .actions .dataset-save":      "save"
+        "click .actions .dataset-save":     "save"
     },
 
     initialize: function() {
-        _.bindAll(this, "render", "save", "destroy", "create_related_upload_button", "on_related_upload_submit", "on_related_upload_progress", "on_related_upload_complete", "on_related_upload_message");
+        _.bindAll(this, "render", "save", "destroy", "create_related_upload_button", "on_related_upload_submit", "on_related_upload_progress", "on_related_upload_complete", "on_related_upload_message", "delete_related_upload");
 
         $("#dataset-destroy").live("click", this.destroy);
+        $(".related-uploads .delete").live("click", this.delete_related_upload);
     },
 
     reset: function(slug) {
@@ -47,11 +48,20 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
     render: function() {
         data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
-            return this.data_upload_template(data_upload.toJSON());
+            context = {
+                upload: data_upload.toJSON()
+            }
+
+            return this.data_upload_template(context);
         }, this));
 
         related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
-            return this.related_upload_template(related_upload.toJSON());
+            context = {
+                editable: true,
+                upload: related_upload.toJSON()
+            }
+
+            return this.related_upload_template(context);
         }, this));
 
         context = {
@@ -218,6 +228,17 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
             Redd.goto_search();
         }, this)});
+    },
+
+    delete_related_upload: function(e) {
+        element = $(e.currentTarget)
+        uri = element.attr("data-uri"); 
+        upload = this.dataset.related_uploads.get(uri);
+
+        upload.destroy()
+        element.parent("li").remove();
+
+        return false;
     }
 });
 
