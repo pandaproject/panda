@@ -265,23 +265,6 @@ class Dataset(SluggedModel):
         """
         return solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug)['response']['numFound']
 
-@receiver(models.signals.post_save, sender=Dataset)
-def on_dataset_save(sender, **kwargs):
-    """
-    When a Dataset is saved, update its metadata in Solr.
-    """
-    kwargs['instance'].update_full_text(commit=True)
-
-@receiver(models.signals.m2m_changed, sender=Dataset.categories.through)
-def on_dataset_categories_change(sender, **kwargs):
-    """
-    When a dataset's categories changed, update it's metadata in Solr.
-
-    TODO: This gets called WAY to frequently--is there a way to only
-    call it when all changes have been made?
-    """
-    on_dataset_save(sender, **kwargs)
-
 @receiver(models.signals.post_delete, sender=Dataset)
 def on_dataset_delete(sender, **kwargs):
     """

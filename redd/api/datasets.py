@@ -45,7 +45,7 @@ class DatasetResource(SlugResource):
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     current_task = fields.ToOneField(TaskResource, 'current_task', full=True, null=True, readonly=True)
     related_uploads = fields.ToManyField('redd.api.related_uploads.RelatedUploadResource', 'related_uploads', full=True, null=True)
-    data_uploads = fields.ToManyField('redd.api.data_uploads.DataUploadResource', 'data_uploads', full=True, null=True)
+    data_uploads = fields.ToManyField('redd.api.data_uploads.DataUploadResource', 'data_uploads', full=True, null=True, readonly=True)
     last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, readonly=True, null=True)
     initial_upload = fields.ForeignKey(DataUploadResource, 'initial_upload', readonly=True, null=True)
 
@@ -147,9 +147,25 @@ class DatasetResource(SlugResource):
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
-        Set creating user on create.
+        Set creator and update full text.
         """
-        return super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
+        bundle = super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
+
+        # After ALL changes have been made to the object and its relations, update its full text in Solr.
+        bundle.obj.update_full_text()
+
+        return bundle
+
+    def obj_update(self, bundle, request=None, **kwargs):
+        """
+        Update full text.
+        """
+        bundle = super(DatasetResource, self).obj_update(bundle, request=request, **kwargs)
+
+        # After ALL changes have been made to the object and its relations, update its full text in Solr.
+        bundle.obj.update_full_text()
+
+        return bundle
 
     def import_data(self, request, **kwargs):
         """

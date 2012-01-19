@@ -3,7 +3,6 @@
 import random
 import sha
 
-from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.db import models
 from django.dispatch import receiver
@@ -11,7 +10,6 @@ from livesettings import config_value
 from tastypie.models import ApiKey
 
 from redd import config # Needed for autodiscovery
-from redd import solr
 from redd.models.category import Category
 from redd.models.dataset import Dataset
 from redd.models.data_upload import DataUpload
@@ -51,15 +49,4 @@ def on_user_post_save(sender, instance, created, **kwargs):
         send_mail(email_subject,
                   email_body,
                   [instance.email])
-    # Update full text
-    else:
-        has_datasets = False
-
-        # TODO - shouldn't really do this for a password change...
-        for dataset in instance.datasets.all():
-            has_datasets = True
-            dataset.update_full_text(commit=False)
-
-        if has_datasets:
-            solr.commit(settings.SOLR_DATASETS_CORE)
 

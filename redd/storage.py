@@ -81,6 +81,8 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
             creator=request.user,
             dataset=dataset)
 
+        dataset.update_full_text()
+
         resource = DataUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
 
@@ -108,6 +110,8 @@ class PANDARelatedUploadBackend(PANDAAbstractUploadBackend):
             size=size,
             creator=request.user,
             dataset=dataset)
+
+        dataset.update_full_text()
 
         resource = RelatedUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
