@@ -13,13 +13,14 @@ from redd import config # Needed for autodiscovery
 from redd.models.category import Category
 from redd.models.dataset import Dataset
 from redd.models.data_upload import DataUpload
+from redd.models.export import Export
 from redd.models.notification import Notification 
 from redd.models.related_upload import RelatedUpload
 from redd.models.task_status import TaskStatus
 from redd.models.user_profile import UserProfile
 from redd.utils.mail import send_mail
 
-__all__ = ['Category', 'Dataset', 'DataUpload', 'Notification', 'RelatedUpload', 'TaskStatus', 'UserProfile']
+__all__ = ['Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'TaskStatus', 'UserProfile']
 
 @receiver(models.signals.post_save, sender=User)
 def on_user_post_save(sender, instance, created, **kwargs):

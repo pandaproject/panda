@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource
 
@@ -10,6 +11,10 @@ class TaskResource(ModelResource):
     """
     Simple wrapper around django-celery's task API.
     """
+    from redd.api.users import UserResource
+
+    creator = fields.ForeignKey(UserResource, 'creator')
+
     class Meta:
         queryset = TaskStatus.objects.all()
         resource_name = 'task'

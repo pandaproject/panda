@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 from datetime import datetime
+import os.path
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
+from livesettings import config_value
 
-from redd import solr
+from redd.utils.mail import send_mail
 
 class ExportFileTask(AbortableTask):
     """
@@ -69,30 +71,45 @@ class ExportFileTask(AbortableTask):
         """
         Save final status, results, etc.
         """
-        from redd.models import Dataset, Notification
+        from redd.models import Dataset, Export, Notification
 
         dataset = Dataset.objects.get(slug=args[0])
-        task_status = dataset.current_task 
-
-        notification = Notification(
-            recipient=dataset.creator,
-            related_task=task_status,
-            related_dataset=dataset
-        )
+        task_status = dataset.current_task
 
         if einfo:
+            error_detail = u'\n'.join([einfo.traceback, unicode(retval)])
+
             self.task_exception(
                 task_status,
                 'Export failed',
-                u'\n'.join([einfo.traceback, unicode(retval)])
-            )
+                error_detail)
             
-            notification.message = 'Export of %s failed' % dataset.name
-            notification.type = 'error'
+            email_message = 'Export of %s failed:\n%s' % (dataset.name, error_detail)
+            notification_message = 'Export of %s failed' % dataset.name
+            notification_type = 'Error'
         else:
             self.task_complete(task_status, 'Export complete')
             
-            notification.message = 'Export of <strong>%s</strong> complete' % dataset.name
-        
-        notification.save()
+            export = Export.objects.create(
+                filename=retval,
+                original_filename=retval,
+                size=os.path.getsize(os.path.join(settings.EXPORT_ROOT, retval)),
+                creator=task_status.creator,
+                creation_date=task_status.start,
+                dataset=dataset)
+            
+            email_message = 'Export of %s complete. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+            notification_message = 'Export of <strong>%s</strong> complete' % dataset.name
+            notification_type = 'Info'
+
+        if task_status.creator:
+            Notification.objects.create(
+                recipient=task_status.creator,
+                related_task=task_status,
+                related_dataset=dataset,
+                message=notification_message,
+                type=notification_type
+            )
+            
+            send_mail(notification_message, email_message, [task_status.creator.username])
 

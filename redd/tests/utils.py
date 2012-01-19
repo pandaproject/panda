@@ -41,6 +41,8 @@ def get_test_dataset(creator):
         name='Contributors',
         description='Biographic information about contributors to the PANDA project.',
         creator=creator)
+    
+    dataset.update_full_text()
 
     return dataset
 

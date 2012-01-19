@@ -22,7 +22,7 @@ class TestAPINotifications(TransactionTestCase):
         self.dataset = utils.get_test_dataset(self.user)
         self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 

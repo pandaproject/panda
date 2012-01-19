@@ -4,7 +4,6 @@ from datetime import datetime
 import os.path
 
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.db import models
 
 class BaseUpload(models.Model):
@@ -39,5 +38,5 @@ class BaseUpload(models.Model):
         """
         Get the absolute path to this upload on disk.
         """
-        return os.path.join(settings.MEDIA_ROOT, self.filename)
+        return os.path.join(self.file_root, self.filename)
 

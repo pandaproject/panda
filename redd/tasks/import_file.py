@@ -95,15 +95,16 @@ class ImportFileTask(AbortableTask):
             notification_message = 'Import of <strong>%s</strong> complete' % dataset.name
             notification_type = 'Info'
         
-        notification = Notification.objects.create(
-            recipient=dataset.creator,
-            related_task=task_status,
-            related_dataset=dataset,
-            message=notification_message,
-            type=notification_type
-        )
+        if task_status.creator:
+            Notification.objects.create(
+                recipient=task_status.creator,
+                related_task=task_status,
+                related_dataset=dataset,
+                message=notification_message,
+                type=notification_type
+            )
 
-        send_mail(notification.type, email_message, [dataset.creator.username])
+            send_mail(notification_message, email_message, [task_status.creator.username])
 
         # If import failed, clear any data that might be staged
         if task_status.status == 'FAILURE':

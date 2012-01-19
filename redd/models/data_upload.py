@@ -2,6 +2,7 @@
 
 import os.path
 
+from django.conf import settings
 from django.db import models
 
 from redd import utils
@@ -27,6 +28,8 @@ class DataUpload(BaseUpload):
         help_text='Example data from this file.')
     imported = models.BooleanField(default=False,
         help_text='Has this upload ever been imported into its parent dataset.')
+    
+    file_root = settings.MEDIA_ROOT
 
     class Meta:
         app_label = 'redd'

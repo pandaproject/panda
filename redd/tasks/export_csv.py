@@ -37,7 +37,7 @@ class ExportCSVTask(ExportFileTask):
         if not filename:
             filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())
 
-        f = open(os.path.join(settings.MEDIA_ROOT, filename), 'w')
+        f = open(os.path.join(settings.EXPORT_ROOT, filename), 'w')
         writer = CSVKitWriter(f)
 
         # Header
@@ -84,4 +84,6 @@ class ExportCSVTask(ExportFileTask):
         self.task_update(task_status, '100% complete')
 
         log.info('Finished export, dataset_slug: %s' % dataset_slug)
+
+        return filename
 

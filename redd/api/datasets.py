@@ -3,10 +3,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import url
 from tastypie import fields
-from tastypie import http
 from tastypie.authorization import DjangoAuthorization
-from tastypie.exceptions import ImmediateHttpResponse
-from tastypie.utils.mime import build_content_type
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
@@ -92,6 +89,7 @@ class DatasetResource(SlugResource):
             url(r"^(?P<resource_name>%s)/schema%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_schema'), name="api_get_schema"),
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import/(?P<upload_id>\d+)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
+            url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/export%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('export_data'), name='api_export_data'),
             
             # Nested urls for accessing data
             url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_list'), name='api_dataset_data_list'),
@@ -183,20 +181,30 @@ class DatasetResource(SlugResource):
         dataset = Dataset.objects.get(slug=slug)
         upload = DataUpload.objects.get(id=kwargs['upload_id'])
 
-        errors = {}
+        dataset.import_data(request.user, upload)
 
-        # Cribbed from is_valid()
-        if errors:
-            if request:
-                desired_format = self.determine_format(request)
-            else:
-                desired_format = self._meta.default_format
+        bundle = self.build_bundle(obj=dataset, request=request)
+        bundle = self.full_dehydrate(bundle)
 
-            serialized = self.serialize(request, errors, desired_format)
-            response = http.HttpBadRequest(content=serialized, content_type=build_content_type(desired_format))
-            raise ImmediateHttpResponse(response=response)
+        self.log_throttled_access(request)
 
-        dataset.import_data(upload)
+        return self.create_response(request, bundle)
+
+    def export_data(self, request, **kwargs):
+        """
+        Dummy endpoint for kicking off data export tasks.
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if 'slug' in kwargs:
+            slug = kwargs['slug']
+        else:
+            slug = request.GET.get('slug')
+
+        dataset = Dataset.objects.get(slug=slug)
+        dataset.export_data(request.user)
 
         bundle = self.build_bundle(obj=dataset, request=request)
         bundle = self.full_dehydrate(bundle)

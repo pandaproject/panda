@@ -58,7 +58,7 @@ class TestAPIData(TransactionTestCase):
         self.client = Client()
     
     def test_get(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -79,7 +79,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(datum, get_result)
 
     def test_get_404(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -87,7 +87,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_list(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -139,7 +139,7 @@ class TestAPIData(TransactionTestCase):
             data_resource.get_dataset_from_kwargs(bundle, dataset_slug=self.dataset.slug)
 
     def test_create(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -162,7 +162,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 5)
 
     def test_create_bulk(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -198,7 +198,7 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('dataset', body)
 
     def test_create_makes_sample(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -216,7 +216,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(self.dataset.sample_data), 5)
 
     def test_created_search(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -239,7 +239,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_create_too_few_fields(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -254,7 +254,7 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('data', body)
 
     def test_create_too_many_fields(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -269,7 +269,7 @@ class TestAPIData(TransactionTestCase):
         self.assertIn('data', body)
 
     def test_update(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -295,7 +295,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(body['external_id'], data['external_id'])
 
     def test_update_bulk(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -322,7 +322,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 4)
 
     def test_updated_search(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -354,7 +354,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_delete(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -375,7 +375,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 3)
 
     def test_delete_list(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -389,7 +389,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(self.dataset.row_count, 0)
 
     def test_deleted_search(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -426,7 +426,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(response.status_code, 501)
 
     def test_search(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -435,7 +435,7 @@ class TestAPIData(TransactionTestCase):
             name='Second dataset',
             creator=self.dataset.creator)
 
-        second_dataset.import_data(self.upload, 0)
+        second_dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -465,7 +465,7 @@ class TestAPIData(TransactionTestCase):
             self.assertIn('external_id', result_dataset['objects'][0])
 
     def test_search_meta(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -474,7 +474,7 @@ class TestAPIData(TransactionTestCase):
             name='Second dataset',
             creator=self.dataset.creator)
 
-        second_dataset.import_data(self.upload, 0)
+        second_dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -493,7 +493,7 @@ class TestAPIData(TransactionTestCase):
         self.assertEqual(len(body['objects']), 1)
 
     def test_search_boolean_query(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
         

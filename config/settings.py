@@ -58,6 +58,7 @@ STATICFILES_FINDERS = (
 
 # Uploads
 MEDIA_ROOT = '/tmp/panda'
+EXPORT_ROOT = '/tmp/panda_exports'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-lyd+@8@=9oni01+gjvb(txz3%hh_7a9m5*n0q^ce5+&c1fkm('

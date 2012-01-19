@@ -118,6 +118,7 @@ chown -R panda:panda /var/log/panda
 
 mkdir /var/lib/panda
 mkdir /var/lib/panda/uploads
+mkdir /var/lib/panda/exports
 mkdir /var/lib/panda/media
 
 chown -R panda:panda /var/lib/panda

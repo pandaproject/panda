@@ -4,6 +4,8 @@ from celery import states
 from django.db import models
 from djcelery.models import TASK_STATE_CHOICES
 
+from redd.models import User
+
 class TaskStatus(models.Model):
     """
     An object to track the status of a Celery task, as the
@@ -21,11 +23,13 @@ class TaskStatus(models.Model):
         help_text='Date and time that this task ceased processing (either complete or failed).')
     traceback = models.TextField(blank=True, null=True, default=None,
         help_text='Traceback that exited this task, if it failed.')
+    creator = models.ForeignKey(User, null=True, related_name='tasks',
+        help_text='The user who initiated this task.')
 
     class Meta:
         app_label = 'redd'
-        verbose_name = 'Task Status'
-        verbose_name_plural = 'Task Statuses'
+        verbose_name = 'Task'
+        verbose_name_plural = 'Tasks'
 
     def __unicode__(self):
         return u'%s (%i)' % (self.task_name, self.id)

@@ -111,7 +111,7 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).delete(*args, **kwargs)
 
-    def import_data(self, upload, external_id_field_index=None):
+    def import_data(self, user, upload, external_id_field_index=None):
         """
         Import data into this ``Dataset`` from a given ``DataUpload``. 
         """
@@ -140,7 +140,7 @@ class Dataset(SluggedModel):
         if self.initial_upload is None and self.row_count is None:
             self.initial_upload = upload
 
-        self.current_task = TaskStatus.objects.create(task_name=task_type.name)
+        self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
         self.save()
 
         task_type.apply_async(
@@ -149,13 +149,13 @@ class Dataset(SluggedModel):
             task_id=self.current_task.id
         )
 
-    def export_data(self, filename=None):
+    def export_data(self, user, filename=None):
         """
         Execute the data export task for this Dataset.
         """
         task_type = ExportCSVTask
 
-        self.current_task = TaskStatus.objects.create(task_name=task_type.name)
+        self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
         self.save()
 
         task_type.apply_async(

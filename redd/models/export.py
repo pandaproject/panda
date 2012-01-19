@@ -5,16 +5,16 @@ from django.db import models
 
 from redd.models.base_upload import BaseUpload
 
-class RelatedUpload(BaseUpload):
+class Export(BaseUpload):
     """
-    A file related to a dataset file uploaded to PANDA.
+    A dataset exported to a file.
     """
     from redd.models.dataset import Dataset
 
-    dataset = models.ForeignKey(Dataset, related_name='related_uploads',
-        help_text='The dataset this upload is associated with.')
+    dataset = models.ForeignKey(Dataset, related_name='exports',
+        help_text='The dataset this export is from.')
 
-    file_root = settings.MEDIA_ROOT
+    file_root = settings.EXPORT_ROOT
 
     class Meta:
         app_label = 'redd'

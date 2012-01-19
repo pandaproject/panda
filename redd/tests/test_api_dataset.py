@@ -68,7 +68,7 @@ class TestAPIDataset(TransactionTestCase):
 
     def test_get(self):
         # Import so that there will be a task object
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -142,6 +142,7 @@ class TestAPIDataset(TransactionTestCase):
         category = Category.objects.get(slug='crime')
         self.dataset.categories.add(category)
         self.dataset.save()
+        self.dataset.update_full_text()
 
         response = self.client.get('/api/1.0/dataset/', data={ 'category': 'crime' }, **self.auth_headers)
 
@@ -318,8 +319,36 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_export_data(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        utils.wait()
+
+        response = self.client.get('/api/1.0/dataset/%s/export/' % self.dataset.slug, **self.auth_headers)
+
+        utils.wait() 
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertNotEqual(body['current_task'], None)
+        self.assertEqual(body['current_task']['task_name'], 'redd.tasks.export.csv')
+        
+        # Refetch dataset so that attributes will be updated
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertEqual(task.task_name, 'redd.tasks.export.csv')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
     def test_get_datum(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -340,7 +369,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['dataset'], '/api/1.0/dataset/%s/' % self.dataset.slug)
 
     def test_get_data(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -353,7 +382,7 @@ class TestAPIDataset(TransactionTestCase):
             creator=self.dataset.creator)
 
         # Bending a rules a bit since this upload is associated with the other dataset
-        second_dataset.import_data(self.upload, 0)
+        second_dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -375,7 +404,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['objects'][0]['data'][1], 'Brian')
 
     def test_search_data(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -388,7 +417,7 @@ class TestAPIDataset(TransactionTestCase):
             creator=self.dataset.creator)
 
         # Bending the rules again...
-        second_dataset.import_data(self.upload, 0)
+        second_dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -410,7 +439,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['objects'][0]['data'][1], 'Christopher')
 
     def test_search_data_limit(self):
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -437,6 +466,7 @@ class TestAPIDataset(TransactionTestCase):
             name='Second dataset',
             description='contributors',
             creator=self.dataset.creator)
+        second_dataset.update_full_text()
 
         # Should match both
         response = self.client.get('/api/1.0/dataset/?q=contributors', **self.auth_headers)

@@ -22,7 +22,7 @@ class TestAPITaskStatus(TransactionTestCase):
         self.dataset = utils.get_test_dataset(self.user)
         self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
-        self.dataset.import_data(self.upload, 0)
+        self.dataset.import_data(self.user, self.upload, 0)
 
         utils.wait()
 
@@ -47,6 +47,7 @@ class TestAPITaskStatus(TransactionTestCase):
         self.assertEqual(end, task.end.replace(microsecond=0))
         self.assertEqual(body['message'], task.message)
         self.assertEqual(body['traceback'], None)
+        self.assertNotEqual(body['creator'], None)
 
     def test_get_unauthorized(self):
         response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id) 
