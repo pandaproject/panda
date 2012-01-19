@@ -42,7 +42,11 @@ PANDA.views.DatasetView = Backbone.View.extend({
     },
     
     export_data: function() {
-        this.dataset.export_data();
+        this.dataset.export_data(function() {
+            bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+        }, function(error) {
+            bootbox.alert("<p>Your export failed to start! Please notify your administrator.</p><p>Error:</p><code>" + error.traceback + "</code>");
+        });
     }
 });
 

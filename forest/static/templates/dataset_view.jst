@@ -76,7 +76,7 @@
     </div>
     <div class="modal-body">
         <% if (dataset.current_task && dataset.current_task.traceback) { %>
-        <%= current_task.traceback %>
+        <code><%= current_task.traceback %></code>
         <% } %>
     </div>
     <div class="modal-footer">
@@ -90,7 +90,7 @@
         <h3>Are you sure you want to export this dataset?</h3>
     </div>
     <div class="modal-body">
-        Depending on size, export may take a long time to complete. You will be notified by email when it is finished.
+        This process will create a single CSV file from all rows that are currently part of this dataset (whether created by uploading files or via the API). Depending on size, this process may take a long time to complete. You will be notified by email when it is finished.
     </div>
     <div class="modal-footer">
         <input type="button" class="btn modal-close" value="Cancel" />
