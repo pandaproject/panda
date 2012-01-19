@@ -3,9 +3,9 @@
         <legend>About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
         <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
         <% if (dataset.last_modified) { %>
-        Last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
+        Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
         <% } else { %>
-        Never modified.
+        Data never modified.
         <% } %>
         </p>
         
@@ -65,6 +65,7 @@
 
     <div class="actions">
         <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
+        <input type="button" class="btn danger" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true" value="Export to CSV" />
     </div>
 </form>
 
@@ -81,4 +82,18 @@
     <div class="modal-footer">
         <input type="button" class="btn modal-close" value="Close" />
     </div>
-</div
+</div>
+
+<div id="modal-export-dataset" class="modal hide fade in">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Are you sure you want to export this dataset?</h3>
+    </div>
+    <div class="modal-body">
+        Depending on size, export may take a long time to complete. You will be notified by email when it is finished.
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn modal-close" value="Cancel" />
+        <input id="dataset-export" type="button" class="btn primary modal-close" value="Continue with export" />
+    </div>
+</div>

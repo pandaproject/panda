@@ -4,7 +4,9 @@ PANDA.views.DatasetView = Backbone.View.extend({
     related_upload_template: PANDA.templates.related_upload_item,
 
     initialize: function(options) {
-        _.bindAll(this, "render");
+        _.bindAll(this, "render", "export_data");
+        
+        $("#dataset-export").live("click", this.export_data);
     },
 
     set_dataset: function(dataset) {
@@ -37,6 +39,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
         }
 
         this.el.html(this.template(context));
+    },
+    
+    export_data: function() {
+        this.dataset.export_data();
     }
 });
 

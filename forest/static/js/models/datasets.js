@@ -144,11 +144,42 @@ PANDA.models.Dataset = Backbone.Model.extend({
             dataType: 'json',
             success: _.bind(function(response) {
                 this.set(response);
-                success_callback(this); 
+
+                if (success_callback) {
+                    success_callback(this);
+                }
             }, this),
             error: function(xhr, textStatus) {
                 error = JSON.parse(xhr.responseText);
-                error_callback(error);
+
+                if (error_callback) {
+                    error_callback(error);
+                }
+            }
+        });
+    },
+
+    export_data: function(success_callback, error_callback) {
+        /*
+         * Kick off the dataset export and update the model with
+         * the task id and status.
+         */
+        Redd.ajax({
+            url: this.url() + "export/",
+            dataType: 'json',
+            success: _.bind(function(response) {
+                this.set(response);
+
+                if (success_callback) {
+                    success_callback(this); 
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(error);
+                }
             }
         });
     },

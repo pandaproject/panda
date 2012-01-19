@@ -141,6 +141,9 @@ body { padding-top: 40px; }
     overflow: scroll;
 }
 
+/* Dataset view page */
+#dataset-search-results .actions .danger { float: right; }
+
 /* Edit page */
 
 #edit-dataset .actions .danger { float: right; }
