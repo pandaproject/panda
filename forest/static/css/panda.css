@@ -1,5 +1,4 @@
 body { padding-top: 40px; }
-#sidebar { width: 240px; display:none; }
 .topbar { height: 40px; }
 .topbar h3 { margin-left: 10px; }
 /*.topbar div > ul a, .nav a { padding: 5px 5px 6px; }*/
@@ -8,7 +7,7 @@ body { padding-top: 40px; }
 .topbar .menu-dropdown, .topbar .dropdown-menu { top: 40px; min-width: 300px; max-width: 400px; }
 .topbar .dropdown-toggle::after { content: none; }
 .container-fluid { padding: 0; }
-.content { padding: 20px 30px 30px 30px; }
+.content { padding: 20px 30px 30px 0; }
 .alert-message { display: none; }
 
 .form-stacked { padding-left: 0px; }
@@ -37,8 +36,7 @@ body { padding-top: 40px; }
 /* Sidebar */
 
 #sidebar-menu {
-    margin-top: 20px;
-    margin-left: 20px; 
+    margin: 20px 0 20px 20px;
     padding: 10px;
     background-color: whiteSmoke;
     border: 1px solid lightgray;
