@@ -38,7 +38,21 @@ PANDA.views.DatasetView = Backbone.View.extend({
             'related_uploads_html': related_uploads_html
         }
 
+        // Nuke old modals
+        $("#modal-dataset-traceback").remove();
+        $("#modal-export-dataset").remove();
+
         this.el.html(this.template(context));
+
+        if (task && task.get("task_name").startsWith("redd.tasks.import")) {
+            if (task.get("status") == "STARTED") {
+                $("#edit-dataset-form .alert-message").alert("info block-message", "<p><strong>Import in progress!</strong> This dataset is currently being made searchable. It will not yet appear in search results.</p>Status of import: " + task.get("message") + ".");
+            } else if (task.get("status") == "PENDING") {
+                $("#edit-dataset-form .alert-message").alert("info block-message", "<p><strong>Queued for import!</strong> This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>");
+            } else if (task.get("status") == "FAILURE") {
+                $("#edit-dataset-form .alert-message").alert("error block-message", '<p><strong>Import failed!</strong> The process to make this dataset searchable failed. It will not appear in search results. <input type="button" class="btn inline" data-controls-modal="modal-dataset-traceback" data-backdrop="true" data-keyboard="true" value="Show detailed error message" /></p>');
+            } 
+        }
     },
     
     export_data: function() {

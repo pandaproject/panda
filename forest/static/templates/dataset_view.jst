@@ -1,4 +1,5 @@
 <form class="form-stacked">
+    <div class="alert-message"></div>
     <fieldset>
         <legend>About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
         <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
@@ -76,7 +77,8 @@
     </div>
     <div class="modal-body">
         <% if (dataset.current_task && dataset.current_task.traceback) { %>
-        <code><%= current_task.traceback %></code>
+        <p>The import failed with the following exception:</p>
+        <code><%= dataset.current_task.traceback %></code>
         <% } %>
     </div>
     <div class="modal-footer">

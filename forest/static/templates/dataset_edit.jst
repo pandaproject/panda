@@ -128,7 +128,8 @@
     </div>
     <div class="modal-body">
         <% if (dataset.current_task && dataset.current_task.traceback) { %>
-        <%= dataset.current_task.traceback %>
+        <p>The import failed with the following exception:</p>
+        <code><%= dataset.current_task.traceback %></code>
         <% } %>
     </div>
     <div class="modal-footer">
