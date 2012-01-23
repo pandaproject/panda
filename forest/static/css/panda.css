@@ -1,11 +1,11 @@
 body { padding-top: 40px; }
 #sidebar { width: 240px; display:none; }
-.topbar { height: 30px; }
-.topbar .container { margin-left: 0; }
-.topbar div > ul a, .nav a { padding: 5px 5px 6px; }
+.topbar { height: 40px; }
+.topbar h3 { margin-left: 10px; }
+/*.topbar div > ul a, .nav a { padding: 5px 5px 6px; }*/
 #topbar-email { display: none; }
 #topbar-logout { display: none; }
-.topbar .menu-dropdown, .topbar .dropdown-menu { top: 30px; min-width: 300px; max-width: 400px; }
+.topbar .menu-dropdown, .topbar .dropdown-menu { top: 40px; min-width: 300px; max-width: 400px; }
 .topbar .dropdown-toggle::after { content: none; }
 .container-fluid { padding: 0; }
 .content { padding: 20px 30px 30px 30px; }
@@ -39,44 +39,19 @@ body { padding-top: 40px; }
 #sidebar-menu {
     margin-top: 20px;
     margin-left: 20px; 
-    padding-top: 20px;
-    padding-bottom: 10px;
+    padding: 10px;
     background-color: whiteSmoke;
     border: 1px solid lightgray;
-}
-
-#sidebar-menu .header {
-    padding-bottom: 20px;
-    text-align: center;
-    width: 220px;
-    display: table-cell;
-    font-weight: bold;
-}
-
-#sidebar-menu .header h1 {
-    font-size: 44px;
-    margin-bottom: 5px;
-}
-
-#sidebar-menu .header h1 a {
-    color: #AA4040;
-}
-
-#sidebar-menu .header h1 a:hover {
-    text-decoration: none;
 }
 
 #sidebar-menu ul {
     list-style: none;
     font-size: 18px;
+    margin: 0 0 20px 0;
 }
 
 #sidebar-menu li {
     margin-bottom: 7px;
-}
-
-#categories-list {
-    margin-bottom: 10px;
 }
 
 #categories-list .category {
@@ -84,7 +59,6 @@ body { padding-top: 40px; }
 }
 
 #sidebar-menu .add-category {
-    margin-left: 25px;
     font-size: smaller;
 }
 
