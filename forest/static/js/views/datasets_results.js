@@ -18,9 +18,6 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
 
         context["datasets"] = this.search.datasets.results()["datasets"];
 
-        // Remove any lingering modal from previous usage
-        $("#modal-dataset-search").remove();
-
         this.el.html(this.template(context));
 
         // Enable result sorting
@@ -37,11 +34,6 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
             textExtraction: function(node) {
                 return $(node).children(".sort-value").text();
             }
-        });
-
-        // Create new modal
-        $("#modal-dataset-search").modal({
-            keyboard: true
         });
     }
 });
