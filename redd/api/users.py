@@ -42,7 +42,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
-        excludes = ['password', 'username', 'is_superuser', 'is_staff']
+        excludes = ['password', 'username', 'is_staff', 'is_superuser']
         always_return_data = True
 
         authentication = CustomApiKeyAuthentication()

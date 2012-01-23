@@ -3,6 +3,7 @@ body { padding-top: 40px; }
 .topbar h3 { margin-left: 10px; }
 /*.topbar div > ul a, .nav a { padding: 5px 5px 6px; }*/
 #topbar-email { display: none; }
+#topbar-admin { display: none; }
 #topbar-logout { display: none; }
 .topbar .menu-dropdown, .topbar .dropdown-menu { top: 40px; min-width: 300px; max-width: 400px; }
 .topbar .dropdown-toggle::after { content: none; }

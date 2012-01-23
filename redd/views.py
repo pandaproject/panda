@@ -53,6 +53,7 @@ def make_user_login_response(user):
     return {
         'email': user.email,
         'api_key': user.api_key.key,
+        'is_staff': user.is_staff,
         'notifications': notifications
     }
 

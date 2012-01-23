@@ -74,9 +74,14 @@ PANDA.views.Root = Backbone.View.extend({
 
         email = $.cookie("email");
         api_key = $.cookie("api_key");
+        is_staff = $.cookie("is_staff") === "true" ? true : false;
 
         if (email && api_key) {
-            this.set_current_user(new PANDA.models.User({ "email": email, "api_key": api_key }));
+            this.set_current_user(new PANDA.models.User({
+                "email": email,
+                "api_key": api_key,
+                "is_staff": is_staff
+            }));
 
             // Fetch latest notifications (doubles as a verification of the user's credentials)
             this.refresh_notifications();
@@ -103,12 +108,14 @@ PANDA.views.Root = Backbone.View.extend({
         this._current_user = user;
 
         if (this._current_user) {
-            $.cookie('email', this._current_user.get("email"));
-            $.cookie('api_key', this._current_user.get("api_key"));
+            $.cookie("email", this._current_user.get("email"));
+            $.cookie("api_key", this._current_user.get("api_key"));
+            $.cookie("is_staff", this._current_user.get("is_staff").toString());
             $("#sidebar").show();
         } else {
-            $.cookie('email', null);
-            $.cookie('api_key', null);
+            $.cookie("email", null);
+            $.cookie("api_key", null);
+            $.cookie("is_staff", null);
             $("#sidebar").hide();
         }
             
@@ -185,6 +192,7 @@ PANDA.views.Root = Backbone.View.extend({
          * Reconfigures the Bootstrap topbar based on the current user.
          */
         if (!this._current_user) {
+            $("#topbar-admin").hide();
             $("#topbar-email").hide();
             $("#topbar-notifications").hide();
             $("#topbar-logout").hide();
@@ -222,6 +230,12 @@ PANDA.views.Root = Backbone.View.extend({
             $("#topbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View all notifications (TODO)\');">View all notifications</a></li>');
             
             $("#topbar-notifications .count").text(this._current_user.notifications.length);
+
+            if (this._current_user.get("is_staff")) {
+                $("#topbar-admin").css("display", "block");
+            } else {
+                $("#topbar-admin").hide();
+            }
 
             $("#topbar-email").css("display", "block");
             $("#topbar-notifications").css("display", "block");
