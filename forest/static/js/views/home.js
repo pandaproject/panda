@@ -1,5 +1,5 @@
-PANDA.views.News = Backbone.View.extend({
-    template: PANDA.templates.news,
+PANDA.views.Home = Backbone.View.extend({
+    template: PANDA.templates.home,
 
     initialize: function(options) {
         _.bindAll(this, "render");
