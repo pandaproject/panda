@@ -191,6 +191,10 @@ admin.site.register(User, UserModelAdmin)
 # Hide sites framework
 admin.site.unregister(Site)
 
-admin.site.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    fields = ('name', 'slug')
+    prepopulated_fields = { 'slug': ('name', ) }
+
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(TaskStatus)
 
