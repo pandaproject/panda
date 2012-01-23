@@ -38,7 +38,7 @@
                 <tr>
                     <td>
                         <span class="sort-value hide"><%= dataset.name %></span>
-                        <a href="#" class="dataset-link" data-uri="<%= dataset.resource_uri %>"><%= dataset.name %></a><br />
+                        <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a><br />
                         <em><%= dataset.description %></em>
                     </td>
                     <td>
@@ -62,8 +62,5 @@
         </table>
 
     <% } %>
-</div>
-
-<div id="modal-dataset-search" class="modal hide fade in">
 </div>
 
