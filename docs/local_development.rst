@@ -29,6 +29,10 @@ This script will setup the complete application, *except* for Solr. Be sure to r
     sudo mkdir /var/log/panda
     sudo chown $USER /var/log/panda
 
+    # Create data directories
+    mkdir /tmp/panda
+    mkdir /tmp/panda_exports
+
     # Enter "panda" when prompted for password
     createuser -d -R -S -P panda
     createdb -O panda panda
