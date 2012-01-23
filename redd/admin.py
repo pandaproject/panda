@@ -196,5 +196,13 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = { 'slug': ('name', ) }
 
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(TaskStatus)
+
+class TaskStatusAdmin(admin.ModelAdmin):
+    fields = ('task_name', 'status', 'message', 'start', 'end', 'traceback', 'creator')
+    readonly_fields = ('task_name', 'status', 'message', 'start', 'end', 'traceback', 'creator')
+    
+    list_display = ('task_name', 'status', 'creator')
+    list_filter = ('status', )
+
+admin.site.register(TaskStatus, TaskStatusAdmin)
 

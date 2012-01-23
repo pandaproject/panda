@@ -32,5 +32,5 @@ class TaskStatus(models.Model):
         verbose_name_plural = 'Tasks'
 
     def __unicode__(self):
-        return u'%s (%i)' % (self.task_name, self.id)
+        return self.task_name
 
