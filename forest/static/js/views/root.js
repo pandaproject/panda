@@ -72,9 +72,9 @@ PANDA.views.Root = Backbone.View.extend({
             return true;
         }
 
-        email = $.cookie("email");
-        api_key = $.cookie("api_key");
-        is_staff = $.cookie("is_staff") === "true" ? true : false;
+        var email = $.cookie("email");
+        var api_key = $.cookie("api_key");
+        var is_staff = $.cookie("is_staff") === "true" ? true : false;
 
         if (email && api_key) {
             this.set_current_user(new PANDA.models.User({
@@ -205,13 +205,13 @@ PANDA.views.Root = Backbone.View.extend({
                 $("#topbar-notifications .count").addClass("important");
 
                 this._current_user.notifications.each(function(note) {
-                    related_dataset = note.get("related_dataset");
+                    var related_dataset = note.get("related_dataset");
 
                     if (related_dataset) {
-                        slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
-                        link = "#dataset/" + related_dataset.substring(slash + 1, related_dataset.length - 1);
+                        var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
+                        var link = "#dataset/" + related_dataset.substring(slash + 1, related_dataset.length - 1);
                     } else {
-                        link = "#";
+                        var link = "#";
                     }
 
                     $("#topbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + note.get("message") + '</a></li>');
@@ -310,7 +310,7 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view.search(query, limit, page);
 
-        path = "search/";
+        var path = "search/";
 
         if (query) {
             path += query;
@@ -351,9 +351,9 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset(category, query, limit, page);
 
         if (category) {
-            path = "category/" + category;
+            var path = "category/" + category;
         } else {
-            path = "datasets";
+            var path = "datasets";
         }
 
         if (query) {
@@ -405,7 +405,7 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view.search(query, limit, page);
 
-        path = "dataset/" + slug + "/search";
+        var path = "dataset/" + slug + "/search";
 
         if (query) {
             path += "/" + query;

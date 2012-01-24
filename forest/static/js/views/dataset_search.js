@@ -47,7 +47,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
 
-        task = this.dataset.current_task;
+        var task = this.dataset.current_task;
 
         if (task && task.get("task_name").startsWith("redd.tasks.import")) {
             if (task.get("status") == "STARTED") {

@@ -72,9 +72,9 @@ $.fn.show_errors = function(errors, alert_prefix) {
 
     _.each(errors, _.bind(function(field_errors, field) {
         // Only render one error at a time
-        error = field_errors[0];
+        var error = field_errors[0];
 
-        input = $(this).find('input[name="' + field + '"]');
+        var input = $(this).find('input[name="' + field + '"]');
 
         if (input) {
             input.parents("div.clearfix").addClass("error");

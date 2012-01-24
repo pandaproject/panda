@@ -26,7 +26,7 @@ PANDA.views.Login = Backbone.View.extend({
     },
 
     render: function() {
-        email = $.cookie("email");
+        var email = $.cookie("email");
 
         this.el.html(this.template({ email: email }));
     },
@@ -73,9 +73,9 @@ PANDA.views.Login = Backbone.View.extend({
                 Redd.set_current_user(null); 
 
                 try {
-                    errors = $.parseJSON(xhr.responseText);
+                    var errors = $.parseJSON(xhr.responseText);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    var errors = { "__all__": "Unknown error" }; 
                 }
 
                 $("#login-form").show_errors(errors, "Login failed!");

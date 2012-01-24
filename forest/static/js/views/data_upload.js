@@ -95,7 +95,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     create_upload_button: function() {
         $("#upload-file-wrapper").html('<input type="file" id="upload-file" />');
 
-        btn = CustomUploadButton.init({
+        var btn = CustomUploadButton.init({
             onChange: _.bind(function(input) {
                 this.file_uploader._onInputChange(input);
             }, this)
@@ -125,7 +125,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         /*
          * Handler for when a file upload reports its progress.
          */
-        pct = Math.floor(loaded / total * 100);
+        var pct = Math.floor(loaded / total * 100);
 
         // Don't render 100% until ajax request creating dataset has finished
         if (pct == 100) {
@@ -141,7 +141,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
          * Handler for when a file upload is completed.
          */
         if (responseJSON.success) {
-            upload = new PANDA.models.DataUpload(responseJSON);
+            var upload = new PANDA.models.DataUpload(responseJSON);
 
             // Finish progress bar
             $("#upload-progress .progress-value").css("width", "100%");

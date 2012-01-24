@@ -48,7 +48,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     render: function() {
-        data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
+        var data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
             context = {
                 upload: data_upload.toJSON()
             }
@@ -56,7 +56,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             return this.data_upload_template(context);
         }, this));
 
-        related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
+        var related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
             context = {
                 editable: true,
                 upload: related_upload.toJSON()
@@ -65,7 +65,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             return this.related_upload_template(context);
         }, this));
 
-        context = {
+        var context = {
             'dataset': this.dataset.toJSON(true),
             'categories': Redd.get_categories().toJSON(),
             'data_uploads_html': data_uploads_html,
@@ -79,7 +79,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
         this.el.html(this.template(context));
 
-        task = this.dataset.current_task;
+        var task = this.dataset.current_task;
 
         if (task && task.get("task_name").startsWith("redd.tasks.import")) {
             if (task.get("status") == "STARTED") {
@@ -112,7 +112,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     create_related_upload_button: function() {
         $("#related-upload-file-wrapper").html('<input type="file" id="upload-file" />');
 
-        btn = CustomUploadButton.init({
+        var btn = CustomUploadButton.init({
             onChange: _.bind(function(input) {
                 this.related_uploader._onInputChange(input);
             }, this)
@@ -134,7 +134,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         /*
          * Handler for when a file upload reports its progress.
          */
-        pct = Math.floor(loaded / total * 100);
+        var pct = Math.floor(loaded / total * 100);
 
         // Don't render 100% until ajax request creating dataset has finished
         if (pct == 100) {
@@ -153,7 +153,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             // Finish progress bar
             $("#related-upload-progress").hide()
 
-            related_upload = new PANDA.models.RelatedUpload(responseJSON);
+            var related_upload = new PANDA.models.RelatedUpload(responseJSON);
             this.dataset.related_uploads.add(related_upload);
 
             $(".related-uploads").append(this.related_upload_template({ 
@@ -181,9 +181,9 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             return false;
         }
         
-        form_values = $("#edit-dataset-form").serializeObject();
+        var form_values = $("#edit-dataset-form").serializeObject();
 
-        s = {};
+        var s = {};
 
         // Ensure categories is cleared
         if (!("categories" in form_values)) {
@@ -235,9 +235,9 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     delete_related_upload: function(e) {
-        element = $(e.currentTarget)
-        uri = element.attr("data-uri"); 
-        upload = this.dataset.related_uploads.get(uri);
+        var element = $(e.currentTarget)
+        var uri = element.attr("data-uri"); 
+        var upload = this.dataset.related_uploads.get(uri);
 
         $("#modal-related-upload-destroy").html(this.related_upload_destroy_template({ upload: upload.toJSON() }));
 

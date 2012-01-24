@@ -11,7 +11,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
     },
 
     render: function() {
-        context = this.collection.meta;
+        var context = this.collection.meta;
         context["settings"] = PANDA.settings;
 
         context["query"] = this.search.query,
