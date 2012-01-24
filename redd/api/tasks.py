@@ -2,12 +2,11 @@
 
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
-from tastypie.resources import ModelResource
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer, PandaModelResource
 from redd.models import TaskStatus
 
-class TaskResource(ModelResource):
+class TaskResource(PandaModelResource):
     """
     Simple wrapper around django-celery's task API.
     """

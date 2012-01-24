@@ -2,12 +2,11 @@
 
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
-from tastypie.resources import ModelResource
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer, PandaModelResource
 from redd.models import Notification 
 
-class NotificationResource(ModelResource):
+class NotificationResource(PandaModelResource):
     """
     Access to user notifications.
     """

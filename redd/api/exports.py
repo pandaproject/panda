@@ -9,10 +9,10 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, PandaModelResource, CustomSerializer
 from redd.models import Export
 
-class ExportResource(CustomResource):
+class ExportResource(PandaModelResource):
     """
     API resource for Exports.
     """

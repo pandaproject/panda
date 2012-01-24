@@ -4,15 +4,18 @@ from urllib import unquote
 
 from django.conf.urls.defaults import url
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.bundle import Bundle
 from tastypie.fields import ApiField, CharField
 from tastypie.paginator import Paginator
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, Resource
 from tastypie.serializers import Serializer
 from tastypie.utils.urls import trailing_slash
 
 from redd.fields import JSONField
+
+PANDA_CACHE_CONTROL = 'max-age=0,no-cache,no-store'
 
 class JSONApiField(ApiField):
     """
@@ -30,7 +33,20 @@ class JSONApiField(ApiField):
 
         return value
 
-class CustomResource(ModelResource):
+class PandaResource(Resource):
+    """
+    Resource subclass that overrides cache headers.
+    """
+    def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
+        """
+        Override response generation to add ``Cache-Control: no-cache`` header.
+        """
+        response = super(PandaResource, self).create_response(request, data, response_class, **response_kwargs)
+        response['Cache-Control'] = PANDA_CACHE_CONTROL
+
+        return response
+
+class PandaModelResource(ModelResource):
     """
     ModelResource subclass that supports JSONFields.
     """
@@ -42,9 +58,18 @@ class CustomResource(ModelResource):
         if isinstance(f, JSONField):
             return JSONApiField
     
-        return super(CustomResource, cls).api_field_from_django_field(f, default)
+        return super(PandaModelResource, cls).api_field_from_django_field(f, default)
 
-class SlugResource(CustomResource):
+    def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
+        """
+        Override response generation to add ``Cache-Control: no-cache`` header.
+        """
+        response = super(PandaModelResource, self).create_response(request, data, response_class, **response_kwargs)
+        response['Cache-Control'] = PANDA_CACHE_CONTROL
+
+        return response
+
+class SluggedModelResource(PandaModelResource):
     """
     ModelResource that uses slugs for URLs.
 

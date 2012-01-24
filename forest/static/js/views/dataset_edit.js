@@ -156,8 +156,6 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             related_upload = new PANDA.models.RelatedUpload(responseJSON);
             this.dataset.related_uploads.add(related_upload);
 
-            console.log(related_upload)
-
             $(".related-uploads").append(this.related_upload_template({ 
                 editable: true,
                 upload: related_upload.toJSON()
@@ -172,7 +170,6 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
     on_related_upload_message: function(message) {
         // TODO
-        console.log(message);
     },
 
     save: function() {

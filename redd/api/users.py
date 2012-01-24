@@ -5,10 +5,9 @@ import random
 from django.contrib.auth.models import Group, User, get_hexdigest
 from django.core.validators import email_re
 from tastypie.authorization import DjangoAuthorization
-from tastypie.resources import ModelResource
 from tastypie.validation import Validation
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer, PandaModelResource
 
 class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -35,7 +34,7 @@ class UserValidation(Validation):
 
         return errors
 
-class UserResource(ModelResource):
+class UserResource(PandaModelResource):
     """
     API resource for Uploads.
     """

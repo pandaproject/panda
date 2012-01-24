@@ -19,7 +19,6 @@ PANDA.views.Root = Backbone.View.extend({
     initialize: function() {
         // Bind local methods
         _.bindAll(this, "get_categories", "get_category_by_slug", "refresh_notifications");
-        console.log("here");
 
         // Track Ajax events
         this.track_ajax_events();

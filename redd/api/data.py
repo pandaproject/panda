@@ -9,14 +9,13 @@ from tastypie import fields, http
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest, NotFound, ImmediateHttpResponse
-from tastypie.resources import Resource
 from tastypie.utils import dict_strip_unicode_keys 
 from tastypie.utils.mime import build_content_type
 from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.datasets import DatasetResource
-from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, PandaResource, CustomSerializer
 from redd.models import Dataset
 
 class SolrObject(object):
@@ -63,7 +62,7 @@ class DataValidation(Validation):
 
         return errors
 
-class DataResource(Resource):
+class DataResource(PandaResource):
     """
     API resource for data.
     """

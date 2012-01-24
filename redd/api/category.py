@@ -2,10 +2,10 @@
 
 from tastypie.authorization import DjangoAuthorization
 
-from redd.api.utils import CustomApiKeyAuthentication, SlugResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, SluggedModelResource, CustomSerializer
 from redd.models import Category
 
-class CategoryResource(SlugResource):
+class CategoryResource(SluggedModelResource):
     """
     Simple wrapper around django-celery's task API.
     """

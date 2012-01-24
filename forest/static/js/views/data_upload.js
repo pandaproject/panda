@@ -155,8 +155,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
                     // Preemptive import errors (mismatched columns, wrong file type, etc.)
                     upload.destroy()
                     this.step_one_error_message(error.error_message);
-                }, this));
-            
+                }, this)
+            );
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else {

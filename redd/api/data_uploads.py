@@ -9,10 +9,10 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, PandaModelResource, CustomSerializer
 from redd.models import DataUpload
 
-class DataUploadResource(CustomResource):
+class DataUploadResource(PandaModelResource):
     """
     API resource for DataUploads.
     """

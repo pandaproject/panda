@@ -8,7 +8,7 @@ from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from redd import solr
-from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, JSONApiField, SlugResource, CustomSerializer
+from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, JSONApiField, SluggedModelResource, CustomSerializer
 from redd.models import Category, Dataset, DataUpload
 
 class DatasetValidation(Validation):
@@ -29,7 +29,7 @@ class DatasetValidation(Validation):
 
         return errors
 
-class DatasetResource(SlugResource):
+class DatasetResource(SluggedModelResource):
     """
     API resource for Datasets.
     """
@@ -57,7 +57,7 @@ class DatasetResource(SlugResource):
     class Meta:
         queryset = Dataset.objects.all()
         resource_name = 'dataset'
-        allowed_methods = ['get', 'post', 'put', 'delete', 'patch']
+        allowed_methods = ['get', 'post', 'put', 'delete']
         always_return_data = True
 
         authentication = CustomApiKeyAuthentication()
@@ -142,6 +142,16 @@ class DatasetResource(SlugResource):
         page['objects'] = objects
 
         return self.create_response(request, page)
+
+    def put_detail(self, request, **kwargs):
+        """
+        Allow emulating a ``PATCH`` request by passing ``?patch=true``.
+        (As a workaround for IE's broken XMLHttpRequest.)
+        """
+        if request.GET.get('patch', 'false').lower() == 'true':
+            return super(DatasetResource, self).patch_detail(request, **kwargs)
+        else:
+            return super(DatasetResource, self).put_detail(request, **kwargs)
 
     def obj_create(self, bundle, request=None, **kwargs):
         """
