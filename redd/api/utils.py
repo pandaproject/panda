@@ -106,7 +106,7 @@ class SluggedModelResource(PandaModelResource):
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
 
-class CustomApiKeyAuthentication(ApiKeyAuthentication):
+class PandaApiKeyAuthentication(ApiKeyAuthentication):
     """
     Custom API Auth that accepts parameters as cookies or headers as well as GET params.
     """
@@ -132,25 +132,25 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
 
         return self.get_key(user, api_key)
 
-class CustomSerializer(Serializer):
+class PandaSerializer(Serializer):
     """
     A custom serializer that truncates microseconds from iso8601.
     """
     def format_datetime(self, data):
         return data.strftime('%Y-%m-%dT%H:%M:%S')
 
-class CustomPaginator(Paginator):
+class PandaPaginator(Paginator):
     """
     A customized paginator that accepts count as a property, rather
     then inferring it from the length of the object array.
     """
     def __init__(self, request_data, objects, resource_uri=None, limit=None, offset=0, count=None):
         self.count = count
-        super(CustomPaginator, self).__init__(request_data, objects, resource_uri, limit, offset)
+        super(PandaPaginator, self).__init__(request_data, objects, resource_uri, limit, offset)
 
     def get_count(self):
         if self.count is not None:
             return self.count
         
-        return super(CustomPaginator, self).get_count()
+        return super(PandaPaginator, self).get_count()
 

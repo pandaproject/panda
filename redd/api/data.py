@@ -15,7 +15,7 @@ from tastypie.validation import Validation
 
 from redd import solr
 from redd.api.datasets import DatasetResource
-from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, PandaResource, CustomSerializer
+from redd.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
 from redd.models import Dataset
 
 class SolrObject(object):
@@ -78,9 +78,9 @@ class DataResource(PandaResource):
         allowed_methods = ['get', 'post', 'put', 'delete']
         always_return_data = True
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
         validation = DataValidation()
 
         object_class = SolrObject
@@ -394,7 +394,7 @@ class DataResource(PandaResource):
         )
         groups = response['grouped']['dataset_slug']['groups']
 
-        page = CustomPaginator(
+        page = PandaPaginator(
             request.GET,
             groups,
             resource_uri=request.path_info,
@@ -417,7 +417,7 @@ class DataResource(PandaResource):
             
             dataset_search_url = reverse('api_dataset_data_list', kwargs={ 'api_name': self._meta.api_name, 'dataset_resource_name': 'dataset', 'resource_name': 'data', 'dataset_slug': dataset.slug })
 
-            data_page = CustomPaginator(
+            data_page = PandaPaginator(
                 { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
                 objects,
                 resource_uri=dataset_search_url,
@@ -471,7 +471,7 @@ class DataResource(PandaResource):
        
         results = [SolrObject(d) for d in response['response']['docs']]
 
-        page = CustomPaginator(
+        page = PandaPaginator(
             request.GET,
             results,
             resource_uri=request.path_info,

@@ -9,7 +9,7 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication, PandaModelResource, CustomSerializer
+from redd.api.utils import PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
 from redd.models import DataUpload
 
 class DataUploadResource(PandaModelResource):
@@ -26,9 +26,9 @@ class DataUploadResource(PandaModelResource):
         resource_name = 'data_upload'
         allowed_methods = ['get']
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 
     def override_urls(self):
         """

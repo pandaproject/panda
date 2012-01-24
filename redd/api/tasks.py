@@ -3,7 +3,7 @@
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer, PandaModelResource
+from redd.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
 from redd.models import TaskStatus
 
 class TaskResource(PandaModelResource):
@@ -24,7 +24,7 @@ class TaskResource(PandaModelResource):
             'end': ('year', 'month', 'day')
         }
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 

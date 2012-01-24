@@ -8,7 +8,7 @@ from tastypie.serializers import Serializer
 
 from redd.api.notifications import NotificationResource
 from redd.api.users import UserValidation
-from redd.api.utils import CustomApiKeyAuthentication
+from redd.api.utils import PandaApiKeyAuthentication
 from redd.models import UserProfile
 from redd.storage import PANDADataUploadBackend, PANDARelatedUploadBackend
 
@@ -28,7 +28,7 @@ class SecureAjaxFileUploader(AjaxFileUploader):
     A custom version of AjaxFileUploader that checks for authorization.
     """
     def __call__(self, request):
-        auth = CustomApiKeyAuthentication()
+        auth = PandaApiKeyAuthentication()
 
         if auth.is_authenticated(request) != True:
             # Valum's FileUploader only parses the response if the status code is 200.

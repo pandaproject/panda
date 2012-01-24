@@ -7,7 +7,7 @@ from django.core.validators import email_re
 from tastypie.authorization import DjangoAuthorization
 from tastypie.validation import Validation
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer, PandaModelResource
+from redd.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
 
 class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -44,10 +44,10 @@ class UserResource(PandaModelResource):
         excludes = ['password', 'username', 'is_staff', 'is_superuser']
         always_return_data = True
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
         validation = UserValidation()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 
     def obj_create(self, bundle, request=None, **kwargs):
         """

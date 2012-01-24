@@ -11,7 +11,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import NotFound
 from tastypie.utils.urls import trailing_slash
 
-from redd.api.utils import CustomApiKeyAuthentication, PandaModelResource, CustomSerializer
+from redd.api.utils import PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
 from redd.models import RelatedUpload
 
 class RelatedUploadResource(PandaModelResource):
@@ -28,9 +28,9 @@ class RelatedUploadResource(PandaModelResource):
         resource_name = 'related_upload'
         allowed_methods = ['get', 'delete']
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 
     def override_urls(self):
         """

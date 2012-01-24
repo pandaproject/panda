@@ -3,7 +3,7 @@
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 
-from redd.api.utils import CustomApiKeyAuthentication, CustomSerializer, PandaModelResource
+from redd.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
 from redd.models import Notification 
 
 class NotificationResource(PandaModelResource):
@@ -21,9 +21,9 @@ class NotificationResource(PandaModelResource):
         resource_name = 'notification'
         limit = 1000    # Don't paginate notifications
         
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 
         filtering = {
             "read_at": ('isnull')

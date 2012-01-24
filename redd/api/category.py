@@ -2,7 +2,7 @@
 
 from tastypie.authorization import DjangoAuthorization
 
-from redd.api.utils import CustomApiKeyAuthentication, SluggedModelResource, CustomSerializer
+from redd.api.utils import PandaApiKeyAuthentication, SluggedModelResource, PandaSerializer
 from redd.models import Category
 
 class CategoryResource(SluggedModelResource):
@@ -14,7 +14,7 @@ class CategoryResource(SluggedModelResource):
         resource_name = 'category'
         allowed_methods = ['get']
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 

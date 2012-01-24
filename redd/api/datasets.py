@@ -8,7 +8,7 @@ from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from redd import solr
-from redd.api.utils import CustomApiKeyAuthentication, CustomPaginator, JSONApiField, SluggedModelResource, CustomSerializer
+from redd.api.utils import PandaApiKeyAuthentication, PandaPaginator, JSONApiField, SluggedModelResource, PandaSerializer
 from redd.models import Category, Dataset, DataUpload
 
 class DatasetValidation(Validation):
@@ -60,10 +60,10 @@ class DatasetResource(SluggedModelResource):
         allowed_methods = ['get', 'post', 'put', 'delete']
         always_return_data = True
 
-        authentication = CustomApiKeyAuthentication()
+        authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
         validation = DatasetValidation()
-        serializer = CustomSerializer()
+        serializer = PandaSerializer()
 
     def simplify_bundle(self, bundle):
         """
@@ -124,7 +124,7 @@ class DatasetResource(SluggedModelResource):
 
         datasets = Dataset.objects.filter(slug__in=dataset_slugs)
 
-        paginator = CustomPaginator(request.GET, datasets, resource_uri=request.path_info, count=response['response']['numFound'])
+        paginator = PandaPaginator(request.GET, datasets, resource_uri=request.path_info, count=response['response']['numFound'])
         page = paginator.page()
 
         objects = []
