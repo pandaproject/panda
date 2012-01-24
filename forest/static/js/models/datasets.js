@@ -81,7 +81,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
          *
          * NOTE: never serialize embedded data from search results.
          */
-        js = Backbone.Model.prototype.toJSON.call(this);
+        var js = Backbone.Model.prototype.toJSON.call(this);
 
         if (full) {
             js['categories'] = this.categories.toJSON();
@@ -128,7 +128,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         /*
          * Render this object with embedded search results data for templating.
          */
-        results = this.toJSON(true);
+        var results = this.toJSON(true);
         _.extend(results, this.data.results());
 
         return results;
@@ -175,7 +175,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 }
             }, this),
             error: function(xhr, textStatus) {
-                error = JSON.parse(xhr.responseText);
+                var error = JSON.parse(xhr.responseText);
 
                 if (error_callback) {
                     error_callback(error);
@@ -243,7 +243,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
     },
 
     process_search_results: function(response) {
-        objs = this.data.parse(response);
+        var objs = this.data.parse(response);
         delete response["meta"];
         delete response["objects"];
 
@@ -333,7 +333,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = this.meta.limit * (this.meta.page - 1);
         }
 
-        data = {
+        var data = {
             offset: this.meta.offset,
             simple: "true"
         };

@@ -30,10 +30,10 @@ PANDA.models.User = Backbone.Model.extend({
          *
          * TODO: bulk update
          */
-        now = moment().format("YYYY-MM-DDTHH:mm:ss");
+        var now = moment().format("YYYY-MM-DDTHH:mm:ss");
 
-        count = this.notifications.length;
-        marked = 0;
+        var count = this.notifications.length;
+        var marked = 0;
 
         this.notifications.each(function(note) {
             note.set({ read_at: now });
