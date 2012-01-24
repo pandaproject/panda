@@ -3,7 +3,7 @@ body { padding-top: 40px; }
 .topbar h3 { margin-left: 10px; }
 #panda-logo { float: left; margin-left: 4px; margin-top: 4px; }
 #ire-logo { float: left; margin-top: 4px; margin-right: 20px; }
-/*.topbar div > ul a, .nav a { padding: 5px 5px 6px; }*/
+#loading-indicator { display: none; }
 #topbar-email { display: none; }
 #topbar-admin { display: none; }
 #topbar-logout { display: none; }
@@ -30,10 +30,8 @@ body { padding-top: 40px; }
 
 /* Login */
 
-#login h1 {
-    font-size: 44px;
-    color: #AA4040;
-    margin-left: 150px;
+#login {
+    margin-top: 100px;
 }
 
 /* Sidebar */
