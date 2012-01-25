@@ -1,4 +1,8 @@
 <form class="form-stacked">
+    <div class="actions">
+        <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
+        <input type="button" class="btn danger" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true" value="Export to CSV" />
+    </div>
     <div class="alert-message"></div>
     <fieldset>
         <legend>About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>

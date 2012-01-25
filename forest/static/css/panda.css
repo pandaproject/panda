@@ -12,8 +12,8 @@ body { padding-top: 40px; }
 .content { padding: 20px 30px 30px 0; }
 .alert-message { display: none; }
 
-.form-stacked { padding-left: 0px; }
-.actions.on-top { margin-top: 0px; }
+.form-stacked { padding-left: 0; }
+.form-stacked .actions.on-top { margin-top: 0; }
 
 .popover .content ul li { color: black; }
 
@@ -107,10 +107,13 @@ body { padding-top: 40px; }
 }
 
 /* Dataset view page */
+
+#dataset-search-results form { margin-left: 20px; }
 #dataset-search-results .actions .danger { float: right; }
 
 /* Edit page */
 
+#edit-dataset form { margin-left: 20px; }
 #edit-dataset .actions .danger { float: right; }
 #related-upload-progress { display: none; }
 
