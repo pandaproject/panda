@@ -12,7 +12,7 @@
                 </select>
                 <input id="datasets-search-query" type="text" name="query" class="span7" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="datasets-search-submit" class="btn primary" value="Search" />
-                &nbsp;<a data-content="<%= PANDA.settings.PANDA_SEARCH_HELP_TEXT %>" data-original-title="Advanced searching" data-offset="10" data-html="true" data-placement="below" href="javascript: return false;" rel="popover">Advanced</a>
+                &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
             </div>
         </div>
     </fieldset>

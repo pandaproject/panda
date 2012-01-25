@@ -20,7 +20,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 upload: data_upload.toJSON()
             }
 
-            return PANDA.templates.data_upload_item(context);
+            return PANDA.templates.inline_data_upload_item(context);
         }, this));
 
         related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
@@ -29,7 +29,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 upload: related_upload.toJSON()
             }
 
-            return PANDA.templates.related_upload_item(context);
+            return PANDA.templates.inline_related_upload_item(context);
         }, this));
 
         var context = PANDA.make_context({
