@@ -6,7 +6,7 @@ import os
 from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
-from redd.api import DataUploadResource, RelatedUploadResource
+from redd.api import DataUploadResource, RelatedUploadResource, UserResource
 from redd.models import Dataset, DataUpload, RelatedUpload
 
 class PANDAAbstractUploadBackend(AbstractUploadBackend):
@@ -85,8 +85,17 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
 
         resource = DataUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
+        data = resource.full_dehydrate(bundle).data
 
-        return resource.full_dehydrate(bundle).data
+        # django-ajax-upoader does not use the Tastypie serializer
+        # so we must 'manually' serialize the embedded resource bundle
+        resource = UserResource()
+        bundle = data['creator']
+        user_data = resource.full_dehydrate(bundle).data
+
+        data['creator'] = user_data
+
+        return data
 
 class PANDARelatedUploadBackend(PANDAAbstractUploadBackend):
     """
@@ -115,6 +124,15 @@ class PANDARelatedUploadBackend(PANDAAbstractUploadBackend):
 
         resource = RelatedUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)
+        data = resource.full_dehydrate(bundle).data
 
-        return resource.full_dehydrate(bundle).data
+        # django-ajax-upoader does not use the Tastypie serializer
+        # so we must 'manually' serialize the embedded resource bundle
+        resource = UserResource()
+        bundle = data['creator']
+        user_data = resource.full_dehydrate(bundle).data
+
+        data['creator'] = user_data
+
+        return data
 
