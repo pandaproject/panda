@@ -1,0 +1,12 @@
+<table>
+    <% _.each(columns, function(c) { %>
+        <th><%= c %></th>
+    <% }); %>
+    <% _.each(sample_data, function(r) { %>
+        <tr>
+        <% _.each(r, function(d) { %>
+            <td><%= d %></td>
+        <% }); %>
+        </tr>
+    <% }); %>
+</table>

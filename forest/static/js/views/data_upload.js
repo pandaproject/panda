@@ -28,20 +28,26 @@ PANDA.views.DataUpload = Backbone.View.extend({
     el: $("#content"),
 
     events: {
-        "click #upload-continue":      "continue_event"
+        "click #upload-continue":      "continue_event",
+        "click #upload-start-over":    "start_over_event"
     },
     
     template: PANDA.templates.data_upload,
 
     file_uploader: null,
     dataset: null,
+    upload: null,
+    dataset_is_new: false,
 
     initialize: function() {
-        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one_error_message", "step_two_error_message", "step_one", "step_two", "step_three", "continue_event");
+        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one_error_message", "step_two_error_message", "step_one", "step_two", "step_three", "continue_event", "start_over_event");
     },
 
     reset: function(dataset_slug) {
+        this.upload = null;
+
         if (dataset_slug) {
+            this.dataset_is_new = false;
             this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
 
             this.dataset.fetch({
@@ -58,6 +64,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
                 }, this)
             });
         } else {
+            this.dataset_is_new = true;
             this.dataset = null;
             this.render();
         }
@@ -141,22 +148,13 @@ PANDA.views.DataUpload = Backbone.View.extend({
          * Handler for when a file upload is completed.
          */
         if (responseJSON.success) {
-            var upload = new PANDA.models.DataUpload(responseJSON);
+            this.upload = new PANDA.models.DataUpload(responseJSON);
 
             // Finish progress bar
             $("#upload-progress .progress-value").css("width", "100%");
             $("#upload-progress .progress-text").html("<strong>100%</strong> uploaded");
 
-            // Once saved immediately begin importing it
-            this.dataset.import_data(
-                upload.get("id"),
-                this.step_three,
-                _.bind(function(error) {
-                    // Preemptive import errors (mismatched columns, wrong file type, etc.)
-                    upload.destroy()
-                    this.step_one_error_message(error.error_message);
-                }, this)
-            );
+            this.step_three();
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else {
@@ -180,8 +178,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-2").addClass("disabled");
         $("#step-2 .notes").hide();
         this.on_progress(null, null, 0, 1);
+        $("#step-3 .sample-data").empty();
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
+        $("#upload-start-over").attr("disabled", true);
         
         $("#step-1").removeClass("disabled");
 
@@ -192,8 +192,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
     step_two: function(fileName) {
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
+        $("#step-3 .sample-data").empty();
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
+        $("#upload-start-over").attr("disabled", true);
 
         var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
 
@@ -207,12 +209,37 @@ PANDA.views.DataUpload = Backbone.View.extend({
     step_three: function() {
         $("#step-2").addClass("disabled");
 
+        sample_data_html = PANDA.templates.inline_sample_data(this.upload.toJSON()); 
+        $("#step-3 .sample-data").html(sample_data_html);
+
         $("#step-3").removeClass("disabled");
         $("#upload-continue").attr("disabled", false);
+        $("#upload-start-over").attr("disabled", false);
     },
 
     continue_event: function() {
-        Redd.goto_dataset_edit( this.dataset.get("slug"));
+        // Begin import, runs synchronously so errors may be caught immediately
+        this.dataset.import_data(
+            this.upload.get("id"),
+            _.bind(function() {
+                    Redd.goto_dataset_edit(this.dataset.get("slug"));
+            }, this),
+            _.bind(function(error) {
+                // Preemptive import errors (mismatched columns, wrong file type, etc.)
+                this.upload.destroy()
+                this.step_one_error_message(error.error_message);
+            }, this)
+        );
+    },
+
+    start_over_event: function() {
+        this.upload.destroy({ async: false });
+
+        if (this.dataset_is_new) {
+            this.dataset.destroy({ async: false });
+        }
+        
+        this.reset();
     }
 });
 

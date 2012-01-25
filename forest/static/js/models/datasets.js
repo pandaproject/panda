@@ -138,9 +138,12 @@ PANDA.models.Dataset = Backbone.Model.extend({
         /*
          * Kick off the dataset import and update the model with
          * the task id and status.
+         *
+         * NB: Runs synchronously.
          */
         Redd.ajax({
             url: this.url() + "import/" + data_uploads_id + "/",
+            async: false,
             dataType: 'json',
             success: _.bind(function(response) {
                 this.set(response);

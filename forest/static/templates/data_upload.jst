@@ -14,7 +14,7 @@
     <% } %>
 
     <div id="step-1" class="step">
-        <h2>Step 1</h2>
+        <h2>Select your file</h2>
         
         <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:<p>
 
@@ -25,7 +25,7 @@
     </div>
 
     <div id="step-2" class="step disabled">
-        <h2>Step 2</h2>
+        <h2>Wait while your data is uploaded</h2>
 
         <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
 
@@ -53,10 +53,14 @@
     </div>
 
     <div id="step-3" class="step disabled">
-        <h2>Step 3</h2>
-        <p>Your file has finished uploading. PANDA has automatically created a new dataset for this file and begun to make it searchable. Click Continue to view the progress of the import as well as provide a name and other details for your new dataset:</p>
+        <h2>Review your data</h2>
+        <p>Your file has finished uploading. Please review the following sample data that was extracted from your file and verify it looks correct. If it does not <strong>TKTK</strong>, otherwise click Continue.</p>
+
+        <div class="sample-data">
+        </div>
 
         <input type="button" name="continue" id="upload-continue" class="btn success" value="Continue" disabled="disabled" />
+        <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" disabled="disabled" />
     </div>
 </div>
 
