@@ -13,11 +13,11 @@ PANDA.bootstrap = {};
 // A copy of the server-side settings.
 // AKA: The simplest thing that works.
 PANDA.settings = {
-    PANDA_DEFAULT_SEARCH_GROUPS: 10,
-    PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP: 5, 
-    PANDA_DEFAULT_SEARCH_ROWS: 50,
+    DEFAULT_SEARCH_GROUPS: 10,
+    DEFAULT_SEARCH_ROWS_PER_GROUP: 5, 
+    DEFAULT_SEARCH_ROWS: 50,
 
-    PANDA_NOTIFICATIONS_INTERVAL: 20000
+    NOTIFICATIONS_INTERVAL: 20000
 };
 
 PANDA.make_context = function(ctx) {

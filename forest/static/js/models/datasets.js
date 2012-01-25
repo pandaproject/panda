@@ -226,7 +226,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         if (limit) {
             this.data.meta.limit = limit;
         } else {
-            this.data.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
+            this.data.meta.limit = PANDA.settings.DEFAULT_SEARCH_ROWS;
         }
         
         if (page) {
@@ -265,7 +265,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
     
     meta: {
         page: 1,
-        limit: PANDA.settings.PANDA_DEFAULT_SEARCH_GROUPS,
+        limit: PANDA.settings.DEFAULT_SEARCH_GROUPS,
         offset: 0,
         next: null,
         previous: null,
@@ -291,7 +291,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         if (limit) {
             this.meta.limit = limit;
         } else {
-            this.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_GROUPS;
+            this.meta.limit = PANDA.settings.DEFAULT_SEARCH_GROUPS;
         }
         
         if (page) {

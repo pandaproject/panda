@@ -114,7 +114,7 @@ describe("Dataset model", function() {
     it("should serialize embedded search data", function() {
         var dataset = new PANDA.models.Dataset($.parseJSON(MOCK_XHR_RESPONSES.dataset));
         
-        dataset.data.meta.limit = PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS;
+        dataset.data.meta.limit = PANDA.settings.DEFAULT_SEARCH_ROWS;
         dataset.data.meta.offset = 0;
         dataset.process_search_results($.parseJSON(MOCK_XHR_RESPONSES.dataset_search));
 

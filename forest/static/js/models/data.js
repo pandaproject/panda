@@ -11,7 +11,7 @@ PANDA.collections.Data = Backbone.Collection.extend({
 
     meta: {
         page: 1,
-        limit: PANDA.settings.PANDA_DEFAULT_SEARCH_ROWS,
+        limit: PANDA.settings.DEFAULT_SEARCH_ROWS,
         offset: 0,
         next: null,
         previous: null,

@@ -39,7 +39,7 @@ PANDA.views.Root = Backbone.View.extend({
         $("#topbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
 
         // Setup occasional updates of notifications
-        this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.PANDA_NOTIFICATIONS_INTERVAL);
+        this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
 
         return this;
     },
