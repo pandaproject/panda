@@ -2,7 +2,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
     dataset: null,
 
     initialize: function(options) {
-        _.bindAll(this, "render");
+        _.bindAll(this);
 
         this.search = options.search;
     },

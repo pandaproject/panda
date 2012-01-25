@@ -8,7 +8,7 @@ PANDA.views.Activate = Backbone.View.extend({
     activation_key: null,
 
     initialize: function() {
-        _.bindAll(this, "render");
+        _.bindAll(this);
     },
 
     reset: function(activation_key) {

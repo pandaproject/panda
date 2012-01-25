@@ -8,7 +8,7 @@ PANDA.views.Login = Backbone.View.extend({
     next: null,
 
     initialize: function() {
-        _.bindAll(this, "render");
+        _.bindAll(this);
     },
 
     reset: function(next) {

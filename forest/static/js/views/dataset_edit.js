@@ -8,7 +8,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     dataset: null,
 
     initialize: function() {
-        _.bindAll(this, "render", "save", "destroy", "create_related_upload_button", "on_related_upload_submit", "on_related_upload_progress", "on_related_upload_complete", "on_related_upload_message", "delete_related_upload");
+        _.bindAll(this);
 
         $("#dataset-destroy").live("click", this.destroy);
         $(".related-uploads .delete").live("click", this.delete_related_upload);

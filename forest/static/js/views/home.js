@@ -1,6 +1,6 @@
 PANDA.views.Home = Backbone.View.extend({
     initialize: function(options) {
-        _.bindAll(this, "render");
+        _.bindAll(this);
     },
 
     render: function() {

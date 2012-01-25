@@ -2,7 +2,7 @@ PANDA.views.NotFound = Backbone.View.extend({
     el: $("#content"),
     
     initialize: function() {
-        _.bindAll(this, "render");
+        _.bindAll(this);
     },
 
     reset: function(path) {

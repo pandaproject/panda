@@ -38,7 +38,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     dataset_is_new: false,
 
     initialize: function() {
-        _.bindAll(this, "render", "on_submit", "on_progress", "on_complete", "step_one_error_message", "step_two_error_message", "step_one", "step_two", "step_three", "continue_event", "start_over_event");
+        _.bindAll(this);
     },
 
     reset: function(dataset_slug) {

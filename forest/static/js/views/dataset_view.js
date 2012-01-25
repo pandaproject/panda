@@ -1,6 +1,6 @@
 PANDA.views.DatasetView = Backbone.View.extend({
     initialize: function(options) {
-        _.bindAll(this, "render", "export_data");
+        _.bindAll(this);
         
         $("#dataset-export").live("click", this.export_data);
     },
