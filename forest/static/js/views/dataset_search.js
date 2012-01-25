@@ -41,7 +41,12 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         // Nuke old modals
         $("#dataset-traceback-modal").remove();
 
-        this.el.html(PANDA.templates.dataset_search({ query: this.query, dataset: this.dataset.results(), search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT }));
+        var context = PANDA.make_context({
+            query: this.query,
+            dataset: this.dataset.results()
+        });
+
+        this.el.html(PANDA.templates.dataset_search(context));
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
 

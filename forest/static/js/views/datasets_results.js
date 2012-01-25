@@ -7,12 +7,10 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
     },
 
     render: function() {
-        var context = this.search.datasets.meta;
-        context["settings"] = PANDA.settings;
+        var context = PANDA.make_context(this.search.datasets.meta);
 
         context["query"] = this.search.query;
         context["category"] = this.search.category;
-
         context["datasets"] = this.search.datasets.results()["datasets"];
 
         this.el.html(PANDA.templates.datasets_results(context));
@@ -34,5 +32,4 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         });
     }
 });
-
 

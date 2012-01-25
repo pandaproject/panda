@@ -35,13 +35,14 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     render: function() {
         var categories = Redd.get_categories();
 
-        this.el.html(PANDA.templates.datasets_search({
+        var context = PANDA.make_context({
             categories: categories,
             category: this.category,
             query: this.query,
-            datasets: this.datasets.results(),
-            search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT
-        }));
+            datasets: this.datasets.results()
+        });
+
+        this.el.html(PANDA.templates.datasets_search(context));
 
         this.results.el = $("#datasets-search-results");
 

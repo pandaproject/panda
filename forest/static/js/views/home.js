@@ -5,11 +5,17 @@ PANDA.views.Home = Backbone.View.extend({
 
     render: function() {
         var recent_datasets = new PANDA.collections.Datasets()
-        recent_datasets.fetch({ data: { limit: 5 }, success: _.bind(function() {
-            this.el.html(PANDA.templates.home({
-                recent: recent_datasets.results()
-            }));
-        }, this) });
+
+        recent_datasets.fetch({
+            data: { limit: 5 },
+            success: _.bind(function() {
+                var context = PANDA.make_context({
+                    recent: recent_datasets.results()
+                });
+
+                this.el.html(PANDA.templates.home(context));
+            }, this)
+        });
     }
 });
 

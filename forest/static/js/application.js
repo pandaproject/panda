@@ -19,6 +19,15 @@ PANDA.settings = {
 
     PANDA_NOTIFICATIONS_INTERVAL: 20000,
 
-    PANDA_SEARCH_HELP_TEXT: "<ul><li>Use an asterisk to match part of a word: <strong>chris*</strong> will match &quot;Chris&quot;, &quot;Christian&quot; or &quot;Christopher&quot;.</li><li>Put phrases in quotes: <strong>&quot;Chicago Bears&quot;</strong> will not match &quot;Chicago Panda bears&quot;.</li><li>Use AND and OR to find combinations of terms: <strong>homicide AND first</strong> will match &quot;first degree homicide&quot; or &quot;homicide, first degree&quot;, but not just &quot;homicide&quot;.</li><li>Group words with parantheses: <strong>homicide AND (first OR 1st)</strong> will match &quot;1st degree homicide&quot;, &quot;first degree homicide&quot;, or &quot;homicide, first degree&quot;.</li></ul>"
+    PANDA_SEARCH_HELP_TEXT: "<ul><li>Use an asterisk to match part of a word: <strong>chris*</strong> will match &quot;Chris&quot;, &quot;Christian&quot; or &quot;Christopher&quot;.</li><li>Put phrases in quotes: <strong>&quot;Chicago Bears&quot;</strong> will not match &quot;Chicago Panda Bears&quot;.</li><li>Use AND and OR to find combinations of terms: <strong>homicide AND first</strong> will match &quot;first degree homicide&quot; or &quot;homicide, first degree&quot;, but not just &quot;homicide&quot;.</li><li>Group words with parantheses: <strong>homicide AND (first OR 1st)</strong> will match &quot;1st degree homicide&quot;, &quot;first degree homicide&quot;, or &quot;homicide, first degree&quot;.</li></ul>"
 };
 
+PANDA.make_context = function(ctx) {
+    /*
+     * Context factory function so that PANDA is always in template namespace.
+     */
+    ctx = ctx || {};
+    ctx['PANDA'] = PANDA;
+
+    return ctx;
+}

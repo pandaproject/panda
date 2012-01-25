@@ -13,17 +13,15 @@ PANDA.views.DatasetResults = Backbone.View.extend({
     },
 
     render: function() {
-        var context = this.dataset.data.meta;
-        context["settings"] = PANDA.settings;
+        var context = PANDA.make_context(this.dataset.data.meta);
 
         context["query"] = this.search.query,
         context["root_url"] = "#dataset/" + this.dataset.get("slug") + "/search/" + this.search.query;
-
         context["pager_unit"] = "row";
         context["row_count"] = this.dataset.get("row_count");
-
-        context["pager"] = PANDA.templates.pager(context);
         context["dataset"] = this.dataset.results();
+
+        context["pager"] = PANDA.templates.inline_pager(context);
 
         this.el.html(PANDA.templates.dataset_results(context));
     }

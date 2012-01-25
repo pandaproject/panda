@@ -45,7 +45,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
     render: function() {
         var data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
-            context = {
+            var context = {
                 upload: data_upload.toJSON()
             }
 
@@ -53,7 +53,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         }, this));
 
         var related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
-            context = {
+            var context = {
                 editable: true,
                 upload: related_upload.toJSON()
             }
@@ -61,12 +61,12 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             return PANDA.templates.related_upload_item(context);
         }, this));
 
-        var context = {
+        var context = PANDA.make_context({
             'dataset': this.dataset.toJSON(true),
             'categories': Redd.get_categories().toJSON(),
             'data_uploads_html': data_uploads_html,
             'related_uploads_html': related_uploads_html
-        }
+        });
 
         // Nuke old modals
         $("#modal-dataset-traceback").remove();
