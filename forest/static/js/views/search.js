@@ -1,8 +1,6 @@
 PANDA.views.Search = Backbone.View.extend({
     el: $("#content"),
 
-    template: PANDA.templates.search,
-
     events: {
         "submit #search-form":      "search_event"
     },
@@ -24,7 +22,7 @@ PANDA.views.Search = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(this.template({ query: this.query, search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT }));
+        this.el.html(PANDA.templates.search({ query: this.query, search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT }));
         this.results.el = $("#search-results");
         this.home_view.el = $("#search-results");
 

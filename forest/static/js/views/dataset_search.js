@@ -1,8 +1,6 @@
 PANDA.views.DatasetSearch = Backbone.View.extend({
     el: $("#content"),
 
-    template: PANDA.templates.dataset_search,
-
     events: {
         "submit #dataset-search-form":      "search_event"
     },
@@ -43,7 +41,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         // Nuke old modals
         $("#dataset-traceback-modal").remove();
 
-        this.el.html(this.template({ query: this.query, dataset: this.dataset.results(), search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT }));
+        this.el.html(PANDA.templates.dataset_search({ query: this.query, dataset: this.dataset.results(), search_help_text: PANDA.settings.PANDA_SEARCH_HELP_TEXT }));
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
 

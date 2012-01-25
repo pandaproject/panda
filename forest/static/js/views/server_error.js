@@ -1,8 +1,6 @@
 PANDA.views.ServerError = Backbone.View.extend({
     el: $("#content"),
     
-    template: PANDA.templates.server_error,
-
     initialize: function() {
         _.bindAll(this, "render");
     },
@@ -12,7 +10,7 @@ PANDA.views.ServerError = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(this.template());
+        this.el.html(PANDA.templates.server_error());
     }
 });
 

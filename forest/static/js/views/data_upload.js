@@ -32,8 +32,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
         "click #upload-start-over":    "start_over_event"
     },
     
-    template: PANDA.templates.data_upload,
-
     file_uploader: null,
     dataset: null,
     upload: null,
@@ -77,7 +75,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
             dataset_json = null;
         }
 
-        this.el.html(this.template( { dataset: dataset_json }));
+        this.el.html(PANDA.templates.data_upload({ dataset: dataset_json }));
 
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/data_upload/",

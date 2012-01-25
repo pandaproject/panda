@@ -1,7 +1,4 @@
 PANDA.views.DatasetsResults = Backbone.View.extend({
-    template: PANDA.templates.datasets_results,
-    pager_template: PANDA.templates.pager,
-
     initialize: function(options) {
         _.bindAll(this, "render");
 
@@ -18,7 +15,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
 
         context["datasets"] = this.search.datasets.results()["datasets"];
 
-        this.el.html(this.template(context));
+        this.el.html(PANDA.templates.datasets_results(context));
 
         // Enable result sorting
         $("#datasets-results table").tablesorter({

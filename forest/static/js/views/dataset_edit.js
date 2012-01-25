@@ -1,15 +1,11 @@
 PANDA.views.DatasetEdit = Backbone.View.extend({
     el: $("#content"),
     
-    template: PANDA.templates.dataset_edit,
-    data_upload_template: PANDA.templates.data_upload_item,
-    related_upload_template: PANDA.templates.related_upload_item,
-    related_upload_destroy_template: PANDA.templates.modal_related_upload_destroy,
-    dataset: null,
-
     events: {
         "click .actions .dataset-save":     "save"
     },
+
+    dataset: null,
 
     initialize: function() {
         _.bindAll(this, "render", "save", "destroy", "create_related_upload_button", "on_related_upload_submit", "on_related_upload_progress", "on_related_upload_complete", "on_related_upload_message", "delete_related_upload");
@@ -53,7 +49,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 upload: data_upload.toJSON()
             }
 
-            return this.data_upload_template(context);
+            return PANDA.templates.data_upload_item(context);
         }, this));
 
         var related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
@@ -62,7 +58,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 upload: related_upload.toJSON()
             }
 
-            return this.related_upload_template(context);
+            return PANDA.templates.related_upload_item(context);
         }, this));
 
         var context = {
@@ -77,7 +73,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         $("#modal-dataset-destroy").remove();
         $("#modal-related-upload-destroy").remove();
 
-        this.el.html(this.template(context));
+        this.el.html(PANDA.templates.dataset_edit(context));
 
         var task = this.dataset.current_task;
 
@@ -239,7 +235,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         var uri = element.attr("data-uri"); 
         var upload = this.dataset.related_uploads.get(uri);
 
-        $("#modal-related-upload-destroy").html(this.related_upload_destroy_template({ upload: upload.toJSON() }));
+        $("#modal-related-upload-destroy").html(PANDA.templates.modal_related_upload_destroy({ upload: upload.toJSON() }));
 
         $("#related-upload-destroy").click(function() {
             upload.destroy();

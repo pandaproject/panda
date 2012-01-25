@@ -1,7 +1,4 @@
 PANDA.views.SearchResults = Backbone.View.extend({
-    template: PANDA.templates.search_results,
-    pager_template: PANDA.templates.pager,
-
     initialize: function(options) {
         _.bindAll(this, "render");
 
@@ -20,10 +17,10 @@ PANDA.views.SearchResults = Backbone.View.extend({
         context["pager_unit"] = "dataset";
         context["row_count"] = null;
 
-        context["pager"] = this.pager_template(context);
+        context["pager"] = PANDA.templates.pager(context);
         context["datasets"] = this.collection.results();
 
-        this.el.html(this.template(context));
+        this.el.html(PANDA.templates.search_results(context));
     }
 });
 

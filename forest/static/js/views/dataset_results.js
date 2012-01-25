@@ -1,7 +1,4 @@
 PANDA.views.DatasetResults = Backbone.View.extend({
-    template: PANDA.templates.dataset_results,
-    pager_template: PANDA.templates.pager,
-
     dataset: null,
 
     initialize: function(options) {
@@ -25,9 +22,9 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         context["pager_unit"] = "row";
         context["row_count"] = this.dataset.get("row_count");
 
-        context["pager"] = this.pager_template(context);
+        context["pager"] = PANDA.templates.pager(context);
         context["dataset"] = this.dataset.results();
 
-        this.el.html(this.template(context));
+        this.el.html(PANDA.templates.dataset_results(context));
     }
 });

@@ -1,8 +1,4 @@
 PANDA.views.DatasetView = Backbone.View.extend({
-    template: PANDA.templates.dataset_view,
-    data_upload_template: PANDA.templates.data_upload_item,
-    related_upload_template: PANDA.templates.related_upload_item,
-
     initialize: function(options) {
         _.bindAll(this, "render", "export_data");
         
@@ -19,7 +15,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 upload: data_upload.toJSON()
             }
 
-            return this.data_upload_template(context);
+            return PANDA.templates.data_upload_item(context);
         }, this));
 
         related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
@@ -28,7 +24,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 upload: related_upload.toJSON()
             }
 
-            return this.related_upload_template(context);
+            return PANDA.templates.related_upload_item(context);
         }, this));
 
         context = {
@@ -42,7 +38,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         $("#modal-dataset-traceback").remove();
         $("#modal-export-dataset").remove();
 
-        this.el.html(this.template(context));
+        this.el.html(PANDA.templates.dataset_view(context));
 
         var task = this.dataset.current_task;
 

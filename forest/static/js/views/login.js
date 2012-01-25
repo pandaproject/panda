@@ -1,8 +1,6 @@
 PANDA.views.Login = Backbone.View.extend({
     el: $("#content"),
     
-    template: PANDA.templates.login,
-
     events: {
         "submit #login-form":   "login"
     },
@@ -28,7 +26,7 @@ PANDA.views.Login = Backbone.View.extend({
     render: function() {
         var email = $.cookie("email");
 
-        this.el.html(this.template({ email: email }));
+        this.el.html(PANDA.templates.login({ email: email }));
     },
 
     validate: function() {

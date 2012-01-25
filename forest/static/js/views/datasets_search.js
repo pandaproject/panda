@@ -1,8 +1,6 @@
 PANDA.views.DatasetsSearch = Backbone.View.extend({
     el: $("#content"),
 
-    template: PANDA.templates.datasets_search,
-
     events: {
         "submit #datasets-search-form":      "search_event"
     },
@@ -37,7 +35,7 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     render: function() {
         var categories = Redd.get_categories();
 
-        this.el.html(this.template({
+        this.el.html(PANDA.templates.datasets_search({
             categories: categories,
             category: this.category,
             query: this.query,
