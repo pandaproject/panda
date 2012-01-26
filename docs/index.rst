@@ -46,6 +46,7 @@ Adminstration
     :maxdepth: 2
 
     ops.rst
+    backups.rst
 
 Extending PANDA
 ===============

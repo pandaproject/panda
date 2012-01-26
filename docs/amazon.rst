@@ -76,3 +76,8 @@ Next, you will need to SSH into your server and run the following commands::
     sudo mount /dev/xvdf /var/lib/panda/uploads 
     sudo chown panda:panda /var/lib/panda/uploads
 
+Using EBS for Solr indexes
+--------------------------
+
+TODO
+
