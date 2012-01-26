@@ -90,9 +90,20 @@ PANDA.views.DataUpload = Backbone.View.extend({
         var upload_button = CustomUploadButton.init();
         this.file_uploader._button = upload_button;
 
-        $("#upload-file").bind("change", function() {
-            $("#upload-begin").removeAttr("disabled");
-        });
+        $("#upload-file").bind("change", this.on_file_selected);
+    },
+
+    on_file_selected: function() {
+        var filename = $("#upload-file").val();
+        var ext = filename.substr(filename.lastIndexOf('.') + 1);
+
+        if (ext == 'xls' || ext == 'xlsx') {
+            $("#step-1 .notes.xls").show();
+        } else {
+            $("#step-1 .notes.xls").hide();
+        }
+
+        $("#upload-begin").removeAttr("disabled");
     },
 
     on_submit: function(id, fileName) {
@@ -178,13 +189,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
         $("#upload-start-over").attr("disabled", true);
-
-        var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
-
-        if (ext == 'xls' || ext == 'xlsx') {
-            $("#step-2 .notes.xls").show();
-        }
-
+        
         $("#step-2").removeClass("disabled");
     },
 
