@@ -14,9 +14,11 @@ SOLR_DIR = '/opt/solr/panda/solr'
 # Prompt for parameters
 aws_key = raw_input('Enter your AWS Access Key: ')
 secret_key = raw_input('Enter your AWS Secret Key: ')
-size_gb = raw_input('How many GB would you like your new volume to be? ')
+size_gb = raw_input('How many GB would you like your new Solr volume to be? ')
 
-print 'Connecting'
+print 'Beginning Solr migration'
+
+print 'Connecting to EC2'
 conn = EC2Connection(aws_key, secret_key)
 
 print 'Identifying running instance'
@@ -35,10 +37,14 @@ for r in reservations:
     if instance:
         break
 
-print 'Creating a new volume'
+print 'Running instance is %s' % instance_id
+
+print 'Creating new volume'
 vol = conn.create_volume(size_gb, instance.placement)
 
-print 'Determining available device path'
+print 'New volume is %s' % vol.id
+
+print 'Finding an available device path'
 ec2_device_name = None
 device_path = None
 
@@ -48,6 +54,8 @@ for letter in string.lowercase[6:]:
 
     if not os.path.exists(device_path):
         break
+
+print 'New device will be %s' % device_path
 
 print 'Attaching new volume'
 vol.attach(instance.id, ec2_device_name) 
@@ -103,4 +111,6 @@ subprocess.check_call(['service', 'solr', 'start'])
 print 'Configuring fstab'
 with open('/etc/fstab', 'a') as f:
     f.write('\n%s\t%s\text3\tdefaults,noatime\t0\t0' % (device_path, SOLR_DIR))
+
+print 'Done'
 
