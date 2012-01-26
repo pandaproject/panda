@@ -1,26 +1,14 @@
 CustomUploadButton = {
     /*
      * Dummy version of Valum's file uploader widget.
-     * Overrides most everything so I can use a simple file widget.
+     * Overrides everything so I can use a simple file widget.
+     * Only necessary so as not to throw errors.
      */
     init: function(o) {
-        this._options = {
-            onChange: function(input) {}                      
-        };
-
-        qq.extend(this._options, o);
-
-        this._input =  $("#upload-file")[0];
-
-        qq.attach(this._input, 'change', _.bind(function() {
-            this._options.onChange(this._input);
-        }, this)); 
-
         return this;
     },
 
     reset: function() {
-        // It appears unnecessary to implement this.
     }
 }
 
@@ -28,6 +16,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     el: $("#content"),
 
     events: {
+        "click #upload-begin":         "begin_event",
         "click #upload-continue":      "continue_event",
         "click #upload-start-over":    "start_over_event"
     },
@@ -42,6 +31,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     reset: function(dataset_slug) {
+        this.file_uploader = null;
         this.upload = null;
 
         if (dataset_slug) {
@@ -87,7 +77,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
             onProgress: this.on_progress,
             onComplete: this.on_complete,
             showMessage: this.step_one_error_message,
-            maxSizeLimit: 1024 * 1024 * 1024,   // 1 GB
+            maxSizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
             messages: {
                 typeError: "{file} is not a supported type. Only CSV, XLS, and XLSX files are currently supported.",
                 sizeError: "{file} is too large, the maximum file size is 1 gigabyte.",
@@ -96,19 +86,13 @@ PANDA.views.DataUpload = Backbone.View.extend({
             }
         });
         
-        this.create_upload_button();
-    },
+        // Create upload button
+        var upload_button = CustomUploadButton.init();
+        this.file_uploader._button = upload_button;
 
-    create_upload_button: function() {
-        $("#upload-file-wrapper").html('<input type="file" id="upload-file" />');
-
-        var btn = CustomUploadButton.init({
-            onChange: _.bind(function(input) {
-                this.file_uploader._onInputChange(input);
-            }, this)
+        $("#upload-file").bind("change", function() {
+            $("#upload-begin").removeAttr("disabled");
         });
-
-        this.file_uploader._button = btn;
     },
 
     on_submit: function(id, fileName) {
@@ -184,12 +168,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-start-over").attr("disabled", true);
         
         $("#step-1").removeClass("disabled");
-
-        $("#upload-file").remove();
-        this.create_upload_button();
     },
 
     step_two: function(fileName) {
+        $("#upload-begin").addClass("disabled");
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
         $("#step-3 .sample-data").empty();
@@ -215,6 +197,11 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-3").removeClass("disabled");
         $("#upload-continue").attr("disabled", false);
         $("#upload-start-over").attr("disabled", false);
+    },
+
+    begin_event: function() {
+        // Initiate upload
+        this.file_uploader._onInputChange($("#upload-file")[0]);
     },
 
     continue_event: function() {
