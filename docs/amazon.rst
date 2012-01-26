@@ -54,3 +54,25 @@ The disadvantage of this method is that you will need to wait while the setup sc
 
     If you're familiar with EC2 user_data scripts, than you've probably realized that you could accomplish this same thing by SSHing into your new server and running the above commands with sudo. You're right! In fact this is exactly what we do in our guide to `Installing on your own hardware <self-install.html>`_. 
 
+Attaching more storage
+======================
+
+.. warning::
+
+    This section is provisional and may be revised or removed.
+
+EC2 instances have 8GB of storage. If you're going to be using PANDA in a large organization, you may run out of space fairly quickly. Fortunantely, it's possible to replace attach additional storage which can be scaled.
+
+Using Elastic Block Storage for uploaded files
+----------------------------------------------
+
+The most obvious thing taking up space on your instance is all the files your users are uploading. To attach a new EBS volume for these files to live on you'll need to login to the EC2 dashboard and click Volumes in the sidebar. On the toolbar click Create Volume. You can make it whatever size you need, but be sure to place it in the same availability zone as your running instance.
+
+Select your new volume and click Attach Volume. Select your running instance. Make a note of the attachment/mount point in generates for you.
+
+Next, you will need to SSH into your server and run the following commands::
+
+    mkfs.ext3 /dev/xvdf
+    sudo mount /dev/xvdf /var/lib/panda/uploads 
+    sudo chown panda:panda /var/lib/panda/uploads
+
