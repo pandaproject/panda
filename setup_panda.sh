@@ -4,7 +4,7 @@
 # Must be executed with sudo!
 
 set -x
-exec > >(tee /var/log/panda-install.log|logger -t panda-install -s 2>/dev/console) 2>&1
+exec 1> >(tee /var/log/panda-install.log) 2>&1
 
 echo "PANDA installation beginning."
 
