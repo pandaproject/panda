@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 
+"""
+Comprehensive script to handle migrating PANDA's Solr indices to a larger EBS volume.
+Handles all stages of device creation, attachment, file movement, etc.
+It will work whether the indices are currently on another EBS or on local storage.
+
+The only thing this script does not do is detach and destroy any old volume.
+"""
+
 import os.path
 import shutil
 import string
@@ -43,6 +51,9 @@ print 'Creating new volume'
 vol = conn.create_volume(size_gb, instance.placement)
 
 print 'New volume is %s' % vol.id
+
+print 'Backing up fstab'
+shutil.copy2('/etc/fstab', '/etc/fstab.solrmigration.bak')
 
 print 'Finding an available device path'
 ec2_device_name = None
@@ -93,13 +104,17 @@ for name in names:
     else:
         shutil.copy2(src_path, dest_path)
 
-print 'Removing old indexes'
 if os.path.ismount(SOLR_DIR):
+    print 'Dismounting old storage device'
     subprocess.check_call(['umount', SOLR_DIR])
 
-    # TODO - remove entry from fstab
-    # TODO - detach and destroy volume
+    print 'Removing device from fstab'
+    new_fstab = subprocess.check_output(['grep', '-Ev', SOLR_DIR, '/etc/fstab'])
+
+    with open('/etc/fstab', 'w') as f:
+        f.write(new_fstab)
 else:
+    print 'Removing old indexes'
     shutil.rmtree(SOLR_DIR)
     os.mkdir(SOLR_DIR)
 
