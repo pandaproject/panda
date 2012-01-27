@@ -106,7 +106,13 @@ for name in names:
 
 if os.path.ismount(SOLR_DIR):
     print 'Dismounting old storage device'
-    subprocess.check_call(['umount', SOLR_DIR])
+    dismounted = False
+    while not dismounted:
+        try:
+            subprocess.check_call(['umount', SOLR_DIR])
+            dismounted = True
+        except:
+            time.sleep(1)
 
     print 'Removing device from fstab'
     new_fstab = subprocess.check_output(['grep', '-Ev', SOLR_DIR, '/etc/fstab'])
