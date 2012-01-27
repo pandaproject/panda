@@ -82,6 +82,9 @@ print 'Copying indexes'
 names = os.listdir(SOLR_DIR)
 
 for name in names:
+    if name == 'lost+found':
+        continue
+
     src_path = os.path.join(SOLR_DIR, name)
     dest_path = os.path.join(TEMP_MOUNT_POINT, name)
 
@@ -91,10 +94,14 @@ for name in names:
         shutil.copy2(src_path, dest_path)
 
 print 'Removing old indexes'
-shutil.rmtree(SOLR_DIR)
+if os.path.ismount(SOLR_DIR):
+    subprocess.check_call(['umount', SOLR_DIR])
 
-print 'Creating final mount point'
-os.mkdir(SOLR_DIR)
+    # TODO - remove entry from fstab
+    # TODO - detach and destroy volume
+else:
+    shutil.rmtree(SOLR_DIR)
+    os.mkdir(SOLR_DIR)
 
 print 'Dismounting from temporary mount point'
 subprocess.check_call(['umount', TEMP_MOUNT_POINT])
@@ -110,7 +117,7 @@ subprocess.check_call(['service', 'solr', 'start'])
 
 print 'Configuring fstab'
 with open('/etc/fstab', 'a') as f:
-    f.write('\n%s\t%s\text3\tdefaults,noatime\t0\t0' % (device_path, SOLR_DIR))
+    f.write('\n%s\t%s\text3\tdefaults,noatime\t0\t0\n' % (device_path, SOLR_DIR))
 
 print 'Done'
 
