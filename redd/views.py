@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from csvkit.exceptions import FieldSizeLimitError
+
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
@@ -34,7 +36,12 @@ class SecureAjaxFileUploader(AjaxFileUploader):
             # Valum's FileUploader only parses the response if the status code is 200.
             return JSONResponse({ 'success': False, 'forbidden': True }, status=200)
 
-        return self._ajax_upload(request)
+        try:
+            return self._ajax_upload(request)
+        except FieldSizeLimitError:
+            return JSONResponse({ 'error_message': 'CSV contains fields longer than maximum length of 131072 characters.' })
+        except Exception, e:
+            return JSONResponse({ 'error_message': unicode(e) })
 
 data_upload = SecureAjaxFileUploader(backend=PANDADataUploadBackend)
 related_upload = SecureAjaxFileUploader(backend=PANDARelatedUploadBackend)

@@ -120,6 +120,9 @@ body { padding-top: 40px; }
 #dataset-search-results form { margin-left: 20px; }
 #dataset-search-results .actions .danger { float: right; }
 
+#modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
+#modal-dataset-traceback code { white-space: pre-wrap; }
+
 /* Edit page */
 
 #edit-dataset form { margin-left: 20px; }

@@ -153,19 +153,24 @@ PANDA.views.DataUpload = Backbone.View.extend({
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else {
-            this.step_one_error_message("Upload failed!");
+            this.step_two_error_message(responseJSON.error_message);
         }
     },
 
     step_one_error_message: function(message) {
         $("#upload-file").attr("disabled", true);
         $("#step-1-alert").alert("error", "<p>" + message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" /></p>' , false);
-        $("#step-1-start-over").click(this.step_one);
+        $("#step-1-start-over").click(this.start_over_event);
     },
 
     step_two_error_message: function(message) {
         $("#step-2-alert").alert("error", "<p>" + message + ' <input id="step-2-start-over" type="button" class="btn" value="Try again" /></p>' , false);
-        $("#step-2-start-over").click(this.step_one);
+        $("#step-2-start-over").click(this.start_over_event);
+    },
+
+    step_three_error_message: function(message) {
+        $("#step-3-alert").alert("error", "<p>" + message + ' <input id="step-3-start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#step-3-start-over").click(this.start_over_event);
     },
 
     step_one: function() {
@@ -178,6 +183,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-continue").attr("disabled", true);
         $("#upload-start-over").attr("disabled", true);
         
+        $("#upload-file").attr("disabled", false);
         $("#step-1").removeClass("disabled");
     },
 
@@ -217,21 +223,29 @@ PANDA.views.DataUpload = Backbone.View.extend({
                     Redd.goto_dataset_edit(this.dataset.get("slug"));
             }, this),
             _.bind(function(error) {
-                // Preemptive import errors (mismatched columns, wrong file type, etc.)
+                // Preemptive import errors (mismatched columns, etc.)
                 this.upload.destroy()
-                this.step_one_error_message(error.error_message);
+                this.step_three_error_message(error.error_message);
             }, this)
         );
     },
 
     start_over_event: function() {
-        this.upload.destroy({ async: false });
+        if (this.upload) {
+            this.upload.destroy({ async: false });
+            this.upload = null;
+        }
 
-        if (this.dataset_is_new) {
+        if (this.dataset_is_new && this.dataset) {
             this.dataset.destroy({ async: false });
+            this.dataset = null;
         }
         
-        this.reset();
+        if (this.dataset) {
+            this.reset(this.dataset.get("slug"));
+        } else {
+            this.reset();
+        }
     }
 });
 
