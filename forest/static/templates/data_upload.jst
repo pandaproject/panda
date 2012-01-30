@@ -1,15 +1,16 @@
 <div id="upload">
     <h1>
-        Upload
         <% if (dataset) { %>
-            to <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a>
+            Add data to <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a>
+        <% } else { %>
+            Upload new data
         <% } %>
     </h1>
 
     <% if (dataset) { %>
     <div class="alert-message block-message warn" style="display: block;">
         <p>
-            <strong>Note:</strong> When adding data to an existing dataset the file you upload must have <strong>exactly</strong> the same columns as the existing data.</p>
+            <strong>Note:</strong> When adding data to an existing dataset the file you upload must have <strong>exactly</strong> the same headers as the existing data.</p>
     </div>
     <% } %>
 
