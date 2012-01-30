@@ -5,6 +5,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         "click .actions .dataset-save":     "save"
     },
 
+    related_uploader: null,
     dataset: null,
 
     initialize: function() {
@@ -94,27 +95,24 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             onProgress: this.on_related_upload_progress,
             onComplete: this.on_related_upload_complete,
             showMessage: this.on_related_upload_message,
-            maxSizeLimit: 1024 * 1024 * 1024,   // 1 GB
+            sizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
             messages: {
-                sizeError: "{file} is too large, the maximum file size is 1 gigabyte.",
+                sizeError: "{file} is too large, the maximum file size is " + PANDA.settings.MAX_UPLOAD_SIZE + " bytes.",
                 emptyError: "{file} is empty.",
                 onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
             }
         });
         
-        this.create_related_upload_button();
+        // Create upload button
+        var upload_button = CustomUploadButton.init();
+        this.related_uploader._button = upload_button;
+
+        $("#upload-related-file").bind("change", this.on_file_selected);
     },
 
-    create_related_upload_button: function() {
-        $("#related-upload-file-wrapper").html('<input type="file" id="upload-file" />');
-
-        var btn = CustomUploadButton.init({
-            onChange: _.bind(function(input) {
-                this.related_uploader._onInputChange(input);
-            }, this)
-        });
-
-        this.related_uploader._button = btn;
+    on_file_selected: function() {
+        // Initiate upload
+        this.related_uploader._onInputChange($("#upload-related-file")[0]);
     },
 
     on_related_upload_submit: function(id, fileName) {
@@ -165,7 +163,8 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     on_related_upload_message: function(message) {
-        // TODO
+        alert("yo");
+        $("#related-upload-alert").alert("error", "<p>" + message + '</p>' , false);
     },
 
     save: function() {

@@ -77,10 +77,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
             onProgress: this.on_progress,
             onComplete: this.on_complete,
             showMessage: this.step_one_error_message,
-            maxSizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
+            sizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
             messages: {
                 typeError: "{file} is not a supported type. Only CSV, XLS, and XLSX files are currently supported.",
-                sizeError: "{file} is too large, the maximum file size is 1 gigabyte.",
+                sizeError: "{file} is too large, the maximum file size is " + PANDA.settings.MAX_UPLOAD_SIZE + " bytes.",
                 emptyError: "{file} is empty.",
                 onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
             }

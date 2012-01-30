@@ -68,9 +68,8 @@
                     <%= u %>
                 <% }); %>
             </ul>
-            <span id="related-upload-file-wrapper">
-            </span>
-
+            <input type="file" id="upload-related-file" />
+        
             <div id="related-upload-progress" class="progress">
                 <div class="progress-value" style="background-color: #57A957; width: 0%;">
                     <div class="progress-text">
@@ -78,6 +77,8 @@
                     </div>
                 </div>
             </div>
+
+            <div id="related-upload-alert" class="alert-message"></div>
 
             <% if (dataset.sample_data) { %>
             <h6>Sample data</h6>
