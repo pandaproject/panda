@@ -129,11 +129,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
          */
         var pct = Math.floor(loaded / total * 100);
 
-        // Don't render 100% until ajax request creating dataset has finished
-        if (pct == 100) {
-            pct = 99;
-        }
-
         $("#upload-progress .progress-value").css("width", pct + "%");
         $("#upload-progress .progress-text").html('<strong>' + pct + '%</strong> uploaded');
     },
@@ -144,11 +139,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
          */
         if (responseJSON.success) {
             this.upload = new PANDA.models.DataUpload(responseJSON);
-
-            // Finish progress bar
-            $("#upload-progress .progress-value").css("width", "100%");
-            $("#upload-progress .progress-text").html("<strong>100%</strong> uploaded");
-
             this.step_three();
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
