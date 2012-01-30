@@ -8,29 +8,58 @@ It will work whether the indices are currently on another EBS or on local storag
 The only thing this script does not do is detach and destroy any old volume.
 """
 
-import os.path
+from getpass import getpass
+import os
 import shutil
 import string
 import subprocess
+import sys
 import time
 
 from boto.ec2.connection import EC2Connection
 
 TEMP_MOUNT_POINT = '/mnt/solrmigration'
 SOLR_DIR = '/opt/solr/panda/solr'
+FSTAB_BACKUP = '/etc/fstab.solrmigration.bak'
+
+# Utilities
+def safe_dismount(mount_point):
+    dismounted = False
+
+    while not dismounted:
+        try:
+            subprocess.check_output(['umount', mount_point], stderr=subprocess.STDOUT)
+            dismounted = True
+        except:
+            time.sleep(1)
+
+# Sanity checks
+if not os.geteuid() == 0:
+    sys.exit('You must run this script with sudo!')
+
+try:
+     subprocess.check_output(['ec2metadata'], stderr=subprocess.STDOUT)
+except:
+    sys.exit('ec2metadata command not found! This script only works for Ubuntu 11.10 running on EC2. Aborting.')
+
+backed_up = raw_input('Migrating your Solr indexes is a complicated and potentially destructive operation. Have you backed up your data? (y/N): ')
+
+if backed_up.lower() != 'y':
+    sys.exit('Back up your data before running this script! Aborting.')
 
 # Prompt for parameters
-aws_key = raw_input('Enter your AWS Access Key: ')
-secret_key = raw_input('Enter your AWS Secret Key: ')
+aws_key = getpass('Enter your AWS Access Key: ')
+secret_key = getpass('Enter your AWS Secret Key: ')
 size_gb = raw_input('How many GB would you like your new Solr volume to be? ')
 
 print 'Beginning Solr migration'
 
-print 'Connecting to EC2'
+sys.stdout.write('Connecting to EC2... ')
 conn = EC2Connection(aws_key, secret_key)
+print 'connected'
 
-print 'Identifying running instance'
-instance_id = subprocess.check_output(['ec2metadata', '--instance-id']).strip()
+sys.stdout.write('Identifying running instance... ')
+instance_id = subprocess.check_output(['ec2metadata', '--instance-id'], stderr=subprocess.STDOUT).strip()
 
 reservations = conn.get_all_instances()
 
@@ -45,17 +74,20 @@ for r in reservations:
     if instance:
         break
 
-print 'Running instance is %s' % instance_id
+if not instance:
+    sys.exit('Unable to determine running instance! Aborting.')
 
-print 'Creating new volume'
+print instance_id
+
+sys.stdout.write('Creating new volume... ')
 vol = conn.create_volume(size_gb, instance.placement)
+print vol.id
 
-print 'New volume is %s' % vol.id
+sys.stdout.write('Backing up fstab... ')
+shutil.copy2('/etc/fstab', FSTAB_BACKUP)
+print FSTAB_BACKUP
 
-print 'Backing up fstab'
-shutil.copy2('/etc/fstab', '/etc/fstab.solrmigration.bak')
-
-print 'Finding an available device path'
+sys.stdout.write('Finding an available device path... ')
 ec2_device_name = None
 device_path = None
 
@@ -66,30 +98,35 @@ for letter in string.lowercase[6:]:
     if not os.path.exists(device_path):
         break
 
-print 'New device will be %s' % device_path
+print device_path
 
-print 'Attaching new volume'
+sys.stdout.write('Attaching new volume... ')
 vol.attach(instance.id, ec2_device_name) 
 
 while not os.path.exists(device_path):
-        time.sleep(1)
+    time.sleep(1)
+print 'attached'
 
-print 'Formatting volume'
-subprocess.check_call(['mkfs.ext3', device_path])
+sys.stdout.write('Formatting volume... ')
+subprocess.check_output(['mkfs.ext3', device_path], stderr=subprocess.STDOUT)
+print 'formatted'
 
-print 'Creating temporary mount point'
+sys.stdout.write('Creating temporary mount point... ')
 if os.path.exists(TEMP_MOUNT_POINT):
     shutil.rmtree(TEMP_MOUNT_POINT)
 
 os.mkdir(TEMP_MOUNT_POINT)
+print TEMP_MOUNT_POINT
 
-print 'Mounting volume'
-subprocess.check_call(['mount', device_path, TEMP_MOUNT_POINT])
+sys.stdout.write('Mounting volume... ')
+subprocess.check_output(['mount', device_path, TEMP_MOUNT_POINT], stderr=subprocess.STDOUT)
+print 'mounted' 
 
-print 'Stopping Solr'
-subprocess.call(['service', 'solr', 'stop'])
+sys.stdout.write('Stopping Solr... ')
+subprocess.check_output(['service', 'solr', 'stop'], stderr=subprocess.STDOUT)
+print 'stopped'
 
-print 'Copying indexes'
+sys.stdout.write('Copying indexes... ')
 names = os.listdir(SOLR_DIR)
 
 for name in names:
@@ -104,41 +141,46 @@ for name in names:
     else:
         shutil.copy2(src_path, dest_path)
 
-if os.path.ismount(SOLR_DIR):
-    print 'Dismounting old storage device'
-    dismounted = False
-    while not dismounted:
-        try:
-            subprocess.check_call(['umount', SOLR_DIR])
-            dismounted = True
-        except:
-            time.sleep(1)
+print 'copied'
 
-    print 'Removing device from fstab'
-    new_fstab = subprocess.check_output(['grep', '-Ev', SOLR_DIR, '/etc/fstab'])
+if os.path.ismount(SOLR_DIR):
+    sys.stdout.write('Dismounting old storage device... ')
+    safe_dismount(SOLR_DIR)
+    print 'dismounted'
+
+    sys.stdout.write('Removing device from fstab... ')
+    new_fstab = subprocess.check_output(['grep', '-Ev', SOLR_DIR, '/etc/fstab'], stderr=subprocess.STDOUT)
+    print 'removed'
 
     with open('/etc/fstab', 'w') as f:
         f.write(new_fstab)
 else:
-    print 'Removing old indexes'
+    sys.stdout.write('Removing old indexes... ')
     shutil.rmtree(SOLR_DIR)
     os.mkdir(SOLR_DIR)
 
-print 'Dismounting from temporary mount point'
-subprocess.check_call(['umount', TEMP_MOUNT_POINT])
+    print 'removed'
 
-print 'Remounting at final mount point'
-subprocess.check_call(['mount', device_path, SOLR_DIR])
+sys.stdout.write('Dismounting from temporary mount point...')
+safe_dismount(TEMP_MOUNT_POINT)
+print 'dismounted'
 
-print 'Reseting permissions'
-subprocess.check_call(['chown', '-R', 'solr:solr', SOLR_DIR])
+sys.stdout.write('Remounting at final mount point... ')
+subprocess.check_output(['mount', device_path, SOLR_DIR], stderr=subprocess.STDOUT)
+print 'mounted'
 
-print 'Restarting Solr'
-subprocess.check_call(['service', 'solr', 'start'])
+sys.stdout.write('Reseting permissions... ')
+subprocess.check_output(['chown', '-R', 'solr:solr', SOLR_DIR], stderr=subprocess.STDOUT)
+print 'reset'
 
-print 'Configuring fstab'
+sys.stdout.write('Restarting Solr... ')
+subprocess.check_output(['service', 'solr', 'start'], stderr=subprocess.STDOUT)
+print 'restarted'
+
+sys.stdout.write('Configuring fstab... ')
 with open('/etc/fstab', 'a') as f:
     f.write('\n%s\t%s\text3\tdefaults,noatime\t0\t0\n' % (device_path, SOLR_DIR))
+print 'configured'
 
-print 'Done'
+print 'Done!'
 
