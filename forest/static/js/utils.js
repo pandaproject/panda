@@ -47,7 +47,6 @@ $.fn.alert = function(type, message, close_button) {
     }
 
     this.show();
-    window.scrollTo(0, this.offset());
 }
 
 $.fn.show_errors = function(errors, alert_prefix) {

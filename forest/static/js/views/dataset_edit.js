@@ -163,7 +163,6 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     on_related_upload_message: function(message) {
-        alert("yo");
         $("#related-upload-alert").alert("error", "<p>" + message + '</p>' , false);
     },
 
