@@ -33,7 +33,16 @@ body { padding-top: 40px; }
     margin-top: 100px;
 }
 
+#login .welcome {
+    margin-left: 150px;
+    margin-bottom: 25px;
+}
+
 /* Sidebar */
+
+#sidebar {
+    display: none;
+}
 
 #sidebar-menu {
     margin: 20px 0 20px 20px;
