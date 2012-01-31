@@ -2,14 +2,15 @@ body { padding-top: 40px; }
 .topbar { height: 40px; }
 .topbar h3 { margin-left: 10px; }
 #logo a { padding: 0; margin-top: 4px; margin-left: 10px; }
-#loading-indicator { display: none; position: relative; top: 2px;}
+#loading-indicator { width: 32px; }
+#loading-indicator img { display: none; position: relative; top: 2px; }
 #topbar-email { display: none; }
 #topbar-admin { display: none; }
 #topbar-logout { display: none; }
 .topbar .menu-dropdown, .topbar .dropdown-menu { top: 40px; min-width: 300px; max-width: 400px; }
 .topbar .dropdown-toggle::after { content: none; }
 .container-fluid { padding: 0; }
-.content { padding: 20px 30px 30px 0; }
+.container-fluid > .content { margin: 0; padding: 20px; }
 .alert-message { display: none; }
 
 .form-stacked { padding-left: 0; }

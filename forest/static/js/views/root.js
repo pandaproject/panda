@@ -46,11 +46,11 @@ PANDA.views.Root = Backbone.View.extend({
 
     track_ajax_events: function() {
         $(document).ajaxStart(function() {
-            $("#loading-indicator").show();
+            $("#loading-indicator img").show();
         });
 
         $(document).ajaxComplete(function() {
-            $("#loading-indicator").hide();
+            $("#loading-indicator img").hide();
         });
     },
 
@@ -111,12 +111,10 @@ PANDA.views.Root = Backbone.View.extend({
             $.cookie("email", this._current_user.get("email"));
             $.cookie("api_key", this._current_user.get("api_key"));
             $.cookie("is_staff", this._current_user.get("is_staff").toString());
-            $("#sidebar").show();
         } else {
             $.cookie("email", null);
             $.cookie("api_key", null);
             $.cookie("is_staff", null);
-            $("#sidebar").hide();
         }
             
         this.configure_topbar();

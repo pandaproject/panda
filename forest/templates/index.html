@@ -20,6 +20,19 @@
                 <ul class="nav">
                     <li id="logo"><a href="#"><img src="{{ STATIC_URL }}img/panda_and_ire.png" /></a></li>
                     <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ STATIC_URL }}img/ajax-loader.gif" /></a></li>
+                    <li><a href="#upload">Upload new data</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Find a dataset</a>
+                        <ul id="categories-list" class="dropdown-menu">
+                            <li><a href="#datasets">Search all datasets</a></li>
+                            <li class="divider"></li>
+                            {% for category in categories %}
+                            {% if category.dataset_count > 0 %}
+                            <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav secondary-nav">
                     <li id="topbar-email"><a href="javascript:alert('User Profile (TODO)');"></a></li>
@@ -36,25 +49,6 @@
    </div>
 
     <div class="container-fluid">
-        <div id="sidebar" class="sidebar">
-            <div id="sidebar-menu">
-                <nav>
-                    <ul>
-                        <li><a href="#upload">Upload new data</a></li>
-                    </ul>
-
-                    <ul id="categories-list">
-                        <li><a href="#datasets">Find a dataset</a></li>
-                        {% for category in categories %}
-                        {% if category.dataset_count > 0 %}
-                        <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                    <div class="add-category"><a data-content="To keep things organized only administrators can add categories." data-original-title="Contact your admin!" data-offset="5" href="javascript: return false;" rel="popover">Need another category?</a></div>
-                </nav>
-            </div>
-        </div>
         <div id="content" class="content">
         </div>
     </div>
