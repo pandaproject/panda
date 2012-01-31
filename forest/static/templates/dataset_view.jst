@@ -1,78 +1,84 @@
-<form class="form-stacked">
-    <div class="actions">
-        <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
-        <input type="button" class="btn danger" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true" value="Export to CSV" />
-    </div>
+<div id="view-dataset">
     <div class="alert-message"></div>
-    <fieldset>
-        <legend>About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows) <% } else { %>(row count not available)<% } %></legend>
-        <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
-        <% if (dataset.last_modified) { %>
-        Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
+    <h2>
+        About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
+    </h2>
+    <ul class="actions-dropdown">
+        <li>
+            <a href="#">Actions</a>
+            <ul>
+                <li><a href="#dataset/<%= dataset.slug %>/edit">Edit</a></li>
+                <li><a href="javascript: return false;" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div style="clear:both;"></div>
+
+    <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
+    <% if (dataset.last_modified) { %>
+    Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
+    <% } else { %>
+    Data never modified.
+    <% } %>
+    </p>
+    
+    <h6>Categories</h6>
+
+    <p>
+        <% if (categories.length > 0) { %>
+        <% _.each(categories, function(category, index, list) { %>
+            <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+        <% }); %>
         <% } else { %>
-        Data never modified.
+        <em>None selected.</em>
         <% } %>
-        </p>
-        
-        <h6>Categories</h6>
+    </p>
 
-        <p>
-            <% if (categories.length > 0) { %>
-            <% _.each(categories, function(category, index, list) { %>
-                <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+    <h6>Description</h6>
+
+    <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
+
+    <h6>Data files</h6>
+    <% if (dataset.data_uploads.length > 0) { %>
+    <ul class="data-uploads">
+        <% _.each(data_uploads_html, function(u) { %>
+            <%= u %>
+        <% }); %>
+    </ul>
+    <% } else { %>
+    <p><em>None uploaded.</em></p>
+    <% } %>
+
+    <h6>Related files</h6>
+    <% if (dataset.related_uploads.length > 0) { %>
+    <ul class="related-uploads">
+        <% _.each(related_uploads_html, function(u) { %>
+            <%= u %>
+        <% }); %>
+    </ul>
+    <% } else { %>
+    <p><em>None uploaded.</em></p>
+    <% } %>
+
+    <% if (dataset.sample_data) { %>
+    <h6>Sample data</h6>
+
+    <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
+
+    <table>
+        <% _.each(dataset.columns, function(c) { %>
+            <th><%= c %></th>
+        <% }); %>
+        <% _.each(dataset.sample_data, function(r) { %>
+            <tr>
+            <% _.each(r, function(d) { %>
+                <td><%= d %></td>
             <% }); %>
-            <% } else { %>
-            None selected.
-            <% } %>
-        </p>
-
-        <h6>Description</h6>
-
-        <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
-
-        <h6>Data files</h6>
-        <% if (dataset.data_uploads.length > 0) { %>
-        <ul class="data-uploads">
-            <% _.each(data_uploads_html, function(u) { %>
-                <%= u %>
-            <% }); %>
-        </ul>
-        <% } %>
-
-        <h6>Related files</h6>
-        <% if (dataset.related_uploads.length > 0) { %>
-        <ul class="related-uploads">
-            <% _.each(related_uploads_html, function(u) { %>
-                <%= u %>
-            <% }); %>
-        </ul>
-        <% } %>
-
-        <% if (dataset.sample_data) { %>
-        <h6>Sample data</h6>
-
-        <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
-
-        <table>
-            <% _.each(dataset.columns, function(c) { %>
-                <th><%= c %></th>
-            <% }); %>
-            <% _.each(dataset.sample_data, function(r) { %>
-                <tr>
-                <% _.each(r, function(d) { %>
-                    <td><%= d %></td>
-                <% }); %>
-                </tr>
-            <% }); %>
-        </table>
-        <% } %>
-    </fieldset>
-
-    <div class="actions">
-        <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
-        <input type="button" class="btn danger" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true" value="Export to CSV" />
-    </div>
-</form>
+            </tr>
+        <% }); %>
+    </table>
+    <% } %>
+</div>
 
 <div id="dataset-traceback-modal" class="modal hide fade in">
     <div class="modal-header">

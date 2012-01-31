@@ -117,17 +117,62 @@ body { padding-top: 40px; }
 
 /* Dataset view page */
 
-#dataset-search-results form { margin-left: 20px; }
 #dataset-search-results .actions .danger { float: right; }
 
 #modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
 #modal-dataset-traceback code { white-space: pre-wrap; }
 
+#view-dataset h2 {
+    display: block;
+    font-size: 19.5px;
+    line-height: 1;
+    color: #404040;
+    font-weight: normal;
+    float: left;
+}
+
 /* Edit page */
 
-#edit-dataset form { margin-left: 20px; }
 #edit-dataset .actions .danger { float: right; }
 #related-upload-progress { display: none; }
+
+.actions-dropdown {
+	margin: 0;
+	padding: 0;
+    float:left;
+}
+.actions-dropdown li {
+	list-style: none;
+	float: left;
+}
+.actions-dropdown li a {
+	display: block;
+	background-color: #404040;
+	color: #bfbfbf;
+	text-decoration: none;
+    width: 100px;
+    padding: 3px 8px;
+}
+.actions-dropdown li ul {
+	display: none; 
+	background-color: #404040;
+}
+.actions-dropdown li:hover ul {
+	display: block;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+.actions-dropdown li:hover li {
+	float: none;
+}
+.actions-dropdown li:hover li a {
+	background-color: #333;
+}
+.actions-dropdown li li a:hover {
+	background-color: #444;
+	color: #fff;
+}
 
 /* Upload page */
 
