@@ -14,17 +14,18 @@
     {% endcompress %}
 </head>
 <body>
-    <div class="topbar">
+    <div class="topbar" data-dropdown="dropdown">
         <div class="topbar-inner">
             <div class="container-fluid">
                 <ul class="nav">
                     <li id="logo"><a href="#"><img src="{{ STATIC_URL }}img/panda_and_ire.png" /></a></li>
                     <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ STATIC_URL }}img/ajax-loader.gif" /></a></li>
-                    <li><a href="#upload">Upload new data</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">Find a dataset</a>
+                    <li class="login-only"><a href="#">Search</a></li>
+                    <li class="login-only"><a href="#upload">Upload</a></li>
+                    <li class="dropdown login-only">
+                        <a href="#" class="dropdown-toggle">Browse</a>
                         <ul id="categories-list" class="dropdown-menu">
-                            <li><a href="#datasets">Search all datasets</a></li>
+                            <li><a href="#datasets">All datasets</a></li>
                             <li class="divider"></li>
                             {% for category in categories %}
                             {% if category.dataset_count > 0 %}
@@ -35,14 +36,14 @@
                     </li>
                 </ul>
                 <ul class="nav secondary-nav">
-                    <li id="topbar-email"><a href="javascript:alert('User Profile (TODO)');"></a></li>
-                    <li id="topbar-notifications" class="dropdown" data-dropdown="dropdown">
+                    <li id="topbar-email" class="login-only"><a href="javascript:alert('User Profile (TODO)');"></a></li>
+                    <li id="topbar-notifications" class="dropdown login-only">
                         <a href="#" class="dropdown-toggle">Notifications <span class="count label important">2</span></a>
                         <ul class="dropdown-menu">
                         </ul>
                     </li>
-                    <li id="topbar-admin"><a href="/admin">Admin</a></li>
-                    <li id="topbar-logout"><a href="#logout">Logout</a></li>
+                    <li id="topbar-admin" class="login-only"><a href="/admin">Admin</a></li>
+                    <li class="login-only"><a href="#logout">Logout</a></li>
                 </ul>
             </div>
         </div>

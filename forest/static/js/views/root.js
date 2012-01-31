@@ -190,10 +190,7 @@ PANDA.views.Root = Backbone.View.extend({
          * Reconfigures the Bootstrap topbar based on the current user.
          */
         if (!this._current_user) {
-            $("#topbar-admin").hide();
-            $("#topbar-email").hide();
-            $("#topbar-notifications").hide();
-            $("#topbar-logout").hide();
+            $(".login-only").hide();
         } else {
             $("#topbar-email a").text(this._current_user.get("email"));
 
@@ -229,15 +226,11 @@ PANDA.views.Root = Backbone.View.extend({
             
             $("#topbar-notifications .count").text(this._current_user.notifications.length);
 
-            if (this._current_user.get("is_staff")) {
-                $("#topbar-admin").css("display", "block");
-            } else {
+            $(".login-only").css("display", "block");
+
+            if (!this._current_user.get("is_staff")) {
                 $("#topbar-admin").hide();
             }
-
-            $("#topbar-email").css("display", "block");
-            $("#topbar-notifications").css("display", "block");
-            $("#topbar-logout").css("display", "block");
         }
     },
 
