@@ -7,3 +7,10 @@ class DataImportError(Exception):
     """
     pass
 
+class NotSniffableError(Exception):
+    """
+    Exception raised when a file's dialect could not be inferred
+    automatically.
+    """
+    pass
+
