@@ -9,6 +9,7 @@
             <ul>
                 <li><a href="#dataset/<%= dataset.slug %>/edit">Edit</a></li>
                 <li><a href="javascript: return false;" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
+                <li><a href="javascript: return false;" data-controls-modal="modal-dataset-destroy" data-backdrop="true" data-keyboard="true">Delete</a></li>
             </ul>
         </li>
     </ul>
@@ -107,5 +108,19 @@
     <div class="modal-footer">
         <input type="button" class="btn modal-close" value="Cancel" />
         <input id="dataset-export" type="button" class="btn primary modal-close" value="Continue with export" />
+    </div>
+</div>
+
+<div id="modal-dataset-destroy" class="modal hide fade in">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Are you sure you want to delete this dataset?</h3>
+    </div>
+    <div class="modal-body">
+        <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn modal-close" value="Cancel" />
+        <input id="dataset-destroy" type="button" class="btn danger modal-close" value="Continue with delete" />
     </div>
 </div>

@@ -3,6 +3,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         _.bindAll(this);
         
         $("#dataset-export").live("click", this.export_data);
+        $("#dataset-destroy").live("click", this.destroy);
     },
 
     set_dataset: function(dataset) {
@@ -13,6 +14,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         // Nuke old modals
         $("#modal-dataset-traceback").remove();
         $("#modal-export-dataset").remove();
+        $("#modal-dataset-destroy").remove();
 
         // Render inlines
         data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
@@ -60,6 +62,14 @@ PANDA.views.DatasetView = Backbone.View.extend({
         }, function(error) {
             bootbox.alert("<p>Your export failed to start! Please notify your administrator.</p><p>Error:</p><code>" + error.traceback + "</code>");
         });
-    }
+    },
+
+    destroy: function() {
+        this.dataset.destroy({ success: _.bind(function() {
+            this.dataset = null;
+
+            Redd.goto_search();
+        }, this)});
+    },
 });
 
