@@ -75,7 +75,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 /* Dataset view page */
 
 #view-dataset h3 { display: block; float: left; }
-#view-dataset #dataset-actions { float: left; 
+#view-dataset #dataset-actions { float: left; } 
 
 /* Edit page */
 
@@ -84,26 +84,27 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Upload page */
 
-#upload-progress { margin-bottom: 10px; }
-
 .step { margin-top: 20px; }
 .step h2 { margin-bottom: 5px; }
 .step.disabled { color: lightgray; }
 .step.disabled h2 { color: lightgray; }
 
-/* Utils */
+#upload-progress { margin-bottom: 10px; position: relative; }
 
-.progress { position: relative; }
-
-.progress, .progress-value, .progress-text {
+#upload-progress, .progress-value, .progress-text {
     width: 155px; height: 30px;
 }
 
-.progress, .progress-value {
+#upload-progress {
     background: #bdbdbd url(/site_media/img/progress.png) top left no-repeat;
 }
-            
-.progress-text {
+
+#upload-progress .progress-value {
+    background: #57A957 url(/site_media/img/progress.png) top left no-repeat;
+    width: 0%;
+}
+
+#upload-progress .progress-text {
     position: absolute;
     top:0; left:0;
 
@@ -113,3 +114,4 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     text-align: center;
     width: 100%;
 }
+
