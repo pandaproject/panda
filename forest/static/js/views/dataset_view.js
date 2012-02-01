@@ -33,11 +33,14 @@ PANDA.views.DatasetView = Backbone.View.extend({
             return PANDA.templates.inline_related_upload_item(context);
         }, this));
 
+        sample_data_html = PANDA.templates.inline_sample_data(this.dataset.toJSON());
+
         var context = PANDA.make_context({
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
             'data_uploads_html': data_uploads_html,
-            'related_uploads_html': related_uploads_html
+            'related_uploads_html': related_uploads_html,
+            'sample_data_html': sample_data_html
         });
 
         this.el.html(PANDA.templates.dataset_view(context));

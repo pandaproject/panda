@@ -8,7 +8,7 @@
     </h1>
 
     <% if (dataset) { %>
-    <div class="alert alert-block warn" style="display: block;">
+    <div class="alert alert-block alert-warn" style="display: block;">
         <p>
             <strong>Note:</strong> When adding data to an existing dataset the file you upload must have <strong>exactly</strong> the same headers as the existing data.</p>
     </div>
@@ -21,19 +21,19 @@
 
         <input type="file" id="upload-file" /><br />
 
-        <div class="alert alert-block warn notes xls">
-            <h4 class="alert-header">Excel styles will be lost!</h4>
+        <div class="alert alert-block alert-warn notes xls">
+            <h4 class="alert-heading">Excel styles will be lost!</h4>
             <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
             <ul>
                 <li>The date <strong>12/30/2011</strong> in Excel will become <strong>2011-12-30</strong> in PANDA.</li>
                 <li>A number shown rounded in Excel, <strong>12</strong>, will be expanded in PANDA, <strong>12.011113</strong>.</li>
                 <li>A value with prepended zeroes, <strong>000097</strong>, will be simplified to <strong>97</strong>. (If the leading zeroes were applied with a format.)
             </ul>
-            <h4><strong>Only the first worksheet will be searchable!</strong></h4>
+            <h4 class="alert-heading">Only the first worksheet will be searchable!</h4>
             <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
         </div>
 
-        <input type="button" name="begin" id="upload-begin" class="btn success" value="Begin upload" disabled="disabled" />
+        <input type="button" name="begin" id="upload-begin" class="btn-success" value="Begin upload" disabled="disabled" />
         
         <div id="step-1-alert" class="alert"></div>
     </div>
@@ -63,7 +63,7 @@
         
         <div id="step-3-alert" class="alert"></div>
 
-        <input type="button" name="continue" id="upload-continue" class="btn success" value="Continue" disabled="disabled" />
+        <input type="button" name="continue" id="upload-continue" class="btn-success" value="Continue" disabled="disabled" />
         <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" disabled="disabled" />
     </div>
 </div>

@@ -210,7 +210,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         this.dataset.import_data(
             this.upload.get("id"),
             _.bind(function() {
-                    Redd.goto_dataset_edit(this.dataset.get("slug"));
+                    Redd.goto_dataset_view(this.dataset.get("slug"));
             }, this),
             _.bind(function(error) {
                 // Preemptive import errors (mismatched columns, etc.)

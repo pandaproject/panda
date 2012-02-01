@@ -34,7 +34,7 @@ $.fn.alert = function(type, message, close_button) {
      * Display a Twitter bootstrap alert with an optional close button.
      */
     this.hide();
-    this.removeClass("warning error success info").addClass(type);
+    this.removeClass("alert-warning alert-error alert-success alert-info").addClass(type);
 
     if (_.isUndefined(close_button)) {
         close_button = true;
@@ -70,7 +70,7 @@ $.fn.show_errors = function(errors, alert_prefix) {
 
     // Show global errors in an alert
     if ("__all__" in errors) {
-        $(this).find(".alert").alert("error alert-block", '<h4 class="alert-heading">' + alert_prefix + "</h4> " + errors["__all__"] + ".");
+        $(this).find(".alert").alert_block("alert-error", alert_prefix, + errors["__all__"] + ".");
     }
 
     _.each(errors, _.bind(function(field_errors, field) {

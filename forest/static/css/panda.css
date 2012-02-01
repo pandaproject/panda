@@ -12,6 +12,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 .alert { display: none; }
 .popover .content ul li { color: black; }
+.pager p { font-size: 1.5em; }
 .pager h3 { float: left; margin-right: 8px; display: block; float: left; }
 .pager .pagination { margin: 0 0 8px 0; float: left; }
 .pager .pagination a { padding: 0 14px; }
@@ -34,37 +35,6 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     margin-bottom: 25px;
 }
 
-/* Sidebar */
-
-#sidebar {
-    display: none;
-}
-
-#sidebar-menu {
-    margin: 20px 0 20px 20px;
-    padding: 10px;
-    background-color: whiteSmoke;
-    border: 1px solid lightgray;
-}
-
-#sidebar-menu ul {
-    list-style: none;
-    font-size: 18px;
-    margin: 0 0 20px 0;
-}
-
-#sidebar-menu li {
-    margin-bottom: 7px;
-}
-
-#categories-list .category {
-    list-style: disc inside;
-}
-
-#sidebar-menu .add-category {
-    font-size: smaller;
-}
-
 /* News page */
 
 #recent-datasets {
@@ -74,13 +44,6 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #recent-datasets h3 {
     line-height: 1.3em;
 }
-
-/* Search page */
-
-#search-results {
-}
-
-.pager p { font-size: 1.5em; }
 
 /* Datasets search page */
 
@@ -106,60 +69,17 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     background-image: url(/site_media/img/asc.gif);     
 } 
 
-.modal .sample-data {
-    max-height: 300px;
-    overflow: scroll;
-}
+#modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
+#modal-dataset-traceback code { white-space: pre-wrap; }
 
 /* Dataset view page */
 
 #view-dataset h3 { display: block; float: left; }
 
-#modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
-#modal-dataset-traceback code { white-space: pre-wrap; }
-
 /* Edit page */
 
 #edit-dataset .actions .danger { float: right; }
 #related-upload-progress { display: none; }
-
-.actions-dropdown {
-	margin: 0;
-	padding: 0;
-    float:left;
-}
-.actions-dropdown li {
-	list-style: none;
-	float: left;
-}
-.actions-dropdown li a {
-	display: block;
-	background-color: #404040;
-	color: #bfbfbf;
-	text-decoration: none;
-    width: 100px;
-    padding: 3px 8px;
-}
-.actions-dropdown li ul {
-	display: none; 
-	background-color: #404040;
-}
-.actions-dropdown li:hover ul {
-	display: block;
-	position: absolute;
-	margin: 0;
-	padding: 0;
-}
-.actions-dropdown li:hover li {
-	float: none;
-}
-.actions-dropdown li:hover li a {
-	background-color: #333;
-}
-.actions-dropdown li li a:hover {
-	background-color: #444;
-	color: #fff;
-}
 
 /* Upload page */
 
@@ -169,8 +89,6 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 .step h2 { margin-bottom: 5px; }
 .step.disabled { color: lightgray; }
 .step.disabled h2 { color: lightgray; }
-
-#step-2 .notes h4:first-child { margin-top: -8px; }
 
 /* Utils */
 
