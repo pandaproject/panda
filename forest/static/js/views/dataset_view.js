@@ -1,6 +1,8 @@
 PANDA.views.DatasetView = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this);
+
+        $(".related-uploads .delete").live("click", this.delete_related_upload);
     },
 
     set_dataset: function(dataset) {
@@ -68,6 +70,27 @@ PANDA.views.DatasetView = Backbone.View.extend({
         $("#dataset-upload-related").click(this.upload_related);
         $("#dataset-export").click(this.export_data);
         $("#dataset-destroy").click(this.destroy);
+    },
+
+    delete_related_upload: function(e) {
+        var element = $(e.currentTarget)
+        var uri = element.attr("data-uri"); 
+        var upload = this.dataset.related_uploads.get(uri);
+
+        $("#modal-related-upload-destroy").html(PANDA.templates.modal_related_upload_destroy({ upload: upload.toJSON() }));
+
+        $("#related-upload-destroy").click(function() {
+            upload.destroy();
+            element.parent("li").remove();
+
+            $("#modal-related-upload-destroy").modal("hide");
+
+            return false;
+        });
+
+        $("#modal-related-upload-destroy").modal("show");
+
+        return false;
     },
 
     validate: function() {
