@@ -143,14 +143,6 @@ describe("Index Router", function() {
         this.controller_mock.verify();
     });
 
-    it("should route to edit dataset", function() {
-        this.controller_mock.expects("goto_dataset_edit").withExactArgs("17").once();
-
-        this.router.navigate("dataset/17/edit", true);
-
-        this.controller_mock.verify();
-    });
-
     it("should route to per-dataset search", function() {
         this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", undefined, undefined).once();
 

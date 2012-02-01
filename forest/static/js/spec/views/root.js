@@ -13,7 +13,7 @@ describe("Root view / global controller", function() {
         window.Redd = new FakeController();
 
         this.auth_stub = sinon.stub(Redd, "authenticate").returns(true);
-        this.topbar_stub = sinon.stub(Redd, "configure_topbar");
+        this.navbar_stub = sinon.stub(Redd, "configure_navbar");
         this.refresh_notifications_stub = sinon.stub(Redd, "refresh_notifications");
 
         // Initialize with auth stubbed out
@@ -21,7 +21,7 @@ describe("Root view / global controller", function() {
 
         this.auth_stub.restore();
         this.refresh_notifications_stub.restore();
-        this.topbar_stub.restore();
+        this.navbar_stub.restore();
         
         sandbox({ id: "body" });
     });
@@ -248,15 +248,6 @@ describe("Root view / global controller", function() {
             expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetSearch");
             expect(this.fake_view.reset).toHaveBeenCalledWith("12");
             expect(this.navigate_stub).toHaveBeenCalledWith("dataset/12");
-        });
-
-        it("should load the dataset edit view", function() {
-            Redd.goto_dataset_edit("12");
-
-            expect(this.auth_stub).toHaveBeenCalledOnce();
-            expect(this.get_or_create_view_stub).toHaveBeenCalledWith("DatasetEdit");
-            expect(this.fake_view.reset).toHaveBeenCalledWith("12");
-            expect(this.navigate_stub).toHaveBeenCalledWith("dataset/12/edit");
         });
 
         it("should load the dataset search view", function() {
