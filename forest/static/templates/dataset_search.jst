@@ -1,24 +1,22 @@
-<form id="dataset-search-form" class="form-stacked">
-    <div class="alert-message"></div>
-    <fieldset>
-        <legend>Search <strong><%= dataset.name %></strong></legend>
-        <div class="clearfix">
-            <div class="input">
+<div class="row-fluid">
+    <div class="span12">
+        <form id="dataset-search-form" class="well">
+            <div class="alert-message"></div>
+            <h3>Search <strong><%= dataset.name %></strong></h3>
             <% if (!dataset.row_count) { %>
-                <input id="dataset-search-query" type="text" name="query" class="span11" value="Dataset not yet available for search" disabled="disabled" />
+                <input id="dataset-search-query" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
-                <input id="dataset-search-query" type="text" name="query" class="span11" value="<%= query %>" placeholder="Enter a search query" />
+                <input id="dataset-search-query" type="text" name="query" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
                 &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
                 <% if (query) { %>
                 &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                 <% } %>
             <% } %>
-            </div>
-        </div>
-    </fieldset>
-</form>
+        </form>
+    </div>
+</div>
 
 <div id="dataset-search-results">
 </div>

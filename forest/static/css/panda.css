@@ -1,14 +1,17 @@
 body { padding-top: 40px; }
+h3 { font-weight: normal; padding-bottom: 4px; }
+
 .navbar .container-fluid { padding-left: 0; }
 #logo a { padding: 0; margin-top: 4px; margin-left: 10px; }
 #loading-indicator { width: 32px; }
 #loading-indicator img { display: none; position: relative; top: 2px; }
 #navbar-admin { display: none; }
 .navbar .menu-dropdown, .navbar .dropdown-menu { min-width: 300px; max-width: 400px; }
+
+#content { padding: 20px; }
+
 .alert-message { display: none; }
-
 .popover .content ul li { color: black; }
-
 .pager h3 { float: left; margin-right: 8px; }
 .pager .pagination { margin: 0 0 8px 0; }
 
@@ -109,19 +112,10 @@ body { padding-top: 40px; }
 
 /* Dataset view page */
 
-#dataset-search-results .actions .danger { float: right; }
+#view-dataset h3 { display: block; float: left; }
 
 #modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
 #modal-dataset-traceback code { white-space: pre-wrap; }
-
-#view-dataset h2 {
-    display: block;
-    font-size: 19.5px;
-    line-height: 1;
-    color: #404040;
-    font-weight: normal;
-    float: left;
-}
 
 /* Edit page */
 

@@ -1,16 +1,12 @@
-<div id="search">
-    <form id="search-form" class="form-stacked">
-        <fieldset>
-            <legend>Search all data</legend>
-            <div class="clearfix">
-                <div class="input">
-                    <input id="search-query" type="text" name="query" class="span11" value="<%= query %>" placeholder="Enter a search query" />
-                    <input type="submit" id="search-submit" class="btn primary" value="Search" />
-                    &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+<div id="search" class="row-fluid">
+    <div class="span12">
+        <form id="search-form" class="well">
+            <h3><strong>Search all data</strong></h3>
+            <input id="search-query" type="text" name="query" class="span8" value="<%= query %>" placeholder="Enter a search query" />
+            <input type="submit" id="search-submit" class="btn primary" value="Search" />
+            &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
+        </form>
+    </div>
 </div>
 
 <div id="search-results">

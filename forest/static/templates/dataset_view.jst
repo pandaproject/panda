@@ -1,8 +1,8 @@
-<div id="view-dataset">
+<div class="row-fluid" id="view-dataset">
     <div class="alert-message"></div>
-    <h2>
+    <h3>
         About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
-    </h2>
+    </h3>
     <div class="btn-group">
         <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
