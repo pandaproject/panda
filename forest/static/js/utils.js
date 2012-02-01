@@ -70,7 +70,7 @@ $.fn.show_errors = function(errors, alert_prefix) {
 
     // Show global errors in an alert
     if ("__all__" in errors) {
-        $(this).find(".alert").alert_block("alert-error", alert_prefix, + errors["__all__"] + ".");
+        $(this).find(".alert").alert_block("alert-error", alert_prefix, errors["__all__"] + ".");
     }
 
     _.each(errors, _.bind(function(field_errors, field) {

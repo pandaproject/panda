@@ -4,10 +4,19 @@
             <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
             <h2>Log in to PANDA</h2>
             <div class="alert"></div>
-            <label for="email">Email</label>
-            <input type="text" name="email" value="<%= email %>" />
-            <label for="password">Password</label>
-            <input type="password" name="password" />
+            
+            <div class="control-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" value="<%= email %>" />
+                <span class="help-inline"></span>
+            </div>
+
+            <div class="control-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" />
+                <span class="help-inline"></span>
+            </div>
+
             <input type="submit" class="btn" value="Login" />
         </form>
     </div>
