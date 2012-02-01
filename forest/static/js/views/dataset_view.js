@@ -44,7 +44,26 @@ PANDA.views.DatasetView = Backbone.View.extend({
         });
 
         this.el.html(PANDA.templates.dataset_view(context));
-        
+
+        this.related_uploader = new qq.FileUploaderBasic({
+            action: "/related_upload/",
+            multiple: false,
+            onSubmit: this.on_related_upload_submit,
+            onProgress: this.on_related_upload_progress,
+            onComplete: this.on_related_upload_complete,
+            showMessage: this.on_related_upload_message,
+            sizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
+            messages: {
+                sizeError: "{file} is too large, the maximum file size is " + PANDA.settings.MAX_UPLOAD_SIZE + " bytes.",
+                emptyError: "{file} is empty.",
+                onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
+            }
+        });
+
+        // Create upload button
+        var upload_button = CustomUploadButton.init();
+        this.related_uploader._button = upload_button;
+
         $("#dataset-save").click(this.save);
         $("#dataset-upload-related").click(this.upload_related);
         $("#dataset-export").click(this.export_data);
@@ -123,7 +142,60 @@ PANDA.views.DatasetView = Backbone.View.extend({
         /*
          * Upload a related file.
          */
-        alert("upload related");
+        this.related_uploader._onInputChange($("#upload-related-file")[0]);
+        $("#modal-upload-related .modal-footer input").attr("disabled", true); 
+
+        return false;
+    },
+
+    on_related_upload_submit: function(id, fileName) {
+        /*
+         * Handler for when a related upload starts.
+         */
+        this.related_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
+    },
+
+    on_related_upload_progress: function(id, fileName, loaded, total) {
+        /*
+         * Handler for when a related upload reports its progress.
+         */
+        var pct = Math.floor(loaded / total * 100);
+
+        // Don't render 100% until ajax request creating dataset has finished
+        if (pct == 100) {
+            pct = 99;
+        }
+
+        $("#modal-upload-related .progress-value").css("width", pct + "%");
+        $("#modal-upload-related .progress-text").html('<strong>' + pct + '%</strong> uploaded');
+    },
+
+    on_related_upload_complete: function(id, fileName, responseJSON) {
+        /*
+         * Handler for when a related upload is completed.
+         */
+        if (responseJSON.success) {
+            var related_upload = new PANDA.models.RelatedUpload(responseJSON);
+            this.dataset.related_uploads.add(related_upload);
+
+            $(".related-uploads").append(PANDA.templates.inline_related_upload_item({ 
+                upload: related_upload.toJSON()
+            }));
+
+            $("#modal-upload-related").modal("hide")
+            $("#modal-upload-related .modal-footer input").removeAttr("disabled"); 
+            this.on_related_upload_progress(null, null, 0, 1);
+        } else if (responseJSON.forbidden) {
+            Redd.goto_login(window.location.hash);
+        } else {
+            this.on_related_upload_message("Upload failed!");
+            $("#modal-upload-related .modal-footer input").removeAttr("disabled"); 
+            this.on_related_upload_progress(null, null, 0, 1);
+        }
+    },
+
+    on_related_upload_message: function(message) {
+        $("#related-upload-alert").alert("error", "<p>" + message + '</p>' , false);
     },
     
     export_data: function() {

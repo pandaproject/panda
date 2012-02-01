@@ -101,22 +101,22 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 .step.disabled { color: lightgray; }
 .step.disabled h2 { color: lightgray; }
 
-#upload-progress { margin-bottom: 10px; position: relative; }
+.upload-progress { margin-bottom: 10px; position: relative; }
 
-#upload-progress, .progress-value, .progress-text {
+.upload-progress, .progress-value, .progress-text {
     width: 155px; height: 30px;
 }
 
-#upload-progress {
+.upload-progress {
     background: #bdbdbd url(/site_media/img/progress.png) top left no-repeat;
 }
 
-#upload-progress .progress-value {
+.upload-progress .progress-value {
     background: #57A957 url(/site_media/img/progress.png) top left no-repeat;
     width: 0%;
 }
 
-#upload-progress .progress-text {
+.upload-progress .progress-text {
     position: absolute;
     top:0; left:0;
 

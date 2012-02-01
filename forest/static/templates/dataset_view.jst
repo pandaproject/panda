@@ -117,8 +117,8 @@
     <div class="modal-body">
         <input type="file" id="upload-related-file" />
     
-        <div id="related-upload-progress" class="progress">
-            <div class="progress-value" style="background-color: #57A957; width: 0%;">
+        <div class="upload-progress">
+            <div class="progress-value">
                 <div class="progress-text">
                      <strong>0%</strong> uploaded.
                 </div>
@@ -128,8 +128,8 @@
         <div id="related-upload-alert" class="alert-message"></div> 
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="dataset-upload-related" class="btn btn-primary" data-dismiss="modal">Upload</a>
+        <input type="button" class="btn" data-dismiss="modal" value="Cancel" />
+        <input type="button" id="dataset-upload-related" class="btn btn-primary" value="Upload" />
     </div>
 </div>
 
