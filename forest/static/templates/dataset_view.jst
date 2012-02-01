@@ -3,17 +3,14 @@
     <h2>
         About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
     </h2>
-    <ul class="actions-dropdown">
-        <li>
-            <a href="#">Actions</a>
-            <ul>
-                <li><a href="#dataset/<%= dataset.slug %>/edit">Edit</a></li>
-                <li><a href="javascript: return false;" data-controls-modal="modal-export-dataset" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
-                <li><a href="javascript: return false;" data-controls-modal="modal-dataset-destroy" data-backdrop="true" data-keyboard="true">Delete</a></li>
-            </ul>
-        </li>
-    </ul>
-    <div style="clear:both;"></div>
+    <div class="btn-group">
+        <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
+            <li><a href="#modal-dataset-destroy" data-toggle="modal" data-backdrop="true" data-keyboard="true">Delete</a></li>
+        </ul>
+    </div>
 
     <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
     <% if (dataset.last_modified) { %>
@@ -66,10 +63,15 @@
 
     <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
 
-    <table>
-        <% _.each(dataset.columns, function(c) { %>
-            <th><%= c %></th>
-        <% }); %>
+    <table class="table table-striped table-bordered table-condensed">
+        <thead>
+            <tr>
+                <% _.each(dataset.columns, function(c) { %>
+                <th><%= c %></th>
+                <% }); %>
+            <tr>
+        </thead>
+        <tbody>
         <% _.each(dataset.sample_data, function(r) { %>
             <tr>
             <% _.each(r, function(d) { %>
@@ -77,13 +79,14 @@
             <% }); %>
             </tr>
         <% }); %>
+        </tbody>
     </table>
     <% } %>
 </div>
 
-<div id="dataset-traceback-modal" class="modal hide fade in">
+<div id="dataset-traceback-modal" class="modal hide fade">
     <div class="modal-header">
-        <a href="#" class="close">&times;</a>
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Error importing data</h3>
     </div>
     <div class="modal-body">
@@ -93,34 +96,34 @@
         <% } %>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn modal-close" value="Close" />
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>
 </div>
 
-<div id="modal-export-dataset" class="modal hide fade in">
+<div id="modal-export-dataset" class="modal hide fade">
     <div class="modal-header">
-        <a href="#" class="close">&times;</a>
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Are you sure you want to export this dataset?</h3>
     </div>
     <div class="modal-body">
         This may take a long time to complete. You will be notified by email when it is finished.
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn modal-close" value="Cancel" />
-        <input id="dataset-export" type="button" class="btn primary modal-close" value="Continue with export" />
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
     </div>
 </div>
 
-<div id="modal-dataset-destroy" class="modal hide fade in">
+<div id="modal-dataset-destroy" class="modal hide fade">
     <div class="modal-header">
-        <a href="#" class="close">&times;</a>
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Are you sure you want to delete this dataset?</h3>
     </div>
     <div class="modal-body">
         <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn modal-close" value="Cancel" />
-        <input id="dataset-destroy" type="button" class="btn danger modal-close" value="Continue with delete" />
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-destroy" class="btn btn-danger" data-dismiss="modal">Continue with delete</a>
     </div>
 </div>
