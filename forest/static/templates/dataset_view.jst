@@ -6,7 +6,9 @@
         <div id="dataset-actions" class="btn-group">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="#dataset/<%= dataset.slug %>/edit">Edit</a></li>
+                <li><a href="#modal-edit-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true">Edit</a></li>
+                <li><a href="#dataset/<%= dataset.slug %>/upload">Upload more data</a></li>
+                <li><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true">Upload related file</a></li>
                 <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
                 <li><a href="#modal-dataset-destroy" data-toggle="modal" data-backdrop="true" data-keyboard="true">Delete</a></li>
             </ul>
@@ -66,6 +68,68 @@
 
         <%= sample_data_html %>
         <% } %>
+    </div>
+</div>
+
+<div id="modal-edit-dataset" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Edit</h3>
+    </div>
+    <div class="modal-body">
+        <form id="edit-dataset-form" class="form-stacked">
+            <div class="alert-message"></div>
+            <h6>Categories</h6>
+
+            <% _.each(all_categories, function(category) { %>
+            <label class="checkbox">
+                <input type="checkbox" name="categories" value="<%= category.slug %>" <% if (_.find(dataset.categories, function(cat) { return cat.slug == category.slug; })) { %>checked="checked"<% } %>/>
+                <%= category.name %>
+            </label>
+            <% }); %>
+
+            <h6>Details</h6>
+
+            <div class="control-group">
+                <label for="dataset-name">Dataset name</label>
+                <input class="xxlarge" id="dataset-name" name="name" size="30" type="text" value="<%= dataset.name %>" maxlength="256" />
+                <span class="help-inline"></span>
+            </div>
+
+            <div class="control-group">
+                <label for="dataset-description">Description</label>
+                <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= dataset.description %></textarea>
+                <span class="help-inline"></span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-save" class="btn btn-primary" data-dismiss="modal">Save</a>
+    </div>
+</div>
+
+<div id="modal-upload-related" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Upload a related file</h3>
+    </div>
+    <div class="modal-body">
+        <input type="file" id="upload-related-file" />
+    
+        <div id="related-upload-progress" class="progress">
+            <div class="progress-value" style="background-color: #57A957; width: 0%;">
+                <div class="progress-text">
+                     <strong>0%</strong> uploaded.
+                </div>
+            </div>
+        </div>
+
+        <div id="related-upload-alert" class="alert-message"></div> 
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-upload-related" class="btn btn-primary" data-dismiss="modal">Upload</a>
     </div>
 </div>
 

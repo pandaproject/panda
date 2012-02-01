@@ -65,7 +65,7 @@ $.fn.show_errors = function(errors, alert_prefix) {
 
     // Clear old errors
     $(this).find(".alert").hide();
-    $(this).find("div.clearfix").removeClass("error");
+    $(this).find(".control-group").removeClass("error");
     $(this).find(".help-inline").text("");
 
     // Show global errors in an alert
@@ -80,7 +80,7 @@ $.fn.show_errors = function(errors, alert_prefix) {
         var input = $(this).find('input[name="' + field + '"]');
 
         if (input) {
-            input.parents("div.clearfix").addClass("error");
+            input.parents(".control-group").addClass("error");
             input.siblings(".help-inline").text(error);
         }
     }, this));

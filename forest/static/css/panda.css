@@ -86,7 +86,6 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Dataset view page */
 
-#view-dataset { margin-left: 20px; }
 #view-dataset h3 { display: block; float: left; }
 #view-dataset #dataset-actions { float: left; } 
 
