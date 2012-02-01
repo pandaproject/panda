@@ -60,6 +60,6 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
             Redd.goto_search();
         }, this)});
-    },
+    }
 });
 

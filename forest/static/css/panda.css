@@ -1,6 +1,9 @@
-body { padding-top: 40px; }
+html, body { height: 100%; }
+body { padding-top: 40px; background-color: #404040; }
+
 h3 { font-weight: normal; padding-bottom: 4px; }
 
+.navbar { display: none; }
 .navbar .container-fluid { padding-left: 0; }
 #logo a { padding: 0; margin-top: 4px; margin-left: 10px; }
 #loading-indicator { width: 32px; }
@@ -27,12 +30,19 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 /* Login */
 
 #login {
-    margin-top: 100px;
+    margin-top: 175px;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #404040;
 }
 
-#login .welcome {
-    margin-left: 150px;
-    margin-bottom: 25px;
+#login, #login h2, #login label { color: #fff; }
+
+#login h2 {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: normal;
 }
 
 /* News page */

@@ -1,33 +1,15 @@
-<div id="login">
-    <form id="login-form">
-        <div class="alert"></div>
-        <h1 class="welcome">Welcome to PANDA!</h1>
-        <fieldset>
-            <legend>Login</legend>
-            <p class="TODO TEMPORARY" style="margin-left: 150px;">
-                The default username is <strong>user@pandaproject.net</strong>.<br />
-                The password is <strong>user</strong>.<br />
-            </p>
-            <div class="clearfix">
-                <label for="email">Email</label>
-                <div class="input">
-                    <input type="text" name="email" value="<%= email %>" />
-                    <span class="help-inline"></span>
-                </div>
-            </div>
-            <div class="clearfix">
-                <label for="password">Password</label>
-                <div class="input">
-                    <input type="password" name="password" />
-                    <span class="help-inline"></span>
-                </div>
-            </div>
-            <div class="clearfix">
-                <div class="input">
-                <input type="submit" class="btn primary" value="Login" />
-                </div>
-            </div>
-        </fieldset>
-    </form>
+<div class="row-fluid">
+    <div id="login">
+        <form id="login-form">
+            <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
+            <h2>Login to PANDA</h2>
+            <div class="alert"></div>
+            <label for="email">Email</label>
+            <input type="text" name="email" value="<%= email %>" />
+            <label for="password">Password</label>
+            <input type="password" name="password" />
+            <input type="submit" class="btn" value="Login" />
+        </form>
+    </div>
 </div>
 

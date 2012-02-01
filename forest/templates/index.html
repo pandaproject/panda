@@ -99,6 +99,7 @@
 
     <script type="text/javascript">
         $(function() {
+            PANDA.settings.STATIC_URL = "{{ STATIC_URL }}";
             PANDA.bootstrap = {{ bootstrap_data|safe }}; 
 
             window.Redd = new PANDA.views.Root();

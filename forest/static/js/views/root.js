@@ -191,7 +191,9 @@ PANDA.views.Root = Backbone.View.extend({
          */
         if (!this._current_user) {
             $(".navbar").hide();
+            $("body").css("background-color", "#404040");
         } else {
+            $("body").css("background-color", "#fff");
             $("#navbar-email a").text(this._current_user.get("email"));
 
             $("#navbar-notifications .dropdown-menu").html("");
