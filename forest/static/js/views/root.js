@@ -194,6 +194,7 @@ PANDA.views.Root = Backbone.View.extend({
             $("body").css("background-color", "#404040");
         } else {
             $("body").css("background-color", "#fff");
+
             $("#navbar-email a").text(this._current_user.get("email"));
 
             $("#navbar-notifications .dropdown-menu").html("");
@@ -230,6 +231,7 @@ PANDA.views.Root = Backbone.View.extend({
 
             $("#navbar-admin").toggle(this._current_user.get("is_staff"));
             $(".navbar").show();
+            window.scrollTo(0, 0); 
         }
     },
 
