@@ -17,5 +17,5 @@ MEDIA_ROOT = '/var/lib/panda/uploads'
 EXPORT_ROOT = '/var/lib/panda/exports'
 
 # Django-compressor
-COMPRESS_ENABLED = True 
+COMPRESS_ENABLED = False 
 
