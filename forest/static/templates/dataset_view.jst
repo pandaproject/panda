@@ -1,95 +1,98 @@
-<div class="row-fluid" id="view-dataset">
-    <h3>
-        About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
-    </h3>
-    <div class="btn-group">
-        <a class="btn" href="#dataset/<%= dataset.slug %>/edit">Edit</a>
-        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
-            <li><a href="#modal-dataset-destroy" data-toggle="modal" data-backdrop="true" data-keyboard="true">Delete</a></li>
-        </ul>
+<div id="view-dataset">
+    <div class="row-fluid">
+        <h3>
+            About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
+        </h3>
+        <div id="dataset-actions" class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#dataset/<%= dataset.slug %>/edit">Edit</a></li>
+                <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true">Export to CSV</a></li>
+                <li><a href="#modal-dataset-destroy" data-toggle="modal" data-backdrop="true" data-keyboard="true">Delete</a></li>
+            </ul>
+        </div>
     </div>
-
-    <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
-    <% if (dataset.last_modified) { %>
-    Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
-    <% } else { %>
-    Data never modified.
-    <% } %>
-    </p>
-    
-    <h6>Categories</h6>
-
-    <p>
-        <% if (categories.length > 0) { %>
-        <% _.each(categories, function(category, index, list) { %>
-            <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
-        <% }); %>
+    <div class="row-fluid">
+        <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
+        <% if (dataset.last_modified) { %>
+        Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
         <% } else { %>
-        <em>None selected.</em>
+        Data never modified.
         <% } %>
-    </p>
+        </p>
+        
+        <h6>Categories</h6>
 
-    <h6>Description</h6>
+        <p>
+            <% if (categories.length > 0) { %>
+            <% _.each(categories, function(category, index, list) { %>
+                <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+            <% }); %>
+            <% } else { %>
+            <em>None selected.</em>
+            <% } %>
+        </p>
 
-    <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
+        <h6>Description</h6>
 
-    <h6>Data files</h6>
-    <% if (dataset.data_uploads.length > 0) { %>
-    <ul class="data-uploads">
-        <% _.each(data_uploads_html, function(u) { %>
-            <%= u %>
-        <% }); %>
-    </ul>
-    <% } else { %>
-    <p><em>None uploaded.</em></p>
-    <% } %>
+        <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
 
-    <h6>Related files</h6>
-    <% if (dataset.related_uploads.length > 0) { %>
-    <ul class="related-uploads">
-        <% _.each(related_uploads_html, function(u) { %>
-            <%= u %>
-        <% }); %>
-    </ul>
-    <% } else { %>
-    <p><em>None uploaded.</em></p>
-    <% } %>
+        <h6>Data files</h6>
+        <% if (dataset.data_uploads.length > 0) { %>
+        <ul class="data-uploads">
+            <% _.each(data_uploads_html, function(u) { %>
+                <%= u %>
+            <% }); %>
+        </ul>
+        <% } else { %>
+        <p><em>None uploaded.</em></p>
+        <% } %>
 
-    <% if (dataset.sample_data) { %>
-    <h6>Sample data</h6>
+        <h6>Related files</h6>
+        <% if (dataset.related_uploads.length > 0) { %>
+        <ul class="related-uploads">
+            <% _.each(related_uploads_html, function(u) { %>
+                <%= u %>
+            <% }); %>
+        </ul>
+        <% } else { %>
+        <p><em>None uploaded.</em></p>
+        <% } %>
 
-    <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
+        <% if (dataset.sample_data) { %>
+        <h6>Sample data</h6>
 
-    <%= sample_data_html %>
-    <% } %>
-</div>
+        <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
 
-<div id="modal-export-dataset" class="modal hide fade">
-    <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Are you sure you want to export this dataset?</h3>
+        <%= sample_data_html %>
+        <% } %>
     </div>
-    <div class="modal-body">
-        This may take a long time to complete. You will be notified by email when it is finished.
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="dataset-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
-    </div>
-</div>
 
-<div id="modal-dataset-destroy" class="modal hide fade">
-    <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Are you sure you want to delete this dataset?</h3>
+    <div id="modal-export-dataset" class="modal hide fade">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Are you sure you want to export this dataset?</h3>
+        </div>
+        <div class="modal-body">
+            This may take a long time to complete. You will be notified by email when it is finished.
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <a href="#" id="dataset-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
+        </div>
     </div>
-    <div class="modal-body">
-        <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="dataset-destroy" class="btn btn-danger" data-dismiss="modal">Continue with delete</a>
+
+    <div id="modal-dataset-destroy" class="modal hide fade">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Are you sure you want to delete this dataset?</h3>
+        </div>
+        <div class="modal-body">
+            <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <a href="#" id="dataset-destroy" class="btn btn-danger" data-dismiss="modal">Continue with delete</a>
+        </div>
     </div>
 </div>
