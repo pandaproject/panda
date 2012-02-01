@@ -33,10 +33,10 @@ PANDA.views.Root = Backbone.View.extend({
         // Setup global router
         this._router = new PANDA.routers.Index({ controller: this });
 
-        // Configure the global topbar
-        this.configure_topbar();
+        // Configure the global navbar
+        this.configure_navbar();
 
-        $("#topbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
+        $("#navbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
 
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
@@ -117,7 +117,7 @@ PANDA.views.Root = Backbone.View.extend({
             $.cookie("is_staff", null);
         }
             
-        this.configure_topbar();
+        this.configure_navbar();
     },
 
     get_categories: function() {
@@ -185,19 +185,19 @@ PANDA.views.Root = Backbone.View.extend({
         return dfd;
     },
 
-    configure_topbar: function() {
+    configure_navbar: function() {
         /*
-         * Reconfigures the Bootstrap topbar based on the current user.
+         * Reconfigures the Bootstrap navbar based on the current user.
          */
         if (!this._current_user) {
-            $(".login-only").hide();
+            $(".navbar").hide();
         } else {
-            $("#topbar-email a").text(this._current_user.get("email"));
+            $("#navbar-email a").text(this._current_user.get("email"));
 
-            $("#topbar-notifications .dropdown-menu").html("");
+            $("#navbar-notifications .dropdown-menu").html("");
 
             if (this._current_user.notifications.models.length > 0) {
-                $("#topbar-notifications .count").addClass("important");
+                $("#navbar-notifications .count").addClass("important");
 
                 this._current_user.notifications.each(function(note) {
                     var related_dataset = note.get("related_dataset");
@@ -209,35 +209,32 @@ PANDA.views.Root = Backbone.View.extend({
                         var link = "#";
                     }
 
-                    $("#topbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + note.get("message") + '</a></li>');
+                    $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + note.get("message") + '</a></li>');
                 });
             } else {
-                $("#topbar-notifications .count").removeClass("important");
-                $("#topbar-notifications .dropdown-menu").append('<li><a href="#">No new notifications</a></li>');
+                $("#navbar-notifications .count").removeClass("important");
+                $("#navbar-notifications .dropdown-menu").append('<li><a href="#">No new notifications</a></li>');
             }
             
-            $("#topbar-notifications .dropdown-menu").append('<li class="divider"></li>');
+            $("#navbar-notifications .dropdown-menu").append('<li class="divider"></li>');
 
             if (this._current_user.notifications.models.length > 0) {
-                $("#topbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear unread</a></li>');
+                $("#navbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear unread</a></li>');
             }
 
-            $("#topbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View all notifications (TODO)\');">View all notifications</a></li>');
+            $("#navbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View all notifications (TODO)\');">View all notifications</a></li>');
             
-            $("#topbar-notifications .count").text(this._current_user.notifications.length);
+            $("#navbar-notifications .count").text(this._current_user.notifications.length);
 
-            $(".login-only").css("display", "block");
-
-            if (!this._current_user.get("is_staff")) {
-                $("#topbar-admin").hide();
-            }
+            $("#navbar-admin").toggle(this._current_user.get("is_staff"));
+            $(".navbar").show();
         }
     },
 
     refresh_notifications: function() {
         if (this._current_user) {
             this._current_user.refresh_notifications(_.bind(function() {
-                this.configure_topbar();
+                this.configure_navbar();
             }, this));
         }
     },
@@ -247,7 +244,7 @@ PANDA.views.Root = Backbone.View.extend({
          * Marks all of the current user's notifications as read.
          */
         this._current_user.mark_notifications_read(_.bind(function() {
-            this.configure_topbar();
+            this.configure_navbar();
         }, this));
 
         return false;

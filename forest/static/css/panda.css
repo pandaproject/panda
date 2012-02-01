@@ -1,20 +1,11 @@
 body { padding-top: 40px; }
-.topbar { height: 40px; }
-.topbar h3 { margin-left: 10px; }
+.navbar .container-fluid { padding-left: 0; }
 #logo a { padding: 0; margin-top: 4px; margin-left: 10px; }
 #loading-indicator { width: 32px; }
 #loading-indicator img { display: none; position: relative; top: 2px; }
-#topbar-email { display: none; }
-#topbar-admin { display: none; }
-#topbar-logout { display: none; }
-.topbar .menu-dropdown, .topbar .dropdown-menu { top: 40px; min-width: 300px; max-width: 400px; }
-.topbar .dropdown-toggle::after { content: none; }
-.container-fluid { padding: 0; }
-.container-fluid > .content { margin: 0; padding: 20px; }
+#navbar-admin { display: none; }
+.navbar .menu-dropdown, .navbar .dropdown-menu { min-width: 300px; max-width: 400px; }
 .alert-message { display: none; }
-
-.form-stacked { padding-left: 0; }
-.form-stacked .actions.on-top { margin-top: 0; }
 
 .popover .content ul li { color: black; }
 

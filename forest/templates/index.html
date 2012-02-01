@@ -14,16 +14,16 @@
     {% endcompress %}
 </head>
 <body>
-    <div class="topbar" data-dropdown="dropdown">
-        <div class="topbar-inner">
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
             <div class="container-fluid">
-                <ul class="nav">
+                <ul class="nav pull-left">
                     <li id="logo"><a href="#"><img src="{{ STATIC_URL }}img/panda_and_ire.png" /></a></li>
                     <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ STATIC_URL }}img/ajax-loader.gif" /></a></li>
-                    <li class="login-only"><a href="#">Search</a></li>
-                    <li class="login-only"><a href="#upload">Upload</a></li>
-                    <li class="dropdown login-only">
-                        <a href="#" class="dropdown-toggle">Browse</a>
+                    <li><a href="#">Search</a></li>
+                    <li><a href="#upload">Upload</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse<b class="caret"></b></a>
                         <ul id="categories-list" class="dropdown-menu">
                             <li><a href="#datasets">All datasets</a></li>
                             <li class="divider"></li>
@@ -35,34 +35,30 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="nav secondary-nav">
-                    <li id="topbar-email" class="login-only"><a href="javascript:alert('User Profile (TODO)');"></a></li>
-                    <li id="topbar-notifications" class="dropdown login-only">
-                        <a href="#" class="dropdown-toggle">Notifications <span class="count label important">2</span></a>
+                <ul class="nav pull-right">
+                    <li id="navbar-email"><a href="javascript:alert('User Profile (TODO)');"></a></li>
+                    <li id="navbar-notifications" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications <span class="count label important">2</span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         </ul>
                     </li>
-                    <li id="topbar-admin" class="login-only"><a href="/admin">Admin</a></li>
-                    <li class="login-only"><a href="#logout">Logout</a></li>
+                    <li id="navbar-admin"><a href="/admin">Admin</a></li>
+                    <li><a href="#logout">Logout</a></li>
                 </ul>
             </div>
         </div>
    </div>
 
-    <div class="container-fluid">
-        <div id="content" class="content">
+    <div class="container-fluid content">
+        <div id="content" class="row-fluid">
         </div>
     </div>
 
     {% compress js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery-1.6.4.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.tablesorter.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-modal.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-twipsy.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-popover.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-popover.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootbox.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone.js"></script>
