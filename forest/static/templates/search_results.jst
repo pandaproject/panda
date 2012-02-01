@@ -1,47 +1,55 @@
-<% if (!query) { %>
+<div class="row-fluid">
+    <div class="span12">
+        <% if (!query) { %>
 
-    <p>Please enter a search query.</p>
+            <p>Please enter a search query.</p>
 
-<% } else if (datasets.meta.total_count == 0) { %>
+        <% } else if (datasets.meta.total_count == 0) { %>
 
-    <p>No rows matching query "<%= query %>" found in any dataset.</p>
+            <p>No rows matching query "<%= query %>" found in any dataset.</p>
 
-<% } else { %>
+        <% } else { %>
 
-<%= pager %>
+        <%= pager %>
 
-<% _.each(datasets.datasets, function(dataset) { %>
-    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h3>
+        <% _.each(datasets.datasets, function(dataset) { %>
+            <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h3>
 
-    <% if (dataset.description) { %>
-    <p><em><%= dataset.description %></em><br /></p>
-    <% } %>
+            <% if (dataset.description) { %>
+            <p><em><%= dataset.description %></em><br /></p>
+            <% } %>
 
-    <h3>
-        <%= dataset.meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %> (<%= dataset.row_count %> total rows)
-    </h3>
+            <h3>
+                <%= dataset.meta.total_count %> matching row<% if (dataset.meta.total_count > 1) { %>s<% } %> (<%= dataset.row_count %> total rows)
+            </h3>
 
-    <table>
-        <tr>
-            <% _.each(dataset.columns, function(c) { %>
-            <th><%= c %></th>
-            <% }); %>
-        </tr>
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <% _.each(dataset.columns, function(c) { %>
+                        <th><%= c %></th>
+                        <% }); %>
+                    </tr>
+                </thead>
 
-        <% _.each(dataset.data, function(d) { %>
-        <tr>
-            <% _.each(d.data, function(datum) { %>
-            <td><%= datum %></td>
-            <% }); %>
-        </tr>
+                <tbody>
+                    <% _.each(dataset.data, function(d) { %>
+                    <tr>
+                        <% _.each(d.data, function(datum) { %>
+                        <td><%= datum %></td>
+                        <% }); %>
+                    </tr>
+                    <% }); %>
+                <tbody>
+            </table>
+
+            <% if (dataset.meta.next) { %>
+            <p><a class="scroll-up" href="#dataset/<%= dataset.slug %>/search/<%= query %>/">View more results from this dataset &raquo;</a></p>
+            <% } %>
         <% }); %>
-    </table>
 
-    <% if (dataset.meta.next) { %>
-    <p><a class="scroll-up" href="#dataset/<%= dataset.slug %>/search/<%= query %>/">View more results from this dataset &raquo;</a></p>
-    <% } %>
-<% }); %>
+        <%= pager %>
 
-<%= pager %>
-
-<% } %>
+        <% } %>
+    </div>
+</div>

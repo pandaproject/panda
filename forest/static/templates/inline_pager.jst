@@ -4,15 +4,15 @@
         <ul>
             <% if (previous || next) { %>
                 <% if (previous) { %>
-                    <li class="prev"><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
+                    <li><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
                 <% } else { %>
-                    <li class="prev disabled"><a href="javascript: return false;">&larr; Previous</a></li> 
+                    <li class="disabled"><a href="javascript: return false;">&larr; Previous</a></li> 
                 <% } %>
 
                 <% if (next) { %>
-                    <li class="next"><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
+                    <li><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
                 <% } else { %>
-                    <li class="next disabled"><a href="javascript: return false;">Next &rarr;</a></li> 
+                    <li class="disabled"><a href="javascript: return false;">Next &rarr;</a></li> 
                 <% } %>
             <% } %>
         </ul>

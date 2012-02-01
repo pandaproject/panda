@@ -4,10 +4,10 @@
         <form id="dataset-search-form" class="well">
             <h3>Search <strong><%= dataset.name %></strong></h3>
             <% if (!dataset.row_count) { %>
-                <input id="dataset-search-query" type="text" name="query" value="Dataset not yet available for search" class="input-xxlarge" disabled="disabled" />
+                <input id="dataset-search-query" class="span8" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
-                <input id="dataset-search-query" type="text" name="query" value="<%= query %>" placeholder="Enter a search query" />
+                <input id="dataset-search-query" class="span8" type="text" name="query" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
                 &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
                 <% if (query) { %>

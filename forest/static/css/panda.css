@@ -12,8 +12,9 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 .alert { display: none; }
 .popover .content ul li { color: black; }
-.pager h3 { float: left; margin-right: 8px; }
-.pager .pagination { margin: 0 0 8px 0; }
+.pager h3 { float: left; margin-right: 8px; display: block; float: left; }
+.pager .pagination { margin: 0 0 8px 0; float: left; }
+.pager .pagination a { padding: 0 14px; }
 
 /* Activate */
 

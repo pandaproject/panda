@@ -1,36 +1,42 @@
-<div id="dataset-search-results-inner">
-<% if (!query) { %>
+<div id="dataset-search-results-inner" class="row-fluid">
+    <div class="span12">
+    <% if (!query) { %>
 
-    <p>Please enter a search query.</p>
+        <p>Please enter a search query.</p>
 
-<% } else if (dataset.meta.total_count == 0) { %>
+    <% } else if (dataset.meta.total_count == 0) { %>
 
-    <p>No rows matching query "<%= query %>" found in dataset <strong><%= dataset.name %></strong>.</p>
+        <p>No rows matching query "<%= query %>" found in dataset <strong><%= dataset.name %></strong>.</p>
 
-    <p>Would you like to <a href="#search/<%= query %>">search all datasets instead?</a></p>
+        <p>Would you like to <a href="#search/<%= query %>">search all datasets instead?</a></p>
 
-<% } else { %>
+    <% } else { %>
 
-    <%= pager %>
+        <%= pager %>
 
-    <table>
-        <tr>
-            <% _.each(dataset.columns, function(c) { %>
-            <th><%= c %></th>
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <% _.each(dataset.columns, function(c) { %>
+                    <th><%= c %></th>
+                    <% }); %>
+                </tr>
+            </thead>
+
+            <tbody>
+            <% _.each(dataset.data, function(d) { %>
+            <tr>
+                <% _.each(d.data, function(datum) { %>
+                <td><%= datum %></td>
+                <% }); %>
+            </tr>
             <% }); %>
-        </tr>
+            </tbody>
+        </table>
 
-        <% _.each(dataset.data, function(d) { %>
-        <tr>
-            <% _.each(d.data, function(datum) { %>
-            <td><%= datum %></td>
-            <% }); %>
-        </tr>
-        <% }); %>
-    </table>
+        <%= pager %>
 
-    <%= pager %>
-
-<% } %>
+    <% } %>
+    </div>
 </div>
 
