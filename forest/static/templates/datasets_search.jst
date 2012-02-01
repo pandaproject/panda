@@ -1,22 +1,22 @@
-<form id="datasets-search-form" class="form-stacked">
-    <div class="alert-message"></div>
-    <fieldset>
-        <legend>Find a dataset</legend>
-        <div class="clearfix">
-            <div class="input">
-                <select id="datasets-search-category" name="category" class="span4">
+<div class="row-fluid">
+    <div class="span12">
+        <form id="datasets-search-form" class="well">
+            <div class="alert-message"></div>
+            <fieldset>
+                <h3>Find a dataset</h3>
+                <select id="datasets-search-category" name="category" class="input-medium">
                     <option value="">All</option>
                     <% categories.each(function(cat) { %>
                     <option value="<%= cat.get("slug") %>" <% if (cat.get("slug") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
                     <% }); %>
                 </select>
-                <input id="datasets-search-query" type="text" name="query" class="span7" value="<%= query %>" placeholder="Enter a search query" />
+                <input id="datasets-search-query" type="text" name="query" class="input-xxlarge" value="<%= query %>" placeholder="Enter a search query" />
                 <input type="submit" id="datasets-search-submit" class="btn primary" value="Search" />
                 &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
-            </div>
-        </div>
-    </fieldset>
-</form>
+            </fieldset>
+        </form>
+    </div>
+</div>
 
 <div id="datasets-search-results">
 </div>
