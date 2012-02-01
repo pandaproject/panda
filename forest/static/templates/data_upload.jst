@@ -8,7 +8,7 @@
     </h1>
 
     <% if (dataset) { %>
-    <div class="alert-message block-message warn" style="display: block;">
+    <div class="alert alert-block warn" style="display: block;">
         <p>
             <strong>Note:</strong> When adding data to an existing dataset the file you upload must have <strong>exactly</strong> the same headers as the existing data.</p>
     </div>
@@ -21,8 +21,8 @@
 
         <input type="file" id="upload-file" /><br />
 
-        <div class="alert-message block-message warn notes xls">
-            <h4><strong>Excel styles will be lost!</strong></h4>
+        <div class="alert alert-block warn notes xls">
+            <h4 class="alert-header">Excel styles will be lost!</h4>
             <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
             <ul>
                 <li>The date <strong>12/30/2011</strong> in Excel will become <strong>2011-12-30</strong> in PANDA.</li>
@@ -35,7 +35,7 @@
 
         <input type="button" name="begin" id="upload-begin" class="btn success" value="Begin upload" disabled="disabled" />
         
-        <div id="step-1-alert" class="alert-message"></div>
+        <div id="step-1-alert" class="alert"></div>
     </div>
 
     <div id="step-2" class="step disabled">
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div id="step-2-alert" class="alert-message"></div>
+        <div id="step-2-alert" class="alert"></div>
     </div>
 
     <div id="step-3" class="step disabled">
@@ -61,7 +61,7 @@
         <div class="sample-data">
         </div>
         
-        <div id="step-3-alert" class="alert-message"></div>
+        <div id="step-3-alert" class="alert"></div>
 
         <input type="button" name="continue" id="upload-continue" class="btn success" value="Continue" disabled="disabled" />
         <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" disabled="disabled" />

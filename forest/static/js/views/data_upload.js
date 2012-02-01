@@ -164,7 +164,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     step_one: function() {
-        $(".alert-message").hide();
+        $(".alert").hide();
         $("#step-2").addClass("disabled");
         $("#step-2 .notes").hide();
         this.on_progress(null, null, 0, 1);

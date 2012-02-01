@@ -1,5 +1,4 @@
 <div class="row-fluid" id="view-dataset">
-    <div class="alert-message"></div>
     <h3>
         About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
     </h3>
@@ -82,22 +81,6 @@
         </tbody>
     </table>
     <% } %>
-</div>
-
-<div id="dataset-traceback-modal" class="modal hide fade">
-    <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Error importing data</h3>
-    </div>
-    <div class="modal-body">
-        <% if (dataset.current_task && dataset.current_task.traceback) { %>
-        <p>The import failed with the following exception:</p>
-        <code><%= dataset.current_task.traceback %></code>
-        <% } %>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-    </div>
 </div>
 
 <div id="modal-export-dataset" class="modal hide fade">

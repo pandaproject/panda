@@ -1,10 +1,10 @@
-<div class="row-fluid">
+<div id="dataset-search" class="row-fluid">
     <div class="span12">
+        <div class="alert"></div>
         <form id="dataset-search-form" class="well">
-            <div class="alert-message"></div>
             <h3>Search <strong><%= dataset.name %></strong></h3>
             <% if (!dataset.row_count) { %>
-                <input id="dataset-search-query" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
+                <input id="dataset-search-query" type="text" name="query" value="Dataset not yet available for search" class="input-xxlarge" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
                 <input id="dataset-search-query" type="text" name="query" value="<%= query %>" placeholder="Enter a search query" />
@@ -19,4 +19,20 @@
 </div>
 
 <div id="dataset-search-results">
+</div>
+
+<div id="modal-dataset-traceback" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Error importing data</h3>
+    </div>
+    <div class="modal-body">
+        <% if (dataset.current_task && dataset.current_task.traceback) { %>
+        <p>The import failed with the following exception:</p>
+        <code><%= dataset.current_task.traceback %></code>
+        <% } %>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
 </div>

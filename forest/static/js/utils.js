@@ -41,12 +41,16 @@ $.fn.alert = function(type, message, close_button) {
     }
 
     if (close_button) {
-        this.html("<a class=\"close\" href=\"#\">×</a>" + message);
+        this.html('<a class="close" href="#">&times;</a>' + message);
     } else {
         this.html(message);
     }
 
     this.show();
+}
+
+$.fn.alert_block = function(type, title, message, close_button) {
+    this.alert("alert-block " + type, '<h4 class="alert-heading">' + title + "</h4> " + message, close_button);
 }
 
 $.fn.show_errors = function(errors, alert_prefix) {
@@ -60,13 +64,13 @@ $.fn.show_errors = function(errors, alert_prefix) {
     }
 
     // Clear old errors
-    $(this).find(".alert-message").hide();
+    $(this).find(".alert").hide();
     $(this).find("div.clearfix").removeClass("error");
     $(this).find(".help-inline").text("");
 
     // Show global errors in an alert
     if ("__all__" in errors) {
-        $(this).find(".alert-message").alert("error block-message", "<p><strong>" + alert_prefix + "</strong> " + errors["__all__"] + ".");
+        $(this).find(".alert").alert("error alert-block", '<h4 class="alert-heading">' + alert_prefix + "</h4> " + errors["__all__"] + ".");
     }
 
     _.each(errors, _.bind(function(field_errors, field) {
@@ -89,7 +93,7 @@ moment.fn.toLocalTimezone = function() {
     return this.subtract("minutes", this._d.getTimezoneOffset());
 }
 
-$(".alert-message .close").live("click", function() {
+$(".alert .close").live("click", function() {
     /*
      * Close handler for alerts.
      */
