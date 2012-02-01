@@ -67,32 +67,32 @@
         <%= sample_data_html %>
         <% } %>
     </div>
+</div>
 
-    <div id="modal-export-dataset" class="modal hide fade">
-        <div class="modal-header">
-            <a href="#" class="close" data-dismiss="modal">&times;</a>
-            <h3>Are you sure you want to export this dataset?</h3>
-        </div>
-        <div class="modal-body">
-            This may take a long time to complete. You will be notified by email when it is finished.
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-            <a href="#" id="dataset-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
-        </div>
+<div id="modal-export-dataset" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Are you sure you want to export this dataset?</h3>
     </div>
+    <div class="modal-body">
+        This may take a long time to complete. You will be notified by email when it is finished.
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
+    </div>
+</div>
 
-    <div id="modal-dataset-destroy" class="modal hide fade">
-        <div class="modal-header">
-            <a href="#" class="close" data-dismiss="modal">&times;</a>
-            <h3>Are you sure you want to delete this dataset?</h3>
-        </div>
-        <div class="modal-body">
-            <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-            <a href="#" id="dataset-destroy" class="btn btn-danger" data-dismiss="modal">Continue with delete</a>
-        </div>
+<div id="modal-dataset-destroy" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Are you sure you want to delete this dataset?</h3>
+    </div>
+    <div class="modal-body">
+        <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-destroy" class="btn btn-danger" data-dismiss="modal">Continue with delete</a>
     </div>
 </div>

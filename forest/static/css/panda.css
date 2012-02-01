@@ -47,19 +47,17 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* News page */
 
-#recent-datasets {
-    margin-left: 0px;
-}
+#recent-datasets { margin-left: 20px; }
+#recent-datasets h3 { line-height: 1.3em; }
 
-#recent-datasets h3 {
-    line-height: 1.3em;
-}
+/* Search results */
+
+#search-results { margin: 0 20px; }
 
 /* Datasets search page */
 
-#datasets-results table {
-    margin-top: 5px;
-}
+#datasets-results { margin-left: 20px; }
+#datasets-results table { margin-top: 5px; }
 
 #datasets-results th {  
     cursor: pointer; 
@@ -82,8 +80,13 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
 #modal-dataset-traceback code { white-space: pre-wrap; }
 
+/* Dataset search results */
+
+#dataset-search-results { margin: 0 20px; }
+
 /* Dataset view page */
 
+#view-dataset { margin-left: 20px; }
 #view-dataset h3 { display: block; float: left; }
 #view-dataset #dataset-actions { float: left; } 
 
