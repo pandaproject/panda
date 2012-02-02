@@ -1,5 +1,4 @@
 <div id="datasets-results" class="row-fluid">
-    <div class="span12">
     <% if (datasets.length == 0) { %>
 
         <p>No matching datasets found.</p>
@@ -42,7 +41,7 @@
                     <td>
                         <span class="sort-value hide"><%= dataset.creation_date %></span>
                         <%= PANDA.templates.inline_user(dataset.creator) %>
-                        on  <strong><span style="white-space: nowrap;"><%= PANDA.templates.inline_timestamp({ d: dataset.creation_date }) %></span></strong>
+                        on  <span style="white-space: nowrap;"><%= PANDA.templates.inline_timestamp({ d: dataset.creation_date }) %></span>
                     </td>
                     <td class="column-names">
                         <% _.each(dataset.columns, function(c, i, l) { %>

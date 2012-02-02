@@ -55,7 +55,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Datasets search page */
 
-#datasets-results { margin: 0 20px; }
+#datasets-search-results { margin: 0 20px; }
 #datasets-results table { margin-top: 5px; }
 
 #datasets-results th {  
@@ -77,7 +77,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 } 
 
 #datasets-results .column-names {
-    line-height: 2.2em;
+    line-height: 2.5em;
+    font-size: 0.85em;
 }
 
 #datasets-results .column-name {

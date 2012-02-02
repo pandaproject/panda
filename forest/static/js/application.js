@@ -34,6 +34,9 @@ PANDA.utils.make_context = function(ctx) {
 }
 
 PANDA.utils.truncate = function(str, limit) {
+    /*
+     * From: http://snipplr.com/view.php?codeview&id=16108
+     */
 	var bits, i;
 
 	bits = str.split('');
