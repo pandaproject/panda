@@ -15,6 +15,8 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
 
         this.el.html(PANDA.templates.datasets_results(context));
 
+        $('#datasets-results a[rel="tooltip"]').tooltip();
+
         // Enable result sorting
         $("#datasets-results table").tablesorter({
             cssHeader: "no-sort-header",
