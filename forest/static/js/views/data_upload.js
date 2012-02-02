@@ -65,7 +65,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
             dataset_json = null;
         }
 
-        var context = PANDA.make_context({ dataset: dataset_json });
+        var context = PANDA.utils.make_context({ dataset: dataset_json });
 
         this.el.html(PANDA.templates.data_upload(context));
 

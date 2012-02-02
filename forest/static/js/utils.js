@@ -1,5 +1,5 @@
 /*
- * This module contains global utilities--mostly jQuery extension.
+ * This module contains utilities--jQuery extensions and PANDA.utils.
  */
 
 if (typeof String.prototype.startsWith != 'function') {
@@ -100,13 +100,6 @@ $(".alert .close").live("click", function() {
     $(this).parent().hide();
     
     return false;
-});
-
-$(".modal-close").live("click", function() {
-    /*
-     * Close handler for modal dialogs.
-     */
-    $(this).parents(".modal").modal("hide");
 });
 
 $(".scroll-up").live("click", function() {

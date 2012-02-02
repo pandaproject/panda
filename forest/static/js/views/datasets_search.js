@@ -35,7 +35,7 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     render: function() {
         var categories = Redd.get_categories();
 
-        var context = PANDA.make_context({
+        var context = PANDA.utils.make_context({
             categories: categories,
             category: this.category,
             query: this.query,

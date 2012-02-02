@@ -9,6 +9,7 @@ PANDA.views = {};
 PANDA.routers = {};
 PANDA.templates = {};
 PANDA.bootstrap = {};
+PANDA.utils = {};
 
 // A copy of the server-side settings.
 // AKA: The simplest thing that works.
@@ -22,7 +23,7 @@ PANDA.settings = {
     MAX_UPLOAD_SIZE: 1024 * 1024 * 1024 // 1 GB
 };
 
-PANDA.make_context = function(ctx) {
+PANDA.utils.make_context = function(ctx) {
     /*
      * Context factory function so that PANDA is always in template namespace.
      */

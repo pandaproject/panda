@@ -38,7 +38,7 @@ PANDA.views.Activate = Backbone.View.extend({
     },
 
     render: function(data) {
-        var context = PANDA.make_context(data)
+        var context = PANDA.utils.make_context(data)
         this.el.html(PANDA.templates.activate(context));
     },
 

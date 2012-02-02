@@ -22,7 +22,7 @@ PANDA.views.Search = Backbone.View.extend({
     },
 
     render: function() {
-        var context = PANDA.make_context({ query: this.query });
+        var context = PANDA.utils.make_context({ query: this.query });
 
         this.el.html(PANDA.templates.search(context));
 

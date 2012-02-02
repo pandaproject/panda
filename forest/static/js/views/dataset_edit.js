@@ -8,7 +8,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     render: function() {
-        var context = PANDA.make_context({
+        var context = PANDA.utils.make_context({
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
             'all_categories': Redd.get_categories().toJSON() 

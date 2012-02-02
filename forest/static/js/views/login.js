@@ -26,7 +26,7 @@ PANDA.views.Login = Backbone.View.extend({
     render: function() {
         var email = $.cookie("email");
 
-        var context = PANDA.make_context({ email: email })
+        var context = PANDA.utils.make_context({ email: email })
 
         this.el.html(PANDA.templates.login(context));
     },

@@ -41,7 +41,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         sample_data_html = PANDA.templates.inline_sample_data(this.dataset.toJSON());
 
-        var context = PANDA.make_context({
+        var context = PANDA.utils.make_context({
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
             'all_categories': Redd.get_categories().toJSON(), 
