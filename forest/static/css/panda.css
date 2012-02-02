@@ -77,14 +77,13 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 } 
 
 #datasets-results .column-names {
-    line-height: 2em;
+    line-height: 2.2em;
 }
 
 #datasets-results .column-name {
     padding: 3px 4px;
-    color: #D14;
     background-color: #F7F7F9;
-    border: 1px solid #E1E1E8;
+    border: 1px solid #D1D1D8;
     white-space: nowrap;
 }
 

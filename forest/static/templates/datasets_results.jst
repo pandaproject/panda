@@ -32,7 +32,7 @@
                     <td>
                         <span class="sort-value hide"><%= dataset.name %></span>
                         <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a><br />
-                        <em><%= dataset.description %></em>
+                        <em><%= PANDA.utils.truncate(dataset.description, 250) %></em>
                     </td>
                     <td>
                         <% _.each(dataset.categories, function(cat, i, l) { %>
@@ -46,7 +46,7 @@
                     </td>
                     <td class="column-names">
                         <% _.each(dataset.columns, function(c, i, l) { %>
-                        <span class="column-name"><%= c %></span>
+                        <span class="column-name"><%= c %></span><% if (i < l.length - 1) { print("&nbsp;") } %>
                         <% }); %>
                     </td>
                 </tr>
