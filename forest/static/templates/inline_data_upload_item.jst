@@ -1,7 +1,7 @@
 <li>
     <strong><a href="/api/1.0/data_upload/<%= upload.id %>/download/"><%= upload.original_filename %></a></strong> (<strong><%= upload.size %> bytes</strong>)
     uploaded by <a href="mailto:<%= upload.creator.email %>" data-original-title="<%= upload.creator.email %>" rel="tooltip" ><%= upload.creator.first_name %> <%= upload.creator.last_name %></a>
-    
-    <a title="File history" data-content="Uploaded on <strong><%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong></p>" data-placement="top" href="javascript: return false;" rel="popover"><i class="icon-calendar"></i></a>
+
+    <a data-original-title="<%= upload.size %> bytes<br />Uploaded <%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %>" data-placement="top" href="javascript: return false;" rel="tooltip"><i class="icon-info-sign"></i></a>
 </li>
 
