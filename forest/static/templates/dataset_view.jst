@@ -20,9 +20,9 @@
     <div class="row-fluid">
         <div class="span5">
             <h6>History</h6>
-            <p>Created by <a href="mailto:<%= dataset.creator.email %>" data-original-title="<%= dataset.creator.email %>" rel="tooltip" ><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></a> on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
+            <p>Created by <%= PANDA.templates.inline_user(dataset.creator) %> on <strong><%= PANDA.templates.inline_timestamp({ d: dataset.creation_date }) %></strong>.<br />
             <% if (dataset.last_modified) { %>
-            Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.
+            Data last modified by <%= PANDA.templates.inline_user(dataset.last_modified_by) %> on <strong><%= PANDA.templates.inline_timestamp({ d: dataset.last_modified }) %></strong>: <%= dataset.last_modification %>.
             <% } else { %>
             Data never modified.
             <% } %>

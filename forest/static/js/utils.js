@@ -1,5 +1,5 @@
 /*
- * This module contains utilities--jQuery extensions and PANDA.utils.
+ * This module contains global utilities--mostly jQuery extensions.
  */
 
 if (typeof String.prototype.startsWith != 'function') {
