@@ -79,16 +79,6 @@
     <div class="modal-body">
         <form id="edit-dataset-form" class="form-stacked">
             <div class="alert-message"></div>
-            <h6>Categories</h6>
-
-            <% _.each(all_categories, function(category) { %>
-            <label class="checkbox">
-                <input type="checkbox" name="categories" value="<%= category.slug %>" <% if (_.find(dataset.categories, function(cat) { return cat.slug == category.slug; })) { %>checked="checked"<% } %>/>
-                <%= category.name %>
-            </label>
-            <% }); %>
-
-            <h6>Details</h6>
 
             <div class="control-group">
                 <label for="dataset-name">Dataset name</label>
@@ -101,6 +91,15 @@
                 <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= dataset.description %></textarea>
                 <span class="help-inline"></span>
             </div>
+
+            <label for="categories">Categories</label>
+
+            <% _.each(all_categories, function(category) { %>
+            <label class="checkbox">
+                <input type="checkbox" name="categories" value="<%= category.slug %>" <% if (_.find(dataset.categories, function(cat) { return cat.slug == category.slug; })) { %>checked="checked"<% } %>/>
+                <%= category.name %>
+            </label>
+            <% }); %>
         </form>
     </div>
     <div class="modal-footer">
