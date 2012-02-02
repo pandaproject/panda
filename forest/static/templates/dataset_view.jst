@@ -18,7 +18,7 @@
 
     </div>
     <div class="row-fluid">
-        <div class="span4">
+        <div class="span5">
             <h6>History</h6>
             <p>Created by <a href="mailto:<%= dataset.creator.email %>" data-original-title="<%= dataset.creator.email %>" rel="tooltip" ><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></a> on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
             <% if (dataset.last_modified) { %>
@@ -43,7 +43,7 @@
                 <% } %>
             </p>
         </div>
-        <div class="span8">
+        <div class="span7">
             <h6>Data files</h6>
             <% if (dataset.data_uploads.length > 0) { %>
             <ul class="data-uploads">
