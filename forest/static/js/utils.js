@@ -8,6 +8,31 @@ if (typeof String.prototype.startsWith != 'function') {
     };
 }
 
+Array.prototype.equals = function(arr) {
+    /*
+     * From: http://stackoverflow.com/questions/4978444/array-equality-checking-algorithm-not-working-in-certain-cases
+     */
+    if (this.length !== arr.length) {
+        return false;
+    }
+
+    for (var i = 0; i < arr.length; i++) {
+        if (this[i].equals) {
+            if (!this[i].equals(arr[i])) {
+                return false;
+            } else {
+                continue;
+            }
+        }
+
+        if (this[i] !== arr[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 $.fn.serializeObject = function() {
     /*
      * Serialize a form to a Javascript object.

@@ -139,6 +139,15 @@ PANDA.views.DataUpload = Backbone.View.extend({
          */
         if (responseJSON.success) {
             this.upload = new PANDA.models.DataUpload(responseJSON);
+
+            // Verify headers match
+            if (this.dataset.get("columns")) {
+                if (!this.upload.get("columns").equals(this.dataset.get("columns"))) {
+                    this.step_two_error_message("The columns headers in this file do not match those of the existing data.");
+                    return;
+                }
+            }
+
             this.step_three();
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
