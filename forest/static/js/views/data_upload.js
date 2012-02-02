@@ -149,17 +149,17 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     step_one_error_message: function(message) {
         $("#upload-file").attr("disabled", true);
-        $("#step-1-alert").alert("error", "<p>" + message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#step-1-alert").alert("alert-error", message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" />' , false);
         $("#step-1-start-over").click(this.start_over_event);
     },
 
     step_two_error_message: function(message) {
-        $("#step-2-alert").alert("error", "<p>" + message + ' <input id="step-2-start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#step-2-alert").alert("alert-error", message + ' <input id="step-2-start-over" type="button" class="btn" value="Try again" />' , false);
         $("#step-2-start-over").click(this.start_over_event);
     },
 
     step_three_error_message: function(message) {
-        $("#step-3-alert").alert("error", "<p>" + message + ' <input id="step-3-start-over" type="button" class="btn" value="Try again" /></p>' , false);
+        $("#step-3-alert").alert("alert-error", message + ' <input id="step-3-start-over" type="button" class="btn" value="Try again" />' , false);
         $("#step-3-start-over").click(this.start_over_event);
     },
 
@@ -182,10 +182,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-begin").attr("disabled", true);
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
-        $("#step-3 .sample-data").empty();
-        $("#step-3").addClass("disabled");
-        $("#upload-continue").attr("disabled", true);
-        $("#upload-start-over").attr("disabled", true);
         
         $("#step-2").removeClass("disabled");
     },
