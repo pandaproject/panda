@@ -76,6 +76,18 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     background-image: url(/site_media/img/asc.gif);     
 } 
 
+#datasets-results .column-names {
+    line-height: 2em;
+}
+
+#datasets-results .column-name {
+    padding: 3px 4px;
+    color: #D14;
+    background-color: #F7F7F9;
+    border: 1px solid #E1E1E8;
+    white-space: nowrap;
+}
+
 #modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
 #modal-dataset-traceback code { white-space: pre-wrap; }
 
