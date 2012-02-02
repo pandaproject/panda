@@ -3,5 +3,5 @@
     (<strong><%= upload.size %> bytes</strong>)
     uploaded by <strong><%= upload.creator.first_name %> <%= upload.creator.last_name %></strong> &lt;<a href="mailto:<%= upload.creator.email %>"><%= upload.creator.email %></a>&gt;
     on <strong><%= moment(upload.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>
-    &mdash; <a href="javascript: return false;" class="delete" data-uri="<%= upload.resource_uri %>">Delete</a>
+    <a href="javascript: return false;" class="delete" data-uri="<%= upload.resource_uri %>"><i class="icon-trash"></i></a>
 </li>
