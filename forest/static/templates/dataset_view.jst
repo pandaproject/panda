@@ -15,52 +15,61 @@
         </div>
     </div>
     <div class="row-fluid">
-        <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
-        <% if (dataset.last_modified) { %>
-        Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.</p>
-        <% } else { %>
-        Data never modified.
-        <% } %>
-        </p>
-        
-        <h6>Categories</h6>
 
-        <p>
-            <% if (categories.length > 0) { %>
-            <% _.each(categories, function(category, index, list) { %>
-                <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
-            <% }); %>
+    </div>
+    <div class="row-fluid">
+        <div class="span4">
+            <h6>History</h6>
+            <p>Created by <strong><%= dataset.creator.first_name %> <%= dataset.creator.last_name %></strong> &lt;<a href="mailto:<%= dataset.creator.email %>"><%= dataset.creator.email %></a>&gt; on <strong><%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>.<br />
+            <% if (dataset.last_modified) { %>
+            Data last modified by <strong><%= dataset.last_modified_by.first_name %> <%= dataset.last_modified_by.last_name %></strong> &lt;<a href="mailto:<%= dataset.last_modified_by.email %>"><%= dataset.last_modified_by.email %></a>&gt; on <strong><%= moment(dataset.last_modified, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().format("MMMM D, YYYY @ h:mm a") %></strong>: <%= dataset.last_modification %>.
             <% } else { %>
-            <em>None selected.</em>
+            Data never modified.
             <% } %>
-        </p>
+            </p>
 
-        <h6>Description</h6>
+            <h6>Description</h6>
+            <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
 
-        <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
+            <h6>Categories</h6>
 
-        <h6>Data files</h6>
-        <% if (dataset.data_uploads.length > 0) { %>
-        <ul class="data-uploads">
-            <% _.each(data_uploads_html, function(u) { %>
-                <%= u %>
-            <% }); %>
-        </ul>
-        <% } else { %>
-        <p><em>None uploaded.</em></p>
-        <% } %>
+            <p>
+                <% if (categories.length > 0) { %>
+                <% _.each(categories, function(category, index, list) { %>
+                    <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+                <% }); %>
+                <% } else { %>
+                <em>None selected.</em>
+                <% } %>
+            </p>
+        </div>
+        <div class="span8">
+            <h6>Data files</h6>
+            <% if (dataset.data_uploads.length > 0) { %>
+            <ul class="data-uploads">
+                <% _.each(data_uploads_html, function(u) { %>
+                    <%= u %>
+                <% }); %>
+            </ul>
+            <% } else { %>
+            <p><em>None uploaded.</em></p>
+            <% } %>
 
-        <h6>Related files</h6>
-        <% if (dataset.related_uploads.length > 0) { %>
-        <ul class="related-uploads">
-            <% _.each(related_uploads_html, function(u) { %>
-                <%= u %>
-            <% }); %>
-        </ul>
-        <% } else { %>
-        <p><em>None uploaded.</em></p>
-        <% } %>
+            <h6>Related files</h6>
+            <% if (dataset.related_uploads.length > 0) { %>
+            <ul class="related-uploads">
+                <% _.each(related_uploads_html, function(u) { %>
+                    <%= u %>
+                <% }); %>
+            </ul>
+            <% } else { %>
+            <p><em>None uploaded.</em></p>
+            <% } %>
+        </div>
+        </div>
+    </div>
 
+    <div class="row-fluid">
         <% if (dataset.sample_data) { %>
         <h6>Sample data</h6>
 
@@ -81,7 +90,7 @@
             <div class="alert-message"></div>
 
             <div class="control-group">
-                <label for="dataset-name">Dataset name</label>
+                <label for="dataset-name">Name</label>
                 <input class="xxlarge" id="dataset-name" name="name" size="30" type="text" value="<%= dataset.name %>" maxlength="256" />
                 <span class="help-inline"></span>
             </div>
