@@ -57,3 +57,18 @@ PANDA.utils.truncate = function(str, limit) {
 
 	return bits.join('');
 }
+
+PANDA.utils.format_file_size = function(size) {
+    /*
+     * From: http://programanddesign.com/js/human-readable-file-size-in-javascript/
+     */
+    var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    var i = 0;
+
+    while(size >= 1024) {
+        size /= 1024;
+        ++i;
+    }
+
+    return size.toFixed(1) + ' ' + units[i];
+}
