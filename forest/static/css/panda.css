@@ -103,9 +103,9 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 /* Upload page */
 
 .step { margin-top: 20px; }
-.step h2 { margin-bottom: 5px; }
-.step.disabled { color: lightgray; }
-.step.disabled h2 { color: lightgray; }
+.step h3 { font-weight: bold; }
+.step.disabled { color: lightgray; margin-left: 20px; }
+.step.disabled h3 { color: lightgray; }
 
 .upload-progress { margin-bottom: 10px; position: relative; }
 

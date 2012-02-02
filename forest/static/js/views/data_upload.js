@@ -176,6 +176,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-file").attr("disabled", false);
         $("#upload-begin").attr("disabled", false);
         $("#step-1").removeClass("disabled");
+
+        $("#step-3").removeClass("well");
+        $("#step-1").addClass("well");
     },
 
     step_two: function(fileName) {
@@ -184,6 +187,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-file").attr("disabled", true);
         
         $("#step-2").removeClass("disabled");
+        
+        $("#step-1").removeClass("well");
+        $("#step-2").addClass("well");
     },
 
     step_three: function() {
@@ -195,6 +201,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-3").removeClass("disabled");
         $("#upload-continue").attr("disabled", false);
         $("#upload-start-over").attr("disabled", false);
+        
+        $("#step-2").removeClass("well");
+        $("#step-3").addClass("well");
     },
 
     begin_event: function() {

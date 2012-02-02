@@ -1,11 +1,11 @@
 <div id="upload">
-    <h1>
+    <h2>
         <% if (dataset) { %>
             Add data to <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a>
         <% } else { %>
             Upload new data
         <% } %>
-    </h1>
+    </h2>
 
     <% if (dataset) { %>
     <div class="alert alert-block alert-warn" style="display: block;">
@@ -14,8 +14,8 @@
     </div>
     <% } %>
 
-    <div id="step-1" class="step">
-        <h2>Select your file</h2>
+    <div id="step-1" class="step well">
+        <h3>Select your file</h3>
        
         <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:<p>
 
@@ -39,7 +39,7 @@
     </div>
 
     <div id="step-2" class="step disabled">
-        <h2>Wait while your data is uploaded</h2>
+        <h3>Wait while your data is uploaded</h3>
 
         <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
 
@@ -55,7 +55,7 @@
     </div>
 
     <div id="step-3" class="step disabled">
-        <h2>Preview your data</h2>
+        <h3>Preview your data</h3>
         <p>Your file has finished uploading. Please review the following sample data that was extracted from your file and verify it looks correct. If it does not <strong>TKTK</strong>, otherwise click Continue.</p>
 
         <div class="sample-data">
