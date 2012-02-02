@@ -32,7 +32,7 @@ class TestAPIRelatedUpload(TransactionTestCase):
         self.assertEqual(body['filename'], self.upload.filename)
         self.assertEqual(body['original_filename'], self.upload.original_filename)
         self.assertEqual(body['size'], self.upload.size)
-        self.assertEqual(body['creator'], '/api/1.0/user/%i/' % self.user.id)
+        self.assertEqual(body['creator']['resource_uri'], '/api/1.0/user/%i/' % self.user.id)
         self.assertNotEqual(body['creation_date'], None)
 
     def test_get_unauthorized(self):
@@ -95,7 +95,7 @@ class TestAPIRelatedUpload(TransactionTestCase):
         self.assertEqual(body['original_filename'], upload.original_filename)
         self.assertEqual(body['size'], os.path.getsize(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)))
         self.assertEqual(body['size'], upload.size)
-        self.assertEqual(body['creator'], '/api/1.0/user/%i/' % self.user.id)
+        self.assertEqual(body['creator']['resource_uri'], '/api/1.0/user/%i/' % self.user.id)
 
     def test_upload_unauthorized(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:

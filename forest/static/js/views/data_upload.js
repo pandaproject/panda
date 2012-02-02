@@ -110,17 +110,11 @@ PANDA.views.DataUpload = Backbone.View.extend({
         /*
          * Handler for when a file upload starts.
          */
-        if (!this.dataset) {
-            this.dataset = new PANDA.models.Dataset({
-                name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName
-            });
-
-            this.dataset.save({}, { async: false })
+        if (this.dataset) {
+            this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") });
         }
 
-        this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
-
-        this.step_two(fileName);
+        this.step_two();
     },
 
     on_progress: function(id, fileName, loaded, total) {
@@ -141,7 +135,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
             this.upload = new PANDA.models.DataUpload(responseJSON);
 
             // Verify headers match
-            if (this.dataset.get("columns")) {
+            if (this.dataset && this.dataset.get("columns")) {
                 if (!this.upload.get("columns").equals(this.dataset.get("columns"))) {
                     this.step_two_error_message("The columns headers in this file do not match those of the existing data.");
                     return;
@@ -191,7 +185,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-1").addClass("well");
     },
 
-    step_two: function(fileName) {
+    step_two: function() {
         $("#upload-begin").attr("disabled", true);
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
@@ -223,6 +217,19 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     continue_event: function() {
+        fileName = this.upload.get("original_filename");
+
+        if (!this.dataset) {
+            this.dataset = new PANDA.models.Dataset({
+                name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName,
+                initial_upload: this.upload
+            });
+
+        }
+
+        this.dataset.data_uploads.add(this.upload);
+        this.dataset.save({}, { async: false })
+
         // Begin import, runs synchronously so errors may be caught immediately
         this.dataset.import_data(
             this.upload.get("id"),

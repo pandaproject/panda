@@ -72,7 +72,10 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
         path = os.path.join(settings.MEDIA_ROOT, filename)
         size = os.path.getsize(path)
 
-        dataset = Dataset.objects.get(slug=request.REQUEST['dataset_slug'])
+        if 'dataset_slug' in request.REQUEST:
+            dataset = Dataset.objects.get(slug=request.REQUEST['dataset_slug'])
+        else:
+            dataset = None
 
         upload = DataUpload.objects.create(
             filename=filename,
@@ -81,7 +84,8 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
             creator=request.user,
             dataset=dataset)
 
-        dataset.update_full_text()
+        if dataset:
+            dataset.update_full_text()
 
         resource = DataUploadResource()
         bundle = resource.build_bundle(obj=upload, request=request)

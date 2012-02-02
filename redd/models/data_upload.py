@@ -15,7 +15,7 @@ class DataUpload(BaseUpload):
     """
     from redd.models.dataset import Dataset
 
-    dataset = models.ForeignKey(Dataset, related_name='data_uploads',
+    dataset = models.ForeignKey(Dataset, related_name='data_uploads', null=True,
         help_text='The dataset this upload is associated with.')
 
     data_type = models.CharField(max_length=4, null=True, blank=True,

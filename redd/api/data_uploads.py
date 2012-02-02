@@ -19,7 +19,7 @@ class DataUploadResource(PandaModelResource):
     from redd.api.users import UserResource
 
     creator = fields.ForeignKey(UserResource, 'creator', full=True)
-    dataset = fields.ForeignKey('redd.api.datasets.DatasetResource', 'dataset')
+    dataset = fields.ForeignKey('redd.api.datasets.DatasetResource', 'dataset', null=True)
 
     class Meta:
         queryset = DataUpload.objects.all()

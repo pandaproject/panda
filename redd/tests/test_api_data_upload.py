@@ -32,7 +32,7 @@ class TestAPIDataUpload(TransactionTestCase):
         self.assertEqual(body['filename'], self.upload.filename)
         self.assertEqual(body['original_filename'], self.upload.original_filename)
         self.assertEqual(body['size'], self.upload.size)
-        self.assertEqual(body['creator'], '/api/1.0/user/%i/' % self.user.id)
+        self.assertEqual(body['creator']['resource_uri'], '/api/1.0/user/%i/' % self.user.id)
         self.assertNotEqual(body['creation_date'], None)
         self.assertEqual(body['dataset'], '/api/1.0/dataset/%s/' % self.dataset.slug)
         self.assertEqual(body['data_type'], 'csv')
@@ -100,7 +100,7 @@ class TestAPIDataUpload(TransactionTestCase):
         self.assertEqual(body['original_filename'], upload.original_filename)
         self.assertEqual(body['size'], os.path.getsize(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)))
         self.assertEqual(body['size'], upload.size)
-        self.assertEqual(body['creator'], '/api/1.0/user/%i/' % self.user.id)
+        self.assertEqual(body['creator']['resource_uri'], '/api/1.0/user/%i/' % self.user.id)
 
     def test_upload_unauthorized(self):
         with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
@@ -113,8 +113,8 @@ class TestAPIDataUpload(TransactionTestCase):
         self.assertEqual(body['success'], False)
         self.assertEqual(body['forbidden'], True)
 
-    def test_delete_denied(self):
+    def test_delete(self):
         response = self.client.delete('/api/1.0/data_upload/%i/' % self.upload.id, **self.auth_headers)
 
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 204)
 
