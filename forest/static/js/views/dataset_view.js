@@ -1,12 +1,17 @@
 PANDA.views.DatasetView = Backbone.View.extend({
+    edit_view: null,
+
     initialize: function(options) {
         _.bindAll(this);
+
+        this.edit_view = new PANDA.views.DatasetEdit();
 
         $(".related-uploads .delete").live("click", this.delete_related_upload);
     },
 
     set_dataset: function(dataset) {
         this.dataset = dataset;
+        this.edit_view.set_dataset(dataset);
     },
 
     render: function() {
@@ -47,6 +52,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         this.el.html(PANDA.templates.dataset_view(context));
         
+        this.edit_view.el = $("#modal-edit-dataset");
         $('#view-dataset a[rel="tooltip"]').tooltip();
 
         this.related_uploader = new qq.FileUploaderBasic({
@@ -68,7 +74,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         var upload_button = CustomUploadButton.init();
         this.related_uploader._button = upload_button;
 
-        $("#dataset-save").click(this.save);
+        $("#dataset-edit").click(this.edit);
         $("#dataset-upload-related").click(this.upload_related);
         $("#dataset-export").click(this.export_data);
         $("#dataset-destroy").click(this.destroy);
@@ -95,72 +101,9 @@ PANDA.views.DatasetView = Backbone.View.extend({
         return false;
     },
 
-    validate: function() {
-        /*
-         * Validate metadata for save.
-         */
-        var data = $("#edit-dataset-form").serializeObject();
-        var errors = {};
-
-        if (!data["name"]) {
-            errors["name"] = ["This field is required."];
-        }
-
-        return errors;
-    },
-
-    save: function() {
-        /*
-         * Save metadata edited via modal.
-         */
-        var errors = this.validate();
-        
-        if (!_.isEmpty(errors)) {
-            $("#edit-dataset-form").show_errors(errors, "Save failed!");
-        
-            return false;
-        }
-        
-        var form_values = $("#edit-dataset-form").serializeObject();
-
-        var s = {};
-
-        // Ensure categories is cleared
-        if (!("categories" in form_values)) {
-            this.dataset.categories.reset();
-        }
-
-        _.each(form_values, _.bind(function(v, k) {
-            if (k == "categories") {
-                // If only a single category is selected it will serialize as a string instead of a list
-                if (!_.isArray(v)) {
-                    v = [v];
-                }
-
-                categories = _.map(v, function(cat) {
-                    return Redd.get_category_by_slug(cat).clone();
-                });
-
-                this.dataset.categories.reset(categories);
-            } else {
-                s[k] = v;
-            }
-        }, this));
-
-        this.dataset.patch(s, {
-            success: _.bind(function() {
-                Redd.goto_dataset_view(this.dataset.get("slug"));
-            }, this),
-            error: function(model, response) {
-                try {
-                    errors = $.parseJSON(response);
-                } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
-                }
-
-                $("#edit-dataset-form").show_errors(errors, "Save failed!");
-            }
-        });
+    edit: function() {
+        this.edit_view.render();
+        $("#modal-edit-dataset").modal("show");
     },
 
     upload_related: function() {

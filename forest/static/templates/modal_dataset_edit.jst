@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>Edit</h3>
+</div>
+<div class="modal-body">
+    <form id="edit-dataset-form" class="form-stacked">
+        <div class="alert-message"></div>
+
+        <div class="control-group">
+            <label for="dataset-name">Name</label>
+            <input class="xxlarge" id="dataset-name" name="name" size="30" type="text" value="<%= dataset.name %>" maxlength="256" />
+            <span class="help-inline"></span>
+        </div>
+
+        <div class="control-group">
+            <label for="dataset-description">Description</label>
+            <textarea class="xxlarge" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= dataset.description %></textarea>
+            <span class="help-inline"></span>
+        </div>
+
+        <label for="categories">Categories</label>
+
+        <% _.each(all_categories, function(category) { %>
+        <label class="checkbox">
+            <input type="checkbox" name="categories" value="<%= category.slug %>" <% if (_.find(dataset.categories, function(cat) { return cat.slug == category.slug; })) { %>checked="checked"<% } %>/>
+            <%= category.name %>
+        </label>
+        <% }); %>
+    </form>
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="#" id="dataset-edit-save" class="btn btn-primary" data-dismiss="modal">Save</a>
+</div>
