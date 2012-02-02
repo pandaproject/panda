@@ -62,7 +62,7 @@ PANDA.utils.format_file_size = function(size) {
     /*
      * From: http://programanddesign.com/js/human-readable-file-size-in-javascript/
      */
-    var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    var units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     var i = 0;
 
     while(size >= 1024) {

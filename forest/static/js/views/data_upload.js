@@ -177,6 +177,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-2").addClass("disabled");
         $("#step-2 .notes").hide();
         this.on_progress(null, null, 0, 1);
+        $("#step-3 .sample-data").hide();
         $("#step-3 .sample-data").empty();
         $("#step-3").addClass("disabled");
         $("#upload-continue").attr("disabled", true);
@@ -206,6 +207,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
         sample_data_html = PANDA.templates.inline_sample_data(this.upload.toJSON()); 
         $("#step-3 .sample-data").html(sample_data_html);
+        $("#step-3 .sample-data").show();
 
         $("#step-3").removeClass("disabled");
         $("#upload-continue").attr("disabled", false);
