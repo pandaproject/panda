@@ -46,6 +46,8 @@ PANDA.views.DatasetView = Backbone.View.extend({
         });
 
         this.el.html(PANDA.templates.dataset_view(context));
+        
+        $('#view-dataset a[rel="tooltip"]').tooltip();
 
         this.related_uploader = new qq.FileUploaderBasic({
             action: "/related_upload/",
