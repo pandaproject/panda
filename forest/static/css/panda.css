@@ -133,5 +133,6 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     width: 100%;
 }
 
-#step-3 .sample-data { display: none; overflow-x: scroll; margin-bottom: 5px; }
+#step-3 .sample-data { display: none; overflow-x: scroll; margin-bottom: 18px; }
+#step-3 .sample-data table { margin-bottom: 0px; }
 
