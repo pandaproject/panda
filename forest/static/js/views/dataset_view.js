@@ -87,14 +87,20 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         $("#modal-related-upload-destroy").html(PANDA.templates.modal_related_upload_destroy({ upload: upload.toJSON() }));
 
-        $("#related-upload-destroy").click(function() {
+        $("#related-upload-destroy").click(_.bind(function() {
+            this.dataset.related_uploads.remove(upload);
             upload.destroy();
             element.parent("li").remove();
+
+            if (this.dataset.related_uploads.length == 0) {
+                $(".related-uploads").hide();
+                $("#no-related-uploads").show();
+            }
 
             $("#modal-related-upload-destroy").modal("hide");
 
             return false;
-        });
+        }, this));
 
         $("#modal-related-upload-destroy").modal("show");
 
@@ -146,9 +152,11 @@ PANDA.views.DatasetView = Backbone.View.extend({
             var related_upload = new PANDA.models.RelatedUpload(responseJSON);
             this.dataset.related_uploads.add(related_upload);
 
+            $("#no-related-uploads").hide();
             $(".related-uploads").append(PANDA.templates.inline_related_upload_item({ 
                 upload: related_upload.toJSON()
             }));
+            $(".related-uploads").show();
 
             $("#modal-upload-related").modal("hide")
             $("#modal-upload-related .modal-footer input").removeAttr("disabled"); 
