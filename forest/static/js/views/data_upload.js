@@ -174,11 +174,12 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-start-over").attr("disabled", true);
         
         $("#upload-file").attr("disabled", false);
+        $("#upload-begin").attr("disabled", false);
         $("#step-1").removeClass("disabled");
     },
 
     step_two: function(fileName) {
-        $("#upload-begin").addClass("disabled");
+        $("#upload-begin").attr("disabled", true);
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
         $("#step-3 .sample-data").empty();
