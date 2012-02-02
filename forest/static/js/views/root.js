@@ -185,7 +185,7 @@ PANDA.views.Root = Backbone.View.extend({
         return dfd;
     },
 
-    configure_navbar: function() {
+    configure_navbar: function(no_scroll) {
         /*
          * Reconfigures the Bootstrap navbar based on the current user.
          */
@@ -231,7 +231,6 @@ PANDA.views.Root = Backbone.View.extend({
 
             $("#navbar-admin").toggle(this._current_user.get("is_staff"));
             $(".navbar").show();
-            window.scrollTo(0, 0); 
         }
     },
 

@@ -67,6 +67,7 @@ PANDA.views.Login = Backbone.View.extend({
                     window.location.hash = this.next;
                 } else {
                     Redd.goto_search();
+                    window.scroll(0, 0);
                 }
             }, this),
             error: function(xhr, status, error) {
