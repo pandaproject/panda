@@ -99,12 +99,12 @@ def check_activation_key(request, activation_key):
     try:
         user_profile = UserProfile.objects.get(activation_key=activation_key)
     except UserProfile.DoesNotExist:
-        return JSONResponse({ '__all__': 'Invalid activation key!' }, status=400)
+        return JSONResponse({ '__all__': 'Invalid activation key' }, status=400)
 
     user = user_profile.user 
 
     if user.is_active:
-        return JSONResponse({ '__all__': 'User is already active!' }, status=400)
+        return JSONResponse({ '__all__': 'User is already active' }, status=400)
 
     return JSONResponse({
         'activation_key': user_profile.activation_key,

@@ -1,55 +1,42 @@
-<div id="activate">
-    <h1>PANDA</h1>
-
-    <form id="activation-form" class="form-stacked">
-        <div class="alert"></div>
-        <% if (typeof(email) !== 'undefined') { %>
-        <fieldset>
-            <legend>Activate your account</legend>
-            <div class="clearfix">
-                <label for="email">Email</label>
-                <div class="input">
+<div class="row-fluid">
+    <div id="activate">
+        <form id="activation-form">
+            <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
+            <h2>Activate your PANDA account</h2>
+            <div class="alert"></div>
+            <% if (typeof(email) !== 'undefined') { %>
+            <fieldset>
+                <div class="control-group">
+                    <label for="email">Email</label>
                     <input type="text" name="email" value="<%= email %>" />
                     <span class="help-inline"></span>
                 </div>
-            </div>
-            <div class="clearfix">
-                <label for="first_name">First name</label>
-                <div class="input">
+                <div class="control-group">
+                    <label for="first_name">First name</label>
                     <input type="text" name="first_name" value="<%= first_name %>" />
                     <span class="help-inline"></span>
                 </div>
-            </div>
-            <div class="clearfix">
-                <label for="last_name">Last name</label>
-                <div class="input">
+                <div class="control-group">
+                    <label for="last_name">Last name</label>
                     <input type="text" name="last_name" value="<%= last_name %>" />
                     <span class="help-inline"></span>
                 </div>
-            </div>
-            <input type="hidden" name="activation_key" value="<%= activation_key %>" />
-        </fieldset>
-        <fieldset>
-            <div class="clearfix">
-                <label for="password">Password</label>
-                <div class="input">
+                <input type="hidden" name="activation_key" value="<%= activation_key %>" />
+            </fieldset>
+            <fieldset>
+                <div class="control-group">
+                    <label for="password">Password</label>
                     <input type="password" name="password" />
                     <span class="help-inline"></span>
                 </div>
-            </div>
-            <div class="clearfix">
-                <label for="reenter_password">Re-enter password</label>
-                <div class="input">
+                <div class="control-group">
+                    <label for="reenter_password">Re-enter password</label>
                     <input type="password" name="reenter_password" />
                     <span class="help-inline"></span>
                 </div>
-            </div>
-            <div class="clearfix">
-                <div class="input">
                 <input type="submit" class="btn primary" value="Activate" />
-                </div>
-            </div>
-        </fieldset>
-        <% } %>
-    </form>
+            </fieldset>
+            <% } %>
+        </form>
+    </div>
 </div>
