@@ -222,10 +222,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
         if (!this.dataset) {
             this.dataset = new PANDA.models.Dataset({
                 name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName,
-                initial_upload: this.upload
             });
+            
             this.dataset.save({}, { async: false });
-
         }
 
         this.dataset.data_uploads.add(this.upload);
