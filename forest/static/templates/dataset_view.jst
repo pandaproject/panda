@@ -56,12 +56,12 @@
             <% } %>
 
             <h6>Related files</h6>
-            <ul class="related-uploads" <% if (dataset.data_uploads.length == 0) { %>style="display:none;"<% } %>>
+            <ul class="related-uploads" <% if (dataset.related_uploads.length == 0) { %>style="display:none;"<% } %>>
                 <% _.each(related_uploads_html, function(u) { %>
                     <%= u %>
                 <% }); %>
             </ul>
-            <p id="no-related-uploads" <% if (dataset.data_uploads.length > 0) { %>style="display:none;"<% } %>><em>None uploaded.</em></p>
+            <p id="no-related-uploads" <% if (dataset.related_uploads.length > 0) { %>style="display:none;"<% } %>><em>None uploaded.</em></p>
         </div>
         </div>
     </div>
