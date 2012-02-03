@@ -19,3 +19,4 @@ hg+https://bitbucket.org/ericgazoni/openpyxl/@134c257abd1e#egg=openpyxl
 xlrd==0.7.1
 hg+https://bitbucket.org/bkroeze/django-keyedcache/@fa1f452a53f7#egg=django-keyedcache
 hg+https://bitbucket.org/bkroeze/django-livesettings/@a413c0205048#egg=django-livesettings
+boto==2.0
