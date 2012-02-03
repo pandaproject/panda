@@ -108,7 +108,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Dataset view page */
 
-#view-dataset h3 { display: block; float: left; }
+#view-dataset h3 { display: block; float: left; margin-bottom: 8px; }
 #view-dataset #dataset-actions { float: left; } 
 
 /* Upload page */
