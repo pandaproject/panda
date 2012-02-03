@@ -4,7 +4,7 @@
 Comprehensive script to handle migrating PANDA's files (uploads and exports)
 to a larger EBS volume.
 Handles all stages of device creation, attachment, file movement, etc.
-It will work whether the indices are currently on another EBS or on local storage.
+It will work whether the files are currently on another EBS or on local storage.
 
 The only thing this script does not do is detach and destroy any old volume.
 """
@@ -43,7 +43,7 @@ try:
 except:
     sys.exit('ec2metadata command not found! This script only works for Ubuntu 11.10 running on EC2. Aborting.')
 
-backed_up = raw_input('Migrating your Solr indexes is a complicated and potentially destructive operation. Have you backed up your data? (y/N): ')
+backed_up = raw_input('Migrating your PANDA files is a complicated and potentially destructive operation. Have you backed up your data? (y/N): ')
 
 if backed_up.lower() != 'y':
     sys.exit('Back up your data before running this script! Aborting.')
@@ -51,7 +51,7 @@ if backed_up.lower() != 'y':
 # Prompt for parameters
 aws_key = getpass('Enter your AWS Access Key: ')
 secret_key = getpass('Enter your AWS Secret Key: ')
-size_gb = raw_input('How many GB would you like your new Solr volume to be? ')
+size_gb = raw_input('How many GB would you like your new PANDA files volume to be? ')
 
 print 'Beginning PANDA files migration'
 
