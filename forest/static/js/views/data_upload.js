@@ -217,6 +217,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     continue_event: function() {
+        // Prevent double-clicks
+        $("#upload-continue").attr("disabled", true);
+        $("#upload-start-over").attr("disabled", true);
+
         fileName = this.upload.get("original_filename");
 
         if (!this.dataset) {
@@ -245,6 +249,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     start_over_event: function() {
+        // Prevent double-clicks
+        $("#upload-continue").attr("disabled", true);
+        $("#upload-start-over").attr("disabled", true);
+
         if (this.upload) {
             this.upload.destroy({ async: false });
             this.upload = null;
