@@ -127,6 +127,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
          * Handler for when a related upload starts.
          */
         this.related_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
+        $("#modal-upload-related .upload-progress").show();
     },
 
     on_related_upload_progress: function(id, fileName, loaded, total) {
@@ -159,6 +160,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
             $(".related-uploads").show();
 
             $("#modal-upload-related").modal("hide")
+            $("#modal-upload-related .upload-progress").hide();
             $("#modal-upload-related .modal-footer input").removeAttr("disabled"); 
             this.on_related_upload_progress(null, null, 0, 1);
         } else if (responseJSON.forbidden) {
