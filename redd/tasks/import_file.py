@@ -85,16 +85,16 @@ class ImportFileTask(AbortableTask):
                 u'\n'.join([einfo.traceback, unicode(retval)])
             )
             
-            email_subject = 'Import of %s failed' % dataset.name
-            email_message = 'Import of %s failed:\n%shttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
-            notification_message = 'Import of <strong>%s</strong> failed' % dataset.name
+            email_subject = 'Import failed: %s' % dataset.name
+            email_message = 'Import failed: %s:\n%shttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            notification_message = 'Import failed: <strong>%s</strong>' % dataset.name
             notification_type = 'Error'
         else:
             self.task_complete(task_status, 'Import complete')
             
-            email_subject = 'Import of %s complete' % dataset.name
-            email_message = 'Import of %s complete:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
-            notification_message = 'Import of <strong>%s</strong> complete' % dataset.name
+            email_subject = 'Import complete: %s' % dataset.name
+            email_message = 'Import complete: %s complete:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            notification_message = 'Import complete: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
         
         if task_status.creator:

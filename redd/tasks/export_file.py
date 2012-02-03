@@ -84,8 +84,9 @@ class ExportFileTask(AbortableTask):
                 'Export failed',
                 error_detail)
             
-            email_message = 'Export of %s failed:\n%s' % (dataset.name, error_detail)
-            notification_message = 'Export of %s failed' % dataset.name
+            email_subject = 'Export failed: %s' % dataset.name
+            email_message = 'Export failed: %s:\n%s' % (dataset.name, error_detail)
+            notification_message = 'Export failed: <strong>%s</strong>' % dataset.name
             notification_type = 'Error'
         else:
             self.task_complete(task_status, 'Export complete')
@@ -98,8 +99,9 @@ class ExportFileTask(AbortableTask):
                 creation_date=task_status.start,
                 dataset=dataset)
             
-            email_message = 'Export of %s complete. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
-            notification_message = 'Export of <strong>%s</strong> complete' % dataset.name
+            email_subject = 'Export complete: %s' % dataset.name
+            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+            notification_message = 'Export complete: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
 
         if task_status.creator:
@@ -111,5 +113,5 @@ class ExportFileTask(AbortableTask):
                 type=notification_type
             )
             
-            send_mail(notification_message, email_message, [task_status.creator.username])
+            send_mail(email_subject, email_message, [task_status.creator.username])
 
