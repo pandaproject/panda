@@ -37,7 +37,14 @@ class ExportCSVTask(ExportFileTask):
         if not filename:
             filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())
 
-        f = open(os.path.join(settings.EXPORT_ROOT, filename), 'w')
+        path = os.path.join(settings.EXPORT_ROOT, filename)
+
+        try:
+            os.makedirs(os.path.realpath(os.path.dirname(path)))
+        except:
+            pass
+
+        f = open(path, 'w')
         writer = CSVKitWriter(f)
 
         # Header
