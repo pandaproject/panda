@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 """
-Comprehensive script to handle migrating PANDA's Solr indices to a larger EBS volume.
+Comprehensive script to handle migrating PANDA's files (uploads and exports)
+to a larger EBS volume.
 Handles all stages of device creation, attachment, file movement, etc.
 It will work whether the indices are currently on another EBS or on local storage.
 
@@ -18,9 +19,9 @@ import time
 
 from boto.ec2.connection import EC2Connection
 
-TEMP_MOUNT_POINT = '/mnt/solrmigration'
-SOLR_DIR = '/opt/solr/panda/solr'
-FSTAB_BACKUP = '/etc/fstab.solrmigration.bak'
+TEMP_MOUNT_POINT = '/mnt/filesmigration'
+PANDA_DIR = '/var/lib/panda'
+FSTAB_BACKUP = '/etc/fstab.filesmigration.bak'
 
 # Utilities
 def safe_dismount(mount_point):
@@ -52,7 +53,7 @@ aws_key = getpass('Enter your AWS Access Key: ')
 secret_key = getpass('Enter your AWS Secret Key: ')
 size_gb = raw_input('How many GB would you like your new Solr volume to be? ')
 
-print 'Beginning Solr migration'
+print 'Beginning PANDA files migration'
 
 sys.stdout.write('Connecting to EC2... ')
 conn = EC2Connection(aws_key, secret_key)
@@ -122,18 +123,19 @@ sys.stdout.write('Mounting volume... ')
 subprocess.check_output(['mount', device_path, TEMP_MOUNT_POINT], stderr=subprocess.STDOUT)
 print 'mounted' 
 
-sys.stdout.write('Stopping Solr... ')
-subprocess.check_output(['service', 'solr', 'stop'], stderr=subprocess.STDOUT)
+sys.stdout.write('Stopping services... ')
+subprocess.check_output(['service', 'uwsgi', 'stop'], stderr=subprocess.STDOUT)
+subprocess.check_output(['service', 'celeryd', 'stop'], stderr=subprocess.STDOUT)
 print 'stopped'
 
 sys.stdout.write('Copying indexes... ')
-names = os.listdir(SOLR_DIR)
+names = os.listdir(PANDA_DIR)
 
 for name in names:
     if name == 'lost+found':
         continue
 
-    src_path = os.path.join(SOLR_DIR, name)
+    src_path = os.path.join(PANDA_DIR, name)
     dest_path = os.path.join(TEMP_MOUNT_POINT, name)
 
     if os.path.isdir(src_path):
@@ -143,21 +145,21 @@ for name in names:
 
 print 'copied'
 
-if os.path.ismount(SOLR_DIR):
+if os.path.ismount(PANDA_DIR):
     sys.stdout.write('Dismounting old storage device... ')
-    safe_dismount(SOLR_DIR)
+    safe_dismount(PANDA_DIR)
     print 'dismounted'
 
     sys.stdout.write('Removing device from fstab... ')
-    new_fstab = subprocess.check_output(['grep', '-Ev', SOLR_DIR, '/etc/fstab'], stderr=subprocess.STDOUT)
+    new_fstab = subprocess.check_output(['grep', '-Ev', PANDA_DIR, '/etc/fstab'], stderr=subprocess.STDOUT)
     print 'removed'
 
     with open('/etc/fstab', 'w') as f:
         f.write(new_fstab)
 else:
     sys.stdout.write('Removing old indexes... ')
-    shutil.rmtree(SOLR_DIR)
-    os.mkdir(SOLR_DIR)
+    shutil.rmtree(PANDA_DIR)
+    os.mkdir(PANDA_DIR)
 
     print 'removed'
 
@@ -166,20 +168,21 @@ safe_dismount(TEMP_MOUNT_POINT)
 print 'dismounted'
 
 sys.stdout.write('Remounting at final mount point... ')
-subprocess.check_output(['mount', device_path, SOLR_DIR], stderr=subprocess.STDOUT)
+subprocess.check_output(['mount', device_path, PANDA_DIR], stderr=subprocess.STDOUT)
 print 'mounted'
 
 sys.stdout.write('Reseting permissions... ')
-subprocess.check_output(['chown', '-R', 'solr:solr', SOLR_DIR], stderr=subprocess.STDOUT)
+subprocess.check_output(['chown', '-R', 'panda:panda', PANDA_DIR], stderr=subprocess.STDOUT)
 print 'reset'
 
-sys.stdout.write('Restarting Solr... ')
-subprocess.check_output(['service', 'solr', 'start'], stderr=subprocess.STDOUT)
+sys.stdout.write('Restarting services... ')
+subprocess.check_output(['service', 'celeryd', 'start'], stderr=subprocess.STDOUT)
+subprocess.check_output(['service', 'uwsgi', 'start'], stderr=subprocess.STDOUT)
 print 'restarted'
 
 sys.stdout.write('Configuring fstab... ')
 with open('/etc/fstab', 'a') as f:
-    f.write('\n%s\t%s\text3\tdefaults,noatime\t0\t0\n' % (device_path, SOLR_DIR))
+    f.write('\n%s\t%s\text3\tdefaults,noatime\t0\t0\n' % (device_path, PANDA_DIR))
 print 'configured'
 
 print 'Done!'
