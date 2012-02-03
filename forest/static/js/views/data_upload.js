@@ -224,11 +224,12 @@ PANDA.views.DataUpload = Backbone.View.extend({
                 name: fileName.substr(0, fileName.lastIndexOf('.')) || fileName,
                 initial_upload: this.upload
             });
+            this.dataset.save({}, { async: false });
 
         }
 
         this.dataset.data_uploads.add(this.upload);
-        this.dataset.save({}, { async: false })
+        this.dataset.patch({}, { async: false })
 
         // Begin import, runs synchronously so errors may be caught immediately
         this.dataset.import_data(

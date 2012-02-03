@@ -54,11 +54,11 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
         if (task && task.get("task_name").startsWith("redd.tasks.import")) {
             if (task.get("status") == "STARTED") {
-                $("#dataset-search .alert").alert_block("alert-info", "Import in progress!", "<p>This dataset is currently being made searchable. It will not yet appear in search results.</p><p>Status of import: " + task.get("message") + ".</p>", false);
+                $("#dataset-search .alert").alert_block("alert-info", "Import in progress!", "<p>Data is being made searchable. It will not yet appear in search results.</p><p>Status of import: " + task.get("message") + ".</p>", false);
             } else if (task.get("status") == "PENDING") {
-                $("#dataset-search .alert").alert_block("alert-info", "Queued for import!", "<p>This dataset is currently waiting to be made searchable. It will not yet appear in search results.</p>", false);
+                $("#dataset-search .alert").alert_block("alert-info", "Queued for import!", "<p>Data is waiting to be made searchable. It will not yet appear in search results.</p>", false);
             } else if (task.get("status") == "FAILURE") {
-                $("#dataset-search .alert").alert_block("alert-error", "Import failed!", '<p>The process to make this dataset searchable failed. It will not appear in search results. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                $("#dataset-search .alert").alert_block("alert-error", "Import failed!", '<p>The process to make data searchable failed. It will not appear in search results. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
             } 
         }
         
