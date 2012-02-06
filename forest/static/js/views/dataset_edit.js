@@ -79,6 +79,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         this.dataset.patch(s, {
             success: _.bind(function() {
                 Redd.goto_dataset_view(this.dataset.get("slug"));
+                Redd.refresh_categories();
             }, this),
             error: function(model, response) {
                 try {

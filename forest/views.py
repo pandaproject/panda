@@ -33,12 +33,10 @@ def index(request):
     uncategorized.__dict__['dataset_count'] = Dataset.objects.filter(categories=None).count() 
     uncategorized_bundle = cr.full_dehydrate(cr.build_bundle(obj=uncategorized))
 
-    categories.append(uncategorized)
     categories_bootstrap.append(uncategorized_bundle)
 
     return render_to_response('index.html', {
         'settings': settings,
-        'categories': categories,
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap
         })

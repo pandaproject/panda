@@ -197,9 +197,24 @@ PANDA.views.Root = Backbone.View.extend({
 
             $("#navbar-email a").text(this._current_user.get("email"));
 
-            $("#navbar-notifications .dropdown-menu").html("");
+            // Categories
+            $("#navbar-categories .dropdown-menu").empty();
+            $("#navbar-categories .dropdown-menu").append('<li><a href="#datasets">All datasets</a></li>');
 
-            if (this._current_user.notifications.models.length > 0) {
+            if (this._categories.length > 0) {
+                $("#navbar-categories .dropdown-menu").append('<li class="divider"></li>');
+                
+                this._categories.each(function(category) {
+                    if (category.get("dataset_count") > 0) {
+                        $("#navbar-categories .dropdown-menu").append('<li class="category"><a href="#category/' + category.get("slug") + '">' + category.get("name") + ' (' + category.get("dataset_count") + ')</a></li>');
+                    }
+                });
+            }
+
+            // Notifications
+            $("#navbar-notifications .dropdown-menu").empty();
+
+            if (this._current_user.notifications.length > 0) {
                 $("#navbar-notifications .count").addClass("important");
 
                 this._current_user.notifications.each(function(note) {
@@ -232,6 +247,12 @@ PANDA.views.Root = Backbone.View.extend({
             $("#navbar-admin").toggle(this._current_user.get("is_staff"));
             $(".navbar").show();
         }
+    },
+
+    refresh_categories: function() {
+        this._categories.fetch({ success: _.bind(function() {
+            this.configure_navbar();
+        }, this) });
     },
 
     refresh_notifications: function() {

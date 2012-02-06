@@ -22,16 +22,9 @@
                     <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ settings.STATIC_URL }}img/ajax-loader.gif" /></a></li>
                     <li><a href="#">Search</a></li>
                     <li><a href="#upload">Upload</a></li>
-                    <li class="dropdown">
+                    <li id="navbar-categories" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
                         <ul id="categories-list" class="dropdown-menu">
-                            <li><a href="#datasets">All datasets</a></li>
-                            <li class="divider"></li>
-                            {% for category in categories %}
-                            {% if category.dataset_count > 0 %}
-                            <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }} ({{ category.dataset_count }})</a></li>
-                            {% endif %}
-                            {% endfor %}
                         </ul>
                     </li>
                 </ul>
