@@ -49,3 +49,8 @@ Replace ``localhost:8000`` with your PANDA's domain name.
 
 In the upper-right corner click "Add user". Type in the email address. You may choose to also enter the user's name or leave it blank. They will have an opportunity to add/update it. Click "Save". Your new user will receive a registration email with an activation link.
 
+Creating new users in bulk
+==========================
+
+If you need to create a lot of users you can also use your administrative API key to create new users via the `API <api.rst>`_.
+
