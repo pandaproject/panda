@@ -158,6 +158,8 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 upload: related_upload.toJSON()
             }));
             $(".related-uploads").show();
+            
+            $('#view-dataset .related-uploads a[rel="tooltip"]').tooltip();
 
             $("#modal-upload-related").modal("hide")
             $("#modal-upload-related .upload-progress").hide();
