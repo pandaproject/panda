@@ -13,11 +13,8 @@ PANDA.utils = {};
 
 // A copy of the server-side settings.
 // AKA: The simplest thing that works.
+// Mostly populated in index.html.
 PANDA.settings = {
-    DEFAULT_SEARCH_GROUPS: 10,
-    DEFAULT_SEARCH_ROWS_PER_GROUP: 5, 
-    DEFAULT_SEARCH_ROWS: 50,
-
     NOTIFICATIONS_INTERVAL: 20000,
 
     MAX_UPLOAD_SIZE: 1024 * 1024 * 1024 // 1 GB

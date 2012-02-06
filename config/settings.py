@@ -217,6 +217,10 @@ PANDA_SNIFFER_MAX_SAMPLE_SIZE = 1024 * 100  # 100kb
 PANDA_SAMPLE_DATA_ROWS = 5
 PANDA_SCHEMA_SAMPLE_ROWS = 100
 
+PANDA_UNCATEGORIZED_ID = 0
+PANDA_UNCATEGORIZED_SLUG = 'uncategorized'
+PANDA_UNCATEGORIZED_NAME = 'Uncategorized'
+
 # Allow for local (per-user) override
 try:
     from local_settings import *

@@ -107,15 +107,17 @@ class DatasetResource(SluggedModelResource):
         query = request.GET.get('q', '')
         simple = True if request.GET.get('simple', 'false').lower() == 'true' else False
 
-        if category_slug:
-            category = Category.objects.get(slug=category_slug)
+        if category_slug == settings.PANDA_UNCATEGORIZED_SLUG:
+            category_id = settings.PANDA_UNCATEGORIZED_ID
+        elif category_slug:
+            category_id = Category.objects.get(slug=category_slug).id
         else:
-            category = None
+            category_id = None
 
-        if category and query:
-            q = 'categories:%s %s' % (category.id, query)
-        elif category:
-            q = 'categories:%s' % category.id
+        if category_id is not None and query:
+            q = 'categories:%s %s' % (category_id, query)
+        elif category_id is not None:
+            q = 'categories:%s' % category_id
         else:
             q = query
 

@@ -8,10 +8,15 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     render: function() {
+        all_categories = _.reject(Redd.get_categories().toJSON(), function(c) {
+            return (c.id == PANDA.settings.UNCATEGORIZED_ID);
+        });
+
+
         var context = PANDA.utils.make_context({
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
-            'all_categories': Redd.get_categories().toJSON() 
+            'all_categories': all_categories 
         });
 
         this.el.html(PANDA.templates.modal_dataset_edit(context));

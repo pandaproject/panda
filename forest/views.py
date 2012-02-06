@@ -10,7 +10,7 @@ from django.shortcuts import render_to_response
 from tastypie.serializers import Serializer
 
 from redd.api.category import CategoryResource
-from redd.models import Category
+from redd.models import Category, Dataset
 
 def index(request):
     """
@@ -21,13 +21,23 @@ def index(request):
     serializer = Serializer()
     cr = CategoryResource()
 
-    categories = Category.objects.annotate(dataset_count=Count('datasets'))
+    categories = list(Category.objects.annotate(dataset_count=Count('datasets')))
 
     bundles = [cr.build_bundle(obj=c) for c in categories]
     categories_bootstrap = [cr.full_dehydrate(b) for b in bundles]
 
+    uncategorized = Category(
+        id=settings.PANDA_UNCATEGORIZED_ID,
+        slug=settings.PANDA_UNCATEGORIZED_SLUG,
+        name=settings.PANDA_UNCATEGORIZED_NAME)
+    uncategorized.__dict__['dataset_count'] = Dataset.objects.filter(categories=None).count() 
+    uncategorized_bundle = cr.full_dehydrate(cr.build_bundle(obj=uncategorized))
+
+    categories.append(uncategorized)
+    categories_bootstrap.append(uncategorized_bundle)
+
     return render_to_response('index.html', {
-        'STATIC_URL': settings.STATIC_URL,
+        'settings': settings,
         'categories': categories,
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap

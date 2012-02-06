@@ -6,11 +6,11 @@
 <head>
     <title>PANDA</title>
     {% compress css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" charset="utf-8"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/fileuploader.css" type="text/css" charset="utf-8"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{{ settings.STATIC_URL }}css/reset.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ settings.STATIC_URL }}css/fileuploader.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ settings.STATIC_URL }}css/bootstrap.css" type="text/css" charset="utf-8" />
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/panda.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ settings.STATIC_URL }}css/panda.css" type="text/css" charset="utf-8"/>
     {% endcompress %}
 </head>
 <body>
@@ -18,8 +18,8 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <ul class="nav pull-left">
-                    <li id="logo"><a href="#"><img src="{{ STATIC_URL }}img/panda_and_ire.png" /></a></li>
-                    <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ STATIC_URL }}img/ajax-loader.gif" /></a></li>
+                    <li id="logo"><a href="#"><img src="{{ settings.STATIC_URL }}img/panda_and_ire.png" /></a></li>
+                    <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ settings.STATIC_URL }}img/ajax-loader.gif" /></a></li>
                     <li><a href="#">Search</a></li>
                     <li><a href="#upload">Upload</a></li>
                     <li class="dropdown">
@@ -29,7 +29,7 @@
                             <li class="divider"></li>
                             {% for category in categories %}
                             {% if category.dataset_count > 0 %}
-                            <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }}</a></li>
+                            <li class="category"><a href="#category/{{ category.slug }}">{{ category.name }} ({{ category.dataset_count }})</a></li>
                             {% endif %}
                             {% endfor %}
                         </ul>
@@ -53,53 +53,57 @@
     </div>
 
     {% compress js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.cookie.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/jquery.tablesorter.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootbox.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/underscore.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/backbone-tastypie.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/json2.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/moment.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/fileuploader.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/utils.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/application.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/bootstrap.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/bootbox.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/underscore.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/backbone.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/backbone-tastypie.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/json2.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/moment.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/fileuploader.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/utils.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/application.js"></script>
     {% endcompress %}
     
     <script type="text/javascript" src="templates.js"></script>
 
     {% compress js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/notifications.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/users.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/data_uploads.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/related_uploads.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/tasks.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/categories.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/datasets.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/models/data.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/not_found.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/server_error.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/activate.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/login.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/home.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/datasets_search.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/datasets_results.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/dataset_edit.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/dataset_view.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/dataset_search.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/dataset_results.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/search_results.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/search.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/data_upload.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/routers/index.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/views/root.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/notifications.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/users.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/data_uploads.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/related_uploads.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/tasks.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/categories.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/datasets.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/data.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/not_found.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/server_error.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/activate.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/login.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/home.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/datasets_search.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/datasets_results.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/dataset_edit.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/dataset_view.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/dataset_search.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/dataset_results.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/search_results.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/search.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/data_upload.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/routers/index.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/root.js"></script>
     {% endcompress %}
 
     <script type="text/javascript">
         $(function() {
-            PANDA.settings.STATIC_URL = "{{ STATIC_URL }}";
+            PANDA.settings.STATIC_URL = "{{ settings.STATIC_URL }}";
+            PANDA.settings.DEFAULT_SEARCH_GROUPS = "{{ settings.DEFAULT_SEARCH_GROUPS }}";
+            PANDA.settings.DEFAULT_SEARCH_ROWS_PER_GROUP = "{{ DEFAULT_SEARCH_ROWS_PER_GROUP }}";
+            PANDA.settings.DEFAULT_SEARCH_ROWS = "{{ DEFAULT_SEARCH_ROWS }}";
+            PANDA.settings.UNCATEGORIZED_ID = {{ settings.PANDA_UNCATEGORIZED_ID }};
             PANDA.bootstrap = {{ bootstrap_data|safe }}; 
 
             window.Redd = new PANDA.views.Root();

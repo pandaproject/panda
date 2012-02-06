@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
-from django.conf import settings
 from django.db import models
-from django.dispatch import receiver
 
-from redd import solr
 from redd.models.slugged_model import SluggedModel
 
 class Category(SluggedModel):

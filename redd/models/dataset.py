@@ -82,6 +82,10 @@ class Dataset(SluggedModel):
             category_ids.append(category.id)
             full_text_data.append(category.name)
 
+        if not category_ids:
+            category_ids.append(settings.PANDA_UNCATEGORIZED_ID)
+            full_text_data.append(settings.PANDA_UNCATEGORIZED_NAME)
+
         for data_upload in self.data_uploads.all():
             full_text_data.append(data_upload.original_filename)
 
