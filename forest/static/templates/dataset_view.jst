@@ -54,6 +54,7 @@
             <% } else { %>
             <p><em>None uploaded.</em></p>
             <% } %>
+            <p><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></p>
 
             <h6>Related files</h6>
             <ul class="related-uploads" <% if (dataset.related_uploads.length == 0) { %>style="display:none;"<% } %>>
@@ -62,7 +63,7 @@
                 <% }); %>
             </ul>
             <p id="no-related-uploads" <% if (dataset.related_uploads.length > 0) { %>style="display:none;"<% } %>><em>None uploaded.</em></p>
-        </div>
+            <p><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-upload"></i> Upload related file</a></p>
         </div>
     </div>
 
