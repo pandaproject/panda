@@ -33,10 +33,11 @@ Configuration
     DNS (Domain name) <dns.rst>
     Email <email.rst>
     SSL <ssl.rst>
-    users.rst
+    Users <users.rst>
+    Categories <categories.rst>
 
-Usage
-=====
+User Documentation
+==================
 
 Coming soon..
 

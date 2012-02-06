@@ -1,6 +1,6 @@
-=====
-Users
-=====
+===============
+User management
+===============
 
 Default users
 =============
