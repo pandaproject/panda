@@ -41,14 +41,15 @@ User Documentation
 
 Coming soon..
 
-Adminstration
-=============
+Server adminstration
+====================
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     ops.rst
-    backups.rst
+    Backups <backups.rst>
+    Storage <storage.rst>
 
 Extending PANDA
 ===============
