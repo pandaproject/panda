@@ -7,6 +7,7 @@ from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
 from redd.api import DataUploadResource, RelatedUploadResource, UserResource
+from redd.exceptions import DataSamplingError
 from redd.models import Dataset, DataUpload, RelatedUpload
 
 class PANDAAbstractUploadBackend(AbstractUploadBackend):
@@ -77,12 +78,15 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
         else:
             dataset = None
 
-        upload = DataUpload.objects.create(
-            filename=filename,
-            original_filename=self._original_filename,
-            size=size,
-            creator=request.user,
-            dataset=dataset)
+        try:
+            upload = DataUpload.objects.create(
+                filename=filename,
+                original_filename=self._original_filename,
+                size=size,
+                creator=request.user,
+                dataset=dataset)
+        except UnicodeDecodeError:
+            raise DataSamplingError('The data in this file is not UTF-8 encoded. PANDA currently only supports UTF-8 and UTF-8 compatible encodings.')
 
         if dataset:
             dataset.update_full_text()

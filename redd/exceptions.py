@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+class DataSamplingError(Exception):
+    """
+    Exception raised when data can't be sampled from a file,
+    such as when unexpected encodings are encountered.
+    """
+    pass
+
 class DataImportError(Exception):
     """
     Exception raised when a DataImport fails synchronously
