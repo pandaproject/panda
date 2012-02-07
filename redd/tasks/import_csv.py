@@ -94,7 +94,7 @@ class ImportCSVTask(ImportFileTask):
                 self.task_update(task_status, '%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100))
 
                 if self.is_aborted():
-                    self.task_abort(self.task_status, 'Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100))
+                    self.task_abort(task_status, 'Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100))
 
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 

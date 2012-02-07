@@ -57,6 +57,7 @@ class ExportFileTask(AbortableTask):
         Mark that task raised an exception
         """
         task_status.status = 'FAILURE'
+        task_status.end = datetime.utcnow()
         task_status.message = message 
         task_status.traceback = formatted_traceback
         task_status.save()

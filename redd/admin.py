@@ -201,8 +201,26 @@ class TaskStatusAdmin(admin.ModelAdmin):
     fields = ('task_name', 'status', 'message', 'start', 'end', 'traceback', 'creator')
     readonly_fields = ('task_name', 'status', 'message', 'start', 'end', 'traceback', 'creator')
     
-    list_display = ('task_name', 'status', 'creator')
+    list_display = ('task_name', 'status', 'start', 'end', 'creator')
     list_filter = ('status', )
 
+    actions = ['abort_task']
+
+    def abort_task(self, request, queryset):
+        tasks = list(queryset)
+
+        for task in tasks:
+            if task.end:
+                self.message_user(request, "You can not abort tasks that have already ended.")
+                return
+
+        for task in tasks:
+            task.abort()
+            self.message_user(request, "Attempting to abort %i task(s)." % len(tasks))
+
+    abort_task.short_description = 'Abort task(s)'
+
 admin.site.register(TaskStatus, TaskStatusAdmin)
+
+admin.site.disable_action('delete_selected')
 

@@ -109,7 +109,7 @@ class Dataset(SluggedModel):
         Purge data from Solr when a dataset is deleted.
         """
         # Cancel import if necessary 
-        if self.current_task and self.current_task.end is None and self.current_task.task_name.startswith('redd.tasks.import'): 
+        if self.current_task and self.current_task.end is None: 
             async_result = AbortableAsyncResult(self.current_task.id)
             async_result.abort()
 

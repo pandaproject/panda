@@ -59,6 +59,7 @@ class ImportFileTask(AbortableTask):
         Mark that task raised an exception
         """
         task_status.status = 'FAILURE'
+        task_status.end = datetime.utcnow()
         task_status.message = message 
         task_status.traceback = formatted_traceback
         task_status.save()
@@ -89,6 +90,11 @@ class ImportFileTask(AbortableTask):
             email_message = 'Import failed: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
             notification_message = 'Import failed: <strong>%s</strong>' % dataset.name
             notification_type = 'Error'
+        elif self.is_aborted():
+            email_subject = 'Import aborted: %s' % dataset.name
+            email_message = 'Import aborted: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            notification_message = 'Import aborted: <strong>%s</strong>' % dataset.name
+            notification_type = 'Info'
         else:
             self.task_complete(task_status, 'Import complete')
             

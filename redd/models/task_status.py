@@ -1,10 +1,17 @@
 #!/usr/bin/env python
 
 from celery import states
+from celery.contrib.abortable import AbortableAsyncResult
 from django.db import models
 from djcelery.models import TASK_STATE_CHOICES
 
 from redd.models import User
+
+TASK_STATUS_CHOICES = TASK_STATE_CHOICES
+TASK_STATUS_CHOICES.extend([
+    ('ABORTED', 'ABORTED'),
+    ('ABORT REQUESTED', 'ABORT REQUESTED')
+])
 
 class TaskStatus(models.Model):
     """
@@ -13,7 +20,7 @@ class TaskStatus(models.Model):
     """
     task_name = models.CharField(max_length=255,
         help_text='Identifying name for this task.')
-    status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES,
+    status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATUS_CHOICES,
         help_text='Current state of this task.')
     message = models.CharField(max_length=255, blank=True,
         help_text='A human-readable message indicating the progress of this task.')
@@ -33,4 +40,15 @@ class TaskStatus(models.Model):
 
     def __unicode__(self):
         return self.task_name
+
+    def abort(self):
+        """
+        Abort this task if it is running.
+        """
+        if not self.end:
+            async_result = AbortableAsyncResult(self.id)
+            async_result.abort()
+
+            self.status = 'ABORT REQUESTED'
+            self.save()
 
