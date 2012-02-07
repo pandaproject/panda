@@ -216,7 +216,8 @@ class TaskStatusAdmin(admin.ModelAdmin):
 
         for task in tasks:
             task.abort()
-            self.message_user(request, "Attempting to abort %i task(s)." % len(tasks))
+        
+        self.message_user(request, "Attempting to abort %i task(s)." % len(tasks))
 
     abort_task.short_description = 'Abort task(s)'
 
