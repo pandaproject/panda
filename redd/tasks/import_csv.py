@@ -7,6 +7,7 @@ from csvkit import CSVKitReader
 from django.conf import settings
 
 from redd import solr, utils
+from redd.exceptions import DataImportError
 from redd.tasks.import_file import ImportFileTask 
 
 SOLR_ADD_BUFFER_SIZE = 500
@@ -67,7 +68,16 @@ class ImportCSVTask(ImportFileTask):
 
         add_buffer = []
 
-        for i, row in enumerate(reader, start=1):
+        enumerator = enumerate(reader, start=1)
+
+        while True:
+            try:
+                i, row = enumerator.next()
+            except StopIteration:
+                break
+            except UnicodeDecodeError:
+                raise DataImportError('Row %i of this CSV file contains characters that are not UTF-8 encoded. PANDA supports only UTF-8 and UTF-8 compatible encodings for CSVs.' % i)
+
             external_id = None
 
             if external_id_field_index is not None:

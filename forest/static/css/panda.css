@@ -100,7 +100,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 }
 
 #modal-dataset-traceback { width: 960px; margin-left: -450px; margin-right: -450px; }
-#modal-dataset-traceback code { white-space: pre-wrap; }
+#modal-dataset-traceback code { white-space: pre-wrap; line-height: 2.0em; }
 
 /* Dataset search results */
 

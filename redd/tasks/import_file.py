@@ -86,7 +86,7 @@ class ImportFileTask(AbortableTask):
             )
             
             email_subject = 'Import failed: %s' % dataset.name
-            email_message = 'Import failed: %s:\n%shttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            email_message = 'Import failed: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
             notification_message = 'Import failed: <strong>%s</strong>' % dataset.name
             notification_type = 'Error'
         else:
