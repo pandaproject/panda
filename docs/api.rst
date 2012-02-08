@@ -121,22 +121,77 @@ Fetch
 
     http://localhost:8000/api/1.0/task/[id]/
 
-Uploads
-=======
+Data Uploads
+============
 
-Due to limitations in upload file-handling, it is not possible to create Uploads via the normal API. Instead file should be uploaded to http://localhost:8000/upload/ either as form data or as an AJAX request. Examples of how to upload files with curl are at the end of this section.
+Due to limitations in upload file-handling, it is not possible to create Uploads via the normal API. Instead data files should be uploaded to http://localhost:8000/data_upload/ either as form data or as an AJAX request. Examples of how to upload files with curl are at the end of this section.
 
-Example Upload object:
+Example DataUpload object:
 
 .. code-block:: javascript
 
     {
-        creator: "/api/1.0/user/2/",
+        columns: [
+            "id",
+            "first_name",
+            "last_name",
+            "employer"
+        ],
+        creation_date: "2012-02-08T17:50:09",
+        creator: {
+            date_joined: "2011-11-04T00:00:00",
+            email: "user@pandaproject.net",
+            first_name: "User",
+            id: "2",
+            is_active: true,
+            last_login: "2012-02-08T22:45:28",
+            last_name: "",
+            resource_uri: "/api/1.0/user/2/"
+        },
+        data_type: "csv",
+        dataset: "/api/1.0/dataset/contributors/",
+        dialect: {
+            delimiter: ",",
+            doublequote: false,
+            lineterminator: "
+            ",
+            quotechar: """,
+            quoting: 0,
+            skipinitialspace: false
+        },
+        encoding: "utf-8",
         filename: "contributors.csv",
         id: "1",
+        imported: true,
         original_filename: "contributors.csv",
-        resource_uri: "/api/1.0/upload/1/",
-        size: 157
+        resource_uri: "/api/1.0/data_upload/1/",
+        sample_data: [
+            [
+                "1",
+                "Brian",
+                "Boyer",
+                "Chicago Tribune"
+            ],
+            [
+                "2",
+                "Joseph",
+                "Germuska",
+                "Chicago Tribune"
+            ],
+            [
+                "3",
+                "Ryan",
+                "Pitts",
+                "The Spokesman-Review"
+            ],
+            [
+                "4",
+                "Christopher",
+                "Groskopf",
+                "PANDA Project"
+            ]
+        ],
+        size: 168
     }
 
 Schema
@@ -144,28 +199,28 @@ Schema
 
 ::
 
-    http://localhost:8000/api/1.0/upload/schema/
+    http://localhost:8000/api/1.0/data_upload/schema/
 
 List
 ----
 
 ::
 
-    http://localhost:8000/api/1.0/upload/
+    http://localhost:8000/api/1.0/data_upload/
 
 Fetch
 -----
 
 ::
 
-    http://localhost:8000/api/1.0/upload/[id]/
+    http://localhost:8000/api/1.0/data_upload/[id]/
 
 Download original file
 ----------------------
 
 ::
 
-    http://localhost:8000/api/1.0/upload/[id]/download/
+    http://localhost:8000/api/1.0/data_upload/[id]/download/
 
 Upload as form-data
 -------------------
@@ -173,7 +228,7 @@ Upload as form-data
 When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
 
     curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
-    -F file=@README.csv http://localhost:8000/upload/
+    -F file=@README.csv http://localhost:8000/data_upload/
 
 Upload via AJAX
 ---------------
@@ -181,7 +236,84 @@ Upload via AJAX
 ::
 
     curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
-    --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/upload/?qqfile=test.csv
+    --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/data_upload/?qqfile=test.csv
+
+.. note::
+
+    When using either upload method you may specify the character encoding of the file by passing it as a parameter, e.g. ``?encoding=latin1``
+
+Related Uploads
+===============
+
+Due to limitations in upload file-handling, it is not possible to create Uploads via the normal API. Instead related files should be uploaded to http://localhost:8000/related_upload/ either as form data or as an AJAX request. Examples of how to upload files with curl are at the end of this section.
+
+Example RelatedUpload object:
+
+.. code-block:: javascript
+
+    {
+        creation_date: "2012-02-08T23:14:35",
+        creator: {
+            date_joined: "2011-11-04T00:00:00",
+            email: "user@pandaproject.net",
+            first_name: "User",
+            id: "2",
+            is_active: true,
+            last_login: "2012-02-08T22:45:28",
+            last_name: "",
+            resource_uri: "/api/1.0/user/2/"
+        },
+        dataset: "/api/1.0/dataset/master-4/",
+        filename: "PANDA.1.png",
+        id: "1",
+        original_filename: "PANDA.1.png",
+        resource_uri: "/api/1.0/related_upload/1/",
+        size: 58990
+    }
+
+Schema
+------
+
+::
+
+    http://localhost:8000/api/1.0/related_upload/schema/
+
+List
+----
+
+::
+
+    http://localhost:8000/api/1.0/related_upload/
+
+Fetch
+-----
+
+::
+
+    http://localhost:8000/api/1.0/related_upload/[id]/
+
+Download original file
+----------------------
+
+::
+
+    http://localhost:8000/api/1.0/related_upload/[id]/download/
+
+Upload as form-data
+-------------------
+
+When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
+
+    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    -F file=@README.csv http://localhost:8000/related_upload/
+
+Upload via AJAX
+---------------
+
+::
+
+    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/related_upload/?qqfile=test.csv
 
 Categories
 ==========
@@ -193,6 +325,7 @@ Example Category object:
 .. code-block:: javascript
 
     {
+        dataset_count: 2,
         id: "1",
         name: "Crime",
         resource_uri: "/api/1.0/category/crime/",
@@ -208,6 +341,8 @@ Schema
 
 List
 ----
+
+When queried as a list, a "fake" category named "Uncategorized" will also be returned. This category includes the count of all Datasets not in any other category. It's slug is ``uncategorized`` is 0, but it can only be accessed as a part of the list.
 
 ::
 
@@ -231,103 +366,134 @@ Example Dataset object:
 
     {
         categories: [ ],
-        creation_date: "2011-12-12T15:11:25",
+        columns: [
+            "id",
+            "first_name",
+            "last_name",
+            "employer"
+        ],
+        creation_date: "2012-02-08T17:50:11",
         creator: {
             date_joined: "2011-11-04T00:00:00",
             email: "user@pandaproject.net",
             first_name: "User",
             id: "2",
             is_active: true,
-            last_login: "2011-12-12T15:10:01",
+            last_login: "2012-02-08T22:45:28",
             last_name: "",
             resource_uri: "/api/1.0/user/2/"
         },
         current_task: {
-            end: "2011-12-12T15:11:25",
+            creator: "/api/1.0/user/2/",
+            end: "2012-02-08T17:50:12",
             id: "1",
             message: "Import complete",
             resource_uri: "/api/1.0/task/1/",
-            start: "2011-12-12T15:11:25",
+            start: "2012-02-08T17:50:12",
             status: "SUCCESS",
-            task_name: "redd.tasks.DatasetImportTask",
+            task_name: "redd.tasks.import.csv",
             traceback: null
         },
-        data_upload: {
-        creator: "/api/1.0/user/2/",
-        filename: "contributors.csv",
-        id: "1",
-        original_filename: "contributors.csv",
-        resource_uri: "/api/1.0/upload/1/",
-        size: 157
-        },
+        data_uploads: [
+            {
+                columns: [
+                    "id",
+                    "first_name",
+                    "last_name",
+                    "employer"
+                ],
+                creation_date: "2012-02-08T17:50:09",
+                creator: {
+                    date_joined: "2011-11-04T00:00:00",
+                    email: "user@pandaproject.net",
+                    first_name: "User",
+                    id: "2",
+                    is_active: true,
+                    last_login: "2012-02-08T22:45:28",
+                    last_name: "",
+                    resource_uri: "/api/1.0/user/2/"
+                },
+                data_type: "csv",
+                dataset: "/api/1.0/dataset/contributors/",
+                dialect: {
+                    delimiter: ",",
+                    doublequote: false,
+                    lineterminator: "
+                    ",
+                    quotechar: """,
+                    quoting: 0,
+                    skipinitialspace: false
+                },
+                encoding: "utf-8",
+                filename: "contributors.csv",
+                id: "1",
+                imported: true,
+                original_filename: "contributors.csv",
+                resource_uri: "/api/1.0/data_upload/1/",
+                sample_data: [
+                    [
+                        "1",
+                        "Brian",
+                        "Boyer",
+                        "Chicago Tribune"
+                    ],
+                    [
+                        "2",
+                        "Joseph",
+                        "Germuska",
+                        "Chicago Tribune"
+                    ],
+                    [
+                        "3",
+                        "Ryan",
+                        "Pitts",
+                        "The Spokesman-Review"
+                    ],
+                    [
+                        "4",
+                        "Christopher",
+                        "Groskopf",
+                        "PANDA Project"
+                    ]
+                ],
+                size: 168
+            }
+        ],
         description: "",
-        dialect: {
-            delimiter: ",",
-            doublequote: false,
-            lineterminator: "
-            ",
-            quotechar: """,
-            quoting: 0,
-            skipinitialspace: false
-        },
         id: "1",
-        imported: true,
+        initial_upload: "/api/1.0/data_upload/1/",
+        last_modification: null,
+        last_modified: null,
+        last_modified_by: null,
         name: "contributors",
+        related_uploads: [ ],
         resource_uri: "/api/1.0/dataset/contributors/",
         row_count: 4,
         sample_data: [
-            {
-                data: [
-                    "Brian",
-                    "Boyer",
-                    "Chicago Tribune"
-                ],
-                row: 1
-            },
-            {
-                data: [
-                    "Joseph",
-                    "Germuska",
-                    "Chicago Tribune"
-                ],
-                row: 2
-            },
-            {
-                data: [
-                    "Ryan",
-                    "Pitts",
-                    "The Spokesman-Review"
-                ],
-                row: 3
-            },
-            {
-                data: [
-                    "Christopher",
-                    "Groskopf",
-                    "PANDA Project"
-                ],
-                row: 4
-            }
-        ],
-        schema: [
-            {
-                column: "first_name",
-                indexed: false,
-                meta_type: null,
-                simple_type: "unicode"
-            },
-            {
-                column: "last_name",
-                indexed: false,
-                meta_type: null,
-                simple_type: "unicode"
-            },
-            {
-                column: "employer",
-                indexed: false,
-                meta_type: null,
-                simple_type: "unicode"
-            }
+            [
+                "1",
+                "Brian",
+                "Boyer",
+                "Chicago Tribune"
+            ],
+            [
+                "2",
+                "Joseph",
+                "Germuska",
+                "Chicago Tribune"
+            ],
+            [
+                "3",
+                "Ryan",
+                "Pitts",
+                "The Spokesman-Review"
+            ],
+            [
+                "4",
+                "Christopher",
+                "Groskopf",
+                "PANDA Project"
+            ]
         ],
         slug: "contributors"
     }
