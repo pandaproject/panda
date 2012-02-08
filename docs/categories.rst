@@ -12,5 +12,7 @@ Categories can be maintained by visiting the categories section of the admin::
 
     http://localhost:8000/admin/redd/category/
 
+Replace ``localhost:8000`` with your PANDA's domain name.
+
 This interface should be largely self-explanatory. When creating a new category a url slug will automatically be generated based on the name you provide. In less you feel the need to edit them for brevity, these default slugs are usually fine.
 

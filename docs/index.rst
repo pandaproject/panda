@@ -7,16 +7,10 @@ About
 
 .. include:: ../README
 
-Read this first
-===============
-
-.. toctree::
-    :maxdepth: 1
-
-    what_is_panda.rst
-
 Installation
 ============
+
+Setup:
 
 .. toctree::
     :maxdepth: 1 
@@ -24,8 +18,7 @@ Installation
     local_development.rst
     production.rst
 
-Configuration
-=============
+Configuration:
 
 .. toctree::
     :maxdepth: 1
@@ -33,16 +26,26 @@ Configuration
     DNS (Domain name) <dns.rst>
     Email <email.rst>
     SSL <ssl.rst>
+
+
+Usage
+=====
+
+For administrators:
+
+.. toctree::
+    :maxdepth: 1
+
     Users <users.rst>
     Categories <categories.rst>
+    API Keys <api_keys.rst>
 
-User Documentation
+For users:
+
+*Coming soon...*
+
+Server maintenance 
 ==================
-
-Coming soon..
-
-Server adminstration
-====================
 
 .. toctree::
     :maxdepth: 1
