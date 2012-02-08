@@ -51,10 +51,10 @@ class DataUpload(BaseUpload):
                 self.dialect = utils.sniff_dialect(self.data_type, path, encoding=self.encoding)
 
             if self.columns is None:
-                self.columns = utils.extract_column_names(self.data_type, path, self.dialect, encoding=self.encoding)
+                self.columns = utils.extract_column_names(self.data_type, path, self.dialect_as_parameters(), encoding=self.encoding)
 
             if self.sample_data is None:
-                self.sample_data = utils.sample_data(self.data_type, path, self.dialect, encoding=self.encoding)
+                self.sample_data = utils.sample_data(self.data_type, path, self.dialect_as_parameters(), encoding=self.encoding)
 
         super(DataUpload, self).save(*args, **kwargs)
 
@@ -73,4 +73,22 @@ class DataUpload(BaseUpload):
             return 'xlsx'
 
         return ''
+
+    def dialect_as_parameters(self):
+        """
+        Dialect parameters are stored as a JSON document, which causes
+        certain characters to be escaped. This method reverses this so
+        they can be used as arguments.
+        """
+        dialect_params = {}
+
+        # This code is absolutely terrifying
+        # (Also, it works.)
+        for k, v in self.dialect.items():
+            if isinstance(v, basestring):
+                dialect_params[k] = v.decode('string_escape')
+            else:
+                dialect_params[k] = v
+
+        return dialect_params
 

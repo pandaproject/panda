@@ -53,17 +53,7 @@ class ImportCSVTask(ImportFileTask):
 
         f = open(upload.get_path(), 'r')
 
-        dialect_params = {}
-
-        # This code is absolutely terrifying
-        # (Also, it works.)
-        for k, v in upload.dialect.items():
-            if isinstance(v, basestring):
-                dialect_params[k] = v.decode('string_escape')
-            else:
-                dialect_params[k] = v
-
-        reader = CSVKitReader(f, encoding=upload.encoding, **dialect_params)
+        reader = CSVKitReader(f, encoding=upload.encoding, **upload.dialect_as_parameters())
         reader.next()
 
         add_buffer = []

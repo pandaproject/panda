@@ -28,9 +28,9 @@ def sniff_dialect(path, encoding='utf-8'):
             'doublequote': csv_dialect.doublequote
         }
 
-def extract_column_names(path, dialect, encoding='utf-8'):
+def extract_column_names(path, dialect_parameters, encoding='utf-8'):
     with open(path, 'r') as f:
-        reader = CSVKitReader(f, encoding=encoding, **dialect)
+        reader = CSVKitReader(f, encoding=encoding, **dialect_parameters)
 
         try:
             headers = reader.next()
@@ -39,9 +39,9 @@ def extract_column_names(path, dialect, encoding='utf-8'):
 
         return headers
 
-def sample_data(path, dialect, sample_size, encoding='utf-8'):
+def sample_data(path, dialect_parameters, sample_size, encoding='utf-8'):
     with open(path, 'r') as f:
-        reader = CSVKitReader(f, encoding=encoding, **dialect)
+        reader = CSVKitReader(f, encoding=encoding, **dialect_parameters)
 
         try:
             reader.next() # skip headers
@@ -56,5 +56,5 @@ def sample_data(path, dialect, sample_size, encoding='utf-8'):
         except UnicodeDecodeError:
             raise DataSamplingError('Row %i of this CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % (len(samples) + 1, encoding))
 
-        return samples 
+        return samples
 
