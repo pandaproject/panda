@@ -58,16 +58,18 @@ class ImportCSVTask(ImportFileTask):
 
         add_buffer = []
 
-        i = 1
-        enumerator = enumerate(reader, start=i)
+        i = 0
 
         while True:
+            # The row number which is about to be read, for error handling and indexing
+            i += 1
+
             try:
-                i, row = enumerator.next()
+                row = reader.next()
             except StopIteration:
                 break
             except UnicodeDecodeError:
-                raise DataImportError('Row %i of this CSV file contains characters that are not %s encoded.  You need to re-upload this file and input the correct encoding in order to import data from this file.' % (i, upload.encoding))
+                raise DataImportError('This CSV file contains characters that are not %s encoded in or after row %i. You need to re-upload this file and input the correct encoding in order to import data from this file.' % (upload.encoding, i))
 
             external_id = None
 
