@@ -20,6 +20,8 @@ class DataUpload(BaseUpload):
 
     data_type = models.CharField(max_length=4, null=True, blank=True,
         help_text='The type of this file, if known.')
+    encoding = models.CharField(max_length=32, default='utf-8',
+        help_text='The character encoding of this file. Defaults to utf-8')
     dialect = JSONField(null=True,
         help_text='Description of the formatting of this file.')
     columns = JSONField(null=True,
@@ -46,13 +48,13 @@ class DataUpload(BaseUpload):
             path = self.get_path()
 
             if self.dialect is None:
-                self.dialect = utils.sniff_dialect(self.data_type, path)
+                self.dialect = utils.sniff_dialect(self.data_type, path, encoding=self.encoding)
 
             if self.columns is None:
-                self.columns = utils.extract_column_names(self.data_type, path, self.dialect)
+                self.columns = utils.extract_column_names(self.data_type, path, self.dialect, encoding=self.encoding)
 
             if self.sample_data is None:
-                self.sample_data = utils.sample_data(self.data_type, path, self.dialect)
+                self.sample_data = utils.sample_data(self.data_type, path, self.dialect, encoding=self.encoding)
 
         super(DataUpload, self).save(*args, **kwargs)
 

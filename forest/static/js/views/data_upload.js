@@ -116,9 +116,15 @@ PANDA.views.DataUpload = Backbone.View.extend({
         /*
          * Handler for when a file upload starts.
          */
-        if (this.dataset) {
-            this.file_uploader.setParams({ dataset_slug: this.dataset.get("slug") });
+        var params = {
+            encoding: $('.csv-options input[name="encoding"]').val()
         }
+
+        if (this.dataset) {
+            params["dataset_slug"] = this.dataset.get("slug");
+        }
+            
+        this.file_uploader.setParams(params);
 
         this.step_two();
     },

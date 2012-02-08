@@ -35,8 +35,8 @@
 
         <div class="csv-options">
             <h5>Advanced CSV options<h5>
-            <label for="encoding">Character encoding <a data-content="<p>Unfortunantely, it is not possible for PANDA to automatically determine the encoding of a CSV file. The default is <strong>UTF-8</strong>, which is correct for the largest number of files. However, there are many possible encodings&mdash;census data, for example, is frequently distributed in the <strong>Latin-1</strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA can not load your CSV file you may need to research what encoding it is in." title="Character encodings</p>" data-placement="right" href="javascript: return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
-            <input type="text" class="input-small" placeholder="UTF-8" />
+            <label for="encoding">Character encoding <a data-content="<p>Unfortunantely, it is not possible for PANDA to automatically determine the encoding of a CSV file. The default is <strong>utf-8</strong>, which is correct for a large number of files. However, there are many possible encodings&mdash;census data, for example, is frequently distributed in the <strong>Latin-1</strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA can not load your CSV file you may need to research what encoding it is in." title="Character encodings</p>" data-placement="right" href="javascript: return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
+            <input type="text" class="input-small" name='encoding' value="utf-8" />
             <label class="controls-label" for="delimiter-radio">Columns are separated by</label>
             <label class="radio">
                 <input type="radio" name="delimiter-radio" value="," checked="checked" />

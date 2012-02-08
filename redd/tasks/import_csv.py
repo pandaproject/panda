@@ -63,12 +63,13 @@ class ImportCSVTask(ImportFileTask):
             else:
                 dialect_params[k] = v
 
-        reader = CSVKitReader(f, **dialect_params)
+        reader = CSVKitReader(f, encoding=upload.encoding, **dialect_params)
         reader.next()
 
         add_buffer = []
 
-        enumerator = enumerate(reader, start=1)
+        i = 1
+        enumerator = enumerate(reader, start=i)
 
         while True:
             try:
@@ -76,7 +77,7 @@ class ImportCSVTask(ImportFileTask):
             except StopIteration:
                 break
             except UnicodeDecodeError:
-                raise DataImportError('Row %i of this CSV file contains characters that are not UTF-8 encoded. PANDA supports only UTF-8 and UTF-8 compatible encodings for CSVs.' % i)
+                raise DataImportError('Row %i of this CSV file contains characters that are not %s encoded.  You will to re-upload this file and select the correct encoding in order to import data from this file.' % (i, upload.encoding))
 
             external_id = None
 

@@ -24,15 +24,36 @@ class TestCSV(TestCase):
 
         self.assertEqual(dialect, self.dialect)
 
+    def test_csv_sniff_dialect_latin1(self):
+        path = os.path.join(test_utils.TEST_DATA_PATH, test_utils.TEST_LATIN1_FILENAME)
+
+        dialect = utils.csv.sniff_dialect(path, encoding='Latin-1')
+
+        self.assertEqual(dialect, self.dialect)
+
     def test_csv_extract_column_names(self):
         columns = utils.csv.extract_column_names(self.path, self.dialect)
 
         self.assertEqual(columns, ['id', 'first_name', 'last_name', 'employer'])
 
+    def test_csv_extract_column_names_latin1(self):
+        path = os.path.join(test_utils.TEST_DATA_PATH, test_utils.TEST_LATIN1_FILENAME)
+
+        columns = utils.csv.extract_column_names(path, self.dialect, encoding='Latin-1')
+
+        self.assertEqual(columns, ['activity', 'unsupplemented mean', 'dir', 'sem', 'n', 'supplemented mean', 'dir', 'sem'])
+
     def test_csv_sample_data(self):
         samples = utils.csv.sample_data(self.path, self.dialect, 2)
 
         self.assertEqual(samples, [['1', 'Brian', 'Boyer', 'Chicago Tribune'], ['2', 'Joseph', 'Germuska', 'Chicago Tribune']])
+
+    def test_csv_sample_data_latin1(self):
+        path = os.path.join(test_utils.TEST_DATA_PATH, test_utils.TEST_LATIN1_FILENAME)
+
+        samples = utils.csv.sample_data(path, self.dialect, 2, encoding='Latin-1')
+
+        self.assertEqual(samples, [[u'sitting', u'1.21', u'\xb1', u'0.02', u'76', u'1.27', u'\xb1', u'0.02*'], [u'standing', u'1.23', u'\xb1', u'0.03', u'58', u'1.28', u'\xb1', u'0.03']])
 
 class TestXLS(TestCase):
     def setUp(self):
