@@ -77,9 +77,10 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
         else:
             dataset = None
 
-        print request.REQUEST.get('encoding')
-
         encoding = request.REQUEST.get('encoding', 'utf-8')
+
+        if not encoding:
+            encoding = 'utf-8'
 
         upload = DataUpload.objects.create(
             filename=filename,
