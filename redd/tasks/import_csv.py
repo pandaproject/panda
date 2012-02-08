@@ -77,7 +77,7 @@ class ImportCSVTask(ImportFileTask):
             except StopIteration:
                 break
             except UnicodeDecodeError:
-                raise DataImportError('Row %i of this CSV file contains characters that are not %s encoded.  You will to re-upload this file and select the correct encoding in order to import data from this file.' % (i, upload.encoding))
+                raise DataImportError('Row %i of this CSV file contains characters that are not %s encoded.  You need to re-upload this file and input the correct encoding in order to import data from this file.' % (i, upload.encoding))
 
             external_id = None
 

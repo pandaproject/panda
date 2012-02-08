@@ -80,7 +80,6 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
         print request.REQUEST.get('encoding')
 
         encoding = request.REQUEST.get('encoding', 'utf-8')
-        delimiter = request.REQUEST.get('delimiter', None)
 
         upload = DataUpload.objects.create(
             filename=filename,

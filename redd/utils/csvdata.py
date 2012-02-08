@@ -14,7 +14,7 @@ def sniff_dialect(path, encoding='utf-8'):
         try:
             csv_dialect = csvkit_sniff(f.read(settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE))
         except UnicodeDecodeError:
-            raise DataSamplingError('This first %s bytes of this CSV file contains characters that are not %s encoded. You will to select the correct encoding in order to import data from this file.' % (settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE, encoding))
+            raise DataSamplingError('This first %s bytes of this CSV file contain characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % (settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE, encoding))
 
         if not csv_dialect:
             raise NotSniffableError('CSV dialect could not be automatically inferred.') 
@@ -35,7 +35,7 @@ def extract_column_names(path, dialect, encoding='utf-8'):
         try:
             headers = reader.next()
         except UnicodeDecodeError:
-            raise DataSamplingError('The header of this CSV file contains characters that are not %s encoded. You will to select the correct encoding in order to import data from this file.' % encoding)
+            raise DataSamplingError('The header of this CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % encoding)
 
         return headers
 
@@ -46,7 +46,7 @@ def sample_data(path, dialect, sample_size, encoding='utf-8'):
         try:
             reader.next() # skip headers
         except UnicodeDecodeError:
-            raise DataSamplingError('The header of this CSV file contains characters that are not %s encoded. You will to select the correct encoding in order to import data from this file.' % encoding)
+            raise DataSamplingError('The header of this CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % encoding)
 
         try:  
             samples = []
@@ -54,7 +54,7 @@ def sample_data(path, dialect, sample_size, encoding='utf-8'):
             for row in islice(reader, sample_size):
                 samples.append(row)
         except UnicodeDecodeError:
-            raise DataSamplingError('Row %i of this CSV file contains characters that are not %s encoded. You will to select the correct encoding in order to import data from this file.' % (len(samples) + 1, encoding))
+            raise DataSamplingError('Row %i of this CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % (len(samples) + 1, encoding))
 
         return samples 
 

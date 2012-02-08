@@ -117,7 +117,6 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 .toggle-csv-options { display: block; }
 .csv-options { display: none; padding-bottom: 5px; }
 .csv-options h5 { margin-bottom: 5px; }
-.csv-options .controls-label { margin-top: 5px; }
 
 .step { margin-top: 20px; }
 .step h3 { font-weight: bold; }

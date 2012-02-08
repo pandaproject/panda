@@ -117,7 +117,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
          * Handler for when a file upload starts.
          */
         var params = {
-            encoding: $('.csv-options input[name="encoding"]').val()
+            encoding: $('#upload-encoding').val()
         }
 
         if (this.dataset) {
@@ -191,6 +191,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         
         $("#step-1 .notes.xls").hide();
         $(".csv-options").hide();
+        $("#upload-encoding").attr("disabled", false);
         $("#upload-file").attr("disabled", false);
         $("#upload-begin").attr("disabled", false);
         $("#step-1").removeClass("disabled");
@@ -200,6 +201,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     step_two: function() {
+        $("#upload-encoding").attr("disabled", true);
         $("#upload-begin").attr("disabled", true);
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
