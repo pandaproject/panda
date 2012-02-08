@@ -103,6 +103,12 @@ PANDA.views.DataUpload = Backbone.View.extend({
             $("#step-1 .notes.xls").hide();
         }
 
+        if (ext == 'csv') {
+            $(".csv-options").show();
+        } else {
+            $(".csv-options").hide();
+        }
+
         $("#upload-begin").removeAttr("disabled");
     },
 
@@ -177,6 +183,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-continue").attr("disabled", true);
         $("#upload-start-over").attr("disabled", true);
         
+        $("#step-1 .notes.xls").hide();
+        $(".csv-options").hide();
         $("#upload-file").attr("disabled", false);
         $("#upload-begin").attr("disabled", false);
         $("#step-1").removeClass("disabled");

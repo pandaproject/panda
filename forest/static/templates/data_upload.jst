@@ -17,7 +17,7 @@
     <div id="step-1" class="step well">
         <h3>Select your file</h3>
        
-        <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:<p>
+        <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:</p>
 
         <input type="file" id="upload-file" /><br />
 
@@ -33,7 +33,26 @@
             <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
         </div>
 
-        <input type="button" name="begin" id="upload-begin" class="btn btn-success" value="Begin upload" />
+        <div class="csv-options">
+            <h5>Advanced CSV options<h5>
+            <label for="encoding">Character encoding <a data-content="<p>Unfortunantely, it is not possible for PANDA to automatically determine the encoding of a CSV file. The default is <strong>UTF-8</strong>, which is correct for the largest number of files. However, there are many possible encodings&mdash;census data, for example, is frequently distributed in the <strong>Latin-1</strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA can not load your CSV file you may need to research what encoding it is in." title="Character encodings</p>" data-placement="right" href="javascript: return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
+            <input type="text" class="input-small" placeholder="UTF-8" />
+            <label class="controls-label" for="delimiter-radio">Columns are separated by</label>
+            <label class="radio">
+                <input type="radio" name="delimiter-radio" value="," checked="checked" />
+                commas (CSV)
+            </label>
+            <label class="radio">
+                <input type="radio" name="delimiter-radio" value="\t" checked="checked" />
+                tabs (TSV)
+            </label>
+            <label class="radio">
+                <input type="radio" name="delimiter-radio" value="other" checked="checked" />
+                <input type="text" name="delimiter-other" class="input-small" maxlength="1" value="," />
+            </label>
+        </div>
+
+        <div><input type="button" name="begin" id="upload-begin" class="btn btn-success" value="Begin upload" /></div>
         
         <div id="step-1-alert" class="alert"></div>
     </div>
