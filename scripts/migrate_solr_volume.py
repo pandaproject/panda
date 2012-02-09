@@ -17,6 +17,7 @@ import sys
 import time
 
 from boto.ec2.connection import EC2Connection
+from boto.utils import get_instance_metadata
 
 TEMP_MOUNT_POINT = '/mnt/solrmigration'
 SOLR_DIR = '/opt/solr/panda/solr'
@@ -37,10 +38,7 @@ def safe_dismount(mount_point):
 if not os.geteuid() == 0:
     sys.exit('You must run this script with sudo!')
 
-try:
-     subprocess.check_output(['ec2metadata'], stderr=subprocess.STDOUT)
-except:
-    sys.exit('ec2metadata command not found! This script only works for Ubuntu 11.10 running on EC2. Aborting.')
+metadata = get_instance_metadata()
 
 backed_up = raw_input('Migrating your Solr indexes is a complicated and potentially destructive operation. Have you backed up your data? (y/N): ')
 
@@ -59,7 +57,7 @@ conn = EC2Connection(aws_key, secret_key)
 print 'connected'
 
 sys.stdout.write('Identifying running instance... ')
-instance_id = subprocess.check_output(['ec2metadata', '--instance-id'], stderr=subprocess.STDOUT).strip()
+instance_id = metadata['instance-id'] 
 
 reservations = conn.get_all_instances()
 
