@@ -18,7 +18,7 @@ env.local_solr_home = '/var/solr'
 
 env.local_test_email = 'panda@pandaproject.net'
 env.local_test_api_key = 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b'
-env.local_test_xhr_path = 'forest/static/js/spec/mock_xhr_responses.js'
+env.local_test_xhr_path = 'client/static/js/spec/mock_xhr_responses.js'
     
 """
 Branches
@@ -158,7 +158,7 @@ def syncdb():
     with cd('%(path)s' % env):
         sudo('python manage.py syncdb --noinput' % env, user='panda')
         sudo('python manage.py migrate --noinput' % env, user='panda')
-        sudo('python manage.py loaddata redd/fixtures/init_panda.json' % env)
+        sudo('python manage.py loaddata panda/fixtures/init_panda.json' % env)
 
 def reset_solr():
     """
@@ -226,7 +226,7 @@ def local_reset_database():
     local('createdb -O %(project_name)s %(project_name)s' % env)
     local('python manage.py syncdb --noinput' % env)
     local('python manage.py migrate --noinput' % env)
-    local('python manage.py loaddata redd/fixtures/init_panda.json' % env)
+    local('python manage.py loaddata panda/fixtures/init_panda.json' % env)
 
 def local_reset_solr():
     """
@@ -290,7 +290,7 @@ def make_fixtures():
     * Local server (runserver, celeryd and solr) must be running.
     """
     local('python manage.py flush --noinput')
-    local('python manage.py loaddata redd/fixtures/init_panda.json' % env)
+    local('python manage.py loaddata panda/fixtures/init_panda.json' % env)
     local('curl --data-binary "{ \\"delete\\": { \\"query\\": \\"*:*\\" } }" -H "Content-type:application/xml" "http://localhost:8983/solr/data/update?commit=true"')
     local('curl --data-binary "{ \\"delete\\": { \\"query\\": \\"*:*\\" } }" -H "Content-type:application/xml" "http://localhost:8983/solr/datasets/update?commit=true"')
 

@@ -10,7 +10,7 @@ PANDA allows you to organize your datasets into categories that you define. By d
 
 Categories can be maintained by visiting the categories section of the admin::
 
-    http://localhost:8000/admin/redd/category/
+    http://localhost:8000/admin/panda/category/
 
 Replace ``localhost:8000`` with your PANDA's domain name.
 

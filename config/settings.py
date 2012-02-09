@@ -107,11 +107,11 @@ INSTALLED_APPS = (
     'compressor',
     'livesettings',
 
-    'redd',
-    'forest'
+    'panda',
+    'client'
 )
 
-AUTH_PROFILE_MODULE = 'redd.UserProfile'
+AUTH_PROFILE_MODULE = 'panda.UserProfile'
 
 # Django-compressor
 COMPRESS_ENABLED = False 

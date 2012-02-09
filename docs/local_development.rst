@@ -109,10 +109,10 @@ To run the unit tests start Solr and execute the test runner, like so:
     # 2011-11-02 14:15:54.061:INFO::Started SocketConnector@0.0.0.0:8983
     # Then, open another terminal and change to your PANDA source directory.
     workon panda
-    python manage.py test redd
+    python manage.py test panda
 
 Running Javascript unit tests
 =============================
 
-Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests first start the test server with ``python manage.py runserver``, then open the file ``forest/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/forest/static/js/SpecRunner.html``.
+Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests first start the test server with ``python manage.py runserver``, then open the file ``client/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/client/static/js/SpecRunner.html``.
 

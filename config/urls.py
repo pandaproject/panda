@@ -8,8 +8,8 @@ admin.autodiscover()
 admin.site.index_template = 'admin/panda_index.html'
 
 urlpatterns = patterns('',
-    (r'', include('redd.urls')),
-    (r'', include('forest.urls')),
+    (r'', include('panda.urls')),
+    (r'', include('client.urls')),
     (r'^admin/login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'}),
     (r'^admin/logout/$', 'django.contrib.auth.views.logout'),
     

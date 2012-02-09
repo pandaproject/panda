@@ -126,7 +126,7 @@ chown -R panda:panda /var/lib/panda
 # Synchronize the database
 sudo -u panda -E python manage.py syncdb --noinput
 sudo -u panda -E python manage.py migrate --noinput
-sudo -u panda -E python manage.py loaddata redd/fixtures/init_panda.json
+sudo -u panda -E python manage.py loaddata panda/fixtures/init_panda.json
 
 # Collect static assets
 sudo -u panda -E python manage.py collectstatic --noinput

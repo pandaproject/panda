@@ -77,7 +77,7 @@ Example Task object:
         resource_uri: "/api/1.0/task/1/",
         start: "2011-12-12T15:11:25",
         status: "SUCCESS",
-        task_name: "redd.tasks.DatasetImportTask",
+        task_name: "panda.tasks.import.csv",
         traceback: null
     }
 
@@ -391,7 +391,7 @@ Example Dataset object:
             resource_uri: "/api/1.0/task/1/",
             start: "2012-02-08T17:50:12",
             status: "SUCCESS",
-            task_name: "redd.tasks.import.csv",
+            task_name: "panda.tasks.import.csv",
             traceback: null
         },
         data_uploads: [
