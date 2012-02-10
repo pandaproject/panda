@@ -68,6 +68,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
         var context = PANDA.utils.make_context({ dataset: dataset_json });
 
         this.el.html(PANDA.templates.data_upload(context));
+        
+        $('a[rel="popover"]').popover();
 
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/data_upload/",
