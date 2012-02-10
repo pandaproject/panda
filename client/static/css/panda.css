@@ -161,12 +161,12 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     -ms-transition: width .4s ease-in-out;
     -o-transition: width .4s ease-in-out;
     transition: width .4s ease-in-out;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#cb473c), to(#7f2922));
-    background-image: -webkit-linear-gradient(top, #cb473c, #7f2922);
-    background-image: -moz-linear-gradient(top, #cb473c, #7f2922);
-    background-image: -ms-linear-gradient(top, #cb473c, #7f2922);
-    background-image: -o-linear-gradient(top, #cb473c, #7f2922);
-    background-image: linear-gradient(top, #cb473c, #7f2922);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#62c462), to(#51a351));
+    background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+    background-image: -moz-linear-gradient(top, #62c462, #51a351);
+    background-image: -ms-linear-gradient(top, #62c462, #51a351);
+    background-image: -o-linear-gradient(top, #62c462, #51a351);
+    background-image: linear-gradient(top, #62c462, #51a351);
 }
 
 #step-3 .sample-data { display: none; overflow-x: scroll; margin-bottom: 18px; }
