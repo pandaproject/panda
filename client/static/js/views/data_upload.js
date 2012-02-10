@@ -135,8 +135,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
          */
         var pct = Math.floor(loaded / total * 100);
 
-        $("#upload-progress .progress-value").css("width", pct + "%");
-        $("#upload-progress .progress-value strong").text(pct + "%");
+        $("#step-2 .progress-value").css("width", pct + "%");
+        $("#step-2 .progress-value strong").text(pct + "%");
     },
 
     on_complete: function(id, fileName, responseJSON) {
@@ -181,7 +181,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     step_one: function() {
         $(".alert").hide();
         $("#step-2").addClass("disabled");
-        $("#step-2 .notes").hide();
+        $("#step-2 .progress-bar").hide();
         this.on_progress(null, null, 0, 1);
         $("#step-3 .sample-data").hide();
         $("#step-3 .sample-data").empty();
@@ -206,6 +206,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#step-1").addClass("disabled");
         $("#upload-file").attr("disabled", true);
         
+        $("#step-2 .progress-bar").show();
         $("#step-2").removeClass("disabled");
         
         $("#step-1").removeClass("well");
