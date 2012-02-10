@@ -4,10 +4,10 @@ import datetime
 
 import xlrd
 
-def sniff_dialect(path):
+def sniff_dialect(path, **kwargs):
     return {} 
 
-def extract_column_names(path, dialect):
+def extract_column_names(path, dialect, **kwargs):
     book = xlrd.open_workbook(path, on_demand=True)
     sheet = book.sheet_by_index(0)
     headers = sheet.row_values(0)
@@ -36,7 +36,7 @@ def normalize_date(v, datemode):
 
     return dt.isoformat()
 
-def sample_data(path, dialect, sample_size):
+def sample_data(path, dialect, sample_size, **kwargs):
     book = xlrd.open_workbook(path, on_demand=True)
     sheet = book.sheet_by_index(0)
 

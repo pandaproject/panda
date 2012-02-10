@@ -5,10 +5,10 @@ import datetime
 from csvkit.typeinference import NULL_TIME
 from openpyxl.reader.excel import load_workbook
 
-def sniff_dialect(path):
+def sniff_dialect(path, **kwargs):
     return {}
 
-def extract_column_names(path, dialect):
+def extract_column_names(path, dialect, **kwargs):
     book = load_workbook(path, use_iterators=True)
     sheet = book.get_active_sheet()
     headers = sheet.iter_rows().next()
@@ -31,7 +31,7 @@ def normalize_date(dt):
 
     return dt.isoformat()
 
-def sample_data(path, dialect, sample_size):
+def sample_data(path, dialect, sample_size, **kwargs):
     book = load_workbook(path, use_iterators=True)
     sheet = book.get_active_sheet()
 

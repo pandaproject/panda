@@ -135,8 +135,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
          */
         var pct = Math.floor(loaded / total * 100);
 
-        $(".upload-progress .progress-value").css("width", pct + "%");
-        $(".upload-progress .progress-text").html('<strong>' + pct + '%</strong> uploaded');
+        $("#upload-progress .progress-value").css("width", pct + "%");
+        $("#upload-progress .progress-value strong").text(pct + "%");
     },
 
     on_complete: function(id, fileName, responseJSON) {

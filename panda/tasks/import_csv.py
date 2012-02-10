@@ -67,6 +67,7 @@ class ImportCSVTask(ImportFileTask):
             try:
                 row = reader.next()
             except StopIteration:
+                i -= 1
                 break
             except UnicodeDecodeError:
                 raise DataImportError('This CSV file contains characters that are not %s encoded in or after row %i. You need to re-upload this file and input the correct encoding in order to import data from this file.' % (upload.encoding, i))
