@@ -71,9 +71,9 @@
         <% if (dataset.sample_data) { %>
         <h6>Sample data</h6>
 
-        <p><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></p>
-
         <%= sample_data_html %>
+        
+        <p><em><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></em></p>
         <% } %>
     </div>
 </div>
