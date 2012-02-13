@@ -195,6 +195,26 @@ class CategoryAdmin(admin.ModelAdmin):
     fields = ('name', 'slug')
     prepopulated_fields = { 'slug': ('name', ) }
 
+    def save_model(self, request, obj, form, change):
+        """
+        On save, update full text metadata of related datasets. 
+        """
+        datasets = list(obj.datasets.all())
+        obj.save()
+
+        for dataset in datasets:
+            dataset.update_full_text()
+
+    def delete_model(self, request, obj):
+        """
+        On delete, update full text metadata of related datasets. 
+        """
+        datasets = list(obj.datasets.all())
+        obj.delete()
+
+        for dataset in datasets:
+            dataset.update_full_text()
+
 admin.site.register(Category, CategoryAdmin)
 
 class TaskStatusAdmin(admin.ModelAdmin):
