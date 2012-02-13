@@ -52,7 +52,6 @@ class DatasetResource(SluggedModelResource):
     creation_date = fields.DateTimeField(attribute='creation_date', readonly=True, null=True)
     last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)
     last_modification = fields.CharField(attribute='last_modification', readonly=True, null=True)
-    last_modified_by = fields.CharField(attribute='last_modified_by', readonly=True, null=True)
 
     class Meta:
         queryset = Dataset.objects.all()

@@ -9,7 +9,7 @@ If you don't already have an Amazon Web Services account you will need to regist
 
 .. note::
 
-    Although every effort has been made to make this process as streamlined as possible, if you've never used a setup a server before, you may find it rather daunting. In this case we suggest pairing up with a engineer until your through the setup process.
+    Although every effort has been made to make this process as streamlined as possible, if you've never used a setup a server before, you may find it rather daunting. In this case we suggest pairing up with a engineer until you are through the setup process.
 
 Configuring your Security Group
 ===============================
