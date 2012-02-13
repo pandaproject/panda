@@ -16,6 +16,10 @@ Runs the ``uwsgi`` and ``celeryd`` services and owns their logs. Owns ``/var/lib
 
     sudo -u panda -E python manage.py shell
 
+.. note::
+
+    Note when executing command as the ``panda`` user, it's often necessary to use the ``-E`` option to sudo, so that the ``DEPLOYMENT_TARGET`` environment variable will be preserved.
+
 postgres
 --------
 
