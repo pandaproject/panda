@@ -193,6 +193,7 @@ class DatasetResource(SluggedModelResource):
         upload = DataUpload.objects.get(id=kwargs['upload_id'])
 
         dataset.import_data(request.user, upload)
+        dataset.update_full_text()
 
         bundle = self.build_bundle(obj=dataset, request=request)
         bundle = self.full_dehydrate(bundle)
