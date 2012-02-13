@@ -12,11 +12,7 @@ CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 
 # Setup environment variables
 echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
-source /etc/environment
-
-# Ensure env var remains set when using "sudo -u"
-echo "Defaults    env_keep = \"DEPLOYMENT_TARGET\"" > /etc/sudoers.d/panda
-chmod 0440 /etc/sudoers.d/panda
+export DEPLOYMENT_TARGET="deployed"
 
 # Make sure SSH comes up on reboot
 ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
