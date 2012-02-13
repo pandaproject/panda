@@ -60,7 +60,16 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/utils.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/application.js"></script>
     {% endcompress %}
-    
+
+    <script type="text/javascript">
+        PANDA.settings.STATIC_URL = "{{ settings.STATIC_URL }}";
+        PANDA.settings.DEFAULT_SEARCH_GROUPS = {{ settings.PANDA_DEFAULT_SEARCH_GROUPS }};
+        PANDA.settings.DEFAULT_SEARCH_ROWS_PER_GROUP = {{ settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP }};
+        PANDA.settings.DEFAULT_SEARCH_ROWS = {{ settings.PANDA_DEFAULT_SEARCH_ROWS }};
+        PANDA.settings.UNCATEGORIZED_ID = {{ settings.PANDA_UNCATEGORIZED_ID }};
+        PANDA.bootstrap = {{ bootstrap_data|safe }};
+    </script>
+
     <script type="text/javascript" src="templates.js"></script>
 
     {% compress js %}
@@ -92,13 +101,6 @@
 
     <script type="text/javascript">
         $(function() {
-            PANDA.settings.STATIC_URL = "{{ settings.STATIC_URL }}";
-            PANDA.settings.DEFAULT_SEARCH_GROUPS = "{{ settings.PANDA_DEFAULT_SEARCH_GROUPS }}";
-            PANDA.settings.DEFAULT_SEARCH_ROWS_PER_GROUP = "{{ settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP }}";
-            PANDA.settings.DEFAULT_SEARCH_ROWS = "{{ settings.PANDA_DEFAULT_SEARCH_ROWS }}";
-            PANDA.settings.UNCATEGORIZED_ID = {{ settings.PANDA_UNCATEGORIZED_ID }};
-            PANDA.bootstrap = {{ bootstrap_data|safe }}; 
-
             window.Redd = new PANDA.views.Root();
             Redd.start_routing();
 
