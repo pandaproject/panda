@@ -12,10 +12,10 @@ Use the tools appropriate to your operating system to install the following pack
 * virtualenvwrapper
 * PostgreSQL
 
-Setup PANDA
-===========
+Set up PANDA
+============
 
-This script will setup the complete application, *except* for Solr. Be sure to read the comments as some steps require opening additional terminals.:
+This script will setup the complete application, *except* for Solr. Be sure to read the comments, as some steps require opening additional terminals:
 
 .. code-block:: bash
 
@@ -69,10 +69,10 @@ Open *another* terminal in the PANDA directory and enter:
 
     Note that if you use a custom .screenrc configuration your settings will not apply to these screens.
 
-Setup Solr
-==========
+Set up Solr
+===========
 
-Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_. If you've just started the PANDA server, open a new termianl in the PANDA directory and enter these commands:
+Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_. If you've just started the PANDA server, open a new terminal in the PANDA directory and enter these commands:
 
 .. code-block:: bash
 
@@ -96,7 +96,7 @@ Installing Solr can be tricky and will vary quite a bit depending on your operat
 Running Python unit tests
 =========================
 
-To run the unit tests start Solr and execute the test runner, like so:
+To run the unit tests, start Solr and execute the test runner, like so:
 
 .. code-block:: bash
 
@@ -114,5 +114,5 @@ To run the unit tests start Solr and execute the test runner, like so:
 Running Javascript unit tests
 =============================
 
-Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests first start the test server with ``python manage.py runserver``, then open the file ``client/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/client/static/js/SpecRunner.html``.
+Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests, first start the test server with ``python manage.py runserver``, then open the file ``client/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/client/static/js/SpecRunner.html``.
 
