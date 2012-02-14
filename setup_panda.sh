@@ -24,7 +24,7 @@ service unattended-upgrades restart
 
 # Install required packages
 apt-get install --yes git openssh-server postgresql python2.7-dev libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk libpq-dev python-pip mercurial
-pip install uwsgi virtualenv virtualenvwrapper django
+pip install uwsgi
 
 # Make sure SSH comes up on reboot
 ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
