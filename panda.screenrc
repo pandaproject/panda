@@ -1,9 +1,0 @@
-caption always
-caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
-startup_message off
-
-screen -t "runserver" bash -c "python manage.py runserver; exec bash -i"
-screen -t "celeryd" bash -c "python manage.py celeryd; exec bash -i"
-screen -t "solr" bash -c "fab local_solr; exec bash -i"
-screen -t "email" bash -c "fab local_email; exec bash -i"
-

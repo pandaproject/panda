@@ -57,18 +57,6 @@ Open *another* terminal in the PANDA directory and enter:
     workon panda
     fab local_email
 
-.. note::
-
-    **Power users!** You can launch the runserver, celeryd, email and solr commands simultaneously using `screen <http://www.gnu.org/software/screen/>`_. Just run::
-
-        screen -c panda.screenrc
-
-    This command is also aliased as::
-
-        fab local_screens
-
-    Note that if you use a custom .screenrc configuration your settings will not apply to these screens.
-
 Set up Solr
 ===========
 
