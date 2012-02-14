@@ -6,7 +6,7 @@ from config.settings import *
 SETTINGS = 'deployed'
 
 # Debug
-DEBUG = True    # TEMP 
+DEBUG = False 
 TEMPLATE_DEBUG = DEBUG
 
 # Static media
@@ -17,5 +17,5 @@ MEDIA_ROOT = '/var/lib/panda/uploads'
 EXPORT_ROOT = '/var/lib/panda/exports'
 
 # Django-compressor
-COMPRESS_ENABLED = False 
+COMPRESS_ENABLED = True 
 
