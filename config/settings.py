@@ -115,6 +115,7 @@ AUTH_PROFILE_MODULE = 'panda.UserProfile'
 
 # Django-compressor
 COMPRESS_ENABLED = False 
+COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.SlimItFilter']
 
 # Celery
 import djcelery
