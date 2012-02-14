@@ -53,6 +53,7 @@ Server maintenance
     ops.rst
     Backups <backups.rst>
     Storage <storage.rst>
+    Upgrades <upgrades.rst>
 
 Extending PANDA
 ===============
