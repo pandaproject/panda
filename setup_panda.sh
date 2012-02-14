@@ -14,12 +14,6 @@ CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
 export DEPLOYMENT_TARGET="deployed"
 
-# Make sure SSH comes up on reboot
-ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
-ln -s /etc/init.d/ssh /etc/rc3.d/S20ssh
-ln -s /etc/init.d/ssh /etc/rc4.d/S20ssh
-ln -s /etc/init.d/ssh /etc/rc5.d/S20ssh
-
 # Install outstanding updates
 apt-get --yes update
 apt-get --yes upgrade
@@ -29,8 +23,14 @@ wget -nv $CONFIG_URL/10periodic -O /etc/apt/apt.conf.d/10periodic
 service unattended-upgrades restart
 
 # Install required packages
-apt-get install --yes git postgresql python2.7-dev libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk libpq-dev python-pip mercurial
+apt-get install --yes git openssh-server postgresql python2.7-dev libxml2-dev libxml2 libxslt1.1 libxslt1-dev nginx build-essential openjdk-6-jdk libpq-dev python-pip mercurial
 pip install uwsgi
+
+# Make sure SSH comes up on reboot
+ln -s /etc/init.d/ssh /etc/rc2.d/S20ssh
+ln -s /etc/init.d/ssh /etc/rc3.d/S20ssh
+ln -s /etc/init.d/ssh /etc/rc4.d/S20ssh
+ln -s /etc/init.d/ssh /etc/rc5.d/S20ssh
 
 # Setup Solr + Jetty
 wget -nv http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/apache-solr-3.4.0.tgz
