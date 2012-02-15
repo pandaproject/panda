@@ -11,7 +11,8 @@ env.database_password = 'panda'
 env.path = '/opt/%(project_name)s' % env
 env.solr_path = '/opt/solr/panda/solr'
 env.repository_url = 'git://github.com/pandaproject/panda.git'
-env.hosts = ['panda.beta.tribapps.com']
+env.hosts = ['alpha.pandaproject.net']
+env.vars = 'DEPLOYMENT_TARGET="deployed"'
 
 env.local_solr = '/usr/local/Cellar/solr/3.4.0/libexec/example'
 env.local_solr_home = '/var/solr'
@@ -101,7 +102,8 @@ def collect_static_files():
     """
     Collect static files on the server.
     """
-    sudo('cd %(path)s; python manage.py collectstatic --noinput' % env, user="panda")
+    with cd('%(path)s' % env):
+        sudo('%(vars)s python manage.py collectstatic --noinput' % env, user="panda")
        
 def reload_app(): 
     """
@@ -156,9 +158,9 @@ def syncdb():
     Sync the Django models to the database.
     """
     with cd('%(path)s' % env):
-        sudo('python manage.py syncdb --noinput' % env, user='panda')
-        sudo('python manage.py migrate --noinput' % env, user='panda')
-        sudo('python manage.py loaddata panda/fixtures/init_panda.json' % env)
+        sudo('%(vars)s python manage.py syncdb --noinput' % env, user='panda')
+        sudo('%(vars)s python manage.py migrate --noinput' % env, user='panda')
+        sudo('%(vars)s python manage.py loaddata panda/fixtures/init_panda.json' % env)
 
 def reset_solr():
     """
