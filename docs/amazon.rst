@@ -50,7 +50,7 @@ Click "Continue" and keep clicking "Continue" and accepting all the default opti
 Once your new server is available, SSH into it and execute the following commands::
 
     wget https://raw.github.com/pandaproject/panda/master/setup_panda.sh
-    bash setup_panda.sh
+    sudo bash setup_panda.sh
 
 The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes.
 
