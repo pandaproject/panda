@@ -62,7 +62,7 @@ for v in volumes:
     device = v.attach_data.device.replace('/dev/sd', '/dev/xvd')
     mount_point = mount_point_from_device_name(device)
 
-    description = 'PANDA backup of %s mounted at %s (created at %s)' % (v.id, mount_point, datetime.today().isoformat(' '))
+    description = 'PANDA backup of %s, attached at %s and mounted at %s (created at %s)' % (v.id, v.attach_data.device, mount_point, datetime.today().isoformat(' '))
     
     sys.stdout.write('Creating snapshot of %s (%s)... ' % (v.id, mount_point))
     v.create_snapshot(description)

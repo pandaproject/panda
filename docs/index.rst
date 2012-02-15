@@ -78,7 +78,7 @@ Extending PANDA
 ===============
 
 .. toctree::
-    :maxdepth: 2 
+    :maxdepth: 1 
 
     api.rst
 
