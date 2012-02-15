@@ -45,7 +45,10 @@ Restoring a backup created with snapshots is a matter of restoring each volume a
 If you have run either the files or indexes `storage migration scripts <storage.html>`_ then you will also need to restore your additional storage volumes. These are more straight-forward:
 
 * Create a volume from each snapshot in the same manner you created the root volume.
-*  
+* Make note of the device in the description of each volume. It looks like ``/dev/sdg``.
+* When attaching each volume in the instance, use this value as the **Device**.
+
+Once all volumes have been created and attached, navigate back to the  `Instances tab <https://console.aws.amazon.com/ec2/home?region=us-east-1&#s=Instances>`_, find your instance in the list, right-click it and select "Start". Once it is finished booting up you will have successfully restored your PANDA backup!
 
 Self-install backups
 ====================
