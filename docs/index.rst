@@ -5,7 +5,16 @@ PANDA: A Newsroom Data Appliance |release|
 About
 =====
 
-.. include:: ../README
+PANDA wants to be your newsroom data appliance. It provides a place for you to store data, search it and share it with the rest of your newsroom.
+
+Important links:
+
+* `Repository <https://github.com/pandaproject/panda>`_
+* `Issues <https://github.com/pandaproject/panda/issues>`_
+* `Wiki <https://github.com/pandaproject/panda/wiki>`_
+* `User group <http://bit.ly/pandagroup>`_
+
+The PANDA Project is `2011 Knight News Challenge winner <http://www.knightfoundation.org/press-room/press-release/knight-foundation-media-innovation-contest-announc/>`_. The team would like to thank the `Knight Foundation <http://www.knightfoundation.org/>`_ for their generous support of free and open source software for newsrooms.
 
 What is PANDA?
 ==============
