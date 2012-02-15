@@ -89,13 +89,13 @@ $.fn.show_errors = function(errors, alert_prefix) {
     }
 
     // Clear old errors
-    $(this).find(".alert").hide();
+    $(this).find(".alert").first().hide();
     $(this).find(".control-group").removeClass("error");
     $(this).find(".help-inline").text("");
 
     // Show global errors in an alert
     if ("__all__" in errors) {
-        $(this).find(".alert").alert_block("alert-error", alert_prefix, errors["__all__"] + ".");
+        $(this).find(".alert").first().alert_block("alert-error", alert_prefix, errors["__all__"] + ".");
     }
 
     _.each(errors, _.bind(function(field_errors, field) {

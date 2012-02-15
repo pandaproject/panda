@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from livesettings import config_value
 from tastypie.serializers import Serializer
 
 from panda.api.category import CategoryResource
@@ -37,6 +38,7 @@ def index(request):
 
     return render_to_response('index.html', {
         'settings': settings,
+        'demo_mode': int(config_value('MISC', 'DEMO_MODE')),
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap
         })

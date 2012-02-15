@@ -71,3 +71,18 @@ config_register(StringValue(
     ordering=5
 ))
 
+# Miscellaneous settings
+MISC_GROUP = ConfigurationGroup(
+    'MISC',
+    'Miscellaneous settings',
+    ordering=2
+)
+
+config_register(BooleanValue(
+    MISC_GROUP,
+    'DEMO_MODE',
+    description='Enable demo mode? (Displays default credentials on login screen.)',
+    default=False,
+    ordering=0
+))
+

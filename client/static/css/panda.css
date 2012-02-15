@@ -56,6 +56,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     font-weight: normal;
 }
 
+#login .demo-mode { display: block; }
+
 /* News page */
 
 #recent-datasets h3 { line-height: 1.3em; }
