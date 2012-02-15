@@ -28,7 +28,7 @@ Installation
 Method #1 - Using an AMI
 ------------------------
 
-This is the absolute simplest way to make a PANDA. Visit the `Instances tab <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-38cc1f51``. It may take a moment to return a result. When it does, click "Select".
+This is the absolute simplest way to make a PANDA. Visit the `Instances tab <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-fcf32095``. It may take a moment to return a result. When it does, click "Select".
 
 .. _notes above regarding instance types:
 
