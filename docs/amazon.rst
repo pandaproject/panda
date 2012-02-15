@@ -25,40 +25,44 @@ To do this, visit the `Security Groups tab <https://console.aws.amazon.com/ec2/h
 Installation
 ============
 
-Method #1 - EC2, using an AMI
------------------------------
+Method #1 - Using an AMI
+------------------------
 
 This is the absolute simplest way to make a PANDA. Visit the `Instances tab <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-77ab7c1e``. It may take a moment to return a result. When it does, click "Select".
 
 .. _notes above regarding instance types:
 
-On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (At a cost of roughly $70 per month.) This should provide adequate capacity for small- to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you'll only be using it for testing.
+On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (At a cost of roughly $70 per month.) This should provide adequate capacity for small- to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you will only be using it for testing.
 
 Once you've selected your instance type, click "Continue". Keep clicking "Continue" and accepting all the default options until the "Continue" button becomes a "Launch" button. Click "Launch".
 
-Method #2 - EC2, using a user_data script
------------------------------------------
+Method #2 - Via SSH
+-------------------
 
-This method is also very easy and has the advantage that you don't have to wait for an "official" PANDA release. If you want to run the latest code, this is the easiest way to do it!
+This method is slightly more complex, but also provides greater feedback for users who want to understand more about how PANDA works.
 
 Visit the `Instances tab <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-a7f539ce``. This is the official Ubuntu 11.10 AMI. It may take a moment to return a result. When it does, click "Select".
 
 On the next page you'll need to select an **Instance Type**. See the `notes above regarding instance types`_. We recommend you select ``m1.small``.
 
-On the next page, under the "Advanced Instance Options" section, paste the following script into the **User Data** field:
+Click "Continue" and keep clicking "Continue" and accepting all the default options until the "Continue" button becomes a "Launch" button. Click "Launch".
 
-.. code-block:: bash
-
-    #!/bin/bash
+Once your new server is available, SSH into it and execute the following commands::
 
     wget https://raw.github.com/pandaproject/panda/master/setup_panda.sh
     bash setup_panda.sh
 
-Click "Continue". Keep clicking "Continue" and accepting all the default options until the "Continue" button becomes a "Launch" button. Click "Launch".
-
-The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes. You can periodically check to see if your instance is ready by visiting its public DNS name in your web browser. You'll find this name in the bottom pane of the window after selecting your instance on the `Instances tab <https://console.aws.amazon.com/ec2/home?#s=Instances>`_. It will look like this: ``ec2-50-16-157-39.compute-1.amazonaws.com``.
+The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes.
 
 .. note::
 
-    If you're familiar with EC2 user_data scripts, then you've probably realized that you could accomplish this same thing by SSHing into your new server and running the above commands with sudo. You're right! In fact this is exactly what we do in our guide to `Installing on your own hardware <self-install.html>`_.
+    An installation log will be created at ``/var/log/panda-install.log`` in case you need to review any part of the process.
 
+Verifying your instance
+-----------------------
+
+Once you've completed your selected installation method you'll want to verify that your new PANDA is available. You can browse directly using to your instance using its "Public DNS Name". Navigate to the EC2 `Instances tab <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and select your instance. The public DNS name will be listed among the instance details in the bottom pane. It will look something like this: ``ec2-50-16-157-39.compute-1.amazonaws.com``. Visit this in your browser, like so::
+
+    http://ec2-50-16-157-39.compute-1.amazonaws.com/
+
+Once you have verified that your instance is online you may wish to configure `DNS <dns.html>`_, `E-mail <email.html>`_ and/or `Secure connections (SSL) <ssl.html>`_.

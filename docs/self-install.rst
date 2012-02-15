@@ -22,3 +22,5 @@ SSH into your server and run the following setup commands:
 
 Note that the setup script **must** be run with sudo.
 
+An installation log will be created at ``/var/log/panda-install.log`` in case you need to review any part of the process.
+

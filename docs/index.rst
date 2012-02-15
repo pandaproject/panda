@@ -23,9 +23,9 @@ Configuration:
 .. toctree::
     :maxdepth: 1
 
-    DNS (Domain name) <dns.rst>
-    Email <email.rst>
-    SSL <ssl.rst>
+    Domain name (DNS) <dns.rst>
+    Email (SMTP) <email.rst>
+    Secure connections (SSL) <ssl.rst>
 
 
 Usage
