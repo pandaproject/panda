@@ -104,12 +104,18 @@ class ImportCSVTask(ImportFileTask):
 
         self.task_update(task_status, '100% complete')
 
+        # Refresh dataset from database so there is no chance of crushing changes made since the task started
+        dataset = Dataset.objects.get(slug=dataset_slug)
+
         if not dataset.row_count:
             dataset.row_count = i
         else:
             dataset.row_count += i
 
         dataset.save()
+
+        # Refres
+        upload = DataUpload.objects.get(id=upload_id)
 
         upload.imported = True
         upload.save()
