@@ -35,6 +35,8 @@ PANDA is *not*:
 * A highly structured datastore.
 * Software as a Service.
 
+See our `Frequently Asked Questions (FAQ) <faq.html>`_ for much more.
+
 Installation
 ============
 
@@ -99,7 +101,7 @@ Authors
 License
 =======
 
-.. include:: ../COPYING
+.. include:: ../LICENSE
 
 Indices and tables
 ==================
