@@ -5,6 +5,8 @@ Changelog
 0.1.1
 =====
 
+* Add "view all rows" link to dataset page. (#455)
+* Fix bug that caused changes to a dataset made during import to be lost. (#452)
 * Add feedback link. (#451)
 
 0.1.0
