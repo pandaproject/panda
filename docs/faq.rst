@@ -69,7 +69,7 @@ You do. We offer instructions for `hosting on Amazon's EC2 service <amazon.html>
 How much does hosting on Amazon EC2 cost?
 -----------------------------------------
 
-It depends on how larger of a server you need, but for an EC2 "small", storage and bandwidth it will cost you $70-100 a month. This "small" size is our default and probably enough for many small-to-medium size organizations.
+It depends on how powerful of a server you need, but for an EC2 "small", storage and bandwidth it will cost you $70-100 a month. This "small" size is our default and probably enough for many small-to-medium size organizations.
 
 Very small organizations can also try running PANDA on an EC2 "micro", at a cost of $15-30 per month, but this is infrequently tested and not likely to perform well for more than a handful of users.
 
@@ -99,6 +99,17 @@ Does PANDA require a dedicated server?
 Yes. We would love to make PANDA more modular, but it's complex array of depedencies make this very difficult and we would prefer to spend our grant funds developing features and ensuring its a stable product.
 
 Obviously nothing is actually stopping you from installing other stuff on the same server. Just don't do it.
+
+Can I run PANDA on that old Dell under my desk?
+-----------------------------------------------
+
+Very likely! If it can run Ubuntu 11.10 it can probably run PANDA. We don't have "minimum requirements", but the specs of an EC2 small are:
+
+* 1.7 GB RAM
+* 1.6 ghz single-core processor
+* 8 GB disk space
+
+Any PC manufactured in the last five years should easily exceed these specifications.
 
 Does the PANDA have an API?
 ---------------------------
