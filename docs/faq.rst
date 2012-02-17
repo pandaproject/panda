@@ -66,6 +66,16 @@ Who hosts the PANDA project?
 
 You do. We offer instructions for `hosting on Amazon's EC2 service <amazon.html>`_ or `hosting on your own servers <self-install.html>`_. In order not to create a sustainability problem when the grant ends, PANDA is not available as a service. 
 
+Does hosting on Amazon EC2 open up security issues?
+---------------------------------------------------
+
+It depends on how zealous you are about security. A PANDA in a properly secured EC2 environment (i.e. firewalled for your organization and with `SSL configured <ssl.html>`) is a pretty secure beast. However, as with any hosted platform, there is no technical way to gaurantee an employee of Amazon isn't snooping.
+
+Does hosting on Amazon EC2 create privacy or legal issues?
+----------------------------------------------------------
+
+Maybe. If you will be putting highly sensistive data in your PANDA--data so sensitive you are concerned it may be subpeonaed--then you should not host on Amazon. As with any 3rd party service a legal claim to your data could be made against the provider, rather than against you, depriving you of the right to have your lawyers defend against it.
+
 Technical questions
 ===================
 
