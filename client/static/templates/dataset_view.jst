@@ -75,6 +75,8 @@
         
         <p><em><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></em></p>
         <% } %>
+
+        <p><a href="#dataset/<%= dataset.slug %>/search/*">View all rows</a></p>
     </div>
 </div>
 
