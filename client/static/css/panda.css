@@ -65,6 +65,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 /* Search results */
 
 #search-results { margin: 0 20px; }
+#search-results .dataset { margin-bottom: 20px; }
 
 /* Datasets search page */
 
