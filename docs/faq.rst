@@ -28,8 +28,8 @@ It's a `recursive acronym <https://en.wikipedia.org/wiki/Recursive_acronym>`_.
 
 PANDAs eat data.
 
-Can anyone see my data?
------------------------
+Is my data public?
+------------------
 
 No, PANDA is intended to be an internal tool. We provide instructions describing how to secure your data so only users in your organization can see your data. This is implemented both using firewalls and user credentials.
 
@@ -64,7 +64,14 @@ Hosting questions
 Who hosts the PANDA project?
 ----------------------------
 
-You do. We offer instructions for `hosting on Amazon's EC2 service <amazon.html>`_ or `hosting on your own servers <self-install.html>`_. In order not to create a sustainability problem when the grant ends, PANDA is not available as a service. 
+You do. We offer instructions for `hosting on Amazon's EC2 service <amazon.html>`_ or `hosting on your own servers <self-install.html>`_. In order not to create a sustainability problem when the grant ends, PANDA is not available as a service.
+
+How much does hosting on Amazon EC2 cost?
+-----------------------------------------
+
+It depends on how larger of a server you need, but for an EC2 "small", storage and bandwidth it will cost you $70-100 a month. This "small" size is our default and probably enough for many small-to-medium size organizations.
+
+Very small organizations can also try running PANDA on an EC2 "micro", at a cost of $15-30 per month, but this is infrequently tested and not likely to perform well for more than a handful of users.
 
 Does hosting on Amazon EC2 open up security issues?
 ---------------------------------------------------
@@ -85,6 +92,13 @@ What platforms does PANDA run on?
 PANDA requires `Ubuntu <http://www.ubuntu.com/>`_ 11.10. We anticipate upgrading this requirement to Ubuntu 12.04 LTS before the end of the grant.
 
 Support for other platforms is unlikely, but not totally out of the question.
+
+Does PANDA require a dedicated server?
+--------------------------------------
+
+Yes. We would love to make PANDA more modular, but it's complex array of depedencies make this very difficult and we would prefer to spend our grant funds developing features and ensuring its a stable product.
+
+Obviously nothing is actually stopping you from installing other stuff on the same server. Just don't do it.
 
 Does the PANDA have an API?
 ---------------------------
