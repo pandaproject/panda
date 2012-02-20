@@ -83,6 +83,23 @@ Installing Solr can be tricky and will vary quite a bit depending on your operat
     # To start Solr
     fab local_solr
 
+Checking your PANDA
+===================
+
+Your PANDA should now be running at::
+
+    http://localhost:8000/
+
+You can login using the default user credentials::
+
+    Username: user@pandaproject.net
+    Password: user
+
+Or the default administrator credentials::
+
+    Username: panda@pandaproject.net
+    Password: panda
+
 Running Python unit tests
 =========================
 
