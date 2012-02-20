@@ -103,10 +103,8 @@ License
 
 .. include:: ../LICENSE
 
-Indices and tables
-==================
+Search this documentation
+=========================
 
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 

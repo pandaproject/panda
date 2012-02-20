@@ -166,7 +166,7 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'pandadoc'
 
-html_use_modindex = False
+html_domain_indices = False
 html_use_index = False
 
 # -- Options for LaTeX output --------------------------------------------------
