@@ -37,7 +37,7 @@ This script will setup the complete application, *except* for Solr. Be sure to r
     createuser -d -R -S -P panda
     createdb -O panda panda
     python manage.py syncdb --noinput
-    python manage.py migrate --no-input
+    python manage.py migrate --noinput
     python manage.py loaddata panda/fixtures/init_panda.json
 
     # Start PANDA
