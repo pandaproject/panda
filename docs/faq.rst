@@ -76,7 +76,7 @@ Very small organizations can also try running PANDA on an EC2 "micro", at a cost
 Does hosting on Amazon EC2 open up security issues?
 ---------------------------------------------------
 
-It depends on how zealous you are about security. A PANDA in a properly secured EC2 environment (i.e. firewalled for your organization and with `SSL configured <ssl.html>`) is a pretty secure beast. However, as with any hosted platform, there is no technical way to gaurantee an employee of Amazon isn't snooping.
+It depends on how zealous you are about security. A PANDA in a properly secured EC2 environment (i.e. firewalled for your organization and with `SSL configured <ssl.html>`_) is a pretty secure beast. However, as with any hosted platform, there is no technical way to gaurantee an employee of Amazon isn't snooping.
 
 Does hosting on Amazon EC2 create privacy or legal issues?
 ----------------------------------------------------------
