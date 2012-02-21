@@ -55,8 +55,8 @@ Configuration:
 
     Domain name (DNS) <dns.rst>
     Email (SMTP) <email.rst>
+    Performance <performance.rst>
     Secure connections (SSL) <ssl.rst>
-
 
 Usage
 =====
