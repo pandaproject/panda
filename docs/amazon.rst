@@ -37,6 +37,9 @@ Method #1 - Use an Amazon Machine Instance (AMI)
 
 This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-1af12273``. It may take a moment to return a result. When it does, click "Select".
 
+.. figure::  images/amazon-select-ami.png
+   :align:  center 
+
 .. _notes above regarding instance types:
 
 On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (At a cost of roughly $70 per month.) This should provide adequate capacity for small- to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you will only be using it for testing.
