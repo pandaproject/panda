@@ -18,7 +18,14 @@ Step 2. Configure your Security Group
 
 Before setting up your PANDA server, you will need to configure your security group so that web requests will be able to reach it.
 
-To do this, visit the `Security Groups section <https://console.aws.amazon.com/ec2/home?#s=SecurityGroups>`_ of the EC2 Management Console. Select the "default" security group from the list, and then click the "Inbound" tab in the bottom pane of the window. Add rules for ``HTTP``, ``HTTPS`` and ``SSH``. If you don't mind your PANDA being accessible to anyone on the internet, you can enter ``0.0.0.0/0`` in the **Source** field for each. **This will make your PANDA visible to the public.** (Although it's highly unlikely anyone would find it unless you gave them the link.) More discerning users will want to enter a private IP or subnet assigned to their organization.
+To do this, visit the `Security Groups section <https://console.aws.amazon.com/ec2/home?#s=SecurityGroups>`_ of the EC2 Management Console. Select the "default" security group from the list, and then click the "Inbound" tab in the bottom pane of the window. Add rules for ``HTTP``, ``HTTPS`` and ``SSH``.
+
+.. figure::  images/amazon-security-groups.png
+   :align:  center 
+
+   Test
+
+If you don't mind your PANDA being accessible to anyone on the internet, you can enter ``0.0.0.0/0`` in the **Source** field for each. **This will make your PANDA visible to the public.** (Although it's highly unlikely anyone would find it unless you gave them the link.) More discerning users will want to enter a private IP or subnet assigned to their organization.
 
 .. note::
 
