@@ -23,8 +23,6 @@ To do this, visit the `Security Groups section <https://console.aws.amazon.com/e
 .. figure::  images/amazon-security-groups.png
    :align:  center 
 
-   Test
-
 If you don't mind your PANDA being accessible to anyone on the internet, you can enter ``0.0.0.0/0`` in the **Source** field for each. **This will make your PANDA visible to the public.** (Although it's highly unlikely anyone would find it unless you gave them the link.) More discerning users will want to enter a private IP or subnet assigned to their organization.
 
 .. note::
