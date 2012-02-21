@@ -45,7 +45,7 @@ Once you've selected your instance type, skip over **Availability Zone** and cli
 Method #2 - Use a script over SSH
 ---------------------------------
 
-This method is slightly more complex, but also provides greater feedback for users who want to understand more about how PANDA works.
+This method is slightly more complex and assumes you have some experience operating servers. It also provides greater feedback for users who want to understand more about how PANDA works.
 
 Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-1af12273``. This is the official Ubuntu 11.10 AMI. It may take a moment to return a result. When it does, click "Select".
 
