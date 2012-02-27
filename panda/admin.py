@@ -199,11 +199,14 @@ class CategoryAdmin(admin.ModelAdmin):
         """
         On save, update full text metadata of related datasets. 
         """
-        datasets = list(obj.datasets.all())
-        obj.save()
+        if change:
+            datasets = list(obj.datasets.all())
+            obj.save()
 
-        for dataset in datasets:
-            dataset.update_full_text()
+            for dataset in datasets:
+                dataset.update_full_text()
+        else:
+            obj.save()
 
     def delete_model(self, request, obj):
         """
