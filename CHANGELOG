@@ -5,6 +5,9 @@ Changelog
 0.1.1
 =====
 
+* Fix error when adding a category via Admin. (#470)
+* Add Niran Babalola to AUTHORS. (#464)
+* Suggest deactivating instead of deleting users. (#464)
 * Add "view all rows" link to dataset page. (#455)
 * Fix bug that caused changes to a dataset made during import to be lost. (#452)
 * Add feedback link. (#451)
