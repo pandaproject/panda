@@ -13,13 +13,6 @@ PANDA.views.Login = Backbone.View.extend({
 
     reset: function(next) {
         this.next = next;
-
-        // Ensure the sidebar is hidden
-        // Normally this happens during authentication, but if the loser
-        // moves to the login page from an unathenticated page that
-        // may never happen.
-        $("#sidebar").hide();
-
         this.render();
     },
 
