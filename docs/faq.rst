@@ -41,7 +41,7 @@ No, PANDA is a place to store and search data, but not a way of publishing it.
 So is this like Caspio?
 -----------------------
 
-No, PANDA does produce graphics or interactives.
+No, PANDA does not produce graphics or interactives.
 
 So is this like BuzzData?
 -------------------------
