@@ -3,14 +3,16 @@
 # PANDA Project server setup script for Travis CI service
 # Must be executed with sudo!
 
-# Travis starts with an active virtualenv
-deactivate
+set -x
+
+java -version
 
 echo "PANDA installation beginning."
 
 CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 
 # Setup environment variables
+echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
 export DEPLOYMENT_TARGET="deployed"
 
 # Install required packages
