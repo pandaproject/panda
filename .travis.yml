@@ -1,5 +1,5 @@
 language: python
 python:
   - 2.7
-install: sudo setup_panda.sh
+before_script: sudo setup_panda.sh
 script: python manage.py test panda
