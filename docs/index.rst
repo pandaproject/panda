@@ -103,6 +103,11 @@ License
 
 .. include:: ../LICENSE
 
+Changelog
+=========
+
+.. include:: ../CHANGELOG
+
 Search this documentation
 =========================
 

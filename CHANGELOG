@@ -1,9 +1,5 @@
-=========
-Changelog
-=========
-
 0.1.1
-=====
+-----
 
 * Improve handling of queries with inline punctuation. (#461)
 * Fix error when adding a category via Admin. (#470)
@@ -14,6 +10,6 @@ Changelog
 * Add feedback link. (#451)
 
 0.1.0
-=====
+-----
 
 * Initial beta release.
