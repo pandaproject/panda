@@ -2,5 +2,6 @@ language: python
 python:
   - 2.7
 install: echo "Skip default install"
-before_script: sudo bash setup_panda_for_travis.sh
-script: echo "Skip default test"
+script:
+  - deactivate
+  - sudo bash setup_panda_for_travis.sh
