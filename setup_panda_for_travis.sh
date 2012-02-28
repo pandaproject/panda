@@ -13,10 +13,6 @@ CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 # Setup environment variables
 export DEPLOYMENT_TARGET="deployed"
 
-# Install outstanding updates
-apt-get --yes update
-apt-get --yes upgrade
-
 # Install required packages
 apt-get install --yes git openssh-server postgresql python2.7-dev libxml2-dev libxml2 libxslt1.1 libxslt1-dev build-essential openjdk-6-jdk libpq-dev python-pip mercurial
 
@@ -76,7 +72,7 @@ wget -nv $CONFIG_URL/pg_hba.conf -O /etc/postgresql/8.4/main/pg_hba.conf
 service postgresql restart
 
 # Create database users
-echo "CREATE USER panda WITH PASSWORD 'panda';" | sudo -u postgres psql postgres
+echo "CREATE USER panda WITH CREATEDB PASSWORD 'panda';" | sudo -u postgres psql postgres
 sudo -u postgres createdb -O panda panda
 
 # Get code
