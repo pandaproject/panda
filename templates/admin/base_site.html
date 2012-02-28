@@ -7,5 +7,20 @@
 <h1 id="site-name"><a href="/">PANDA</a></h1>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
-
+{% block userlinks %}
+    <a href="http://panda.rtfd.org/">Documentation</a> / 
+    {% url 'admin:password_change' as password_change_url %}
+    {% if password_change_url %}
+        <a href="{{ password_change_url }}">
+    {% else %}
+        <a href="{{ root_path }}password_change/">
+    {% endif %}
+    {% trans 'Change password' %}</a> /
+    {% url 'admin:logout' as logout_url %}
+    {% if logout_url %}
+        <a href="{{ logout_url }}">
+    {% else %}
+        <a href="{{ root_path }}logout/">
+    {% endif %}
+    {% trans 'Log out' %}</a>
+{% endblock %}
