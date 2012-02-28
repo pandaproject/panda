@@ -68,6 +68,9 @@ wget -nv $CONFIG_URL/solr.conf -O /etc/init/solr.conf
 initctl reload-configuration
 service solr start
 
+# Create panda user
+adduser --system --no-create-home --disabled-login --disabled-password --group panda
+
 # Setup Postgres
 wget -nv $CONFIG_URL/pg_hba.conf -O /etc/postgresql/8.4/main/pg_hba.conf
 service postgresql restart
