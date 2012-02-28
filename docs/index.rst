@@ -37,10 +37,11 @@ PANDA is *not*:
 
 See our `Frequently Asked Questions (FAQ) <faq.html>`_ for much more.
 
-Installation
-============
+Getting started
+===============
 
-Setup:
+Setup
+-----
 
 .. toctree::
     :maxdepth: 1 
@@ -48,7 +49,8 @@ Setup:
     local_development.rst
     production.rst
 
-Configuration:
+Configuration
+-------------
 
 .. toctree::
     :maxdepth: 1
@@ -61,7 +63,8 @@ Configuration:
 Usage
 =====
 
-For administrators:
+For administrators
+------------------
 
 .. toctree::
     :maxdepth: 1
@@ -70,7 +73,8 @@ For administrators:
     Categories <categories.rst>
     API Keys <api_keys.rst>
 
-For users:
+For users
+---------
 
 *Coming soon...*
 
