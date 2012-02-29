@@ -55,6 +55,11 @@ class TestCSV(TestCase):
 
         self.assertEqual(samples, [[u'sitting', u'1.21', u'\xb1', u'0.02', u'76', u'1.27', u'\xb1', u'0.02*'], [u'standing', u'1.23', u'\xb1', u'0.03', u'58', u'1.28', u'\xb1', u'0.03']])
 
+    def test_csv_guess_column_types(self):
+        guessed_types = utils.csv.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
+
+        self.assertEqual(guessed_types, ['int', 'unicode', 'unicode', 'unicode'])
+
 class TestXLS(TestCase):
     def setUp(self):
         self.path = os.path.join(test_utils.TEST_DATA_PATH, test_utils.TEST_XLS_FILENAME)
@@ -75,6 +80,11 @@ class TestXLS(TestCase):
 
         self.assertEqual(samples, [['1', 'Brian', 'Boyer', 'Chicago Tribune'], ['2', 'Joseph', 'Germuska', 'Chicago Tribune']])
 
+    def test_xls_guess_column_types(self):
+        guessed_types = utils.xls.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
+
+        self.assertEqual(guessed_types, ['int', 'unicode', 'unicode', 'unicode'])
+
 class TestXLSX(TestCase):
     def setUp(self):
         self.path = os.path.join(test_utils.TEST_DATA_PATH, test_utils.TEST_EXCEL_XLSX_FILENAME)
@@ -94,4 +104,9 @@ class TestXLSX(TestCase):
         samples = utils.xlsx.sample_data(self.path, self.dialect, 2)
 
         self.assertEqual(samples, [['1', 'Brian', 'Boyer', 'Chicago Tribune'], ['2', 'Joseph', 'Germuska', 'Chicago Tribune']])
+
+    def test_xlsx_guess_column_types(self):
+        guessed_types = utils.xlsx.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
+
+        self.assertEqual(guessed_types, ['int', 'unicode', 'unicode', 'unicode'])
 

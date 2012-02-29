@@ -28,4 +28,7 @@ class TestDataUpload(TransactionTestCase):
         self.assertEqual(self.upload.columns, ['id', 'first_name', 'last_name', 'employer']);
         self.assertEqual(len(self.upload.sample_data), 4)
         self.assertEqual(self.upload.sample_data[0], ['1', 'Brian', 'Boyer', 'Chicago Tribune']);
+        
+        self.assertEqual(len(self.upload.guessed_types), 4)
+        self.assertEqual(self.upload.guessed_types, ['int', 'unicode', 'unicode', 'unicode']);
 

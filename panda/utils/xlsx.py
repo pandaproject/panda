@@ -64,3 +64,16 @@ def sample_data(path, dialect, sample_size, **kwargs):
 
     return samples
 
+def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
+    """
+    Guess column types based on a sample of data.
+    """
+    book = load_workbook(path, use_iterators=True)
+    sheet = book.get_active_sheet()
+
+    headers = sheet.iter_rows().next()
+
+    # TODO - actually figure out types
+
+    return ['unicode' for h in headers]
+

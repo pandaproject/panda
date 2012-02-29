@@ -61,3 +61,16 @@ def sample_data(path, dialect, sample_size, **kwargs):
 
     return samples
 
+def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
+    """
+    Guess column types based on a sample of data.
+    """
+    book = xlrd.open_workbook(path, on_demand=True)
+    sheet = book.sheet_by_index(0)
+
+    headers = sheet.row_values(0)
+
+    # TODO - actually figure out types
+
+    return ['unicode' for h in headers]
+

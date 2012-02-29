@@ -28,6 +28,8 @@ class DataUpload(BaseUpload):
         help_text='An list of names for this uploads columns.')
     sample_data = JSONField(null=True,
         help_text='Example data from this file.')
+    guessed_types = JSONField(null=True,
+        help_text='Column types guessed based on a sample of data.')
     imported = models.BooleanField(default=False,
         help_text='Has this upload ever been imported into its parent dataset.')
     
@@ -55,6 +57,9 @@ class DataUpload(BaseUpload):
 
             if self.sample_data is None:
                 self.sample_data = utils.sample_data(self.data_type, path, self.dialect_as_parameters(), encoding=self.encoding)
+
+            if self.guessed_types is None:
+                self.guessed_types = utils.guess_column_types(self.data_type, path, self.dialect_as_parameters(), encoding=self.encoding)
 
         super(DataUpload, self).save(*args, **kwargs)
 

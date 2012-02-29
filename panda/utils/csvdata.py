@@ -5,6 +5,7 @@ from itertools import islice
 
 from csvkit import CSVKitReader
 from csvkit.sniffer import sniff_dialect as csvkit_sniff
+from csvkit.typeinference import normalize_table
 from django.conf import settings
 
 from panda.exceptions import DataSamplingError, NotSniffableError
@@ -53,4 +54,18 @@ def sample_data(path, dialect_parameters, sample_size, encoding='utf-8'):
             raise DataSamplingError('This CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % (encoding))
 
         return samples
+
+def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
+    """
+    Guess column types based on a sample of data.
+    """
+    with open(path, 'r') as f:
+        reader = CSVKitReader(f, encoding=encoding, **dialect)
+        headers = reader.next()
+
+        sample = islice(reader, sample_size)
+        normal_types, normal_values = normalize_table(sample)
+        type_names = [t.__name__ for t in normal_types]
+
+        return type_names 
 
