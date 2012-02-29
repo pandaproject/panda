@@ -1,6 +1,0 @@
-language: python
-python:
-  - 2.7
-install: pip install -r requirements.txt 
-before_script: sudo bash setup_panda_for_travis.sh
-script: DEPLOYMENT_TARGET=travisci python manage.py test panda
