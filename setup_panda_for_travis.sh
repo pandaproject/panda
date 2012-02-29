@@ -57,4 +57,8 @@ wget -nv $CONFIG_URL/solr.conf -O /etc/init/solr.conf
 initctl reload-configuration
 service solr start
 
+psql -c 'CREATE DATABASE panda;' -U postgres
+sudo -u panda -E python manage.py syncdb --noinput
+sudo -u panda -E python manage.py migrate --noinput
+
 echo "PANDA installation complete."
