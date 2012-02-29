@@ -5,18 +5,15 @@
 
 set -x
 
-java -version
-
 echo "PANDA installation beginning."
 
 CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 
 # Setup environment variables
-echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
-export DEPLOYMENT_TARGET="deployed"
+export DEPLOYMENT_TARGET="travisci"
 
 # Install required packages
-apt-get install --yes git openssh-server postgresql python2.7-dev libxml2-dev libxml2 libxslt1.1 libxslt1-dev build-essential openjdk-6-jdk libpq-dev python-pip mercurial
+apt-get install --yes libxml2-dev libxml2 libxslt1.1 libxslt1-dev build-essential openjdk-6-jdk mercurial
 
 # Setup Solr + Jetty
 wget -nv http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/apache-solr-3.4.0.tgz
@@ -66,45 +63,4 @@ wget -nv $CONFIG_URL/solr.conf -O /etc/init/solr.conf
 initctl reload-configuration
 service solr start
 
-# Create panda user
-adduser --system --no-create-home --disabled-login --disabled-password --group panda
-
-# Setup Postgres
-wget -nv $CONFIG_URL/pg_hba.conf -O /etc/postgresql/8.4/main/pg_hba.conf
-service postgresql restart
-
-# Create database users
-echo "CREATE USER panda WITH CREATEDB PASSWORD 'panda';" | sudo -u postgres psql postgres
-sudo -u postgres createdb -O panda panda
-
-# Get code
-cd /opt
-git clone git://github.com/pandaproject/panda.git panda
-cd /opt/panda
-pip install -r requirements.txt
-
-# Setup panda directories 
-mkdir /var/log/panda
-touch /var/log/panda/panda.log
-chown -R panda:panda /var/log/panda
-
-mkdir /var/lib/panda
-mkdir /var/lib/panda/uploads
-mkdir /var/lib/panda/exports
-mkdir /var/lib/panda/media
-
-chown -R panda:panda /var/lib/panda
-
-# Synchronize the database
-sudo -u panda -E python manage.py syncdb --noinput
-sudo -u panda -E python manage.py migrate --noinput
-sudo -u panda -E python manage.py loaddata panda/fixtures/init_panda.json
-
-# Setup Celery
-wget -nv $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
-initctl reload-configuration
-service celeryd start
-
 echo "PANDA installation complete."
-
-sudo -u panda -E python manage.py test panda
