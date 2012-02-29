@@ -4,5 +4,5 @@ python:
 install: pip install -r requirements.txt 
 before_script:
   - sudo bash setup_panda_for_travis.sh
-  - psql -c 'CREATE DATABASE test_panda;' -U postgres
+  - psql -c 'CREATE DATABASE panda;' -U postgres
 script: DEPLOYMENT_TARGET=travisci python manage.py test panda

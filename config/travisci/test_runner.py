@@ -5,7 +5,7 @@ class ExistingDatabaseTestRunner(DjangoTestSuiteRunner):
     Simple test runner that uses an existing database.
     """
     def setup_databases(self, **kwargs):
-        return ['panda'], ['test_panda'] 
+        pass 
 
     def teardown_databases(self, old_config, **kwargs):
         pass
