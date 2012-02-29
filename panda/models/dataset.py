@@ -9,7 +9,7 @@ from django.db import models
 from django.dispatch import receiver
 
 from panda import solr, utils
-from panda.exceptions import DataImportError
+from panda.exceptions import DataImportError, DatasetLockedError
 from panda.fields import JSONField
 from panda.models.category import Category
 from panda.models.slugged_model import SluggedModel
@@ -48,6 +48,10 @@ class Dataset(SluggedModel):
         help_text='Description of the last modification made to this Dataset.')
     last_modified_by = models.ForeignKey(User, null=True, blank=True,
         help_text='The user, if any, who last modified this dataset.')
+    locked = models.BooleanField(default=False,
+        help_text='Is this table locked for writing?')
+    locked_at = models.DateTimeField(null=True, default=None,
+        help_text='Time this dataset was last locked.')
 
     class Meta:
         app_label = 'panda'
@@ -64,6 +68,44 @@ class Dataset(SluggedModel):
             self.creation_date = datetime.utcnow()
 
         super(Dataset, self).save(*args, **kwargs)
+
+    def lock(self):
+        """
+        Obtain an editing lock on this dataset.
+        """
+        # Ensure latest state has come over from the database
+        before_lock = self.__class__.objects.get(pk=self.pk)
+        self.locked = before_lock.locked
+        self.locked_at = before_lock.locked_at
+
+        if self.locked:
+            # Already locked
+            raise DatasetLockedError('This dataset is currently locked by another process.')
+
+        new_locked_at = datetime.now()
+
+        self.locked = True
+        self.locked_at = new_locked_at
+
+        self.save()
+
+        # Refresh from database
+        after_lock = Dataset.objects.get(id=self.id)
+        self.locked = after_lock.locked
+        self.locked_at = after_lock.locked_at
+
+        if self.locked_at != new_locked_at:
+            # Somebody else got the lock
+            raise DatasetLockedError('This dataset is currently locked by another process.')
+
+    def unlock(self):
+        """
+        Unlock this dataset so it can be edited.
+        """
+        self.locked = False
+        self.lock_id = None
+
+        self.save()
 
     def update_full_text(self, commit=True):
         """
@@ -119,55 +161,66 @@ class Dataset(SluggedModel):
         """
         Import data into this ``Dataset`` from a given ``DataUpload``. 
         """
-        if upload.imported:
-            raise DataImportError('This file has already been imported.')
+        self.lock()
 
-        task_type = get_import_task_type_for_upload(upload)
+        try:
+            if upload.imported:
+                raise DataImportError('This file has already been imported.')
 
-        if not task_type:
-            # This is normally caught on the client.
-            raise DataImportError('This file type is not supported for data import.')
-        
-        if self.columns:
-            # This is normally caught on the client.
-            if upload.columns != self.columns:
-                raise DataImportError('The columns in this file do not match those in the dataset.')
-        else:
-            self.columns = upload.columns
+            task_type = get_import_task_type_for_upload(upload)
 
-        if self.sample_data is None:
-            self.sample_data = upload.sample_data
-        else:
-            # TODO - extend?
-            pass
+            if not task_type:
+                # This is normally caught on the client.
+                raise DataImportError('This file type is not supported for data import.')
+            
+            if self.columns:
+                # This is normally caught on the client.
+                if upload.columns != self.columns:
+                    raise DataImportError('The columns in this file do not match those in the dataset.')
+            else:
+                self.columns = upload.columns
 
-        # If this is the first import and the API hasn't been used, save that information
-        if self.initial_upload is None and self.row_count is None:
-            self.initial_upload = upload
+            if self.sample_data is None:
+                self.sample_data = upload.sample_data
+            else:
+                pass
 
-        self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
-        self.save()
+            # If this is the first import and the API hasn't been used, save that information
+            if self.initial_upload is None and self.row_count is None:
+                self.initial_upload = upload
 
-        task_type.apply_async(
-            args=[self.slug, upload.id],
-            kwargs={ 'external_id_field_index': external_id_field_index },
-            task_id=self.current_task.id
-        )
+            self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
+            self.save()
+
+            task_type.apply_async(
+                args=[self.slug, upload.id],
+                kwargs={ 'external_id_field_index': external_id_field_index },
+                task_id=self.current_task.id
+            )
+        except:
+            self.unlock()
+            raise
 
     def export_data(self, user, filename=None):
         """
         Execute the data export task for this Dataset.
         """
-        task_type = ExportCSVTask
+        self.lock()
 
-        self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
-        self.save()
+        try:
+            task_type = ExportCSVTask
 
-        task_type.apply_async(
-            args=[self.slug],
-            kwargs={ 'filename': filename },
-            task_id=self.current_task.id
-        )
+            self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
+            self.save()
+
+            task_type.apply_async(
+                args=[self.slug],
+                kwargs={ 'filename': filename },
+                task_id=self.current_task.id
+            )
+        except:
+            self.unlock()
+            raise
 
     def get_row(self, external_id):
         """

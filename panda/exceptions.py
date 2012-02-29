@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+class DatasetLockedError(Exception):
+    """
+    Exception raised when a lock can not be acquired on a dataset.
+    """
+    pass
+
 class DataSamplingError(Exception):
     """
     Exception raised when data can't be sampled from a file,

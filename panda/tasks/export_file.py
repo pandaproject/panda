@@ -72,10 +72,22 @@ class ExportFileTask(AbortableTask):
         """
         Save final status, results, etc.
         """
-        from panda.models import Dataset, Export, Notification
+        from panda.models import Dataset
 
         dataset = Dataset.objects.get(slug=args[0])
-        task_status = dataset.current_task
+
+        try:
+            self.send_notifications(dataset, retval, einfo) 
+        finally:
+            dataset.unlock()
+
+    def send_notifications(self, dataset, retval, einfo):
+        """
+        Send user notifications this task has finished.
+        """
+        from panda.models import Export, Notification
+
+        task_status = dataset.current_task 
 
         if einfo:
             error_detail = u'\n'.join([einfo.traceback, unicode(retval)])

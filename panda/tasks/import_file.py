@@ -74,9 +74,26 @@ class ImportFileTask(AbortableTask):
         """
         Save final status, results, etc.
         """
-        from panda.models import Dataset, Notification
+        from panda.models import Dataset
 
         dataset = Dataset.objects.get(slug=args[0])
+
+        try:
+            try:
+                self.send_notifications(dataset, retval, einfo)
+            finally:
+                # If import failed, clear any data that might be staged
+                if dataset.current_task.status == 'FAILURE':
+                    solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % args[0], commit=True)
+        finally:
+            dataset.unlock()
+
+    def send_notifications(self, dataset, retval, einfo):
+        """
+        Send user notifications this task has finished.
+        """
+        from panda.models import Notification
+
         task_status = dataset.current_task 
 
         if einfo:
@@ -113,8 +130,4 @@ class ImportFileTask(AbortableTask):
             )
 
             send_mail(email_subject, email_message, [task_status.creator.username])
-
-        # If import failed, clear any data that might be staged
-        if task_status.status == 'FAILURE':
-            solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % args[0], commit=True)
 

@@ -7,7 +7,7 @@ from django.test import TransactionTestCase
 from django.utils import simplejson as json
 
 from panda import solr
-from panda.exceptions import DataImportError
+from panda.exceptions import DatasetLockedError, DataImportError
 from panda.models import Dataset, DataUpload, TaskStatus
 from panda.tests import utils
 
@@ -22,6 +22,22 @@ class TestDataset(TransactionTestCase):
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
         self.upload = utils.get_test_data_upload(self.user, self.dataset)
+
+    def test_lock(self):
+        self.dataset.lock()
+        self.assertEqual(self.dataset.locked, True)
+
+    def test_lock_fail(self):
+        self.dataset.lock()
+        self.assertRaises(DatasetLockedError, self.dataset.lock)
+
+    def test_unlock(self):
+        self.dataset.lock()
+        self.dataset.unlock()
+        self.dataset.lock()
+        self.dataset.unlock()
+
+        self.assertEqual(self.dataset.locked, False)
 
     def test_metadata_searchable(self):
         response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='slug asc')
@@ -51,6 +67,7 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
@@ -79,6 +96,7 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
@@ -107,6 +125,7 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
@@ -135,6 +154,7 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
@@ -159,6 +179,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(dataset.row_count, 8)
         self.assertEqual(upload.imported, True)
         self.assertEqual(xls_upload.imported, True)
+        self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 2)
     
@@ -185,6 +206,7 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(upload.imported, True)
         self.assertEqual(xls_upload.imported, False)
+        self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
@@ -270,12 +292,14 @@ class TestDataset(TransactionTestCase):
         utils.wait()
 
         # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
         task = TaskStatus.objects.get(id=task.id)
 
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
 
         with open(os.path.join(utils.TEST_DATA_PATH, utils.TEST_DATA_FILENAME), 'r') as f:
             imported_csv = f.read()
