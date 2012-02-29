@@ -7,9 +7,17 @@
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a id="dataset-edit" href="javascript: return false;"><i class="icon-pencil"></i> Edit</a></li>
+                <% if (dataset.locked) { %>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-plus-sign"></i> Upload more data</a></li>
+                <% } else { %>
                 <li><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></li>
+                <% } %>
                 <li><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-upload"></i> Upload related file</a></li>
+                <% if (dataset.locked) { %>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-share"></i> Export to CSV</a></li>
+                <% } else { %>
                 <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-share"></i> Export to CSV</a></li>
+                <% } %>
                 <li><a href="#modal-dataset-destroy" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-trash"></i> Delete</a></li>
             </ul>
         </div>
@@ -54,7 +62,11 @@
             <% } else { %>
             <p><em>None uploaded.</em></p>
             <% } %>
+            <% if (dataset.locked) { %>
+            <p><i class="icon-plus-sign"></i> Upload more data</p>
+            <% } else { %>
             <p><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></p>
+            <% } %>
 
             <h6>Related files</h6>
             <ul class="related-uploads" <% if (dataset.related_uploads.length == 0) { %>style="display:none;"<% } %>>
