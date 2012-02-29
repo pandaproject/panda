@@ -12,9 +12,6 @@ CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
 # Setup environment variables
 export DEPLOYMENT_TARGET="travisci"
 
-# Install required packages
-apt-get install --yes libxml2-dev libxml2 libxslt1.1 libxslt1-dev build-essential openjdk-6-jdk mercurial
-
 # Setup Solr + Jetty
 wget -nv http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/apache-solr-3.4.0.tgz
 
