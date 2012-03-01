@@ -73,6 +73,25 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
+    def test_import_csv_typed(self):
+        self.dataset.import_data(self.user, self.upload, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(dataset.typed_columns, [True, False, True, True])
+        self.assertEqual(dataset.typed_column_names, ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:2')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_last_name:Germuska')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_first_name:Joseph')['response']['numFound'], 0)
+
     def test_import_xls(self):
         xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
 
@@ -316,4 +335,22 @@ class TestDataset(TransactionTestCase):
             exported_csv = f.read()
 
         self.assertEqual(imported_csv, exported_csv)
+
+    def test_generate_typed_column_names(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        self.dataset.generate_typed_column_names()
+        self.assertEqual(self.dataset.typed_column_names, [None, None, None, None])
+
+    def test_generate_typed_column_names2(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        self.dataset.typed_columns = [True, False, True, True]
+
+        self.dataset.generate_typed_column_names()
+        self.assertEqual(self.dataset.typed_column_names, ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
 

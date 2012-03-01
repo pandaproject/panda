@@ -50,6 +50,21 @@
         <field name="full_text" type="text_general" indexed="true" stored="false" />
         <field name="data" type="string" indexed="false" stored="true" required="true" />
 
+        <!-- Dynamic typed fields that directly correspond to Python types -->
+        <dynamicField name="column_unicode_*" type="string" indexed="true" stored="true" />
+        <dynamicField name="column_int_*" type="long" indexed="true" stored="true" />
+        <dynamicField name="column_bool_*" type="boolean" indexed="true" stored="true" />
+        <dynamicField name="column_float_*" type="float" indexed="true" stored="true" />
+        <dynamicField name="column_none_*" type="ignored" />
+
+        <!-- Dynamic, typed fields that correspond to Python types after some processing -->
+        <dynamicField name="column_datetime_*" type="date" indexed="true"  stored="true" />
+        <dynamicField name="column_date_*" type="string" indexed="true"  stored="true" />
+
+        <!-- Dynamic, typed fields that don't correspond to Python types -->
+        <dynamicField name="column_time_*" type="string" indexed="true"  stored="true" />
+        <!--<dynamicField name="*_loc"  type="location" indexed="true" stored="true" />-->
+
     </fields>
 
     <uniqueKey>id</uniqueKey>

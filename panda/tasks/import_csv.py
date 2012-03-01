@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+import datetime
 import logging
 from math import floor
 
 from csvkit import CSVKitReader
+from csvkit.exceptions import InvalidValueForTypeException
+from csvkit.typeinference import normalize_column_type
 from django.conf import settings
 
 from panda import solr, utils
@@ -11,6 +14,16 @@ from panda.exceptions import DataImportError
 from panda.tasks.import_file import ImportFileTask 
 
 SOLR_ADD_BUFFER_SIZE = 500
+
+TYPE_NAMES_MAPPING = {
+    'unicode': unicode,
+    'int': int,
+    'bool': bool,
+    'float': float,
+    'date': datetime.date,
+    'time': datetime.time,
+    'datetime': datetime.datetime
+}
 
 class ImportCSVTask(ImportFileTask):
     """
@@ -78,6 +91,18 @@ class ImportCSVTask(ImportFileTask):
                 external_id = row[external_id_field_index]
 
             data = utils.solr.make_data_row(dataset, row, external_id=external_id)
+
+            # Generate typed column data
+            for n, c in enumerate(dataset.columns):
+                if dataset.typed_columns[n]:
+                    type_name = dataset.column_types[n]
+
+                    try:
+                        t, value = normalize_column_type([row[n]], normal_type=TYPE_NAMES_MAPPING[type_name])
+                        data[dataset.typed_column_names[n]] = value
+                    except InvalidValueForTypeException, e:
+                        # TODO: log here
+                        pass
 
             add_buffer.append(data)
 

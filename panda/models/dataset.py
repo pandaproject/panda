@@ -30,6 +30,8 @@ class Dataset(SluggedModel):
         help_text='The data upload used to create this dataset, if any was used.')
     columns = JSONField(null=True, default=None,
         help_text='A list of names for this dataset\'s columns.')
+    typed_columns = JSONField(null=True, default=None,
+        help_text='A list of boolean values corresponding to each column in the dataset. If true that column will be indexed in its own typed column.')
     column_types = JSONField(null=True, default=None,
         help_text='A list of types corresponding to the datasets\'s columns. May be inferred or user-specified')
     typed_column_names = JSONField(null=True, default=None,
@@ -72,6 +74,30 @@ class Dataset(SluggedModel):
             self.creation_date = datetime.utcnow()
 
         super(Dataset, self).save(*args, **kwargs)
+
+    def generate_typed_column_names(self):
+        """
+        Generate Solr names for typed columns, de-duplicating as necessary.
+        """
+        self.typed_column_names = []
+
+        for i, c in enumerate(self.columns):
+            if not self.typed_columns[i]:
+                self.typed_column_names.append(None)
+                continue
+
+            name = 'column_%s_%s' % (self.column_types[i], self.columns[i])
+
+            # Deduplicate within dataset
+            if name in self.typed_column_names:
+                i = 2
+                test_name = '%s%i' % (name, i)
+
+                while test_name in self.typed_column_names:
+                    i += 1
+                    test_name = '%s%i' % (name, i)
+
+            self.typed_column_names.append(name)
 
     def lock(self):
         """
@@ -161,9 +187,9 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).delete(*args, **kwargs)
 
-    def import_data(self, user, upload, external_id_field_index=None):
+    def import_data(self, user, upload, external_id_field_index=None, typed_columns=[]):
         """
-        Import data into this ``Dataset`` from a given ``DataUpload``. 
+        Import data into this ``Dataset`` from a given ``DataUpload``.
         """
         self.lock()
 
@@ -187,13 +213,18 @@ class Dataset(SluggedModel):
             if self.column_types is None:
                 self.column_types = upload.guessed_types
 
+            if typed_columns:
+                self.typed_columns = typed_columns
+            elif self.typed_columns is None:
+                self.typed_columns = [False for c in self.columns]
+
+            self.generate_typed_column_names()
+
             if self.typed_column_names is None:
                 self.typed_column_names = [None for c in self.columns]
 
             if self.sample_data is None:
                 self.sample_data = upload.sample_data
-            else:
-                pass
 
             # If this is the first import and the API hasn't been used, save that information
             if self.initial_upload is None and self.row_count is None:
