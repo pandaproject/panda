@@ -48,6 +48,7 @@ class DatasetResource(SluggedModelResource):
 
     slug = fields.CharField(attribute='slug', readonly=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
+    typed_column_names = JSONApiField(attribute='typed_column_names', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
     creation_date = fields.DateTimeField(attribute='creation_date', readonly=True, null=True)
     last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)

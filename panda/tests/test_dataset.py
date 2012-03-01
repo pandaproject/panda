@@ -61,6 +61,8 @@ class TestDataset(TransactionTestCase):
         task = TaskStatus.objects.get(id=task.id)
 
         self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -90,6 +92,8 @@ class TestDataset(TransactionTestCase):
         task = TaskStatus.objects.get(id=task.id)
 
         self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(xls_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -148,6 +152,8 @@ class TestDataset(TransactionTestCase):
         task = TaskStatus.objects.get(id=task.id)
 
         self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(xlsx_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -176,6 +182,8 @@ class TestDataset(TransactionTestCase):
         xls_upload = DataUpload.objects.get(id=xls_upload.id)
         
         self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
         self.assertEqual(dataset.row_count, 8)
         self.assertEqual(upload.imported, True)
         self.assertEqual(xls_upload.imported, True)

@@ -29,7 +29,11 @@ class Dataset(SluggedModel):
     initial_upload = models.ForeignKey('DataUpload', null=True, blank=True, related_name='initial_upload_for',
         help_text='The data upload used to create this dataset, if any was used.')
     columns = JSONField(null=True, default=None,
-        help_text='An list of names for this dataset\'s columns.')
+        help_text='A list of names for this dataset\'s columns.')
+    column_types = JSONField(null=True, default=None,
+        help_text='A list of types corresponding to the datasets\'s columns. May be inferred or user-specified')
+    typed_column_names = JSONField(null=True, default=None,
+        help_text='A list of column names used to store typed data on the backend. Each column will have a corresponding column name or None.')
     sample_data = JSONField(null=True, default=None,
         help_text='Example data rows from the dataset.')
     row_count = models.IntegerField(null=True, blank=True,
@@ -179,6 +183,12 @@ class Dataset(SluggedModel):
                     raise DataImportError('The columns in this file do not match those in the dataset.')
             else:
                 self.columns = upload.columns
+
+            if self.column_types is None:
+                self.column_types = upload.guessed_types
+
+            if self.typed_column_names is None:
+                self.typed_column_names = [None for c in self.columns]
 
             if self.sample_data is None:
                 self.sample_data = upload.sample_data
