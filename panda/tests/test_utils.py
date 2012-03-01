@@ -108,7 +108,9 @@ class TestXLSX(TestCase):
         self.assertEqual(samples, [['1', 'Brian', 'Boyer', 'Chicago Tribune'], ['2', 'Joseph', 'Germuska', 'Chicago Tribune']])
 
     def test_xlsx_guess_column_types(self):
+        self.path = os.path.join(test_utils.TEST_DATA_PATH, test_utils.TEST_XLSX_TYPES_FILENAME)
+
         guessed_types = utils.xlsx.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
 
-        self.assertEqual(guessed_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(guessed_types, ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', 'NoneType', 'unicode'])
 

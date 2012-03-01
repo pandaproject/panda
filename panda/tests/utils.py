@@ -14,6 +14,7 @@ TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
 TEST_XLS_FILENAME = 'contributors.xls'
 TEST_XLS_TYPES_FILENAME = 'test_types.xls'
+TEST_XLSX_TYPES_FILENAME = 'test_types.xlsx'
 TEST_EXCEL_XLSX_FILENAME = 'contributors.excel.xlsx'
 TEST_OO_XLSX_FILENAME = 'contributors.oo.xlsx'
 TEST_LATIN1_FILENAME = 'test_not_unicode_sample.csv'
