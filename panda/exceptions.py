@@ -27,3 +27,9 @@ class NotSniffableError(Exception):
     """
     pass
 
+class TypeInferenceError(Exception):
+    """
+    Exception raised when a column's type can not be inferred.
+    """
+    pass
+

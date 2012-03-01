@@ -65,7 +65,6 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
 
         sample = islice(reader, sample_size)
         normal_types, normal_values = normalize_table(sample)
-        type_names = [t.__name__ for t in normal_types]
 
-        return type_names 
+        return [t.__name__ for t in normal_types] 
 
