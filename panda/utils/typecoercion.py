@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import datetime
 
 from csvkit.typeinference import NULL_VALUES, TRUE_VALUES, FALSE_VALUES, DEFAULT_DATETIME
@@ -8,7 +9,9 @@ from panda.exceptions import TypeCoercionError
 
 def coerce_type(value, normal_type):
     """
-    Coerce a single value into a type. One function for performance.
+    Coerce a single value into a type supported by PANDA.
+    
+    All one function for performance.
     """
     if isinstance(value, basestring) and value.lower() in NULL_VALUES:
         value = None

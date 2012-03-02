@@ -14,7 +14,7 @@ from panda.fields import JSONField
 from panda.models.category import Category
 from panda.models.slugged_model import SluggedModel
 from panda.models.task_status import TaskStatus
-from panda.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask 
+from panda.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask, ReindexTask 
 
 class Dataset(SluggedModel):
     """
@@ -244,9 +244,36 @@ class Dataset(SluggedModel):
             self.unlock()
             raise
 
+    def reindex_data(self, user, external_id_field_index=None, typed_columns=[]):
+        """
+        Reindex the data currently stored for this ``Dataset``.
+        """
+        self.lock()
+
+        try:
+            if typed_columns:
+                self.typed_columns = typed_columns
+            elif self.typed_columns is None:
+                self.typed_columns = [False for c in self.columns]
+
+            self._generate_typed_column_names()
+
+            self.current_task = TaskStatus.objects.create(task_name='panda.tasks.reindex', creator=user)
+
+            self.save()
+
+            ReindexTask.apply_async(
+                args=[self.slug],
+                kwargs={ 'external_id_field_index': external_id_field_index },
+                task_id=self.current_task.id
+            )
+        except:
+            self.unlock()
+            raise
+
     def export_data(self, user, filename=None):
         """
-        Execute the data export task for this Dataset.
+        Execute the data export task for this ``Dataset``.
         """
         self.lock()
 

@@ -358,6 +358,32 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(imported_csv, exported_csv)
 
+    def test_reindex(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+
+        dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual(dataset.typed_columns, [True, False, True, True])
+        self.assertEqual(dataset.typed_column_names, ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:2')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_last_name:Germuska')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_first_name:Joseph')['response']['numFound'], 0)
+
     def test_generate_typed_column_names_none(self):
         self.dataset.import_data(self.user, self.upload)
 
