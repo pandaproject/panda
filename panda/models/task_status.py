@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from datetime import datetime
+
 from celery import states
 from celery.contrib.abortable import AbortableAsyncResult
 from django.db import models
@@ -41,9 +43,9 @@ class TaskStatus(models.Model):
     def __unicode__(self):
         return self.task_name
 
-    def abort(self):
+    def request_abort(self):
         """
-        Abort this task if it is running.
+        Set flag to abort this task if it is still running.
         """
         if not self.end:
             async_result = AbortableAsyncResult(self.id)
@@ -51,4 +53,48 @@ class TaskStatus(models.Model):
 
             self.status = 'ABORT REQUESTED'
             self.save()
+
+    def begin(self, message):
+        """
+        Mark that task has begun.
+        """
+        self.status = 'STARTED' 
+        self.start = datetime.utcnow()
+        self.message = message 
+        self.save()
+
+    def update(self, message):
+        """
+        Update task status message.
+        """
+        self.message = message 
+        self.save()
+
+    def abort(self, message):
+        """
+        Mark that task has aborted.
+        """
+        self.status = 'ABORTED'
+        self.end = datetime.utcnow()
+        self.message = message
+        self.save()
+
+    def complete(self, message):
+        """
+        Mark that task has completed.
+        """
+        self.status = 'SUCCESS'
+        self.end = datetime.utcnow()
+        self.message = message
+        self.save()
+
+    def exception(self, message, formatted_traceback):
+        """
+        Mark that task raised an exception
+        """
+        self.status = 'FAILURE'
+        self.end = datetime.utcnow()
+        self.message = message 
+        self.traceback = formatted_traceback
+        self.save()
 

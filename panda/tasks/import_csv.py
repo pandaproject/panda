@@ -52,12 +52,12 @@ class ImportCSVTask(ImportFileTask):
         upload = DataUpload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
-        self.task_start(task_status, 'Preparing to import')
+        task_status.begin('Preparing to import')
 
         line_count = self._count_lines(upload.get_path())
 
         if self.is_aborted():
-            self.task_abort(task_status, 'Aborted during preperation')
+            task_status.abort('Aborted during preperation')
 
             log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
@@ -110,10 +110,10 @@ class ImportCSVTask(ImportFileTask):
 
                 add_buffer = []
 
-                self.task_update(task_status, '%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100))
+                task_status.update('%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100))
 
                 if self.is_aborted():
-                    self.task_abort(task_status, 'Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100))
+                    task_status.abort('Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100))
 
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
@@ -127,7 +127,7 @@ class ImportCSVTask(ImportFileTask):
 
         f.close()
 
-        self.task_update(task_status, '100% complete')
+        task_status.update('100% complete')
 
         # Refresh dataset from database so there is no chance of crushing changes made since the task started
         dataset = Dataset.objects.get(slug=dataset_slug)

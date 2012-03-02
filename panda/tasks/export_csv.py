@@ -32,7 +32,7 @@ class ExportCSVTask(ExportFileTask):
         dataset = Dataset.objects.get(slug=dataset_slug)
 
         task_status = dataset.current_task
-        self.task_start(task_status, 'Preparing to import')
+        task_status.begin('Preparing to import')
 
         if not filename:
             filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())
@@ -75,10 +75,10 @@ class ExportCSVTask(ExportFileTask):
 
                 writer.writerow(data)
 
-            self.task_update(task_status, '%.0f%% complete' % floor(float(n) / float(total_count) * 100))
+            task_status.update('%.0f%% complete' % floor(float(n) / float(total_count) * 100))
 
             if self.is_aborted():
-                self.task_abort(self.task_status, 'Aborted after exporting %.0f%%' % floor(float(n) / float(total_count) * 100))
+                task_status.abort('Aborted after exporting %.0f%%' % floor(float(n) / float(total_count) * 100))
 
                 log.warning('Export aborted, dataset_slug: %s' % dataset_slug)
 
@@ -88,7 +88,7 @@ class ExportCSVTask(ExportFileTask):
 
         f.close()
 
-        self.task_update(task_status, '100% complete')
+        task_status.update('100% complete')
 
         log.info('Finished export, dataset_slug: %s' % dataset_slug)
 

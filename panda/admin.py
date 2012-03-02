@@ -238,7 +238,7 @@ class TaskStatusAdmin(admin.ModelAdmin):
                 return
 
         for task in tasks:
-            task.abort()
+            task.request_abort()
         
         self.message_user(request, "Attempting to abort %i task(s)." % len(tasks))
 

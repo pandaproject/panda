@@ -33,50 +33,6 @@ class ReindexTask(AbortableTask):
     """
     name = 'panda.tasks.reindex'
 
-    def task_start(self, task_status, message):
-        """
-        Mark that task has begun.
-        """
-        task_status.status = 'STARTED' 
-        task_status.start = datetime.utcnow()
-        task_status.message = message 
-        task_status.save()
-
-    def task_update(self, task_status, message):
-        """
-        Update task status message.
-        """
-        task_status.message = message 
-        task_status.save()
-
-    def task_abort(self, task_status, message):
-        """
-        Mark that task has aborted.
-        """
-        task_status.status = 'ABORTED'
-        task_status.end = datetime.utcnow()
-        task_status.message = message
-        task_status.save()
-
-    def task_complete(self, task_status, message):
-        """
-        Mark that task has completed.
-        """
-        task_status.status = 'SUCCESS'
-        task_status.end = datetime.utcnow()
-        task_status.message = message
-        task_status.save()
-
-    def task_exception(self, task_status, message, formatted_traceback):
-        """
-        Mark that task raised an exception
-        """
-        task_status.status = 'FAILURE'
-        task_status.end = datetime.utcnow()
-        task_status.message = message 
-        task_status.traceback = formatted_traceback
-        task_status.save()
-
     def run(self, dataset_slug, external_id_field_index=None, *args, **kwargs):
         """
         Execute reindex.
@@ -89,10 +45,10 @@ class ReindexTask(AbortableTask):
         dataset = Dataset.objects.get(slug=dataset_slug)
 
         task_status = dataset.current_task
-        self.task_start(task_status, 'Preparing to reindex')
+        task_status.begin('Preparing to reindex')
 
         if self.is_aborted():
-            self.task_abort(task_status, 'Aborted during preperation')
+            task_status.abort('Aborted during preperation')
 
             log.warning('Reindex aborted, dataset_slug: %s' % dataset_slug)
 
@@ -135,10 +91,10 @@ class ReindexTask(AbortableTask):
 
                 add_buffer = []
 
-                self.task_update(task_status, '%.0f%% complete' % floor(float(i) / float(dataset.row_count) * 100))
+                task_status.update('%.0f%% complete' % floor(float(i) / float(dataset.row_count) * 100))
 
                 if self.is_aborted():
-                    self.task_abort(task_status, 'Aborted after reindexing %.0f%%' % floor(float(i) / float(dataset.row_count) * 100))
+                    task_status.abort('Aborted after reindexing %.0f%%' % floor(float(i) / float(dataset.row_count) * 100))
 
                     log.warning('Reindex aborted, dataset_slug: %s' % dataset_slug)
 
@@ -152,7 +108,7 @@ class ReindexTask(AbortableTask):
 
         solr.commit(settings.SOLR_DATA_CORE)
 
-        self.task_update(task_status, '100% complete')
+        task_status.update('100% complete')
 
         log.info('Finished reindex, dataset_slug: %s' % dataset_slug)
 
@@ -183,8 +139,7 @@ class ReindexTask(AbortableTask):
         task_status = dataset.current_task 
 
         if einfo:
-            self.task_exception(
-                task_status,
+            task_status.exception(
                 'Reindex failed',
                 u'\n'.join([einfo.traceback, unicode(retval)])
             )
@@ -199,7 +154,7 @@ class ReindexTask(AbortableTask):
             notification_message = 'Reindex aborted: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
         else:
-            self.task_complete(task_status, 'Reindex complete')
+            task_status.complete('Reindex complete')
             
             email_subject = 'Reindex complete: %s' % dataset.name
             email_message = 'Reindex complete: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)

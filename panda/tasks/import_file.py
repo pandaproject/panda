@@ -20,50 +20,6 @@ class ImportFileTask(AbortableTask):
     # All subclasses should be within this namespace
     name = 'panda.tasks.import'
 
-    def task_start(self, task_status, message):
-        """
-        Mark that task has begun.
-        """
-        task_status.status = 'STARTED' 
-        task_status.start = datetime.utcnow()
-        task_status.message = message 
-        task_status.save()
-
-    def task_update(self, task_status, message):
-        """
-        Update task status message.
-        """
-        task_status.message = message 
-        task_status.save()
-
-    def task_abort(self, task_status, message):
-        """
-        Mark that task has aborted.
-        """
-        task_status.status = 'ABORTED'
-        task_status.end = datetime.utcnow()
-        task_status.message = message
-        task_status.save()
-
-    def task_complete(self, task_status, message):
-        """
-        Mark that task has completed.
-        """
-        task_status.status = 'SUCCESS'
-        task_status.end = datetime.utcnow()
-        task_status.message = message
-        task_status.save()
-
-    def task_exception(self, task_status, message, formatted_traceback):
-        """
-        Mark that task raised an exception
-        """
-        task_status.status = 'FAILURE'
-        task_status.end = datetime.utcnow()
-        task_status.message = message 
-        task_status.traceback = formatted_traceback
-        task_status.save()
-
     def run(self, dataset_slug, upload_id, *args, **kwargs):
         """
         Execute import.
@@ -97,8 +53,7 @@ class ImportFileTask(AbortableTask):
         task_status = dataset.current_task 
 
         if einfo:
-            self.task_exception(
-                task_status,
+            task_status.exception(
                 'Import failed',
                 u'\n'.join([einfo.traceback, unicode(retval)])
             )
@@ -113,7 +68,7 @@ class ImportFileTask(AbortableTask):
             notification_message = 'Import aborted: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
         else:
-            self.task_complete(task_status, 'Import complete')
+            task_status.complete('Import complete')
             
             email_subject = 'Import complete: %s' % dataset.name
             email_message = 'Import complete: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)

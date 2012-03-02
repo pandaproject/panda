@@ -30,7 +30,7 @@ class ImportXLSTask(ImportFileTask):
         upload = DataUpload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
-        self.task_start(task_status, 'Preparing to import')
+        task_status.begin('Preparing to import')
 
         book = xlrd.open_workbook(upload.get_path(), on_demand=True)
         sheet = book.sheet_by_index(0)
@@ -66,11 +66,10 @@ class ImportXLSTask(ImportFileTask):
                 solr.add(settings.SOLR_DATA_CORE, add_buffer)
                 add_buffer = []
 
-                task_status.message = '%.0f%% complete' % floor(float(i) / float(row_count) * 100)
-                task_status.save()
+                task_status.update('%.0f%% complete' % floor(float(i) / float(row_count) * 100))
 
                 if self.is_aborted():
-                    self.task_abort(self.task_status, 'Aborted after importing %.0f%%' % floor(float(i) / float(row_count) * 100))
+                    task_status.abort('Aborted after importing %.0f%%' % floor(float(i) / float(row_count) * 100))
 
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
@@ -82,7 +81,7 @@ class ImportXLSTask(ImportFileTask):
 
         solr.commit(settings.SOLR_DATA_CORE)
 
-        self.task_update(task_status, '100% complete')
+        task_status.update('100% complete')
 
         # Refresh dataset from database so there is no chance of crushing changes made since the task started
         dataset = Dataset.objects.get(slug=dataset_slug)
