@@ -336,21 +336,26 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(imported_csv, exported_csv)
 
-    def test_generate_typed_column_names(self):
+    def test_generate_typed_column_names_none(self):
         self.dataset.import_data(self.user, self.upload)
 
         utils.wait()
 
-        self.dataset.generate_typed_column_names()
         self.assertEqual(self.dataset.typed_column_names, [None, None, None, None])
 
-    def test_generate_typed_column_names2(self):
-        self.dataset.import_data(self.user, self.upload)
+    def test_generate_typed_column_names_some(self):
+        self.dataset.import_data(self.user, self.upload, typed_columns=[True, False, True, True])
 
         utils.wait()
 
-        self.dataset.typed_columns = [True, False, True, True]
-
-        self.dataset.generate_typed_column_names()
         self.assertEqual(self.dataset.typed_column_names, ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+
+    def test_generate_typed_column_names_conflict(self):
+        self.upload.columns = ['test', 'test', 'test', 'test']
+        self.upload.save()
+        self.dataset.import_data(self.user, self.upload, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        self.assertEqual(self.dataset.typed_column_names, ['column_int_test', None, 'column_unicode_test', 'column_unicode_test2'])
 

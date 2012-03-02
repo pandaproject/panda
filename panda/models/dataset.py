@@ -75,7 +75,7 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).save(*args, **kwargs)
 
-    def generate_typed_column_names(self):
+    def _generate_typed_column_names(self):
         """
         Generate Solr names for typed columns, de-duplicating as necessary.
         """
@@ -96,6 +96,8 @@ class Dataset(SluggedModel):
                 while test_name in self.typed_column_names:
                     i += 1
                     test_name = '%s%i' % (name, i)
+
+                name = test_name
 
             self.typed_column_names.append(name)
 
@@ -218,7 +220,7 @@ class Dataset(SluggedModel):
             elif self.typed_columns is None:
                 self.typed_columns = [False for c in self.columns]
 
-            self.generate_typed_column_names()
+            self._generate_typed_column_names()
 
             if self.typed_column_names is None:
                 self.typed_column_names = [None for c in self.columns]
