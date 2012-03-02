@@ -6,6 +6,7 @@ from django.conf import settings
 import csvdata as csv
 import email
 import solr
+import typecoercion
 import xls
 import xlsx
 

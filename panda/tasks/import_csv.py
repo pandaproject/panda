@@ -6,13 +6,12 @@ from math import floor
 from types import NoneType
 
 from csvkit import CSVKitReader
-from csvkit.exceptions import InvalidValueForTypeException
-from csvkit.typeinference import normalize_column_type
 from django.conf import settings
 
 from panda import solr, utils
-from panda.exceptions import DataImportError
+from panda.exceptions import DataImportError, TypeCoercionError
 from panda.tasks.import_file import ImportFileTask 
+from panda.utils.typecoercion import coerce_type
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -21,8 +20,6 @@ TYPE_NAMES_MAPPING = {
     'int': int,
     'bool': bool,
     'float': float,
-    'date': datetime.date,
-    'time': datetime.time,
     'datetime': datetime.datetime,
     'NoneType': NoneType
 }
@@ -100,9 +97,9 @@ class ImportCSVTask(ImportFileTask):
                     type_name = dataset.column_types[n]
 
                     try:
-                        t, values = normalize_column_type([row[n]], normal_type=TYPE_NAMES_MAPPING[type_name])
-                        data[dataset.typed_column_names[n]] = values[0]
-                    except InvalidValueForTypeException, e:
+                        value = coerce_type(row[n], TYPE_NAMES_MAPPING[type_name])
+                        data[dataset.typed_column_names[n]] = value
+                    except TypeCoercionError, e:
                         # TODO: log here
                         pass
 

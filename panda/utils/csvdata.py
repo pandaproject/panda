@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import codecs
+import datetime
 from itertools import islice
 
 from csvkit import CSVKitReader
@@ -66,5 +67,14 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
         sample = islice(reader, sample_size)
         normal_types, normal_values = normalize_table(sample)
 
-        return [t.__name__ for t in normal_types] 
+        type_names = []
+
+        for t in normal_types:
+            # csvkit recognizes dates and times separately, but we lump them together
+            if t in [datetime.date, datetime.time]:
+                type_names.append('datetime')
+            else:
+                type_names.append(t.__name__)
+
+        return type_names 
 

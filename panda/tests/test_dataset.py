@@ -102,15 +102,17 @@ class TestDataset(TransactionTestCase):
         dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(dataset.columns, ['text', 'date', 'integer', 'boolean', 'float', 'time', 'datetime', 'empty_column', ''])
-        self.assertEqual(dataset.column_types, ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', 'NoneType', 'unicode'])
+        self.assertEqual(dataset.column_types, ['unicode', 'datetime', 'int', 'bool', 'float', 'datetime', 'datetime', 'NoneType', 'unicode'])
         self.assertEqual(dataset.typed_columns, [True for c in upload.columns])
-        self.assertEqual(dataset.typed_column_names, ['column_unicode_text', 'column_date_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_time_time', 'column_datetime_datetime', 'column_NoneType_empty_column', 'column_unicode_'])
+        self.assertEqual(dataset.typed_column_names, ['column_unicode_text', 'column_datetime_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_datetime_time', 'column_datetime_datetime', 'column_NoneType_empty_column', 'column_unicode_'])
         self.assertEqual(dataset.row_count, 5)
         self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_bool_boolean:true')['response']['numFound'], 2)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_text:"Chicago Tribune"')['response']['numFound'], 1)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_datetime:[1971-01-01T01:01:01Z TO NOW]')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_time:[9999-12-31T04:13:01Z TO *]')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_date:[1971-01-01T00:00:00Z TO NOW]')['response']['numFound'], 1)
 
     def test_import_xls(self):
         xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)

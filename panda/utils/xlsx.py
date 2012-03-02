@@ -75,12 +75,18 @@ def determine_column_type(types):
 
     # Normalize mixed types to text
     if len(types_set) > 1:
-        return unicode 
+        return unicode
 
     try:
-        return types_set.pop()
+        t = types_set.pop()
     except KeyError:
         return NoneType 
+
+    # XLSX supports a time type, but Solr does not
+    if t is datetime.time:
+        return datetime.datetime
+    else:
+        return t 
 
 def determine_number_type(values):
     """
@@ -98,15 +104,6 @@ def determine_number_type(values):
         return int
     else:
         return float
-
-def determine_date_type(values):
-    """
-    Determine if a column of numbers in an XLS file are only dates.
-    """
-    if any([dt and dt.time() != NULL_TIME for dt in values]):
-        return datetime.datetime
-    else:
-        return datetime.date
 
 def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
     """
@@ -128,8 +125,6 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
 
         if t is float:
             t = determine_number_type(values) 
-        elif t is datetime.datetime:
-            t = determine_date_type(values)
 
         column_types.append(t)
 
