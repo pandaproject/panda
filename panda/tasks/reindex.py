@@ -33,7 +33,7 @@ class ReindexTask(AbortableTask):
     """
     name = 'panda.tasks.reindex'
 
-    def run(self, dataset_slug, external_id_field_index=None, *args, **kwargs):
+    def run(self, dataset_slug, *args, **kwargs):
         """
         Execute reindex.
         """
@@ -67,7 +67,6 @@ class ReindexTask(AbortableTask):
 
             data = read_buffer.pop(0)
             row = json.loads(data['data'])
-
 
             new_data = utils.solr.make_data_row(dataset, row)
             new_data['id'] = data['id'] 

@@ -2,7 +2,6 @@
 
 from datetime import datetime
 
-from celery.contrib.abortable import AbortableAsyncResult
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -188,7 +187,7 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).delete(*args, **kwargs)
 
-    def import_data(self, user, upload, external_id_field_index=None, typed_columns=[]):
+    def import_data(self, user, upload, external_id_field_index=None):
         """
         Import data into this ``Dataset`` from a given ``DataUpload``.
         """
@@ -214,12 +213,9 @@ class Dataset(SluggedModel):
             if self.column_types is None:
                 self.column_types = upload.guessed_types
 
-            if typed_columns:
-                self.typed_columns = typed_columns
-            elif self.typed_columns is None:
+            if self.typed_columns is None:
                 self.typed_columns = [False for c in self.columns]
-
-            self._generate_typed_column_names()
+                self._generate_typed_column_names()
 
             if self.typed_column_names is None:
                 self.typed_column_names = [None for c in self.columns]
@@ -243,7 +239,7 @@ class Dataset(SluggedModel):
             self.unlock()
             raise
 
-    def reindex_data(self, user, external_id_field_index=None, typed_columns=[]):
+    def reindex_data(self, user, typed_columns=None):
         """
         Reindex the data currently stored for this ``Dataset``.
         """
@@ -263,7 +259,7 @@ class Dataset(SluggedModel):
 
             ReindexTask.apply_async(
                 args=[self.slug],
-                kwargs={ 'external_id_field_index': external_id_field_index },
+                kwargs={},
                 task_id=self.current_task.id
             )
         except:

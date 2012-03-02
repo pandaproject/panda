@@ -90,19 +90,6 @@ class ImportCSVTask(ImportFileTask):
                 external_id = row[external_id_field_index]
 
             data = utils.solr.make_data_row(dataset, row, external_id=external_id)
-
-            # Generate typed column data
-            for n, c in enumerate(dataset.columns):
-                if dataset.typed_columns[n]:
-                    type_name = dataset.column_types[n]
-
-                    try:
-                        value = coerce_type(row[n], TYPE_NAMES_MAPPING[type_name])
-                        data[dataset.typed_column_names[n]] = value
-                    except TypeCoercionError, e:
-                        # TODO: log here
-                        pass
-
             add_buffer.append(data)
 
             if i % SOLR_ADD_BUFFER_SIZE == 0:
