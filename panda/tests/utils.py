@@ -13,6 +13,7 @@ from panda.models import Dataset, DataUpload, RelatedUpload
 TEST_DATA_PATH = os.path.join(settings.SITE_ROOT, 'test_data')
 TEST_DATA_FILENAME = 'contributors.csv'
 TEST_XLS_FILENAME = 'contributors.xls'
+TEST_CSV_TYPES_FILENAME = 'test_types.csv'
 TEST_XLS_TYPES_FILENAME = 'test_types.xls'
 TEST_XLSX_TYPES_FILENAME = 'test_types.xlsx'
 TEST_EXCEL_XLSX_FILENAME = 'contributors.excel.xlsx'

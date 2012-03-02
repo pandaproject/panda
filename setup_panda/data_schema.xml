@@ -55,7 +55,7 @@
         <dynamicField name="column_int_*" type="long" indexed="true" stored="true" />
         <dynamicField name="column_bool_*" type="boolean" indexed="true" stored="true" />
         <dynamicField name="column_float_*" type="float" indexed="true" stored="true" />
-        <dynamicField name="column_none_*" type="ignored" />
+        <dynamicField name="column_NoneType_*" type="ignored" />
 
         <!-- Dynamic, typed fields that correspond to Python types after some processing -->
         <dynamicField name="column_datetime_*" type="date" indexed="true"  stored="true" />

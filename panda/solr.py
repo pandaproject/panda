@@ -5,12 +5,43 @@ Ultra-lightweight wrapper around Solr's JSON API.
 
 Replaces sunburnt in PANDA. Not a generic solution.
 """
+import datetime
 
 from django.conf import settings
-from django.utils import simplejson as json
+from django.utils import datetime_safe
+from django.utils import simplejson
+
 import requests
 
+class SolrJSONEncoder(simplejson.JSONEncoder):
+    """
+    Custom JSONEncoder based on DjangoJSONEncoder that formats datetimes the way Solr likes them. 
+    """
+    DATE_FORMAT = "%Y-%m-%d"
+    TIME_FORMAT = "%H:%M:%S"
+
+    def default(self, o):
+        if isinstance(o, datetime.datetime):
+            d = datetime_safe.new_datetime(o)
+            return d.strftime("%sT%sZ" % (self.DATE_FORMAT, self.TIME_FORMAT))
+        elif isinstance(o, datetime.date):
+            d = datetime_safe.new_date(o)
+            return d.strftime(self.DATE_FORMAT)
+        elif isinstance(o, datetime.time):
+            return o.strftime(self.TIME_FORMAT)
+        else:
+            return super(SolrJSONEncoder, self).default(o)
+
+def dumps(data):
+    return simplejson.dumps(data, cls=SolrJSONEncoder)
+
+def loads(data):
+    return simplejson.loads(data)
+
 class SolrError(Exception):
+    """
+    Exceptionr raised when a Solr requests fails for any reason.
+    """
     def __init__(self, response, *args, **kwargs):
         self.status_code = response.status_code
         self.response_body = response.content
@@ -28,12 +59,12 @@ def add(core, documents, commit=False):
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     params = { 'commit': 'true' } if commit else {}
-    response = requests.post(url, json.dumps(documents), params=params, headers={ 'Content-Type': 'application/json' })
+    response = requests.post(url, dumps(documents), params=params, headers={ 'Content-Type': 'application/json' })
 
     if response.status_code != 200:
         raise SolrError(response)
     
-    return json.loads(response.content)
+    return loads(response.content)
 
 def commit(core):
     """
@@ -45,7 +76,7 @@ def commit(core):
     if response.status_code != 200:
         raise SolrError(response)
     
-    return json.loads(response.content)
+    return loads(response.content)
 
 def delete(core, q, commit=True):
     """
@@ -55,12 +86,12 @@ def delete(core, q, commit=True):
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/update'])
     params = { 'commit': 'true' } if commit else {}
-    response = requests.post(url, json.dumps({ 'delete': { 'query': q } }), params=params, headers={ 'Content-Type': 'application/json' })
+    response = requests.post(url, dumps({ 'delete': { 'query': q } }), params=params, headers={ 'Content-Type': 'application/json' })
     
     if response.status_code != 200:
         raise SolrError(response)
     
-    return json.loads(response.content)
+    return loads(response.content)
 
 def query(core, q, limit=10, offset=0, sort='external_id asc'):
     """
@@ -72,7 +103,7 @@ def query(core, q, limit=10, offset=0, sort='external_id asc'):
     if response.status_code != 200:
         raise SolrError(response)
     
-    return json.loads(response.content)
+    return loads(response.content)
 
 def query_grouped(core, q, group_field, limit=10, offset=0, sort='external_id asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
     """
@@ -85,5 +116,5 @@ def query_grouped(core, q, group_field, limit=10, offset=0, sort='external_id as
     if response.status_code != 200:
         raise SolrError(response)
 
-    return json.loads(response.content)
+    return loads(response.content)
 

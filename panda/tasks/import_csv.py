@@ -3,6 +3,7 @@
 import datetime
 import logging
 from math import floor
+from types import NoneType
 
 from csvkit import CSVKitReader
 from csvkit.exceptions import InvalidValueForTypeException
@@ -22,7 +23,8 @@ TYPE_NAMES_MAPPING = {
     'float': float,
     'date': datetime.date,
     'time': datetime.time,
-    'datetime': datetime.datetime
+    'datetime': datetime.datetime,
+    'NoneType': NoneType
 }
 
 class ImportCSVTask(ImportFileTask):
@@ -98,8 +100,8 @@ class ImportCSVTask(ImportFileTask):
                     type_name = dataset.column_types[n]
 
                     try:
-                        t, value = normalize_column_type([row[n]], normal_type=TYPE_NAMES_MAPPING[type_name])
-                        data[dataset.typed_column_names[n]] = value
+                        t, values = normalize_column_type([row[n]], normal_type=TYPE_NAMES_MAPPING[type_name])
+                        data[dataset.typed_column_names[n]] = values[0]
                     except InvalidValueForTypeException, e:
                         # TODO: log here
                         pass
@@ -108,6 +110,7 @@ class ImportCSVTask(ImportFileTask):
 
             if i % SOLR_ADD_BUFFER_SIZE == 0:
                 solr.add(settings.SOLR_DATA_CORE, add_buffer)
+
                 add_buffer = []
 
                 self.task_update(task_status, '%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100))
