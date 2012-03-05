@@ -3,12 +3,15 @@
 from django.conf import settings
 from django.conf.urls.defaults import url
 from tastypie import fields
+from tastypie import http
 from tastypie.authorization import DjangoAuthorization
+from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from panda import solr
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, JSONApiField, SluggedModelResource, PandaSerializer
+from panda.exceptions import DataImportError, DatasetLockedError
 from panda.models import Category, Dataset, DataUpload
 
 class DatasetValidation(Validation):
@@ -90,6 +93,7 @@ class DatasetResource(SluggedModelResource):
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
             url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/import/(?P<upload_id>\d+)%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('import_data'), name='api_import_data'),
             url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/export%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('export_data'), name='api_export_data'),
+            url(r'^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)/reindex%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('reindex_data'), name='api_reindex_data'),
             
             # Nested urls for accessing data
             url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_list'), name='api_dataset_data_list'),
@@ -193,7 +197,42 @@ class DatasetResource(SluggedModelResource):
         dataset = Dataset.objects.get(slug=slug)
         upload = DataUpload.objects.get(id=kwargs['upload_id'])
 
-        dataset.import_data(request.user, upload)
+        try:
+            dataset.import_data(request.user, upload)
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+        except DataImportError, e:
+            raise ImmediateHttpResponse(response=http.HttpForbidden(e.message))
+
+        dataset.update_full_text()
+
+        bundle = self.build_bundle(obj=dataset, request=request)
+        bundle = self.full_dehydrate(bundle)
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, bundle)
+
+    def reindex_data(self, request, **kwargs):
+        """
+        Dummy endpoint for kicking off data reindexing tasks.
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if 'slug' in kwargs:
+            slug = kwargs['slug']
+        else:
+            slug = request.GET.get('slug')
+
+        dataset = Dataset.objects.get(slug=slug)
+
+        try:
+            dataset.reindex_data(request.user)
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+
         dataset.update_full_text()
 
         bundle = self.build_bundle(obj=dataset, request=request)
@@ -217,7 +256,11 @@ class DatasetResource(SluggedModelResource):
             slug = request.GET.get('slug')
 
         dataset = Dataset.objects.get(slug=slug)
-        dataset.export_data(request.user)
+
+        try:
+            dataset.export_data(request.user)
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
         bundle = self.build_bundle(obj=dataset, request=request)
         bundle = self.full_dehydrate(bundle)
