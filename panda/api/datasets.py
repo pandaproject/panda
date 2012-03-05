@@ -5,7 +5,7 @@ from django.conf.urls.defaults import url
 from tastypie import fields
 from tastypie import http
 from tastypie.authorization import DjangoAuthorization
-from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
@@ -228,8 +228,19 @@ class DatasetResource(SluggedModelResource):
 
         dataset = Dataset.objects.get(slug=slug)
 
+        if not dataset.columns:
+            raise BadRequest('This dataset has no data to reindex.')
+
+        if 'typed_columns' in request.GET:
+            typed_columns = [True if c.lower() == 'true' else False for c in request.GET['typed_columns'].split(',')]
+
+            if len(typed_columns) != len(dataset.columns):
+                raise BadRequest('typed_columns must be a comma-separated list of True/False values with the same number of values as the dataset has columns.')
+        else:
+            typed_columns = None
+
         try:
-            dataset.reindex_data(request.user)
+            dataset.reindex_data(request.user, typed_columns=typed_columns)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 

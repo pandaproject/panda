@@ -314,10 +314,65 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
+    def test_import_data_locked(self):
+        # Note - testing a race condition here, should find a better way
+        response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 403)
+
     def test_import_data_unauthorized(self):
         response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id))
 
         self.assertEqual(response.status_code, 401)
+
+    def test_reindex_data(self):
+        response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
+
+        utils.wait() 
+
+        response = self.client.get('/api/1.0/dataset/%s/reindex/?typed_columns=True,False,False,False' % (self.dataset.slug), **self.auth_headers)
+
+        utils.wait() 
+
+        self.assertEqual(response.status_code, 200)
+        
+        # Refetch dataset so that attributes will be updated
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual(self.dataset.row_count, 4)
+        self.assertEqual(self.dataset.columns, self.upload.columns)
+        self.assertEqual(self.dataset.initial_upload, self.upload)
+        self.assertEqual(self.dataset.sample_data, self.upload.sample_data)
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertEqual(task.task_name, 'panda.tasks.reindex')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:3')['response']['numFound'], 1)
+
+    def test_reindex_data_no_data(self):
+        response = self.client.get('/api/1.0/dataset/%s/reindex/' % (self.dataset.slug), **self.auth_headers)
+
+        utils.wait() 
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_reindex_data_invalid_columns(self):
+        response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
+
+        utils.wait() 
+
+        response = self.client.get('/api/1.0/dataset/%s/reindex/?typed_columns=True,False,False' % (self.dataset.slug), **self.auth_headers)
+
+        utils.wait() 
+
+        self.assertEqual(response.status_code, 400)
 
     def test_export_data(self):
         self.dataset.import_data(self.user, self.upload, 0)
