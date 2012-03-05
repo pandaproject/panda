@@ -162,6 +162,40 @@ PANDA.models.Dataset = Backbone.Model.extend({
         });
     },
 
+    reindex_data: function(typed_columns, column_types, success_callback, error_callback) {
+        /*
+         * Kick off the dataset reindexing and update the model with
+         * the task id and status.
+         *
+         * NB: Runs synchronously.
+         */
+        data = {
+            typed_columns: typed_columns.join(','),
+            column_types: column_types.join(',')
+        };
+
+        Redd.ajax({
+            url: this.url() + "reindex/",
+            async: false,
+            dataType: 'json',
+            data: data,
+            success: _.bind(function(response) {
+                this.set(response);
+
+                if (success_callback) {
+                    success_callback(this);
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(error);
+                }
+            }
+        });
+    },
+
     export_data: function(success_callback, error_callback) {
         /*
          * Kick off the dataset export and update the model with

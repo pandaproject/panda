@@ -114,7 +114,7 @@ INSTALLED_APPS = (
 AUTH_PROFILE_MODULE = 'panda.UserProfile'
 
 # Django-compressor
-COMPRESS_ENABLED = True 
+COMPRESS_ENABLED = False 
 
 # Celery
 import djcelery

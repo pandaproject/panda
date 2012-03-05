@@ -18,6 +18,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         // Nuke old modals
         $("#modal-edit-dataset").remove();
         $("#modal-upload-related").remove();
+        $("#modal-index-types").remove();
         $("#modal-export-dataset").remove();
         $("#modal-dataset-destroy").remove();
 
@@ -76,6 +77,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         $("#dataset-edit").click(this.edit);
         $("#dataset-upload-related").click(this.upload_related);
+        $("#dataset-index-types").click(this.index_types);
         $("#dataset-export").click(this.export_data);
         $("#dataset-destroy").click(this.destroy);
     },
@@ -176,6 +178,30 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
     on_related_upload_message: function(message) {
         $("#related-upload-alert").alert("error", "<p>" + message + '</p>' , false);
+    },
+
+    index_types: function() {
+        /*
+         * Reindex dataset asynchronously.
+         */
+        data = $("#typed-columns-form").serializeObject();
+
+        column_types = [];
+        typed_columns = [];
+
+        _.each(this.dataset.get("columns"), function(c, i) {
+            column_types[i] = data["type-" + i];
+            typed_columns[i] = ("typed-" + i in data); 
+        });
+
+        console.log(column_types);
+        console.log(typed_columns);
+
+        this.dataset.reindex_data(typed_columns, column_types, function() {
+            bootbox.alert("Your data indexing task has been successfully queued. You wil receive an email when it is complete.");
+        }, function(error) {
+            bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+        });
     },
     
     export_data: function() {

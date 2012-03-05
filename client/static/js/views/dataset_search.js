@@ -52,14 +52,25 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
         var task = this.dataset.current_task;
 
-        if (task && task.get("task_name").startsWith("panda.tasks.import")) {
-            if (task.get("status") == "STARTED") {
-                $("#dataset-search .alert").alert_block("alert-info", "Import in progress!", "<p>Data is being made searchable. It will not yet appear in search results.</p><p>Status of import: " + task.get("message") + ".</p>", false);
-            } else if (task.get("status") == "PENDING") {
-                $("#dataset-search .alert").alert_block("alert-info", "Queued for import!", "<p>Data is waiting to be made searchable. It will not yet appear in search results.</p>", false);
-            } else if (task.get("status") == "FAILURE") {
-                $("#dataset-search .alert").alert_block("alert-error", "Import failed!", '<p>The process to make data searchable failed. It will not appear in search results. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
-            } 
+        if (task) {
+            if (task.get("task_name").startsWith("panda.tasks.import")) {
+                if (task.get("status") == "STARTED") {
+                    $("#dataset-search .alert").alert_block("alert-info", "Import in progress!", "<p>Data is being made searchable. Search results may be incomplete.</p><p>Status: " + task.get("message") + ".</p>", false);
+                } else if (task.get("status") == "PENDING") {
+                    $("#dataset-search .alert").alert_block("alert-info", "Queued for import!", "<p>Data is waiting to be made searchable. Search results may be incomplete.</p>", false);
+                } else if (task.get("status") == "FAILURE") {
+                    $("#dataset-search .alert").alert_block("alert-error", "Import failed!", '<p>The process to make data searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                }
+            }
+            else if (task.get("task_name").startsWith("panda.tasks.reindex")) {
+                if (task.get("status") == "STARTED") {
+                    $("#dataset-search .alert").alert_block("alert-info", "Reindexing in progress!", "<p>Data is being made searchable. Search results may be incomplete.</p><p>Status: " + task.get("message") + ".</p>", false);
+                } else if (task.get("status") == "PENDING") {
+                    $("#dataset-search .alert").alert_block("alert-info", "Queued for reindexing!", "<p>Data is waiting to be made searchable. Search results may be incomplete.</p>", false);
+                } else if (task.get("status") == "FAILURE") {
+                    $("#dataset-search .alert").alert_block("alert-error", "Reindexing failed!", '<p>The process to make data searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                }
+            }
         }
         
         if (!this.query) {

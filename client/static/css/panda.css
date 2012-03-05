@@ -117,6 +117,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #view-dataset #dataset-actions a.disabled { color: #999999; } 
 #view-dataset .sample-data { margin-top: 5px; margin-bottom: 10px; }
 #modal-upload-related .upload-progress { display: none; }
+#modal-index-types table { width: 100%; }
+#modal-index-types table td { padding: 2px; vertical-align: middle;}
 
 /* Upload page */
 

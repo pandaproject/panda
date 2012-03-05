@@ -14,6 +14,11 @@
                 <% } %>
                 <li><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-upload"></i> Upload related file</a></li>
                 <% if (dataset.locked) { %>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-asterisk"></i> Index column types</a></li>
+                <% } else { %>
+                <li><a href="#modal-index-types" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-asterisk"></i> Index column types</a></li>
+                <% } %>
+                <% if (dataset.locked) { %>
                 <li><a class="disabled" href="javascript: return false;"><i class="icon-share"></i> Export to CSV</a></li>
                 <% } else { %>
                 <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-share"></i> Export to CSV</a></li>
@@ -109,6 +114,46 @@
     <div class="modal-footer">
         <input type="button" class="btn" data-dismiss="modal" value="Cancel" />
         <input type="button" id="dataset-upload-related" class="btn btn-primary" value="Upload" />
+    </div>
+</div>
+
+<div id="modal-index-types" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Select columns to import</h3>
+    </div>
+    <div class="modal-body">
+        <form id="typed-columns-form">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Import?</th>
+                    <th>Data type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% _.each(dataset.columns, function(c, i) { %>
+                <tr>
+                    <td><label><%= c %></label></td>
+                    <td><input type="checkbox" name="typed-<%= i %>" <% if (dataset.typed_columns[i]) { %>checked="checked"<% } %>></td>
+                    <td><select name="type-<%= i %>">
+                        <option value=""<% if (dataset.column_types[i] == null) { %>selected="selected"<% } %>>None</option>
+                        <option value="unicode"<% if (dataset.column_types[i] == "unicode") { %>selected="selected"<% } %>>string</option>
+                        <option value="int"<% if (dataset.column_types[i] == "int") { %>selected="selected"<% } %>>integer</option>
+                        <option value="float"<% if (dataset.column_types[i] == "float") { %>selected="selected"<% } %>>float</option>
+                        <option value="bool"<% if (dataset.column_types[i] == "bool") { %>selected="selected"<% } %>>boolean</option>
+                        <option value="datetime"<% if (dataset.column_types[i] == "datetime") { %>selected="selected"<% } %>>date/time</option>
+                    </select></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="dataset-index-types" class="btn btn-primary" data-dismiss="modal">Index</a>
     </div>
 </div>
 

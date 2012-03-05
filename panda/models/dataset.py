@@ -239,7 +239,7 @@ class Dataset(SluggedModel):
             self.unlock()
             raise
 
-    def reindex_data(self, user, typed_columns=None):
+    def reindex_data(self, user, typed_columns=None, column_types=None):
         """
         Reindex the data currently stored for this ``Dataset``.
         """
@@ -248,8 +248,9 @@ class Dataset(SluggedModel):
         try:
             if typed_columns:
                 self.typed_columns = typed_columns
-            elif self.typed_columns is None:
-                self.typed_columns = [False for c in self.columns]
+
+            if column_types:
+                self.column_types = column_types
 
             self._generate_typed_column_names()
 
