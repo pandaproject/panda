@@ -10,7 +10,7 @@ Before you configure PANDA you're going to need access to an SMTP server for sen
 Using your own SMTP
 -------------------
 
-If you're organization already has an SMTP server then you may be able to use it for PANDA. Note, however, that if you host PANDA on EC2 and your SMTP server is internal to your organization you may not be able to reach it. It's best to discuss this possibility with the IT staff in charge of your email servers.
+If your organization already has an SMTP server then you may be able to use it for PANDA. Note, however, that if you host PANDA on EC2 and your SMTP server is internal to your organization you may not be able to reach it. It's best to discuss this possibility with the IT staff in charge of your email servers.
 
 If you can use your own SMTP server then make sure you have its address, port number, username and password ready so you can fill them in later.
 
@@ -57,7 +57,7 @@ Once you have your SMTP connection details ready. You're ready to configure your
 
 Replace ``localhost:8000`` with your PANDA's domain name.
 
-You'll be prompted to login. If this is you're first time you can use the default username, ``panda@pandaproject.net`` and the default password ``panda``.
+You'll be prompted to login. If this is your first time you can use the default username, ``panda@pandaproject.net`` and the default password ``panda``.
 
 Once you've logged you'll see a list of configuration options. In the section titled "Email settings", fill in the details of your SMTP connection and then click "Update Settings".
 
