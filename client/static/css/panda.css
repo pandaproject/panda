@@ -115,6 +115,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #view-dataset h3 { display: block; float: left; margin-bottom: 8px; }
 #view-dataset #dataset-actions { float: left; } 
 #view-dataset #dataset-actions a.disabled { color: #999999; } 
+#view-dataset p.disabled { color: #999999; } 
 #view-dataset .sample-data { margin-top: 5px; margin-bottom: 10px; }
 #modal-upload-related .upload-progress { display: none; }
 #modal-index-types table { width: 100%; }

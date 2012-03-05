@@ -68,7 +68,7 @@
             <p><em>None uploaded.</em></p>
             <% } %>
             <% if (dataset.locked) { %>
-            <p><i class="icon-ban-circle"></i> Upload more data</p>
+            <p class="disabled"><i class="icon-ban-circle"></i> Upload more data</p>
             <% } else { %>
             <p><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></p>
             <% } %>

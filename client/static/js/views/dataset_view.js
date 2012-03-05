@@ -194,14 +194,20 @@ PANDA.views.DatasetView = Backbone.View.extend({
             typed_columns[i] = ("typed-" + i in data); 
         });
 
-        console.log(column_types);
-        console.log(typed_columns);
-
-        this.dataset.reindex_data(typed_columns, column_types, function() {
-            bootbox.alert("Your data indexing task has been successfully queued. You wil receive an email when it is complete.");
-        }, function(error) {
-            bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
-        });
+        this.dataset.reindex_data(
+            typed_columns,
+            column_types,
+            _.bind(function() {
+                bootbox.alert(
+                    "Your data indexing task has been successfully queued. You wil receive an email when it is complete.",
+                    _.bind(function() {
+                        Redd.goto_dataset_view(this.dataset.get("slug"));
+                        window.scrollTo(0, 0);
+                    }, this));
+            }, this),
+            function(error) {
+                bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            });
     },
     
     export_data: function() {
