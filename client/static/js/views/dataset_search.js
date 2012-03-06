@@ -16,8 +16,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     reset: function(dataset_slug, query, success_callback) {
-        this.decode_query(query);
-
+        this.decode_query_string(query);
+        
         this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
 
         this.dataset.fetch({
@@ -81,7 +81,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     search_event: function() {
-        this.query = this.encode_query();
+        this.query = this.encode_query_string();
 
         Redd.goto_dataset_search(this.dataset.get("slug"), this.query);
 
@@ -89,51 +89,82 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     search: function(query, limit, page) {
-        this.decode_query(query);
+        this.decode_query_string(query);
 
-        console.log(query);
-        console.log(this.query);
-
-        console.log("search");
         this.render();
-        this.dataset.search(this.query, limit, page);
+        this.dataset.search(this.make_solr_query(), limit, page);
     },
 
-    encode_query: function() {
+    encode_query_string: function() {
         /*
          * Convert arguments from the search fields into a URL. 
          */
-        var text = $("#dataset-search-query").val();
-        var query = escape(text);
+        var full_text = $("#dataset-search-query").val();
+        var query = escape(full_text);
 
-        // for each column search field
-        // escape key and value
-        // add to query string
+        _.each(this.dataset.get("column_schema"), function(c, i) {
+            if (!c["indexed"]) {
+                return;
+            }
+
+            var value = $("#dataset-column-" + i).val();
+
+            if (value) {
+                query += "|" + escape(c["name"]) + ":" + escape(value);
+            }
+        });
 
         return query;
     },
 
-    decode_query: function(query) {
+    decode_query_string: function(query_string) {
         /*
-         * Parse a query from the URL into form values and a raw query.
-         * TODO - set values to forms
+         * Parse a query from the URL into form values and a query object.
          */
-        if (query) {
-            this.query = "";
+        if (query_string) {
+            this.query = {};
 
-            var parts = query.split(/\|/);
+            var parts = query_string.split(/\|/);
 
             _.each(parts, _.bind(function(p, i) {
                 if (i == 0) {
-                    this.query = unescape(p);
+                    this.query["__all__"] = unescape(p);
                 } else {
-                    column_and_value = p.split(":");
-                    this.query += " " + unescape(column_and_value[0]) + ":" + unescape(column_and_value[1]);
+                    var column_and_value = p.split(":");
+                    var column_name = unescape(column_and_value[0]);
+                    var column_value = unescape(column_and_value[1]);
+
+                    this.query[column_name] = column_value;
                 }
             }, this));
         } else {
             this.query = null;
         }
+    },
+
+    make_solr_query: function() {
+        /*
+         * Convert the internal query object into a Solr query string.
+         */
+        if (!this.query) {
+            return "";
+        }
+
+        var q = this.query["__all__"];
+
+        _.each(this.query, _.bind(function(v, k) {
+            if (k == "__all__") {
+                return;
+            }
+
+            var c = _.find(this.dataset.get("column_schema"), function(c) {
+                return c["name"] == k;
+            });
+
+            q += " " + c["indexed_name"] + ":" + v;
+        }, this));
+
+        return q;
     }
 });
 
