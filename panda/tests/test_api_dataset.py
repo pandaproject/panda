@@ -22,34 +22,6 @@ class TestDatasetValidation(TestCase):
 
         self.assertIn('name', errors)
 
-    def test_columns_are_null(self):
-        bundle = Bundle(data={ 'columns': None })
-
-        errors = self.validator.is_valid(bundle)
-
-        self.assertNotIn('columns', errors)
-
-    def test_columns_are_array(self):
-        bundle = Bundle(data={ 'columns': {} })
-
-        errors = self.validator.is_valid(bundle)
-
-        self.assertIn('columns', errors)
-
-    def test_columns_names_are_strings(self):
-        bundle = Bundle(data={ 'columns': [1, 'str'] })
-
-        errors = self.validator.is_valid(bundle)
-
-        self.assertIn('columns', errors)
-
-    def test_columns_are_valid(self):
-        bundle = Bundle(data={ 'columns': ['1', 'str'] })
-
-        errors = self.validator.is_valid(bundle)
-
-        self.assertNotIn('columns', errors)
-
 class TestAPIDataset(TransactionTestCase):
     fixtures = ['init_panda.json']
 
@@ -85,7 +57,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['description'], self.dataset.description)
         self.assertEqual(body['row_count'], self.dataset.row_count)
         self.assertEqual(body['sample_data'], self.dataset.sample_data)
-        self.assertEqual(body['columns'], self.dataset.columns)
+        self.assertEqual(body['column_schema'], self.dataset.column_schema)
         self.assertEqual(body['creator']['email'], self.dataset.creator.email)
 
         task_response = self.client.get('/api/1.0/task/%i/' % self.dataset.current_task.id, **self.auth_headers)
@@ -170,7 +142,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['slug'], 'new-dataset')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
-        self.assertEqual(body['columns'], None)
+        self.assertEqual(body['column_schema'], None)
         self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['initial_upload'], None)
@@ -182,7 +154,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.name, 'New dataset!')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertEqual(new_dataset.columns, None)
+        self.assertEqual(new_dataset.column_schema, None)
         self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.initial_upload, None)
@@ -225,7 +197,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(body['slug'], 'new-id')
         self.assertEqual(body['description'], 'Its got yummy data!')
         self.assertEqual(body['row_count'], None)
-        self.assertEqual(body['columns'], None)
+        self.assertEqual(body['column_schema'], None)
         self.assertEqual(body['sample_data'], None)
         self.assertEqual(body['current_task'], None)
         self.assertEqual(body['initial_upload'], None)
@@ -237,7 +209,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.slug, 'new-id')
         self.assertEqual(new_dataset.description, 'Its got yummy data!')
         self.assertEqual(new_dataset.row_count, None)
-        self.assertEqual(new_dataset.columns, None)
+        self.assertEqual(new_dataset.column_schema, None)
         self.assertEqual(new_dataset.sample_data, None)
         self.assertEqual(new_dataset.current_task, None)
         self.assertEqual(new_dataset.initial_upload, None)
@@ -299,7 +271,7 @@ class TestAPIDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(self.dataset.row_count, 4)
-        self.assertEqual(self.dataset.columns, self.upload.columns)
+        self.assertEqual([c['name'] for c in self.dataset.column_schema], self.upload.columns)
         self.assertEqual(self.dataset.initial_upload, self.upload)
         self.assertEqual(self.dataset.sample_data, self.upload.sample_data)
 
@@ -341,7 +313,7 @@ class TestAPIDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.assertEqual(self.dataset.row_count, 4)
-        self.assertEqual(self.dataset.columns, self.upload.columns)
+        self.assertEqual([c['name'] for c in self.dataset.column_schema], self.upload.columns)
         self.assertEqual(self.dataset.initial_upload, self.upload)
         self.assertEqual(self.dataset.sample_data, self.upload.sample_data)
 
@@ -451,7 +423,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(int(body['id']), self.dataset.id)
         self.assertEqual(body['name'], self.dataset.name)
         self.assertEqual(body['row_count'], self.dataset.row_count)
-        self.assertEqual(body['columns'], self.dataset.columns)
+        self.assertEqual(body['column_schema'], self.dataset.column_schema)
 
         # Test that only one dataset was matched
         self.assertEqual(body['meta']['total_count'], 4)
@@ -486,7 +458,7 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(int(body['id']), self.dataset.id)
         self.assertEqual(body['name'], self.dataset.name)
         self.assertEqual(body['row_count'], self.dataset.row_count)
-        self.assertEqual(body['columns'], self.dataset.columns)
+        self.assertEqual(body['column_schema'], self.dataset.column_schema)
 
         # Test that only one dataset was matched
         self.assertEqual(body['meta']['total_count'], 1)

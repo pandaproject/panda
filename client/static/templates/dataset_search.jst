@@ -14,10 +14,10 @@
                 &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                 <% } %>
 
-                <% _.each(dataset.columns, function(c, i) { %>
-                    <% if (dataset.typed_columns[i]) { %>
+                <% _.each(dataset.column_schema, function(c, i) { %>
+                    <% if (c['indexed']) { %>
                         <div>
-                            "<%= c %>" search widget goes here!
+                            "<%= c['name'] %>" search widget goes here!
                         </div>
                     <% } %>
                 <% }); %>

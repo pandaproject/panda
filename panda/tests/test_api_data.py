@@ -458,7 +458,7 @@ class TestAPIData(TransactionTestCase):
             
             self.assertEqual(result_dataset['name'], db_dataset.name)
             self.assertEqual(result_dataset['row_count'], db_dataset.row_count)
-            self.assertEqual(result_dataset['columns'], db_dataset.columns)
+            self.assertEqual(result_dataset['column_schema'], db_dataset.column_schema)
 
             self.assertEqual(result_dataset['objects'][0]['data'][1], 'Christopher')
             self.assertIn('resource_uri', result_dataset['objects'][0])

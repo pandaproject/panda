@@ -27,8 +27,8 @@
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
                             <tr>
-                                <% _.each(dataset.columns, function(c) { %>
-                                <th><%= c %></th>
+                                <% _.each(dataset.column_schema, function(c) { %>
+                                <th><%= c["name"] %></th>
                                 <% }); %>
                             </tr>
                         </thead>

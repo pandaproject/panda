@@ -167,10 +167,10 @@ class DataResource(PandaResource):
         if dataset.initial_upload and not dataset.row_count:
             errors['dataset'] = ['Can not create or modify data for a dataset which has initial_upload, but has not completed the import process.']
 
-        if dataset.columns is None:
+        if dataset.column_schema is None:
             errors['dataset'] = ['Can not create or modify data for a dataset without columns.']
         else:
-            expected_field_count = len(dataset.columns)
+            expected_field_count = len(dataset.column_schema)
 
             if field_count != expected_field_count:
                 errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]

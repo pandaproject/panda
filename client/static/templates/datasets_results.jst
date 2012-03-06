@@ -44,8 +44,8 @@
                         on  <span style="white-space: nowrap;"><%= PANDA.templates.inline_timestamp({ d: dataset.creation_date }) %></span>
                     </td>
                     <td class="column-names">
-                        <% _.each(dataset.columns, function(c, i, l) { %>
-                        <span class="column-name"><%= c %></span><% if (i < l.length - 1) { print("&nbsp;") } %>
+                        <% _.each(dataset.column_schema, function(c, i, l) { %>
+                        <span class="column-name"><%= c["name"] %></span><% if (i < l.length - 1) { print("&nbsp;") } %>
                         <% }); %>
                     </td>
                 </tr>

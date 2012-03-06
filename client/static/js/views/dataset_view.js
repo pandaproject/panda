@@ -189,7 +189,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         column_types = [];
         typed_columns = [];
 
-        _.each(this.dataset.get("columns"), function(c, i) {
+        _.each(this.dataset.get("column_schema"), function(c, i) {
             column_types[i] = data["type-" + i];
             typed_columns[i] = ("typed-" + i in data); 
         });

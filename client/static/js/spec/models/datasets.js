@@ -58,8 +58,8 @@ describe("Dataset model", function() {
         json = dataset.toJSON();
 
         expect(json.creator).toEqual("/api/1.0/user/1/");
-        expect(json.data_uploads).toEqual(["/api/1.0/upload/1/"]);
-        expect(json.initial_upload).toEqual("/api/1.0/upload/1/");
+        expect(json.data_uploads).toEqual(["/api/1.0/data_upload/1/"]);
+        expect(json.initial_upload).toEqual("/api/1.0/data_upload/1/");
         expect(json.current_task).toEqual("/api/1.0/task/1/");
         expect(json.categories).toEqual([]);
     });

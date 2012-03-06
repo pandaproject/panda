@@ -297,7 +297,7 @@ def make_fixtures():
     local('curl --data-binary "{ \\"delete\\": { \\"query\\": \\"*:*\\" } }" -H "Content-type:application/xml" "http://localhost:8983/solr/datasets/update?commit=true"')
 
     local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -H "Content-Type: application/json" --data-binary "{ \\"name\\": \\"Test\\" }" "http://localhost:8000/api/1.0/dataset/"' % env)
-    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -F file=@test_data/contributors.csv -F dataset_slug=test "http://localhost:8000/upload/"' % env)
+    local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" -F file=@test_data/contributors.csv -F dataset_slug=test "http://localhost:8000/data_upload/"' % env)
     local('curl -H "PANDA_EMAIL: %(local_test_email)s" -H "PANDA_API_KEY: %(local_test_api_key)s" "http://localhost:8000/api/1.0/dataset/test/import/1/"' % env)
 
     mock_xhr_responses = ['window.MOCK_XHR_RESPONSES = {};']

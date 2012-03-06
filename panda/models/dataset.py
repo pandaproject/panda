@@ -27,14 +27,8 @@ class Dataset(SluggedModel):
     # data_uploads =  models.ToMany(DataUpload, null=True)
     initial_upload = models.ForeignKey('DataUpload', null=True, blank=True, related_name='initial_upload_for',
         help_text='The data upload used to create this dataset, if any was used.')
-    columns = JSONField(null=True, default=None,
-        help_text='A list of names for this dataset\'s columns.')
-    typed_columns = JSONField(null=True, default=None,
-        help_text='A list of boolean values corresponding to each column in the dataset. If true that column will be indexed in its own typed column.')
-    column_types = JSONField(null=True, default=None,
-        help_text='A list of types corresponding to the datasets\'s columns. May be inferred or user-specified')
-    typed_column_names = JSONField(null=True, default=None,
-        help_text='A list of column names used to store typed data on the backend. Each column will have a corresponding column name or None.')
+    column_schema = JSONField(null=True, default=None,
+        help_text='Metadata about columns.')
     sample_data = JSONField(null=True, default=None,
         help_text='Example data rows from the dataset.')
     row_count = models.IntegerField(null=True, blank=True,
@@ -78,27 +72,29 @@ class Dataset(SluggedModel):
         """
         Generate Solr names for typed columns, de-duplicating as necessary.
         """
-        self.typed_column_names = []
+        typed_column_names = []
 
-        for i, c in enumerate(self.columns):
-            if not self.typed_columns[i]:
-                self.typed_column_names.append(None)
+        for i, c in enumerate(self.column_schema):
+            if not c['indexed']:
+                typed_column_names.append(None)
+                self.column_schema[i]['indexed_name'] = None
                 continue
 
-            name = 'column_%s_%s' % (self.column_types[i], self.columns[i])
+            name = 'column_%s_%s' % (c['type'], c['name'])
 
             # Deduplicate within dataset
-            if name in self.typed_column_names:
-                i = 2
-                test_name = '%s%i' % (name, i)
+            if name in typed_column_names:
+                n = 2
+                test_name = '%s%i' % (name, n)
 
-                while test_name in self.typed_column_names:
-                    i += 1
-                    test_name = '%s%i' % (name, i)
+                while test_name in typed_column_names:
+                    n += 1
+                    test_name = '%s%i' % (name, n)
 
                 name = test_name
 
-            self.typed_column_names.append(name)
+            typed_column_names.append(name)
+            self.column_schema[i]['indexed_name'] = name
 
     def lock(self):
         """
@@ -165,8 +161,8 @@ class Dataset(SluggedModel):
         for related_upload in self.related_uploads.all():
             full_text_data.append(related_upload.original_filename)
 
-        if self.columns is not None:
-            full_text_data.extend(self.columns)
+        if self.column_schema is not None:
+            full_text_data.extend([c['name'] for c in self.column_schema])
 
         full_text = '\n'.join(full_text_data)
 
@@ -203,23 +199,23 @@ class Dataset(SluggedModel):
                 # This is normally caught on the client.
                 raise DataImportError('This file type is not supported for data import.')
             
-            if self.columns:
+            if self.column_schema:
                 # This is normally caught on the client.
-                if upload.columns != self.columns:
+                if upload.columns != [c['name'] for c in self.column_schema]:
                     raise DataImportError('The columns in this file do not match those in the dataset.')
             else:
-                self.columns = upload.columns
-
-            if self.column_types is None:
-                self.column_types = upload.guessed_types
-
-            if self.typed_columns is None:
-                self.typed_columns = [False for c in self.columns]
-                self._generate_typed_column_names()
-
-            if self.typed_column_names is None:
-                self.typed_column_names = [None for c in self.columns]
-
+                self.column_schema = []
+                
+                for i, c in enumerate(upload.columns):
+                    self.column_schema.append({
+                        'name': c,
+                        'indexed': False,
+                        'type': upload.guessed_types[i],
+                        'indexed_name': None,
+                        'min': None,
+                        'max': None
+                    })
+                
             if self.sample_data is None:
                 self.sample_data = upload.sample_data
 
@@ -247,10 +243,12 @@ class Dataset(SluggedModel):
 
         try:
             if typed_columns:
-                self.typed_columns = typed_columns
+                for i, t in enumerate(typed_columns):
+                    self.column_schema[i]['indexed'] = t
 
             if column_types:
-                self.column_types = column_types
+                for i, t in enumerate(column_types):
+                    self.column_schema[i]['type'] = t
 
             self._generate_typed_column_names()
 

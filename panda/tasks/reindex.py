@@ -72,13 +72,11 @@ class ReindexTask(AbortableTask):
             new_data['id'] = data['id'] 
 
             # Generate typed column data
-            for n, c in enumerate(dataset.columns):
-                if dataset.typed_columns[n]:
-                    type_name = dataset.column_types[n]
-
+            for n, c in enumerate(dataset.column_schema):
+                if c['indexed']:
                     try:
-                        value = coerce_type(row[n], TYPE_NAMES_MAPPING[type_name])
-                        new_data[dataset.typed_column_names[n]] = value
+                        value = coerce_type(row[n], TYPE_NAMES_MAPPING[c['type']])
+                        new_data[c['indexed_name']] = value
                     except TypeCoercionError, e:
                         # TODO: log here
                         pass

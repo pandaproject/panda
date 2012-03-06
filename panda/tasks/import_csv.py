@@ -9,9 +9,8 @@ from csvkit import CSVKitReader
 from django.conf import settings
 
 from panda import solr, utils
-from panda.exceptions import DataImportError, TypeCoercionError
+from panda.exceptions import DataImportError
 from panda.tasks.import_file import ImportFileTask 
-from panda.utils.typecoercion import coerce_type
 
 SOLR_ADD_BUFFER_SIZE = 500
 
