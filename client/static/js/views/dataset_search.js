@@ -16,8 +16,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     reset: function(dataset_slug, query, success_callback) {
-        this.query = query;
-        
+        this.decode_query(query);
+
         this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
 
         this.dataset.fetch({
@@ -81,7 +81,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     search_event: function() {
-        this.query = $("#dataset-search-form #dataset-search-query").val();
+        this.query = this.encode_query();
 
         Redd.goto_dataset_search(this.dataset.get("slug"), this.query);
 
@@ -89,10 +89,51 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     search: function(query, limit, page) {
-        this.query = query;
+        this.decode_query(query);
 
+        console.log(query);
+        console.log(this.query);
+
+        console.log("search");
         this.render();
-        this.dataset.search(query, limit, page);
+        this.dataset.search(this.query, limit, page);
+    },
+
+    encode_query: function() {
+        /*
+         * Convert arguments from the search fields into a URL. 
+         */
+        var text = $("#dataset-search-query").val();
+        var query = escape(text);
+
+        // for each column search field
+        // escape key and value
+        // add to query string
+
+        return query;
+    },
+
+    decode_query: function(query) {
+        /*
+         * Parse a query from the URL into form values and a raw query.
+         * TODO - set values to forms
+         */
+        if (query) {
+            this.query = "";
+
+            var parts = query.split(/\|/);
+
+            _.each(parts, _.bind(function(p, i) {
+                if (i == 0) {
+                    this.query = unescape(p);
+                } else {
+                    column_and_value = p.split(":");
+                    this.query += " " + unescape(column_and_value[0]) + ":" + unescape(column_and_value[1]);
+                }
+            }, this));
+        } else {
+            this.query = null;
+        }
     }
 });
 

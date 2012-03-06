@@ -13,6 +13,14 @@
                 <% if (query) { %>
                 &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                 <% } %>
+
+                <% _.each(dataset.columns, function(c, i) { %>
+                    <% if (dataset.typed_columns[i]) { %>
+                        <div>
+                            "<%= c %>" search widget goes here!
+                        </div>
+                    <% } %>
+                <% }); %>
             <% } %>
         </form>
     </div>
