@@ -40,7 +40,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
             return PANDA.templates.inline_related_upload_item(context);
         }, this));
 
-        sample_data_html = PANDA.templates.inline_sample_data(this.dataset.toJSON());
+        sample_data_html = PANDA.templates.inline_sample_data({
+            "columns": _.pluck(this.dataset.get("column_schema"), "name"),
+            "sample_data": this.dataset.get("sample_data")
+        });
 
         var context = PANDA.utils.make_context({
             'dataset': this.dataset.toJSON(true),
