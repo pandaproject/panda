@@ -10,7 +10,7 @@ Amazon EC2 backups
 Creating a backup
 -----------------
 
-If you are hosting your PANDA on Amazon EC2 then you can make use of EC2's "snapshot" ability for your backups. In essence a snapshot is an exact copy of any EBS volume. You can use this ability to create backups your PANDA server and, if you have `migrated your files and indexes <storage.rst>`_, the volumes they reside on as well. We provide a script to automate this process. You will need to have at least some experience with administering a server in order to use this script.
+If you are hosting your PANDA on Amazon EC2 then you can make use of EC2's "snapshot" ability for your backups. In essence a snapshot is an exact copy of any EBS volume. You can use this ability to create backups your PANDA server and, if you have :doc:`migrated your files and indexes <storage>`, the volumes they reside on as well. We provide a script to automate this process. You will need to have at least some experience with administering a server in order to use this script.
 
 To perform a one-time backup SSH into your server and execute the following commands::
 
@@ -42,7 +42,7 @@ Restoring a backup created with snapshots is a matter of restoring each volume a
 * Select it and click "Attach Volume".
 * Find your instance in the list using the instance ID you noted before. It should still be in "stopped" state. Set the **Device** to ``/dev/sda1``. Attach it!
 
-If you have run either the files or indexes `storage migration scripts <storage.html>`_ then you will also need to restore your additional storage volumes. These are more straight-forward:
+If you have run either the files or indexes :doc:`storage migration scripts <storage>` then you will also need to restore your additional storage volumes. These are more straight-forward:
 
 * Create a volume from each snapshot in the same manner you created the root volume.
 * Make note of the device in the description of each volume. It looks like ``/dev/sdg``.

@@ -11,6 +11,6 @@ I am...
 .. toctree::
     :maxdepth: 1
 
-    amazon.rst
-    Installing on my own hardware <self-install.rst>
+    amazon
+    Installing on my own hardware <self-install>
 
