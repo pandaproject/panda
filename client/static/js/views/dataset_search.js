@@ -15,8 +15,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.view = new PANDA.views.DatasetView();
     },
 
-    reset: function(dataset_slug, query, success_callback) {
-        this.decode_query_string(query);
+    reset: function(dataset_slug, query_string, success_callback) {
+        this.decode_query_string(query_string);
         
         this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
 
@@ -81,9 +81,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     search_event: function() {
-        this.query = this.encode_query_string();
+        query_string = this.encode_query_string();
 
-        Redd.goto_dataset_search(this.dataset.get("slug"), this.query);
+        Redd.goto_dataset_search(this.dataset.get("slug"), query_string);
 
         return false;
     },
