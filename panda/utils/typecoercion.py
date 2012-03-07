@@ -45,6 +45,10 @@ def coerce_type(value, normal_type):
             return float(value)
         # date, time, datetime
         elif normal_type in [datetime.date, datetime.time, datetime.datetime]:
+            # Don't parse empty strings!
+            if not value:
+                raise ValueError()
+
             try:
                 d = parse(value, default=DEFAULT_DATETIME)
             except OverflowError:

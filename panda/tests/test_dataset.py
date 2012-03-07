@@ -342,6 +342,8 @@ class TestDataset(TransactionTestCase):
         self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
         self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
         self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual([c['min'] for c in dataset.column_schema], [1, None, None, None])
+        self.assertEqual([c['max'] for c in dataset.column_schema], [4, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(dataset.locked, False)
 
@@ -375,6 +377,8 @@ class TestDataset(TransactionTestCase):
         self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
         self.assertEqual([c['indexed'] for c in dataset.column_schema], [True for c in upload.columns])
         self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_unicode_text', 'column_date_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_time_time', 'column_datetime_datetime', None, 'column_unicode_'])
+        self.assertEqual([c['min'] for c in dataset.column_schema], [None, u'1920-01-01', 40, None, 1.0, u'00:00:00', u'1971-01-01 04:14:00', None, None])
+        self.assertEqual([c['max'] for c in dataset.column_schema], [None, u'1971-01-01', 164, None, 41800000.01, u'14:57:13', u'2048-01-01 14:57:00', None, None])
         self.assertEqual(dataset.row_count, 5)
         self.assertEqual(dataset.locked, False)
 
