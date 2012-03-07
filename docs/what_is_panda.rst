@@ -8,8 +8,8 @@ PANDA is:
 * A place for journalists to store data.
 * A search engine for your news data.
 * A private archive of your newsworthy datasets.
-* `Extensible <api.html>`_.
-* `Self-hosted <production.html>`_.
+* :doc:`Extensible <api>`.
+* :doc:`Self-hosted <production>`.
 
 PANDA is *not*:
 ===============

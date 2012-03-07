@@ -89,4 +89,4 @@ Or the default administrator credentials::
     Username: panda@pandaproject.net
     Password: panda
 
-Once you have verified that your instance is online you may wish to configure `DNS <dns.html>`_, `E-mail <email.html>`_ and/or `Secure connections (SSL) <ssl.html>`_.
+Once you have verified that your instance is online you may wish to configure :doc:`DNS <dns>`, :doc:`E-mail <email>` and/or :doc:`Secure connections (SSL) <ssl>`.

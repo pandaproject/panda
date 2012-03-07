@@ -10,3 +10,4 @@ media
 .settings
 docs/_build
 beta_settings.py
+local_settings.py

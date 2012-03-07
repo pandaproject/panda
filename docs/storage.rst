@@ -6,12 +6,12 @@ PANDA stores both raw data files and search indexes. Both of these can be quite 
 
 .. warning::
 
-    All procedures described on this page **can destroy your data**. Please take every precaution to ensure your data is `backed up <backups.rst>`_ before beginning.
+    All procedures described on this page **can destroy your data**. Please take every precaution to ensure your data is :doc:`backed up <backups>` before beginning.
 
 Amazon EC2 upgrade
 ==================
 
-If you are hosting your PANDA on Amazon EC2 and used our `installation guide <amazon.rst>`_ then we provide scripts to upgrade your file and index storage. You will need to have at least some experience with administering a server in order to use these scripts.
+If you are hosting your PANDA on Amazon EC2 and used our :doc:`installation guide <amazon>` then we provide scripts to upgrade your file and index storage. You will need to have at least some experience with administering a server in order to use these scripts.
 
 To upgrade your file storage SSH into your server and execute the following commands::
 

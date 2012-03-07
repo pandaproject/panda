@@ -16,6 +16,7 @@ import string
 import subprocess
 import sys
 import time
+from datetime import datetime
 
 from boto.ec2.connection import EC2Connection
 from boto.utils import get_instance_metadata
@@ -80,6 +81,7 @@ print instance_id
 
 sys.stdout.write('Creating new volume... ')
 vol = conn.create_volume(size_gb, instance.placement)
+conn.create_tags([vol.id], {'Name': 'PANDA Uploads volume %s' % datetime.now().strftime('%Y-%m-%d')})
 print vol.id
 
 sys.stdout.write('Backing up fstab... ')

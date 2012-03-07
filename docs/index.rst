@@ -24,8 +24,8 @@ PANDA is:
 * A place for journalists to store data.
 * A search engine for your news data.
 * A private archive of your newsworthy datasets.
-* `Extensible <api.html>`_.
-* `Self-hosted <production.html>`_.
+* :doc:`Extensible <api>`.
+* :doc:`Self-hosted <production>`.
 
 PANDA is *not*:
 
@@ -35,7 +35,7 @@ PANDA is *not*:
 * A highly structured datastore.
 * Software as a Service.
 
-See our `Frequently Asked Questions (FAQ) <faq.html>`_ for much more.
+See our :doc:`Frequently Asked Questions (FAQ) <faq>` for much more.
 
 Getting started
 ===============

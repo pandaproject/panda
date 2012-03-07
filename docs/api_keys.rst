@@ -2,7 +2,7 @@
 Managing user API keys
 ======================
 
-Under the hood PANDA relies on API Keys to allow users to access the application. These keys also allow the user to `programmatically access PANDA <api.rst>`_ if they have the know-how. Every user is automatically issued an API key when they are created. It is not possible to use PANDA without a valid API key.
+Under the hood PANDA relies on API Keys to allow users to access the application. These keys also allow the user to :doc:`programmatically access PANDA <api>` if they have the know-how. Every user is automatically issued an API key when they are created. It is not possible to use PANDA without a valid API key.
 
 From time to time it may be necessary to revoke a user's API key and issue them a new one. Normally you would want to do this if you were concerned that their key had been leaked to a third-party or otherwise compromised by someone who should not have access.
 
