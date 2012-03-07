@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from datetime import datetime
+import re
+import unicodedata
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -80,7 +82,13 @@ class Dataset(SluggedModel):
                 self.column_schema[i]['indexed_name'] = None
                 continue
 
-            name = 'column_%s_%s' % (c['type'], c['name'])
+            # Slugify code adapted from Django
+            slug = c['name']
+            slug = unicodedata.normalize('NFKD', slug).encode('ascii', 'ignore')
+            slug = unicode(re.sub('[^\w\s-]', '', slug).strip().lower())
+            slug = re.sub('[-\s]+', '_', slug)
+
+            name = 'column_%s_%s' % (c['type'], slug)
 
             # Deduplicate within dataset
             if name in typed_column_names:
