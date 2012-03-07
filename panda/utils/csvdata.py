@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import codecs
-import datetime
 from itertools import islice
+from types import NoneType
 
 from csvkit import CSVKitReader
 from csvkit.sniffer import sniff_dialect as csvkit_sniff
@@ -70,9 +70,8 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
         type_names = []
 
         for t in normal_types:
-            # csvkit recognizes dates and times separately, but we lump them together
-            if t in [datetime.date, datetime.time]:
-                type_names.append('datetime')
+            if t is NoneType:
+                type_names.append(None)
             else:
                 type_names.append(t.__name__)
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from datetime import datetime
+from datetime import date, time, datetime
 import logging
 from math import floor
 from types import NoneType
@@ -24,7 +24,8 @@ TYPE_NAMES_MAPPING = {
     'bool': bool,
     'float': float,
     'datetime': datetime,
-    'NoneType': NoneType
+    'date': date,
+    'time': time
 }
 
 class ReindexTask(AbortableTask):
@@ -73,7 +74,7 @@ class ReindexTask(AbortableTask):
 
             # Generate typed column data
             for n, c in enumerate(dataset.column_schema):
-                if c['indexed']:
+                if c['indexed'] and c['type']:
                     try:
                         value = coerce_type(row[n], TYPE_NAMES_MAPPING[c['type']])
                         new_data[c['indexed_name']] = value

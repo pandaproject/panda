@@ -56,8 +56,8 @@
         <dynamicField name="column_bool_*" type="boolean" indexed="true" stored="true" />
         <dynamicField name="column_float_*" type="float" indexed="true" stored="true" />
         <dynamicField name="column_datetime_*" type="date" indexed="true"  stored="true" />
-        <dynamicField name="column_NoneType_*" type="ignored" />
-
+        <dynamicField name="column_date_*" type="date" indexed="true"  stored="true" />
+        <dynamicField name="column_time_*" type="date" indexed="true"  stored="true" />
 
     </fields>
 

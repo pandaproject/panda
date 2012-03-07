@@ -331,6 +331,12 @@ class TestDataset(TransactionTestCase):
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
+        task = dataset.current_task
+
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
 
         self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
         self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
@@ -358,19 +364,25 @@ class TestDataset(TransactionTestCase):
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
+        task = dataset.current_task
+
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
 
         self.assertEqual([c['name'] for c in dataset.column_schema], ['text', 'date', 'integer', 'boolean', 'float', 'time', 'datetime', 'empty_column', ''])
-        self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'datetime', 'int', 'bool', 'float', 'datetime', 'datetime', 'NoneType', 'unicode'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
         self.assertEqual([c['indexed'] for c in dataset.column_schema], [True for c in upload.columns])
-        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_unicode_text', 'column_datetime_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_datetime_time', 'column_datetime_datetime', 'column_NoneType_empty_column', 'column_unicode_'])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_unicode_text', 'column_date_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_time_time', 'column_datetime_datetime', None, 'column_unicode_'])
         self.assertEqual(dataset.row_count, 5)
         self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_bool_boolean:true')['response']['numFound'], 2)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_text:"Chicago Tribune"')['response']['numFound'], 1)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_datetime:[1971-01-01T01:01:01Z TO NOW]')['response']['numFound'], 1)
-        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_time:[9999-12-31T04:13:01Z TO *]')['response']['numFound'], 2)
-        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_date:[1971-01-01T00:00:00Z TO NOW]')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_time_time:[9999-12-31T04:13:01Z TO *]')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_date_date:[1971-01-01T00:00:00Z TO NOW]')['response']['numFound'], 1)
 
     def test_generate_typed_column_names_none(self):
         self.dataset.import_data(self.user, self.upload)

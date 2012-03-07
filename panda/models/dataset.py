@@ -77,14 +77,14 @@ class Dataset(SluggedModel):
         typed_column_names = []
 
         for i, c in enumerate(self.column_schema):
-            if not c['indexed']:
+            if not c['indexed'] or not c['type']:
                 typed_column_names.append(None)
                 self.column_schema[i]['indexed_name'] = None
                 continue
 
             # Slugify code adapted from Django
             slug = c['name']
-            slug = unicodedata.normalize('NFKD', slug).encode('ascii', 'ignore')
+            slug = unicodedata.normalize('NFKD', unicode(slug)).encode('ascii', 'ignore')
             slug = unicode(re.sub('[^\w\s-]', '', slug).strip().lower())
             slug = re.sub('[-\s]+', '_', slug)
 
