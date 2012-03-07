@@ -8,18 +8,18 @@
             <ul class="dropdown-menu">
                 <li><a id="dataset-edit" href="javascript: return false;"><i class="icon-pencil"></i> Edit</a></li>
                 <% if (dataset.locked) { %>
-                <li><a class="disabled" href="javascript: return false;"><i class="icon-plus-sign"></i> Upload more data</a></li>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-ban-circle"></i> Upload more data</a></li>
                 <% } else { %>
                 <li><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></li>
                 <% } %>
                 <li><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-upload"></i> Upload related file</a></li>
                 <% if (dataset.locked) { %>
-                <li><a class="disabled" href="javascript: return false;"><i class="icon-asterisk"></i> Index column types</a></li>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-ban-circle"></i> Index column types</a></li>
                 <% } else { %>
                 <li><a href="#modal-index-types" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-asterisk"></i> Index column types</a></li>
                 <% } %>
                 <% if (dataset.locked) { %>
-                <li><a class="disabled" href="javascript: return false;"><i class="icon-share"></i> Export to CSV</a></li>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-ban-circle"></i> Export to CSV</a></li>
                 <% } else { %>
                 <li><a href="#modal-export-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-share"></i> Export to CSV</a></li>
                 <% } %>
@@ -68,7 +68,7 @@
             <p><em>None uploaded.</em></p>
             <% } %>
             <% if (dataset.locked) { %>
-            <p><i class="icon-plus-sign"></i> Upload more data</p>
+            <p class="disabled"><i class="icon-ban-circle"></i> Upload more data</p>
             <% } else { %>
             <p><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></p>
             <% } %>
@@ -133,17 +133,17 @@
                 </tr>
             </thead>
             <tbody>
-                <% _.each(dataset.columns, function(c, i) { %>
+                <% _.each(dataset.column_schema, function(c, i) { %>
                 <tr>
-                    <td><label><%= c %></label></td>
-                    <td><input type="checkbox" name="typed-<%= i %>" <% if (dataset.typed_columns[i]) { %>checked="checked"<% } %>></td>
+                    <td><label><%= c['name'] %></label></td>
+                    <td><input type="checkbox" name="typed-<%= i %>" <% if (c['indexed']) { %>checked="checked"<% } %>></td>
                     <td><select name="type-<%= i %>">
-                        <option value=""<% if (dataset.column_types[i] == null) { %>selected="selected"<% } %>>None</option>
-                        <option value="unicode"<% if (dataset.column_types[i] == "unicode") { %>selected="selected"<% } %>>string</option>
-                        <option value="int"<% if (dataset.column_types[i] == "int") { %>selected="selected"<% } %>>integer</option>
-                        <option value="float"<% if (dataset.column_types[i] == "float") { %>selected="selected"<% } %>>float</option>
-                        <option value="bool"<% if (dataset.column_types[i] == "bool") { %>selected="selected"<% } %>>boolean</option>
-                        <option value="datetime"<% if (dataset.column_types[i] == "datetime") { %>selected="selected"<% } %>>date/time</option>
+                        <option value=""<% if (c['type'] == null) { %>selected="selected"<% } %>>None</option>
+                        <option value="unicode"<% if (c['type'] == "unicode") { %>selected="selected"<% } %>>string</option>
+                        <option value="int"<% if (c['type'] == "int") { %>selected="selected"<% } %>>integer</option>
+                        <option value="float"<% if (c['type'] == "float") { %>selected="selected"<% } %>>float</option>
+                        <option value="bool"<% if (c['type'] == "bool") { %>selected="selected"<% } %>>boolean</option>
+                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>date/time</option>
                     </select></td>
                 </tr>
                 <% }); %>

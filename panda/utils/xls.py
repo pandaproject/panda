@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import datetime
-from types import NoneType
 
 from csvkit.convert.xls import determine_column_type
 import xlrd
@@ -24,7 +23,19 @@ def normalize_date(v, datemode):
     depending on its value.
     """
     v_tuple = xlrd.xldate_as_tuple(v, datemode)
-    dt = datetime.datetime(*v_tuple)
+
+    if v_tuple == (0, 0, 0, 0, 0, 0):
+        # Midnight 
+        dt = datetime.time(*v_tuple[3:])
+    elif v_tuple[3:] == (0, 0, 0):
+        # Date only
+        dt = datetime.date(*v_tuple[:3])
+    elif v_tuple[:3] == (0, 0, 0):
+        # Time only
+        dt = datetime.time(*v_tuple[3:])
+    else:
+        # Date and time
+        dt = datetime.datetime(*v_tuple)
 
     return dt.isoformat()
 
@@ -70,6 +81,45 @@ def determine_number_type(values):
     else:
         return float
 
+def determine_date_type(values, datemode=0):
+    """
+    Determine if an Excel date column really contains dates... 
+    """
+    normal_types_set = set()
+
+    for v in values:
+        # Skip blanks 
+        if v == '':
+            continue
+
+        v_tuple = xlrd.xldate_as_tuple(v, datemode)
+
+        if v_tuple == (0, 0, 0, 0, 0, 0):
+            # Midnight 
+            normal_types_set.add(datetime.time)
+        elif v_tuple[3:] == (0, 0, 0):
+            # Date only
+            normal_types_set.add(datetime.date)
+        elif v_tuple[:3] == (0, 0, 0):
+            # Time only
+            normal_types_set.add(datetime.time)
+        else:
+            # Date and time
+            normal_types_set.add(datetime.datetime)
+
+    if len(normal_types_set) == 1:
+        # No special handling if column contains only one type
+        return normal_types_set.pop()
+    elif normal_types_set == set([datetime.datetime, datetime.date]):
+        # If a mix of dates and datetimes, up-convert dates to datetimes
+        return datetime.datetime
+    elif normal_types_set == set([datetime.datetime, datetime.time]):
+        # Datetimes and times don't mix
+        return unicode
+    elif normal_types_set == set([datetime.date, datetime.time]):
+        # Dates and times don't mix
+        return unicode
+
 def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
     """
     Guess column types based on a sample of data.
@@ -85,13 +135,13 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
         nominal_type = determine_column_type(types)
 
         if nominal_type == xlrd.biffh.XL_CELL_EMPTY:
-            column_types.append(NoneType)
+            column_types.append(None)
         elif nominal_type == xlrd.biffh.XL_CELL_TEXT:
             column_types.append(unicode)
         elif nominal_type == xlrd.biffh.XL_CELL_NUMBER:
             column_types.append(determine_number_type(values))
         elif nominal_type == xlrd.biffh.XL_CELL_DATE:
-            column_types.append(datetime.datetime)
+            column_types.append(determine_date_type(values, datemode=book.datemode))
         elif nominal_type == xlrd.biffh.XL_CELL_BOOLEAN:
             column_types.append(bool)
         elif nominal_type == xlrd.biffh.XL_CELL_ERROR:
@@ -99,5 +149,5 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
         else:
             raise TypeInferenceError('Unknown column type found in xls file: %s' % nominal_type) 
 
-    return [t.__name__ for t in column_types]
+    return [t.__name__ if t else None for t in column_types]
 

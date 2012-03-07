@@ -85,7 +85,7 @@ class TestXLS(TestCase):
 
         guessed_types = utils.xls.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
 
-        self.assertEqual(guessed_types, ['unicode', 'datetime', 'int', 'bool', 'float', 'datetime', 'datetime', 'NoneType', 'unicode'])
+        self.assertEqual(guessed_types, ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
 
 class TestXLSX(TestCase):
     def setUp(self):
@@ -112,5 +112,5 @@ class TestXLSX(TestCase):
 
         guessed_types = utils.xlsx.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
 
-        self.assertEqual(guessed_types, ['unicode', 'datetime', 'int', 'bool', 'float', 'datetime', 'datetime', 'NoneType', 'unicode'])
+        self.assertEqual(guessed_types, ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
 

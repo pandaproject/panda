@@ -40,7 +40,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
             return PANDA.templates.inline_related_upload_item(context);
         }, this));
 
-        sample_data_html = PANDA.templates.inline_sample_data(this.dataset.toJSON());
+        sample_data_html = PANDA.templates.inline_sample_data({
+            "columns": _.pluck(this.dataset.get("column_schema"), "name"),
+            "sample_data": this.dataset.get("sample_data")
+        });
 
         var context = PANDA.utils.make_context({
             'dataset': this.dataset.toJSON(true),
@@ -189,19 +192,25 @@ PANDA.views.DatasetView = Backbone.View.extend({
         column_types = [];
         typed_columns = [];
 
-        _.each(this.dataset.get("columns"), function(c, i) {
+        _.each(this.dataset.get("column_schema"), function(c, i) {
             column_types[i] = data["type-" + i];
             typed_columns[i] = ("typed-" + i in data); 
         });
 
-        console.log(column_types);
-        console.log(typed_columns);
-
-        this.dataset.reindex_data(typed_columns, column_types, function() {
-            bootbox.alert("Your data indexing task has been successfully queued. You wil receive an email when it is complete.");
-        }, function(error) {
-            bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
-        });
+        this.dataset.reindex_data(
+            typed_columns,
+            column_types,
+            _.bind(function() {
+                bootbox.alert(
+                    "Your data indexing task has been successfully queued. You wil receive an email when it is complete.",
+                    _.bind(function() {
+                        Redd.goto_dataset_view(this.dataset.get("slug"));
+                        window.scrollTo(0, 0);
+                    }, this));
+            }, this),
+            function(error) {
+                bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            });
     },
     
     export_data: function() {

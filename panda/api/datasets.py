@@ -21,15 +21,6 @@ class DatasetValidation(Validation):
         if 'name' not in bundle.data or not bundle.data['name']:
             errors['name'] = ['This field is required.']
 
-        if 'columns' in bundle.data:
-            if bundle.data['columns'] is None:
-                pass
-            else:
-                if not isinstance(bundle.data['columns'], list):
-                    errors['columns'] = ['Columns must be a list of column names.']
-                elif any([not isinstance(c, basestring) for c in bundle.data['columns']]):
-                    errors['columns'] = ['Column names must be strings.']
-
         return errors
 
 class DatasetResource(SluggedModelResource):
@@ -50,8 +41,8 @@ class DatasetResource(SluggedModelResource):
     initial_upload = fields.ForeignKey(DataUploadResource, 'initial_upload', readonly=True, null=True)
 
     slug = fields.CharField(attribute='slug', readonly=True)
+    column_schema = JSONApiField(attribute='column_schema', readonly=True, null=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
-    typed_column_names = JSONApiField(attribute='typed_column_names', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
     creation_date = fields.DateTimeField(attribute='creation_date', readonly=True, null=True)
     last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)
@@ -228,13 +219,15 @@ class DatasetResource(SluggedModelResource):
 
         dataset = Dataset.objects.get(slug=slug)
 
-        if not dataset.columns:
+        if not dataset.column_schema:
             raise BadRequest('This dataset has no data to reindex.')
+
+        # TODO - accept new column names as a parameter
 
         if 'typed_columns' in request.GET:
             typed_columns = [True if c.lower() == 'true' else False for c in request.GET['typed_columns'].split(',')]
 
-            if len(typed_columns) != len(dataset.columns):
+            if len(typed_columns) != len(dataset.column_schema):
                 raise BadRequest('typed_columns must be a comma-separated list of True/False values with the same number of values as the dataset has columns.')
         else:
             typed_columns = None
@@ -242,7 +235,7 @@ class DatasetResource(SluggedModelResource):
         if 'column_types' in request.GET:
             column_types = ['NoneType' if c.lower() == '' else c.lower() for c in request.GET['column_types'].split(',')]
 
-            if len(column_types) != len(dataset.columns):
+            if len(column_types) != len(dataset.column_schema):
                 raise BadRequest('column_types must be a comma-separated list of types with the same number of values as the dataset has columns.')
         else:
             column_types = None

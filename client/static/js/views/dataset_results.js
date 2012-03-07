@@ -13,6 +13,11 @@ PANDA.views.DatasetResults = Backbone.View.extend({
     },
 
     render: function() {
+        // Don't render search results if there was no search
+        if (!this.search.query) {
+            return;
+        }
+
         var context = PANDA.utils.make_context(this.dataset.data.meta);
 
         context["query"] = this.search.query,

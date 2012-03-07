@@ -48,7 +48,7 @@ class ExportCSVTask(ExportFileTask):
         writer = CSVKitWriter(f)
 
         # Header
-        writer.writerow(dataset.columns)
+        writer.writerow([c['name'] for c in dataset.column_schema])
         
         response = solr.query(
             settings.SOLR_DATA_CORE,

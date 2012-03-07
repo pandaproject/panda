@@ -7,12 +7,20 @@
                 <input id="dataset-search-query" class="span8" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
             <% } else { %>
-                <input id="dataset-search-query" class="span8" type="text" name="query" value="<%= query %>" placeholder="Enter a search query" />
+                <input id="dataset-search-query" class="span8" type="text" name="query" value="<% if (query) { %><%= query["__all__"] %><% } %>" placeholder="Enter a search query" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
                 &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
                 <% if (query) { %>
                 &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                 <% } %>
+
+                <% _.each(dataset.column_schema, function(c, i) { %>
+                    <% if (c["indexed"]) { %>
+                        <div>
+                            <strong><%= c["name"] %></strong> <input id="dataset-column-<%= i %>" value="<% if (query) { %><%= query[c["name"]] %><% } %>">
+                        </div>
+                    <% } %>
+                <% }); %>
             <% } %>
         </form>
     </div>

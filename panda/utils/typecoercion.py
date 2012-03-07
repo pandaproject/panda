@@ -43,8 +43,8 @@ def coerce_type(value, normal_type):
         # float
         elif normal_type is float:
             return float(value)
-        # datetime
-        elif normal_type is datetime.datetime:
+        # date, time, datetime
+        elif normal_type in [datetime.date, datetime.time, datetime.datetime]:
             try:
                 d = parse(value, default=DEFAULT_DATETIME)
             except OverflowError:

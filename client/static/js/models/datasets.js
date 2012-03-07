@@ -162,7 +162,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         });
     },
 
-    reindex_data: function(typed_columns, column_types, success_callback, error_callback) {
+    reindex_data: function(indexed, column_types, success_callback, error_callback) {
         /*
          * Kick off the dataset reindexing and update the model with
          * the task id and status.

@@ -58,8 +58,8 @@ describe("Dataset model", function() {
         json = dataset.toJSON();
 
         expect(json.creator).toEqual("/api/1.0/user/1/");
-        expect(json.data_uploads).toEqual(["/api/1.0/upload/1/"]);
-        expect(json.initial_upload).toEqual("/api/1.0/upload/1/");
+        expect(json.data_uploads).toEqual(["/api/1.0/data_upload/1/"]);
+        expect(json.initial_upload).toEqual("/api/1.0/data_upload/1/");
         expect(json.current_task).toEqual("/api/1.0/task/1/");
         expect(json.categories).toEqual([]);
     });
@@ -85,16 +85,12 @@ describe("Dataset model", function() {
     it("should tell the server to import data", function() {
         var dataset = new PANDA.models.Dataset($.parseJSON(MOCK_XHR_RESPONSES.dataset));
 
-        success_spy = sinon.spy();
-
-        dataset.import_data(1, success_spy);
+        dataset.import_data(1);
 
         expect(this.requests.length).toEqual(1);
         expect(this.requests[0].url).toEqual("/api/1.0/dataset/test/import/1/");
 
         this.requests[0].respond(200, { "Content-Type": "application/json" }, MOCK_XHR_RESPONSES.dataset);
-
-        expect(success_spy).toHaveBeenCalledWith(dataset);
     });
 
     it("should execute a search on just this dataset", function() {

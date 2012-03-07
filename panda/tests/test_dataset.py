@@ -60,9 +60,9 @@ class TestDataset(TransactionTestCase):
         upload = DataUpload.objects.get(id=self.upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
-        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
-        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], [None, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -91,9 +91,9 @@ class TestDataset(TransactionTestCase):
         xls_upload = DataUpload.objects.get(id=xls_upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
-        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
-        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], [None, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(xls_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -122,7 +122,7 @@ class TestDataset(TransactionTestCase):
         xlsx_upload = DataUpload.objects.get(id=xlsx_upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(xlsx_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -151,9 +151,9 @@ class TestDataset(TransactionTestCase):
         xlsx_upload = DataUpload.objects.get(id=xlsx_upload.id)
         task = TaskStatus.objects.get(id=task.id)
 
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
-        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
-        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], [None, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(xlsx_upload.imported, True)
         self.assertEqual(task.status, 'SUCCESS')
@@ -181,9 +181,9 @@ class TestDataset(TransactionTestCase):
         upload = DataUpload.objects.get(id=self.upload.id)
         xls_upload = DataUpload.objects.get(id=xls_upload.id)
         
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
-        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
-        self.assertEqual(dataset.typed_column_names, [None, None, None, None])
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], [None, None, None, None])
         self.assertEqual(dataset.row_count, 8)
         self.assertEqual(upload.imported, True)
         self.assertEqual(xls_upload.imported, True)
@@ -210,7 +210,7 @@ class TestDataset(TransactionTestCase):
         upload = DataUpload.objects.get(id=self.upload.id)
         xls_upload = DataUpload.objects.get(id=xls_upload.id)
         
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(upload.imported, True)
         self.assertEqual(xls_upload.imported, False)
@@ -331,11 +331,17 @@ class TestDataset(TransactionTestCase):
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
+        task = dataset.current_task
 
-        self.assertEqual(dataset.columns, ['id', 'first_name', 'last_name', 'employer'])
-        self.assertEqual(dataset.column_types, ['int', 'unicode', 'unicode', 'unicode'])
-        self.assertEqual(dataset.typed_columns, [True, False, True, True])
-        self.assertEqual(dataset.typed_column_names, ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(dataset.locked, False)
 
@@ -358,45 +364,59 @@ class TestDataset(TransactionTestCase):
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
+        task = dataset.current_task
 
-        self.assertEqual(dataset.columns, ['text', 'date', 'integer', 'boolean', 'float', 'time', 'datetime', 'empty_column', ''])
-        self.assertEqual(dataset.column_types, ['unicode', 'datetime', 'int', 'bool', 'float', 'datetime', 'datetime', 'NoneType', 'unicode'])
-        self.assertEqual(dataset.typed_columns, [True for c in upload.columns])
-        self.assertEqual(dataset.typed_column_names, ['column_unicode_text', 'column_datetime_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_datetime_time', 'column_datetime_datetime', 'column_NoneType_empty_column', 'column_unicode_'])
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['text', 'date', 'integer', 'boolean', 'float', 'time', 'datetime', 'empty_column', ''])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [True for c in upload.columns])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_unicode_text', 'column_date_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_time_time', 'column_datetime_datetime', None, 'column_unicode_'])
         self.assertEqual(dataset.row_count, 5)
         self.assertEqual(dataset.locked, False)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_bool_boolean:true')['response']['numFound'], 2)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_text:"Chicago Tribune"')['response']['numFound'], 1)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_datetime:[1971-01-01T01:01:01Z TO NOW]')['response']['numFound'], 1)
-        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_time:[9999-12-31T04:13:01Z TO *]')['response']['numFound'], 2)
-        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_datetime_date:[1971-01-01T00:00:00Z TO NOW]')['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_time_time:[9999-12-31T04:13:01Z TO *]')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_date_date:[1971-01-01T00:00:00Z TO NOW]')['response']['numFound'], 1)
 
     def test_generate_typed_column_names_none(self):
         self.dataset.import_data(self.user, self.upload)
 
         utils.wait()
 
-        self.assertEqual(self.dataset.typed_column_names, [None, None, None, None])
+        self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], [None, None, None, None])
 
     def test_generate_typed_column_names_some(self):
         self.dataset.import_data(self.user, self.upload)
 
         utils.wait()
 
-        self.dataset.typed_columns = [True, False, True, True]
+        typed_columns = [True, False, True, True]
+
+        for i, c in enumerate(self.dataset.column_schema):
+            self.dataset.column_schema[i]['indexed'] = typed_columns.pop(0)
+
         self.dataset._generate_typed_column_names()
 
-        self.assertEqual(self.dataset.typed_column_names, ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
 
     def test_generate_typed_column_names_conflict(self):
         self.dataset.import_data(self.user, self.upload)
 
         utils.wait()
 
-        self.dataset.columns = ['test' for c in self.dataset.columns]
-        self.dataset.typed_columns = [True, False, True, True]
+        typed_columns = [True, False, True, True]
+
+        for i, c in enumerate(self.dataset.column_schema):
+            self.dataset.column_schema[i]['name'] = 'test'
+            self.dataset.column_schema[i]['indexed'] = typed_columns.pop(0)
+
         self.dataset._generate_typed_column_names()
 
-        self.assertEqual(self.dataset.typed_column_names, ['column_int_test', None, 'column_unicode_test', 'column_unicode_test2'])
+        self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], ['column_int_test', None, 'column_unicode_test', 'column_unicode_test2'])
 
