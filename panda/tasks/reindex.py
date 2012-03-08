@@ -3,7 +3,6 @@
 from datetime import date, time, datetime
 import logging
 from math import floor
-from types import NoneType
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
@@ -57,6 +56,7 @@ class ReindexTask(AbortableTask):
 
         read_buffer = []
         add_buffer = []
+        schema = dataset.column_schema
 
         i = 0
 
@@ -73,11 +73,24 @@ class ReindexTask(AbortableTask):
             new_data['id'] = data['id'] 
 
             # Generate typed column data
-            for n, c in enumerate(dataset.column_schema):
+            for n, c in enumerate(schema):
                 if c['indexed'] and c['type']:
                     try:
-                        value = coerce_type(row[n], TYPE_NAMES_MAPPING[c['type']])
+                        t = TYPE_NAMES_MAPPING[c['type']]
+                        value = coerce_type(row[n], t)
                         new_data[c['indexed_name']] = value
+
+                        if t in [int, float, date, time, datetime]:
+                            if t is date:
+                                value = value.date()
+                            elif t is time:
+                                value = value.time()
+                            
+                            if c['min'] is None or value < c['min']:
+                                c['min'] = value
+
+                            if c['max'] is None or value > c['max']:
+                                c['max'] = value
                     except TypeCoercionError, e:
                         # TODO: log here
                         pass
@@ -107,6 +120,11 @@ class ReindexTask(AbortableTask):
         solr.commit(settings.SOLR_DATA_CORE)
 
         task_status.update('100% complete')
+
+        # Refresh dataset
+        dataset = Dataset.objects.get(slug=dataset_slug)
+        dataset.column_schema = schema
+        dataset.save()
 
         log.info('Finished reindex, dataset_slug: %s' % dataset_slug)
 

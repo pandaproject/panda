@@ -218,6 +218,114 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
+    def test_import_additional_csv_typed_columns(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_DATA_FILENAME)
+        
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.import_data(self.user, second_upload)
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(dataset.row_count, 8)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:2')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_last_name:Germuska')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_first_name:Joseph')['response']['numFound'], 0)
+
+    def test_import_additional_xls_typed_columns(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
+        
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.import_data(self.user, second_upload)
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(dataset.row_count, 8)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:2')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_last_name:Germuska')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_first_name:Joseph')['response']['numFound'], 0)
+
+    def test_import_additional_xlsx_typed_columns(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_EXCEL_XLSX_FILENAME)
+        
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.import_data(self.user, second_upload)
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(dataset.row_count, 8)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:2')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_last_name:Germuska')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_first_name:Joseph')['response']['numFound'], 0)
+
     def test_delete(self):
         self.dataset.import_data(self.user, self.upload)
 
@@ -342,6 +450,8 @@ class TestDataset(TransactionTestCase):
         self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
         self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
         self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual([c['min'] for c in dataset.column_schema], [1, None, None, None])
+        self.assertEqual([c['max'] for c in dataset.column_schema], [4, None, None, None])
         self.assertEqual(dataset.row_count, 4)
         self.assertEqual(dataset.locked, False)
 
@@ -375,6 +485,8 @@ class TestDataset(TransactionTestCase):
         self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
         self.assertEqual([c['indexed'] for c in dataset.column_schema], [True for c in upload.columns])
         self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_unicode_text', 'column_date_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_time_time', 'column_datetime_datetime', None, 'column_unicode_'])
+        self.assertEqual([c['min'] for c in dataset.column_schema], [None, u'1920-01-01', 40, None, 1.0, u'00:00:00', u'1971-01-01 04:14:00', None, None])
+        self.assertEqual([c['max'] for c in dataset.column_schema], [None, u'1971-01-01', 164, None, 41800000.01, u'14:57:13', u'2048-01-01 14:57:00', None, None])
         self.assertEqual(dataset.row_count, 5)
         self.assertEqual(dataset.locked, False)
 
