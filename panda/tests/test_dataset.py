@@ -218,6 +218,42 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
+    def test_import_additional_csv_typed_columns(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        utils.wait()
+
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_DATA_FILENAME)
+        
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.dataset.import_data(self.user, second_upload)
+
+        utils.wait()
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['int', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [True, False, True, True])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
+        self.assertEqual(dataset.row_count, 8)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:2')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_last_name:Germuska')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_unicode_first_name:Joseph')['response']['numFound'], 0)
+
     def test_delete(self):
         self.dataset.import_data(self.user, self.upload)
 
