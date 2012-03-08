@@ -51,13 +51,13 @@
         <field name="data" type="string" indexed="false" stored="true" required="true" />
 
         <!-- Dynamic typed fields that correspond to Python types -->
-        <dynamicField name="column_unicode_*" type="string" indexed="true" stored="true" />
-        <dynamicField name="column_int_*" type="long" indexed="true" stored="true" />
-        <dynamicField name="column_bool_*" type="boolean" indexed="true" stored="true" />
-        <dynamicField name="column_float_*" type="float" indexed="true" stored="true" />
-        <dynamicField name="column_datetime_*" type="date" indexed="true"  stored="true" />
-        <dynamicField name="column_date_*" type="date" indexed="true"  stored="true" />
-        <dynamicField name="column_time_*" type="date" indexed="true"  stored="true" />
+        <dynamicField name="column_unicode_*" type="string" indexed="true" stored="false" />
+        <dynamicField name="column_int_*" type="long" indexed="true" stored="false" />
+        <dynamicField name="column_bool_*" type="boolean" indexed="true" stored="false" />
+        <dynamicField name="column_float_*" type="float" indexed="true" stored="false" />
+        <dynamicField name="column_datetime_*" type="date" indexed="true"  stored="false" />
+        <dynamicField name="column_date_*" type="date" indexed="true"  stored="false" />
+        <dynamicField name="column_time_*" type="date" indexed="true"  stored="false" />
 
     </fields>
 
