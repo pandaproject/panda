@@ -159,8 +159,13 @@ PANDA.views.DataUpload = Backbone.View.extend({
             this.step_three();
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
-        } else {
+        } else if (responseJSON.error_message) {
             this.step_two_error_message(responseJSON.error_message);
+        } else if (responseJSON.xhr) {
+            this.step_two_error_message(responseJSON.xhr.status + ' ' + responseJSON.xhr.statusText);
+        } else {
+            window.stash = responseJSON;
+            this.step_two_error_message('An unexpected error occurred.');
         }
     },
 
