@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from datetime import date, time, datetime
 import datetime
 import logging
 from math import floor
@@ -8,7 +9,10 @@ from django.conf import settings
 from openpyxl.reader.excel import load_workbook
 
 from panda import solr, utils
+from panda.exceptions import TypeCoercionError
 from panda.tasks.import_file import ImportFileTask
+from panda.tasks.reindex import TYPE_NAMES_MAPPING 
+from panda.utils.typecoercion import coerce_type
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -38,6 +42,7 @@ class ImportXLSXTask(ImportFileTask):
         row_count = sheet.get_highest_row()
         
         add_buffer = []
+        schema = dataset.column_schema
 
         for i, row in enumerate(sheet.iter_rows()):
             # Skip header
@@ -66,6 +71,30 @@ class ImportXLSXTask(ImportFileTask):
                 external_id = values[external_id_field_index]
 
             data = utils.solr.make_data_row(dataset, values, external_id=external_id)
+
+            # Generate typed column data
+            for n, c in enumerate(schema):
+                if c['indexed'] and c['type']:
+                    try:
+                        t = TYPE_NAMES_MAPPING[c['type']]
+                        value = coerce_type(values[n], t)
+                        data[c['indexed_name']] = value
+
+                        if t in [int, float, date, time, datetime]:
+                            if t is date:
+                                value = value.date()
+                            elif t is time:
+                                value = value.time()
+                            
+                            if c['min'] is None or value < c['min']:
+                                c['min'] = value
+
+                            if c['max'] is None or value > c['max']:
+                                c['max'] = value
+                    except TypeCoercionError, e:
+                        # TODO: log here
+                        pass
+
 
             add_buffer.append(data)
 
@@ -97,6 +126,8 @@ class ImportXLSXTask(ImportFileTask):
             dataset.row_count = i
         else:
             dataset.row_count += i
+        
+        dataset.column_schema = schema
 
         dataset.save()
 
