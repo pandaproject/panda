@@ -115,7 +115,7 @@ class DataTyper(object):
                     elif lcase in FALSE_VALUES:
                         value = False
                     else:
-                        return None
+                        raise ValueError()
 
                 return bool(value)
             # float
