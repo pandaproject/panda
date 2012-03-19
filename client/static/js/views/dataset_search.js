@@ -110,11 +110,11 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             var value = $("#dataset-column-" + i).val();
 
             if (value) {
-                query += "|" + escape(c["name"]) + ":" + escape(value);
+                query += "|||" + c["name"] + ":::" + value;
             }
         });
 
-        return query;
+        return escape(query);
     },
 
     decode_query_string: function(query_string) {
@@ -124,15 +124,15 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         if (query_string) {
             this.query = {};
 
-            var parts = query_string.split(/\|/);
+            var parts = unescape(query_string).split(/\|\|\|/);
 
             _.each(parts, _.bind(function(p, i) {
                 if (i == 0) {
-                    this.query["__all__"] = unescape(p);
+                    this.query["__all__"] = p;
                 } else {
-                    var column_and_value = p.split(":");
-                    var column_name = unescape(column_and_value[0]);
-                    var column_value = unescape(column_and_value[1]);
+                    var column_and_value = p.split(":::");
+                    var column_name = column_and_value[0];
+                    var column_value = column_and_value[1];
 
                     this.query[column_name] = column_value;
                 }
