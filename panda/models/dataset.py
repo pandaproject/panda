@@ -189,6 +189,10 @@ class Dataset(SluggedModel):
         if self.current_task:
             self.current_task.request_abort()
 
+        # Delete associated uploads
+        self.data_uploads.all().delete()
+        self.related_uploads.all().delete()
+
         super(Dataset, self).delete(*args, **kwargs)
 
     def import_data(self, user, upload, external_id_field_index=None):
