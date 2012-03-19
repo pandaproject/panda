@@ -1,6 +1,10 @@
 0.1.1
 -----
 
+* Added Justin Edwards to AUTHORS.
+* Added favicon.ico. (#512)
+* Better handling of timeout errors during file uploads. (#529)
+* Implement ability to import specific columns with type data, i.e. filters. (#496)
 * Fix bug where blank headers in XLSX files would be labelled "None".
 * Fix "unpack requires string length of 14" error during xls upload. (#486)
 * Implement locks so import/export processes can not occur simultaneously. (#353)
