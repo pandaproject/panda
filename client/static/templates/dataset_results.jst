@@ -8,7 +8,7 @@
 
         <p>No rows matching query found in dataset <strong><%= dataset.name %></strong>.</p>
 
-        <p>Would you like to <a href="#search/<%= query %>">search all datasets instead?</a></p>
+        <p>Would you like to <a href="#search/<%= query["__all__"] %>">search all datasets instead?</a></p>
 
     <% } else { %>
 
