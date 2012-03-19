@@ -8,7 +8,7 @@ from django.utils import simplejson as json
 
 from panda import solr
 from panda.exceptions import DatasetLockedError, DataImportError
-from panda.models import Dataset, DataUpload, RelatedUpload, TaskStatus
+from panda.models import Dataset, DataUpload, TaskStatus
 from panda.tests import utils
 
 class TestDataset(TransactionTestCase):
@@ -328,33 +328,18 @@ class TestDataset(TransactionTestCase):
 
     def test_delete(self):
         self.dataset.import_data(self.user, self.upload)
-        dataset_id = self.dataset.id
-        data_upload_id = self.upload.id
 
         utils.wait()
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
-        with open(os.path.join(settings.MEDIA_ROOT, utils.TEST_DATA_FILENAME)) as f:
-            response = self.client.post('/related_upload/', data={ 'file': f, 'dataset_slug': self.dataset.slug }, **utils.get_auth_headers())
-
-        self.assertEqual(response.status_code, 200)
-        body = json.loads(response.content)
-        self.assertEqual(body['success'], True)
-        related_upload_id = body['id']
-
+        dataset_id = self.dataset.id
         self.dataset.delete()
 
         utils.wait()
 
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)
-
-        with self.assertRaises(DataUpload.DoesNotExist):
-            DataUpload.objects.get(id=data_upload_id)
-
-        with self.assertRaises(RelatedUpload.DoesNotExist):
-            RelatedUpload.objects.get(id=related_upload_id)
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 0)
 
