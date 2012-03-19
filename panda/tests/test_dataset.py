@@ -376,6 +376,71 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(self.dataset.last_modified, None)
         self.assertEqual(self.dataset._count_rows(), 5)
 
+    def test_add_many_rows(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        utils.wait()
+
+        # Refresh dataset so row_count is available
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        new_rows = [
+            (['5', 'Somebody', 'Else', 'Somewhere'], 5),
+            (['6', 'Another', 'Person', 'Somewhere'], 6)
+        ]
+
+        self.dataset.add_many_rows(self.user, new_rows)
+        row = self.dataset.get_row('6')
+
+        self.assertEqual(row['external_id'], '6')
+        self.assertEqual(json.loads(row['data']), new_rows[1][0])
+        self.assertEqual(self.dataset.row_count, 6)
+        self.assertNotEqual(self.dataset.last_modified, None)
+        self.assertEqual(self.dataset._count_rows(), 6)
+
+    def test_add_row_typed(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        utils.wait()
+
+        self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        # Refresh from database
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        new_row =['5', 'Somebody', 'Else', 'Somewhere']
+
+        self.dataset.add_row(self.user, new_row, external_id='5')
+        row = self.dataset.get_row('5')
+
+        self.assertEqual(row['external_id'], '5')
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:5')['response']['numFound'], 1)
+
+    def test_add_many_rows_typed(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        utils.wait()
+
+        self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
+
+        utils.wait()
+
+        # Refresh dataset so row_count is available
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        new_rows = [
+            (['5', 'Somebody', 'Else', 'Somewhere'], 5),
+            (['6', 'Another', 'Person', 'Somewhere'], 6)
+        ]
+
+        self.dataset.add_many_rows(self.user, new_rows)
+        row = self.dataset.get_row('6')
+
+        self.assertEqual(row['external_id'], '6')
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_int_id:[5 TO 6]')['response']['numFound'], 2)
+
     def test_delete_row(self):
         self.dataset.import_data(self.user, self.upload, 0)
 

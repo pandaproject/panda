@@ -16,6 +16,7 @@ from panda.models.category import Category
 from panda.models.slugged_model import SluggedModel
 from panda.models.task_status import TaskStatus
 from panda.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask, ReindexTask 
+from panda.utils.typecoercion import DataTyper
 
 class Dataset(SluggedModel):
     """
@@ -309,9 +310,14 @@ class Dataset(SluggedModel):
         """
         Add (or overwrite) a row to this dataset.
         """
+        data_typer = DataTyper(self.column_schema)
+
         solr_row = utils.solr.make_data_row(self, data, external_id=external_id)
+        solr_row = data_typer(solr_row, data)
 
         solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
+
+        self.schema = data_typer.schema
 
         if not self.sample_data:
             self.sample_data = []
@@ -335,9 +341,14 @@ class Dataset(SluggedModel):
 
         ``data`` must be an array of tuples in the format (data_array, external_id)
         """
+        data_typer = DataTyper(self.column_schema)
+
         solr_rows = [utils.solr.make_data_row(self, d[0], external_id=d[1]) for d in data]
+        solr_rows = [data_typer(s, d[0]) for s, d in zip(solr_rows, data)]
 
         solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=True)
+        
+        self.schema = data_typer.schema
 
         if not self.sample_data:
             self.sample_data = []
