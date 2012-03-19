@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from datetime import date, time, datetime
 import logging
 from math import floor
 
@@ -10,22 +9,11 @@ from django.utils import simplejson as json
 from livesettings import config_value
 
 from panda import solr, utils
-from panda.exceptions import TypeCoercionError
 from panda.utils.mail import send_mail
-from panda.utils.typecoercion import coerce_type
+from panda.utils.typecoercion import DataTyper 
 
 SOLR_READ_BUFFER_SIZE = 500
 SOLR_ADD_BUFFER_SIZE = 500
-
-TYPE_NAMES_MAPPING = {
-    'unicode': unicode,
-    'int': int,
-    'bool': bool,
-    'float': float,
-    'datetime': datetime,
-    'date': date,
-    'time': time
-}
 
 class ReindexTask(AbortableTask):
     """
@@ -56,7 +44,7 @@ class ReindexTask(AbortableTask):
 
         read_buffer = []
         add_buffer = []
-        schema = dataset.column_schema
+        data_typer = DataTyper(dataset.column_schema)
 
         i = 0
 
@@ -71,30 +59,7 @@ class ReindexTask(AbortableTask):
 
             new_data = utils.solr.make_data_row(dataset, row)
             new_data['id'] = data['id'] 
-
-            # Generate typed column data
-            for n, c in enumerate(schema):
-                if c['indexed'] and c['type']:
-                    try:
-                        t = TYPE_NAMES_MAPPING[c['type']]
-                        value = coerce_type(row[n], t)
-                        new_data[c['indexed_name']] = value
-
-                        if t in [int, float, date, time, datetime]:
-                            if t is date:
-                                value = value.date()
-                            elif t is time:
-                                value = value.time()
-
-                            if isinstance(value, t):
-                                if c['min'] is None or value < c['min']:
-                                    c['min'] = value
-
-                                if c['max'] is None or value > c['max']:
-                                    c['max'] = value
-                    except TypeCoercionError, e:
-                        # TODO: log here
-                        pass
+            new_data = data_typer(new_data, row)
 
             add_buffer.append(new_data)
 
@@ -124,7 +89,7 @@ class ReindexTask(AbortableTask):
 
         # Refresh dataset
         dataset = Dataset.objects.get(slug=dataset_slug)
-        dataset.column_schema = schema
+        dataset.column_schema = data_typer.schema 
         dataset.save()
 
         log.info('Finished reindex, dataset_slug: %s' % dataset_slug)

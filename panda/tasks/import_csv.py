@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from datetime import date, time, datetime
 import logging
 from math import floor
 
@@ -8,10 +7,9 @@ from csvkit import CSVKitReader
 from django.conf import settings
 
 from panda import solr, utils
-from panda.exceptions import DataImportError, TypeCoercionError
+from panda.exceptions import DataImportError
 from panda.tasks.import_file import ImportFileTask 
-from panda.tasks.reindex import TYPE_NAMES_MAPPING 
-from panda.utils.typecoercion import coerce_type
+from panda.utils.typecoercion import DataTyper
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -60,7 +58,7 @@ class ImportCSVTask(ImportFileTask):
         reader.next()
 
         add_buffer = []
-        schema = dataset.column_schema
+        data_typer = DataTyper(dataset.column_schema)
 
         i = 0
 
@@ -82,29 +80,7 @@ class ImportCSVTask(ImportFileTask):
                 external_id = row[external_id_field_index]
 
             data = utils.solr.make_data_row(dataset, row, external_id=external_id)
-
-            # Generate typed column data
-            for n, c in enumerate(schema):
-                if c['indexed'] and c['type']:
-                    try:
-                        t = TYPE_NAMES_MAPPING[c['type']]
-                        value = coerce_type(row[n], t)
-                        data[c['indexed_name']] = value
-
-                        if t in [int, float, date, time, datetime]:
-                            if t is date:
-                                value = value.date()
-                            elif t is time:
-                                value = value.time()
-                            
-                            if c['min'] is None or value < c['min']:
-                                c['min'] = value
-
-                            if c['max'] is None or value > c['max']:
-                                c['max'] = value
-                    except TypeCoercionError, e:
-                        # TODO: log here
-                        pass
+            data = data_typer(data, row)
 
             add_buffer.append(data)
 
@@ -140,7 +116,7 @@ class ImportCSVTask(ImportFileTask):
         else:
             dataset.row_count += i
 
-        dataset.column_schema = schema
+        dataset.column_schema = data_typer.schema
 
         dataset.save()
 
