@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os.path
+
 from django.conf import settings
 from django.test import TransactionTestCase
 
@@ -20,4 +22,13 @@ class TestRelatedUpload(TransactionTestCase):
         self.assertEqual(self.upload.creator, self.user)
         self.assertNotEqual(self.upload.creation_date, None)
         self.assertEqual(self.upload.dataset, self.dataset)
+
+    def test_delete(self):
+        path = self.upload.get_path()
+
+        self.assertEqual(os.path.isfile(path), True)
+
+        self.upload.delete()
+
+        self.assertEqual(os.path.exists(path), False)
 

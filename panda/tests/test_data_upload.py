@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os.path
+
 from django.conf import settings
 from django.test import TransactionTestCase
 
@@ -31,4 +33,14 @@ class TestDataUpload(TransactionTestCase):
         
         self.assertEqual(len(self.upload.guessed_types), 4)
         self.assertEqual(self.upload.guessed_types, ['int', 'unicode', 'unicode', 'unicode']);
+
+    def test_delete(self):
+        upload = utils.get_test_data_upload(self.user, self.dataset)
+        path = upload.get_path()
+
+        self.assertEqual(os.path.isfile(path), True)
+
+        upload.delete()
+
+        self.assertEqual(os.path.exists(path), False)
 

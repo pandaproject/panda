@@ -109,7 +109,11 @@ class TestAPIRelatedUpload(TransactionTestCase):
         self.assertEqual(body['forbidden'], True)
 
     def test_delete(self):
+        path = self.upload.get_path()
+        self.assertEqual(os.path.isfile(path), True)
+        
         response = self.client.delete('/api/1.0/related_upload/%i/' % self.upload.id, **self.auth_headers)
 
         self.assertEqual(response.status_code, 204)
+        self.assertEqual(os.path.exists(path), False)
 
