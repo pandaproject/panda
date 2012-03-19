@@ -25,6 +25,15 @@ class DataTyper(object):
     def __init__(self, schema):
         self.schema = schema
 
+        # Min/max values for dates/times/datetimes get stored as strings and need to be coerced back
+        for n, c in enumerate(self.schema):
+            if c['indexed'] and c['type']:
+                t = TYPE_NAMES_MAPPING[c['type']]
+            
+                if t in (date, time, datetime):
+                    self.schema[n]['min'] = self.coerce_type(c['min'], datetime)
+                    self.schema[n]['max'] = self.coerce_type(c['max'], datetime)
+
     def __call__(self, data, row):
         """
         Given a Solr data object and a row of data, will ad typed columns to the data
