@@ -1221,13 +1221,13 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
             try {
                 response = eval("(" + xhr.responseText + ")");
             } catch(err){
-                response = {};
+                response = {'xhr': xhr};
             }
             
             this._options.onComplete(id, name, response);
                         
         } else {                   
-            this._options.onComplete(id, name, {});
+            this._options.onComplete(id, name, {'xhr': xhr});
         }
                 
         this._files[id] = null;
