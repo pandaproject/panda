@@ -85,12 +85,13 @@ class ReindexTask(AbortableTask):
                                 value = value.date()
                             elif t is time:
                                 value = value.time()
-                            
-                            if c['min'] is None or value < c['min']:
-                                c['min'] = value
 
-                            if c['max'] is None or value > c['max']:
-                                c['max'] = value
+                            if isinstance(value, t):
+                                if c['min'] is None or value < c['min']:
+                                    c['min'] = value
+
+                                if c['max'] is None or value > c['max']:
+                                    c['max'] = value
                     except TypeCoercionError, e:
                         # TODO: log here
                         pass
