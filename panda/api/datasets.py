@@ -233,7 +233,7 @@ class DatasetResource(SluggedModelResource):
             typed_columns = None
 
         if 'column_types' in request.GET:
-            column_types = ['NoneType' if c.lower() == '' else c.lower() for c in request.GET['column_types'].split(',')]
+            column_types = [None if c.lower() == '' else c.lower() for c in request.GET['column_types'].split(',')]
 
             if len(column_types) != len(dataset.column_schema):
                 raise BadRequest('column_types must be a comma-separated list of types with the same number of values as the dataset has columns.')

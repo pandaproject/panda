@@ -15,7 +15,7 @@
                 <% } %>
 
                 <% _.each(dataset.column_schema, function(c, i) { %>
-                    <% if (c["indexed"]) { %>
+                    <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
                         <div>
                             <strong><%= c["name"] %></strong> <input id="dataset-column-<%= i %>" value="<% if (query) { %><%= query[c["name"]] %><% } %>">
                         </div>
