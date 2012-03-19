@@ -34,6 +34,8 @@ class DataTyper(object):
                     self.schema[n]['min'] = self.coerce_type(c['min'], datetime)
                     self.schema[n]['max'] = self.coerce_type(c['max'], datetime)
 
+        self.errors = [[] for c in self.schema]
+
     def __call__(self, data, row):
         """
         Given a Solr data object and a row of data, will ad typed columns to the data
@@ -59,11 +61,30 @@ class DataTyper(object):
                             if c['max'] is None or value > c['max']:
                                 self.schema[n]['max'] = value
                 except TypeCoercionError, e:
-                    # TODO: log here
-                    pass
+                    self.errors[n].append(e)
 
         return data
     
+    def summarize(self):
+        """
+        Generate a plain-text summary of typing, suitable for an email notification.
+        """
+        if any([c['indexed'] for c in self.schema]):
+            summary = 'Summary of column filters:\n\n'
+
+            for n, c in enumerate(self.schema):
+                if c['indexed'] and c['type']:
+                    error_count = len(self.errors[n])
+
+                    if not error_count:
+                        summary += '%s: all values succesfully converted to type "%s"\n' % (c['name'], c['type'])
+                    else:
+                        summary += '%s: failed to convert %i values to type "%s"\n' % (c['name'], error_count, c['type'])
+
+            return summary
+        else:
+            return None
+
     def coerce_type(self, value, normal_type):
         """
         Coerce a single value into a type supported by PANDA.

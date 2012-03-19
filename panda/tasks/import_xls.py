@@ -105,4 +105,6 @@ class ImportXLSTask(ImportFileTask):
         upload.save()
 
         log.info('Finished import, dataset_slug: %s' % dataset_slug)
+        
+        return data_typer
 

@@ -94,6 +94,8 @@ class ReindexTask(AbortableTask):
 
         log.info('Finished reindex, dataset_slug: %s' % dataset_slug)
 
+        return data_typer
+
     def after_return(self, status, retval, task_id, args, kwargs, einfo):
         """
         Save final status, results, etc.
@@ -140,6 +142,12 @@ class ReindexTask(AbortableTask):
             
             email_subject = 'Reindex complete: %s' % dataset.name
             email_message = 'Reindex complete: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+
+            type_summary = retval.summarize()
+
+            if type_summary:
+                email_message += '\n\n' + type_summary
+
             notification_message = 'Reindex complete: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
         
