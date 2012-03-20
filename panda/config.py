@@ -5,7 +5,7 @@ from livesettings import config_register, BooleanValue, ConfigurationGroup, Floa
 # Site domain settings
 DOMAIN_GROUP = ConfigurationGroup(
     'DOMAIN',
-    'Site domain settings',
+    'Site domain',
     ordering=0
 )
 
@@ -19,7 +19,7 @@ config_register(StringValue(
 # Email settings
 EMAIL_GROUP = ConfigurationGroup(
     'EMAIL',
-    'Email settings',
+    'Email',
     ordering=1
 )
 
@@ -74,7 +74,7 @@ config_register(StringValue(
 # Miscellaneous settings
 MISC_GROUP = ConfigurationGroup(
     'MISC',
-    'Miscellaneous settings',
+    'Miscellaneous',
     ordering=2
 )
 
@@ -90,7 +90,7 @@ config_register(BooleanValue(
 # Performance settings
 PERF_GROUP = ConfigurationGroup(
     'PERF',
-    'Performance-related settings',
+    'Performance',
     ordering=3
 )
 
