@@ -2,6 +2,7 @@
 
 import logging
 from math import floor
+import time
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
@@ -45,6 +46,7 @@ class ReindexTask(AbortableTask):
         read_buffer = []
         add_buffer = []
         data_typer = DataTyper(dataset.column_schema)
+        throttle = config_value('MISC', 'TASK_THROTTLE')
 
         i = 0
 
@@ -76,6 +78,8 @@ class ReindexTask(AbortableTask):
                     log.warning('Reindex aborted, dataset_slug: %s' % dataset_slug)
 
                     return
+            
+                time.sleep(throttle)
 
             i += 1
 

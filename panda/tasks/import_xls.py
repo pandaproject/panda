@@ -2,9 +2,11 @@
 
 import logging
 from math import floor
+import time
 
 from django.conf import settings
 import xlrd
+from livesettings import config_value
 
 from panda import solr, utils
 from panda.tasks.import_file import ImportFileTask
@@ -39,6 +41,7 @@ class ImportXLSTask(ImportFileTask):
         
         add_buffer = []
         data_typer = DataTyper(dataset.column_schema)
+        throttle = config_value('MISC', 'TASK_THROTTLE')
 
         for i in range(1, row_count):
             values = sheet.row_values(i)
@@ -77,6 +80,8 @@ class ImportXLSTask(ImportFileTask):
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
                     return
+            
+                time.sleep(throttle)
 
         if add_buffer:
             solr.add(settings.SOLR_DATA_CORE, add_buffer)

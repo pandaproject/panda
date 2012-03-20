@@ -2,9 +2,11 @@
 
 import logging
 from math import floor
+import time
 
 from csvkit import CSVKitReader
 from django.conf import settings
+from livesettings import config_value
 
 from panda import solr, utils
 from panda.exceptions import DataImportError
@@ -59,6 +61,7 @@ class ImportCSVTask(ImportFileTask):
 
         add_buffer = []
         data_typer = DataTyper(dataset.column_schema)
+        throttle = config_value('MISC', 'TASK_THROTTLE')
 
         i = 0
 
@@ -97,6 +100,8 @@ class ImportCSVTask(ImportFileTask):
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
                     return
+
+                time.sleep(throttle)
 
         if add_buffer:
             solr.add(settings.SOLR_DATA_CORE, add_buffer)

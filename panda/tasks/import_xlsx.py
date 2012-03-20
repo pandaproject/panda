@@ -3,8 +3,10 @@
 import datetime
 import logging
 from math import floor
+import time
 
 from django.conf import settings
+from livesettings import config_value
 from openpyxl.reader.excel import load_workbook
 
 from panda import solr, utils
@@ -40,6 +42,7 @@ class ImportXLSXTask(ImportFileTask):
         
         add_buffer = []
         data_typer = DataTyper(dataset.column_schema)
+        throttle = config_value('MISC', 'TASK_THROTTLE')
 
         for i, row in enumerate(sheet.iter_rows()):
             # Skip header
@@ -84,6 +87,8 @@ class ImportXLSXTask(ImportFileTask):
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
                     return
+                
+                time.sleep(throttle)
 
         if add_buffer:
             solr.add(settings.SOLR_DATA_CORE, add_buffer)

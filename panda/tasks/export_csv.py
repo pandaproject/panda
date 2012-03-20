@@ -4,10 +4,12 @@ import datetime
 import logging
 from math import floor
 import os.path
+import time
 
 from csvkit import CSVKitWriter
 from django.conf import settings
 from django.utils import simplejson as json
+from livesettings import config_value
 
 from panda import solr
 from panda.tasks.export_file import ExportFileTask 
@@ -59,6 +61,7 @@ class ExportCSVTask(ExportFileTask):
 
         total_count = response['response']['numFound']
         n = 0
+        throttle = config_value('MISC', 'TASK_THROTTLE')
 
         while n < total_count:
             response = solr.query(
@@ -85,6 +88,8 @@ class ExportCSVTask(ExportFileTask):
                 return
 
             n += SOLR_PAGE_SIZE
+            
+            time.sleep(throttle)
 
         f.close()
 

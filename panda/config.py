@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from livesettings import config_register, BooleanValue, ConfigurationGroup, PositiveIntegerValue, StringValue
+from livesettings import config_register, BooleanValue, ConfigurationGroup, FloatValue, PositiveIntegerValue, StringValue
 
 # Site domain settings
 DOMAIN_GROUP = ConfigurationGroup(
@@ -84,5 +84,13 @@ config_register(BooleanValue(
     description='Enable demo mode? (Displays default credentials on login screen.)',
     default=False,
     ordering=0
+))
+
+config_register(FloatValue(
+    MISC_GROUP,
+    'TASK_THROTTLE',
+    description='Number of seconds to throttle between processing batches of data.',
+    default=0.5,
+    ordering=1
 ))
 
