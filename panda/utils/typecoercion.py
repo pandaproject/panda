@@ -49,17 +49,11 @@ class DataTyper(object):
                     data[c['indexed_name']] = value
 
                     if t in [int, float, date, time, datetime]:
-                        if t is date:
-                            value = value.date()
-                        elif t is time:
-                            value = value.time()
+                        if c['min'] is None or value < c['min']:
+                            self.schema[n]['min'] = value
 
-                        if isinstance(value, t):
-                            if c['min'] is None or value < c['min']:
-                                self.schema[n]['min'] = value
-
-                            if c['max'] is None or value > c['max']:
-                                self.schema[n]['max'] = value
+                        if c['max'] is None or value > c['max']:
+                            self.schema[n]['max'] = value
                 except TypeCoercionError, e:
                     self.errors[n].append(e)
 

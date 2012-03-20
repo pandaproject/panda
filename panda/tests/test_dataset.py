@@ -10,6 +10,7 @@ from panda import solr
 from panda.exceptions import DatasetLockedError, DataImportError
 from panda.models import Dataset, DataUpload, TaskStatus
 from panda.tests import utils
+from panda.utils.column_schema import update_indexed_names
 
 class TestDataset(TransactionTestCase):
     fixtures = ['init_panda.json']
@@ -550,8 +551,8 @@ class TestDataset(TransactionTestCase):
         self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
         self.assertEqual([c['indexed'] for c in dataset.column_schema], [True for c in upload.columns])
         self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_unicode_text', 'column_date_date', 'column_int_integer', 'column_bool_boolean', 'column_float_float', 'column_time_time', 'column_datetime_datetime', None, 'column_unicode_'])
-        self.assertEqual([c['min'] for c in dataset.column_schema], [None, u'1920-01-01', 40, None, 1.0, u'00:00:00', u'1971-01-01 04:14:00', None, None])
-        self.assertEqual([c['max'] for c in dataset.column_schema], [None, u'1971-01-01', 164, None, 41800000.01, u'14:57:13', u'2048-01-01 14:57:00', None, None])
+        self.assertEqual([c['min'] for c in dataset.column_schema], [None, u'1920-01-01 00:00:00', 40, None, 1.0, u'9999-12-31 00:00:00', u'1971-01-01 04:14:00', None, None])
+        self.assertEqual([c['max'] for c in dataset.column_schema], [None, u'1971-01-01 00:00:00', 164, None, 41800000.01, u'9999-12-31 14:57:13', u'2048-01-01 14:57:00', None, None])
         self.assertEqual(dataset.row_count, 5)
         self.assertEqual(dataset.locked, False)
 
@@ -578,7 +579,7 @@ class TestDataset(TransactionTestCase):
         for i, c in enumerate(self.dataset.column_schema):
             self.dataset.column_schema[i]['indexed'] = typed_columns.pop(0)
 
-        self.dataset._generate_typed_column_names()
+        self.dataset.column_schema = update_indexed_names(self.dataset.column_schema)
 
         self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], ['column_int_id', None, 'column_unicode_last_name', 'column_unicode_employer'])
 
@@ -593,7 +594,7 @@ class TestDataset(TransactionTestCase):
             self.dataset.column_schema[i]['name'] = 'test'
             self.dataset.column_schema[i]['indexed'] = typed_columns.pop(0)
 
-        self.dataset._generate_typed_column_names()
+        self.dataset.column_schema = update_indexed_names(self.dataset.column_schema)
 
         self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], ['column_int_test', None, 'column_unicode_test', 'column_unicode_test2'])
 

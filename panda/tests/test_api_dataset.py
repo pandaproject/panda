@@ -255,6 +255,27 @@ class TestAPIDataset(TransactionTestCase):
 
         self.assertEqual(self.dataset.row_count, row_count)
 
+    def test_create_with_schema(self):
+        new_dataset = {
+            'name': 'New dataset!'
+        }
+
+        response = self.client.post('/api/1.0/dataset/?columns=foo,bar,baz&typed_columns=True,,False&column_types=int,unicode,date', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        body = json.loads(response.content)
+
+        self.assertEqual([c['name'] for c in body['column_schema']], ['foo', 'bar', 'baz'])
+        self.assertEqual([c['indexed'] for c in body['column_schema']], [True, False, False])
+        self.assertEqual([c['type'] for c in body['column_schema']], ['int', 'unicode', 'date'])
+
+        new_dataset = Dataset.objects.get(id=body['id'])
+
+        self.assertEqual([c['name'] for c in new_dataset.column_schema], ['foo', 'bar', 'baz'])
+        self.assertEqual([c['indexed'] for c in new_dataset.column_schema], [True, False, False])
+        self.assertEqual([c['type'] for c in new_dataset.column_schema], ['int', 'unicode', 'date'])
+
     def test_import_data(self):
         response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
 

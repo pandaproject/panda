@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 from datetime import datetime
-import re
-import unicodedata
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -16,6 +14,7 @@ from panda.models.category import Category
 from panda.models.slugged_model import SluggedModel
 from panda.models.task_status import TaskStatus
 from panda.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask, ReindexTask 
+from panda.utils.column_schema import make_column_schema, update_indexed_names
 from panda.utils.typecoercion import DataTyper
 
 class Dataset(SluggedModel):
@@ -70,40 +69,6 @@ class Dataset(SluggedModel):
             self.creation_date = datetime.utcnow()
 
         super(Dataset, self).save(*args, **kwargs)
-
-    def _generate_typed_column_names(self):
-        """
-        Generate Solr names for typed columns, de-duplicating as necessary.
-        """
-        typed_column_names = []
-
-        for i, c in enumerate(self.column_schema):
-            if not c['indexed'] or not c['type']:
-                typed_column_names.append(None)
-                self.column_schema[i]['indexed_name'] = None
-                continue
-
-            # Slugify code adapted from Django
-            slug = c['name']
-            slug = unicodedata.normalize('NFKD', unicode(slug)).encode('ascii', 'ignore')
-            slug = unicode(re.sub('[^\w\s-]', '', slug).strip().lower())
-            slug = re.sub('[-\s]+', '_', slug)
-
-            name = 'column_%s_%s' % (c['type'], slug)
-
-            # Deduplicate within dataset
-            if name in typed_column_names:
-                n = 2
-                test_name = '%s%i' % (name, n)
-
-                while test_name in typed_column_names:
-                    n += 1
-                    test_name = '%s%i' % (name, n)
-
-                name = test_name
-
-            typed_column_names.append(name)
-            self.column_schema[i]['indexed_name'] = name
 
     def lock(self):
         """
@@ -213,17 +178,7 @@ class Dataset(SluggedModel):
                 if upload.columns != [c['name'] for c in self.column_schema]:
                     raise DataImportError('The columns in this file do not match those in the dataset.')
             else:
-                self.column_schema = []
-                
-                for i, c in enumerate(upload.columns):
-                    self.column_schema.append({
-                        'name': c,
-                        'indexed': False,
-                        'type': upload.guessed_types[i],
-                        'indexed_name': None,
-                        'min': None,
-                        'max': None
-                    })
+                self.column_schema = make_column_schema(upload.columns, types=upload.guessed_types)
                 
             if self.sample_data is None:
                 self.sample_data = upload.sample_data
@@ -259,7 +214,7 @@ class Dataset(SluggedModel):
                 for i, t in enumerate(column_types):
                     self.column_schema[i]['type'] = t
 
-            self._generate_typed_column_names()
+            self.column_schema = update_indexed_names(self.column_schema)
 
             self.current_task = TaskStatus.objects.create(task_name='panda.tasks.reindex', creator=user)
 
@@ -310,30 +265,35 @@ class Dataset(SluggedModel):
         """
         Add (or overwrite) a row to this dataset.
         """
-        data_typer = DataTyper(self.column_schema)
+        self.lock()
 
-        solr_row = utils.solr.make_data_row(self, data, external_id=external_id)
-        solr_row = data_typer(solr_row, data)
+        try:
+            data_typer = DataTyper(self.column_schema)
 
-        solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
+            solr_row = utils.solr.make_data_row(self, data, external_id=external_id)
+            solr_row = data_typer(solr_row, data)
 
-        self.schema = data_typer.schema
+            solr.add(settings.SOLR_DATA_CORE, [solr_row], commit=True)
 
-        if not self.sample_data:
-            self.sample_data = []
-        
-        if len(self.sample_data) < 5:
-            self.sample_data.append(data)
+            self.schema = data_typer.schema
 
-        old_row_count = self.row_count
-        self.row_count = self._count_rows()
-        added = self.row_count - (old_row_count or 0)
-        self.last_modified = datetime.utcnow()
-        self.last_modified_by = user
-        self.last_modification = '1 row %s' % ('added' if added else 'updated')
-        self.save()
+            if not self.sample_data:
+                self.sample_data = []
+            
+            if len(self.sample_data) < 5:
+                self.sample_data.append(data)
 
-        return solr_row
+            old_row_count = self.row_count
+            self.row_count = self._count_rows()
+            added = self.row_count - (old_row_count or 0)
+            self.last_modified = datetime.utcnow()
+            self.last_modified_by = user
+            self.last_modification = '1 row %s' % ('added' if added else 'updated')
+            self.save()
+
+            return solr_row
+        finally:
+            self.unlock()
 
     def add_many_rows(self, user, data):
         """
@@ -341,63 +301,78 @@ class Dataset(SluggedModel):
 
         ``data`` must be an array of tuples in the format (data_array, external_id)
         """
-        data_typer = DataTyper(self.column_schema)
+        self.lock()
 
-        solr_rows = [utils.solr.make_data_row(self, d[0], external_id=d[1]) for d in data]
-        solr_rows = [data_typer(s, d[0]) for s, d in zip(solr_rows, data)]
+        try:
+            data_typer = DataTyper(self.column_schema)
 
-        solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=True)
-        
-        self.schema = data_typer.schema
+            solr_rows = [utils.solr.make_data_row(self, d[0], external_id=d[1]) for d in data]
+            solr_rows = [data_typer(s, d[0]) for s, d in zip(solr_rows, data)]
 
-        if not self.sample_data:
-            self.sample_data = []
-        
-        if len(self.sample_data) < 5:
-            needed = 5 - len(self.sample_data)
-            self.sample_data.extend([d[0] for d in data[:needed]])
+            solr.add(settings.SOLR_DATA_CORE, solr_rows, commit=True)
+            
+            self.schema = data_typer.schema
 
-        old_row_count = self.row_count
-        self.row_count = self._count_rows()
-        added = self.row_count - (old_row_count or 0)
-        updated = len(data) - added
-        self.last_modified = datetime.utcnow()
-        self.last_modified_by = user
+            if not self.sample_data:
+                self.sample_data = []
+            
+            if len(self.sample_data) < 5:
+                needed = 5 - len(self.sample_data)
+                self.sample_data.extend([d[0] for d in data[:needed]])
 
-        if added and updated: 
-            self.last_modification = '%i rows added and %i updated' % (added, updated)
-        elif added:
-            self.last_modification = '%i rows added' % added
-        else:
-            self.last_modification = '%i rows updated' % updated
+            old_row_count = self.row_count
+            self.row_count = self._count_rows()
+            added = self.row_count - (old_row_count or 0)
+            updated = len(data) - added
+            self.last_modified = datetime.utcnow()
+            self.last_modified_by = user
 
-        self.save()
+            if added and updated: 
+                self.last_modification = '%i rows added and %i updated' % (added, updated)
+            elif added:
+                self.last_modification = '%i rows added' % added
+            else:
+                self.last_modification = '%i rows updated' % updated
 
-        return solr_rows
+            self.save()
+
+            return solr_rows
+        finally:
+            self.unlock()
         
     def delete_row(self, user, external_id):
         """
         Delete a row in this dataset.
         """
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
-    
-        self.row_count = self._count_rows()
-        self.last_modified = datetime.utcnow()
-        self.last_modified_by = user
-        self.last_modification = '1 row deleted'
-        self.save()
+        self.lock()
+
+        try:
+            solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
+        
+            self.row_count = self._count_rows()
+            self.last_modified = datetime.utcnow()
+            self.last_modified_by = user
+            self.last_modification = '1 row deleted'
+            self.save()
+        finally:
+            self.unlock()
 
     def delete_all_rows(self, user,):
         """
         Delete all rows in this dataset.
         """
-        solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug, commit=True)
+        self.lock()
 
-        old_row_count = self.row_count
-        self.row_count = 0
-        self.last_modified = datetime.utcnow()
-        self.last_modification = 'All %i rows deleted' % old_row_count
-        self.save()
+        try:
+            solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug, commit=True)
+
+            old_row_count = self.row_count
+            self.row_count = 0
+            self.last_modified = datetime.utcnow()
+            self.last_modification = 'All %i rows deleted' % old_row_count
+            self.save()
+        finally:
+            self.unlock()
 
     def _count_rows(self):
         """

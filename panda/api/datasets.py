@@ -13,6 +13,7 @@ from panda import solr
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, JSONApiField, SluggedModelResource, PandaSerializer
 from panda.exceptions import DataImportError, DatasetLockedError
 from panda.models import Category, Dataset, DataUpload
+from panda.utils.column_schema import make_column_schema
 
 class DatasetValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -155,6 +156,37 @@ class DatasetResource(SluggedModelResource):
         Set creator and update full text.
         """
         bundle = super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
+
+        if 'columns' in request.GET:
+            columns = request.GET['columns'].split(',')
+        else:
+            columns = None
+
+        if 'typed_columns' in request.GET:
+            if not columns:
+                raise BadRequest('The "columns" argument must also be specified when specifying "typed_columns".')
+
+            typed_columns = [True if c.lower() == 'true' else False for c in request.GET['typed_columns'].split(',')]
+
+            if len(typed_columns) != len(columns):
+                raise BadRequest('The "typed_columns" argument must be a comma-separated list of True/False values with the same number of values as the "columns" argument.')
+        else:
+            typed_columns = None
+
+        if 'column_types' in request.GET:
+            if not columns:
+                raise BadRequest('The "columns" argument must also be specified when specifying "column_types".')
+
+            column_types = [None if c.lower() == '' else c.lower() for c in request.GET['column_types'].split(',')]
+
+            if len(column_types) != len(columns):
+                raise BadRequest('The "column_types" argument must be a comma-separated list of types with the same number of values as the "columns" argument.')
+        else:
+            column_types = None
+
+        if columns:
+            bundle.obj.column_schema = make_column_schema(columns, typed_columns, column_types)
+            bundle.obj.save()
 
         # After ALL changes have been made to the object and its relations, update its full text in Solr.
         bundle.obj.update_full_text()

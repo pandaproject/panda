@@ -25,14 +25,18 @@ COUCHDB_ROOT_URL = 'http://datacouch.com/db/dc07acde3002cb1f62a08de546916097cd'
 COUCHDB_ROWS_URL = 'http://datacouch.com/db/dc07acde3002cb1f62a08de546916097cd/rows'
 COUCHDB_CHANGES_URL = 'http://datacouch.com/db/dc07acde3002cb1f62a08de546916097cd/_changes'
 
+COLUMNS = ['First Name', 'Last Name', 'Employer']
+
 LAST_SEQ_FILENAME = 'last_seq'
 
 # Utility functions
-def panda_get(url):
-    return requests.get(url, params=PANDA_AUTH_PARAMS)
+def panda_get(url, params={}):
+    params.update(PANDA_AUTH_PARAMS)
+    return requests.get(url, params=params)
 
-def panda_put(url, data):
-    return requests.put(url, data, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
+def panda_put(url, data, params={}):
+    params.update(PANDA_AUTH_PARAMS)
+    return requests.put(url, data, params=params, headers={ 'Content-Type': 'application/json' })
 
 def panda_delete(url):
     return requests.delete(url, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
@@ -58,11 +62,10 @@ response = panda_get(PANDA_DATASET_URL)
 if response.status_code == 404:
     dataset = {
         'name': 'CouchDB: PANDA Contributors',
-        'description': 'A list of contributors to PANDA imported from a dataset on DataCouch: <a href="http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd">http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd</a>.',
-        'columns': ['First Name', 'Last Name', 'Employer']
+        'description': 'A list of contributors to PANDA imported from a dataset on DataCouch: <a href="http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd">http://datacouch.com/edit/#/dc07acde3002cb1f62a08de546916097cd</a>.'
     }
 
-    response = panda_put(PANDA_DATASET_URL, json.dumps(dataset))
+    response = panda_put(PANDA_DATASET_URL, json.dumps(dataset), params={ 'columns': ','.join(COLUMNS) })
 
     # Get changes that have come before so we can skip them in the future
     response = requests.get(COUCHDB_CHANGES_URL)

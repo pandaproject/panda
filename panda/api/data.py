@@ -15,6 +15,7 @@ from tastypie.validation import Validation
 
 from panda import solr
 from panda.api.datasets import DatasetResource
+from panda.exceptions import DatasetLockedError
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
 from panda.models import Dataset
 
@@ -233,7 +234,10 @@ class DataResource(PandaResource):
         else:
             external_id = None
 
-        row = dataset.add_row(request.user, bundle.data['data'], external_id=external_id)
+        try:
+            row = dataset.add_row(request.user, bundle.data['data'], external_id=external_id)
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
         bundle.obj = SolrObject(row)
 
@@ -256,7 +260,11 @@ class DataResource(PandaResource):
         Delete a ``Data``.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
-        dataset.delete_row(request.user, kwargs['external_id'])
+
+        try:
+            dataset.delete_row(request.user, kwargs['external_id'])
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
     def rollback(self, bundles):
         """
@@ -316,7 +324,10 @@ class DataResource(PandaResource):
         
             self.validate_bundle_data(bundle, request, dataset)
         
-        solr_rows = dataset.add_many_rows(request.user, data)
+        try:
+            solr_rows = dataset.add_many_rows(request.user, data)
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
         for bundle, solr_row in zip(bundles, solr_rows):
             bundle.obj = SolrObject(solr_row)
@@ -360,7 +371,11 @@ class DataResource(PandaResource):
         not supported.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
-        dataset.delete_all_rows(request.user) 
+        
+        try:
+            dataset.delete_all_rows(request.user) 
+        except DatasetLockedError:
+            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
         return http.HttpNoContent()
 

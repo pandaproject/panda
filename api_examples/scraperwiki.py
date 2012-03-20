@@ -22,13 +22,16 @@ PANDA_BULK_UPDATE_SIZE = 1000
 
 SCRAPERWIKI_URL = 'https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=jsondict&name=tyler_criminal_records&query=select%20*%20from%20%60swdata%60'
 COLUMNS = ['cause_number', 'date_filed', 'defendant_name', 'defendant_birthdate', 'offense', 'crime_date', 'degree', 'disposed', 'court', 'warrant_status', 'attorney', 'view_url']
+COLUMN_TYPES = ['', 'date', '', '', '', '', '', '', '', '', '', '']
 
 # Utility functions
-def panda_get(url):
-    return requests.get(url, params=PANDA_AUTH_PARAMS)
+def panda_get(url, params={}):
+    params.update(PANDA_AUTH_PARAMS)
+    return requests.get(url, params=params)
 
-def panda_put(url, data):
-    return requests.put(url, data, params=PANDA_AUTH_PARAMS, headers={ 'Content-Type': 'application/json' })
+def panda_put(url, data, params={}):
+    params.update(PANDA_AUTH_PARAMS)
+    return requests.put(url, data, params=params, headers={ 'Content-Type': 'application/json' })
 
 def slugify(value):
     """
@@ -46,11 +49,14 @@ response = panda_get(PANDA_DATASET_URL)
 if response.status_code == 404:
     dataset = {
         'name': 'Scraperwiki: Smith County Criminal Case Records',
-        'description': 'Results of the scraper at <a href="https://scraperwiki.com/scrapers/tyler_criminal_records/">https://scraperwiki.com/scrapers/tyler_criminal_records/</a>.',
-        'columns': COLUMNS
+        'description': 'Results of the scraper at <a href="https://scraperwiki.com/scrapers/tyler_criminal_records/">https://scraperwiki.com/scrapers/tyler_criminal_records/</a>.'
     }
 
-    response = panda_put(PANDA_DATASET_URL, json.dumps(dataset))
+    response = panda_put(PANDA_DATASET_URL, json.dumps(dataset), params={
+        'columns': ','.join(COLUMNS),
+        'typed_columns': ','.join(['true' if t else '' for t in COLUMN_TYPES]),
+        'column_types': ','.join(COLUMN_TYPES) 
+    })
 
 # Fetch latest data from Scraperwiki
 print 'Fetching latest data'

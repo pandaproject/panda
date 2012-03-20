@@ -143,7 +143,9 @@
                         <option value="int"<% if (c['type'] == "int") { %>selected="selected"<% } %>>integer</option>
                         <option value="float"<% if (c['type'] == "float") { %>selected="selected"<% } %>>float</option>
                         <option value="bool"<% if (c['type'] == "bool") { %>selected="selected"<% } %>>boolean</option>
-                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>date/time</option>
+                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>date+time</option>
+                        <option value="date"<% if (c['type'] == "date") { %>selected="selected"<% } %>>date</option>
+                        <option value="time"<% if (c['type'] == "time") { %>selected="selected"<% } %>>time</option>
                     </select></td>
                 </tr>
                 <% }); %>
