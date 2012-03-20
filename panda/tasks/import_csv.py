@@ -61,7 +61,7 @@ class ImportCSVTask(ImportFileTask):
 
         add_buffer = []
         data_typer = DataTyper(dataset.column_schema)
-        throttle = config_value('MISC', 'TASK_THROTTLE')
+        throttle = config_value('PERF', 'TASK_THROTTLE')
 
         i = 0
 

@@ -41,7 +41,7 @@ class ImportXLSTask(ImportFileTask):
         
         add_buffer = []
         data_typer = DataTyper(dataset.column_schema)
-        throttle = config_value('MISC', 'TASK_THROTTLE')
+        throttle = config_value('PERF', 'TASK_THROTTLE')
 
         for i in range(1, row_count):
             values = sheet.row_values(i)

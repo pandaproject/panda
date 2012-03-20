@@ -61,7 +61,7 @@ class ExportCSVTask(ExportFileTask):
 
         total_count = response['response']['numFound']
         n = 0
-        throttle = config_value('MISC', 'TASK_THROTTLE')
+        throttle = config_value('PERF', 'TASK_THROTTLE')
 
         while n < total_count:
             response = solr.query(

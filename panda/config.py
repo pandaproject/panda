@@ -81,15 +81,24 @@ MISC_GROUP = ConfigurationGroup(
 config_register(BooleanValue(
     MISC_GROUP,
     'DEMO_MODE',
-    description='Enable demo mode? (Displays default credentials on login screen.)',
+    description='Enable demo mode?',
+    help_text='Displays default credentials on login screen.',
     default=False,
     ordering=0
 ))
 
+# Performance settings
+PERF_GROUP = ConfigurationGroup(
+    'PERF',
+    'Performance-related settings',
+    ordering=3
+)
+
 config_register(FloatValue(
-    MISC_GROUP,
+    PERF_GROUP,
     'TASK_THROTTLE',
     description='Number of seconds to throttle between processing batches of data.',
+    help_text='A larger number will result in slower imports and exports, but better responsiveness from the PANDA user interface.',
     default=0.5,
     ordering=1
 ))

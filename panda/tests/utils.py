@@ -24,7 +24,7 @@ TEST_LATIN1_FILENAME = 'test_not_unicode_sample.csv'
 def setup_test_solr():
     settings.SOLR_DATA_CORE = 'data_test'
     settings.SOLR_DATASETS_CORE = 'datasets_test'
-    config_get('MISC', 'TASK_THROTTLE').update(0.0) 
+    config_get('PERF', 'TASK_THROTTLE').update(0.0) 
     solr.delete(settings.SOLR_DATA_CORE, '*:*')
     solr.delete(settings.SOLR_DATASETS_CORE, '*:*')
 
