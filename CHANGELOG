@@ -1,6 +1,7 @@
 0.1.1
 -----
 
+* Implement a configurable throttle for asynchronous tasks. (#502)
 * Added Justin Edwards to AUTHORS.
 * Added favicon.ico. (#512)
 * Better handling of timeout errors during file uploads. (#529)
