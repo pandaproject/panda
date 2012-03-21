@@ -14,13 +14,28 @@
                 &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                 <% } %>
 
-                <% _.each(dataset.column_schema, function(c, i) { %>
-                    <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
-                        <div>
-                            <strong><%= c["name"] %></strong> <input id="dataset-column-<%= i %>" value="<% if (query) { %><%= query[c["name"]] %><% } %>">
+                <div class="row search-help">
+                    <div class="span8">
+                        <div class="search-help-box">
+                            <h4>Wildcards</h4>
+                            Use an asterisk to match part of a word: <strong>chris*</strong> will match "Chris", "Christian" or "Christopher".
                         </div>
-                    <% } %>
-                <% }); %>
+                        <div class="search-help-box">
+                            <h4>Exact phrases</h4>
+                            Put phrases in quotes: <strong>"Chicago Bears"</strong> will not match "Chicago Panda Bears".
+                        </div>
+                        <div class="search-help-box">
+                            <h4>AND/OR</h4>
+                            Use AND and OR to find combinations of terms: <strong>homicide AND first</strong> will match "first degree homicide" or "homicide, first degree", but not just "homicide".
+                        </div>
+                        <div class="search-help-box">
+                            <h4>Grouping</h4>
+                            Group words with parantheses: <strong>homicide AND (first OR 1st)</strong> will match "1st degree homicide", "first degree homicide", or "homicide, first degree".
+                        </div>
+                    </div>
+                </div>
+                <div id="dataset-search-filters">
+                </div>
             <% } %>
         </form>
     </div>

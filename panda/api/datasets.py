@@ -254,8 +254,6 @@ class DatasetResource(SluggedModelResource):
         if not dataset.column_schema:
             raise BadRequest('This dataset has no data to reindex.')
 
-        # TODO - accept new column names as a parameter
-
         if 'typed_columns' in request.GET:
             typed_columns = [True if c.lower() == 'true' else False for c in request.GET['typed_columns'].split(',')]
 

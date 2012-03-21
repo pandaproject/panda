@@ -7,10 +7,14 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
     dataset: null,
     query: null,
+    search_filters: null,
+    results: null,
+    view: null,
 
     initialize: function(options) {
-        _.bindAll(this);
+        _.bindAll(this, "reset", "render", "search_event", "search", "encode_query_string", "decode_query_string", "make_solr_query");
 
+        this.search_filters = new PANDA.views.DatasetSearchFilters({ search: this });
         this.results = new PANDA.views.DatasetResults({ search: this });
         this.view = new PANDA.views.DatasetView();
     },
@@ -23,6 +27,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.dataset.fetch({
             async: false,
             success: _.bind(function(model, response) {
+                this.search_filters.set_dataset(model);
                 this.results.set_dataset(model);
                 this.view.set_dataset(model);
                 this.render();
@@ -47,6 +52,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         });
 
         this.el.html(PANDA.templates.dataset_search(context));
+        this.search_filters.el = $("#dataset-search-filters");
+        this.search_filters.render();
+
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
 
@@ -80,6 +88,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         $('a[rel="popover"]').popover();
     },
 
+
     search_event: function() {
         query_string = this.encode_query_string();
 
@@ -100,19 +109,12 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
          * Convert arguments from the search fields into a URL. 
          */
         var full_text = $("#dataset-search-query").val();
-        var query = escape(full_text);
+        var query = full_text;
+        var filters = this.search_filters.encode(); 
 
-        _.each(this.dataset.get("column_schema"), function(c, i) {
-            if (!c["indexed"]) {
-                return;
-            }
-
-            var value = $("#dataset-column-" + i).val();
-
-            if (value) {
-                query += "|||" + c["name"] + ":::" + value;
-            }
-        });
+        if (filters) {
+            query += "|||" + filters;
+        }
 
         return escape(query);
     },
@@ -130,11 +132,13 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 if (i == 0) {
                     this.query["__all__"] = p;
                 } else {
-                    var column_and_value = p.split(":::");
-                    var column_name = column_and_value[0];
-                    var column_value = column_and_value[1];
+                    var parts = p.split(":::");
+                    var column_name = parts[0];
+                    var column_operator = parts[1];
+                    var column_value = parts[2];
+                    var column_range_value = parts[3];
 
-                    this.query[column_name] = column_value;
+                    this.query[column_name] = { "operator": column_operator, "value": column_value, "range_value": column_range_value };
                 }
             }, this));
         } else {
@@ -161,11 +165,19 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 return c["name"] == k;
             });
 
-            q += " " + c["indexed_name"] + ":" + v;
+            // TODO - operator handling goes here
+            if (v["operator"] == "is") {
+                q += " " + c["indexed_name"] + ":" + v["value"];
+            } else if (v["operator"] == "is_greater") {
+                q += " " + c["indexed_name"] + ":[" + v["value"] + " TO *]";
+            } else if (v["operator"] == "is_less") {
+                q += " " + c["indexed_name"] + ":[* TO " + v["value"] + "]";
+            } else if (v["operator"] == "is_range") {
+                q += " " + c["indexed_name"] + ":[" + v["value"] + " TO " + v["range_value"] + "]";
+            }
         }, this));
 
         return q;
     }
 });
-
 

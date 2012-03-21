@@ -1,0 +1,17 @@
+<% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
+    <% var column_name = c["name"]; %>
+    <% var column_type = c["type"]; %>
+    <% var column_query = query && query[column_name] ? query[column_name] : { "operator": "is", "value": "", "range_value": "" }; %>
+    <% var column_operation = operations[column_type][column_query["operator"]]; %>
+
+    <div>
+        <a class="remove-filter" href="javascript:void(0);">Remove this filter</a>
+        <strong><%= column_name %></strong>
+        <select class="operator">
+            <% _.each(operations[column_type], function(op, name) { %>
+                <option value="<%= name %>" <% if (column_query["value"] && column_query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
+            <% }); %>
+        </select>
+        <%= widgets[column_operation["widget"]](column_query) %>
+    </div>
+<% } %>
