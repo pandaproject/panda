@@ -144,54 +144,106 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
 
     render: function() {
-        var context = PANDA.utils.make_context({});
-        
-        context["operations"] = this.operations;
-        context["widgets"] = this.widgets;
-        context["dataset"] = this.dataset.results();
-        context["query"] = this.search.query;
-
-        var prerendered_filters = {};
-
-        _.each(this.dataset.get("column_schema"), _.bind(function(c, i) {
-            if (!this.search.query || !this.search.query[c["name"]]) {
-                return;
-            }
-
-            var filter_context = context;
-            filter_context["c"] = c;
-            filter_context["i"] = i;
-            prerendered_filters[i] = PANDA.templates.inline_search_filter(filter_context);
-        }, this));
-
-        context["prerendered_filters"] = prerendered_filters;
+        var context = PANDA.utils.make_context({
+            "dataset": this.dataset.results(),
+            "render_filter": this.render_filter
+        });
 
         this.el.html(PANDA.templates.dataset_search_filters(context));
 
-        _.each(prerendered_filters, function(v, k) {
-             $("#filter-" + k).show();
-        });
+        _.each(this.dataset.get("column_schema"), _.bind(function(c, i) {
+            if (this.column_is_filterable(c) && this.column_has_query(c)) {
+                $("#filter-" + i).show();
+            }
+        }, this));
 
         $("#add-filter").change(this.add_filter);
         $(".operator").change(this.change_operator);
         $(".remove-filter").click(this.remove_filter);
     },
 
+    column_is_filterable: function(c) {
+        /*
+         * Determine if a column is filterable.
+         */
+        return c["indexed"] && c["type"] && c["type"] != "unicode";
+    },
+
+    column_has_query: function(c) {
+        /*
+         * Determine if a column has a current value.
+         */
+        return this.search.query && this.search.query[c["name"]];
+    },
+
+    render_filter: function(c) {
+        /*
+         * Render a single column filter to a string.
+         */
+        var query = this.get_column_query(c);
+        var operation = this.get_column_operation(c, query);
+        var operations = this.get_column_operations(c);
+        var widget = this.get_column_widget(operation);
+
+        filter_context = PANDA.utils.make_context({
+            "column": c,
+            "query": query,
+            "operation": operation,
+            "operations": operations,
+            "widget": widget
+        });
+        
+        return PANDA.templates.inline_search_filter(filter_context);    
+    },
+
+    get_column_query: function(c) {
+        /*
+         * Fetch a column's query or return a default query data structure.
+         */
+        if (this.column_has_query(c)) {
+            return this.search.query[c["name"]];
+        } else {
+            return { "operator": "is", "value": "", "range_value": "" };
+        }
+    },
+
+    get_column_operation: function(c, q) {
+        /*
+         * Fetch an operation object based a column's type and currently
+         * selected operation.
+         */
+        console.log(c);
+        console.log(q);
+        console.log(this.operations);
+        console.log(this.operations[c["type"]]);
+        return this.operations[c["type"]][q["operator"]];
+    },
+
+    get_column_operations: function(c) {
+        /*
+         * Get a list of all possible operations for a given column's type.
+         */
+        return this.operations[c["type"]];
+    },
+
+    get_column_widget: function(column_operation) {
+        /*
+         * Get an appropriate widget template based on a column's operation.
+         */
+        return this.widgets[column_operation["widget"]]
+    },
+
     add_filter: function() {
+        /*
+         * Add a column filter.
+         */
         var i = $("#add-filter").val();
         var filter = $("#filter-" + i);
 
         if (filter.is(":hidden")) {
-            context = PANDA.utils.make_context({});
+            var c = this.dataset.get("column_schema")[i];
 
-            context["operations"] = this.operations;
-            context["widgets"] = this.widgets;
-            context["dataset"] = this.dataset.results();
-            context["query"] = this.search.query;
-            context["c"] = this.dataset.get("column_schema")[i];
-            context["i"] = i;
-
-            filter.html(PANDA.templates.inline_search_filter(context));
+            filter.html(this.render_filter(c));
             filter.show();
 
             filter.find(".operator").change(this.change_operator);
@@ -202,34 +254,42 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
 
     change_operator: function(e) {
-        // TODO - parse values before replacing widget, then reset them
+        /*
+         * When the selected operation is changed, update to use the new widget.
+         */
         var last_op = $(e.currentTarget).data("last-value");
         var new_op = $(e.currentTarget).val();
+
         var filter = $(e.currentTarget).parents(".filter");
         var filter_id = filter.data("filter-id");
         var c = this.dataset.get("column_schema")[filter_id];
 
-        var column_name = c["name"];
-        var column_type = c["type"];
-        var column_query = this.query && this.query[column_name] ? query[column_name] : { "operator": "is", "value": "", "range_value": "" }
+        var column_query = this.get_column_query(c); 
+        var last_operation = this.get_column_operation(c, column_query);
         column_query["operator"] = new_op;
-        
-        var column_operation = this.operations[column_type][column_query["operator"]];
+        var column_operation = this.get_column_operation(c, column_query);
 
-        var values = this[column_operation["parser"]](filter);
+        // Parse values before swapping widgets, so they will be carried over
+        var values = this[last_operation["parser"]](filter);
         $.extend(column_query, values);
 
-        filter.find(".widget").html(this.widgets[column_operation["widget"]](column_query));
+        filter.find(".widget").html(this.get_column_widget(column_operation)(column_query));
 
         $(e.currentTarget).data("last-value", new_op);
     },
 
     remove_filter: function(e) {
+        /*
+         * Remove a column filter.
+         */
         $(e.currentTarget).parents(".filter").hide();
         $(e.currentTarget).parents(".filter").empty();
     },
 
     encode: function() {
+        /*
+         * Encode selected filters into query string format.
+         */
         var terms = [];
 
         _.each(this.dataset.get("column_schema"), _.bind(function(c, i) {

@@ -1,19 +1,19 @@
-<% if (_.any(dataset.column_schema, function(c) { return c["indexed"] && c["type"] && c["type"] != "unicode"; })) { %>
-    <h4>Filter your search by specific columns</h4>
-    <% _.each(dataset.column_schema, function(c, i) { %>
-        <div id="filter-<%= i %>"  class="filter" data-filter-id="<%= i %>">
-        <%= prerendered_filters[i] || "" %>
-        </div>
-    <% }); %>
-    <div>
-        <strong>Add a filter</strong> <select id="add-filter">
-            <option value="">Pick a column to filter by</option>
-            <% _.each(dataset.column_schema, function(c, i) { %>
-                <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
-                <option value="<%= i %>"><%= c["name"] %></option>
-                <% } %>
-            <% }); %>
-        </select>
+<h4>Filter your search by specific columns</h4>
+<% _.each(dataset.column_schema, function(c, i) { %>
+    <div id="filter-<%= i %>"  class="filter" data-filter-id="<%= i %>">
+        <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
+        <%= render_filter(c) %>
+        <% } %>
     </div>
-<% } %>
+<% }); %>
+<div>
+    <strong>Add a filter</strong> <select id="add-filter">
+        <option value="">Pick a column to filter by</option>
+        <% _.each(dataset.column_schema, function(c, i) { %>
+            <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
+            <option value="<%= i %>"><%= c["name"] %></option>
+            <% } %>
+        <% }); %>
+    </select>
+</div>
 

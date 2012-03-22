@@ -52,8 +52,12 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         });
 
         this.el.html(PANDA.templates.dataset_search(context));
-        this.search_filters.el = $("#dataset-search-filters");
-        this.search_filters.render();
+
+        // Render search filters, if enabled for any column
+        if (_.any(this.dataset.get("column_schema"), function(c) { return c["indexed"] && c["type"] && c["type"] != "unicode"; })) {
+            this.search_filters.el = $("#dataset-search-filters");
+            this.search_filters.render();
+        }
 
         this.results.el = $("#dataset-search-results");
         this.view.el = $("#dataset-search-results");
