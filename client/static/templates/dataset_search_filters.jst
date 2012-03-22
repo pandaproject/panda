@@ -1,7 +1,7 @@
 <% if (_.any(dataset.column_schema, function(c) { return c["indexed"] && c["type"] && c["type"] != "unicode"; })) { %>
     <h4>Filter your search by specific columns</h4>
     <% _.each(dataset.column_schema, function(c, i) { %>
-        <div id="filter-<%= i %>"  class="filter">
+        <div id="filter-<%= i %>"  class="filter" data-filter-id="<%= i %>">
         <%= prerendered_filters[i] || "" %>
         </div>
     <% }); %>

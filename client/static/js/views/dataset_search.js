@@ -165,7 +165,6 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 return c["name"] == k;
             });
 
-            // TODO - operator handling goes here
             if (v["operator"] == "is") {
                 q += " " + c["indexed_name"] + ":" + v["value"];
             } else if (v["operator"] == "is_greater") {

@@ -7,11 +7,11 @@
     <div>
         <a class="remove-filter" href="javascript:void(0);">Remove this filter</a>
         <strong><%= column_name %></strong>
-        <select class="operator">
+        <select class="operator" data-last-value="<%= column_query["operator"] %>">
             <% _.each(operations[column_type], function(op, name) { %>
                 <option value="<%= name %>" <% if (column_query["value"] && column_query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
             <% }); %>
         </select>
-        <%= widgets[column_operation["widget"]](column_query) %>
+        <span class="widget"><%= widgets[column_operation["widget"]](column_query) %></span>
     </div>
 <% } %>
