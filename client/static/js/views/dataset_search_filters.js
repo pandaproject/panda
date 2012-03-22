@@ -120,8 +120,8 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
 
     widgets: {
-        "single_input": '<input value="<%= value %>" />',
-        "double_input": '<input value="<%= value %>" /> to <input value="<%= range_value %>" />'
+        "single_input": '<input class="value" value="<%= value %>" />',
+        "double_input": '<input class="value" value="<%= value %>" /> to <input class="range-value" value="<%= range_value %>" />'
     },
 
     el: null,
@@ -146,7 +146,9 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     render: function() {
         var context = PANDA.utils.make_context({
             "dataset": this.dataset.results(),
-            "render_filter": this.render_filter
+            "render_filter": this.render_filter,
+            "column_is_filterable": this.column_is_filterable,
+            "column_has_query": this.column_has_query
         });
 
         this.el.html(PANDA.templates.dataset_search_filters(context));
@@ -212,10 +214,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
          * Fetch an operation object based a column's type and currently
          * selected operation.
          */
-        console.log(c);
-        console.log(q);
-        console.log(this.operations);
-        console.log(this.operations[c["type"]]);
         return this.operations[c["type"]][q["operator"]];
     },
 
@@ -293,12 +291,14 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         var terms = [];
 
         _.each(this.dataset.get("column_schema"), _.bind(function(c, i) {
-            if (!c["indexed"] || !c["type"] || c["type"] == "unicode") {
+            // Skip unfilterable columns
+            if (!this.column_is_filterable(c)) {
                 return;
             }
 
             var filter = $("#filter-" + i);
 
+            // Skip unused filters
             if (filter.is(":hidden")) {
                 return;
             }
@@ -318,12 +318,11 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     /* Value parsers */
 
     parse_single_input: function(filter) {
-        return { "value": filter.find("input").val(), "range_value": "" };
+        return { "value": filter.find(".value").val(), "range_value": "" };
     },
     
     parse_double_input: function(filter) {
-        var values = filter.find("input").val();
-        return { "value": values[0], "range_value": values[1] };
+        return { "value": filter.find(".value").val(), "range_value": filter.find(".range-value").val() };
     }
 });
 

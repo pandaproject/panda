@@ -1,7 +1,7 @@
 <h4>Filter your search by specific columns</h4>
 <% _.each(dataset.column_schema, function(c, i) { %>
     <div id="filter-<%= i %>"  class="filter" data-filter-id="<%= i %>">
-        <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
+        <% if (column_is_filterable(c) && column_has_query(c)) { %>
         <%= render_filter(c) %>
         <% } %>
     </div>
@@ -10,7 +10,7 @@
     <strong>Add a filter</strong> <select id="add-filter">
         <option value="">Pick a column to filter by</option>
         <% _.each(dataset.column_schema, function(c, i) { %>
-            <% if (c["indexed"] && c["type"] && c["type"] != "unicode" ) { %>
+            <% if (column_is_filterable(c)) { %>
             <option value="<%= i %>"><%= c["name"] %></option>
             <% } %>
         <% }); %>
