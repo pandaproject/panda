@@ -27,7 +27,6 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.dataset.fetch({
             async: false,
             success: _.bind(function(model, response) {
-                this.search_filters.set_dataset(model);
                 this.results.set_dataset(model);
                 this.view.set_dataset(model);
                 this.render();

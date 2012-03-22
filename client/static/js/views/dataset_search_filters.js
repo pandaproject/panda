@@ -40,14 +40,14 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "single_input",
-                "parser": "parse_single_input"
+                "widget": "double_input",
+                "parser": "parse_double_input"
             }
         },
         "bool": {
             "is": {
                 "name": "is",
-                "widget": "single_input",
+                "widget": "bool_selector",
                 "parser": "parse_single_input"
             }
         },
@@ -121,13 +121,13 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     widgets: {
         "single_input": '<input class="value" value="<%= value %>" />',
-        "double_input": '<input class="value" value="<%= value %>" /> to <input class="range-value" value="<%= range_value %>" />'
+        "double_input": '<input class="value" value="<%= value %>" /> to <input class="range-value" value="<%= range_value %>" />',
+        "bool_selector": '<select class="value"><option value="true">true</option><option value="false">false</option></select>'
     },
 
     el: null,
 
     search: null,
-    dataset: null,
 
     initialize: function(options) {
         _.bindAll(this);
@@ -139,13 +139,9 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         }, this));
     },
 
-    set_dataset: function(dataset) {
-        this.dataset = dataset;
-    },
-
     render: function() {
         var context = PANDA.utils.make_context({
-            "dataset": this.dataset.results(),
+            "dataset": this.search.dataset.results(),
             "render_filter": this.render_filter,
             "column_is_filterable": this.column_is_filterable,
             "column_has_query": this.column_has_query
@@ -153,7 +149,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         this.el.html(PANDA.templates.dataset_search_filters(context));
 
-        _.each(this.dataset.get("column_schema"), _.bind(function(c, i) {
+        _.each(this.search.dataset.get("column_schema"), _.bind(function(c, i) {
             if (this.column_is_filterable(c) && this.column_has_query(c)) {
                 $("#filter-" + i).show();
             }
@@ -239,7 +235,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         var filter = $("#filter-" + i);
 
         if (filter.is(":hidden")) {
-            var c = this.dataset.get("column_schema")[i];
+            var c = this.search.dataset.get("column_schema")[i];
 
             filter.html(this.render_filter(c));
             filter.show();
@@ -260,7 +256,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         var filter = $(e.currentTarget).parents(".filter");
         var filter_id = filter.data("filter-id");
-        var c = this.dataset.get("column_schema")[filter_id];
+        var c = this.search.dataset.get("column_schema")[filter_id];
 
         var column_query = this.get_column_query(c); 
         var last_operation = this.get_column_operation(c, column_query);
@@ -290,7 +286,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
          */
         var terms = [];
 
-        _.each(this.dataset.get("column_schema"), _.bind(function(c, i) {
+        _.each(this.search.dataset.get("column_schema"), _.bind(function(c, i) {
             // Skip unfilterable columns
             if (!this.column_is_filterable(c)) {
                 return;
