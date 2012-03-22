@@ -4,51 +4,60 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             "is": {
                 "name": "is",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_ints"
             },
             "is_greater": {
                 "name": "is greater than or equal to",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_ints"
             },
             "is_less": {
                 "name": "is less than or equal to",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_ints"
             },
             "is_range": {
                 "name": "is in the range",
                 "widget": "double_input",
-                "parser": "parse_double_input"
+                "parser": "parse_double_input",
+                "validator": "validate_ints"
             }
         },
         "float": {
             "is": {
                 "name": "is",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_floats"
             },
             "is_greater": {
                 "name": "is greater than or equal to",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_floats"
             },
             "is_less": {
                 "name": "is less than or equal to",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_floats"
             },
             "is_range": {
                 "name": "is in the range",
                 "widget": "double_input",
-                "parser": "parse_double_input"
+                "parser": "parse_double_input",
+                "validator": "validate_floats"
             }
         },
         "bool": {
             "is": {
                 "name": "is",
                 "widget": "bool_selector",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_dummy"
             }
         },
         "datetime": {
@@ -69,8 +78,8 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "single_input",
-                "parser": "parse_single_input"
+                "widget": "double_input",
+                "parser": "parse_double_input"
             }
         },
         "date": {
@@ -91,8 +100,8 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "single_input",
-                "parser": "parse_single_input"
+                "widget": "double_input",
+                "parser": "parse_double_input"
             }
         },
         "time": {
@@ -113,8 +122,8 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "single_input",
-                "parser": "parse_single_input"
+                "widget": "double_input",
+                "parser": "parse_double_input"
             }
         }
     },
@@ -301,7 +310,14 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
             var operator = filter.find(".operator").val();
             var parser = this.operations[c["type"]][operator]["parser"];
+            var validator = this.operations[c["type"]][operator]["validator"];
             var values = this[parser](filter);
+
+            try {
+                values = this[validator](c, values);
+            } catch (e) {
+                throw new Error(c["name"] + ": " + e.message);
+            }
 
             if (values["value"]) {
                 terms.push(c["name"] + ":::" + operator + ":::" + values["value"] + ":::" + values["range_value"]);
@@ -319,6 +335,96 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     
     parse_double_input: function(filter) {
         return { "value": filter.find(".value").val(), "range_value": filter.find(".range-value").val() };
-    }
+    },
+
+    /* Value validators */
+
+    is_int: function(v) {
+        return parseFloat(v) == parseInt(v) && !_.isNaN(v);
+    },
+
+    validate_ints: function(c, values) {
+        if (!values["value"]) {
+            return values;
+        }
+
+        if (!this.is_int(values["value"])) {
+            throw new Error("Value is not an integer!");
+        }
+        
+        var value = parseInt(values["value"]);
+
+        if (values["range_value"]) {
+            if (!this.is_int(values["range_value"])) {
+                throw new Error("Range value is not an integer!");
+            }
+
+            var range_value = parseInt(values["range_value"]);
+        } else {
+            var range_value = null;
+        }
+
+        if (value < c["min"] || value > c["max"]) {
+            throw new Error("Value is outside range of column [" + c["min"] + "-" + c["max"] + "].");
+        }
+
+        if (range_value) {
+            if (range_value < c["min"] || range_value > c["max"]) {
+                throw new Error("Range value is outside range of column [" + c["min"] + "-" + c["max"] + "].");
+            }
+
+            if (value > range_value) {
+                throw new Error("The first value should always be less than the second."); 
+            }
+        }
+
+        return values;
+    },
+
+    is_float: function(v) {
+        return parseFloat(v) && !_.isNaN(v);
+    },
+    
+    validate_floats: function(c, values) {
+        if (!values["value"]) {
+            return values;
+        }
+
+        if (!this.is_float(values["value"])) {
+            throw new Error("Value is not an integer!");
+        }
+        
+        var value = parseFloat(values["value"]);
+
+        if (values["range_value"]) {
+            if (!this.is_float(values["range_value"])) {
+                throw new Error("Range value is not an integer!");
+            }
+
+            var range_value = parseFloat(values["range_value"]);
+        } else {
+            var range_value = null;
+        }
+
+        if (value < c["min"] || value > c["max"]) {
+            throw new Error("Value is outside range of column [" + c["min"] + "-" + c["max"] + "].");
+        }
+
+        if (range_value) {
+            if (range_value < c["min"] || range_value > c["max"]) {
+                throw new Error("Range value is outside range of column [" + c["min"] + "-" + c["max"] + "].");
+            }
+
+            if (value > range_value) {
+                throw new Error("The first value should always be less than the second."); 
+            }
+        }
+
+        return values;
+    },
+
+    validate_dummy: function(c, values) {
+        return values;
+    },
 });
 

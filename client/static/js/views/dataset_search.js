@@ -93,7 +93,12 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
 
     search_event: function() {
-        query_string = this.encode_query_string();
+        try {
+            query_string = this.encode_query_string();
+        } catch(e) {
+            alert(e.message);
+            return false;
+        }
 
         Redd.goto_dataset_search(this.dataset.get("slug"), query_string);
 
