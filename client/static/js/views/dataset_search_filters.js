@@ -64,66 +64,78 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             "is": {
                 "name": "is",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_datetimes"
             },
             "is_greater": {
                 "name": "is on or after",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_datetimes"
             },
             "is_less": {
                 "name": "is on or before",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_datetimes"
             },
             "is_range": {
                 "name": "is in the range",
                 "widget": "double_input",
-                "parser": "parse_double_input"
+                "parser": "parse_double_input",
+                "validator": "validate_datetimes"
             }
         },
         "date": {
             "is": {
                 "name": "is",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_dates"
             },
             "is_greater": {
                 "name": "is on or after",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_dates"
             },
             "is_less": {
                 "name": "is on or before",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_dates"
             },
             "is_range": {
                 "name": "is in the range",
                 "widget": "double_input",
-                "parser": "parse_double_input"
+                "parser": "parse_double_input",
+                "validator": "validate_dates"
             }
         },
         "time": {
             "is": {
                 "name": "is",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_times"
             },
             "is_greater": {
                 "name": "is at or after",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_times"
             },
             "is_less": {
                 "name": "is at or before",
                 "widget": "single_input",
-                "parser": "parse_single_input"
+                "parser": "parse_single_input",
+                "validator": "validate_times"
             },
             "is_range": {
                 "name": "is in the range",
                 "widget": "double_input",
-                "parser": "parse_double_input"
+                "parser": "parse_double_input",
+                "validator": "validate_times"
             }
         }
     },
@@ -313,21 +325,23 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             var validator = this.operations[c["type"]][operator]["validator"];
             var values = this[parser](filter);
 
+            if (!values["value"]) {
+                return;
+            }
+
             try {
-                values = this[validator](c, values);
+                this[validator](c, values);
             } catch (e) {
                 throw new Error(c["name"] + ": " + e.message);
             }
 
-            if (values["value"]) {
-                terms.push(c["name"] + ":::" + operator + ":::" + values["value"] + ":::" + values["range_value"]);
-            }
+            terms.push(c["name"] + ":::" + operator + ":::" + values["value"] + ":::" + values["range_value"]);
         }, this));
 
         return terms.join("|||");
     },
 
-    /* Value parsers */
+    /* Value parsers - extract values from widgets */
 
     parse_single_input: function(filter) {
         return { "value": filter.find(".value").val(), "range_value": "" };
@@ -337,17 +351,13 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         return { "value": filter.find(".value").val(), "range_value": filter.find(".range-value").val() };
     },
 
-    /* Value validators */
+    /* Value validators - prepare values from widgets for Solr query */
 
     is_int: function(v) {
         return parseFloat(v) == parseInt(v) && !_.isNaN(v);
     },
 
     validate_ints: function(c, values) {
-        if (!values["value"]) {
-            return values;
-        }
-
         if (!this.is_int(values["value"])) {
             throw new Error("Value is not an integer!");
         }
@@ -377,8 +387,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
                 throw new Error("The first value should always be less than the second."); 
             }
         }
-
-        return values;
     },
 
     is_float: function(v) {
@@ -386,10 +394,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
     
     validate_floats: function(c, values) {
-        if (!values["value"]) {
-            return values;
-        }
-
         if (!this.is_float(values["value"])) {
             throw new Error("Value is not an integer!");
         }
@@ -407,24 +411,74 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         }
 
         if (value < c["min"] || value > c["max"]) {
-            throw new Error("Value is outside range of column [" + c["min"] + "-" + c["max"] + "].");
+            throw new Error("Value is outside range of column [" + c["min"] + " to " + c["max"] + "].");
         }
 
         if (range_value) {
             if (range_value < c["min"] || range_value > c["max"]) {
-                throw new Error("Range value is outside range of column [" + c["min"] + "-" + c["max"] + "].");
+                throw new Error("Range value is outside range of column [" + c["min"] + " to " + c["max"] + "].");
             }
 
             if (value > range_value) {
                 throw new Error("The first value should always be less than the second."); 
             }
         }
-
-        return values;
     },
 
     validate_dummy: function(c, values) {
-        return values;
+    },
+
+    validate_datetimes: function(c, values) {
+        if (!values["value"].match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)) {
+            throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+        }
+        
+        try {
+            var value = moment(values["value"], "YYYY-MM-DD HH:mm");
+        } catch (e) {
+            throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+        }
+
+        if (values["range_value"]) {
+            if (!values["range_value"].match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)) {
+                throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+            }
+            
+            try {
+                var range_value = moment(values["range_value"], "YYYY-MM-DD HH:mm");
+            } catch (e) {
+                throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+            }
+        } else {
+            var range_value = null;
+        }
+
+        var min = moment(c["min"], "YYYY-MM-DD HH:mm:ss");
+        var max = moment(c["max"], "YYYY-MM-DD HH:mm:ss");
+        var min_formatted = min.format("YYYY-MM-DD HH:mm");
+        var max_formatted = max.format("YYYY-MM-DD HH:mm");
+
+        if (value < min || value > max) {
+            throw new Error("Value is outside range of column [" + min_formatted + " to " + max_formatted + "].");
+        }
+        
+        if (range_value) {
+            if (range_value < min || range_value > max) {
+                throw new Error("Range value is outside range of column [" + min_formatted + " to " + max_formatted + "].");
+            }
+
+            if (value > range_value) {
+                throw new Error("The first value should always be less than the second."); 
+            }
+        }
+    },
+
+    validate_dates: function(c, values) {
+        // TODO
+    },
+
+    validate_times: function(c, values) {
+        // TODO
     },
 });
 

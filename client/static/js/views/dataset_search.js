@@ -173,6 +173,15 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 return c["name"] == k;
             });
 
+            // Convert datetimes to Solr format
+            if (c["type"] == "datetime") {
+                v["value"] = v["value"].replace(" ", "T") + ":00Z";
+                
+                if (v["range_value"]) {
+                    v["range_value"] = v["range_value"].replace(" ", "T") + ":00Z";
+                }
+            }
+
             if (v["operator"] == "is") {
                 q += " " + c["indexed_name"] + ":" + v["value"];
             } else if (v["operator"] == "is_greater") {
