@@ -1,19 +1,27 @@
 <h4>Filter your search by specific columns</h4>
+<table class="table table-condensed">
+<tbody>
 <% _.each(dataset.column_schema, function(c, i) { %>
-    <div id="filter-<%= i %>"  class="filter" data-filter-id="<%= i %>">
+    <tr id="filter-<%= i %>"  class="filter" data-filter-id="<%= i %>">
         <% if (column_is_filterable(c) && column_has_query(c)) { %>
         <%= render_filter(c) %>
         <% } %>
-    </div>
+    </tr>
 <% }); %>
-<div>
-    <strong>Add a filter</strong> <select id="add-filter">
-        <option value="">Pick a column to filter by</option>
-        <% _.each(dataset.column_schema, function(c, i) { %>
-            <% if (column_is_filterable(c)) { %>
-            <option value="<%= i %>"><%= c["name"] %></option>
-            <% } %>
-        <% }); %>
-    </select>
-</div>
+    <tr>
+        <td><strong>Add another filter</strong>&nbsp;</td>
+        <td>
+            <select id="add-filter">
+                <option value="">Pick a column to filter by</option>
+                <% _.each(dataset.column_schema, function(c, i) { %>
+                    <% if (column_is_filterable(c)) { %>
+                    <option value="<%= i %>"><%= c["name"] %></option>
+                    <% } %>
+                <% }); %>
+            </select>
+        </td>
+        <td>&nbsp;</td>
+    </tr> 
+</tbody>
+</table>
 

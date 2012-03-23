@@ -1,11 +1,13 @@
-<a class="remove-filter" href="javascript:void(0);">Remove this filter</a>&nbsp;
-<strong><%= column["name"] %></strong>&nbsp;
-<select class="operator" data-last-value="<%= query["operator"] %>">
-    <% _.each(operations, function(op, name) { %>
-        <option value="<%= name %>" <% if (query["value"] && query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
-    <% }); %>
-</select>&nbsp;
-<span class="widget"><%= widget_template(query) %></span>&nbsp;
-<% if (column["min"] && column["max"]) { %>
-<span class="range">(<strong><%= format_min_max(column, "min") %></strong> to <strong><%= format_min_max(column, "max") %></strong>)</span>
-<% } %>
+<td><a class="remove-filter" href="javascript:void(0);">Remove this filter</a>&nbsp;</td>
+<td><strong><%= column["name"] %></strong>&nbsp;</td>
+<td>
+    <select class="operator" data-last-value="<%= query["operator"] %>">
+        <% _.each(operations, function(op, name) { %>
+            <option value="<%= name %>" <% if (query["value"] && query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
+        <% }); %>
+    </select>&nbsp;
+    <span class="widget"><%= widget_template(query) %></span>&nbsp;
+    <% if (column["min"] && column["max"]) { %>
+    <span class="range">(<strong><%= format_min_max(column, "min") %></strong> to <strong><%= format_min_max(column, "max") %></strong>)</span>
+    <% } %>
+</td>

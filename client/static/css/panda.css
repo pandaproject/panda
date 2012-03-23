@@ -110,19 +110,27 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 #dataset-search .search-help .span8 { 
     background-color: #DCEAF4;
-    padding: 5px;
     border: 1px solid rgba(0, 0, 0, 0.05);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    margin-top: 8px;
 }
 
-#dataset-search .search-help .search-help-box {
+#dataset-search .search-help-box {
     float: left;
     width: 25%;
 }
 
+#dataset-search .search-help-box .contents{
+    padding: 8px;
+}
+
+#dataset-search-filters h4 { margin-top: 16px; margin-bottom: 8px; }
+#dataset-search-filters table { margin-bottom: 0; }
 #dataset-search .filter { display: none; }
+#dataset-search .filter .widget { white-space:nowrap; }
+#dataset-search .filter .range { white-space:nowrap; }
 
 /* Dataset search results */
 
