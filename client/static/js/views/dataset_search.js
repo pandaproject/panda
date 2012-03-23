@@ -195,7 +195,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             }
 
             if (v["operator"] == "is") {
-                q += " " + c["indexed_name"] + ":" + v["value"];
+                q += " " + c["indexed_name"] + ':"' + v["value"] + '"';
             } else if (v["operator"] == "is_greater") {
                 q += " " + c["indexed_name"] + ":[" + v["value"] + " TO *]";
             } else if (v["operator"] == "is_less") {
