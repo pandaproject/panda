@@ -428,26 +428,30 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     validate_dummy: function(c, values) {
     },
 
+    is_datetime: function(v) {
+        return v.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/);
+    },
+
     validate_datetimes: function(c, values) {
-        if (!values["value"].match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)) {
-            throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+        if (!this.is_datetime(values["value"])) {
+            throw new Error('Datetime must be in format "YYYY-MM-DD HH:MM".');
         }
         
         try {
             var value = moment(values["value"], "YYYY-MM-DD HH:mm");
         } catch (e) {
-            throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+            throw new Error("Value is not a valid datetime.");
         }
 
         if (values["range_value"]) {
-            if (!values["range_value"].match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/)) {
-                throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+            if (!this.is_datetime(values["range_value"])) {
+                throw new Error('Datetime must be in format "YYYY-MM-DD HH:MM".');
             }
             
             try {
                 var range_value = moment(values["range_value"], "YYYY-MM-DD HH:mm");
             } catch (e) {
-                throw new Error("Datetime must be in format 'YYYY-MM-DD HH:MM");
+                throw new Error("Range value is not a valid datetime.");
             }
         } else {
             var range_value = null;
@@ -473,26 +477,30 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         }
     },
 
+    is_date: function(v) {
+        return v.match(/^\d{4}-\d{2}-\d{2}$/);
+    },
+
     validate_dates: function(c, values) {
-        if (!values["value"].match(/^\d{4}-\d{2}-\d{2}$/)) {
-            throw new Error("Datetime must be in format 'YYYY-MM-DD");
+        if (!this.is_date(values["value"])) {
+            throw new Error('Date must be in format "YYYY-MM-DD".');
         }
         
         try {
             var value = moment(values["value"], "YYYY-MM-DD");
         } catch (e) {
-            throw new Error("Datetime must be in format 'YYYY-MM-DD");
+            throw new Error("Value is not a valid date.");
         }
 
         if (values["range_value"]) {
-            if (!values["range_value"].match(/^\d{4}-\d{2}-\d{2}$/)) {
-                throw new Error("Datetime must be in format 'YYYY-MM-DD");
+            if (!this.is_date(values["range_value"])) {
+                throw new Error('Date must be in format "YYYY-MM-DD".');
             }
             
             try {
                 var range_value = moment(values["range_value"], "YYYY-MM-DD");
             } catch (e) {
-                throw new Error("Datetime must be in format 'YYYY-MM-DD");
+                throw new Error("Range value is not a valid date.");
             }
         } else {
             var range_value = null;
@@ -516,11 +524,57 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
                 throw new Error("The first value should always be less than the second."); 
             }
         }
-        // TODO
+    },
+
+    is_time: function(v) {
+        return v.match(/^\d{2}\:\d{2}$/);
     },
 
     validate_times: function(c, values) {
-        // TODO
-    },
+        if (!this.is_time(values["value"])) {
+            throw new Error('Time must be in format "HH:MM".');
+        }
+        
+        try {
+            var value = "9999-12-31 " + values["value"];
+            value = moment(value, "YYYY-MM-DD HH:mm");
+        } catch (e) {
+            throw new Error("Value is not a valid time.");
+        }
+
+        if (values["range_value"]) {
+            if (!this.is_time(values["range_value"])) {
+                throw new Error('Time must be in format "HH:MM".');
+            }
+            
+            try {
+                var range_value = "9999-12-31 " + values["range_value"];
+                range_value = moment(range_value, "YYYY-MM-DD HH:mm");
+            } catch (e) {
+                throw new Error("Range value is not a valid time.");
+            }
+        } else {
+            var range_value = null;
+        }
+
+        var min = moment(c["min"], "YYYY-MM-DD HH:mm:ss");
+        var max = moment(c["max"], "YYYY-MM-DD HH:mm:ss");
+        var min_formatted = min.format("HH:mm");
+        var max_formatted = max.format("HH:mm");
+
+        if (value < min || value > max) {
+            throw new Error("Value is outside range of column [" + min_formatted + " to " + max_formatted + "].");
+        }
+        
+        if (range_value) {
+            if (range_value < min || range_value > max) {
+                throw new Error("Range value is outside range of column [" + min_formatted + " to " + max_formatted + "].");
+            }
+
+            if (value > range_value) {
+                throw new Error("The first value should always be less than the second."); 
+            }
+        }
+    }
 });
 
