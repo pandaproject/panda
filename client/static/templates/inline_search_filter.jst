@@ -5,4 +5,7 @@
         <option value="<%= name %>" <% if (query["value"] && query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
     <% }); %>
 </select>&nbsp;
-<span class="widget"><%= widget_template(query) %></span>
+<span class="widget"><%= widget_template(query) %></span>&nbsp;
+<% if (column["min"] && column["max"]) { %>
+<span class="range">(<strong><%= format_min_max(column, "min") %></strong> to <strong><%= format_min_max(column, "max") %></strong>)</span>
+<% } %>

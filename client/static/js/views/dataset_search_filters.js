@@ -199,10 +199,28 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             "query": query,
             "operation": operation,
             "operations": operations,
-            "widget_template": widget_template
+            "widget_template": widget_template,
+            "format_min_max": this.format_min_max
         });
         
         return PANDA.templates.inline_search_filter(filter_context);    
+    },
+
+    format_min_max: function(c, min_or_max) {
+        /*
+         * Convert min/max values from a column to a format suitable for display.
+         */
+        var v = c[min_or_max];
+
+        if (c["type"] == "datetime") {
+            return moment(v, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm")
+        } else if (c["type"] == "date") {
+            return moment(v, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD")
+        } else if (c["type"] == "time") {
+            return moment(v, "YYYY-MM-DD HH:mm:ss").format("HH:mm")
+        } else {
+            return v;
+        }
     },
 
     get_column_query: function(c) {
