@@ -1,6 +1,8 @@
 0.1.1
 -----
 
+* Make it possible to specify column types via API at dataset creation time. (#518)
+* Import and search specific data columns (search filters). (#494, #506, et al)
 * Implement a configurable throttle for asynchronous tasks. (#502)
 * Added Justin Edwards to AUTHORS.
 * Added favicon.ico. (#512)
