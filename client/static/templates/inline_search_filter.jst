@@ -1,4 +1,4 @@
-<td><a class="remove-filter" href="#" onclick="return false;">Remove this filter</a>&nbsp;</td>
+<td><a class="remove-filter" href="#" onclick="return false;">Remove</a>&nbsp;</td>
 <td><strong><%= column["name"] %></strong>&nbsp;</td>
 <td>
     <select class="operator" data-last-value="<%= query["operator"] %>">
@@ -8,6 +8,6 @@
     </select>&nbsp;
     <span class="widget"><%= widget_template(query) %></span>&nbsp;
     <% if (column["min"] && column["max"]) { %>
-    <span class="range">(<strong><%= format_min_max(column, "min") %></strong> to <strong><%= format_min_max(column, "max") %></strong>)</span>
+    <span class="range"><em>Range: <strong><%= format_min_max(column, "min") %></strong> to <strong><%= format_min_max(column, "max") %></strong></em></span>
     <% } %>
 </td>

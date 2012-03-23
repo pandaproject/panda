@@ -8,20 +8,18 @@
         <% } %>
     </tr>
 <% }); %>
-    <tr>
-        <td><strong>Add another filter</strong>&nbsp;</td>
-        <td>
-            <select id="add-filter">
-                <option value="">Pick a column to filter by</option>
-                <% _.each(dataset.column_schema, function(c, i) { %>
-                    <% if (column_is_filterable(c)) { %>
-                    <option value="<%= i %>"><%= c["name"] %></option>
-                    <% } %>
-                <% }); %>
-            </select>
-        </td>
-        <td>&nbsp;</td>
-    </tr> 
 </tbody>
 </table>
+
+<div>
+    <strong>Add filter</strong>&nbsp;</td>
+    <select id="add-filter">
+        <option value="">Pick a column</option>
+        <% _.each(dataset.column_schema, function(c, i) { %>
+            <% if (column_is_filterable(c)) { %>
+            <option value="<%= i %>"><%= c["name"] %></option>
+            <% } %>
+        <% }); %>
+    </select>
+</div>
 

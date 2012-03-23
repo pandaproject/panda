@@ -137,6 +137,9 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #dataset-search .filter .widget { white-space:nowrap; }
 #dataset-search .filter .range { white-space:nowrap; }
 
+
+#dataset-search .filter input { width:120px; }
+
 /* Dataset search results */
 
 #dataset-search-results { margin: 0 20px; }
