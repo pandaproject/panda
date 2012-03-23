@@ -97,7 +97,20 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         try {
             query_string = this.encode_query_string();
         } catch(e) {
-            alert(e.message);
+            if (e instanceof PANDA.errors.FilterValidationError) {
+                _.each(e.errors, function(message, i) {
+                    var filter = $("#filter-" + i);
+                
+                    // Clear old errors
+                    //filter.find(".control-group").removeClass("error");
+                    //filter.find(".help-inline").text("");
+                    filter.find(".control-group").addClass("error");
+                    filter.find(".help-inline").text(message);
+                });
+            } else {
+                throw e;
+            }
+
             return false;
         }
 
@@ -132,7 +145,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
          */
         var full_text = $("#dataset-search-query").val();
         var query = full_text;
-        var filters = this.search_filters.encode(); 
+        var filters = this.search_filters.encode();
 
         if (filters) {
             query += "|||" + filters;

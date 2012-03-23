@@ -347,10 +347,16 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
                 return;
             }
 
+            var errors = {};
+
             try {
                 this[validator](c, values);
             } catch (e) {
-                throw new Error(c["name"] + ": " + e.message);
+                errors[i] = e.message;
+            }
+
+            if (!_.isEmpty(errors)) {
+                throw new PANDA.errors.FilterValidationError(errors); 
             }
 
             terms.push(c["name"] + ":::" + operator + ":::" + values["value"] + ":::" + values["range_value"]);
