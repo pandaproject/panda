@@ -474,6 +474,48 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
 
     validate_dates: function(c, values) {
+        if (!values["value"].match(/^\d{4}-\d{2}-\d{2}$/)) {
+            throw new Error("Datetime must be in format 'YYYY-MM-DD");
+        }
+        
+        try {
+            var value = moment(values["value"], "YYYY-MM-DD");
+        } catch (e) {
+            throw new Error("Datetime must be in format 'YYYY-MM-DD");
+        }
+
+        if (values["range_value"]) {
+            if (!values["range_value"].match(/^\d{4}-\d{2}-\d{2}$/)) {
+                throw new Error("Datetime must be in format 'YYYY-MM-DD");
+            }
+            
+            try {
+                var range_value = moment(values["range_value"], "YYYY-MM-DD");
+            } catch (e) {
+                throw new Error("Datetime must be in format 'YYYY-MM-DD");
+            }
+        } else {
+            var range_value = null;
+        }
+
+        var min = moment(c["min"], "YYYY-MM-DD HH:mm:ss");
+        var max = moment(c["max"], "YYYY-MM-DD HH:mm:ss");
+        var min_formatted = min.format("YYYY-MM-DD");
+        var max_formatted = max.format("YYYY-MM-DD");
+
+        if (value < min || value > max) {
+            throw new Error("Value is outside range of column [" + min_formatted + " to " + max_formatted + "].");
+        }
+        
+        if (range_value) {
+            if (range_value < min || range_value > max) {
+                throw new Error("Range value is outside range of column [" + min_formatted + " to " + max_formatted + "].");
+            }
+
+            if (value > range_value) {
+                throw new Error("The first value should always be less than the second."); 
+            }
+        }
         // TODO
     },
 

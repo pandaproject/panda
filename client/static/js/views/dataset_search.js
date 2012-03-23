@@ -180,6 +180,12 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 if (v["range_value"]) {
                     v["range_value"] = v["range_value"].replace(" ", "T") + ":00Z";
                 }
+            } else if (c["type"] == "date") {
+                v["value"] = v["value"] + "T00:00:00Z";
+                
+                if (v["range_value"]) {
+                    v["range_value"] = v["range_value"] + "T00:00:00Z";
+                }
             }
 
             if (v["operator"] == "is") {
