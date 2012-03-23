@@ -3,147 +3,141 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         "int": {
             "is": {
                 "name": "is",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_ints"
             },
             "is_greater": {
                 "name": "is greater than or equal to",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_ints"
             },
             "is_less": {
                 "name": "is less than or equal to",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_ints"
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "double_input",
-                "parser": "parse_double_input",
+                "widget_template": "inline_widget_double_input",
+                "parser": "parse_inline_widget_double_input",
                 "validator": "validate_ints"
             }
         },
         "float": {
             "is": {
                 "name": "is",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_floats"
             },
             "is_greater": {
                 "name": "is greater than or equal to",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_floats"
             },
             "is_less": {
                 "name": "is less than or equal to",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_floats"
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "double_input",
-                "parser": "parse_double_input",
+                "widget_template": "inline_widget_double_input",
+                "parser": "parse_inline_widget_double_input",
                 "validator": "validate_floats"
             }
         },
         "bool": {
             "is": {
                 "name": "is",
-                "widget": "bool_selector",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_bool_selector",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dummy"
             }
         },
         "datetime": {
             "is": {
                 "name": "is",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_datetimes"
             },
             "is_greater": {
                 "name": "is on or after",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_datetimes"
             },
             "is_less": {
                 "name": "is on or before",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_datetimes"
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "double_input",
-                "parser": "parse_double_input",
+                "widget_template": "inline_widget_double_input",
+                "parser": "parse_inline_widget_double_input",
                 "validator": "validate_datetimes"
             }
         },
         "date": {
             "is": {
                 "name": "is",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dates"
             },
             "is_greater": {
                 "name": "is on or after",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dates"
             },
             "is_less": {
                 "name": "is on or before",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dates"
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "double_input",
-                "parser": "parse_double_input",
+                "widget_template": "inline_widget_double_input",
+                "parser": "parse_inline_widget_double_input",
                 "validator": "validate_dates"
             }
         },
         "time": {
             "is": {
                 "name": "is",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_times"
             },
             "is_greater": {
                 "name": "is at or after",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_times"
             },
             "is_less": {
                 "name": "is at or before",
-                "widget": "single_input",
-                "parser": "parse_single_input",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
                 "validator": "validate_times"
             },
             "is_range": {
                 "name": "is in the range",
-                "widget": "double_input",
-                "parser": "parse_double_input",
+                "widget_template": "inline_widget_double_input",
+                "parser": "parse_inline_widget_double_input",
                 "validator": "validate_times"
             }
         }
-    },
-
-    widgets: {
-        "single_input": '<input class="value" value="<%= value %>" />',
-        "double_input": '<input class="value" value="<%= value %>" /> to <input class="range-value" value="<%= range_value %>" />',
-        "bool_selector": '<select class="value"><option value="true">true</option><option value="false">false</option></select>'
     },
 
     el: null,
@@ -154,10 +148,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         _.bindAll(this);
 
         this.search = options.search;
-
-        _.each(this.widgets, _.bind(function(v, k) {
-            this.widgets[k] = _.template(v);
-        }, this));
     },
 
     render: function() {
@@ -202,14 +192,14 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         var query = this.get_column_query(c);
         var operation = this.get_column_operation(c, query);
         var operations = this.get_column_operations(c);
-        var widget = this.get_column_widget(operation);
+        var widget_template = this.get_column_widget_template(operation);
 
         filter_context = PANDA.utils.make_context({
             "column": c,
             "query": query,
             "operation": operation,
             "operations": operations,
-            "widget": widget
+            "widget_template": widget_template
         });
         
         return PANDA.templates.inline_search_filter(filter_context);    
@@ -241,11 +231,11 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         return this.operations[c["type"]];
     },
 
-    get_column_widget: function(column_operation) {
+    get_column_widget_template: function(column_operation) {
         /*
          * Get an appropriate widget template based on a column's operation.
          */
-        return this.widgets[column_operation["widget"]]
+        return PANDA.templates[column_operation["widget_template"]]
     },
 
     add_filter: function() {
@@ -288,7 +278,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         var values = this[last_operation["parser"]](filter);
         $.extend(column_query, values);
 
-        filter.find(".widget").html(this.get_column_widget(column_operation)(column_query));
+        filter.find(".widget").html(this.get_column_widget_template(column_operation)(column_query));
 
         $(e.currentTarget).data("last-value", new_op);
     },
@@ -343,11 +333,11 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     /* Value parsers - extract values from widgets */
 
-    parse_single_input: function(filter) {
+    parse_inline_widget_single_input: function(filter) {
         return { "value": filter.find(".value").val(), "range_value": "" };
     },
     
-    parse_double_input: function(filter) {
+    parse_inline_widget_double_input: function(filter) {
         return { "value": filter.find(".value").val(), "range_value": filter.find(".range-value").val() };
     },
 

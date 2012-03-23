@@ -5,4 +5,4 @@
         <option value="<%= name %>" <% if (query["value"] && query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
     <% }); %>
 </select>&nbsp;
-<span class="widget"><%= widget(query) %></span>
+<span class="widget"><%= widget_template(query) %></span>
