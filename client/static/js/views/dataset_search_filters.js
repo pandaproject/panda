@@ -160,11 +160,21 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         this.el.html(PANDA.templates.dataset_search_filters(context));
 
+        var filters_are_on = false;
+
         _.each(this.search.dataset.get("column_schema"), _.bind(function(c, i) {
             if (this.column_is_filterable(c) && this.column_has_query(c)) {
                 $("#filter-" + i).show();
+                filters_are_on = true;
             }
         }, this));
+
+        // If any filters are turned on make sure the fields are visible
+        if (filters_are_on) {
+            $(".search-help").show();
+            this.el.show();
+            $("#toggle-advanced-search").text("Fewer search options");
+        }
 
         $("#add-filter").change(this.add_filter);
         $(".operator").change(this.change_operator);

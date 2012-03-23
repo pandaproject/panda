@@ -108,6 +108,10 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Dataset search */
 
+#dataset-search .search-help {
+    display: none;
+}
+
 #dataset-search .search-help .span8 { 
     background-color: #DCEAF4;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -126,6 +130,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     padding: 8px;
 }
 
+#dataset-search-filters { display: none; }
 #dataset-search-filters h4 { margin-top: 16px; margin-bottom: 8px; }
 #dataset-search-filters table { margin-bottom: 0; }
 #dataset-search .filter { display: none; }

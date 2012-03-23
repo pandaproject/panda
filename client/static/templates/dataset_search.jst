@@ -9,7 +9,7 @@
             <% } else { %>
                 <input id="dataset-search-query" class="span8" type="text" name="query" value="<% if (query) { %><%= query["__all__"] %><% } %>" placeholder="Enter a search query" />
                 <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
-                &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
+                &nbsp;<a id="toggle-advanced-search" href="#" onclick="return false;">More search options</a>
                 <% if (query) { %>
                 &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                 <% } %>

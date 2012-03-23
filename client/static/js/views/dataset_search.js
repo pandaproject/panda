@@ -2,7 +2,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     el: $("#content"),
 
     events: {
-        "submit #dataset-search-form":      "search_event"
+        "submit #dataset-search-form":      "search_event",
+        "click #toggle-advanced-search":    "toggle_advanced_search"
     },
 
     dataset: null,
@@ -101,6 +102,19 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         }
 
         Redd.goto_dataset_search(this.dataset.get("slug"), query_string);
+
+        return false;
+    },
+
+    toggle_advanced_search: function() {
+        $(".search-help").toggle();
+        $("#dataset-search-filters").toggle();
+
+        if ($("#dataset-search-filters").is(":visible")) {
+            $("#toggle-advanced-search").text("Fewer search options");
+        } else {
+            $("#toggle-advanced-search").text("More search options");
+        };
 
         return false;
     },
