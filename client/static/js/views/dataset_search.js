@@ -94,6 +94,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
 
     search_event: function() {
+        // Clear any existing error text
+        $("#dataset-search-filters .help-wrapper").hide();
+
         try {
             query_string = this.encode_query_string();
         } catch(e) {
@@ -101,10 +104,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 _.each(e.errors, function(message, i) {
                     var filter = $("#filter-" + i);
                 
-                    // Clear old errors
-                    //filter.find(".control-group").removeClass("error");
-                    //filter.find(".help-inline").text("");
-                    filter.find(".control-group").addClass("error");
+                    // Render error
+                    filter.find(".help-wrapper").show();
                     filter.find(".help-inline").text(message);
                 });
             } else {
