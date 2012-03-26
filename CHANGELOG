@@ -1,6 +1,7 @@
 0.1.1
 -----
 
+* Prevent datasets created via the API from having duplicate slugs. (#550)
 * Fix an issue where empty columns in a CSV could crash dataset creation.
 * Make it possible to specify column types via API at dataset creation time. (#518)
 * Import and search specific data columns (search filters). (#494, #506, et al)

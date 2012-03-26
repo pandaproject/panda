@@ -41,7 +41,7 @@ class DatasetResource(SluggedModelResource):
     last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, readonly=True, null=True)
     initial_upload = fields.ForeignKey(DataUploadResource, 'initial_upload', readonly=True, null=True)
 
-    slug = fields.CharField(attribute='slug', readonly=True)
+    slug = fields.CharField(attribute='slug')
     column_schema = JSONApiField(attribute='column_schema', readonly=True, null=True)
     sample_data = JSONApiField(attribute='sample_data', readonly=True, null=True)
     row_count = fields.IntegerField(attribute='row_count', readonly=True, null=True)
