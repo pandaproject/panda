@@ -38,27 +38,6 @@ class TestUserValidation(TestCase):
 
             self.assertNotIn("email", errors)
 
-    def test_email_used_as_username(self):
-        bundle = Bundle(data={ 'email': 'panda@pandaproject.net' })
-    
-        self.validator.is_valid(bundle)
-
-        self.assertEqual(bundle.data['username'], 'panda@pandaproject.net')       
-
-    def test_password_missing(self):
-        bundle = Bundle(data={ 'email': 'panda@pandaproject.net' })
-
-        self.validator.is_valid(bundle)
-
-        self.assertEqual(bundle.data['password'], None)
-
-    def test_password_supplied(self):
-        bundle = Bundle(data={ 'email': 'panda@pandaproject.net', 'password': 'panda' })
-
-        self.validator.is_valid(bundle)
-
-        self.assertEqual(bundle.data['password'][:5], 'sha1$')
-
 class TestAPIUser(TransactionTestCase):
     fixtures = ['init_panda.json']
 

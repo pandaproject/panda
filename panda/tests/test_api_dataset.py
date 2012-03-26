@@ -215,6 +215,38 @@ class TestAPIDataset(TransactionTestCase):
         self.assertEqual(new_dataset.initial_upload, None)
         self.assertEqual(new_dataset.data_uploads.count(), 0)
 
+    def test_create_put_twice(self):
+        new_dataset = {
+            'name': 'New dataset!',
+            'description': 'Its got yummy data!'
+        }
+
+        response = self.client.put('/api/1.0/dataset/new-slug/', content_type='application/json', data=json.dumps(new_dataset), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        update_dataset = {
+            'name': 'Updated dataset!'
+        }
+        
+        body = json.loads(response.content)
+
+        self.assertEqual(body['name'], 'New dataset!')
+        self.assertEqual(body['slug'], 'new-slug')
+        dataset_id = body['id']
+
+        response = self.client.put('/api/1.0/dataset/new-slug/', content_type='application/json', data=json.dumps(update_dataset), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 201)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(body['name'], 'Updated dataset!')
+        self.assertEqual(body['slug'], 'new-slug')
+        self.assertEqual(body['id'], dataset_id)
+
+        self.assertEqual(Dataset.objects.all().count(), 1)
+
     def test_create_as_new_user(self):
         new_user = {
             'email': 'tester@tester.com',
