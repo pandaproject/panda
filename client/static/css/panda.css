@@ -108,38 +108,29 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Dataset search */
 
-#dataset-search .search-help {
-    display: none;
-}
+#dataset-search .dataset-search-query { width: 100%; }
+#dataset-search .dataset-search-submit { width: 100%; }
+#dataset-search h4 { margin-bottom: 6px; }
+#dataset-search .search-help { display: none; }
 
-#dataset-search .search-help .span8 { 
+#dataset-search .search-help .wrapper { 
     background-color: #DCEAF4;
     border: 1px solid rgba(0, 0, 0, 0.05);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    margin-top: 8px;
-}
-
-#dataset-search .search-help-box {
-    float: left;
-    width: 25%;
 }
 
 #dataset-search .search-help-box .contents{
     padding: 8px;
 }
 
-#dataset-search-filters { display: none; }
-#dataset-search-filters h4 { margin-top: 16px; margin-bottom: 8px; }
-#dataset-search-filters table { margin-bottom: 0; }
+#dataset-search-filters { display: none; margin-top: 16px; }
 #dataset-search .filter { display: none; }
 #dataset-search .filter .widget { white-space:nowrap; }
 #dataset-search .filter .range { white-space:nowrap; }
 #dataset-search .filter .help-wrapper { display:none; }
 #dataset-search .filter .help-inline { color:#b94a48; }
-
-#dataset-search .filter input { width:120px; }
 
 /* Dataset search results */
 

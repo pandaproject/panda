@@ -144,7 +144,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         /*
          * Convert arguments from the search fields into a URL. 
          */
-        var full_text = $("#dataset-search-query").val();
+        var full_text = $(".dataset-search-query").val();
         var query = full_text;
         var filters = this.search_filters.encode();
 
