@@ -126,6 +126,9 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 }
 
 #dataset-search-filters { display: none; margin-top: 16px; }
+#dataset-search-filters table td { vertical-align:baseline; }
+#dataset-search-filters table input { margin-bottom: 0; }
+#dataset-search-filters table select { margin-bottom: 0; }
 #dataset-search .filter { display: none; }
 #dataset-search .filter .widget { white-space:nowrap; }
 #dataset-search .filter .range { white-space:nowrap; }
