@@ -41,5 +41,5 @@ class TypeCoercionError(Exception):
         self.value = value
         self.normal_type = normal_type
         msg = 'Unable to convert "%s" to type %s' % (value, normal_type)
-        super(TypeCoercionError, self).__init__(msg)
+        super(TypeCoercionError, self).__init__(value, normal_type)
 

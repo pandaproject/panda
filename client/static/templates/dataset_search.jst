@@ -2,25 +2,61 @@
     <div class="span12">
         <div class="alert"></div>
         <form id="dataset-search-form" class="well">
-            <h3>Search <strong><%= dataset.name %></strong></h3>
-            <% if (!dataset.row_count) { %>
-                <input id="dataset-search-query" class="span8" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" />
-                <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" disabled="disabled" />
-            <% } else { %>
-                <input id="dataset-search-query" class="span8" type="text" name="query" value="<% if (query) { %><%= query["__all__"] %><% } %>" placeholder="Enter a search query" />
-                <input type="submit" id="dataset-search-submit" class="btn primary" value="Search" />
-                &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
-                <% if (query) { %>
-                &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
-                <% } %>
-
-                <% _.each(dataset.column_schema, function(c, i) { %>
-                    <% if (c["indexed"]) { %>
-                        <div>
-                            <strong><%= c["name"] %></strong> <input id="dataset-column-<%= i %>" value="<% if (query) { %><%= query[c["name"]] %><% } %>">
-                        </div>
+            <div class="row-fluid">
+                <div class="span8">
+                    <h3>Search <strong><%= dataset.name %></strong></h3>
+                <% if (!dataset.row_count) { %>
+                    <div class="row-fluid">
+                        <div class="span10"><input class="dataset-search-query" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" /></div>
+                        <div class="span10"><input type="submit" class="btn primary dataset-search-submit" value="Search" disabled="disabled" /></div>
+                    </div>
+                <% } else { %>
+                    <div class="row-fluid">
+                        <div class="span10"><input class="dataset-search-query" type="text" name="query" value="<% if (query) { %><%= query["__all__"] %><% } %>" placeholder="Enter a search query" /></div>
+                        <div class="span2"><input type="submit" class="btn primary dataset-search-submit" value="Search" /></div>
+                    </div>
+                    <a id="toggle-advanced-search" href="#" onclick="return false;">More search options</a>
+                    <% if (query) { %>
+                    &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
                     <% } %>
-                <% }); %>
+                    
+                    <div id="dataset-search-filters">
+                    </div>
+                </div>
+
+                <div class="span4 search-help">
+                    <div class="wrapper">
+                        <div class="row-fluid">
+                            <div class="search-help-box span6">
+                                <div class="contents">
+                                    <h4>Wildcards</h4>
+                                    Use an asterisk to match part of a word: <strong>chris*</strong> will match "Chris", "Christian" or "Christopher".
+                                </div>
+                            </div>
+                            <div class="search-help-box span6">
+                                    <div class="contents">
+                                    <h4>Exact phrases</h4>
+                                    Put phrases in quotes: <strong>"Chicago Bears"</strong> will not match "Chicago Panda Bears".
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="search-help-box span6">
+                                <div class="contents">
+                                    <h4>AND/OR</h4>
+                                    Use AND and OR to find combinations of terms: <strong>homicide AND first</strong> will match "first degree homicide" or "homicide, first degree", but not just "homicide".
+                                </div>
+                            </div>
+                            <div class="search-help-box span6">
+                                <div class="contents">
+                                    <h4>Grouping</h4>
+                                    Group words with parantheses: <strong>homicide AND (first OR 1st)</strong> will match "1st degree homicide", "first degree homicide", or "homicide, first degree".
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <% } %>
         </form>
     </div>

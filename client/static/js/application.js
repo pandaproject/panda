@@ -8,6 +8,7 @@ PANDA.models = {};
 PANDA.views = {};
 PANDA.routers = {};
 PANDA.templates = {};
+PANDA.errors = {};
 PANDA.bootstrap = {};
 PANDA.utils = {};
 

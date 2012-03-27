@@ -1,0 +1,29 @@
+<h4>Filter your search by specific columns</h4>
+<table class="table table-condensed">
+<% _.each(dataset.column_schema, function(c, i) { %>
+    <tbody id="filter-<%= i %>"  class="filter control-group" data-filter-id="<%= i %>">
+    <% if (column_is_filterable(c) && column_has_query(c)) { %>
+    <%= render_filter(c, i) %>
+    <% } %>
+    </tbody>
+<% }); %>
+</table>
+
+<div class="row-fluid">
+    <div class="span10">
+        <strong>Add filter</strong>&nbsp;</td>
+        <select id="add-filter">
+            <option value="">Pick a column</option>
+            <% _.each(dataset.column_schema, function(c, i) { %>
+                <% if (column_is_filterable(c)) { %>
+                <option value="<%= i %>"><%= c["name"] %></option>
+                <% } %>
+            <% }); %>
+        </select>
+    </div>
+    <div class="span2">
+        <input type="submit" class="btn primary dataset-search-submit" value="Search" />
+    </div>
+</div>
+
+

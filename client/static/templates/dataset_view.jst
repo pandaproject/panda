@@ -14,9 +14,9 @@
                 <% } %>
                 <li><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-upload"></i> Upload related file</a></li>
                 <% if (dataset.locked) { %>
-                <li><a class="disabled" href="javascript: return false;"><i class="icon-ban-circle"></i> Index column types</a></li>
+                <li><a class="disabled" href="javascript: return false;"><i class="icon-ban-circle"></i> Add column filters</a></li>
                 <% } else { %>
-                <li><a href="#modal-index-types" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-asterisk"></i> Index column types</a></li>
+                <li><a href="#modal-index-types" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-asterisk"></i> Add column filters</a></li>
                 <% } %>
                 <% if (dataset.locked) { %>
                 <li><a class="disabled" href="javascript: return false;"><i class="icon-ban-circle"></i> Export to CSV</a></li>
@@ -120,7 +120,7 @@
 <div id="modal-index-types" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Select columns to import</h3>
+        <h3>Select columns to filter by</h3>
     </div>
     <div class="modal-body">
         <form id="typed-columns-form">
@@ -128,7 +128,7 @@
             <thead>
                 <tr>
                     <th>Column</th>
-                    <th>Import?</th>
+                    <th>Enabled?</th>
                     <th>Data type</th>
                 </tr>
             </thead>
@@ -139,11 +139,13 @@
                     <td><input type="checkbox" name="typed-<%= i %>" <% if (c['indexed']) { %>checked="checked"<% } %>></td>
                     <td><select name="type-<%= i %>">
                         <option value=""<% if (c['type'] == null) { %>selected="selected"<% } %>>None</option>
-                        <option value="unicode"<% if (c['type'] == "unicode") { %>selected="selected"<% } %>>string</option>
+                        <!--<option value="unicode"<% if (c['type'] == "unicode") { %>selected="selected"<% } %>>string</option>-->
                         <option value="int"<% if (c['type'] == "int") { %>selected="selected"<% } %>>integer</option>
                         <option value="float"<% if (c['type'] == "float") { %>selected="selected"<% } %>>float</option>
                         <option value="bool"<% if (c['type'] == "bool") { %>selected="selected"<% } %>>boolean</option>
-                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>date/time</option>
+                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>date+time</option>
+                        <option value="date"<% if (c['type'] == "date") { %>selected="selected"<% } %>>date</option>
+                        <option value="time"<% if (c['type'] == "time") { %>selected="selected"<% } %>>time</option>
                     </select></td>
                 </tr>
                 <% }); %>

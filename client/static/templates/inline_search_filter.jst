@@ -1,0 +1,26 @@
+<tr>
+    <td colspan="3"></td>
+    <td class="range">
+        <% if (column["min"] && column["max"]) { %>
+        <em>Range:&nbsp;&nbsp;<strong><%= format_min_max(column, "min") %></strong>&nbsp;&nbsp;to&nbsp;&nbsp;<strong><%= format_min_max(column, "max") %></strong></em>
+        <% } %>
+    </td>
+</tr>
+
+<tr>
+    <td><a class="remove-filter" href="#" onclick="return false;">Remove</a>&nbsp;</td>
+    <td><strong><%= column["name"] %></strong>&nbsp;</td>
+    <td class="thin">
+        <select class="operator" data-last-value="<%= query["operator"] %>">
+            <% _.each(operations, function(op, name) { %>
+                <option value="<%= name %>" <% if (query["value"] && query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
+            <% }); %>
+        </select>
+    </td>
+    <td>
+        <span class="widget"><%= widget_template(query) %></span>&nbsp;
+        <div class="help-wrapper">
+            <span class="help-inline"></span>
+        </div>
+    </td>
+</tr>

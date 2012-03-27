@@ -164,7 +164,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
         } else if (responseJSON.xhr) {
             this.step_two_error_message(responseJSON.xhr.status + ' ' + responseJSON.xhr.statusText);
         } else {
-            window.stash = responseJSON;
             this.step_two_error_message('An unexpected error occurred.');
         }
     },

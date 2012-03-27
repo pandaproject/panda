@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from livesettings import config_register, BooleanValue, ConfigurationGroup, PositiveIntegerValue, StringValue
+from livesettings import config_register, BooleanValue, ConfigurationGroup, FloatValue, PositiveIntegerValue, StringValue
 
 # Site domain settings
 DOMAIN_GROUP = ConfigurationGroup(
     'DOMAIN',
-    'Site domain settings',
+    'Site domain',
     ordering=0
 )
 
@@ -19,7 +19,7 @@ config_register(StringValue(
 # Email settings
 EMAIL_GROUP = ConfigurationGroup(
     'EMAIL',
-    'Email settings',
+    'Email',
     ordering=1
 )
 
@@ -74,15 +74,32 @@ config_register(StringValue(
 # Miscellaneous settings
 MISC_GROUP = ConfigurationGroup(
     'MISC',
-    'Miscellaneous settings',
+    'Miscellaneous',
     ordering=2
 )
 
 config_register(BooleanValue(
     MISC_GROUP,
     'DEMO_MODE',
-    description='Enable demo mode? (Displays default credentials on login screen.)',
+    description='Enable demo mode?',
+    help_text='Displays default credentials on login screen.',
     default=False,
     ordering=0
+))
+
+# Performance settings
+PERF_GROUP = ConfigurationGroup(
+    'PERF',
+    'Performance',
+    ordering=3
+)
+
+config_register(FloatValue(
+    PERF_GROUP,
+    'TASK_THROTTLE',
+    description='Number of seconds to throttle between processing batches of data.',
+    help_text='A larger number will result in slower imports and exports, but better responsiveness from the PANDA user interface.',
+    default=0.5,
+    ordering=1
 ))
 

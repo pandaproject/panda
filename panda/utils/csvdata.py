@@ -75,5 +75,9 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
             else:
                 type_names.append(t.__name__)
 
+        # If a final column had no values csvkit will have dropped it
+        while len(type_names) < len(headers):
+            type_names.append(None)
+
         return type_names 
 

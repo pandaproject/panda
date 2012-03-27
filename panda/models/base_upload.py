@@ -34,6 +34,18 @@ class BaseUpload(models.Model):
 
         super(BaseUpload, self).save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        """
+        When deleting an upload, it will attempt to clean
+        up its own associated files.
+        """
+        try:
+            os.remove(self.get_path())
+        except:
+            pass
+
+        super(BaseUpload, self).delete(*args, **kwargs)
+
     def get_path(self):
         """
         Get the absolute path to this upload on disk.

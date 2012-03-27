@@ -72,6 +72,12 @@ class ImportFileTask(AbortableTask):
             
             email_subject = 'Import complete: %s' % dataset.name
             email_message = 'Import complete: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+
+            type_summary = retval.summarize()
+
+            if type_summary:
+                email_message += '\n\n' + type_summary
+
             notification_message = 'Import complete: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
         
