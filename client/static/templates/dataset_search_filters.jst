@@ -1,14 +1,12 @@
 <h4>Filter your search by specific columns</h4>
 <table class="table table-condensed">
-<tbody>
 <% _.each(dataset.column_schema, function(c, i) { %>
-    <tr id="filter-<%= i %>"  class="filter control-group" data-filter-id="<%= i %>">
-        <% if (column_is_filterable(c) && column_has_query(c)) { %>
-        <%= render_filter(c) %>
-        <% } %>
-    </tr>
+    <tbody id="filter-<%= i %>"  class="filter control-group" data-filter-id="<%= i %>">
+    <% if (column_is_filterable(c) && column_has_query(c)) { %>
+    <%= render_filter(c, i) %>
+    <% } %>
+    </tbody>
 <% }); %>
-</tbody>
 </table>
 
 <div class="row-fluid">

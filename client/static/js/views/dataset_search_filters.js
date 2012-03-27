@@ -195,7 +195,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         return this.search.query && this.search.query[c["name"]];
     },
 
-    render_filter: function(c) {
+    render_filter: function(c, i) {
         /*
          * Render a single column filter to a string.
          */
@@ -205,6 +205,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         var widget_template = this.get_column_widget_template(operation);
 
         filter_context = PANDA.utils.make_context({
+            "i": i,
             "column": c,
             "query": query,
             "operation": operation,
@@ -276,7 +277,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         if (filter.is(":hidden")) {
             var c = this.search.dataset.get("column_schema")[i];
 
-            filter.html(this.render_filter(c));
+            filter.html(this.render_filter(c, i));
             filter.show();
 
             filter.find(".operator").change(this.change_operator);
