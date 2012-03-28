@@ -2,9 +2,19 @@
 Upgrading your PANDA
 ====================
 
-We have yet to settle on a definitive upgrade strategy for PANDA, but broadly speaking upgrades will proceed as follows:
+.. note::
 
-When we release a new version (e.g. 1.1), we will also release an upgrade script that migrates the previous version (e.g. 1.0) forward. These scripts will be self-contained and function much like the :doc:`backup <backups>` and :doc:`storage migration <storage>` scripts. Each script will ensure that your data is securely migrated to the new version of the system.
+    Although we strive to make upgrades as simple as possible, upgrading your PANDA will require that you know how to SSH into your server. If your not technical or you've never done this before, we suggest getting help from someone who has some experience adminstering servers.
 
-We anticipate releasing more detailed instructions alongside our next release.
+0.1.0 to 0.1.1
+==============================
+
+To upgrade your PANDA from the first beta release to the 0.1.1 release, SSH into your server and execute the following commands::
+
+    wget https://raw.github.com/pandaproject/panda/master/scripts/migrations/0.1.0-to-0.1.1.sh
+    sudo bash 0.1.0-to-0.1.1.sh
+
+Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade.log``. 
+
+Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
 
