@@ -4,10 +4,21 @@ Performance
 
 The default PANDA configuration has been optimized for an EC2 Small server environment. However, even if that is the hosting solution you choose the default configuration may not be optimal for you
 
+Task throttling
+===============
+
+If you are running on an instance smaller or larger than our recommended server you may wish to configure a shorter or longer time to wait between importing batches of data. This small "throttle" value allows the server to periodically catch up on user requests while importing data. You'll find this configuration option in the *Performance* section of the `admin settings page <http://localhost:8000/admin/settings/>`_.
+
+Increasing the number will provided additional time for user requests and should improve PANDA's responsiveness, at the cost of imports taking longer. Decreasing the number will allow less time for user requests, which is appropraite if your server has multiple CPUs. In the latter case you may even be able to set this value to zero and still have a very responsive server.
+
+.. note::
+
+    In the vast majority of cases the default value for this option is fine, so if you are not sure how to tune it, you should probably just leave it alone.
+
 Solr
 ====
 
-In particular you may wish to adjust how much memory you give to Solr. You will find the relevant configuration in ``/etc/init/solr.conf``::
+You may wish to adjust how much memory you give to Solr. You will find the relevant configuration in ``/etc/init/solr.conf``::
 
     description "Solr server for PANDA"
     start on runlevel [2345]

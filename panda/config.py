@@ -97,7 +97,7 @@ PERF_GROUP = ConfigurationGroup(
 config_register(FloatValue(
     PERF_GROUP,
     'TASK_THROTTLE',
-    description='Number of seconds to throttle between processing batches of data.',
+    description='Number of seconds to wait between processing batches of data.',
     help_text='A larger number will result in slower imports and exports, but better responsiveness from the PANDA user interface.',
     default=0.5,
     ordering=1
