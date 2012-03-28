@@ -29,15 +29,17 @@ git checkout 0.1.1
 # Update Python requirements
 pip install -U -r requirements.txt
 
+# Regenerate assets
+sudo -u panda -E python manage.py collectstatic --noinput
+
 # Migrate database
 sudo -u panda -E python manage.py syncdb --noinput
-sudo -u panda -E python manage.py schemamigration --initial panda
 sudo -u panda -E python manage.py migrate panda 0001 --fake
 sudo -u panda -E python manage.py migrate panda
 
 # Install new Solr configuration (backwards compatible)
-cp setup_panda/data_schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
-cp setup_panda/datasets_schema.xml -O /opt/solr/panda/solr/pandadatasets/conf/schema.xml
+cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
+cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
 
 # Restart services
 service solr start 
