@@ -70,3 +70,8 @@ PANDA.utils.format_file_size = function(size) {
 
     return size.toFixed(1) + ' ' + units[i];
 }
+
+PANDA.utils.escapes_to_entities = function (text) {
+    return escape(text).replace(/%(..)/g,"&#x$1;");
+};
+

@@ -4,7 +4,7 @@
         <form id="dataset-search-form" class="well">
             <div class="row-fluid">
                 <div class="span8">
-                    <h3>Search <strong><%= dataset.name %></strong></h3>
+                    <h3>Search <strong><%= unescape(dataset.name) %></strong></h3>
                 <% if (!dataset.row_count) { %>
                     <div class="row-fluid">
                         <div class="span10"><input class="dataset-search-query" type="text" name="query" value="Dataset not yet available for search" disabled="disabled" /></div>

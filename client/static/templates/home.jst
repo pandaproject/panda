@@ -2,8 +2,8 @@
     <div class="span12">
         <h3>Recently added datasets</h3>
         <% _.each(recent.datasets, function(dataset) { %>
-            <h4><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h4>
-            <% if (dataset.description) { %><p><em><%= dataset.description %></em></p><% } %>
+            <h4><a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a></h4>
+            <% if (dataset.description) { %><p><em><%= unescape(dataset.description) %></em></p><% } %>
             <p>Created <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().fromNow() %></p>
         <% }); %>
         <% if (recent.meta.total_count > recent.datasets.length) { %>

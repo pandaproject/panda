@@ -34,7 +34,7 @@ sudo -u panda -E python manage.py syncdb --noinput
 sudo -u panda -E python manage.py migrate panda 0001 --fake
 sudo -u panda -E python manage.py migrate panda
 
-# Regenerate assets
+# Regenerate asset
 sudo -u panda -E python manage.py collectstatic --noinput
 
 # Install new Solr configuration (backwards compatible)

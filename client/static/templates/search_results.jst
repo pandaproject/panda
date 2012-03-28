@@ -14,10 +14,10 @@
 
             <% _.each(datasets.datasets, function(dataset) { %>
                 <div class="dataset">
-                    <h3><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></h3>
+                    <h3><a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a></h3>
 
                     <% if (dataset.description) { %>
-                    <p><em><%= dataset.description %></em><br /></p>
+                    <p><em><%= unescape(dataset.description) %></em><br /></p>
                     <% } %>
 
                     <h3>

@@ -1,7 +1,7 @@
 <div id="view-dataset">
     <div class="row-fluid">
         <h3>
-            About <strong><%= dataset.name %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
+            About <strong><%= unescape(dataset.name) %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
         </h3>
         <div id="dataset-actions" class="btn-group">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
@@ -42,7 +42,7 @@
             </p>
 
             <h6>Description</h6>
-            <p><%= dataset.description || "<em>Edit this dataset to add a description.</em>" %></p>
+            <p><%= unescape(dataset.description) || "<em>Edit this dataset to add a description.</em>" %></p>
 
             <h6>Categories</h6>
 
@@ -179,7 +179,7 @@
         <h3>Are you sure you want to delete this dataset?</h3>
     </div>
     <div class="modal-body">
-        <p>This will irreversibly destroy <strong><%= dataset.name %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
+        <p>This will irreversibly destroy <strong><%= unescape(dataset.name) %></strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>

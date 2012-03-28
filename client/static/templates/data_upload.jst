@@ -1,7 +1,7 @@
 <div id="upload">
     <h2>
         <% if (dataset) { %>
-            Add data to <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a>
+            Add data to <a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a>
         <% } else { %>
             Upload new data
         <% } %>

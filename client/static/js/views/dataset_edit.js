@@ -72,7 +72,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
                 this.dataset.categories.reset(categories);
             } else {
-                s[k] = v;
+                s[k] = escape(v);
             }
         }, this));
 

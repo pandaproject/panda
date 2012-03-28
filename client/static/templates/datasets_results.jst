@@ -29,9 +29,9 @@
             <% _.each(datasets, function(dataset) { %>
                 <tr>
                     <td>
-                        <span class="sort-value hide"><%= dataset.name %></span>
-                        <a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a><br />
-                        <em><%= PANDA.utils.truncate(dataset.description, 250) %></em>
+                        <span class="sort-value hide"><%= unescape(dataset.name) %></span>
+                        <a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a><br />
+                        <em><%= PANDA.utils.truncate(unescape(dataset.description), 250) %></em>
                     </td>
                     <td>
                         <% _.each(dataset.categories, function(cat, i, l) { %>
