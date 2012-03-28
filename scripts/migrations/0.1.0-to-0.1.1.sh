@@ -29,13 +29,13 @@ git checkout 0.1.1
 # Update Python requirements
 pip install -U -r requirements.txt
 
-# Regenerate assets
-sudo -u panda -E python manage.py collectstatic --noinput
-
 # Migrate database
 sudo -u panda -E python manage.py syncdb --noinput
 sudo -u panda -E python manage.py migrate panda 0001 --fake
 sudo -u panda -E python manage.py migrate panda
+
+# Regenerate assets
+sudo -u panda -E python manage.py collectstatic --noinput
 
 # Install new Solr configuration (backwards compatible)
 cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
@@ -47,3 +47,4 @@ service uwsgi start
 service nginx start
 sudo service celeryd start
 
+echo "PANDA upgrade complete."
