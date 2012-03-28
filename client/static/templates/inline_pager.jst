@@ -6,13 +6,13 @@
                 <% if (previous) { %>
                     <li><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
                 <% } else { %>
-                    <li class="disabled"><a href="javascript: return false;">&larr; Previous</a></li> 
+                    <li class="disabled"><a href="#" onclick="return false;">&larr; Previous</a></li> 
                 <% } %>
 
                 <% if (next) { %>
                     <li><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
                 <% } else { %>
-                    <li class="disabled"><a href="javascript: return false;">Next &rarr;</a></li> 
+                    <li class="disabled"><a href="#" onclick="return false;">Next &rarr;</a></li> 
                 <% } %>
             <% } %>
         </ul>

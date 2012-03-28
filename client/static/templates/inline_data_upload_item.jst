@@ -2,6 +2,6 @@
     <strong><a href="/api/1.0/data_upload/<%= upload.id %>/download/"><%= upload.original_filename %></a></strong>
     uploaded by <%= PANDA.templates.inline_user(upload.creator) %>
 
-    <a data-original-title="<%= PANDA.utils.format_file_size(upload.size) %><br />Uploaded <%= PANDA.templates.inline_timestamp({ d: upload.creation_date }) %>" data-placement="top" href="javascript: return false;" rel="tooltip"><i class="icon-info-sign"></i></a>
+    <a data-original-title="<%= PANDA.utils.format_file_size(upload.size) %><br />Uploaded <%= PANDA.templates.inline_timestamp({ d: upload.creation_date }) %>" data-placement="top" href="#" onclick="return false;" rel="tooltip"><i class="icon-info-sign"></i></a>
 </li>
 
