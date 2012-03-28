@@ -11,15 +11,15 @@ echo "PANDA upgrade beginning."
 # Setup environment variables
 export DEPLOYMENT_TARGET="deployed"
 
+# Shutdown services
+service celeryd stop
+service nginx stop
+service uwsgi stop
+service solr stop
+
 # Install outstanding updates
 apt-get --yes update
 apt-get --yes upgrade
-
-# Shutdown services
-sudo service celeryd stop
-sudo service nginx stop
-sudo service uwsgi stop
-sudo service solr stop
 
 # Fetch updated source code
 cd /opt/panda
@@ -27,7 +27,7 @@ git pull
 git checkout 0.1.1
 
 # Update Python requirements
-sudo pip install -U -r requirements.txt
+pip install -U -r requirements.txt
 
 # Migrate database
 sudo -u panda -E python manage.py syncdb --noinput
@@ -40,8 +40,8 @@ cp setup_panda/data_schema.xml -O /opt/solr/panda/solr/pandadata/conf/schema.xml
 cp setup_panda/datasets_schema.xml -O /opt/solr/panda/solr/pandadatasets/conf/schema.xml
 
 # Restart services
-sudo service solr start 
-sudo service uwsgi start
-sudo service nginx start
+service solr start 
+service uwsgi start
+service nginx start
 sudo service celeryd start
 
