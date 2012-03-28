@@ -162,7 +162,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         if (query_string) {
             this.query = {};
 
-            var parts = unescape(query_string).split(/\|\|\|/);
+            var parts = unescape(query_string).split("\|\|\|");
 
             _.each(parts, _.bind(function(p, i) {
                 if (i == 0) {
