@@ -20,6 +20,10 @@ class Migration(SchemaMigration):
         for dataset in orm.Dataset.objects.all():
             if dataset.initial_upload:
                 dataset.column_types = dataset.initial_upload.guessed_types
+
+                # Account for bug where columns sometimes were not copied across
+                if not dataset.columns:
+                    dataset.columns = dataset.initial_upload.columns
             else:
                 dataset.column_types = ['unicode' for c in dataset.columns]
 
