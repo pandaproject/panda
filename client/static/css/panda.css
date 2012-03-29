@@ -113,12 +113,21 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #dataset-search h4 { margin-bottom: 6px; }
 #dataset-search .search-help { display: none; }
 
+#dataset-search .search-help .arrow {
+    float:left;
+    margin-top: 31px;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid #c2daec;
+}
+
 #dataset-search .search-help .wrapper { 
     background-color: #DCEAF4;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 2px solid #c2daec;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    margin-left: 15px;
 }
 
 #dataset-search .search-help-box .contents{
