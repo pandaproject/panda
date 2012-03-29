@@ -59,7 +59,8 @@ class UserResource(PandaModelResource):
 
             bundle.data['password'] = '%s$%s$%s' % (algo, salt, hsh)
         else:
-            bundle.data['password'] = None
+            # A blank password marks the user as unable to login
+            bundle.data['password'] = '' 
 
         return bundle
 
@@ -77,7 +78,7 @@ class UserResource(PandaModelResource):
 
         All users created via the API are automatically assigned to the panda_users group.
         """
-        bundle = super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['email'], password=bundle.data['password'], **kwargs)
+        bundle = super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['email'], password=bundle.data.get('password', ''), **kwargs)
 
         panda_user = Group.objects.get(name='panda_user')
 

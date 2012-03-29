@@ -13,7 +13,7 @@ The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriv
 
         ?format=json&email=panda@pandaproject.net&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
-All endpoints that return lists support the ``limit`` and ``offset`` parameters for pagination. Pagination information is always returned in the embedded ``meta`` object.
+Unless otherwise specified, all endpoints that return lists support the ``limit`` and ``offset`` parameters for pagination. Pagination information is contained in the embedded ``meta`` object within the response.
 
 Users
 =====
@@ -59,12 +59,12 @@ Fetch
 Create
 ------
 
-To create a new user, POST a JSON document containing at least ``username`` and ``email`` properties to http://localhost:8000/api/1.0/user/. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted the user will need to set a password before they can log in (not yet implemented).
+To create a new user, POST a JSON document containing at least the ``email`` property to http://localhost:8000/api/1.0/user/. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted the user will need to set a password before they can log in (not yet implemented).
 
 Tasks
 =====
 
-The Task API is read-only.
+The Task API allows you to access data about import, export and reindexing processes running on PANDA. This data is read-only.
 
 Example Task object:
 
@@ -227,7 +227,7 @@ Upload as form-data
 
 When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
 
-    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     -F file=@README.csv http://localhost:8000/data_upload/
 
 Upload via AJAX
@@ -235,7 +235,7 @@ Upload via AJAX
 
 ::
 
-    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/data_upload/?qqfile=test.csv
 
 .. note::
@@ -304,7 +304,7 @@ Upload as form-data
 
 When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
 
-    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     -F file=@README.csv http://localhost:8000/related_upload/
 
 Upload via AJAX
@@ -312,7 +312,7 @@ Upload via AJAX
 
 ::
 
-    curl -H "PANDA_EMAIL: panda" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
+    curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/related_upload/?qqfile=test.csv
 
 Categories
