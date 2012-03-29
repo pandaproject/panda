@@ -543,7 +543,7 @@ The Dataset list endpoint also provides full-text search over datasets' metadata
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/?q=[query`
+    http://localhost:8000/api/1.0/dataset/?q=[query]
 
 Fetch
 -----
@@ -566,17 +566,23 @@ Import
 
 Begin an import task. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task::
 
-    http://localhost:8000/api/1.0/dataset/[id]/import/
+    http://localhost:8000/api/1.0/dataset/[slug]/import/
 
 Export
 ------
 
-TODO
+Exporting a dataset is an asynchronous operation. To initiate an export you simple need to make a GET request. The requesting user will be emailed when the export is complete::
+
+    http://localhost:8000/api/1.0/dataset/[slug]/import/
 
 Reindex
 -------
 
-TODO
+Reindexing allows you to add (or remove) typed columns from the dataset. You initiate a reindex with a GET request and can supply ``column_types`` and ``typed_columns`` fields in the same format as documented above in the section on creating a Dataset.
+
+::
+
+    http://localhost:8000/api/1.0/dataset/[slug]/reindex/
 
 Data
 ========
@@ -618,6 +624,11 @@ An example ``Data`` object **without** an ``external_id``, note that it also has
         "external_id": null,
         "resource_uri": null
     }
+
+    
+.. warning::
+
+    You can not add, update or delete data in a **locked** dataset. An error will be returned if you attempt to do so.
 
 Schema
 ------
