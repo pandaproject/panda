@@ -1,0 +1,1 @@
+3 0 * * * ubuntu sudo -u panda -E python /opt/panda/manage.py purge_orphaned_uploads

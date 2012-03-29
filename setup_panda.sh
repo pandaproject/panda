@@ -135,4 +135,7 @@ wget -nv $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
 initctl reload-configuration
 service celeryd start
 
+# Install cron job
+wget -nv $CONFIG_URL/panda.cron -O /etc/cron.d/panda
+
 echo "PANDA installation complete."

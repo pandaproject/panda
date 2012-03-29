@@ -41,6 +41,10 @@ sudo -u panda -E python manage.py collectstatic --noinput
 cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
 cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
 
+# Run new cleanup task and install cron job
+sudo -u panda -E python manage.py purge_orphaned_uploads
+wget -nv $CONFIG_URL/panda.cron -O /etc/cron.d/panda
+
 # Restart services
 service solr start 
 service uwsgi start
