@@ -153,14 +153,14 @@ Example DataUpload object:
         dialect: {
             delimiter: ",",
             doublequote: false,
-            lineterminator: "
-            ",
-            quotechar: """,
+            lineterminator: "\r\n",
+            quotechar: "\"",
             quoting: 0,
             skipinitialspace: false
         },
         encoding: "utf-8",
         filename: "contributors.csv",
+        "guessed_types": ["int", "unicode", "unicode", "unicode"],
         id: "1",
         imported: true,
         original_filename: "contributors.csv",
@@ -228,7 +228,7 @@ Upload as form-data
 When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
 
     curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
-    -F file=@README.csv http://localhost:8000/data_upload/
+    -F file=@test.csv http://localhost:8000/data_upload/
 
 Upload via AJAX
 ---------------
@@ -245,7 +245,7 @@ Upload via AJAX
 Related Uploads
 ===============
 
-Due to limitations in upload file-handling, it is not possible to create Uploads via the normal API. Instead related files should be uploaded to http://localhost:8000/related_upload/ either as form data or as an AJAX request. Examples of how to upload files with curl are at the end of this section.
+As with Data Uploads, it is not possible to create Uploads via the normal API. Instead related files should be uploaded to http://localhost:8000/related_upload/ either as form data or as an AJAX request. Examples of how to upload files with curl are at the end of this section.
 
 Example RelatedUpload object:
 
@@ -305,7 +305,7 @@ Upload as form-data
 When accessing PANDA via curl, your email and API key can be specified with the headers ``PANDA_EMAIL`` and ``PANDA_API_KEY``, respectively::
 
     curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
-    -F file=@README.csv http://localhost:8000/related_upload/
+    -F file=@README.txt http://localhost:8000/related_upload/
 
 Upload via AJAX
 ---------------
@@ -313,12 +313,12 @@ Upload via AJAX
 ::
 
     curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
-    --data-binary @test.csv -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/related_upload/?qqfile=test.csv
+    --data-binary @README.txt -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/related_upload/?qqfile=test.csv
 
 Categories
 ==========
 
-Categories are identified by slug, rather than by integer id (though they do have one).
+Categories are referenced by slug, rather than by integer id (though they do have one).
 
 Example Category object:
 
@@ -342,7 +342,7 @@ Schema
 List
 ----
 
-When queried as a list, a "fake" category named "Uncategorized" will also be returned. This category includes the count of all Datasets not in any other category. It's slug is ``uncategorized`` is 0, but it can only be accessed as a part of the list.
+When queried as a list, a "fake" category named "Uncategorized" will also be returned. This category includes the count of all Datasets not in any other category. It's slug is ``uncategorized`` and its id is 0, but it can only be accessed as a part of the list.
 
 ::
 
@@ -358,7 +358,7 @@ Fetch
 Datasets
 ========
 
-Datasets are identified by slug, rather than by integer id (though they do have one).
+Dataset is the core object in PANDA and by far the most complicated. It contains several embedded objects describing the columns of the dataset, the user that created it, the related uploads, etc. It also contains information about the history of the dataset and whether or not it is currently locked (unable to be modified). Datasets are referenced by slug, rather than by integer id (though they do have one).
 
 Example Dataset object:
 
@@ -366,11 +366,31 @@ Example Dataset object:
 
     {
         categories: [ ],
-        columns: [
-            "id",
-            "first_name",
-            "last_name",
-            "employer"
+        column_schema: [
+            {
+                indexed: false,
+                indexed_name: null,
+                max: null,
+                min: null,
+                name: "first_name",
+                type: "unicode"
+            },
+            {
+                indexed: false,
+                indexed_name: null,
+                max: null,
+                min: null,
+                name: "last_name",
+                type: "unicode"
+            },
+            {
+                indexed: false,
+                indexed_name: null,
+                max: null,
+                min: null,
+                name: "employer",
+                type: "unicode"
+            }
         ],
         creation_date: "2012-02-08T17:50:11",
         creator: {
@@ -397,7 +417,6 @@ Example Dataset object:
         data_uploads: [
             {
                 columns: [
-                    "id",
                     "first_name",
                     "last_name",
                     "employer"
@@ -432,25 +451,21 @@ Example Dataset object:
                 resource_uri: "/api/1.0/data_upload/1/",
                 sample_data: [
                     [
-                        "1",
                         "Brian",
                         "Boyer",
                         "Chicago Tribune"
                     ],
                     [
-                        "2",
                         "Joseph",
                         "Germuska",
                         "Chicago Tribune"
                     ],
                     [
-                        "3",
                         "Ryan",
                         "Pitts",
                         "The Spokesman-Review"
                     ],
                     [
-                        "4",
                         "Christopher",
                         "Groskopf",
                         "PANDA Project"
@@ -465,31 +480,29 @@ Example Dataset object:
         last_modification: null,
         last_modified: null,
         last_modified_by: null,
+        locked: false,
+        locked_at: "2012-03-29T14:28:02",
         name: "contributors",
         related_uploads: [ ],
         resource_uri: "/api/1.0/dataset/contributors/",
         row_count: 4,
         sample_data: [
             [
-                "1",
                 "Brian",
                 "Boyer",
                 "Chicago Tribune"
             ],
             [
-                "2",
                 "Joseph",
                 "Germuska",
                 "Chicago Tribune"
             ],
             [
-                "3",
                 "Ryan",
                 "Pitts",
                 "The Spokesman-Review"
             ],
             [
-                "4",
                 "Christopher",
                 "Groskopf",
                 "PANDA Project"
@@ -526,11 +539,11 @@ The Dataset list endpoint also provides full-text search over datasets' metadata
 
 .. note::
 
-    By default search results are complete Dataset objects, however, it's frequently useful to return simplified objects for rendering lists, etc. To return simplified objects just add ``simple=true`` to the query.
+    By default search results are complete Dataset objects, however, it's frequently useful to return simplified objects for rendering lists, etc. These simple objects do not contain the embedded task object, upload objects or sample data. To return simplified objects just add ``simple=true`` to the query.
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/?q=[query]
+    http://localhost:8000/api/1.0/dataset/?q=[query`
 
 Fetch
 -----
@@ -542,13 +555,11 @@ Fetch
 Create
 ------
 
-To create a new Dataset, ``POST`` a JSON document containing at least ``name`` and ``data_upload`` properties to ``/api/1.0/dataset/``. The ``data_upload`` property may be either an embedded Upload object, or a URI to an existing Upload (for example, ``/api/1.0/upload/17/``). Other properties such as ``description`` may also be set.
+To create a new Dataset, ``POST`` a JSON document containing at least a ``name`` property to ``/api/1.0/dataset/``. Other properties such as ``description`` may also be included.
 
-.. note::
+If data has already been uploaded for this dataset, you may also specify the ``data_upload`` property as either an embedded Upload object, or a URI to an existing DataUpload (for example, ``/api/1.0/data_upload/17/``). 
 
-    The slug field is normally read-only. If you need to create a Dataset with a "well known" slug, you may ``PUT`` the document to that slug and it will be created.
-    
-    For example, if I wanted to create a dataset that I knew would be accessible at ``/api/1.0/dataset/my-slug/``, I could ``PUT`` my JSON document to that URL and it would be created. If a document with this slug already exists it will be overwritten!
+If you are creating a Dataset specifically to be updated via the API you will want to specify columns at creation time. You can do this by providing a ``columns`` query string parameter containing a comma-separated list of column names, such as ``?columns=foo,bar,baz``. You may also specify a ``column_types`` parameter which is an array of types for the columns, such as ``column_types=int,unicode,bool``. Lastly, if you want PANDA to automatically indexed typed columns for data added to this dataset, you can pass a ``typed_columns`` parameter indicating which columns should be indexed, such as ``typed_columns=true,false,true``.
 
 Import
 ------
@@ -557,14 +568,24 @@ Begin an import task. Any data previously imported for this dataset will be lost
 
     http://localhost:8000/api/1.0/dataset/[id]/import/
 
+Export
+------
+
+TODO
+
+Reindex
+-------
+
+TODO
+
 Data
 ========
 
-Data objects are referenced by a unicode ``external_id`` property, specified at the time they are created. This property must be unique within a given ``Dataset``, but does not need to be unique globally. Data objects are accessible at per-dataset endpoints (e.g. ``/api/1.0/dataset/[slug]/data/``). There is also a cross-dataset Data search endpoint at ``/api/1.0/data``, however, this endpoint can only be used for search--not for create, update, or delete. (See below for more.)
+``Data`` objects are referenced by a unicode ``external_id`` property, specified at the time they are created. This property must be unique within a given ``Dataset``, but does not need to be unique globally. Data objects are accessible at per-dataset endpoints (e.g. ``/api/1.0/dataset/[slug]/data/``). There is also a cross-dataset Data search endpoint at ``/api/1.0/data/``, however, this endpoint can only be used for search--not for create, update, or delete. (See below for more.)
 
 .. warning::
 
-    The ``external_id`` property of a Data object is the only way it can be accessed through the API. In order to work with Data via the API you must include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
+    The ``external_id`` property of a Data object is the only way it can be accessed through the API. In order to work with Data via the API you **must** include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
 
 An example ``Data`` object with an ``external_id``:
 
