@@ -37,6 +37,9 @@ sudo -u panda -E python manage.py migrate panda
 # Regenerate asset
 sudo -u panda -E python manage.py collectstatic --noinput
 
+# Install new Solr startup script
+cp setup_panda/solr.conf /etc/init/solr.conf
+
 # Install new Solr configuration (backwards compatible)
 cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
 cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
