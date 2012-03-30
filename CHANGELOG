@@ -1,6 +1,8 @@
 0.1.1
 -----
 
+* Doubled the amount of memory allocated to Solr.
+* Made Solr much less likely to run out of memory during queries.
 * Fix bug where quotes in dataset titles could break the view page. (#570)
 * Fig bug where a dataset search url with no query would result in a 404. (#569)
 * Prevent datasets created via the API from having duplicate slugs. (#550)
