@@ -93,7 +93,7 @@ def delete(core, q, commit=True):
     
     return loads(response.content)
 
-def query(core, q, limit=10, offset=0, sort='external_id asc'):
+def query(core, q, limit=10, offset=0, sort='_docid_ asc'):
     """
     Execute a simple, raw query against the Solr index.
     """
@@ -105,7 +105,7 @@ def query(core, q, limit=10, offset=0, sort='external_id asc'):
     
     return loads(response.content)
 
-def query_grouped(core, q, group_field, limit=10, offset=0, sort='external_id asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
+def query_grouped(core, q, group_field, limit=10, offset=0, sort='_docid_ asc', group_limit=settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP, group_offset=0):
     """
     Execute a query and return results in a grouped format
     appropriate for the PANDA API.

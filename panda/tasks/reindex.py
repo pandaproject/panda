@@ -53,7 +53,7 @@ class ReindexTask(AbortableTask):
         while i < dataset.row_count:
             if not read_buffer:
                 query = 'dataset_slug: %s' % (dataset.slug)
-                response = solr.query(settings.SOLR_DATA_CORE, query, limit=SOLR_READ_BUFFER_SIZE, offset=i, sort='id asc')
+                response = solr.query(settings.SOLR_DATA_CORE, query, limit=SOLR_READ_BUFFER_SIZE, offset=i)
                 read_buffer = response['response']['docs']
 
             data = read_buffer.pop(0)
