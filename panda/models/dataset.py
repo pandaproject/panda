@@ -149,7 +149,7 @@ class Dataset(SluggedModel):
 
     def delete(self, *args, **kwargs):
         """
-        Purge data from Solr when a dataset is deleted.
+        Cancel any in progress task.
         """
         # Cancel import if necessary 
         if self.current_task:
