@@ -38,6 +38,7 @@ def index(request):
 
     return render_to_response('index.html', {
         'settings': settings,
+        'max_upload_size': int(config_value('MISC', 'MAX_UPLOAD_SIZE')),
         'demo_mode': int(config_value('MISC', 'DEMO_MODE')),
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap

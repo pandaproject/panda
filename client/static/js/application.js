@@ -16,9 +16,7 @@ PANDA.utils = {};
 // AKA: The simplest thing that works.
 // Mostly populated in index.html.
 PANDA.settings = {
-    NOTIFICATIONS_INTERVAL: 20000,
-
-    MAX_UPLOAD_SIZE: 1024 * 1024 * 1024 // 1 GB
+    NOTIFICATIONS_INTERVAL: 20000
 };
 
 PANDA.utils.make_context = function(ctx) {
