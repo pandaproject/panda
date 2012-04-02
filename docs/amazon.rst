@@ -35,7 +35,7 @@ Step 3. Launch your server
 Method #1 - Use an Amazon Machine Instance (AMI)
 ------------------------------------------------
 
-This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-ef27f986``. It may take a moment to return a result. When it does, click "Select".
+This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-d9924bb0``. It may take a moment to return a result. When it does, click "Select".
 
 .. figure::  images/amazon-select-ami.png
    :align:  center 
