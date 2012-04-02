@@ -227,7 +227,7 @@ PANDA.views.Root = Backbone.View.extend({
                         var link = "#";
                     }
 
-                    $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + note.get("message") + '</a></li>');
+                    $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + unescape(note.get("message")) + '</a></li>');
                 });
             } else {
                 $("#navbar-notifications .count").removeClass("important");
