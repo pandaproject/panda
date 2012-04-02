@@ -8,7 +8,7 @@ exec 1> >(tee /var/log/panda-install.log) 2>&1
 
 echo "PANDA installation beginning."
 
-CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
+CONFIG_URL="https://raw.github.com/pandaproject/panda/0.1.1/setup_panda"
 
 # Setup environment variables
 echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
