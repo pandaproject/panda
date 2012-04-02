@@ -2,7 +2,8 @@
 
 import random
 
-from django.contrib.auth.models import Group, User, get_hexdigest
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.hashers import get_hasher 
 from django.core.validators import email_re
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
@@ -53,9 +54,11 @@ class UserResource(PandaModelResource):
         Encode new passwords.
         """
         if 'password' in bundle.data and bundle.data['password']:
+            hasher = get_hasher()
+
             algo = 'sha1'
-            salt = get_hexdigest(algo, str(random.random()), str(random.random()))[:5]
-            hsh = get_hexdigest(algo, salt, bundle.data['password'])
+            salt = hasher.salt()
+            hsh = hasher.encode(bundle.data['password'], salt)
 
             bundle.data['password'] = '%s$%s$%s' % (algo, salt, hsh)
         else:
