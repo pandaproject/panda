@@ -84,6 +84,7 @@ Server maintenance
 .. toctree::
     :maxdepth: 1
 
+    ssh.rst
     ops.rst
     Backups <backups.rst>
     Storage <storage.rst>

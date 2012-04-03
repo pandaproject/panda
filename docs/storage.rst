@@ -17,7 +17,7 @@ Based on Amazon's defaults for EC2 instances and the size of the PANDA software 
 
 Before you begin, estimate how much storage you need. Additional storage on Amazon incurs a `monthly cost <http://aws.amazon.com/pricing/ebs/>`_ based on the allocated disk size. If you want to start small, you could simply add an 18GB volume for the search index storage. This would give you capacity for slightly less than 6 GB worth of uploaded files. If you expect to need more than that,  remember that you should allocate at least 3 times more space for your search index volume than for your files volume.
 
-To upgrade your search index storage, SSH into your server and execute the following commands::
+To upgrade your search index storage, :doc:`SSH into your server <ssh>` and execute the following commands::
 
     cd /opt/panda/scripts
     sudo python migrate_solr_volume.py
