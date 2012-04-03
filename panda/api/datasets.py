@@ -48,6 +48,7 @@ class DatasetResource(SluggedModelResource):
     creation_date = fields.DateTimeField(attribute='creation_date', readonly=True, null=True)
     last_modified = fields.DateTimeField(attribute='last_modified', readonly=True, null=True)
     last_modification = fields.CharField(attribute='last_modification', readonly=True, null=True)
+    last_modified_by = fields.ForeignKey(UserResource, 'last_modified_by', full=True, null=True, readonly=True)
     locked = fields.BooleanField(attribute='locked', readonly=True, null=True)
     locked_at = fields.DateTimeField(attribute='locked_at', readonly=True, null=True)
 
