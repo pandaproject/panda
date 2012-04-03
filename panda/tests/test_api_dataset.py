@@ -612,3 +612,16 @@ class TestAPIDataset(TransactionTestCase):
         self.assertNotIn('sample_data', body['objects'][0])
         self.assertNotIn('current_task', body['objects'][0])
 
+    def test_delete(self):
+        dataset_id = self.dataset.id
+        response = self.client.delete('/api/1.0/dataset/%s/' % (self.dataset.slug), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 204)
+
+        response = self.client.get('/api/1.0/dataset/%s/' % (self.dataset.slug), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 404)
+
+        with self.assertRaises(Dataset.DoesNotExist):
+            Dataset.objects.get(id=dataset_id)
+        
