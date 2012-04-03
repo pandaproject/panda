@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import random
-
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.hashers import get_hasher 
 from django.core.validators import email_re
@@ -54,9 +52,9 @@ class UserResource(PandaModelResource):
         Encode new passwords.
         """
         if 'password' in bundle.data and bundle.data['password']:
-            hasher = get_hasher()
-
             algo = 'sha1'
+
+            hasher = get_hasher(algo)
             salt = hasher.salt()
             hsh = hasher.encode(bundle.data['password'], salt)
 
