@@ -43,7 +43,6 @@ class UserResource(PandaModelResource):
         Copy the email to the username field.
         """
         bundle.data['email'] = bundle.data['email'].lower()
-        bundle.data['username'] = bundle.data['email'].lower()
 
         return bundle
 

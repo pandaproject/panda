@@ -308,8 +308,6 @@ class TestAPIDataset(TransactionTestCase):
 
         new_data = json.loads(response.content)
 
-        print new_data
-
         self.assertEqual(new_data['row_count'], row_count)
 
         # Refresh
