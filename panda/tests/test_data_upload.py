@@ -5,6 +5,7 @@ import os.path
 from django.conf import settings
 from django.test import TransactionTestCase
 
+from panda.models import DataUpload
 from panda.tests import utils
 
 class TestDataUpload(TransactionTestCase):
@@ -36,6 +37,7 @@ class TestDataUpload(TransactionTestCase):
 
     def test_delete(self):
         upload = utils.get_test_data_upload(self.user, self.dataset)
+        upload_id = upload.id
         path = upload.get_path()
 
         self.assertEqual(os.path.isfile(path), True)
@@ -44,3 +46,5 @@ class TestDataUpload(TransactionTestCase):
 
         self.assertEqual(os.path.exists(path), False)
 
+        with self.assertRaises(DataUpload.DoesNotExist):
+            DataUpload.objects.get(id=upload_id)
