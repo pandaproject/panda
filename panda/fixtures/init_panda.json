@@ -9,12 +9,12 @@
             "is_active": true, 
             "is_superuser": true, 
             "is_staff": true, 
-            "last_login": "2011-11-04 00:00:00", 
+            "last_login": "2011-11-04T00:00:00Z", 
             "groups": [], 
             "user_permissions": [], 
             "password": "sha1$e9f01$a4249715c0bb488f94c2092335319150af40fcd8", 
             "email": "panda@pandaproject.net", 
-            "date_joined": "2011-11-04 00:00:00"
+            "date_joined": "2011-11-04T00:00:00Z"
         }
     }, 
     {
@@ -23,7 +23,7 @@
         "fields": {
             "user": 1, 
             "key": "edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b", 
-            "created": "2011-11-04 00:00:00"
+            "created": "2011-11-04T00:00:00Z"
         }
     },
     {
@@ -75,12 +75,12 @@
             "is_active": true, 
             "is_superuser": false, 
             "is_staff": false, 
-            "last_login": "2011-11-04 00:00:00", 
+            "last_login": "2011-11-04T00:00:00Z", 
             "groups": [1], 
             "user_permissions": [], 
             "password": "sha1$33a1d$62ae95c2d8ac599c28234d092e3f88d13e69ba67", 
             "email": "user@pandaproject.net", 
-            "date_joined": "2011-11-04 00:00:00"
+            "date_joined": "2011-11-04T00:00:00Z"
         }
     },
     {
@@ -89,7 +89,7 @@
         "fields": {
             "user": 2, 
             "key": "edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84c", 
-            "created": "2011-11-04 00:00:00"
+            "created": "2011-11-04T00:00:00Z"
         }
     },
     {

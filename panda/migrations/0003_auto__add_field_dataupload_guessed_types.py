@@ -41,14 +41,15 @@ class Migration(SchemaMigration):
         db.commit_transaction()     # Commit the first transaction
         db.start_transaction()      # Start the second, committed on completion
 
-        for data_upload in orm.DataUpload.objects.all():
-            path = self.get_path(data_upload) 
-            try:
-                data_upload.guessed_types = utils.guess_column_types(data_upload.data_type, path, self.dialect_as_parameters(data_upload), encoding=data_upload.encoding)
-                data_upload.save()
-            except IOError:
-                # File does not exist on disk
-                continue
+        if not db.dry_run:
+            for data_upload in orm.DataUpload.objects.all():
+                path = self.get_path(data_upload) 
+                try:
+                    data_upload.guessed_types = utils.guess_column_types(data_upload.data_type, path, self.dialect_as_parameters(data_upload), encoding=data_upload.encoding)
+                    data_upload.save()
+                except IOError:
+                    # File does not exist on disk
+                    continue
 
     def backwards(self, orm):
         

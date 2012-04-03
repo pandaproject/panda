@@ -41,7 +41,7 @@ DATABASES = {
 }
 
 TIME_ZONE = 'Etc/UTC' 
-USE_TZ = False 
+USE_TZ = True 
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True

@@ -14,34 +14,35 @@ class Migration(SchemaMigration):
         db.commit_transaction()     # Commit the first transaction
         db.start_transaction()      # Start the second, committed on completion
 
-        for dataset in orm.Dataset.objects.all():
-            schema = []
+        if not db.dry_run:
+            for dataset in orm.Dataset.objects.all():
+                schema = []
 
-            for i, name in enumerate(dataset.columns):
-                c = { 'name': name }
+                for i, name in enumerate(dataset.columns):
+                    c = { 'name': name }
 
-                if dataset.typed_columns:
-                    c['indexed'] = dataset.typed_columns[i]
-                else:
-                    c['indexed'] = False
+                    if dataset.typed_columns:
+                        c['indexed'] = dataset.typed_columns[i]
+                    else:
+                        c['indexed'] = False
 
-                if dataset.column_types:
-                    c['type'] = dataset.column_types[i]
-                else:
-                    c['type'] = None
+                    if dataset.column_types:
+                        c['type'] = dataset.column_types[i]
+                    else:
+                        c['type'] = None
 
-                if dataset.typed_column_names:
-                    c['indexed_name'] = dataset.typed_column_names[i]
-                else:
-                    c['indexed_name'] = None
+                    if dataset.typed_column_names:
+                        c['indexed_name'] = dataset.typed_column_names[i]
+                    else:
+                        c['indexed_name'] = None
 
-                c['min'] = None
-                c['max'] = None
+                    c['min'] = None
+                    c['max'] = None
 
-                schema.append(c)
+                    schema.append(c)
 
-            dataset.column_schema = schema
-            dataset.save()
+                dataset.column_schema = schema
+                dataset.save()
 
     def backwards(self, orm):
         

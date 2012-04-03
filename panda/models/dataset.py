@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-from datetime import datetime
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
+from django.utils.timezone import now 
 
 from panda import solr, utils
 from panda.exceptions import DataImportError, DatasetLockedError
@@ -66,7 +65,7 @@ class Dataset(SluggedModel):
         Save the date of creation.
         """
         if not self.creation_date:
-            self.creation_date = datetime.utcnow()
+            self.creation_date = now()
 
         super(Dataset, self).save(*args, **kwargs)
 
@@ -83,7 +82,7 @@ class Dataset(SluggedModel):
             # Already locked
             raise DatasetLockedError('This dataset is currently locked by another process.')
 
-        new_locked_at = datetime.now()
+        new_locked_at = now()
 
         self.locked = True
         self.locked_at = new_locked_at
@@ -286,7 +285,7 @@ class Dataset(SluggedModel):
             old_row_count = self.row_count
             self.row_count = self._count_rows()
             added = self.row_count - (old_row_count or 0)
-            self.last_modified = datetime.utcnow()
+            self.last_modified = now()
             self.last_modified_by = user
             self.last_modification = '1 row %s' % ('added' if added else 'updated')
             self.save()
@@ -324,7 +323,7 @@ class Dataset(SluggedModel):
             self.row_count = self._count_rows()
             added = self.row_count - (old_row_count or 0)
             updated = len(data) - added
-            self.last_modified = datetime.utcnow()
+            self.last_modified = now()
             self.last_modified_by = user
 
             if added and updated: 
@@ -350,7 +349,7 @@ class Dataset(SluggedModel):
             solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s AND external_id:%s' % (self.slug, external_id), commit=True)
         
             self.row_count = self._count_rows()
-            self.last_modified = datetime.utcnow()
+            self.last_modified = now()
             self.last_modified_by = user
             self.last_modification = '1 row deleted'
             self.save()
@@ -368,7 +367,7 @@ class Dataset(SluggedModel):
 
             old_row_count = self.row_count
             self.row_count = 0
-            self.last_modified = datetime.utcnow()
+            self.last_modified = now()
             self.last_modification = 'All %i rows deleted' % old_row_count
             self.save()
         finally:

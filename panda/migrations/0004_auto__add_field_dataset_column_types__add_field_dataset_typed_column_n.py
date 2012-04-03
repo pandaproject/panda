@@ -17,19 +17,20 @@ class Migration(SchemaMigration):
         db.commit_transaction()     # Commit the first transaction
         db.start_transaction()      # Start the second, committed on completion
 
-        for dataset in orm.Dataset.objects.all():
-            if dataset.initial_upload:
-                dataset.column_types = dataset.initial_upload.guessed_types
+        if not db.dry_run:
+            for dataset in orm.Dataset.objects.all():
+                if dataset.initial_upload:
+                    dataset.column_types = dataset.initial_upload.guessed_types
 
-                # Account for bug where columns sometimes were not copied across
-                if not dataset.columns:
-                    dataset.columns = dataset.initial_upload.columns
-            else:
-                dataset.column_types = ['unicode' for c in dataset.columns]
+                    # Account for bug where columns sometimes were not copied across
+                    if not dataset.columns:
+                        dataset.columns = dataset.initial_upload.columns
+                else:
+                    dataset.column_types = ['unicode' for c in dataset.columns]
 
-            dataset.typed_column_names = [None for c in dataset.columns]
+                dataset.typed_column_names = [None for c in dataset.columns]
 
-            dataset.save()
+                dataset.save()
 
     def backwards(self, orm):
         

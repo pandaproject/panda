@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from datetime import datetime
 import os.path
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.timezone import now 
 
 class BaseUpload(models.Model):
     """
@@ -30,7 +30,7 @@ class BaseUpload(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.creation_date:
-            self.creation_date = datetime.utcnow()
+            self.creation_date = now()
 
         super(BaseUpload, self).save(*args, **kwargs)
 

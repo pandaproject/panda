@@ -38,23 +38,24 @@ class Migration(SchemaMigration):
         db.commit_transaction()     # Commit the first transaction
         db.start_transaction()      # Start the second, committed on completion
 
-        for dataset in orm.Dataset.objects.all():
-            columns = []
-            typed_columns = []
-            column_types = []
-            typed_column_names = []
+        if not db.dry_run:
+            for dataset in orm.Dataset.objects.all():
+                columns = []
+                typed_columns = []
+                column_types = []
+                typed_column_names = []
 
-            for schema in dataset.column_schema:
-                columns.append(schema['name'])
-                typed_columns.append(schema['indexed'])
-                column_types.append(schema['type'])
-                typed_column_names.append(schema['indexed_name'])
+                for schema in dataset.column_schema:
+                    columns.append(schema['name'])
+                    typed_columns.append(schema['indexed'])
+                    column_types.append(schema['type'])
+                    typed_column_names.append(schema['indexed_name'])
 
-            dataset.columns = columns
-            dataset.typed_columns = typed_columns
-            dataset.column_types = column_types
-            dataset.typed_column_names = typed_column_names
-            dataset.save()
+                dataset.columns = columns
+                dataset.typed_columns = typed_columns
+                dataset.column_types = column_types
+                dataset.typed_column_names = typed_column_names
+                dataset.save()
 
 
     models = {

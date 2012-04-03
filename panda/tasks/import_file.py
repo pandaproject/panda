@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from datetime import datetime
-
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
 from livesettings import config_value

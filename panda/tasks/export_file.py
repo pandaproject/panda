@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from datetime import datetime
 import os.path
 
 from celery.contrib.abortable import AbortableTask

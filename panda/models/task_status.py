@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
-from datetime import datetime
-
 from celery import states
 from celery.contrib.abortable import AbortableAsyncResult
 from django.db import models
+from django.utils.timezone import now 
 from djcelery.models import TASK_STATE_CHOICES
 
 from panda.models import User
@@ -59,7 +58,7 @@ class TaskStatus(models.Model):
         Mark that task has begun.
         """
         self.status = 'STARTED' 
-        self.start = datetime.utcnow()
+        self.start = now()
         self.message = message 
         self.save()
 
@@ -75,7 +74,7 @@ class TaskStatus(models.Model):
         Mark that task has aborted.
         """
         self.status = 'ABORTED'
-        self.end = datetime.utcnow()
+        self.end = now()
         self.message = message
         self.save()
 
@@ -84,7 +83,7 @@ class TaskStatus(models.Model):
         Mark that task has completed.
         """
         self.status = 'SUCCESS'
-        self.end = datetime.utcnow()
+        self.end = now()
         self.message = message
         self.save()
 
@@ -93,7 +92,7 @@ class TaskStatus(models.Model):
         Mark that task raised an exception
         """
         self.status = 'FAILURE'
-        self.end = datetime.utcnow()
+        self.end = now()
         self.message = message 
         self.traceback = formatted_traceback
         self.save()

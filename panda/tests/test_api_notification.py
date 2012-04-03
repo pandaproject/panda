@@ -6,6 +6,7 @@ from django.conf import settings
 from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
+import pytz
 
 from panda.models import Notification, User 
 from panda.tests import utils
@@ -39,7 +40,7 @@ class TestAPINotifications(TransactionTestCase):
 
         body = json.loads(response.content)
 
-        sent_at = datetime.strptime(body['sent_at'], "%Y-%m-%dT%H:%M:%S")
+        sent_at = datetime.strptime(body['sent_at'], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=pytz.timezone('Etc/UTC'))
         self.assertEqual(sent_at, notification.sent_at.replace(microsecond=0))
         self.assertEqual(body['read_at'], None)
         self.assertEqual(body['message'], notification.message)

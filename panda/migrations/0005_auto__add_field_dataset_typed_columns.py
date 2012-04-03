@@ -14,10 +14,11 @@ class Migration(SchemaMigration):
         db.commit_transaction()     # Commit the first transaction
         db.start_transaction()      # Start the second, committed on completion
 
-        for dataset in orm.Dataset.objects.all():
-            dataset.typed_columns = [False for c in dataset.columns]
+        if not db.dry_run:
+            for dataset in orm.Dataset.objects.all():
+                dataset.typed_columns = [False for c in dataset.columns]
 
-            dataset.save()
+                dataset.save()
 
     def backwards(self, orm):
         
