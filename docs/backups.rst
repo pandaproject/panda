@@ -12,7 +12,7 @@ Creating a backup
 
 If you are hosting your PANDA on Amazon EC2 then you can make use of EC2's "snapshot" ability for your backups. In essence a snapshot is an exact copy of any EBS volume. You can use this ability to create backups your PANDA server and, if you have :doc:`migrated your files and indexes <storage>`, the volumes they reside on as well. We provide a script to automate this process. You will need to have at least some experience with administering a server in order to use this script.
 
-To perform a one-time backup SSH into your server and execute the following commands::
+To perform a one-time backup :doc:`SSH into your server <ssh>` and execute the following commands::
 
     cd /opt/panda/scripts
     sudo python backup_volumes.py
