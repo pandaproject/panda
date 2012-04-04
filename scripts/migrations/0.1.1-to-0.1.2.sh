@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# PANDA Project migration script to ugprade version 0.1.0 to version 0.1.1.
+# PANDA Project migration script to ugprade version 0.1.1 to version 0.1.2.
 # Must be executed with sudo!
 
 set -x
@@ -24,7 +24,7 @@ apt-get --yes upgrade
 # Fetch updated source code
 cd /opt/panda
 git pull
-git checkout 0.1.1
+git checkout 0.1.2
 
 # Update Python requirements
 pip install -U -r requirements.txt
@@ -37,13 +37,8 @@ sudo -u panda -E python manage.py migrate panda
 # Regenerate asset
 sudo -u panda -E python manage.py collectstatic --noinput
 
-# Install new Solr configuration (backwards compatible)
-cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
-cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
-
-# Run new cleanup task and install cron job
-sudo -u panda -E python manage.py purge_orphaned_uploads
-wget -nv $CONFIG_URL/panda.cron -O /etc/cron.d/panda
+# Install new Solr startup script
+cp setup_panda/solr.conf /etc/init/solr.conf
 
 # Restart services
 service solr start 
@@ -52,3 +47,4 @@ service nginx start
 sudo service celeryd start
 
 echo "PANDA upgrade complete."
+

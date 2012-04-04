@@ -1,13 +1,17 @@
 0.1.2
 -----
 
-
+* Fix bug where users could not login if their username was changed. (#511)
+* Wrote documentation for connecting via SSH.
+* Made max upload size configurable via admin settings. (#508)
+* Upgraded to Django 1.4. (#561)
+* Fixed escaping in dataset titles displayed in notifications (#598)
+* Doubled the amount of memory allocated to Solr.
+* Made Solr much less likely to run out of memory during queries.
 
 0.1.1
 -----
 
-* Doubled the amount of memory allocated to Solr.
-* Made Solr much less likely to run out of memory during queries.
 * Fix bug where quotes in dataset titles could break the view page. (#570)
 * Fig bug where a dataset search url with no query would result in a 404. (#569)
 * Prevent datasets created via the API from having duplicate slugs. (#550)
