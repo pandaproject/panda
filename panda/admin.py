@@ -68,6 +68,15 @@ class PandaUserChangeForm(UserChangeForm):
 
         self.fields['password'].required = False
 
+    def save(self, commit=True):
+        user = super(PandaUserChangeForm, self).save(commit=False)
+        user.email = user.username
+
+        if commit:
+            user.save()
+
+        return user
+
 class PandaApiKeyInline(ApiKeyInline):
     """
     Customized ApiKeyInline that doesn't allow the creation date to be modified.
