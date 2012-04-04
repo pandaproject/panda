@@ -670,23 +670,23 @@
       }
 
     , show: function () {
-        var that = this
+        var that = this;
 
-        if (this.isShown) return
+        if (this.isShown) return;
 
-        $('body').addClass('modal-open')
+        $('body').addClass('modal-open');
 
-        this.isShown = true
-        this.$element.trigger('show')
+        this.isShown = true;
+        this.$element.trigger('show');
 
-        escape.call(this)
+        escape.call(this);
         backdrop.call(this, function () {
-          var transition = $.support.transition && that.$element.hasClass('fade')
+          var transition = $.support.transition && that.$element.hasClass('fade');
 
-          !that.$element.parent().length && that.$element.appendTo(document.body) //don't move modals dom position
+          !that.$element.parent().length && that.$element.appendTo(document.body); //don't move modals dom position
 
           that.$element
-            .show()
+            .show();
 
           if (transition) {
             that.$element[0].offsetWidth // force reflow
