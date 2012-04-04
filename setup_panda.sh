@@ -8,7 +8,7 @@ exec 1> >(tee /var/log/panda-install.log) 2>&1
 
 echo "PANDA installation beginning."
 
-CONFIG_URL="https://raw.github.com/pandaproject/panda/master/setup_panda"
+CONFIG_URL="https://raw.github.com/pandaproject/panda/0.1.2/setup_panda"
 
 # Setup environment variables
 echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
@@ -105,6 +105,7 @@ sudo -u postgres createdb -O panda panda
 cd /opt
 git clone git://github.com/pandaproject/panda.git panda
 cd /opt/panda
+git checkout 0.1.2
 pip install -r requirements.txt
 
 # Setup panda directories 
@@ -139,3 +140,4 @@ service celeryd start
 wget -nv $CONFIG_URL/panda.cron -O /etc/cron.d/panda
 
 echo "PANDA installation complete."
+
