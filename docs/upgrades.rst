@@ -26,6 +26,10 @@ Check out the :ref:`changelog` to see all the new features and bug fixes in this
 0.1.1 to 0.1.2
 ==============
 
+.. warning::
+
+    This version is not yet final. Please do not upgrade.
+
 To upgrade your PANDA from the 0.1.1 release to the 0.1.2 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
     wget https://raw.github.com/pandaproject/panda/0.1.2/scripts/migrations/0.1.1-to-0.1.2.sh
