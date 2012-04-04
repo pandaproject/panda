@@ -215,7 +215,7 @@ PANDA.views.Root = Backbone.View.extend({
             $("#navbar-notifications .dropdown-menu").empty();
 
             if (this._current_user.notifications.length > 0) {
-                $("#navbar-notifications .count").addClass("important");
+                $("#navbar-notifications .count").addClass("badge-info");
 
                 this._current_user.notifications.each(function(note) {
                     var related_dataset = note.get("related_dataset");
@@ -230,7 +230,7 @@ PANDA.views.Root = Backbone.View.extend({
                     $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + unescape(note.get("message")) + '</a></li>');
                 });
             } else {
-                $("#navbar-notifications .count").removeClass("important");
+                $("#navbar-notifications .count").removeClass("badge-info");
                 $("#navbar-notifications .dropdown-menu").append('<li><a href="#">No new notifications</a></li>');
             }
             
