@@ -12,7 +12,7 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
 To upgrade your PANDA from the first beta release to the 0.1.1 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
-    wget https://raw.github.com/pandaproject/panda/master/scripts/migrations/0.1.0-to-0.1.1.sh
+    wget https://raw.github.com/pandaproject/panda/0.1.1/scripts/migrations/0.1.0-to-0.1.1.sh
     sudo bash 0.1.0-to-0.1.1.sh
 
 Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade.log``. 
@@ -24,7 +24,7 @@ Check out the :ref:`changelog` to see all the new features and bug fixes in this
 
 To upgrade your PANDA from the first beta release to the 0.1.2 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
-    wget https://raw.github.com/pandaproject/panda/master/scripts/migrations/0.1.1-to-0.1.2.sh
+    wget https://raw.github.com/pandaproject/panda/0.1.2/scripts/migrations/0.1.1-to-0.1.2.sh
     sudo bash 0.1.1-to-0.1.2.sh
 
 Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade.log``. 
