@@ -30,8 +30,6 @@ git checkout 0.1.2
 pip install -U -r requirements.txt
 
 # Migrate database
-sudo -u panda -E python manage.py syncdb --noinput
-sudo -u panda -E python manage.py migrate panda 0001 --fake
 sudo -u panda -E python manage.py migrate panda
 
 # Regenerate asset
