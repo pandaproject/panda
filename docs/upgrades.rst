@@ -10,6 +10,10 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 0.1.0 to 0.1.1
 ==============
 
+.. warning::
+
+    Due to a known issue with this release we are currently encouraging users **not** to upgrade until version 0.1.2 is released. Read more `here <https://groups.google.com/forum/?fromgroups#!topic/panda-project-users/X87_Q8Sbn8s>`_.
+
 To upgrade your PANDA from the first beta release to the 0.1.1 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
     wget https://raw.github.com/pandaproject/panda/0.1.1/scripts/migrations/0.1.0-to-0.1.1.sh
