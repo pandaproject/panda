@@ -1,6 +1,7 @@
 0.1.2
 -----
 
+* Revise release process to prevent docs from referencing the master branch.
 * Fix bug where users could not login if their username was changed. (#511)
 * Wrote documentation for connecting via SSH.
 * Made max upload size configurable via admin settings. (#508)
