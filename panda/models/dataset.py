@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.dispatch import receiver
 from django.utils.timezone import now 
 
 from panda import solr, utils
@@ -153,6 +152,10 @@ class Dataset(SluggedModel):
         # Cancel import if necessary 
         if self.current_task:
             self.current_task.request_abort()
+
+        # Cleanup data in Solr
+        PurgeDataTask.apply_async(args=[self.slug])
+        solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % self.slug)
 
         super(Dataset, self).delete(*args, **kwargs)
 
@@ -379,13 +382,4 @@ class Dataset(SluggedModel):
         Useful for sanity checks.
         """
         return solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.slug)['response']['numFound']
-
-@receiver(models.signals.post_delete, sender=Dataset)
-def on_dataset_delete(sender, **kwargs):
-    """
-    When a Dataset is deleted, purge its data and metadata from Solr.
-    """
-    dataset = kwargs['instance']
-    PurgeDataTask.apply_async(args=[dataset.slug])
-    solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset.slug)
 
