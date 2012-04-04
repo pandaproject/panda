@@ -31,6 +31,8 @@ pip install -U -r requirements.txt
 
 # Migrate database
 sudo -u panda -E python manage.py migrate panda
+sudo -u panda -E python manage.py migrate djcelery 0001 --fake
+sudo -u panda -E python manage.py migrate djcelery
 
 # Regenerate asset
 sudo -u panda -E python manage.py collectstatic --noinput
