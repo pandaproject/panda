@@ -587,15 +587,15 @@
         selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
       }
 
-      $parent = $(selector)
+      $parent = $(selector);
       $parent.length || ($parent = $this.parent())
 
-      isActive = $parent.hasClass('open')
+      isActive = $parent.hasClass('open');
 
-      clearMenus()
-      !isActive && $parent.toggleClass('open')
+      clearMenus();
+      !isActive && $parent.toggleClass('open');
 
-      return false
+      return false;
     }
 
   }
