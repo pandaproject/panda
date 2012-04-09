@@ -12,10 +12,6 @@ The following release are **reverse** version order.
 0.1.1 to 0.1.2
 ==============
 
-.. warning::
-
-    This version is not yet final. Please do not upgrade.
-
 To upgrade your PANDA from the 0.1.1 release to the 0.1.2 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
     wget https://raw.github.com/pandaproject/panda/0.1.2/scripts/migrations/0.1.1-to-0.1.2.sh
@@ -27,10 +23,6 @@ Check out the :ref:`changelog` to see all the new features and bug fixes in this
 
 0.1.0 to 0.1.1
 ==============
-
-.. warning::
-
-    Due to a known issue with this release we are currently encouraging users **not** to upgrade until version 0.1.2 is released. Read more `here <https://groups.google.com/forum/?fromgroups#!topic/panda-project-users/X87_Q8Sbn8s>`_.
 
 To upgrade your PANDA from the first beta release to the 0.1.1 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
