@@ -1,6 +1,6 @@
-==============================
-Uploading your data into PANDA
-==============================
+=======================
+Uploading your datasets
+=======================
 
 The most important thing that you can do with PANDA is upload your datasets to it. By doing so you not only ensure they are securely stored away, but also allow everyone in your newsroom to access that data on their own.
 

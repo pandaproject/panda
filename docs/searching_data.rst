@@ -1,6 +1,6 @@
-=======================
-Finding data with PANDA
-=======================
+============
+Finding data
+============
 
 PANDA provides to important ways of searching for data. From the "Search" page you can search across data in all datasets that have been uploaded to PANDA. This is typically used for research. From an individual dataset's page you can search the data for just that one dataset. This is appropriate if you are looking for a very specific row or rows of data.
 
