@@ -80,7 +80,13 @@ For administrators
 For users
 ---------
 
-*Coming soon...*
+.. toctree::
+    :maxdepth: 1
+
+    user_introduction.rst
+    uploading.rst
+    searching_data.rst
+    searching_datasets.rst
 
 Server maintenance 
 ==================
