@@ -48,7 +48,7 @@ class DataTyper(object):
                     value = self.coerce_type(row[n], t)
                     data[c['indexed_name']] = value
 
-                    if t in [int, float, date, time, datetime]:
+                    if t in [int, float, date, time, datetime] and value is not None:
                         if c['min'] is None or value < c['min']:
                             self.schema[n]['min'] = value
 
