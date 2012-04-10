@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os.path
+from urllib import unquote
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
@@ -43,15 +44,16 @@ class ExportFileTask(AbortableTask):
         from panda.models import Export, Notification
 
         task_status = dataset.current_task 
+        dataset_name = unquote(dataset.name)
 
         if einfo:
             error_detail = u'\n'.join([einfo.traceback, unicode(retval)])
 
             task_status.exception('Export failed', error_detail)
             
-            email_subject = 'Export failed: %s' % dataset.name
-            email_message = 'Export failed: %s:\n%s' % (dataset.name, error_detail)
-            notification_message = 'Export failed: <strong>%s</strong>' % dataset.name
+            email_subject = 'Export failed: %s' % dataset_name
+            email_message = 'Export failed: %s:\n%s' % (dataset_name, error_detail)
+            notification_message = 'Export failed: <strong>%s</strong>' % dataset_name
             notification_type = 'Error'
         else:
             task_status.complete('Export complete')
@@ -64,9 +66,9 @@ class ExportFileTask(AbortableTask):
                 creation_date=task_status.start,
                 dataset=dataset)
             
-            email_subject = 'Export complete: %s' % dataset.name
-            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
-            notification_message = 'Export complete: <strong>%s</strong>' % dataset.name
+            email_subject = 'Export complete: %s' % dataset_name
+            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+            notification_message = 'Export complete: <strong>%s</strong>' % dataset_name
             notification_type = 'Info'
 
         if task_status.creator:
