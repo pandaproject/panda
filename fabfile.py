@@ -327,6 +327,6 @@ def make_fixtures():
 def coverage():
     local('coverage erase')
     local('coverage run --source panda manage.py test panda')
-    local('coverage html -d coverage_html')
+    local('coverage html --omit "panda/migrations/*,panda/tests/*" -d coverage_html')
     local('open coverage_html/index.html')
 
