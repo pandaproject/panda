@@ -138,14 +138,14 @@
                     <td><label><%= c['name'] %></label></td>
                     <td><input type="checkbox" name="typed-<%= i %>" <% if (c['indexed']) { %>checked="checked"<% } %>></td>
                     <td><select name="type-<%= i %>">
-                        <option value=""<% if (c['type'] == null) { %>selected="selected"<% } %>>None</option>
-                        <!--<option value="unicode"<% if (c['type'] == "unicode") { %>selected="selected"<% } %>>string</option>-->
-                        <option value="int"<% if (c['type'] == "int") { %>selected="selected"<% } %>>integer</option>
-                        <option value="float"<% if (c['type'] == "float") { %>selected="selected"<% } %>>float</option>
-                        <option value="bool"<% if (c['type'] == "bool") { %>selected="selected"<% } %>>boolean</option>
-                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>date+time</option>
-                        <option value="date"<% if (c['type'] == "date") { %>selected="selected"<% } %>>date</option>
-                        <option value="time"<% if (c['type'] == "time") { %>selected="selected"<% } %>>time</option>
+                        <option value=""<% if (c['type'] == null) { %>selected="selected"<% } %>>Pick a type...</option>
+                        <option value="int"<% if (c['type'] == "int") { %>selected="selected"<% } %>>Whole Number</option>
+                        <option value="float"<% if (c['type'] == "float") { %>selected="selected"<% } %>>Decimal Number</option>
+                        <option value="date"<% if (c['type'] == "date") { %>selected="selected"<% } %>>Date</option>
+                        <option value="time"<% if (c['type'] == "time") { %>selected="selected"<% } %>>Time</option>
+                        <option value="datetime"<% if (c['type'] == "datetime") { %>selected="selected"<% } %>>Date and Time</option>
+                        <option value="bool"<% if (c['type'] == "bool") { %>selected="selected"<% } %>>True or False</option>
+                        <!--<option value="unicode"<% if (c['type'] == "unicode") { %>selected="selected"<% } %>>Text</option>-->
                     </select></td>
                 </tr>
                 <% }); %>

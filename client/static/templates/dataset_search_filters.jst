@@ -13,7 +13,7 @@
     <div class="span10">
         <strong>Add filter</strong>&nbsp;</td>
         <select id="add-filter">
-            <option value="">Pick a column</option>
+            <option value="">Pick a column...</option>
             <% _.each(dataset.column_schema, function(c, i) { %>
                 <% if (column_is_filterable(c)) { %>
                 <option value="<%= i %>"><%= c["name"] %></option>
