@@ -1,7 +1,14 @@
 0.1.3
 -----
 
-
+* Implement dataset paging. (#609)
+* Overhaul datasets search urls.
+* Use human-readable data types. (#588)
+* Fix bug preventing new users from activating. (#614)
+* Fix bug preventing new users from being created. (#614)
+* Write user documentation. (#601)
+* Fix bug where an empty cell in a datetime column could break import. (#608)
+* Escape dataset names in email. (#610)
 
 0.1.2
 -----
