@@ -77,6 +77,31 @@ class  TestActivate(TransactionTestCase):
         
         self.client = Client()
 
+    def test_check_activation_key_valid(self):
+        new_user = User.objects.create(
+            email="foo@bar.com",
+            username="foo@bar.com",
+            is_active=False
+        )
+
+        key = new_user.get_profile().activation_key
+
+        response = self.client.get('/check_activation_key/%s/' % key)
+
+        self.assertEqual(response.status_code, 200)
+        
+        body = json.loads(response.content) 
+
+        self.assertEqual(body['activation_key'], key)
+        self.assertEqual(body['email'], new_user.email)
+        self.assertEqual(body['first_name'], '')
+        self.assertEqual(body['last_name'], '')
+
+    def test_check_activation_key_invalid(self):
+        response = self.client.get('/check_activation_key/NOT_A_VALID_KEY/')
+
+        self.assertEqual(response.status_code, 400)
+        
     def test_activate(self):
         new_user = User.objects.create(
             email="foo@bar.com",
