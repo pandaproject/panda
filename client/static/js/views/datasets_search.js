@@ -17,6 +17,10 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     },
 
     reset: function(category, query, limit, page) {
+        if (category == "all") {
+            category = null;
+        }
+
         this.category = category;
         this.query = query;
 

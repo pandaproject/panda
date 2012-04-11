@@ -4,7 +4,7 @@
             <fieldset>
                 <h3>Find a dataset</h3>
                 <select id="datasets-search-category" name="category" class="input-medium">
-                    <option value="">All</option>
+                    <option value="all">All</option>
                     <% categories.each(function(cat) { %>
                     <option value="<%= cat.get("slug") %>" <% if (cat.get("slug") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
                     <% }); %>

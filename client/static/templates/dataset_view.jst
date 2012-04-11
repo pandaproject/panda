@@ -49,7 +49,7 @@
             <p>
                 <% if (categories.length > 0) { %>
                 <% _.each(categories, function(category, index, list) { %>
-                    <a href="#category/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
+                    <a href="#datasets/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
                 <% }); %>
                 <% } else { %>
                 <em>None selected.</em>

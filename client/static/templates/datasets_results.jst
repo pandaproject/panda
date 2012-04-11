@@ -9,11 +9,7 @@
     <% } else { %>
 
         <h3>
-        <% if (!query && !category) { %>
-            Showing most recent datasets
-        <% } else { %>
             Found <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %>
-        <% } %>
         </h3>
 
         <table class="table table-striped table-bordered table-condensed">
@@ -35,7 +31,7 @@
                     </td>
                     <td>
                         <% _.each(dataset.categories, function(cat, i, l) { %>
-                        <a href="#category/<%= cat.slug %>"><%= cat.name %></a><% if (i < l.length - 1) { print(",") } %> 
+                        <a href="#datasets/<%= cat.slug %>"><%= cat.name %></a><% if (i < l.length - 1) { print(",") } %> 
                         <% }); %>
                     </td>
                     <td>
@@ -52,7 +48,6 @@
             <% }); %>
             </tbody>
         </table>
-
     <% } %>
     </div>
 </div>

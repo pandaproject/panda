@@ -199,14 +199,14 @@ PANDA.views.Root = Backbone.View.extend({
 
             // Categories
             $("#navbar-categories .dropdown-menu").empty();
-            $("#navbar-categories .dropdown-menu").append('<li><a href="#datasets">All datasets</a></li>');
+            $("#navbar-categories .dropdown-menu").append('<li><a href="#datasets/all">All datasets</a></li>');
 
             if (this._categories.length > 0) {
                 $("#navbar-categories .dropdown-menu").append('<li class="divider"></li>');
                 
                 this._categories.each(function(category) {
                     if (category.get("dataset_count") > 0) {
-                        $("#navbar-categories .dropdown-menu").append('<li class="category"><a href="#category/' + category.get("slug") + '">' + category.get("name") + ' (' + category.get("dataset_count") + ')</a></li>');
+                        $("#navbar-categories .dropdown-menu").append('<li class="category"><a href="#datasets/' + category.get("slug") + '">' + category.get("name") + ' (' + category.get("dataset_count") + ')</a></li>');
                     }
                 });
             }
@@ -362,11 +362,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("DatasetsSearch");
         this.current_content_view.reset(category, query, limit, page);
 
-        if (category) {
-            var path = "category/" + category;
-        } else {
-            var path = "datasets";
-        }
+        var path = "datasets/" + category;
 
         if (query) {
             path += "/" + query;
