@@ -109,7 +109,16 @@ class  TestActivate(TransactionTestCase):
             is_active=False
         )
 
-        response = self.client.post('/activate/', { 'activation_key': new_user.get_profile().activation_key, 'email': 'foo@bar.com', 'password': 'foobarbaz' }) 
+        activation_data = {
+            'activation_key': new_user.get_profile().activation_key,
+            'email': 'foo@bar.com',
+            'password': 'foobarbaz',
+            'reenter_password': 'foobarbaz',
+            'first_name': 'Foo',
+            'last_name': ''
+        }
+
+        response = self.client.post('/activate/', activation_data) 
 
         self.assertEqual(response.status_code, 200)
 
