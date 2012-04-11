@@ -6,6 +6,7 @@ logging.disable(logging.INFO)
 from panda.tests.test_admin import TestUserAdmin
 from panda.tests.test_api_data import TestDataValidation, TestAPIData 
 from panda.tests.test_api_dataset import TestDatasetValidation, TestAPIDataset
+from panda.tests.test_api_export import TestAPIExport
 from panda.tests.test_api_notification import TestAPINotifications
 from panda.tests.test_api_task_status import TestAPITaskStatus
 from panda.tests.test_api_data_upload import TestAPIDataUpload
