@@ -8,27 +8,20 @@ Replaces sunburnt in PANDA. Not a generic solution.
 import datetime
 
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import datetime_safe
 from django.utils import simplejson
 
 import requests
 
-class SolrJSONEncoder(simplejson.JSONEncoder):
+class SolrJSONEncoder(DjangoJSONEncoder):
     """
     Custom JSONEncoder based on DjangoJSONEncoder that formats datetimes the way Solr likes them. 
     """
-    DATE_FORMAT = "%Y-%m-%d"
-    TIME_FORMAT = "%H:%M:%S"
-
     def default(self, o):
         if isinstance(o, datetime.datetime):
             d = datetime_safe.new_datetime(o)
-            return d.strftime("%sT%sZ" % (self.DATE_FORMAT, self.TIME_FORMAT))
-        elif isinstance(o, datetime.date):
-            d = datetime_safe.new_date(o)
-            return d.strftime(self.DATE_FORMAT)
-        elif isinstance(o, datetime.time):
-            return o.strftime(self.TIME_FORMAT)
+            return d.strftime('%Y-%m-%dT%H:%M:%SZ')
         else:
             return super(SolrJSONEncoder, self).default(o)
 

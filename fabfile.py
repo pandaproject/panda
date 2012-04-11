@@ -329,3 +329,4 @@ def coverage():
     local('coverage run --source panda manage.py test panda')
     local('coverage html -d coverage_html')
     local('open coverage_html/index.html')
+

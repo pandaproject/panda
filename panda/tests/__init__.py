@@ -15,6 +15,7 @@ from panda.tests.test_api_user import TestUserValidation, TestAPIUser
 from panda.tests.test_api_category import TestAPICategories
 from panda.tests.test_dataset import TestDataset
 from panda.tests.test_data_upload import TestDataUpload
+from panda.tests.test_solr import TestSolrJSONEncoder
 from panda.tests.test_related_upload import TestRelatedUpload
 from panda.tests.test_user import TestUser
 from panda.tests.test_utils import TestCSV, TestXLS, TestXLSX
