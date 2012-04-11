@@ -17,30 +17,24 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     },
 
     reset: function(category, query, limit, page) {
-        if (category == "all") {
-            category = null;
-        }
-
         this.category = category;
         this.query = query;
 
         this.render();
 
         // Bypass search if there are no query terms
-        if (!category && !query) {
-            this.datasets.search_meta(null, query, 10, 1);
-        } else if (category) {
-            this.datasets.search_meta(category, query, null, null);
+        if (category == "all" && !query) {
+            this.datasets.search_meta(null, query, limit, page);
+        } else if (category != "all") {
+            this.datasets.search_meta(category, query, limit, page);
         } else {
-            this.datasets.search_meta(null, query, null, 1);
+            this.datasets.search_meta(null, query, limit, page);
         }
     },
 
     render: function() {
-        var categories = Redd.get_categories();
-
         var context = PANDA.utils.make_context({
-            categories: categories,
+            categories: Redd.get_categories(),
             category: this.category,
             query: this.query,
             datasets: this.datasets.results()

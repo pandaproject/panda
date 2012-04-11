@@ -12,6 +12,11 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         context["query"] = this.search.query;
         context["category"] = this.search.category;
         context["datasets"] = this.search.datasets.results()["datasets"];
+        context["pager_unit"] = "dataset";
+        context["row_count"] = this.search.datasets.meta.total_count;
+        context["root_url"] = "#datasets/" + this.search.category + "/" + (this.search.query || "*");
+
+        context["pager"] = PANDA.templates.inline_pager(context);
 
         this.el.html(PANDA.templates.datasets_results(context));
 

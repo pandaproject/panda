@@ -8,9 +8,7 @@
 
     <% } else { %>
 
-        <h3>
-            Found <%= datasets.length %> matching dataset<% if (datasets.length > 1) { %>s<% } %>
-        </h3>
+        <%= pager %>
 
         <table class="table table-striped table-bordered table-condensed">
             <thead>
@@ -48,6 +46,8 @@
             <% }); %>
             </tbody>
         </table>
+
+        <%= pager %>
     <% } %>
     </div>
 </div>
