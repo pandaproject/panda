@@ -42,8 +42,6 @@ class TestAPIDataset(TransactionTestCase):
         # Import so that there will be a task object
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
@@ -339,8 +337,6 @@ class TestAPIDataset(TransactionTestCase):
     def test_import_data(self):
         response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
 
-        utils.wait() 
-
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
@@ -382,11 +378,7 @@ class TestAPIDataset(TransactionTestCase):
     def test_reindex_data(self):
         response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
 
-        utils.wait() 
-
         response = self.client.get('/api/1.0/dataset/%s/reindex/?typed_columns=True,False,False,False' % (self.dataset.slug), **self.auth_headers)
-
-        utils.wait() 
 
         self.assertEqual(response.status_code, 200)
         
@@ -412,29 +404,19 @@ class TestAPIDataset(TransactionTestCase):
     def test_reindex_data_no_data(self):
         response = self.client.get('/api/1.0/dataset/%s/reindex/' % (self.dataset.slug), **self.auth_headers)
 
-        utils.wait() 
-
         self.assertEqual(response.status_code, 400)
 
     def test_reindex_data_invalid_columns(self):
         response = self.client.get('/api/1.0/dataset/%s/import/%i/' % (self.dataset.slug, self.upload.id), **self.auth_headers)
 
-        utils.wait() 
-
         response = self.client.get('/api/1.0/dataset/%s/reindex/?typed_columns=True,False,False' % (self.dataset.slug), **self.auth_headers)
-
-        utils.wait() 
 
         self.assertEqual(response.status_code, 400)
 
     def test_export_data(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         response = self.client.get('/api/1.0/dataset/%s/export/' % self.dataset.slug, **self.auth_headers)
-
-        utils.wait() 
 
         self.assertEqual(response.status_code, 200)
 
@@ -458,8 +440,6 @@ class TestAPIDataset(TransactionTestCase):
     def test_get_datum(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
@@ -479,8 +459,6 @@ class TestAPIDataset(TransactionTestCase):
     def test_get_data(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
@@ -491,8 +469,6 @@ class TestAPIDataset(TransactionTestCase):
 
         # Bending a rules a bit since this upload is associated with the other dataset
         second_dataset.import_data(self.user, self.upload, 0)
-
-        utils.wait()
 
         response = self.client.get('/api/1.0/dataset/%s/data/' % self.dataset.slug, **self.auth_headers)
 
@@ -514,8 +490,6 @@ class TestAPIDataset(TransactionTestCase):
     def test_search_data(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         # Refetch dataset so that attributes will be updated
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
@@ -526,8 +500,6 @@ class TestAPIDataset(TransactionTestCase):
 
         # Bending the rules again...
         second_dataset.import_data(self.user, self.upload, 0)
-
-        utils.wait()
 
         response = self.client.get('/api/1.0/dataset/%s/data/?q=Christopher' % self.dataset.slug, **self.auth_headers)
 
@@ -548,8 +520,6 @@ class TestAPIDataset(TransactionTestCase):
 
     def test_search_data_limit(self):
         self.dataset.import_data(self.user, self.upload, 0)
-
-        utils.wait()
 
         response = self.client.get('/api/1.0/dataset/%s/data/?q=Tribune&limit=1' % self.dataset.slug, **self.auth_headers)
 

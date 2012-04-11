@@ -2,7 +2,6 @@
 
 import os.path
 from shutil import copyfile
-from time import sleep
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -52,7 +51,7 @@ def get_test_dataset(creator):
 
     return dataset
 
-def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME):
+def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME, encoding='utf8'):
     # Ensure panda subdir has been created
     try:
         os.mkdir(settings.MEDIA_ROOT)
@@ -68,7 +67,8 @@ def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME):
         original_filename=filename,
         size=os.path.getsize(dst),
         creator=creator,
-        dataset=dataset)
+        dataset=dataset,
+        encoding=encoding)
 
 def get_test_related_upload(creator, dataset, filename=TEST_DATA_FILENAME):
     # Ensure panda subdir has been created
@@ -87,7 +87,4 @@ def get_test_related_upload(creator, dataset, filename=TEST_DATA_FILENAME):
         size=os.path.getsize(dst),
         creator=creator,
         dataset=dataset)
-
-def wait():
-    sleep(1)
 

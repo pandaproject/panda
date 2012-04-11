@@ -25,8 +25,6 @@ class TestAPITaskStatus(TransactionTestCase):
 
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         self.auth_headers = utils.get_auth_headers()
 
         self.client = Client()

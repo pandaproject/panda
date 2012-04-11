@@ -7,7 +7,7 @@ from django.test import TransactionTestCase
 from django.utils import simplejson as json
 
 from panda import solr
-from panda.exceptions import DatasetLockedError, DataImportError
+from panda.exceptions import DatasetLockedError, DataImportError, DataSamplingError
 from panda.models import Dataset, DataUpload, TaskStatus
 from panda.tests import utils
 from panda.utils.column_schema import update_indexed_names
@@ -45,6 +45,13 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(response['response']['numFound'], 1)
 
+    def test_sample_encoding_success(self):
+        utils.get_test_data_upload(self.user, self.dataset, utils.TEST_LATIN1_FILENAME, encoding='latin1')
+
+    def test_sample_encoding_fails(self):
+        with self.assertRaises(DataSamplingError):
+            utils.get_test_data_upload(self.user, self.dataset, utils.TEST_LATIN1_FILENAME)
+
     def test_import_csv(self):
         self.dataset.import_data(self.user, self.upload)
 
@@ -53,8 +60,6 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task, None)
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'panda.tasks.import.csv')
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -85,8 +90,6 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'panda.tasks.import.xls')
 
-        utils.wait()
-
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
         xls_upload = DataUpload.objects.get(id=xls_upload.id)
@@ -116,8 +119,6 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'panda.tasks.import.xlsx')
 
-        utils.wait()
-
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
         xlsx_upload = DataUpload.objects.get(id=xlsx_upload.id)
@@ -145,8 +146,6 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'panda.tasks.import.xlsx')
 
-        utils.wait()
-
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
         xlsx_upload = DataUpload.objects.get(id=xlsx_upload.id)
@@ -167,8 +166,6 @@ class TestDataset(TransactionTestCase):
 
     def test_import_additional_data_same_columns(self):
         self.dataset.import_data(self.user, self.upload)
-
-        utils.wait()
 
         xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
         
@@ -195,8 +192,6 @@ class TestDataset(TransactionTestCase):
     def test_import_additional_data_different_columns(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         xls_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
         xls_upload.columns = ['id', 'first_name', 'last_name', 'employer', 'MORE COLUMNS!']
         xls_upload.save()
@@ -222,14 +217,10 @@ class TestDataset(TransactionTestCase):
     def test_import_additional_csv_typed_columns(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         # Refresh from database
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
-
-        utils.wait()
 
         second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_DATA_FILENAME)
         
@@ -237,8 +228,6 @@ class TestDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.dataset.import_data(self.user, second_upload)
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -258,14 +247,10 @@ class TestDataset(TransactionTestCase):
     def test_import_additional_xls_typed_columns(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         # Refresh from database
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
-
-        utils.wait()
 
         second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_XLS_FILENAME)
         
@@ -273,8 +258,6 @@ class TestDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.dataset.import_data(self.user, second_upload)
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -294,14 +277,10 @@ class TestDataset(TransactionTestCase):
     def test_import_additional_xlsx_typed_columns(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         # Refresh from database
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
-
-        utils.wait()
 
         second_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_EXCEL_XLSX_FILENAME)
         
@@ -309,8 +288,6 @@ class TestDataset(TransactionTestCase):
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
         self.dataset.import_data(self.user, second_upload)
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -330,14 +307,10 @@ class TestDataset(TransactionTestCase):
     def test_delete(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
         dataset_id = self.dataset.id
         self.dataset.delete()
-
-        utils.wait()
 
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)
@@ -351,8 +324,6 @@ class TestDataset(TransactionTestCase):
     def test_get_row(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         row = self.dataset.get_row('1')
 
         self.assertEqual(row['external_id'], '1')
@@ -360,8 +331,6 @@ class TestDataset(TransactionTestCase):
 
     def test_add_row(self):
         self.dataset.import_data(self.user, self.upload, 0)
-
-        utils.wait()
 
         # Refresh dataset so row_count is available
         self.dataset = Dataset.objects.get(id=self.dataset.id)
@@ -379,8 +348,6 @@ class TestDataset(TransactionTestCase):
 
     def test_add_many_rows(self):
         self.dataset.import_data(self.user, self.upload, 0)
-
-        utils.wait()
 
         # Refresh dataset so row_count is available
         self.dataset = Dataset.objects.get(id=self.dataset.id)
@@ -402,11 +369,7 @@ class TestDataset(TransactionTestCase):
     def test_add_row_typed(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
-
-        utils.wait()
 
         # Refresh from database
         self.dataset = Dataset.objects.get(id=self.dataset.id)
@@ -422,11 +385,7 @@ class TestDataset(TransactionTestCase):
     def test_add_many_rows_typed(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         self.dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
-
-        utils.wait()
 
         # Refresh dataset so row_count is available
         self.dataset = Dataset.objects.get(id=self.dataset.id)
@@ -445,8 +404,6 @@ class TestDataset(TransactionTestCase):
     def test_delete_row(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        utils.wait()
-
         # Refresh dataset so row_count is available
         self.dataset = Dataset.objects.get(id=self.dataset.id)
 
@@ -461,8 +418,6 @@ class TestDataset(TransactionTestCase):
     def test_export_csv(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         self.dataset.export_data(self.user, 'test_export.csv')
 
         task = self.dataset.current_task
@@ -470,8 +425,6 @@ class TestDataset(TransactionTestCase):
         self.assertNotEqual(task, None)
         self.assertNotEqual(task.id, None)
         self.assertEqual(task.task_name, 'panda.tasks.export.csv')
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -494,14 +447,10 @@ class TestDataset(TransactionTestCase):
     def test_reindex(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
 
         dataset.reindex_data(self.user, typed_columns=[True, False, True, True])
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -529,14 +478,10 @@ class TestDataset(TransactionTestCase):
         upload = utils.get_test_data_upload(self.user, self.dataset, filename=utils.TEST_CSV_TYPES_FILENAME)
         self.dataset.import_data(self.user, upload)
 
-        utils.wait()
-
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
 
         dataset.reindex_data(self.user, typed_columns=[True for c in upload.columns])
-
-        utils.wait()
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
@@ -565,14 +510,10 @@ class TestDataset(TransactionTestCase):
     def test_generate_typed_column_names_none(self):
         self.dataset.import_data(self.user, self.upload)
 
-        utils.wait()
-
         self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], [None, None, None, None])
 
     def test_generate_typed_column_names_some(self):
         self.dataset.import_data(self.user, self.upload)
-
-        utils.wait()
 
         typed_columns = [True, False, True, True]
 
@@ -585,8 +526,6 @@ class TestDataset(TransactionTestCase):
 
     def test_generate_typed_column_names_conflict(self):
         self.dataset.import_data(self.user, self.upload)
-
-        utils.wait()
 
         typed_columns = [True, False, True, True]
 
