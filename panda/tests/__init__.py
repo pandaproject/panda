@@ -16,5 +16,5 @@ from panda.tests.test_data_upload import TestDataUpload
 from panda.tests.test_related_upload import TestRelatedUpload
 from panda.tests.test_user import TestUser
 from panda.tests.test_utils import TestCSV, TestXLS, TestXLSX
-from panda.tests.test_views import TestLogin
+from panda.tests.test_views import TestLogin, TestActivate
 

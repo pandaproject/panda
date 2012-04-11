@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
 from django.conf import settings
 from django.test import TestCase, TransactionTestCase
@@ -106,10 +107,11 @@ class TestAPIUser(TransactionTestCase):
         self.assertEqual(new_user.email, 'tester@tester.com')
         self.assertEqual(new_user.first_name, 'Testy')
         self.assertEqual(new_user.last_name, 'McTester')
-        self.assertEqual(new_user.password[:5], 'sha1$')
         self.assertNotEqual(new_user.api_key, None)
 
         self.assertEqual(list(new_user.groups.all()), [self.panda_user_group])
+
+        self.assertEqual(authenticate(username='tester@tester.com', password='test'), new_user)
 
     def test_create_as_user(self):
         new_user = {

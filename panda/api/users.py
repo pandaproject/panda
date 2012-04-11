@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from django.contrib.auth.models import Group, User
-from django.contrib.auth.hashers import get_hasher 
 from django.core.validators import email_re
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
@@ -46,24 +45,6 @@ class UserResource(PandaModelResource):
 
         return bundle
 
-    def hydrate_password(self, bundle):
-        """
-        Encode new passwords.
-        """
-        if 'password' in bundle.data and bundle.data['password']:
-            algo = 'sha1'
-
-            hasher = get_hasher(algo)
-            salt = hasher.salt()
-            hsh = hasher.encode(bundle.data['password'], salt)
-
-            bundle.data['password'] = '%s$%s$%s' % (algo, salt, hsh)
-        else:
-            # A blank password marks the user as unable to login
-            bundle.data['password'] = '' 
-
-        return bundle
-
     def dehydrate(self, bundle):
         """
         Always remove the password form the serialized bundle.
@@ -78,7 +59,8 @@ class UserResource(PandaModelResource):
 
         All users created via the API are automatically assigned to the panda_users group.
         """
-        bundle = super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['email'], password=bundle.data.get('password', ''), **kwargs)
+        bundle = super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['email'], **kwargs)
+        bundle.obj.set_password(bundle.data.get('password'))
 
         panda_user = Group.objects.get(name='panda_user')
 
