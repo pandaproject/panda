@@ -324,3 +324,8 @@ def make_fixtures():
     with open('%(local_test_xhr_path)s' % env, 'w') as f:
         f.write('\n'.join(mock_xhr_responses))
 
+def coverage():
+    local('coverage erase')
+    local('coverage run --source panda manage.py test panda')
+    local('coverage html -d coverage_html')
+    local('open coverage_html/index.html')
