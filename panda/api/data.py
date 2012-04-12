@@ -468,7 +468,7 @@ class DataResource(PandaResource):
         offset = int(request.GET.get('offset', 0))
 
         if query:
-            solr_query = 'dataset_slug:%s AND %s' % (dataset.slug, query)
+            solr_query = 'dataset_slug:%s AND (%s)' % (dataset.slug, query)
         else:
             solr_query = 'dataset_slug:%s' % dataset.slug
 
