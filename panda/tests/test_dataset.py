@@ -8,7 +8,7 @@ from django.utils import simplejson as json
 
 from panda import solr
 from panda.exceptions import DatasetLockedError, DataImportError, DataSamplingError
-from panda.models import Dataset, DataUpload, TaskStatus
+from panda.models import Dataset, DataUpload, RelatedUpload, TaskStatus
 from panda.tests import utils
 from panda.utils.column_schema import update_indexed_names
 
@@ -320,6 +320,44 @@ class TestDataset(TransactionTestCase):
         response = solr.query(settings.SOLR_DATASETS_CORE, 'contributors', sort='slug asc')
 
         self.assertEqual(response['response']['numFound'], 0)
+
+    def test_data_uploads_deleted(self):
+        path = self.upload.get_path()
+
+        self.assertEquals(os.path.exists(path), True)
+
+        self.dataset.delete()
+
+        with self.assertRaises(DataUpload.DoesNotExist):
+            DataUpload.objects.get(id=self.upload.id)
+
+        self.assertEquals(os.path.exists(path), False)
+
+    def test_related_uploads_deleted(self):
+        related_upload = utils.get_test_related_upload(self.user, self.dataset)
+
+        path = related_upload.get_path()
+
+        self.assertEquals(os.path.exists(path), True)
+
+        self.dataset.delete()
+
+        with self.assertRaises(RelatedUpload.DoesNotExist):
+            RelatedUpload.objects.get(id=related_upload.id)
+
+        self.assertEquals(os.path.exists(path), False)
+
+    def test_related_uploads_deleted(self):
+        path = self.upload.get_path()
+
+        self.assertEquals(os.path.exists(path), True)
+
+        self.dataset.delete()
+
+        with self.assertRaises(DataUpload.DoesNotExist):
+            DataUpload.objects.get(id=self.upload.id)
+
+        self.assertEquals(os.path.exists(path), False)
 
     def test_get_row(self):
         self.dataset.import_data(self.user, self.upload, 0)

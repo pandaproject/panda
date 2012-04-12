@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from itertools import chain
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -152,6 +154,10 @@ class Dataset(SluggedModel):
         # Cancel import if necessary 
         if self.current_task:
             self.current_task.request_abort()
+
+        # Manually delete related uploads so their delete method is called
+        for upload in chain(self.data_uploads.all(), self.related_uploads.all()):
+            upload.delete()
 
         # Cleanup data in Solr
         PurgeDataTask.apply_async(args=[self.slug])
