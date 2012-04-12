@@ -1,6 +1,7 @@
 0.1.3
 -----
 
+* Ensure related files are deleted when datasets are. (#612)
 * Implement dataset paging. (#609)
 * Overhaul datasets search urls.
 * Use human-readable data types. (#588)
