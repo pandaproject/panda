@@ -19,6 +19,7 @@ TEST_XLSX_TYPES_FILENAME = 'test_types.xlsx'
 TEST_EXCEL_XLSX_FILENAME = 'contributors.excel.xlsx'
 TEST_OO_XLSX_FILENAME = 'contributors.oo.xlsx'
 TEST_LATIN1_FILENAME = 'test_not_unicode_sample.csv'
+TEST_MONEY = 'test_money.csv'
 
 def setup_test_solr():
     settings.SOLR_DATA_CORE = 'data_test'

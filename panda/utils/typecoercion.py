@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from datetime import date, time, datetime
 
@@ -16,6 +17,9 @@ TYPE_NAMES_MAPPING = {
     'date': date,
     'time': time
 }
+
+CURRENCY_SYMBOLS_ASCII = '$,'
+CURRENCY_SYMBOLS_UNICODE_TRANSLATE_TABLE = dict([(ord(c), None) for c in '$,€£₱'])
 
 class DataTyper(object):
     """
@@ -98,6 +102,12 @@ class DataTyper(object):
                 return unicode(value)
             # int
             elif normal_type is int:
+                # Filter currency symbols
+                if isinstance(value, str):
+                    value = value.translate(None, CURRENCY_SYMBOLS_ASCII)
+                elif isinstance(value, unicode):
+                    value = value.translate(CURRENCY_SYMBOLS_UNICODE_TRANSLATE_TABLE)
+
                 return int(value) 
             # bool
             elif normal_type is bool:
@@ -114,6 +124,12 @@ class DataTyper(object):
                 return bool(value)
             # float
             elif normal_type is float:
+                # Filter currency symbols
+                if isinstance(value, str):
+                    value = value.translate(None, CURRENCY_SYMBOLS_ASCII)
+                elif isinstance(value, unicode):
+                    value = value.translate(CURRENCY_SYMBOLS_UNICODE_TRANSLATE_TABLE)
+
                 return float(value)
             # date, time, datetime
             elif normal_type in [date, time, datetime]:

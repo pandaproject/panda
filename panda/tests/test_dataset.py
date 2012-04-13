@@ -575,3 +575,26 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual([c['indexed_name'] for c in self.dataset.column_schema], ['column_int_test', None, 'column_unicode_test', 'column_unicode_test2'])
 
+    def test_reindex_with_currency(self):
+        upload = utils.get_test_data_upload(self.user, self.dataset, filename=utils.TEST_MONEY)
+        self.dataset.import_data(self.user, upload)
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+
+        dataset.reindex_data(self.user, typed_columns=[False, True], column_types=['unicode', 'float'])
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['product', 'price'])
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['unicode', 'float'])
+        self.assertEqual([c['indexed'] for c in dataset.column_schema], [False, True])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], [None, 'column_float_price'])
+        self.assertEqual([c['min'] for c in dataset.column_schema], [None, 39.99])
+        self.assertEqual([c['max'] for c in dataset.column_schema], [None, 2599.00])
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_float_price:39.99')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_float_price:[1500 TO *]')['response']['numFound'], 2)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_float_price:*')['response']['numFound'], 8)
+

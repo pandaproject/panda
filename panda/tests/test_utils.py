@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+from datetime import date, time, datetime
 import os.path
 
 from django.test import TestCase
 
 from panda import utils
+from panda.exceptions import TypeCoercionError
 from panda.tests import utils as test_utils
 
 class TestCSV(TestCase):
@@ -113,4 +115,63 @@ class TestXLSX(TestCase):
         guessed_types = utils.xlsx.guess_column_types(self.path, self.dialect, 5, encoding='Latin-1')
 
         self.assertEqual(guessed_types, ['unicode', 'date', 'int', 'bool', 'float', 'time', 'datetime', None, 'unicode'])
+
+class TestTypeCoercion(TestCase):
+    def setUp(self):
+        self.data_typer = utils.typecoercion.DataTyper([])
+        self.coerce_type = self.data_typer.coerce_type
+
+    def test_coerce_nulls(self):
+        self.assertEqual(self.coerce_type(None, bool), None)
+        self.assertEqual(self.coerce_type('N/A', int), None)
+        self.assertEqual(self.coerce_type('n/a', datetime), None)
+
+    def test_coerce_int_from_str(self):
+        self.assertEqual(self.coerce_type('171', int), 171)
+
+    def test_coerce_int_from_str_fails(self):
+        with self.assertRaises(TypeCoercionError):
+            self.assertEqual(self.coerce_type('#171', int), 171)
+
+    def test_coerce_int_from_unicode(self):
+        self.assertEqual(self.coerce_type(u'171', int), 171)
+
+    def test_coerce_int_from_currency_str(self):
+        self.assertEqual(self.coerce_type('$171,000', int), 171000)
+
+    def test_coerce_int_from_currency_float(self):
+        self.assertEqual(self.coerce_type(u'$171,000', int), 171000)
+
+    def test_coerce_float_from_str(self):
+        self.assertEqual(self.coerce_type('171.59', float), 171.59)
+
+    def test_coerce_float_from_unicode(self):
+        self.assertEqual(self.coerce_type(u'171.59', float), 171.59)
+
+    def test_coerce_float_from_currency_str(self):
+        self.assertEqual(self.coerce_type('$171,000.59', float), 171000.59)
+
+    def test_coerce_float_from_currency_float(self):
+        self.assertEqual(self.coerce_type(u'$171,000.59', float), 171000.59)
+
+    def test_coerce_bool_from_str(self):
+        self.assertEqual(self.coerce_type('True', bool), True)
+        self.assertEqual(self.coerce_type('true', bool), True)
+        self.assertEqual(self.coerce_type('T', bool), True)
+        self.assertEqual(self.coerce_type('yes', bool), True)
+
+    def test_coerce_bool_from_unicode(self):
+        self.assertEqual(self.coerce_type(u'True', bool), True)
+        self.assertEqual(self.coerce_type(u'true', bool), True)
+        self.assertEqual(self.coerce_type(u'T', bool), True)
+        self.assertEqual(self.coerce_type(u'yes', bool), True)
+
+    def test_coerce_datetime_from_str(self):
+        self.assertEqual(self.coerce_type('2011-4-13 8:28 AM', datetime), datetime(2011, 4, 13, 8, 28, 0))
+
+    def test_coerce_date_from_str(self):
+        self.assertEqual(self.coerce_type('2011-4-13', date), datetime(2011, 4, 13, 0, 0, 0))
+        
+    def test_coerce_time_from_str(self):
+        self.assertEqual(self.coerce_type('8:28 AM', time), datetime(9999, 12, 31, 8, 28, 0))
 
