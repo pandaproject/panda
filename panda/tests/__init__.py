@@ -13,6 +13,7 @@ from panda.tests.test_api_data_upload import TestAPIDataUpload
 from panda.tests.test_api_related_upload import TestAPIRelatedUpload
 from panda.tests.test_api_user import TestUserValidation, TestAPIUser
 from panda.tests.test_api_category import TestAPICategories
+from panda.tests.test_commands import TestPurgeOrphanedUploads
 from panda.tests.test_dataset import TestDataset
 from panda.tests.test_data_upload import TestDataUpload
 from panda.tests.test_solr import TestSolrJSONEncoder
