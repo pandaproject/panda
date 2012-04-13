@@ -19,7 +19,9 @@ TYPE_NAMES_MAPPING = {
 }
 
 CURRENCY_SYMBOLS_ASCII = '$,'
-CURRENCY_SYMBOLS_UNICODE_TRANSLATE_TABLE = dict([(ord(c), None) for c in '$,€£₱'])
+
+# Via http://en.wikipedia.org/wiki/Currency_sign
+CURRENCY_SYMBOLS_UNICODE_TRANSLATE_TABLE = dict([(ord(c), None) for c in '$,€£₱؋฿₵₡₫ƒ₣₲₴₭ლ₥₦£៛₹₪৳₮₩¥'])
 
 class DataTyper(object):
     """
