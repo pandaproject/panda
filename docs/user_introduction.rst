@@ -4,7 +4,7 @@ Welcome to PANDA!
 
 .. figure::  images/high-five.jpg
 
-If you're reading this documentation is probably because your organization has started using PANDA to manage its newsroom data. As a journalist your bound to be skeptical of this new system. This brief introduction will introduce you to PANDA and show you how it can save you time, keep your data safe and improve the quality of your reporting. More detailed descriptions of the features of PANDA can be found in sections following the introduction.
+If you're reading this documentation is probably because your organization has started using PANDA to manage its newsroom data. As a journalist you're bound to be skeptical of this new system. This brief introduction will introduce you to PANDA and show you how it can save you time, keep your data safe and improve the quality of your reporting. More detailed descriptions of the features of PANDA can be found in sections following the introduction.
 
 What is PANDA?
 ==============
