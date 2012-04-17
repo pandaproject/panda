@@ -45,6 +45,14 @@ def index(request):
         })
     })
 
+def dashboard(request):
+    """
+    Render HTML for dashboard/metrics view.
+    """
+    return render_to_response('dashboard.html', {
+        'settings': settings
+    })
+
 def jst(request):
     """
     Compile JST templates into a javascript module.
