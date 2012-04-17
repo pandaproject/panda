@@ -11,3 +11,9 @@
     <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
 {% endfor %}
 </ul>
+
+<h2>Size of all uploaded files on disk</h2>
+{{ upload_disk_used }}
+
+<h2>Size of all search indices on disk</h2>
+{{ indices_disk_used }}

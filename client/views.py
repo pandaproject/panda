@@ -46,6 +46,27 @@ def index(request):
         })
     })
 
+def get_size(start_path = '.'):
+    """
+    TODO - move this somewhere
+    """
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            total_size += os.path.getsize(fp)
+    return total_size
+
+def format_size(num):
+    """
+    TODO - move this and clean it up
+    """
+    for x in ['bytes','KB','MB','GB']:
+        if num < 1024.0:
+            return "%3.1f %s" % (num, x)
+        num /= 1024.0
+    return "%3.1f%s" % (num, 'TB')
+
 def dashboard(request):
     """
     Render HTML for dashboard/metrics view.
@@ -53,10 +74,14 @@ def dashboard(request):
     datasets_without_descriptions = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(description='')]
     datasets_without_categories = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(categories=None)]
 
+    upload_disk_used = format_size(get_size(settings.MEDIA_ROOT))
+    indices_disk_used = format_size(get_size(settings.SOLR_DIRECTORY))
+
     return render_to_response('dashboard.html', {
-        'settings': settings,
         'datasets_without_descriptions': datasets_without_descriptions,
-        'datasets_without_categories': datasets_without_categories
+        'datasets_without_categories': datasets_without_categories,
+        'upload_disk_used': upload_disk_used,
+        'indices_disk_used': indices_disk_used
     })
 
 def jst(request):

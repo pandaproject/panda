@@ -208,6 +208,7 @@ LOGGING = {
 SOLR_ENDPOINT = 'http://localhost:8983/solr'
 SOLR_DATA_CORE = 'data'
 SOLR_DATASETS_CORE = 'datasets'
+SOLR_DIRECTORY = '/var/solr'
 
 # Miscellaneous configuration
 PANDA_VERSION = '0.1.3'
