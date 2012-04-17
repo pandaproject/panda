@@ -12,7 +12,6 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             return (c.id == PANDA.settings.UNCATEGORIZED_ID);
         });
 
-
         var context = PANDA.utils.make_context({
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
@@ -76,12 +75,13 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             }
         }, this));
 
-        this.dataset.patch(s, {
-            success: _.bind(function() {
+        this.dataset.patch(s, 
+            _.bind(function(response) {
+                $("#modal-edit-dataset").modal("hide");
                 Redd.goto_dataset_view(this.dataset.get("slug"));
                 Redd.refresh_categories();
             }, this),
-            error: function(model, response) {
+            function(model, response) {
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
@@ -89,8 +89,9 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 }
 
                 $("#edit-dataset-form").show_errors(errors, "Save failed!");
-            }
-        });
+            });
+
+        return false;
     }
 })
 

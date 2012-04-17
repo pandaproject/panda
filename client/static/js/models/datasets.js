@@ -241,7 +241,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 this.set(response);
 
                 if (success_callback) {
-                    success_callback(this, response);
+                    success_callback(response);
                 }
             }, this),
             error: _.bind(function(xhr, status, error) {
