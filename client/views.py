@@ -2,6 +2,7 @@
 
 import os
 import re
+from urllib import unquote
 
 from django.conf import settings
 from django.db.models import Count
@@ -49,8 +50,13 @@ def dashboard(request):
     """
     Render HTML for dashboard/metrics view.
     """
+    datasets_without_descriptions = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(description='')]
+    datasets_without_categories = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(categories=None)]
+
     return render_to_response('dashboard.html', {
-        'settings': settings
+        'settings': settings,
+        'datasets_without_descriptions': datasets_without_descriptions,
+        'datasets_without_categories': datasets_without_categories
     })
 
 def jst(request):
