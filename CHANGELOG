@@ -1,6 +1,8 @@
 0.1.3
 -----
 
+* Fix long-standing bug where dataset metadata might not get created. (#618)
+* Intelligently handle currency symbols in numeric columns. (#538)
 * Ensure related files are deleted when datasets are. (#612)
 * Implement dataset paging. (#609)
 * Overhaul datasets search urls.
