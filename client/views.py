@@ -75,7 +75,7 @@ def dashboard(request):
     user_count = User.objects.all().count()
     inactive_user_count = User.objects.filter(is_active=False).count()
 
-    most_active_users = \
+    foo="""most_active_users = \
         User.objects.all() \
         .annotate(Count('datasets')) \
         .filter(datasets__count__gt=0) \
@@ -85,7 +85,19 @@ def dashboard(request):
         User.objects.all() \
         .annotate(Count('datasets')) \
         .exclude(id__in=[user.id for user in most_active_users]) \
-        .order_by('datasets__count')[:10]
+        .order_by('datasets__count')[:10]"""
+
+    most_active_users = \
+        User.objects.all() \
+        .annotate(Count('activity_logs')) \
+        .filter(activity_logs__count__gt=0) \
+        .order_by('-activity_logs__count')[:10]
+
+    least_active_users = \
+        User.objects.all() \
+        .annotate(Count('activity_logs')) \
+        .exclude(id__in=[user.id for user in most_active_users]) \
+        .order_by('activity_logs__count')[:10]
 
     # Disk space
     root_disk = os.stat('/').st_dev

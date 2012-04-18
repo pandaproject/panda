@@ -20,21 +20,21 @@
             </div>
         </div>
 
-        <h2>Users ({{ user_count }} total, {{ inactive_user_count }} inactive)</h2>
+        <h2>Users ({{ user_count }} total{% if inactive_user_count %}, {{ inactive_user_count }} not activated{% endif %})</h2>
         <div class="row-fluid">
             <div class="span6">
-                <h3>Users who have created the most datasets</h3>
+                <h3>Most active in the last 30 days</h3>
                 <ul>
                     {% for user in most_active_users %}
-                    <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> ({{ user.datasets__count }})</li>
+                    <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> (used on {{ user.activity_logs__count }} days)</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="span6">
-                <h3>Users who have created the fewest datasets</h3>
+                <h3>Least active in the last 30 days</h3>
                 <ul>
                     {% for user in least_active_users %}
-                    <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> ({{ user.datasets__count }})</li>
+                    <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> (used on {{ user.activity_logs__count }} days)</li>
                     {% endfor %}
                 </ul>
             </div>

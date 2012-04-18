@@ -12,7 +12,7 @@ class ActivityLog(models.Model):
     """
     A log of some activity taken by a user.
     """
-    user = models.ForeignKey(User,
+    user = models.ForeignKey(User, related_name='activity_logs',
         help_text='The user who was active.')
     activity = models.CharField(max_length=64, default='ON_SITE', choices=ACTIVITY_CHOICES,
         help_text='The activity being recorded'),
