@@ -64,8 +64,10 @@ def dashboard(request):
     """
     Render HTML for dashboard/metrics view.
     """
-    datasets_without_descriptions = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(description='')]
-    datasets_without_categories = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(categories=None)]
+    dataset_count = Dataset.objects.all().count()
+
+    datasets_without_descriptions = [(unquote(dataset['name']), dataset['slug']) for dataset in Dataset.objects.filter(description='').values('name', 'slug')]
+    datasets_without_categories = [(unquote(dataset['name']), dataset['slug']) for dataset in Dataset.objects.filter(categories=None).values('name', 'slug')]
 
     root_disk = os.stat('/').st_dev
     upload_disk = os.stat(settings.MEDIA_ROOT).st_dev
@@ -94,6 +96,7 @@ def dashboard(request):
         indices_disk_percent_used = None
 
     return render_to_response('dashboard.html', {
+        'dataset_count': dataset_count,
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
         'root_disk_total': root_disk_total,
