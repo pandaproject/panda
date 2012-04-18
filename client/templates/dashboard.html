@@ -21,30 +21,34 @@
                     <th>Disk</th>
                     <th>Free</th>
                     <th>Total</th>
+                    <th>% free</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Root</td>
-                    <td>{{ root_disk_free }}</td>
-                    <td>{{ root_disk_total }}</td>
+                    <td>{{ root_disk_free|filesizeformat }}</td>
+                    <td>{{ root_disk_total|filesizeformat }}</td>
+                    <td>{{ root_disk_percent_free|floatformat:1 }}</td>
                 </tr>
                 <tr>
                     <td>Uploads</td>
                     {% if upload_disk_total %}
-                    <td>{{ upload_disk_free }}</td>
-                    <td>{{ upload_disk_total }}</td>
+                    <td>{{ upload_disk_free|filesizeformat }}</td>
+                    <td>{{ upload_disk_total|filesizeformat }}</td>
+                    <td>{{ upload_disk_percent_free|floatformat:1 }}</td>
                     {% else %}
-                    <td colspan="2">Uploads are currently stored on the root disk.</td>
+                    <td colspan="3">Uploads are currently stored on the root disk.</td>
                     {% endif %}
                 </tr>
                 <tr>
                     <td>Search indices</td>
                     {% if indices_disk_total %}
-                    <td>{{ indices_disk_free }}</td>
-                    <td>{{ indices_disk_total }}</td>
+                    <td>{{ indices_disk_free|filesizeformat }}</td>
+                    <td>{{ indices_disk_total|filesizeformat }}</td>
+                    <td>{{ indices_disk_percent_free|floatformat:1 }}</td>
                     {% else %}
-                    <td colspan="2">Uploads are currently stored on the root disk.</td>
+                    <td colspan="3">Uploads are currently stored on the root disk.</td>
                     {% endif %}
                 </tr>
             </tbody>

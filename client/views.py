@@ -46,12 +46,6 @@ def index(request):
         })
     })
 
-def _format_size(num):
-    """
-    Format byte sizes as human-readable equivalents. 
-    """
-    return "%3.1f %s" % (num / 1024.0 / 1024.0 / 1024.0, 'GB')
-
 def _get_total_disk_space(p):
     """
     Calculate the total disk space of the device on which a given file path resides.
@@ -77,32 +71,40 @@ def dashboard(request):
     upload_disk = os.stat(settings.MEDIA_ROOT).st_dev
     indices_disk = os.stat(settings.SOLR_DIRECTORY).st_dev
 
-    root_disk_total = _format_size(_get_total_disk_space('/'))
-    root_disk_free = _format_size(_get_free_disk_space('/'))
+    root_disk_total = _get_total_disk_space('/')
+    root_disk_free = _get_free_disk_space('/')
+    root_disk_percent_free = float(root_disk_free) / root_disk_total * 100
 
     if upload_disk != root_disk:    
-        upload_disk_total = _format_size(_get_total_disk_space(settings.MEDIA_ROOT))
-        upload_disk_free = _format_size(_get_free_disk_space(settings.MEDIA_ROOT))
+        upload_disk_total = _get_total_disk_space(settings.MEDIA_ROOT)
+        upload_disk_free = _get_free_disk_space(settings.MEDIA_ROOT)
+        upload_disk_percent_free = float(upload_disk_free) / upload_disk_total * 100
     else:
         upload_disk_total = None
         upload_disk_free = None
+        upload_disk_percent_free = None
 
     if indices_disk != root_disk:
-        indices_disk_total = _format_size(_get_total_disk_space(settings.SOLR_DIRECTORY))
-        indices_disk_free = _format_size(_get_free_disk_space(settings.SOLR_DIRECTORY))
+        indices_disk_total = _get_total_disk_space(settings.SOLR_DIRECTORY)
+        indices_disk_free = _get_free_disk_space(settings.SOLR_DIRECTORY)
+        indices_disk_percent_free = float(indices_disk_free / indices_disk_total) * 100
     else:
         indices_disk_total = None
         indices_disk_free = None
+        indices_disk_percent_free = None
 
     return render_to_response('dashboard.html', {
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
         'root_disk_total': root_disk_total,
         'root_disk_free': root_disk_free,
+        'root_disk_percent_free': root_disk_percent_free,
         'upload_disk_total': upload_disk_total,
         'upload_disk_free': upload_disk_free,
+        'upload_disk_percent_free': upload_disk_percent_free,
         'indices_disk_total': indices_disk_total,
-        'indices_disk_free': indices_disk_free
+        'indices_disk_free': indices_disk_free,
+        'indices_disk_percent_free': indices_disk_percent_free
     })
 
 def jst(request):
