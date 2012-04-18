@@ -84,8 +84,8 @@ PANDA.views.Root = Backbone.View.extend({
             }));
 
             // Fetch latest notifications (doubles as a verification of the user's credentials)
-            this.refresh_notifications();
-
+            this.refresh_notifications(); 
+                
             return true;
         }
 
@@ -185,6 +185,24 @@ PANDA.views.Root = Backbone.View.extend({
         return dfd;
     },
 
+    log_user_activity: function() {
+        /*
+         * Record that the user was on-site.
+         */
+        if (!this._current_user) {
+            return;
+        }
+
+        var activity_recorded = $.cookie("activity_recorded") === "true" ? true : false;
+
+        if (!activity_recorded) {
+            activity_log = new PANDA.models.ActivityLog();
+            activity_log.save();
+
+            $.cookie("activity_recorded", "true", { expires: 1 });
+        }
+    },
+
     configure_navbar: function(no_scroll) {
         /*
          * Reconfigures the Bootstrap navbar based on the current user.
@@ -259,6 +277,7 @@ PANDA.views.Root = Backbone.View.extend({
         if (this._current_user) {
             this._current_user.refresh_notifications(_.bind(function() {
                 this.configure_navbar();
+                this.log_user_activity();
             }, this));
         }
     },

@@ -24,7 +24,7 @@ class ActivityLog(models.Model):
         verbose_name_plural = 'ActivityLogs'
 
     def __unicode__(self):
-        return '%s was %s at %s' % (self.user, self.activity, self.when)
+        return '%s at %s' % (self.user, self.when)
 
     def save(self, *args, **kwargs):
         if not self.when:

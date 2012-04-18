@@ -61,6 +61,11 @@
                     "delete_relatedupload", 
                     "panda", 
                     "relatedupload"
+                ],
+                [
+                    "add_activitylog", 
+                    "panda", 
+                    "activitylog"
                 ]
             ]
         }

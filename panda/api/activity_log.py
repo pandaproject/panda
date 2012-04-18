@@ -23,3 +23,11 @@ class ActivityLogResource(PandaModelResource):
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 
+    def obj_create(self, bundle, request=None, **kwargs):
+        """
+        Create an activity log for the accessing user.
+        """
+        bundle = super(ActivityLogResource, self).obj_create(bundle, request=request, user=request.user, **kwargs)
+
+        return bundle
+
