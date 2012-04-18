@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import datetime
 import os
 import re
 from urllib import unquote
@@ -9,11 +10,13 @@ from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from django.utils.timezone import now
+
 from livesettings import config_value
 from tastypie.serializers import Serializer
 
 from panda.api.category import CategoryResource
-from panda.models import Category, Dataset
+from panda.models import ActivityLog, Category, Dataset
 
 def index(request):
     """
@@ -87,6 +90,14 @@ def dashboard(request):
         .exclude(id__in=[user.id for user in most_active_users]) \
         .order_by('activity_logs__count')[:10]
 
+    today = now().date()
+    thirty_days_ago = today - datetime.timedelta(days=30)
+
+    active_users_by_day = \
+        ActivityLog.objects.filter(when__gt=thirty_days_ago) \
+        .values('when') \
+        .annotate(Count('user'))
+
     # Disk space
     root_disk = os.stat('/').st_dev
     upload_disk = os.stat(settings.MEDIA_ROOT).st_dev
@@ -122,6 +133,7 @@ def dashboard(request):
         'inactive_user_count': inactive_user_count,
         'most_active_users': most_active_users,
         'least_active_users': least_active_users,
+        'active_users_by_day': active_users_by_day,
         'root_disk_total': root_disk_total,
         'root_disk_free': root_disk_free,
         'root_disk_percent_used': root_disk_percent_used,

@@ -22,8 +22,18 @@
 
         <h2>Users ({{ user_count }} total{% if inactive_user_count %}, {{ inactive_user_count }} not activated{% endif %})</h2>
         <div class="row-fluid">
+            <div class="span12">
+                <h3>Users active over last 30 days</h3>
+                <ul>
+                    {% for activity in active_users_by_day %}
+                    <li>{{ activity.when }} - {{ activity.user__count }} user{{ activity.user__count|pluralize }} was active</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row-fluid">
             <div class="span6">
-                <h3>Most active in the last 30 days</h3>
+                <h3>Most active users in the last 30 days</h3>
                 <ul>
                     {% for user in most_active_users %}
                     <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> (used on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
@@ -31,7 +41,7 @@
                 </ul>
             </div>
             <div class="span6">
-                <h3>Least active in the last 30 days</h3>
+                <h3>Least active users in the last 30 days</h3>
                 <ul>
                     {% for user in least_active_users %}
                     <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> (used on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
