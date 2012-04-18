@@ -46,26 +46,25 @@ def index(request):
         })
     })
 
-def get_size(start_path = '.'):
+def _format_size(num):
     """
-    TODO - move this somewhere
+    Format byte sizes as human-readable equivalents. 
     """
-    total_size = 0
-    for dirpath, dirnames, filenames in os.walk(start_path):
-        for f in filenames:
-            fp = os.path.join(dirpath, f)
-            total_size += os.path.getsize(fp)
-    return total_size
+    return "%3.1f %s" % (num / 1024.0 / 1024.0 / 1024.0, 'GB')
 
-def format_size(num):
+def _get_total_disk_space(p):
     """
-    TODO - move this and clean it up
+    Calculate the total disk space of the device on which a given file path resides.
     """
-    for x in ['bytes','KB','MB','GB']:
-        if num < 1024.0:
-            return "%3.1f %s" % (num, x)
-        num /= 1024.0
-    return "%3.1f%s" % (num, 'TB')
+    s = os.statvfs(p)
+    return s.f_frsize * s.f_blocks   
+
+def _get_free_disk_space(p):
+    """
+    Returns the number of free bytes on the drive that ``p`` is on
+    """
+    s = os.statvfs(p)
+    return s.f_frsize * s.f_bavail
 
 def dashboard(request):
     """
@@ -74,14 +73,36 @@ def dashboard(request):
     datasets_without_descriptions = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(description='')]
     datasets_without_categories = [(unquote(dataset.name), dataset.slug) for dataset in Dataset.objects.filter(categories=None)]
 
-    upload_disk_used = format_size(get_size(settings.MEDIA_ROOT))
-    indices_disk_used = format_size(get_size(settings.SOLR_DIRECTORY))
+    root_disk = os.stat('/').st_dev
+    upload_disk = os.stat(settings.MEDIA_ROOT).st_dev
+    indices_disk = os.stat(settings.SOLR_DIRECTORY).st_dev
+
+    root_disk_total = _format_size(_get_total_disk_space('/'))
+    root_disk_free = _format_size(_get_free_disk_space('/'))
+
+    if upload_disk != root_disk:    
+        upload_disk_total = _format_size(_get_total_disk_space(settings.MEDIA_ROOT))
+        upload_disk_free = _format_size(_get_free_disk_space(settings.MEDIA_ROOT))
+    else:
+        upload_disk_total = None
+        upload_disk_free = None
+
+    if indices_disk != root_disk:
+        indices_disk_total = _format_size(_get_total_disk_space(settings.SOLR_DIRECTORY))
+        indices_disk_free = _format_size(_get_free_disk_space(settings.SOLR_DIRECTORY))
+    else:
+        indices_disk_total = None
+        indices_disk_free = None
 
     return render_to_response('dashboard.html', {
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
-        'upload_disk_used': upload_disk_used,
-        'indices_disk_used': indices_disk_used
+        'root_disk_total': root_disk_total,
+        'root_disk_free': root_disk_free,
+        'upload_disk_total': upload_disk_total,
+        'upload_disk_free': upload_disk_free,
+        'indices_disk_total': indices_disk_total,
+        'indices_disk_free': indices_disk_free
     })
 
 def jst(request):

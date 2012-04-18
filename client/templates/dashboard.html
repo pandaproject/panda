@@ -1,19 +1,53 @@
-<h2>Datasets without descriptions</h2>
-<ul>
-{% for name, slug in datasets_without_descriptions %}
-    <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
-{% endfor %}
-</ul>
+<div class="row-fluid">
+    <div id="dashboard">
+        <h3>Datasets without descriptions</h3>
+        <ul>
+        {% for name, slug in datasets_without_descriptions %}
+            <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
+        {% endfor %}
+        </ul>
 
-<h2>Datasets without categories</h2>
-<ul>
-    {% for name, slug in datasets_without_categories %}
-    <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
-{% endfor %}
-</ul>
+        <h3>Datasets without categories</h3>
+        <ul>
+            {% for name, slug in datasets_without_categories %}
+            <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
+        {% endfor %}
+        </ul>
 
-<h2>Size of all uploaded files on disk</h2>
-{{ upload_disk_used }}
-
-<h2>Size of all search indices on disk</h2>
-{{ indices_disk_used }}
+        <h3>Disk usage</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Disk</th>
+                    <th>Free</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Root</td>
+                    <td>{{ root_disk_free }}</td>
+                    <td>{{ root_disk_total }}</td>
+                </tr>
+                <tr>
+                    <td>Uploads</td>
+                    {% if upload_disk_total %}
+                    <td>{{ upload_disk_free }}</td>
+                    <td>{{ upload_disk_total }}</td>
+                    {% else %}
+                    <td colspan="2">Uploads are currently stored on the root disk.</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Search indices</td>
+                    {% if indices_disk_total %}
+                    <td>{{ indices_disk_free }}</td>
+                    <td>{{ indices_disk_total }}</td>
+                    {% else %}
+                    <td colspan="2">Uploads are currently stored on the root disk.</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
