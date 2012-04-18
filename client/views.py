@@ -4,6 +4,7 @@ import os
 import re
 from urllib import unquote
 
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponse
@@ -64,11 +65,28 @@ def dashboard(request):
     """
     Render HTML for dashboard/metrics view.
     """
+    # Datasets
     dataset_count = Dataset.objects.all().count()
 
     datasets_without_descriptions = [(unquote(dataset['name']), dataset['slug']) for dataset in Dataset.objects.filter(description='').values('name', 'slug')]
     datasets_without_categories = [(unquote(dataset['name']), dataset['slug']) for dataset in Dataset.objects.filter(categories=None).values('name', 'slug')]
 
+    # Users
+    user_count = User.objects.all().count()
+
+    most_active_users = \
+        User.objects.all() \
+        .annotate(Count('datasets')) \
+        .filter(datasets__count__gt=0) \
+        .order_by('-datasets__count')[:10]
+    
+    least_active_users = \
+        User.objects.all() \
+        .annotate(Count('datasets')) \
+        .exclude(id__in=[user.id for user in most_active_users]) \
+        .order_by('datasets__count')[:10]
+
+    # Disk space
     root_disk = os.stat('/').st_dev
     upload_disk = os.stat(settings.MEDIA_ROOT).st_dev
     indices_disk = os.stat(settings.SOLR_DIRECTORY).st_dev
@@ -99,6 +117,9 @@ def dashboard(request):
         'dataset_count': dataset_count,
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
+        'user_count': user_count,
+        'most_active_users': most_active_users,
+        'least_active_users': least_active_users,
         'root_disk_total': root_disk_total,
         'root_disk_free': root_disk_free,
         'root_disk_percent_used': root_disk_percent_used,

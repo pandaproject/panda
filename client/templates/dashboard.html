@@ -1,9 +1,9 @@
 <div class="row-fluid">
     <div id="dashboard" class="span12">
-        <h2>Datasets: {{ dataset_count }}</h2>
+        <h2>Datasets ({{ dataset_count }})</h2>
         <div class="row-fluid">
             <div class="span6">
-                <h3>Without descriptions: {{ datasets_without_descriptions|length }}</h3>
+                <h3>Without descriptions ({{ datasets_without_descriptions|length }})</h3>
                 <ul>
                 {% for name, slug in datasets_without_descriptions %}
                     <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
@@ -11,11 +11,31 @@
                 </ul>
             </div>
             <div class="span6">
-                <h3>Without categories: {{ datasets_without_categories|length }}</h3>
+                <h3>Without categories ({{ datasets_without_categories|length }})</h3>
                 <ul>
                     {% for name, slug in datasets_without_categories %}
                     <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
                 {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <h2>Users ({{ user_count }})</h2>
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>Most active (by number of datasets)</h3>
+                <ul>
+                    {% for user in most_active_users %}
+                    <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> ({{ user.datasets__count }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="span6">
+                <h3>Least active (by number of datasets)</h3>
+                <ul>
+                    {% for user in least_active_users %}
+                    <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> ({{ user.datasets__count }})</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
