@@ -87,7 +87,7 @@ def dashboard(request):
     if indices_disk != root_disk:
         indices_disk_total = _get_total_disk_space(settings.SOLR_DIRECTORY)
         indices_disk_free = _get_free_disk_space(settings.SOLR_DIRECTORY)
-        indices_disk_percent_free = float(indices_disk_free / indices_disk_total) * 100
+        indices_disk_percent_free = float(indices_disk_free) / indices_disk_total * 100
     else:
         indices_disk_total = None
         indices_disk_free = None
