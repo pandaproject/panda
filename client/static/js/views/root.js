@@ -199,7 +199,10 @@ PANDA.views.Root = Backbone.View.extend({
             activity_log = new PANDA.models.ActivityLog();
             activity_log.save();
 
-            $.cookie("activity_recorded", "true", { expires: 1 });
+            var today = new Date();
+            var midnight = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 0, 0, 0);
+
+            $.cookie("activity_recorded", "true", { expires: midnight });
         }
     },
 
