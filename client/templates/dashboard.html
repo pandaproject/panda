@@ -20,10 +20,10 @@
             </div>
         </div>
 
-        <h2>Users ({{ user_count }})</h2>
+        <h2>Users ({{ user_count }} total, {{ inactive_user_count }} inactive)</h2>
         <div class="row-fluid">
             <div class="span6">
-                <h3>Most active (by number of datasets)</h3>
+                <h3>Users who have created the most datasets</h3>
                 <ul>
                     {% for user in most_active_users %}
                     <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> ({{ user.datasets__count }})</li>
@@ -31,7 +31,7 @@
                 </ul>
             </div>
             <div class="span6">
-                <h3>Least active (by number of datasets)</h3>
+                <h3>Users who have created the fewest datasets</h3>
                 <ul>
                     {% for user in least_active_users %}
                     <li><a href="mailto:{{ user.email }}">{{ user.email }}</a> ({{ user.datasets__count }})</li>

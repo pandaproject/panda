@@ -73,6 +73,7 @@ def dashboard(request):
 
     # Users
     user_count = User.objects.all().count()
+    inactive_user_count = User.objects.filter(is_active=False).count()
 
     most_active_users = \
         User.objects.all() \
@@ -118,6 +119,7 @@ def dashboard(request):
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
         'user_count': user_count,
+        'inactive_user_count': inactive_user_count,
         'most_active_users': most_active_users,
         'least_active_users': least_active_users,
         'root_disk_total': root_disk_total,
