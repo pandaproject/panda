@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from panda.api.activity_log import ActivityLogResource
 from panda.api.category import CategoryResource
 from panda.api.data import DataResource
 from panda.api.datasets import DatasetResource

@@ -4,10 +4,11 @@ from django.conf.urls.defaults import include, patterns, url
 from tastypie.api import Api
 from tastypie.utils.urls import trailing_slash
 
-from panda.api import CategoryResource, DatasetResource, DataUploadResource, ExportResource, NotificationResource, RelatedUploadResource, TaskResource, UserResource
+from panda.api import ActivityLogResource, CategoryResource, DatasetResource, DataUploadResource, ExportResource, NotificationResource, RelatedUploadResource, TaskResource, UserResource
 from panda import views
 
 api_1_0 = Api(api_name='1.0')
+api_1_0.register(ActivityLogResource())
 api_1_0.register(CategoryResource())
 api_1_0.register(DatasetResource())
 api_1_0.register(DataUploadResource())

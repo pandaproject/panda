@@ -10,6 +10,7 @@ from livesettings import config_value
 from tastypie.models import ApiKey
 
 from panda import config # Needed for autodiscovery
+from panda.models.activity_log import ActivityLog
 from panda.models.category import Category
 from panda.models.dataset import Dataset
 from panda.models.data_upload import DataUpload
@@ -20,7 +21,7 @@ from panda.models.task_status import TaskStatus
 from panda.models.user_profile import UserProfile
 from panda.utils.mail import send_mail
 
-__all__ = ['Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'TaskStatus', 'UserProfile']
+__all__ = ['ActivityLog', 'Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'TaskStatus', 'UserProfile']
 
 @receiver(models.signals.post_save, sender=User)
 def on_user_post_save(sender, instance, created, **kwargs):
