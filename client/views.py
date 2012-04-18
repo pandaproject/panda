@@ -75,18 +75,6 @@ def dashboard(request):
     user_count = User.objects.all().count()
     inactive_user_count = User.objects.filter(is_active=False).count()
 
-    foo="""most_active_users = \
-        User.objects.all() \
-        .annotate(Count('datasets')) \
-        .filter(datasets__count__gt=0) \
-        .order_by('-datasets__count')[:10]
-    
-    least_active_users = \
-        User.objects.all() \
-        .annotate(Count('datasets')) \
-        .exclude(id__in=[user.id for user in most_active_users]) \
-        .order_by('datasets__count')[:10]"""
-
     most_active_users = \
         User.objects.all() \
         .annotate(Count('activity_logs')) \

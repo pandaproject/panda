@@ -11,12 +11,18 @@ class Migration(SchemaMigration):
         # Adding model 'ActivityLog'
         db.create_table('panda_activitylog', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('when', self.gf('django.db.models.fields.DateTimeField')()),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='activity_logs', to=orm['auth.User'])),
+            ('when', self.gf('django.db.models.fields.DateField')()),
         ))
         db.send_create_signal('panda', ['ActivityLog'])
 
+        # Adding unique constraint on 'ActivityLog', fields ['user', 'when']
+        db.create_unique('panda_activitylog', ['user_id', 'when'])
+
     def backwards(self, orm):
+        # Removing unique constraint on 'ActivityLog', fields ['user', 'when']
+        db.delete_unique('panda_activitylog', ['user_id', 'when'])
+
         # Deleting model 'ActivityLog'
         db.delete_table('panda_activitylog')
 
@@ -58,10 +64,10 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'panda.activitylog': {
-            'Meta': {'object_name': 'ActivityLog'},
+            'Meta': {'unique_together': "(('user', 'when'),)", 'object_name': 'ActivityLog'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'when': ('django.db.models.fields.DateTimeField', [], {})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'activity_logs'", 'to': "orm['auth.User']"}),
+            'when': ('django.db.models.fields.DateField', [], {})
         },
         'panda.category': {
             'Meta': {'object_name': 'Category'},
