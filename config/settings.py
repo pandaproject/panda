@@ -120,9 +120,21 @@ COMPRESS_ENABLED = False
 import djcelery
 djcelery.setup_loader()
 
+#These settings are incorrect
+#BROKER_TRANSPORT = "sqlakombu.transport.Transport"
+#BROKER_URL = "postgresql://panda@localhost/panda?user=panda&password=panda"
+#CELERY_RESULT_DBURI = "postgresql://panda@localhost/panda?user=panda&password=panda"
+
+#these settinsg are working:
 BROKER_TRANSPORT = "sqlakombu.transport.Transport"
-BROKER_HOST = "postgresql://panda@localhost/panda?user=panda&password=panda"
-CELERY_RESULT_DBURI = "postgresql://panda@localhost/panda?user=panda&password=panda"
+BROKER_URL = "sqla+postgresql://panda:panda@localhost/panda"
+CELERY_RESULT_DBURI = "sqla+postgresql://panda:panda@localhost/panda"
+
+#these settinsg are correct too
+#BROKER_TRANSPORT = "sqlalchemy"
+#BROKER_URL = "sqla+postgresql://panda:panda@localhost/panda"
+#CELERY_RESULT_DBURI = "sqla+postgresql://panda:panda@localhost/panda"
+
 CELERYD_HIJACK_ROOT_LOGGER = False
 CELERYD_CONCURRENCY = 1
 CELERY_IGNORE_RESULT = True
