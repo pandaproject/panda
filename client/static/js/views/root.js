@@ -115,6 +115,7 @@ PANDA.views.Root = Backbone.View.extend({
             $.cookie("email", null);
             $.cookie("api_key", null);
             $.cookie("is_staff", null);
+            $.cookie("activity_recorded", null)
         }
             
         this.configure_navbar();
