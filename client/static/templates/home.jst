@@ -1,5 +1,5 @@
 <div id="recent-datasets" class="row-fluid">
-    <div class="span12">
+    <div class="span6">
         <h3>Recently added datasets</h3>
         <% _.each(recent.datasets, function(dataset) { %>
             <h4><a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a></h4>
@@ -10,5 +10,7 @@
         <a href="#datasets">Browse all <%= recent.meta.total_count %> datasets &raquo;</a>
         <% } %>
     </div>
+    <div class="span6">
+        <p>Want to see how your PANDA is being used? Visit the <a href="#dashboard">Dashboard</a>!</p>
 </div>
 
