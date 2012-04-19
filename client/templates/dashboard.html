@@ -26,7 +26,7 @@
                 <h3>Users active over last 30 days</h3>
                 <ul>
                     {% for activity in active_users_by_day %}
-                    <li>{{ activity.when }} - {{ activity.user__count }} user{{ activity.user__count|pluralize }} was active</li>
+                    <li>{{ activity.when }} - {{ activity.user__count }} user{{ activity.user__count|pluralize }} {{ activity.user__count|pluralize:"was,were" }} active</li>
                     {% endfor %}
                 </ul>
             </div>
