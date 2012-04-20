@@ -2,7 +2,6 @@
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.timezone import now
 
 class ActivityLog(models.Model):
     """
@@ -10,7 +9,7 @@ class ActivityLog(models.Model):
     """
     user = models.ForeignKey(User, related_name='activity_logs',
         help_text='The user who was active.')
-    when = models.DateField(
+    when = models.DateField(auto_now=True,
         help_text='The date this activity was recorded.')
 
     class Meta:
@@ -20,10 +19,4 @@ class ActivityLog(models.Model):
 
     def __unicode__(self):
         return '%s at %s' % (self.user, self.when)
-
-    def save(self, *args, **kwargs):
-        if not self.when:
-            self.when = now().date()
-
-        super(ActivityLog, self).save(*args, **kwargs)
 

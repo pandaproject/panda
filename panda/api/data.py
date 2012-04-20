@@ -17,7 +17,7 @@ from panda import solr
 from panda.api.datasets import DatasetResource
 from panda.exceptions import DatasetLockedError
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
-from panda.models import Dataset
+from panda.models import Dataset, SearchLog
 
 class SolrObject(object):
     """
@@ -450,6 +450,9 @@ class DataResource(PandaResource):
             datasets.append(dataset_bundle.data)
 
         page['objects'] = datasets
+        
+        # Log query
+        SearchLog.objects.create(user=request.user, dataset=None, query=query)
 
         self.log_throttled_access(request)
 
@@ -500,6 +503,8 @@ class DataResource(PandaResource):
             bundle = self.build_bundle(obj=obj, request=request)
             bundle = self.full_dehydrate(bundle)
             dataset_bundle.data['objects'].append(bundle.data)
+        
+        SearchLog.objects.create(user=request.user, dataset=dataset, query=query)
 
         return dataset_bundle
 

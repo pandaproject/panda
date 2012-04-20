@@ -17,6 +17,7 @@ from panda.models.data_upload import DataUpload
 from panda.models.export import Export
 from panda.models.notification import Notification 
 from panda.models.related_upload import RelatedUpload
+from panda.models.search_log import SearchLog
 from panda.models.task_status import TaskStatus
 from panda.models.user_profile import UserProfile
 from panda.utils.mail import send_mail
