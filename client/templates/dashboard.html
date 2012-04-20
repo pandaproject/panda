@@ -1,9 +1,9 @@
 <div class="row-fluid">
     <div id="dashboard" class="span12">
-        <h2>Datasets ({{ dataset_count }})</h2>
+        <h2>Datasets <small>{{ dataset_count }} total</small></h2>
         <div class="row-fluid">
             <div class="span6">
-                <h3>Without descriptions ({{ datasets_without_descriptions|length }})</h3>
+                <h3>Without descriptions</h3>
                 <ul>
                 {% for name, slug in datasets_without_descriptions %}
                     <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
@@ -11,7 +11,7 @@
                 </ul>
             </div>
             <div class="span6">
-                <h3>Without categories ({{ datasets_without_categories|length }})</h3>
+                <h3>Without categories</h3>
                 <ul>
                     {% for name, slug in datasets_without_categories %}
                     <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <h2>Users ({{ user_count }} total{% if inactive_user_count %}, {{ inactive_user_count }} not activated{% endif %})</h2>
+        <h2>Users <small>{{ user_count }} total{% if inactive_user_count %}, {{ inactive_user_count }} not activated{% endif %}</small></h2>
         <div class="row-fluid">
             <div class="span12">
                 <h3>Users active over last 30 days</h3>
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <h2>Searches ({{ total_searches }} total)</h2>
+        <h2>Searches <small>{{ total_searches }} total</small></h2>
         <div class="row-fluid">
             <div class="span6">
                 <h3>Most searched datasets in the last 30 days</h3>
@@ -68,6 +68,7 @@
                     {% endfor %}
                 </ul>
             </div>
+        </div>
 
         <h2>Disk usage</h2>
         <div class="row-fluid">
