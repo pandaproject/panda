@@ -26,7 +26,7 @@
                 <h3>Users active over last 30 days</h3>
                 <ul>
                     {% for activity in active_users_by_day %}
-                    <li>{{ activity.when }} - {{ activity.user__count }} user{{ activity.user__count|pluralize }} {{ activity.user__count|pluralize:"was,were" }} active</li>
+                    <li>{{ activity.when }} - {{ activity.id__count }} user{{ activity.id__count|pluralize }} {{ activity.id__count|pluralize:"was,were" }} active</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -52,7 +52,7 @@
 
         <h2>Searches <small>{{ total_searches }} total</small></h2>
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span12">
                 <h3>Most searched datasets in the last 30 days</h3>
                 <ul>
                     {% for dataset in most_searched_datasets %}
@@ -60,7 +60,9 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="span6">
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
                 <h3>Search count by day</h3>
                 <ul>
                     <div id="searches-by-day" class="chart"></div>
@@ -114,24 +116,38 @@
 </div>
 
 <script type="text/javascript">
-    var values = [5,7,1,12];
-    var labels = [20,21,22,23];
-    var max_value = d3.max(values);
+    /*var values = [];
+    var labels = [];
 
-    var w = 300;
+    // Generate test data
+    var n = 1 
+    while (n < 30) {
+        values.push(Math.floor(Math.random() * 100));
+        labels.push(n);
+        n += 1;
+    }
+
+    console.log(values);
+    console.log(labels);
+
+    var w = 960;
     var h = 150;
+    var padding = 30;
 
     var x = d3.scale.ordinal()
         .domain(labels)
         .rangeBands([0, w]);
 
     var y = d3.scale.linear()
-        .domain([0, max_value])
+        .domain([0, d3.max(values)])
         .range([0, h]);
 
-    var chart = d3.select("#searches-by-day").append("svg")
-        .attr("width", w)
-        .attr("height", h);
+    var svg = d3.select("#searches-by-day").append("svg")
+        .attr("width", w + padding * 2)
+        .attr("height", h + padding * 2)
+
+    var chart = svg.append("g")
+        .attr("transform", "translate(" + padding + "," + padding + ")");
 
     chart.selectAll("rect")
         .data(values)
@@ -140,6 +156,14 @@
             .attr("y", function(d) { return h - y(d) })
             .attr("width", x.rangeBand())
             .attr("height", y);
+
+    svg.selectAll("text")
+        .data(labels)
+        .enter().append("text")
+            .attr("x", function(d) { return x(d) + x.rangeBand() / 2; })
+            .attr("y", h + padding + 16)
+            .attr("text-anchor", "end")
+            .text(String);*/
 
 </script>
 
