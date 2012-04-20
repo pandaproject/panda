@@ -121,13 +121,13 @@
     var w = 300;
     var h = 150;
 
-    var x = d3.scale.linear()
-        .domain([0, max_value])
-        .range([0, w]);
-
-    var y = d3.scale.ordinal()
+    var x = d3.scale.ordinal()
         .domain(labels)
-        .rangeBands([0, h]);
+        .rangeBands([0, w]);
+
+    var y = d3.scale.linear()
+        .domain([0, max_value])
+        .range([0, h]);
 
     var chart = d3.select("#searches-by-day").append("svg")
         .attr("width", w)
@@ -136,9 +136,10 @@
     chart.selectAll("rect")
         .data(values)
         .enter().append("rect")
-            .attr("y", y)
-            .attr("width", x)
-            .attr("height", y.rangeBand());
+            .attr("x", x)
+            .attr("y", function(d) { return h - y(d) })
+            .attr("width", x.rangeBand())
+            .attr("height", y);
 
 </script>
 
