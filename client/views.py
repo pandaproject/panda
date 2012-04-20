@@ -16,7 +16,7 @@ from livesettings import config_value
 from tastypie.serializers import Serializer
 
 from panda.api.category import CategoryResource
-from panda.models import ActivityLog, Category, Dataset
+from panda.models import ActivityLog, Category, Dataset, SearchLog
 
 def index(request):
     """
@@ -96,7 +96,24 @@ def dashboard(request):
     active_users_by_day = \
         ActivityLog.objects.filter(when__gt=thirty_days_ago) \
         .values('when') \
-        .annotate(Count('user'))
+        .annotate(Count('id'))
+
+    # Searches
+
+    total_searches = SearchLog.objects.count()
+
+    most_searched_datasets = \
+        Dataset.objects.all() \
+        .annotate(Count('searches')) \
+        .filter(searches__count__gt=0) \
+        .order_by('-searches__count') \
+        .values('name', 'slug', 'searches__count')[:10]
+
+    searches_by_day = \
+        SearchLog.objects.filter(when__gt=thirty_days_ago) \
+        .extra(select={ 'day': '"when"::date' }) \
+        .values('day') \
+        .annotate(Count('when'))
 
     # Disk space
     root_disk = os.stat('/').st_dev
@@ -134,6 +151,9 @@ def dashboard(request):
         'most_active_users': most_active_users,
         'least_active_users': least_active_users,
         'active_users_by_day': active_users_by_day,
+        'total_searches': total_searches,
+        'most_searched_datasets': most_searched_datasets,
+        'searches_by_day': searches_by_day,
         'root_disk_total': root_disk_total,
         'root_disk_free': root_disk_free,
         'root_disk_percent_used': root_disk_percent_used,

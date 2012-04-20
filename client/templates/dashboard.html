@@ -50,6 +50,25 @@
             </div>
         </div>
 
+        <h2>Searches ({{ total_searches }} total)</h2>
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>Most searched datasets in the last 30 days</h3>
+                <ul>
+                    {% for dataset in most_searched_datasets %}
+                    <li><a href="#dataset/{{ dataset.slug }}">{{ dataset.name }}</a> ({{ dataset.searches__count }} search{{ dataset.searches__count|pluralize:"es" }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="span6">
+                <h3>Search count by day</h3>
+                <ul>
+                    {% for day in searches_by_day %}
+                    <li>{{ day.day }} - {{ day.when__count }} search{{ day.when__count|pluralize:"es" }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
         <h2>Disk usage</h2>
         <div class="row-fluid">
             <div class="span12">
