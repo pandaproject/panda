@@ -121,8 +121,8 @@ import djcelery
 djcelery.setup_loader()
 
 BROKER_TRANSPORT = 'sqlalchemy'
-BROKER_URL = 'postgresql://panda:panda@localhost/panda'
-CELERY_RESULT_DBURI = "postgresql://panda:panda@localhost/panda"
+BROKER_URL = 'postgresql://%(USER)s:%(PASSWORD)%s@%(HOST)s/%(NAME)s' % DATABASES['default']
+CELERY_RESULT_DBURI = 'postgresql://%(USER)s:%(PASSWORD)%s@%(HOST)s/%(NAME)s' % DATABASES['default'] 
 CELERYD_HIJACK_ROOT_LOGGER = False
 CELERYD_CONCURRENCY = 1
 CELERY_IGNORE_RESULT = True
