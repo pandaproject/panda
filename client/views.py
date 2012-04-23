@@ -3,6 +3,7 @@
 import datetime
 import os
 import re
+import time
 from urllib import unquote
 
 from django.contrib.auth.models import User
@@ -109,11 +110,23 @@ def dashboard(request):
         .order_by('-searches__count') \
         .values('name', 'slug', 'searches__count')[:10]
 
-    searches_by_day = \
-        SearchLog.objects.filter(when__gt=thirty_days_ago) \
+    _searches_by_day = \
+        list(SearchLog.objects.filter(when__gt=thirty_days_ago) \
         .extra(select={ 'day': '"when"::date' }) \
         .values('day') \
-        .annotate(Count('when'))
+        .annotate(Count('when')) \
+        .order_by('day'))
+
+    dates = [thirty_days_ago + datetime.timedelta(days=x) for x in range(0, 31)]
+
+    searches_by_day = []
+
+    for d in dates:
+        if _searches_by_day[0]['day'] == d:
+            _d = _searches_by_day.pop(0)
+            searches_by_day.append(_d)
+        else:
+            searches_by_day.append({ 'day': d, 'when__count': 0 })
 
     # Disk space
     root_disk = os.stat('/').st_dev

@@ -52,7 +52,13 @@
 
         <h2>Searches <small>{{ total_searches }} total</small></h2>
         <div class="row-fluid">
-            <div class="span12">
+            <div class="span6">
+                <h3>Search count by day</h3>
+                <ul>
+                    <div id="searches-by-day" class="chart"></div>
+                </ul>
+            </div>
+            <div class="span6">
                 <h3>Most searched datasets in the last 30 days</h3>
                 <ul>
                     {% for dataset in most_searched_datasets %}
@@ -60,18 +66,7 @@
                     {% endfor %}
                 </ul>
             </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span12">
-                <h3>Search count by day</h3>
-                <ul>
-                    <div id="searches-by-day" class="chart"></div>
-                    {# {% for day in searches_by_day %} #}
-                    {# <li>{{ day.day }} - {{ day.when__count }} search{{ day.when__count|pluralize:"es" }}</li> #}
-                    {# {% endfor %} #}
-                </ul>
-            </div>
-        </div>
+        </div> 
 
         <h2>Disk usage</h2>
         <div class="row-fluid">
@@ -116,54 +111,30 @@
 </div>
 
 <script type="text/javascript">
-    /*var values = [];
-    var labels = [];
+$(function () {
+    var data = [
+        {% for day in searches_by_day %}
+        [{{ forloop.counter }}, {{ day.when__count }}]
+        {% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    var ticks = [
+    {% for day in searches_by_day %}
+        {% if forloop.counter|divisibleby:'5' %}
+        [{{ forloop.counter }}, "{{ day.day|date:'N jS' }}"]
+        {% endif %}
+        {% if not forloop.last and forloop.counter|divisibleby:'5' and forloop.revcounter > 5 %},{% endif %}
+    {% endfor %}
+    ];
 
-    // Generate test data
-    var n = 1 
-    while (n < 30) {
-        values.push(Math.floor(Math.random() * 100));
-        labels.push(n);
-        n += 1;
-    }
-
-    console.log(values);
-    console.log(labels);
-
-    var w = 960;
-    var h = 150;
-    var padding = 30;
-
-    var x = d3.scale.ordinal()
-        .domain(labels)
-        .rangeBands([0, w]);
-
-    var y = d3.scale.linear()
-        .domain([0, d3.max(values)])
-        .range([0, h]);
-
-    var svg = d3.select("#searches-by-day").append("svg")
-        .attr("width", w + padding * 2)
-        .attr("height", h + padding * 2)
-
-    var chart = svg.append("g")
-        .attr("transform", "translate(" + padding + "," + padding + ")");
-
-    chart.selectAll("rect")
-        .data(values)
-        .enter().append("rect")
-            .attr("x", x)
-            .attr("y", function(d) { return h - y(d) })
-            .attr("width", x.rangeBand())
-            .attr("height", y);
-
-    svg.selectAll("text")
-        .data(labels)
-        .enter().append("text")
-            .attr("x", function(d) { return x(d) + x.rangeBand() / 2; })
-            .attr("y", h + padding + 16)
-            .attr("text-anchor", "end")
-            .text(String);*/
-
+    $.plot($("#searches-by-day"), [data], {
+        series: {
+            bars: { show: true }
+        },
+        xaxis: {
+            ticks: ticks
+        }
+    });
+});
 </script>
 
