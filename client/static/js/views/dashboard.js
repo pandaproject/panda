@@ -30,6 +30,10 @@ PANDA.views.Dashboard = Backbone.View.extend({
             },
             xaxis: {
                 ticks: window.DASHBOARD.search_ticks
+            },
+            yaxis: {
+                minTickSize: 1,
+                tickDecimals: 0
             }
         });
         
@@ -42,6 +46,10 @@ PANDA.views.Dashboard = Backbone.View.extend({
             },
             xaxis: {
                 ticks: window.DASHBOARD.user_ticks
+            },
+            yaxis: {
+                minTickSize: 1,
+                tickDecimals: 0
             }
         });
     }
