@@ -32,6 +32,18 @@ PANDA.views.Dashboard = Backbone.View.extend({
                 ticks: window.DASHBOARD.search_ticks
             }
         });
+        
+        wrapper_width = $("#users-chart-wrapper").width();
+        $("#users-by-day").width(wrapper_width).height(wrapper_width * 1 / 5);
+
+        $.plot($("#users-by-day"), [window.DASHBOARD.user_data], {
+            series: {
+                bars: { show: true }
+            },
+            xaxis: {
+                ticks: window.DASHBOARD.user_ticks
+            }
+        });
     }
 });
 

@@ -94,10 +94,22 @@ def dashboard(request):
     today = now().date()
     thirty_days_ago = today - datetime.timedelta(days=30)
 
-    active_users_by_day = \
-        ActivityLog.objects.filter(when__gt=thirty_days_ago) \
+    _active_users_by_day = \
+        list(ActivityLog.objects.filter(when__gt=thirty_days_ago) \
         .values('when') \
-        .annotate(Count('id'))
+        .annotate(Count('id')) \
+        .order_by('when'))
+
+    dates = [thirty_days_ago + datetime.timedelta(days=x) for x in range(0, 31)]
+
+    active_users_by_day = []
+
+    for d in dates:
+        if _active_users_by_day[0]['when'] == d:
+            _d = _active_users_by_day.pop(0)
+            active_users_by_day.append(_d)
+        else:
+            active_users_by_day.append({ 'when': d, 'id__count': 0 })
 
     # Searches
 

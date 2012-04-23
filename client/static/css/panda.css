@@ -230,6 +230,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Dashboard */
 
-#dashboard h2 { margin-top: 5px; }
+#dashboard h2 { margin-top: 10px; }
 #dashboard h2:first-child { margin-top: 0px; }
+
+#dashboard .chart { margin: 15px 0; }
 
