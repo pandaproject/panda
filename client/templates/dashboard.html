@@ -52,11 +52,9 @@
 
         <h2>Searches <small>{{ total_searches }} total</small></h2>
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span6" id="search-chart-wrapper">
                 <h3>Search count by day</h3>
-                <ul>
-                    <div id="searches-by-day" class="chart"></div>
-                </ul>
+                <div id="searches-by-day" class="chart"></div>
             </div>
             <div class="span6">
                 <h3>Most searched datasets in the last 30 days</h3>
@@ -112,13 +110,15 @@
 
 <script type="text/javascript">
 $(function () {
-    var data = [
+    window.DASHBOARD = {};
+    window.DASHBOARD.search_data = [
         {% for day in searches_by_day %}
         [{{ forloop.counter }}, {{ day.when__count }}]
         {% if not forloop.last %},{% endif %}
         {% endfor %}
     ];
-    var ticks = [
+
+    window.DASHBOARD.search_ticks = [
     {% for day in searches_by_day %}
         {% if forloop.counter|divisibleby:'5' %}
         [{{ forloop.counter }}, "{{ day.day|date:'N jS' }}"]
@@ -126,15 +126,6 @@ $(function () {
         {% if not forloop.last and forloop.counter|divisibleby:'5' and forloop.revcounter > 5 %},{% endif %}
     {% endfor %}
     ];
-
-    $.plot($("#searches-by-day"), [data], {
-        series: {
-            bars: { show: true }
-        },
-        xaxis: {
-            ticks: ticks
-        }
-    });
 });
 </script>
 
