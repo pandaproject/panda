@@ -105,7 +105,7 @@ def dashboard(request):
     active_users_by_day = []
 
     for d in dates:
-        if _active_users_by_day[0]['when'] == d:
+        if _active_users_by_day and _active_users_by_day[0]['when'] == d:
             _d = _active_users_by_day.pop(0)
             active_users_by_day.append(_d)
         else:
@@ -134,7 +134,7 @@ def dashboard(request):
     searches_by_day = []
 
     for d in dates:
-        if _searches_by_day[0]['day'] == d:
+        if _searches_by_day and _searches_by_day[0]['day'] == d:
             _d = _searches_by_day.pop(0)
             searches_by_day.append(_d)
         else:
