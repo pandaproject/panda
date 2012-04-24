@@ -13,7 +13,7 @@ PANDA is your newsroom data appliance. It provides a place for you to store data
 
 The PANDA Project is `2011 Knight News Challenge winner <http://www.knightfoundation.org/press-room/press-release/knight-foundation-media-innovation-contest-announc/>`_. The team would like to thank the `Knight Foundation <http://www.knightfoundation.org/>`_ for their generous support of free and open source software for newsrooms.
 
-TLogistical support and fiscal agency for PANDA have been provided by `Investigative Reporters and Editors <http://www.ire.org/>`_. Our sincere thanks to them helping make it a reality.
+Logistical support and fiscal agency for PANDA have been provided by `Investigative Reporters and Editors <http://www.ire.org/>`_. Our sincere thanks to them helping make it a reality.
 
 Documentation for reporters
 ===========================
@@ -76,7 +76,7 @@ Configuration
     Secure connections (SSL) <ssl.rst>
 
 Usage
-=====
+-----
 
 .. toctree::
     :maxdepth: 1
@@ -86,7 +86,7 @@ Usage
     API Keys <api_keys.rst>
 
 Server maintenance 
-==================
+------------------
 
 .. toctree::
     :maxdepth: 1
@@ -98,7 +98,7 @@ Server maintenance
     Upgrades <upgrades.rst>
 
 Extending PANDA
-===============
+---------------
 
 .. toctree::
     :maxdepth: 1 
