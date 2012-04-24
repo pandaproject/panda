@@ -3,7 +3,6 @@
 import datetime
 import os
 import re
-import time
 from urllib import unquote
 
 from django.contrib.auth.models import User
@@ -168,6 +167,7 @@ def dashboard(request):
         indices_disk_percent_used = None
 
     return render_to_response('dashboard.html', {
+        'settings': settings,
         'dataset_count': dataset_count,
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
