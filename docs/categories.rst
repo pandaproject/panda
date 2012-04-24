@@ -16,3 +16,7 @@ Replace ``localhost:8000`` with your PANDA's domain name.
 
 This interface should be largely self-explanatory. When creating a new category a url slug will automatically be generated based on the name you provide. In less you feel the need to edit them for brevity, these default slugs are usually fine.
 
+.. warning::
+
+    PANDA automatically manages categories called "all" and "uncategorized". These will not appear in the adminstrative list of categories, but you should not attempt to create categories with exactly these names.
+
