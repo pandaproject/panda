@@ -466,7 +466,7 @@ class DataResource(PandaResource):
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        query = request.GET.get('q', None)
+        query = request.GET.get('q', '')
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
