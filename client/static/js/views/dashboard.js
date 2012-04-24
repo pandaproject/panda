@@ -25,8 +25,11 @@ PANDA.views.Dashboard = Backbone.View.extend({
         $("#searches-by-day").width(wrapper_width).height(wrapper_width * 2 / 3);
 
         $.plot($("#searches-by-day"), [window.DASHBOARD.search_data], {
+            color: "rgb(255, 0, 0)",
             series: {
-                bars: { show: true }
+                lines: { show: true },
+                points: { show: true },
+                color: "rgb(255, 0, 0)"
             },
             xaxis: {
                 ticks: window.DASHBOARD.search_ticks
@@ -34,6 +37,9 @@ PANDA.views.Dashboard = Backbone.View.extend({
             yaxis: {
                 minTickSize: 1,
                 tickDecimals: 0
+            },
+            grid: {
+                borderWidth: 0
             }
         });
         
@@ -42,7 +48,9 @@ PANDA.views.Dashboard = Backbone.View.extend({
 
         $.plot($("#users-by-day"), [window.DASHBOARD.user_data], {
             series: {
-                bars: { show: true }
+                lines: { show: true },
+                points: { show: true },
+                color: "rgb(255, 0, 0)"
             },
             xaxis: {
                 ticks: window.DASHBOARD.user_ticks
@@ -50,6 +58,9 @@ PANDA.views.Dashboard = Backbone.View.extend({
             yaxis: {
                 minTickSize: 1,
                 tickDecimals: 0
+            },
+            grid: {
+                borderWidth: 0
             }
         });
     }
