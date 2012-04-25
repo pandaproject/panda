@@ -35,6 +35,7 @@
 {% endif %}{% endif %}
 {% endblock %}
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}<p>{% trans "Enter an email address. The user will be emailed a link to activate their account. You may also specify the user's first and last name or leave that for them to do." %}</p>{% endblock %}
+    <p><strong>{% trans "Note:" %}</strong> {% trans 'If you have not <a href="/admin/settings/">configured email</a> for your PANDA, the user will not receive an activation email!' %}</p>
 <div>
 {% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
 {% if save_on_top %}{% submit_row %}{% endif %}
