@@ -32,7 +32,7 @@ pip install -U -r requirements.txt
 # Migrate database
 sudo -u panda -E python manage.py migrate panda 0010    # Migrate to new models
 sudo -u panda -E python manage.py syncdb                # Create new permissions
-sudo -u panda -E python manage.py migration panda       # Finish data migrations 
+sudo -u panda -E python manage.py migrate panda         # Finish data migrations 
 
 # Regenerate assets
 sudo -u panda -E python manage.py collectstatic --noinput
