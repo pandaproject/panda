@@ -105,7 +105,7 @@ sudo -u postgres createdb -O panda panda
 cd /opt
 git clone git://github.com/pandaproject/panda.git panda
 cd /opt/panda
-git checkout 0.1.2
+git checkout 0.1.3
 pip install -r requirements.txt
 
 # Setup panda directories 
