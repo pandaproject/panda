@@ -9,6 +9,10 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
 The following release are **reverse** version order. They **must** be performed in sequence.
 
+.. warning::
+
+    Your PANDA will be unavailable while upgrading. Typically this will not last more than five minutes, but it will vary by release. You should plan to perform PANDA upgrades during off hours.
+
 0.1.2 to 0.1.3
 ==============
 
