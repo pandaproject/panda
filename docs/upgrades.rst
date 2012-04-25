@@ -17,7 +17,7 @@ To upgrade your PANDA from the 0.1.2 release to the 0.1.3 release, :doc:`SSH <ss
     wget https://raw.github.com/pandaproject/panda/0.1.3/scripts/migrations/0.1.2-to-0.1.3.sh
     sudo bash 0.1.2-to-0.1.3.sh
 
-Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade.log``. 
+Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-0.1.3.log``. 
 
 Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
 
