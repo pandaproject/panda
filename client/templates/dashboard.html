@@ -56,8 +56,8 @@
             <div class="span6">
                 <h3>Most searched datasets in the last 30 days</h3>
                 <ul>
-                    {% for dataset in most_searched_datasets %}
-                    <li><a href="#dataset/{{ dataset.slug }}">{{ dataset.name }}</a> ({{ dataset.searches__count }} search{{ dataset.searches__count|pluralize:"es" }})</li>
+                    {% for name, slug, count in most_searched_datasets %}
+                    <li><a href="#dataset/{{ slug }}">{{ name }}</a> ({{ count }} search{{ count|pluralize:"es" }})</li>
                     {% endfor %}
                 </ul>
             </div>

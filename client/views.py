@@ -114,12 +114,12 @@ def dashboard(request):
 
     total_searches = SearchLog.objects.count()
 
-    most_searched_datasets = \
+    most_searched_datasets = [(unquote(dataset['name']), dataset['slug'], dataset['searches__count']) for dataset in \
         Dataset.objects.all() \
         .annotate(Count('searches')) \
         .filter(searches__count__gt=0) \
         .order_by('-searches__count') \
-        .values('name', 'slug', 'searches__count')[:10]
+        .values('name', 'slug', 'searches__count')[:10]]
 
     _searches_by_day = \
         list(SearchLog.objects.filter(when__gt=thirty_days_ago) \
