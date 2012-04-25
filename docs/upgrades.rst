@@ -7,11 +7,11 @@ Before you get started
 
 Although we strive to make upgrades as simple as possible, upgrading your PANDA will require that you know how to SSH into your server. If you need help with this see our guide to :doc:`Connecting with SSH <ssh>`. And don't be afraid to ask for help on the `PANDA Users Group <https://groups.google.com/forum/?fromgroups#!forum/panda-project-users>`_.
 
-The following release are **reverse** version order. They **must** be performed in sequence.
-
 .. warning::
 
     Your PANDA will be unavailable while upgrading. Typically this will not last more than five minutes, but it will vary by release. You should plan to perform PANDA upgrades during off hours.
+
+The following release are in **reverse** version order. They **must** be performed in sequence.
 
 0.1.2 to 0.1.3
 ==============
