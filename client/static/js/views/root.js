@@ -442,6 +442,17 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate(path);
     },
 
+    goto_user: function(id) {
+        if (!this.authenticate()) {
+            return;
+        }
+
+        this.current_content_view = this.get_or_create_view("User");
+        this.current_content_view.reset(id);
+
+        this._router.navigate("user/" + id);
+    },
+
     goto_dashboard: function() {
         if (!this.authenticate()) {
             return;
