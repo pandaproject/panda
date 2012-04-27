@@ -7,6 +7,10 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
+        """
+        This migration will fail if run against a clean database (fresh setup)
+        This is fine because the permission will be installed from the fixture.
+        """
         try:
             perm = orm['auth.permission'].objects.get(codename='add_activitylog')
             group = orm['auth.group'].objects.get(name='panda_user')
