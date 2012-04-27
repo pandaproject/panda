@@ -356,7 +356,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         });
     },
 
-    search_meta: function(category, query, limit, page) {
+    search_meta: function(category, query, limit, page, success_callback, error_callback) {
         /*
          * Query the metadata search endpoint. By default, returns everything.
          *
@@ -403,6 +403,15 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
                 });
 
                 this.reset(datasets);
+
+                if (success_callback) {
+                    success_callback(this, response);
+                }
+            }, this),
+            error: _.bind(function(xhr, status, error) {
+                if (error_callback) {
+                    error_callback(this, xhr.responseText);
+                }
             }, this)
         });
     },
