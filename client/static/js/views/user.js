@@ -15,11 +15,8 @@ PANDA.views.User = Backbone.View.extend({
         this.user.fetch({
             async: false,
             success: _.bind(function(model, response) {
-                this.datasets.search_meta(
-                    null,
-                    this.user.get("email"),
-                    1000,
-                    1,
+                this.datasets.fetch({
+                    data: { 'creater_email': this.user.get("email") },
                     _.bind(function(model, response) {
                         this.render();
                     }, this),
@@ -30,7 +27,7 @@ PANDA.views.User = Backbone.View.extend({
                             Redd.goto_server_error();
                         }
                     }, this)
-                );
+                });
             }, this),
             error: _.bind(function(model, response) {
                 if (response.status == 404) {

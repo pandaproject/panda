@@ -103,6 +103,7 @@ class DatasetResource(SluggedModelResource):
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
         category_slug = request.GET.get('category', None)
+        creator_email = request.GET.get('creator_email', None)
         query = request.GET.get('q', '')
         simple = True if request.GET.get('simple', 'false').lower() == 'true' else False
 
@@ -120,12 +121,18 @@ class DatasetResource(SluggedModelResource):
         else:
             q = query
 
-        response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='creation_date desc')
-        dataset_slugs = [d['slug'] for d in response['response']['docs']]
+        if creator_email:
+            datasets = Dataset.objects.filter(creator__email=creator_email)
+            count = datasets.count()
+            datasets = datasets[offset:offset + limit]
+        else:
+            response = solr.query(settings.SOLR_DATASETS_CORE, q, offset=offset, limit=limit, sort='creation_date desc')
+            count = response['response']['numFound']
+            
+            dataset_slugs = [d['slug'] for d in response['response']['docs']]
+            datasets = Dataset.objects.filter(slug__in=dataset_slugs)
 
-        datasets = Dataset.objects.filter(slug__in=dataset_slugs)
-
-        paginator = PandaPaginator(request.GET, datasets, resource_uri=request.path_info, count=response['response']['numFound'])
+        paginator = PandaPaginator(request.GET, datasets, resource_uri=request.path_info, count=count)
         page = paginator.page()
 
         objects = []
