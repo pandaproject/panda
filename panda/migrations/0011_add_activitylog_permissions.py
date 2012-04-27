@@ -7,10 +7,13 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        perm = orm['auth.permission'].objects.get(codename='add_activitylog')
-        group = orm['auth.group'].objects.get(name='panda_user')
+        try:
+            perm = orm['auth.permission'].objects.get(codename='add_activitylog')
+            group = orm['auth.group'].objects.get(name='panda_user')
 
-        group.permissions.add(perm)
+            group.permissions.add(perm)
+        except:
+            pass
 
     def backwards(self, orm):
         perm = orm['auth.permission'].objects.get(codename='add_activitylog')

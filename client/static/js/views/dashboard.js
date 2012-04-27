@@ -32,9 +32,11 @@ PANDA.views.Dashboard = Backbone.View.extend({
                 color: "rgb(255, 0, 0)"
             },
             xaxis: {
+                min: 0,
                 ticks: window.DASHBOARD.search_ticks
             },
             yaxis: {
+                min: 0,
                 minTickSize: 1,
                 tickDecimals: 0
             },
@@ -53,9 +55,11 @@ PANDA.views.Dashboard = Backbone.View.extend({
                 color: "rgb(255, 0, 0)"
             },
             xaxis: {
+                min: 0,
                 ticks: window.DASHBOARD.user_ticks
             },
             yaxis: {
+                min: 0,
                 minTickSize: 1,
                 tickDecimals: 0
             },
