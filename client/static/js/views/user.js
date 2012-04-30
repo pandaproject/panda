@@ -16,11 +16,15 @@ PANDA.views.User = Backbone.View.extend({
             async: false,
             success: _.bind(function(model, response) {
                 this.datasets.fetch({
-                    data: { 'creater_email': this.user.get("email") },
-                    _.bind(function(model, response) {
+                    data: {
+                        creater_email: this.user.get("email"),
+                        simple: true,
+                        limit: 1000
+                    },
+                    success: _.bind(function(model, response) {
                         this.render();
                     }, this),
-                    _.bind(function(model, response) {
+                    error: _.bind(function(model, response) {
                         if (response.status == 404) {
                             Redd.goto_not_found(); 
                         } else {
