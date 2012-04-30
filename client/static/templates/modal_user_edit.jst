@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>Edit</h3>
+</div>
+<div class="modal-body">
+    <form id="edit-user-form" class="form-stacked">
+        <div class="alert-message"></div>
+
+        <div class="control-group">
+            <label for="user-first-name">First name</label>
+            <input class="span5" id="user-first-name" name="first-name" size="30" type="text" value="<%= user.first_name %>" maxlength="256" />
+            <span class="help-inline"></span>
+        </div>
+
+        <div class="control-group">
+            <label for="user-first-name">Last name</label>
+            <input class="span5" id="user-last-name" name="last-name" size="30" type="text" value="<%= user.last_name %>" maxlength="256" />
+            <span class="help-inline"></span>
+        </div>
+
+        <div class="control-group">
+            <label for="user-email">Email</label>
+            <textarea class="span6" id="user-email" name="email"><%= user.email %></textarea>
+            <span class="help-inline"></span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="#" id="user-edit-save" class="btn btn-primary" data-dismiss="modal">Save</a>
+</div>

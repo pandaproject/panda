@@ -58,6 +58,7 @@ def make_user_login_response(user):
     notifications = [nr.full_dehydrate(b) for b in bundles]
 
     return {
+        'id': user.id,
         'email': user.email,
         'api_key': user.api_key.key,
         'is_staff': user.is_staff,

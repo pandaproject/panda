@@ -72,12 +72,14 @@ PANDA.views.Root = Backbone.View.extend({
             return true;
         }
 
+        var id = $.cookie("id");
         var email = $.cookie("email");
         var api_key = $.cookie("api_key");
         var is_staff = $.cookie("is_staff") === "true" ? true : false;
 
         if (email && api_key) {
             this.set_current_user(new PANDA.models.User({
+                "id": id,
                 "email": email,
                 "api_key": api_key,
                 "is_staff": is_staff
@@ -108,10 +110,12 @@ PANDA.views.Root = Backbone.View.extend({
         this._current_user = user;
 
         if (this._current_user) {
+            $.cookie("id", this._current_user.get("id"));
             $.cookie("email", this._current_user.get("email"));
             $.cookie("api_key", this._current_user.get("api_key"));
             $.cookie("is_staff", this._current_user.get("is_staff").toString());
         } else {
+            $.cookie("id", null);
             $.cookie("email", null);
             $.cookie("api_key", null);
             $.cookie("is_staff", null);
@@ -218,6 +222,7 @@ PANDA.views.Root = Backbone.View.extend({
             $("body").css("background-color", "#fff");
 
             $("#navbar-email a").text(this._current_user.get("email"));
+            $("#navbar-email a").attr("href", "#user/" + this._current_user.get("id"));
 
             // Categories
             $("#navbar-categories .dropdown-menu").empty();

@@ -4,8 +4,12 @@ PANDA.views.User = Backbone.View.extend({
     user: null,
     datasets: null,
 
+    edit_view: null,
+
     initialize: function(options) {
         _.bindAll(this);
+        
+        this.edit_view = new PANDA.views.UserEdit();
     },
 
     reset: function(id) {
@@ -32,6 +36,8 @@ PANDA.views.User = Backbone.View.extend({
                         }
                     }, this)
                 });
+
+                this.edit_view.set_user(this.user);
             }, this),
             error: _.bind(function(model, response) {
                 if (response.status == 404) {
@@ -44,12 +50,24 @@ PANDA.views.User = Backbone.View.extend({
     },
 
     render: function() {
+        // Nuke old modals
+        $("#modal-edit-user").remove();
+
         var context = PANDA.utils.make_context({
             user: this.user.toJSON(),
-            datasets: this.datasets.results()
+            datasets: this.datasets.results(),
+            current_user: Redd.get_current_user().toJSON() 
         });
 
         this.el.html(PANDA.templates.user(context));
+
+        this.edit_view.el = $("#modal-edit-user");
+        $("#user-edit").click(this.edit);
+    },
+
+    edit: function() {
+        this.edit_view.render();
+        $("#modal-edit-user").modal("show");
     }
 });
 

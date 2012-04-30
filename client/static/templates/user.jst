@@ -1,9 +1,16 @@
 <h1><%= user.first_name %> <%= user.last_name %></h1>
 <p><a href="mailto:<%= user.email %>"><%= user.email %></a></p>
 
-<h3>Datasets created by this user</h3> 
+<% if (user.email == current_user.email) { %>
+<p><a id="user-edit" href="#" class="btn" onclick="return false;">Edit profile</a> <a id="user-change-password" href="#" class="btn" onclick="return false;">Change password</a></p>
+<% } %>
+
+<h3><% if (user.email == current_user.email) { %>My datasets<% } else { %>Datasets created by this user<% } %></h3> 
 <ul>
     <% _.each(datasets.datasets, function(dataset) { %>
     <li><a href="#dataset/<%= dataset.slug %>"><%= dataset.name %></a></li>
     <% }); %>
 </ul>
+
+<div id="modal-edit-user" class="modal hide fade">
+</div>
