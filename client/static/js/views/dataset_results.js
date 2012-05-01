@@ -17,6 +17,9 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         if (!this.search.query) {
             return;
         }
+        
+        // Nuke old modals
+        $("#modal-export-search-results").remove();
 
         var context = PANDA.utils.make_context(this.dataset.data.meta);
 
@@ -29,5 +32,22 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         context["pager"] = PANDA.templates.inline_pager(context);
 
         this.el.html(PANDA.templates.dataset_results(context));
+
+         $("#search-results-export").click(this.export_results);
+    },
+    
+    export_results: function() {
+        /*
+         * Export complete dataset to CSV asynchronously.
+         */
+        this.dataset.export_data(
+            this.search.make_solr_query(),
+            function() {
+                bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+            },
+            function(error) {
+                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            }
+        );
     }
 });

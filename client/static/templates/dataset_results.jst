@@ -12,6 +12,8 @@
 
     <% } else { %>
 
+        <p><a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export search results to CSV</a></p>
+
         <%= pager %>
 
         <table class="table table-striped table-bordered table-condensed">
@@ -40,3 +42,16 @@
     </div>
 </div>
 
+<div id="modal-export-search-results" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Are you sure you want to export this search?</h3>
+    </div>
+    <div class="modal-body">
+        This may take a long time to complete. You will be notified by email when it is finished.
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" id="search-results-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
+    </div>
+</div>

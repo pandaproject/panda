@@ -217,11 +217,15 @@ PANDA.views.DatasetView = Backbone.View.extend({
         /*
          * Export complete dataset to CSV asynchronously.
          */
-        this.dataset.export_data(function() {
-            bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
-        }, function(error) {
-            bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
-        });
+        this.dataset.export_data(
+            null,
+            function() {
+                bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+            },
+            function(error) {
+                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            }
+        );
     },
 
     destroy: function() {

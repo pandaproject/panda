@@ -310,7 +310,7 @@ class DatasetResource(SluggedModelResource):
         dataset = Dataset.objects.get(slug=slug)
 
         try:
-            dataset.export_data(request.user)
+            dataset.export_data(request.user, query=request.GET.get('q', None))
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
