@@ -47,12 +47,12 @@ PANDA.views.UserEdit = Backbone.View.extend({
         
         var form_values = $("#edit-user-form").serializeObject();
 
-        this.user.patch(s, 
-            _.bind(function(response) {
+        this.user.save(form_values, { 
+            success: _.bind(function(response) {
                 $("#modal-edit-user").modal("hide");
                 Redd.goto_user_view(this.user.get("id"));
             }, this),
-            function(model, response) {
+            error: function(model, response) {
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
@@ -60,7 +60,8 @@ PANDA.views.UserEdit = Backbone.View.extend({
                 }
 
                 $("#edit-user-form").show_errors(errors, "Save failed!");
-            });
+            }
+        });
 
         return false;
     }

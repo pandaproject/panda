@@ -125,3 +125,69 @@ class TestAPIUser(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_update_as_user(self):
+        update_user = {
+            'email': 'tester@tester.com',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
+        }
+
+        before_user = self.user
+
+        response = self.client.put('/api/1.0/user/%i/' % self.user.id, content_type='application/json', data=json.dumps(update_user), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+
+        after_user = User.objects.get(id=self.user.id)
+
+        self.assertEqual(after_user.email, 'tester@tester.com')
+        self.assertEqual(after_user.first_name, 'Testy')
+        self.assertEqual(after_user.last_name, 'McTester')
+        self.assertEqual(before_user.date_joined, after_user.date_joined)
+        self.assertEqual(before_user.is_active, after_user.is_active)
+        self.assertEqual(before_user.last_login, after_user.last_login)
+
+    def test_update_as_different_user(self):
+        new_user = {
+            'email': 'tester@tester.com',
+            'password': 'test',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
+        }
+
+        response = self.client.post('/api/1.0/user/', content_type='application/json', data=json.dumps(new_user), **utils.get_auth_headers('panda@pandaproject.net'))
+
+        self.assertEqual(response.status_code, 201)
+
+        update_user = {
+            'email': 'foo@bar.com',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
+        }
+
+        response = self.client.put('/api/1.0/user/%i/' % self.user.id, content_type='application/json', data=json.dumps(update_user), **utils.get_auth_headers('tester@tester.com'))
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_update_as_admin(self):
+        update_user = {
+            'email': 'tester@tester.com',
+            'first_name': 'Testy',
+            'last_name': 'McTester'
+        }
+
+        before_user = self.user
+
+        response = self.client.put('/api/1.0/user/%i/' % self.user.id, content_type='application/json', data=json.dumps(update_user), **utils.get_auth_headers('panda@pandaproject.net'))
+
+        self.assertEqual(response.status_code, 202)
+
+        after_user = User.objects.get(id=self.user.id)
+
+        self.assertEqual(after_user.email, 'tester@tester.com')
+        self.assertEqual(after_user.first_name, 'Testy')
+        self.assertEqual(after_user.last_name, 'McTester')
+        self.assertEqual(before_user.date_joined, after_user.date_joined)
+        self.assertEqual(before_user.is_active, after_user.is_active)
+        self.assertEqual(before_user.last_login, after_user.last_login)
+
