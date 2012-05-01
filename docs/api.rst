@@ -532,6 +532,15 @@ List filtered by category
 
     http://localhost:8000/api/1.0/dataset/?category=[slug]
 
+List filtered by user
+---------------------
+
+A shortcut is provided for listing datasets created by a specific user. Simply pass the ``creator_email`` parameter. Note that this paramter can not be combined with a search query or other filter.
+
+::
+
+    http://localhost:8000/api/1.0/dataset/?creator_email=[email]
+
 Search for datasets
 -------------------
 
