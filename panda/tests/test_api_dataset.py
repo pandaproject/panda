@@ -594,4 +594,23 @@ class TestAPIDataset(TransactionTestCase):
 
         with self.assertRaises(Dataset.DoesNotExist):
             Dataset.objects.get(id=dataset_id)
-        
+
+    def test_creator_email_filter(self):
+        response = self.client.get('/api/1.0/dataset/', data={ 'creator_email': self.user.email }, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(len(body['objects']), 1)
+        self.assertEqual(body['meta']['total_count'], 1)
+
+        response = self.client.get('/api/1.0/dataset/', data={ 'creator_email': utils.get_admin_user().email }, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        self.assertEqual(len(body['objects']), 0)
+        self.assertEqual(body['meta']['total_count'], 0)
+

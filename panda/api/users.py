@@ -121,7 +121,7 @@ class UserResource(PandaModelResource):
                 raise NotFound("A model instance matching the provided arguments could not be found.")
 
         # CHECK AUTHORIZATION 
-        if not request.user.is_superuser and bundle.obj.id != request.user.id:
+        if request and not request.user.is_superuser and bundle.obj.id != request.user.id:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
         bundle = self.full_hydrate(bundle)
