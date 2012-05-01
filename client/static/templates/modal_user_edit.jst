@@ -8,19 +8,19 @@
 
         <div class="control-group">
             <label for="user-first-name">First name</label>
-            <input class="span5" id="user-first-name" name="first_name" size="30" type="text" value="<%= user.first_name %>" maxlength="256" />
+            <input class="span2" id="user-first-name" name="first_name" type="text" value="<%= user.first_name %>" maxlength="30" />
             <span class="help-inline"></span>
         </div>
 
         <div class="control-group">
             <label for="user-first-name">Last name</label>
-            <input class="span5" id="user-last-name" name="last_name" size="30" type="text" value="<%= user.last_name %>" maxlength="256" />
+            <input class="span2" id="user-last-name" name="last_name" type="text" value="<%= user.last_name %>" maxlength="30" />
             <span class="help-inline"></span>
         </div>
 
         <div class="control-group">
             <label for="user-email">Email</label>
-            <textarea class="span6" id="user-email" name="email"><%= user.email %></textarea>
+            <input class="span4" id="user-email" name="email" value="<%= user.email %>" />
             <span class="help-inline"></span>
         </div>
     </form>

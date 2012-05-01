@@ -120,7 +120,7 @@ class UserResource(PandaModelResource):
             except ObjectDoesNotExist:
                 raise NotFound("A model instance matching the provided arguments could not be found.")
 
-        # CUSTOM
+        # CHECK AUTHORIZATION 
         if not request.user.is_superuser and bundle.obj.id != request.user.id:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
@@ -129,6 +129,13 @@ class UserResource(PandaModelResource):
 
         if bundle.errors and not skip_errors:
             self.error_response(bundle.errors, request)
+
+        # SET USERNAME FROM EMAIL
+        bundle.obj.username = bundle.obj.email
+
+        # SET PASSWORD
+        if 'password' in bundle.data:
+            bundle.obj.set_password(bundle.data.get('password'))
 
         # Save FKs just in case.
         self.save_related(bundle)

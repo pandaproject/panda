@@ -141,11 +141,13 @@ class TestAPIUser(TransactionTestCase):
         after_user = User.objects.get(id=self.user.id)
 
         self.assertEqual(after_user.email, 'tester@tester.com')
+        self.assertEqual(after_user.username, 'tester@tester.com')
         self.assertEqual(after_user.first_name, 'Testy')
         self.assertEqual(after_user.last_name, 'McTester')
         self.assertEqual(before_user.date_joined, after_user.date_joined)
         self.assertEqual(before_user.is_active, after_user.is_active)
         self.assertEqual(before_user.last_login, after_user.last_login)
+        self.assertEqual(before_user.password, after_user.password)
 
     def test_update_as_different_user(self):
         new_user = {
@@ -185,9 +187,37 @@ class TestAPIUser(TransactionTestCase):
         after_user = User.objects.get(id=self.user.id)
 
         self.assertEqual(after_user.email, 'tester@tester.com')
+        self.assertEqual(after_user.username, 'tester@tester.com')
         self.assertEqual(after_user.first_name, 'Testy')
         self.assertEqual(after_user.last_name, 'McTester')
         self.assertEqual(before_user.date_joined, after_user.date_joined)
         self.assertEqual(before_user.is_active, after_user.is_active)
         self.assertEqual(before_user.last_login, after_user.last_login)
+        self.assertEqual(before_user.password, after_user.password)
+
+    def test_change_password(self):
+        update_user = {
+            'email': 'tester@tester.com',
+            'first_name': 'Testy',
+            'last_name': 'McTester',
+            'password': 'foobarbaz'
+        }
+
+        before_user = self.user
+
+        response = self.client.put('/api/1.0/user/%i/' % self.user.id, content_type='application/json', data=json.dumps(update_user), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 202)
+
+        after_user = User.objects.get(id=self.user.id)
+
+        self.assertEqual(after_user.email, 'tester@tester.com')
+        self.assertEqual(after_user.username, 'tester@tester.com')
+        self.assertEqual(after_user.first_name, 'Testy')
+        self.assertEqual(after_user.last_name, 'McTester')
+        self.assertEqual(before_user.date_joined, after_user.date_joined)
+        self.assertEqual(before_user.is_active, after_user.is_active)
+        self.assertEqual(before_user.last_login, after_user.last_login)
+        self.assertNotEqual(before_user.password, after_user.password)
+        self.assertNotEqual(after_user.password, 'foobarbaz')
 
