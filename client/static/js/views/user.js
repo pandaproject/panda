@@ -5,11 +5,13 @@ PANDA.views.User = Backbone.View.extend({
     datasets: null,
 
     edit_view: null,
+    change_password_view: null,
 
     initialize: function(options) {
         _.bindAll(this);
         
         this.edit_view = new PANDA.views.UserEdit();
+        this.change_password_view = new PANDA.views.UserChangePassword();
     },
 
     reset: function(id) {
@@ -38,6 +40,7 @@ PANDA.views.User = Backbone.View.extend({
                 });
 
                 this.edit_view.set_user(this.user);
+                this.change_password_view.set_user(this.user);
             }, this),
             error: _.bind(function(model, response) {
                 if (response.status == 404) {
@@ -63,11 +66,19 @@ PANDA.views.User = Backbone.View.extend({
 
         this.edit_view.el = $("#modal-edit-user");
         $("#user-edit").click(this.edit);
+        
+        this.change_password_view.el = $("#modal-user-change-password");
+        $("#user-change-password").click(this.change_password);
     },
 
     edit: function() {
         this.edit_view.render();
         $("#modal-edit-user").modal("show");
+    },
+
+    change_password: function() {
+        this.change_password_view.render();
+        $("#modal-user-change-password").modal("show");
     }
 });
 
