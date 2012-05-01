@@ -22,7 +22,7 @@ class ExportCSVTask(ExportFileTask):
     """
     name = 'panda.tasks.export.csv'
 
-    def run(self, dataset_slug, filename=None, *args, **kwargs):
+    def run(self, dataset_slug, query=None, filename=None, *args, **kwargs):
         """
         Execute export.
         """
@@ -51,10 +51,15 @@ class ExportCSVTask(ExportFileTask):
 
         # Header
         writer.writerow([c['name'] for c in dataset.column_schema])
-        
+
+        solr_query = 'dataset_slug:%s' % dataset_slug
+
+        if query:
+            solr_query = '%s %s' % (solr_query, query)
+
         response = solr.query(
             settings.SOLR_DATA_CORE,
-            'dataset_slug:%s' % dataset_slug,
+            solr_query,
             offset=0,
             limit=0
         )
@@ -66,7 +71,7 @@ class ExportCSVTask(ExportFileTask):
         while n < total_count:
             response = solr.query(
                 settings.SOLR_DATA_CORE,
-                'dataset_slug:%s' % dataset_slug,
+                solr_query,
                 offset=n,
                 limit=SOLR_PAGE_SIZE
             )

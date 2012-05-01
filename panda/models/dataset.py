@@ -237,7 +237,7 @@ class Dataset(SluggedModel):
             self.unlock()
             raise
 
-    def export_data(self, user, filename=None):
+    def export_data(self, user, query=None, filename=None):
         """
         Execute the data export task for this ``Dataset``.
         """
@@ -251,7 +251,7 @@ class Dataset(SluggedModel):
 
             task_type.apply_async(
                 args=[self.slug],
-                kwargs={ 'filename': filename },
+                kwargs={ 'query': query, 'filename': filename },
                 task_id=self.current_task.id
             )
         except:

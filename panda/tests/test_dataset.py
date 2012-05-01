@@ -456,7 +456,7 @@ class TestDataset(TransactionTestCase):
     def test_export_csv(self):
         self.dataset.import_data(self.user, self.upload)
 
-        self.dataset.export_data(self.user, 'test_export.csv')
+        self.dataset.export_data(self.user, filename='test_export.csv')
 
         task = self.dataset.current_task
 
@@ -481,6 +481,35 @@ class TestDataset(TransactionTestCase):
             exported_csv = f.read()
 
         self.assertEqual(imported_csv, exported_csv)
+
+    def test_export_query_csv(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        self.dataset.export_data(self.user, query='tribune', filename='test_export.csv')
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertNotEqual(task.id, None)
+        self.assertEqual(task.task_name, 'panda.tasks.export.csv')
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        task = TaskStatus.objects.get(id=task.id)
+
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
+
+        with open(os.path.join(settings.EXPORT_ROOT, 'test_export.csv')) as f:
+            self.assertEqual('id,first_name,last_name,employer\n', f.next())
+            self.assertEqual('1,Brian,Boyer,Chicago Tribune\n', f.next())
+            self.assertEqual('2,Joseph,Germuska,Chicago Tribune\n', f.next())
+            
+            with self.assertRaises(StopIteration):
+                f.next()
 
     def test_reindex(self):
         self.dataset.import_data(self.user, self.upload)
