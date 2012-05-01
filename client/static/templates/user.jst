@@ -2,7 +2,7 @@
 <p><a href="mailto:<%= user.email %>"><%= user.email %></a></p>
 
 <% if (user.email == current_user.email) { %>
-<p><a id="user-edit" href="#" class="btn" onclick="return false;">Edit profile</a> <a id="user-change-password" href="#" class="btn" onclick="return false;">Change password</a></p>
+<p><a id="user-edit" href="#" class="btn" onclick="return false;">Edit my profile</a> <a id="user-change-password" href="#" class="btn" onclick="return false;">Change password</a></p>
 <% } %>
 
 <h3><% if (user.email == current_user.email) { %>My datasets<% } else { %>Datasets created by this user<% } %></h3> 

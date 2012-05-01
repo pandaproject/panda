@@ -50,6 +50,8 @@ PANDA.views.UserEdit = Backbone.View.extend({
         this.user.save(form_values, { 
             success: _.bind(function(response) {
                 $("#modal-edit-user").modal("hide");
+                Redd.get_current_user().set({ "email": this.user.get("email") });
+                Redd.set_current_user(Redd.get_current_user());
                 Redd.goto_user(this.user.get("id"));
             }, this),
             error: function(model, response) {
