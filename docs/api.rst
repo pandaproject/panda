@@ -18,7 +18,11 @@ Unless otherwise specified, all endpoints that return lists support the ``limit`
 Users
 =====
 
-User objects can be queried to retrieve information about PANDA users, however, passwords and API keys are not included in responses.
+User objects can be queried to retrieve information about PANDA users. Passwords and API keys are not included in responses.
+
+.. warning::
+
+    If accessing the API with normal user credentials you will only be allowed to fetch/list users and to update your own data. Superusers can update any user, as well as delete existing users and create new ones. 
 
 Example User object:
 
