@@ -13,8 +13,8 @@ class NotificationResource(PandaModelResource):
     from panda.api.datasets import DatasetResource
     from panda.api.tasks import TaskResource
 
-    related_dataset = fields.ForeignKey(DatasetResource, 'related_dataset')
-    related_task = fields.ToOneField(TaskResource, 'related_task')
+    related_dataset = fields.ForeignKey(DatasetResource, 'related_dataset', null=True)
+    related_task = fields.ToOneField(TaskResource, 'related_task', null=True)
 
     class Meta:
         queryset = Notification.objects.all()

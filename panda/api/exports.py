@@ -19,7 +19,7 @@ class ExportResource(PandaModelResource):
     from panda.api.users import UserResource
 
     creator = fields.ForeignKey(UserResource, 'creator')
-    dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset')
+    dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True)
 
     class Meta:
         queryset = Export.objects.all()
