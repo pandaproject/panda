@@ -31,13 +31,14 @@ class ExportFileTask(AbortableTask):
         from panda.models import Dataset
 
         dataset = Dataset.objects.get(slug=args[0])
+        query = kwargs.get('query', None)
 
         try:
-            self.send_notifications(dataset, retval, einfo) 
+            self.send_notifications(dataset, query, retval, einfo) 
         finally:
             dataset.unlock()
 
-    def send_notifications(self, dataset, retval, einfo):
+    def send_notifications(self, dataset, query, retval, einfo):
         """
         Send user notifications this task has finished.
         """
@@ -51,9 +52,15 @@ class ExportFileTask(AbortableTask):
 
             task_status.exception('Export failed', error_detail)
             
-            email_subject = 'Export failed: %s' % dataset_name
-            email_message = 'Export failed: %s:\n%s' % (dataset_name, error_detail)
-            notification_message = 'Export failed: <strong>%s</strong>' % dataset_name
+            if query:
+                email_subject = 'Export failed: "%s" in %s' % (query, dataset_name)
+                email_message = 'Export failed: "%s" in %s:\n%s' % (query, dataset_name, error_detail)
+                notification_message = 'Export failed: <strong>"%s" in %s</strong>' % (query, dataset_name)
+            else:
+                email_subject = 'Export failed: %s' % dataset_name
+                email_message = 'Export failed: %s:\n%s' % (dataset_name, error_detail)
+                notification_message = 'Export failed: <strong>%s</strong>' % dataset_name
+
             notification_type = 'Error'
         else:
             task_status.complete('Export complete')
@@ -66,9 +73,15 @@ class ExportFileTask(AbortableTask):
                 creation_date=task_status.start,
                 dataset=dataset)
             
-            email_subject = 'Export complete: %s' % dataset_name
-            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
-            notification_message = 'Export complete: <strong>%s</strong>' % dataset_name
+            if query:
+                email_subject = 'Export complete: "%s" in %s' % (query, dataset_name)
+                email_message = 'Export complete: "%s" in %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (query, dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+                notification_message = 'Export complete: <strong>"%s" in %s</strong>' % (query, dataset_name)
+            else:
+                email_subject = 'Export complete: %s' % dataset_name
+                email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+                notification_message = 'Export complete: <strong>%s</strong>' % dataset_name
+
             notification_type = 'Info'
 
         if task_status.creator:
