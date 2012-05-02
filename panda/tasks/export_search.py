@@ -71,7 +71,7 @@ class ExportSearchTask(AbortableTask):
 
             datasets[dataset_slug] = count
 
-        n = 0
+        total_n = 0
         throttle = config_value('PERF', 'TASK_THROTTLE')
 
         for dataset_slug in datasets:
@@ -97,10 +97,12 @@ class ExportSearchTask(AbortableTask):
             datasets[dataset_slug] = response['response']['numFound']
             total_count = sum(datasets.values())
 
+            n = 0
+
             while n < datasets[dataset_slug]:
                 response = solr.query(
                     settings.SOLR_DATA_CORE,
-                    query,
+                    'dataset_slug: %s %s' % (dataset_slug, query),
                     offset=n,
                     limit=SOLR_PAGE_SIZE
                 )
@@ -112,16 +114,17 @@ class ExportSearchTask(AbortableTask):
 
                     writer.writerow(data)
 
-                task_status.update('%.0f%% complete' % floor(float(n) / float(total_count) * 100))
+                task_status.update('%.0f%% complete' % floor(float(total_n) / float(total_count) * 100))
 
                 if self.is_aborted():
-                    task_status.abort('Aborted after exporting %.0f%%' % floor(float(n) / float(total_count) * 100))
+                    task_status.abort('Aborted after exporting %.0f%%' % floor(float(total_n) / float(total_count) * 100))
 
-                    log.warning('Export aborted, dataset_slug: %s' % dataset_slug)
+                    log.warning('Export aborted, query: %s' % query)
 
                     return
 
                 n += SOLR_PAGE_SIZE
+                total_n += response['response']['numFound'] 
                 
                 time.sleep(throttle)
 

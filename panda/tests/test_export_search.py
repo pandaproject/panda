@@ -20,10 +20,12 @@ class TestExportSearch(TransactionTestCase):
 
         self.user = utils.get_panda_user()
         self.dataset = utils.get_test_dataset(self.user)
+        self.dataset2 = utils.get_test_dataset(self.user)
         self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
     def test_export_query_csv(self):
         self.dataset.import_data(self.user, self.upload)
+        self.dataset2.import_data(self.user, self.upload)
 
         task_type = ExportSearchTask
 
@@ -48,13 +50,16 @@ class TestExportSearch(TransactionTestCase):
 
         zipfile = ZipFile(os.path.join(settings.EXPORT_ROOT, 'test.zip'))
 
-        self.assertEqual(zipfile.namelist(), ['contributors.csv'])
+        expected_filenames = ['contributors.csv', 'contributors-2.csv']
 
-        with zipfile.open('contributors.csv') as f:
-            self.assertEqual('id,first_name,last_name,employer\n', f.next())
-            self.assertEqual('1,Brian,Boyer,Chicago Tribune\n', f.next())
-            self.assertEqual('2,Joseph,Germuska,Chicago Tribune\n', f.next())
-            
-            with self.assertRaises(StopIteration):
-                f.next()
+        self.assertEqual(set(zipfile.namelist()), set(expected_filenames))
+
+        for filename in expected_filenames:
+            with zipfile.open(filename) as f:
+                self.assertEqual('id,first_name,last_name,employer\n', f.next())
+                self.assertEqual('1,Brian,Boyer,Chicago Tribune\n', f.next())
+                self.assertEqual('2,Joseph,Germuska,Chicago Tribune\n', f.next())
+                
+                with self.assertRaises(StopIteration):
+                    f.next()
 
