@@ -17,7 +17,8 @@ from panda import solr
 from panda.api.datasets import DatasetResource
 from panda.exceptions import DatasetLockedError
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
-from panda.models import Dataset, SearchLog
+from panda.models import Dataset, SearchLog, TaskStatus
+from panda.tasks import ExportSearchTask
 
 class SolrObject(object):
     """
@@ -457,6 +458,27 @@ class DataResource(PandaResource):
         self.log_throttled_access(request)
 
         return self.create_response(request, page)
+
+    def search_export(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        query = request.GET.get('q', '')
+
+        task_type = ExportSearchTask
+
+        task = TaskStatus.objects.create(task_name=task_type.name, creator=request.user)
+
+        task_type.apply_async(
+            args=[query, task.id],
+            kwargs={},
+            task_id=task.id
+        )
+
+        self.log_throttled_access(request)
+
+        return self.create_response(request, 'Export queued.')
 
     def search_dataset_data(self, request, **kwargs):
         """
