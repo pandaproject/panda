@@ -37,7 +37,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.configure_navbar();
 
         $("#navbar-notifications .clear-unread").live("click", this.clear_unread_notifications);
-        $("#navbar-notifications .dropdown-menu li a").live("click", this.notification_clicked);
+        $("#navbar-notifications a.notification").live("click", this.notification_clicked);
 
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
@@ -246,7 +246,7 @@ PANDA.views.Root = Backbone.View.extend({
                 $("#navbar-notifications .count").addClass("badge-info");
 
                 this._current_user.notifications.each(function(note) {
-                    $("#navbar-notifications .dropdown-menu").append('<li><a href="#" onclick="return false;" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
+                    $("#navbar-notifications .dropdown-menu").append('<li><a href="#" onclick="return false;" class="notification" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
                 }, this);
             } else {
                 $("#navbar-notifications .count").removeClass("badge-info");
@@ -256,10 +256,10 @@ PANDA.views.Root = Backbone.View.extend({
             $("#navbar-notifications .dropdown-menu").append('<li class="divider"></li>');
 
             if (this._current_user.notifications.models.length > 0) {
-                $("#navbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear unread</a></li>');
+                $("#navbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear notifications</a></li>');
             }
 
-            $("#navbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View all notifications (TODO)\');">View all notifications</a></li>');
+            $("#navbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View previous notifications (TODO)\');">View all notifications</a></li>');
             
             $("#navbar-notifications .count").text(this._current_user.notifications.length);
 
