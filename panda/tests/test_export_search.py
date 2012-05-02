@@ -63,3 +63,32 @@ class TestExportSearch(TransactionTestCase):
                 with self.assertRaises(StopIteration):
                     f.next()
 
+        os.remove(os.path.join(settings.EXPORT_ROOT, 'test.zip'))
+
+    def test_export_query_no_results(self):
+        self.dataset.import_data(self.user, self.upload)
+        self.dataset2.import_data(self.user, self.upload)
+
+        task_type = ExportSearchTask
+
+        task = TaskStatus.objects.create(task_name=task_type.name, creator=self.user)
+
+        task_type.apply_async(
+            args=['foobar', task.id],
+            kwargs={ 'filename': 'test' },
+            task_id=task.id
+        )
+
+        # Refresh from database
+        task = TaskStatus.objects.get(id=task.id)
+
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+
+        self.assertEqual(os.path.exists(os.path.join(settings.EXPORT_ROOT, 'test.zip')), False)
+        self.assertEqual(os.path.exists(os.path.join(settings.EXPORT_ROOT, 'test')), False)
+
+        os.remove(os.path.join(settings.EXPORT_ROOT, 'test.zip'))
+
