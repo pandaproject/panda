@@ -1,6 +1,7 @@
 0.1.4
 -----
 
+* Fix unescaped quotes in searches breaking pagination. (#665)
 * Fix "Browse all datasets" link on homepage. (#662)
 * Fix major bug with how search filters are applied. (#661)
 * Export cross-dataset search results. (#657)
