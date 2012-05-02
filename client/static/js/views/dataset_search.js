@@ -223,13 +223,13 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             }
 
             if (v["operator"] == "is") {
-                q += " " + c["indexed_name"] + ':"' + v["value"] + '"';
+                q += " AND " + c["indexed_name"] + ':"' + v["value"] + '"';
             } else if (v["operator"] == "is_greater") {
-                q += " " + c["indexed_name"] + ":[" + v["value"] + " TO *]";
+                q += " AND " + c["indexed_name"] + ":[" + v["value"] + " TO *]";
             } else if (v["operator"] == "is_less") {
-                q += " " + c["indexed_name"] + ":[* TO " + v["value"] + "]";
+                q += " AND " + c["indexed_name"] + ":[* TO " + v["value"] + "]";
             } else if (v["operator"] == "is_range") {
-                q += " " + c["indexed_name"] + ":[" + v["value"] + " TO " + v["range_value"] + "]";
+                q += " AND " + c["indexed_name"] + ":[" + v["value"] + " TO " + v["range_value"] + "]";
             }
         }, this));
 
