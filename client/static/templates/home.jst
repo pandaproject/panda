@@ -7,7 +7,7 @@
             <p>Created <%= moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().fromNow() %></p>
         <% }); %>
         <% if (recent.meta.total_count > recent.datasets.length) { %>
-        <a href="#datasets">Browse all <%= recent.meta.total_count %> datasets &raquo;</a>
+        <a href="#datasets/all">Browse all <%= recent.meta.total_count %> datasets &raquo;</a>
         <% } %>
     </div>
     <div class="span6">
