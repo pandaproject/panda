@@ -155,6 +155,9 @@ def activate(request):
 
         user.save()
 
+        user_profile.activation_key = None
+        user_profile.save()
+
         # Success
         return JSONResponse(make_user_login_response(user))
     else:

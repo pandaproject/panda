@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User)
 
-    activation_key = models.CharField(max_length=40)
+    activation_key = models.CharField(max_length=40, null=True, blank=True)
 
     class Meta:
         app_label = 'panda'
