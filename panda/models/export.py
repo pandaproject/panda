@@ -11,7 +11,7 @@ class Export(BaseUpload):
     """
     from panda.models.dataset import Dataset
 
-    dataset = models.ForeignKey(Dataset, related_name='exports',
+    dataset = models.ForeignKey(Dataset, related_name='exports', null=True,
         help_text='The dataset this export is from.')
 
     file_root = settings.EXPORT_ROOT

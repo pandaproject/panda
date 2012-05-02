@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from panda.tasks.export_csv import ExportCSVTask
+from panda.tasks.export_search import ExportSearchTask
 from panda.tasks.import_csv import ImportCSVTask
 from panda.tasks.import_xls import ImportXLSTask
 from panda.tasks.import_xlsx import ImportXLSXTask
