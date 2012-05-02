@@ -36,7 +36,8 @@ PANDA.views.Root = Backbone.View.extend({
         // Configure the global navbar
         this.configure_navbar();
 
-        $("#navbar-notifications .clear-unread").live("click", _.bind(this.clear_unread_notifications, this));
+        $("#navbar-notifications .clear-unread").live("click", this.clear_unread_notifications);
+        $("#navbar-notifications .dropdown-menu li a").live("click", this.notification_clicked);
 
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
@@ -245,17 +246,8 @@ PANDA.views.Root = Backbone.View.extend({
                 $("#navbar-notifications .count").addClass("badge-info");
 
                 this._current_user.notifications.each(function(note) {
-                    var related_dataset = note.get("related_dataset");
-
-                    if (related_dataset) {
-                        var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
-                        var link = "#dataset/" + related_dataset.substring(slash + 1, related_dataset.length - 1);
-                        
-                        $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + unescape(note.get("message")) + '</a></li>');
-                    } else {
-                        $("#navbar-notifications .dropdown-menu").append('<li><a href="#" onclick="return false;">' + unescape(note.get("message")) + '</a></li>');
-                    }
-                });
+                    $("#navbar-notifications .dropdown-menu").append('<li><a href="#" onclick="return false;" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
+                }, this);
             } else {
                 $("#navbar-notifications .count").removeClass("badge-info");
                 $("#navbar-notifications .dropdown-menu").append('<li><a href="#">No new notifications</a></li>');
@@ -274,6 +266,32 @@ PANDA.views.Root = Backbone.View.extend({
             $("#navbar-admin").toggle(this._current_user.get("is_staff"));
             $(".navbar").show();
         }
+    },
+
+    notification_clicked: function(event) {
+        var anchor = $(event.target);
+
+        while (!anchor.is("a")) {
+            anchor = anchor.parent();
+        }
+
+        var note_id = anchor.data("notification-id");
+        var note = this._current_user.notifications.get(note_id);
+        var related_dataset = note.get("related_dataset");
+
+        if (related_dataset) {
+            var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
+            var slug = related_dataset.substring(slash + 1, related_dataset.length - 1);
+
+            this.goto_dataset_view(slug);
+        }
+
+        var now = moment().format("YYYY-MM-DDTHH:mm:ss");
+        note.save({ read_at: now });
+        this._current_user.notifications.remove(note);
+        this.configure_navbar(); 
+
+        return false;
     },
 
     refresh_categories: function() {
