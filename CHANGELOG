@@ -1,6 +1,7 @@
 0.1.4
 -----
 
+* Export cross-dataset search results. (#657)
 * Export single-dataset search results. (#641)
 * Users can now change their password. (#299)
 * Users can now update their email address. (#652)
