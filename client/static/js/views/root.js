@@ -250,11 +250,11 @@ PANDA.views.Root = Backbone.View.extend({
                     if (related_dataset) {
                         var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
                         var link = "#dataset/" + related_dataset.substring(slash + 1, related_dataset.length - 1);
+                        
+                        $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + unescape(note.get("message")) + '</a></li>');
                     } else {
-                        var link = "#";
+                        $("#navbar-notifications .dropdown-menu").append('<li><a href="#" onclick="return false;">' + unescape(note.get("message")) + '</a></li>');
                     }
-
-                    $("#navbar-notifications .dropdown-menu").append('<li><a href="' + link + '">' + unescape(note.get("message")) + '</a></li>');
                 });
             } else {
                 $("#navbar-notifications .count").removeClass("badge-info");
