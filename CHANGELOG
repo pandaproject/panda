@@ -1,10 +1,11 @@
 0.1.4
 -----
 
-Users can now change their password. (#299)
-Users can now update their email address. (#652)
-Users can now update their name. (#150)
-Per-user pages instead of email links. (#650)
+* Export single-dataset search results. (#641)
+* Users can now change their password. (#299)
+* Users can now update their email address. (#652)
+* Users can now update their name. (#150)
+* Per-user pages instead of email links. (#650)
 
 0.1.3
 -----
