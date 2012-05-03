@@ -1,6 +1,7 @@
 0.1.4
 -----
 
+* Pushing enter in a modal form now submits it. (#577)
 * Fix broken "expand search to all categories" link. (#673)
 * Improved usability of notifications. (#666)
 * Fix unescaped quotes in searches breaking pagination. (#665)
