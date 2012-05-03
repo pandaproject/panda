@@ -20,7 +20,13 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
         this.el.html(PANDA.templates.modal_dataset_edit(context));
 
-        $("#dataset-edit-save").click(this.edit_save);
+        $(".dataset-edit-save").click(this.edit_save);
+
+        $("#edit-dataset-form").keypress(_.bind(function(e) {
+            if (e.keyCode == 13 && e.target.type != "textarea") {
+                this.edit_save(); 
+            }
+        }, this));
     },
 
     validate: function() {
