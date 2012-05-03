@@ -5,14 +5,15 @@ PANDA.views.Search = Backbone.View.extend({
         "submit #search-form":      "search_event"
     },
 
-    collection:  new PANDA.collections.Datasets(),
+    datasets:  new PANDA.collections.Datasets(),
     query: null,
+    results: null,
     home_view: null,
 
     initialize: function() {
         _.bindAll(this);
 
-        this.results = new PANDA.views.SearchResults({ collection: this.collection, search: this });
+        this.results = new PANDA.views.SearchResults({ datasets: this.datasets, search: this });
         this.home_view = new PANDA.views.Home();
     },
 
@@ -48,7 +49,17 @@ PANDA.views.Search = Backbone.View.extend({
         this.query = query;
 
         if (this.query) {
-            this.collection.search(query, limit, page);
+            this.datasets.search(
+                query,
+                limit,
+                page,
+                _.bind(function(datasets) {
+                    this.results.render(); 
+                }, this),
+                function() {
+                    // TODO: error handler
+                }
+            );
         } else {
             this.render();
         }

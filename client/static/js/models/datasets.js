@@ -259,11 +259,9 @@ PANDA.models.Dataset = Backbone.Model.extend({
         });
     },
 
-    search: function(query, limit, page) {
+    search: function(query, limit, page, success_callback, error_callback) {
         /*
          * Query the dataset search endpoint.
-         *
-         * TODO -- success and error callbacks
          */
         if (limit) {
             this.data.meta.limit = limit;
@@ -283,7 +281,20 @@ PANDA.models.Dataset = Backbone.Model.extend({
             url: PANDA.API + "/dataset/" + this.get("slug") + "/data/",
             dataType: 'json',
             data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
-            success: _.bind(this.process_search_results, this)
+            success: _.bind(function(response) {
+                this.process_search_results(response);
+
+                if (success_callback) {
+                    success_callback(this); 
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                var error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(this, xhr.responseText);
+                }
+            }
         });
     },
 
@@ -324,11 +335,9 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         return response.objects;
     },
 
-    search: function(query, limit, page) {
+    search: function(query, limit, page, success_callback, error_callback) {
         /*
          * Query the data search endpoint.
-         *
-         * TODO -- success and error callbacks
          */
         if (limit) {
             this.meta.limit = limit;
@@ -349,18 +358,36 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             dataType: 'json',
             data: { q: query, limit: this.meta.limit, offset: this.meta.offset },
             success: _.bind(function(response) {
-                var objs = this.parse(response);
+                this.process_search_results(response); 
 
-                datasets = _.map(objs, function(obj) {
-                    d = new PANDA.models.Dataset();
-                    d.set(d.parse(obj));
+                if (success_callback) {
+                    success_callback(this); 
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                var error = JSON.parse(xhr.responseText);
 
-                    return d;
-                });
-
-                this.reset(datasets);
-            }, this)
+                if (error_callback) {
+                    error_callback(error);
+                }
+            }
         });
+    },
+
+    process_search_results: function(response) {
+        /*
+         * Process global search results from the server.
+         */
+        var objs = this.parse(response);
+
+        datasets = _.map(objs, function(obj) {
+            d = new PANDA.models.Dataset();
+            d.set(d.parse(obj));
+
+            return d;
+        });
+
+        this.reset(datasets);
     },
 
     search_meta: function(category, query, limit, page, success_callback, error_callback) {

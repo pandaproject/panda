@@ -137,7 +137,17 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.decode_query_string(query);
 
         this.render();
-        this.dataset.search(this.make_solr_query(), limit, page);
+        this.dataset.search(
+            this.make_solr_query(),
+            limit,
+            page,
+            _.bind(function(dataset) {
+                this.results.render();
+            }, this),
+            function() {
+                // TODO: error handler
+            }
+        );
     },
 
     encode_query_string: function() {

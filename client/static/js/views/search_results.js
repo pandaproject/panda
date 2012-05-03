@@ -1,23 +1,25 @@
 PANDA.views.SearchResults = Backbone.View.extend({
+    datasets: null,
+    search: null,
+
     initialize: function(options) {
         _.bindAll(this);
 
+        this.datasets = options.datasets; 
         this.search = options.search;
-
-        this.collection.bind("reset", this.render);
     },
 
     render: function() {
         // Nuke old modals
         $("#modal-export-search-results").remove();
 
-        var context = PANDA.utils.make_context(this.collection.meta);
+        var context = PANDA.utils.make_context(this.datasets.meta);
 
         context["query"] = this.search.query,
         context["root_url"] = "#search/" + this.search.query;
         context["pager_unit"] = "dataset";
         context["row_count"] = null;
-        context["datasets"] = this.collection.results();
+        context["datasets"] = this.datasets.results();
 
         context["pager"] = PANDA.templates.inline_pager(context);
 
