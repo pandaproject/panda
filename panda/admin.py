@@ -46,6 +46,7 @@ class PandaUserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(PandaUserCreationForm, self).save(commit=False)
+        user.username = user.username.lower()
         user.email = user.username
         user.is_active = False
 
@@ -69,6 +70,7 @@ class PandaUserChangeForm(UserChangeForm):
 
     def save(self, commit=True):
         user = super(PandaUserChangeForm, self).save(commit=False)
+        user.username = user.username.lower()
         user.email = user.username
 
         if commit:
