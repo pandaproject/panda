@@ -76,12 +76,12 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         }, this));
 
         this.dataset.patch(s, 
-            _.bind(function(response) {
+           function(dataset) {
                 $("#modal-edit-dataset").modal("hide");
-                Redd.goto_dataset_view(this.dataset.get("slug"));
+                Redd.goto_dataset_view(dataset.get("slug"));
                 Redd.refresh_categories();
-            }, this),
-            function(model, response) {
+            },
+            function(dataset, response) {
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
@@ -89,7 +89,8 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 }
 
                 $("#edit-dataset-form").show_errors(errors, "Save failed!");
-            });
+            }
+        );
 
         return false;
     }

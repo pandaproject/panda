@@ -17,19 +17,25 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     },
 
     reset: function(category, query, limit, page) {
+        /*
+         * Execute the search.
+         *
+         * TODO: error handler
+         */
         this.category = category;
         this.query = query;
 
         this.render();
-
-        // Bypass search if there are no query terms
-        if (category == "all" && !query) {
-            this.datasets.search_meta(null, query, limit, page);
-        } else if (category != "all") {
-            this.datasets.search_meta(category, query, limit, page);
-        } else {
-            this.datasets.search_meta(null, query, limit, page);
-        }
+        
+        this.datasets.search_meta(
+            (this.category == "all") ? null : this.category,
+            this.query,
+            limit,
+            page,
+            _.bind(function(datasets) {
+                this.results.render();
+            }, this)
+        );
     },
 
     render: function() {

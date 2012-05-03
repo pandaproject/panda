@@ -156,7 +156,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 error = JSON.parse(xhr.responseText);
 
                 if (error_callback) {
-                    error_callback(error);
+                    error_callback(this, error);
                 }
             }
         });
@@ -190,7 +190,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 error = JSON.parse(xhr.responseText);
 
                 if (error_callback) {
-                    error_callback(error);
+                    error_callback(this, error);
                 }
             }
         });
@@ -222,7 +222,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 var error = JSON.parse(xhr.responseText);
 
                 if (error_callback) {
-                    error_callback(error);
+                    error_callback(this, error);
                 }
             }
         });
@@ -248,7 +248,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 this.set(response);
 
                 if (success_callback) {
-                    success_callback(response);
+                    success_callback(this);
                 }
             }, this),
             error: _.bind(function(xhr, status, error) {
@@ -292,7 +292,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 var error = JSON.parse(xhr.responseText);
 
                 if (error_callback) {
-                    error_callback(this, xhr.responseText);
+                    error_callback(this, error);
                 }
             }
         });
@@ -368,7 +368,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
                 var error = JSON.parse(xhr.responseText);
 
                 if (error_callback) {
-                    error_callback(error);
+                    error_callback(this, error);
                 }
             }
         });
@@ -427,27 +427,33 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             dataType: "json",
             data: data,
             success: _.bind(function(response) {
-                var objs = this.parse(response);
-
-                datasets = _.map(objs, function(obj) {
-                    d = new PANDA.models.Dataset();
-                    d.set(d.parse(obj));
-
-                    return d;
-                });
-
-                this.reset(datasets);
+                this.process_search_meta_results(response);
 
                 if (success_callback) {
-                    success_callback(this, response);
+                    success_callback(this);
                 }
             }, this),
-            error: _.bind(function(xhr, status, error) {
+            error: function(xhr, textStatus) {
+                var error = JSON.parse(xhr.responseText);
+
                 if (error_callback) {
-                    error_callback(this, xhr.responseText);
+                    error_callback(this, error);
                 }
-            }, this)
+            }
         });
+    },
+
+    process_search_meta_results: function(response) {
+        var objs = this.parse(response);
+
+        datasets = _.map(objs, function(obj) {
+            d = new PANDA.models.Dataset();
+            d.set(d.parse(obj));
+
+            return d;
+        });
+
+        this.reset(datasets);
     },
 
     results: function() {

@@ -200,15 +200,16 @@ PANDA.views.DatasetView = Backbone.View.extend({
         this.dataset.reindex_data(
             typed_columns,
             column_types,
-            _.bind(function() {
+            function(dataset) {
                 bootbox.alert(
                     "Your data indexing task has been successfully queued. You wil receive an email when it is complete.",
-                    _.bind(function() {
-                        Redd.goto_dataset_view(this.dataset.get("slug"));
+                    function() {
+                        Redd.goto_dataset_view(dataset.get("slug"));
                         window.scrollTo(0, 0);
-                    }, this));
-            }, this),
-            function(error) {
+                    }
+                );
+            },
+            function(dataset, error) {
                 bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
             });
     },
@@ -219,10 +220,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
          */
         this.dataset.export_data(
             null,
-            function() {
+            function(dataset) {
                 bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
             },
-            function(error) {
+            function(dataset, error) {
                 bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
             }
         );
@@ -231,12 +232,16 @@ PANDA.views.DatasetView = Backbone.View.extend({
     destroy: function() {
         /*
          * Destroy this dataset.
+         *
+         * TODO: error handler
          */
-        this.dataset.destroy({ success: _.bind(function() {
-            this.dataset = null;
+        this.dataset.destroy({
+            success: _.bind(function() {
+                this.dataset = null;
 
-            Redd.goto_search();
-        }, this)});
+                Redd.goto_search();
+            }, this)
+        });
     }
 });
 

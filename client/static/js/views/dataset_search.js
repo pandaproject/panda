@@ -134,6 +134,11 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     },
 
     search: function(query, limit, page) {
+        /*
+         * Execute a search.
+         *
+         * TODO: error handler
+         */
         this.decode_query_string(query);
 
         this.render();
@@ -143,10 +148,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             page,
             _.bind(function(dataset) {
                 this.results.render();
-            }, this),
-            function() {
-                // TODO: error handler
-            }
+            }, this)
         );
     },
 

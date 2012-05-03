@@ -46,6 +46,11 @@ PANDA.views.Search = Backbone.View.extend({
     },
 
     search: function(query, limit, page) {
+        /*
+         * Execute cross-dataset search.
+         *
+         * TODO: error handler
+         */
         this.query = query;
 
         if (this.query) {
@@ -55,10 +60,7 @@ PANDA.views.Search = Backbone.View.extend({
                 page,
                 _.bind(function(datasets) {
                     this.results.render(); 
-                }, this),
-                function() {
-                    // TODO: error handler
-                }
+                }, this)
             );
         } else {
             this.render();

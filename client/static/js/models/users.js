@@ -17,6 +17,8 @@ PANDA.models.User = Backbone.Model.extend({
     refresh_notifications: function(success_callback) {
         /*
          * Refresh notifications list from the server.
+         *
+         * TODO: error callback
          */
         this.notifications.fetch({
             data: "read_at__isnull=True",
@@ -29,6 +31,7 @@ PANDA.models.User = Backbone.Model.extend({
          * Mark all notifications as read.
          *
          * TODO: bulk update
+         * TODO: error callback
          */
         var now = moment().format("YYYY-MM-DDTHH:mm:ss");
 
