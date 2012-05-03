@@ -14,15 +14,24 @@ PANDA.models.User = Backbone.Model.extend({
         }
     },
 
-    refresh_notifications: function(success_callback) {
+    refresh_notifications: function(success_callback, error_callback) {
         /*
          * Refresh notifications list from the server.
-         *
-         * TODO: error callback
          */
         this.notifications.fetch({
             data: "read_at__isnull=True",
-            success: success_callback
+            success: _.bind(function(response) {
+                if (success_callback) {
+                    success_callback(this);
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(this, error);
+                }
+            }
         });
     },
 
@@ -31,24 +40,15 @@ PANDA.models.User = Backbone.Model.extend({
          * Mark all notifications as read.
          *
          * TODO: bulk update
-         * TODO: error callback
          */
         var now = moment().format("YYYY-MM-DDTHH:mm:ss");
 
-        var count = this.notifications.length;
-        var marked = 0;
-
         this.notifications.each(function(note) {
-            note.set({ read_at: now });
-            note.save();
-
-            marked += 1;
-
-            if (marked == count) {
-                note.collection.reset();
-                success_callback();
-            }
+            note.save({ read_at: now }, { async: false });
         });
+
+        this.notifications.reset();
+        success_callback();
     }
 });
 
