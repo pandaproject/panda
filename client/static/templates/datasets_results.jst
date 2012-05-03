@@ -2,8 +2,8 @@
     <% if (datasets.length == 0) { %>
 
         <p>No matching datasets found.</p>
-        <% if (category) { %>
-        <p>Expand your search to <a href="#datasets/<%= query %>">all categories</a>?<p>
+        <% if (category != "all") { %>
+        <p>Expand your search to <a href="#datasets/all/<%= query %>">all categories</a>?<p>
         <% } %>
 
     <% } else { %>

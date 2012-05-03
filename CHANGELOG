@@ -1,6 +1,7 @@
 0.1.4
 -----
 
+* Fix broken "expand search to all categories" link. (#673)
 * Improved usability of notifications. (#666)
 * Fix unescaped quotes in searches breaking pagination. (#665)
 * Fix "Browse all datasets" link on homepage. (#662)
