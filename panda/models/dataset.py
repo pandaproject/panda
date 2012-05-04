@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from itertools import chain
+from urllib import unquote
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -115,8 +116,8 @@ class Dataset(SluggedModel):
         category_ids = []
 
         full_text_data = [
-            self.name,
-            self.description,
+            unquote(self.name),
+            unquote(self.description),
             '%s %s' % (self.creator.first_name, self.creator.last_name),
             self.creator.email
         ]
@@ -139,6 +140,8 @@ class Dataset(SluggedModel):
             full_text_data.extend([c['name'] for c in self.column_schema])
 
         full_text = '\n'.join(full_text_data)
+
+        print full_text
 
         solr.add(settings.SOLR_DATASETS_CORE, [{
             'slug': self.slug,
