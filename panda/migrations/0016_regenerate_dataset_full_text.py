@@ -4,11 +4,13 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+from panda.models import Dataset
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
         for dataset in orm.Dataset.objects.all():
-            dataset.update_full_text()
+            Dataset.update_full_text(dataset)
 
 
     def backwards(self, orm):
