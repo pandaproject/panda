@@ -41,7 +41,15 @@ PANDA.views.SearchResults = Backbone.View.extend({
             dataType: "json",
             data: data,
             success: _.bind(function(response) {
-                bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+                var note = "Your export has been successfully queued.";
+
+                if (PANDA.settings.EMAIL_ENABLED) {
+                    note += " When it is complete you will be emailed a link to download the file."
+                } else {
+                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                }
+
+                bootbox.alert(note);
             }, this),
             error: function(xhr, textStatus) {
                 error = JSON.parse(xhr.responseText);

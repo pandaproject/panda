@@ -43,7 +43,15 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         this.dataset.export_data(
             this.search.make_solr_query(),
             function() {
-                bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+                var note = "Your export has been successfully queued.";
+
+                if (PANDA.settings.EMAIL_ENABLED) {
+                    note += " When it is complete you will be emailed a link to download the file."
+                } else {
+                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                }
+
+                bootbox.alert(note);
             },
             function(error) {
                 bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");

@@ -201,8 +201,16 @@ PANDA.views.DatasetView = Backbone.View.extend({
             typed_columns,
             column_types,
             function(dataset) {
+                var note = "Your data indexing task has been successfully queued.";
+
+                if (PANDA.settings.EMAIL_ENABLED) {
+                    note += " You will receive an email when it is complete."
+                } else {
+                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when the task is complete."
+                }
+
                 bootbox.alert(
-                    "Your data indexing task has been successfully queued. You wil receive an email when it is complete.",
+                    note,
                     function() {
                         Redd.goto_dataset_view(dataset.get("slug"));
                         window.scrollTo(0, 0);
@@ -221,7 +229,15 @@ PANDA.views.DatasetView = Backbone.View.extend({
         this.dataset.export_data(
             null,
             function(dataset) {
-                bootbox.alert("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+                var note = "Your export has been successfully queued.";
+
+                if (PANDA.settings.EMAIL_ENABLED) {
+                    note += " When it is complete you will be emailed a link to download the file."
+                } else {
+                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                }
+
+                bootbox.alert(note);
             },
             function(dataset, error) {
                 bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
