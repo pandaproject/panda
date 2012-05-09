@@ -12,6 +12,7 @@ from django.db import models, transaction
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
 from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, TaskState, WorkerState
+from livesettings import config_value
 from tastypie.admin import ApiKeyInline
 
 from panda.models import Category, TaskStatus, UserProfile
@@ -213,6 +214,7 @@ class UserModelAdmin(UserAdmin):
             'inline_admin_formsets': inline_admin_formsets,
             'errors': helpers.AdminErrorList(form, formsets),
             'app_label': opts.app_label,
+            'email_enabled': config_value('EMAIL', 'EMAIL_ENABLED')
         }
         context.update(extra_context or {})
         return self.render_change_form(request, context, form_url=form_url, add=True)
