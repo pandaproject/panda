@@ -4,8 +4,10 @@ import random
 import sha
 
 from django.contrib.auth.models import Group, User
+from django.conf import settings
 from django.db import models
 from django.dispatch import receiver
+from django.utils.timezone import now
 from livesettings import config_value
 from tastypie.models import ApiKey
 
@@ -43,7 +45,8 @@ def on_user_post_save(sender, instance, created, **kwargs):
 
         user_profile = UserProfile.objects.create(
             user=instance,
-            activation_key=activation_key
+            activation_key=activation_key,
+            activation_key_expiration=now() + settings.PANDA_ACTIVATION_PERIOD 
         )
 
         email_subject = 'Welcome to PANDA, please activate your account!'

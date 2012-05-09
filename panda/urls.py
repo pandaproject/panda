@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^login%s$' % trailing_slash(), views.panda_login, name="login"),
     url(r'^check_activation_key/(?P<activation_key>[\w\d]+)%s$' % trailing_slash(), views.check_activation_key, name="check_activation_key"),
     url(r'^activate%s$' % trailing_slash(), views.activate, name="activate"),
+    url(r'^forgot_password%s$' % trailing_slash(), views.forgot_password, name="forgot_password"),
     url(r'^data_upload%s$' % trailing_slash(), views.data_upload, name="data_upload"),
     url(r'^related_upload%s$' % trailing_slash(), views.related_upload, name="related_upload"),
 

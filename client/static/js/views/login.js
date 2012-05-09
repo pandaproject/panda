@@ -17,11 +17,22 @@ PANDA.views.Login = Backbone.View.extend({
     },
 
     render: function() {
+        // Nuke old modals
+        $("#modal-forgot-password").remove();
+
         var email = $.cookie("email");
 
         var context = PANDA.utils.make_context({ email: email })
 
         this.el.html(PANDA.templates.login(context));
+
+        $("#send-forgot-password").click(this.send_forgot_password);
+
+        $("#forgot-password-form").keypress(_.bind(function(e) {
+            if (e.keyCode == 13 && e.target.type != "textarea") {
+                this.send_forgot_password(); 
+            }
+        }, this));
     },
 
     validate: function() {
@@ -77,6 +88,42 @@ PANDA.views.Login = Backbone.View.extend({
         });
 
         return false;
+    },
+
+    validate_forgot_password: function() {
+        var data = $("#forgot-password-form").serializeObject();
+        var errors = {};
+
+        if (!data["email"]) {
+            errors["email"] = ["Please enter your email."];
+        }
+
+        return errors;
+    },
+
+    send_forgot_password: function() {
+        var errors = this.validate_forgot_password();
+
+        if (!_.isEmpty(errors)) {
+            $("#forgot-password-form").show_errors(errors, "Error!");
+        
+            return false;
+        }
+
+        $.ajax({
+            url: '/forgot_password/',
+            dataType: 'json',
+            type: 'POST',
+            data: $("#forgot-password-form").serialize(),
+            success: _.bind(function(data, status, xhr) {
+                bootbox.alert("Email sent.");
+            }, this),
+            error: function(xhr, status, error) {
+                bootbox.alert(error);
+            }
+        });
+        
+        $("#modal-forgot-password").modal("hide");
     }
 });
 

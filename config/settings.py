@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import datetime
 import os
 
 import django
@@ -218,6 +219,7 @@ PANDA_DEFAULT_SEARCH_ROWS = 50
 PANDA_SNIFFER_MAX_SAMPLE_SIZE = 1024 * 100  # 100kb
 PANDA_SAMPLE_DATA_ROWS = 5
 PANDA_SCHEMA_SAMPLE_ROWS = 100
+PANDA_ACTIVATION_PERIOD = datetime.timedelta(days=30)
 
 PANDA_UNCATEGORIZED_ID = 0
 PANDA_UNCATEGORIZED_SLUG = 'uncategorized'

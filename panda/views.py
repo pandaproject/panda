@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
-from csvkit.exceptions import FieldSizeLimitError
+import random
+import sha
 
 from ajaxuploader.views import AjaxFileUploader
+from csvkit.exceptions import FieldSizeLimitError
+from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.utils.timezone import now
+from livesettings import config_value
 from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
 
@@ -13,6 +19,7 @@ from panda.api.users import UserValidation
 from panda.api.utils import PandaApiKeyAuthentication
 from panda.models import UserProfile
 from panda.storage import PANDADataUploadBackend, PANDARelatedUploadBackend
+from panda.utils.mail import send_mail
 
 class JSONResponse(HttpResponse):
     """
@@ -104,8 +111,8 @@ def check_activation_key(request, activation_key):
 
     user = user_profile.user 
 
-    if user.is_active:
-        return JSONResponse({ '__all__': 'User is already active' }, status=400)
+    if user_profile.activation_key_expiration <= now():
+        return JSONResponse({ '__all__': 'Expired activation key. Contact your administrator' }, status=400)
 
     return JSONResponse({
         'activation_key': user_profile.activation_key,
@@ -130,8 +137,8 @@ def activate(request):
 
         user = user_profile.user
 
-        if user.is_active:
-            return JSONResponse({ '__all__': 'User is already active!' }, status=400)
+        if user_profile.activation_key_expiration <= now():
+            return JSONResponse({ '__all__': 'Expired activation key. Contact your administrator.' }, status=400)
 
         if 'password' not in data:
             return JSONResponse({ 'password': 'This field is required.' }, status=400)
@@ -155,8 +162,41 @@ def activate(request):
 
         user.save()
 
-        user_profile.activation_key = None
+        user_profile.activation_key_expiration = now()
         user_profile.save()
+
+        # Success
+        return JSONResponse(make_user_login_response(user))
+    else:
+        # Invalid request
+        return JSONResponse(None, status=400)
+
+def forgot_password(request):
+    """
+    PANDA user password reset and notification.
+    """
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(email=request.POST.get('email'))
+        except UserProfile.DoesNotExist:
+            return JSONResponse({ '__all__': 'Unknown or inactive email address.' }, status=400)
+
+        if not user.is_active:
+            return JSONResponse({ '__all__': 'Unknown or inactive email address.' }, status=400)
+
+        user_profile = user.get_profile()
+        
+        salt = sha.new(str(random.random())).hexdigest()[:5]
+        user_profile.activation_key = sha.new(salt + user.username).hexdigest()
+        user_profile.activation_key_expiration = now() + settings.PANDA_ACTIVATION_PERIOD
+        user_profile.save()
+
+        email_subject = 'Forgotten password'
+        email_body = 'PANDA received a request to change your password.\n\nTo set your new password follow this link:\n\nhttp://%s/#activate/%s\n\nIf you do not request this email you should notify your adminstrator.' % (config_value('DOMAIN', 'SITE_DOMAIN'), user_profile.activation_key)
+
+        send_mail(email_subject,
+                  email_body,
+                  [user.email])
 
         # Success
         return JSONResponse(make_user_login_response(user))
