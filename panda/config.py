@@ -23,12 +23,21 @@ EMAIL_GROUP = ConfigurationGroup(
     ordering=1
 )
 
+config_register(BooleanValue(
+    EMAIL_GROUP,
+    'EMAIL_ENABLED',
+    description='Enable email?',
+    help_text='If enabled, notifications and activation messages will be sent via email.',
+    default=False,
+    ordering=0
+))
+
 config_register(StringValue(
     EMAIL_GROUP,
     'EMAIL_HOST',
     description='Hostname or IP of the SMTP server.',
     default='localhost',
-    ordering=0
+    ordering=1
 ))
 
 config_register(PositiveIntegerValue(
@@ -36,7 +45,7 @@ config_register(PositiveIntegerValue(
     'EMAIL_PORT',
     description='Port number of the SMTP server.',
     default=1025,
-    ordering=1
+    ordering=2
 ))
 
 config_register(StringValue(
@@ -44,7 +53,7 @@ config_register(StringValue(
     'EMAIL_HOST_USER',
     description='Username for the SMTP server.',
     default='',
-    ordering=2
+    ordering=3
 ))
 
 config_register(StringValue(
@@ -52,7 +61,7 @@ config_register(StringValue(
     'EMAIL_HOST_PASSWORD',
     description='Password for the SMTP server.',
     default='',
-    ordering=3
+    ordering=4
 ))
 
 config_register(BooleanValue(
@@ -60,7 +69,7 @@ config_register(BooleanValue(
     'EMAIL_USE_TLS',
     description='Use TLS encryption when connecting to the SMTP server?',
     default=False,
-    ordering=4
+    ordering=5
 ))
 
 config_register(StringValue(
@@ -68,7 +77,7 @@ config_register(StringValue(
     'DEFAULT_FROM_EMAIL',
     description='Email address that PANDA messages should appear to come from.',
     default='do.not.reply@pandaproject.net',
-    ordering=5
+    ordering=6
 ))
 
 # Miscellaneous settings

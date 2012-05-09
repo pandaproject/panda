@@ -45,6 +45,7 @@ def index(request):
         'settings': settings,
         'max_upload_size': int(config_value('MISC', 'MAX_UPLOAD_SIZE')),
         'demo_mode': int(config_value('MISC', 'DEMO_MODE')),
+        'email_enabled': int(config_value('EMAIL', 'EMAIL_ENABLED')),
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap
         })
