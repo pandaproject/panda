@@ -196,6 +196,7 @@ class ExportSearchTask(AbortableTask):
                 recipient=task_status.creator,
                 related_task=task_status,
                 related_dataset=None,
+                related_export=export,
                 message=notification_message,
                 type=notification_type
             )

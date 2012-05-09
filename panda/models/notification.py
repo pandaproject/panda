@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from panda.models.dataset import Dataset
+from panda.models.export import Export
 from panda.models.task_status import TaskStatus
 
 NOTIFICATION_TYPE_CHOICES = (
@@ -30,6 +31,8 @@ class Notification(models.Model):
         help_text='A task related to this notification, if any.')
     related_dataset = models.ForeignKey(Dataset, null=True, default=None,
         help_text='A dataset related to this notification, if any.')
+    related_export = models.ForeignKey(Export, null=True, default=None,
+        help_text='A file export related to this notification, ifany.')
 
     class Meta:
         app_label = 'panda'

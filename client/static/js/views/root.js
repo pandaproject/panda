@@ -277,9 +277,13 @@ PANDA.views.Root = Backbone.View.extend({
 
         var note_id = anchor.data("notification-id");
         var note = this._current_user.notifications.get(note_id);
+        var related_export = note.get("related_export");
         var related_dataset = note.get("related_dataset");
 
-        if (related_dataset) {
+        if (related_export) {
+            window.location = related_export + "download/"; 
+        }
+        else if (related_dataset) {
             var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
             var slug = related_dataset.substring(slash + 1, related_dataset.length - 1);
 

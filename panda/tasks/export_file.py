@@ -89,6 +89,7 @@ class ExportFileTask(AbortableTask):
                 recipient=task_status.creator,
                 related_task=task_status,
                 related_dataset=dataset,
+                related_export=export,
                 message=notification_message,
                 type=notification_type
             )
