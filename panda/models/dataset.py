@@ -141,8 +141,6 @@ class Dataset(SluggedModel):
 
         full_text = '\n'.join(full_text_data)
 
-        print full_text
-
         solr.add(settings.SOLR_DATASETS_CORE, [{
             'slug': self.slug,
             'creation_date': self.creation_date.isoformat() + 'Z',
