@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.test import TransactionTestCase
+from django.utils.timezone import now
 
 from django.contrib.auth.models import User
 from panda.tests import utils
@@ -27,4 +28,5 @@ class TestUser(TransactionTestCase):
 
         self.assertNotEqual(user_profile, None)
         self.assertNotEqual(user_profile.activation_key, None)
+        self.assertGreater(user_profile.activation_key_expiration, now())
 

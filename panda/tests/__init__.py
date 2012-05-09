@@ -21,5 +21,5 @@ from panda.tests.test_solr import TestSolrJSONEncoder
 from panda.tests.test_related_upload import TestRelatedUpload
 from panda.tests.test_user import TestUser
 from panda.tests.test_utils import TestCSV, TestXLS, TestXLSX, TestTypeCoercion
-from panda.tests.test_views import TestLogin, TestActivate
+from panda.tests.test_views import TestLogin, TestActivate, TestForgotPassword
 
