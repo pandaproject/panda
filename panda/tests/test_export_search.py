@@ -87,8 +87,11 @@ class TestExportSearch(TransactionTestCase):
         self.assertNotEqual(task.end, None)
         self.assertEqual(task.traceback, None)
 
-        self.assertEqual(os.path.exists(os.path.join(settings.EXPORT_ROOT, 'test.zip')), False)
+        self.assertEqual(os.path.exists(os.path.join(settings.EXPORT_ROOT, 'test.zip')), True)
         self.assertEqual(os.path.exists(os.path.join(settings.EXPORT_ROOT, 'test')), False)
+
+        zipfile = ZipFile(os.path.join(settings.EXPORT_ROOT, 'test.zip'))
+        self.assertEqual(set(zipfile.namelist()), set())
 
         os.remove(os.path.join(settings.EXPORT_ROOT, 'test.zip'))
 
