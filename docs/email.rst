@@ -5,7 +5,7 @@ Configuring Email
 Getting an SMTP server
 ======================
 
-Before you configure PANDA you're going to need access to an SMTP server for sending email. There are several ways you can get access to one of these.
+Before you configure PANDA for email you're going to need access to an SMTP (email) server. There are several ways you can get access to one of these.
 
 Using your own SMTP
 -------------------
@@ -23,6 +23,7 @@ To sign up for CritSend visit `their website <http://www.critsend.com/>`_ and en
 
 Once you receive notification that your registration has been validated, you'll be able to use the following settings to configure your PANDA:
 
+* Enabled: ``True``
 * Host: ``smtp.critsend.com`` (if you're hosting on Amazon EC2 then use ``aws-smtp.critsend.com``)
 * Port: ``587``
 * User: ``YOUR_CRITSEND_USERNAME``
@@ -41,6 +42,7 @@ You'll need to `register for a new Gmail <http://www.gmail.com>`_. Do **not** us
 
 That's it. To use the Gmail SMTP servers, you'll use the following configuration for PANDA:
 
+* Enabled: ``True``
 * Host: ``smtp.gmail.com``
 * Port: ``587``
 * User: ``YOUR_NEW_EMAIL_ADDRESS``
