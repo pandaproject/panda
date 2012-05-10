@@ -31,7 +31,6 @@ pip install -U -r requirements.txt
 
 # Migrate database
 sudo -u panda -E python manage.py migrate panda --noinput
-sudo -u panda -E python manage.py reindex_datasets
 
 # Regenerate assets
 sudo -u panda -E python manage.py collectstatic --noinput
@@ -41,6 +40,10 @@ service solr start
 service uwsgi start
 service nginx start
 sudo service celeryd start
+
+# Reindex datasets to get unescaped fields
+sleep 15
+sudo -u panda -E python manage.py reindex_datasets
 
 echo "PANDA upgrade complete."
 
