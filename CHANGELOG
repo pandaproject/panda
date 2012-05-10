@@ -1,6 +1,8 @@
 0.1.4
 -----
 
+* Added "Forgot Password?" link. (#536)
+* Added setting to explicitly enable/disable email. (#680)
 * Pushing enter in a modal form now submits it. (#577)
 * Fix broken "expand search to all categories" link. (#673)
 * Improved usability of notifications. (#666)
