@@ -13,6 +13,22 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
 The following release are in **reverse** version order. They **must** be performed in sequence.
 
+0.1.3 to 0.1.4
+==============
+
+To upgrade your PANDA from the 0.1.3 release to the 0.1.4 release, :doc:`SSH <ssh>` into your server and execute the following commands::
+
+    wget https://raw.github.com/pandaproject/panda/0.1.4/scripts/migrations/0.1.3-to-0.1.4.sh
+    sudo bash 0.1.3-to-0.1.4.sh
+
+Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-0.1.4.log``.
+
+.. note::
+
+    This version adds an option to explicitly enable or disable sending email. If you've previously configured email you will need to visit the settings page for your PANDA (http://MY-PANDA/admin/settings) and check the "Enable email?" checkbox.
+
+Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
+
 0.1.2 to 0.1.3
 ==============
 
