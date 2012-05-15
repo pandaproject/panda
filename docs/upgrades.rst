@@ -11,7 +11,7 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
     Your PANDA will be unavailable while upgrading. Typically this will not last more than five minutes, but it will vary by release. You should plan to perform PANDA upgrades during off hours.
 
-The following release are in **reverse** version order. They **must** be performed in sequence.
+The following release are in **reverse** version order. They **must** be performed in sequence (from lowest version number to highest version number--reverse order on this page).
 
 0.1.3 to 0.1.4
 ==============
