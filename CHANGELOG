@@ -1,6 +1,7 @@
 0.2.0
 -----
 
+* Warn when uploading a file if low on storage space. (#693)
 * Add "Abort" link to TaskStatus admin page. (#419)
 
 0.1.4

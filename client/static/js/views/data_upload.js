@@ -25,6 +25,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     dataset: null,
     upload: null,
     dataset_is_new: false,
+    available_space: null,
 
     initialize: function() {
         _.bindAll(this);
@@ -33,6 +34,19 @@ PANDA.views.DataUpload = Backbone.View.extend({
     reset: function(dataset_slug) {
         this.file_uploader = null;
         this.upload = null;
+
+        $.ajax({
+            url: '/check_available_space/',
+            dataType: 'json',
+            type: 'GET',
+            async: false,
+            success: _.bind(function(data, status, xhr) {
+                this.available_space = $.parseJSON(xhr.responseText);
+            }, this),
+            error: _.bind(function(xhr, status, error) {
+                this.available_space = null;
+            }, this)
+        }); 
 
         if (dataset_slug) {
             this.dataset_is_new = false;
@@ -65,7 +79,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
             dataset_json = null;
         }
 
-        var context = PANDA.utils.make_context({ dataset: dataset_json });
+        var context = PANDA.utils.make_context({
+            dataset: dataset_json,
+            available_space: this.available_space
+        });
 
         this.el.html(PANDA.templates.data_upload(context));
         

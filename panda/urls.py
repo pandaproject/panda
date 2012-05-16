@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^check_activation_key/(?P<activation_key>[\w\d]+)%s$' % trailing_slash(), views.check_activation_key, name="check_activation_key"),
     url(r'^activate%s$' % trailing_slash(), views.activate, name="activate"),
     url(r'^forgot_password%s$' % trailing_slash(), views.forgot_password, name="forgot_password"),
+    url(r'^check_available_space%s$' % trailing_slash(), views.check_available_space, name="check_available_space"),
     url(r'^data_upload%s$' % trailing_slash(), views.data_upload, name="data_upload"),
     url(r'^related_upload%s$' % trailing_slash(), views.related_upload, name="related_upload"),
 

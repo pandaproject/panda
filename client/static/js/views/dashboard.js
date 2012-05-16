@@ -16,8 +16,6 @@ PANDA.views.Dashboard = Backbone.View.extend({
                 this.draw_charts();
             }, this)
         });
-
-
     },
 
     draw_charts: function() {

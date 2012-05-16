@@ -7,6 +7,20 @@
         <% } %>
     </h2>
 
+    <% if (available_space) { %>
+        <% if (available_space.uploads.free_space <= PANDA.settings.AVAILABLE_SPACE_CRITICAL) { %>
+        <div class="alert alert-error" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.uploads.free_space) %> available for files. You should contact your PANDA adminstrator about expanding the available storage space. <strong>Uploads may fail.</strong></div>
+        <% } else if (available_space.uploads.free_space <= PANDA.settings.AVAILABLE_SPACE_WARN) { %>
+        <div class="alert alert-warn" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.uploads.free_space) %> available for files. You should contact your PANDA adminstrator about expanding the available storage space.</div>
+        <% } %>
+
+        <% if (available_space.indices.free_space <= PANDA.settings.AVAILABLE_SPACE_CRITICAL) { %>
+        <div class="alert alert-error" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.indices.free_space) %> available for search indices. You should contact your PANDA adminstrator about expanding the available storage space. <strong>Uploads may fail.</strong></div>
+        <% } else if (available_space.indices.free_space <= PANDA.settings.AVAILABLE_SPACE_WARN) { %>
+        <div class="alert alert-warn" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.indices.free_space) %> available for search indices. You should contact your PANDA adminstrator about expanding the available storage space.</div>
+        <% } %>
+    <% } %>
+
     <% if (dataset) { %>
     <div class="alert alert-block alert-warn" style="display: block;">
         <p>

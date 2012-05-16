@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import random
 import sha
 
@@ -203,4 +204,30 @@ def forgot_password(request):
     else:
         # Invalid request
         return JSONResponse(None, status=400)
+
+def _get_free_disk_space(p):
+    """
+    Returns the number of free bytes on the drive that ``p`` is on
+    """
+    s = os.statvfs(p)
+    return s.f_frsize * s.f_bavail
+
+def check_available_space(request):
+    """
+    Check the amount of space left on each disk.
+    """
+    return JSONResponse({
+        'root': {
+            'device': os.stat('/').st_dev,
+            'free_space': _get_free_disk_space('/')
+        },
+        'uploads': {
+            'device':  os.stat(settings.MEDIA_ROOT).st_dev,
+            'free_space': _get_free_disk_space(settings.MEDIA_ROOT)
+        },
+        'indices': {
+            'device': os.stat(settings.SOLR_DIRECTORY).st_dev,
+            'free_space': _get_free_disk_space(settings.SOLR_DIRECTORY)
+        }
+    })
 
