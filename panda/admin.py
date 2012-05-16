@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from django import forms
+from django.conf.urls import patterns, url
 from django.contrib import admin
 from django.contrib.admin import helpers
 from django.contrib.auth.admin import UserAdmin
@@ -8,7 +9,10 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import Group, User
 from django.contrib.sites.models import Site
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.db import models, transaction
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
 from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, TaskState, WorkerState
@@ -264,18 +268,42 @@ class TaskStatusAdmin(admin.ModelAdmin):
 
     actions = ['abort_task']
 
+    def get_urls(self):
+        urls = super(TaskStatusAdmin, self).get_urls()
+        custom_urls = patterns('',
+            url(r'^(.+)/abort$',
+                self.admin_site.admin_view(self.abort_single),
+                name='%s_%s_abort' % (self.model._meta.app_label, self.model._meta.module_name)
+            ),
+        )
+
+        return custom_urls + urls
+
+    def abort_single(self, request, pk):
+        task = get_object_or_404(TaskStatus, pk=pk)
+
+        if task.end:
+            self.message_user(request, 'You can not abort a task that has already ended.')
+        else:
+            task.request_abort()
+            self.message_user(request, 'Attempting to abort task.')
+
+        return HttpResponseRedirect(
+            reverse('admin:panda_taskstatus_changelist')
+        )
+
     def abort_task(self, request, queryset):
         tasks = list(queryset)
 
         for task in tasks:
             if task.end:
-                self.message_user(request, "You can not abort tasks that have already ended.")
+                self.message_user(request, 'You can not abort tasks that have already ended.')
                 return
 
         for task in tasks:
             task.request_abort()
         
-        self.message_user(request, "Attempting to abort %i task(s)." % len(tasks))
+        self.message_user(request, 'Attempting to abort %i task(s).' % len(tasks))
 
     abort_task.short_description = 'Abort task(s)'
 
