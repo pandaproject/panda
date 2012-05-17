@@ -37,7 +37,7 @@ class ReindexTask(AbortableTask):
         task_status.begin('Preparing to reindex')
 
         if self.is_aborted():
-            task_status.abort('Aborted during preperation')
+            task_status.abort('Aborted during preparation')
 
             log.warning('Reindex aborted, dataset_slug: %s' % dataset_slug)
 
