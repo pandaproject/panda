@@ -1,6 +1,8 @@
 0.2.0
 -----
 
+* Fix bug where column filters could not be searched alone. (#694)
+* Fix bug where column filter ranges would not display. (#695)
 * Warn when uploading a file if low on storage space. (#693)
 * Add "Abort" link to TaskStatus admin page. (#419)
 
