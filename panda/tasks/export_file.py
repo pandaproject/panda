@@ -56,15 +56,18 @@ class ExportFileTask(AbortableTask):
 
             error_detail = u'\n'.join([tb, unicode(retval)])
 
-            task_status.exception('Export failed', error_detail)
+            task_status.exception(
+                'Export failed',
+                u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
+            )
             
             if query:
                 email_subject = 'Export failed: "%s" in %s' % (query, dataset_name)
-                email_message = 'Export failed: "%s" in %s:\n%s' % (query, dataset_name, error_detail)
+                email_message = 'Export failed: "%s" in %s\n%s' % (query, dataset_name, error_detail)
                 notification_message = 'Export failed: <strong>"%s" in %s</strong>' % (query, dataset_name)
             else:
                 email_subject = 'Export failed: %s' % dataset_name
-                email_message = 'Export failed: %s:\n%s' % (dataset_name, error_detail)
+                email_message = 'Export failed: %s\n%s' % (dataset_name, error_detail)
                 notification_message = 'Export failed: <strong>%s</strong>' % dataset_name
 
             notification_type = 'Error'

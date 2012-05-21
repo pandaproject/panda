@@ -135,7 +135,7 @@ class ReindexTask(AbortableTask):
 
             task_status.exception(
                 'Reindex failed',
-                u'\n'.join([tb, unicode(retval)])
+                u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
             
             email_subject = 'Reindex failed: %s' % dataset.name
@@ -151,7 +151,7 @@ class ReindexTask(AbortableTask):
             task_status.complete('Reindex complete')
             
             email_subject = 'Reindex complete: %s' % dataset.name
-            email_message = 'Reindex complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            email_message = 'Reindex complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count or 0, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
 
             type_summary = retval.summarize()
 

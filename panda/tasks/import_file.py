@@ -60,7 +60,7 @@ class ImportFileTask(AbortableTask):
 
             task_status.exception(
                 'Import failed',
-                u'\n'.join([tb, unicode(retval)])
+                u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
             
             email_subject = 'Import failed: %s' % dataset.name
@@ -76,7 +76,7 @@ class ImportFileTask(AbortableTask):
             task_status.complete('Import complete')
             
             email_subject = 'Import complete: %s' % dataset.name
-            email_message = 'Import complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            email_message = 'Import complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count or 0, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
 
             type_summary = retval.summarize()
 
