@@ -130,6 +130,16 @@ CELERYD_CONCURRENCY = 1
 CELERY_IGNORE_RESULT = True
 CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
 
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    'purge_orphaned_uploads': {
+        'task': 'panda.tasks.cron.purge_orphaned_uploads',
+        'schedule': crontab(minute=0, hour=3),
+        'kwargs': { 'fake': False }
+    },
+}
+
 # South
 SOUTH_TESTS_MIGRATE = False
 

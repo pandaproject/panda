@@ -6,6 +6,7 @@ from panda.tasks.import_csv import ImportCSVTask
 from panda.tasks.import_xls import ImportXLSTask
 from panda.tasks.import_xlsx import ImportXLSXTask
 from panda.tasks.purge_data import PurgeDataTask
+from panda.tasks.purge_orphaned_uploads import PurgeOrphanedUploadsTask
 from panda.tasks.reindex import ReindexTask
 
 TASKS_BY_TYPE = {
