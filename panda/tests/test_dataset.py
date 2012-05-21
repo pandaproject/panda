@@ -627,3 +627,40 @@ class TestDataset(TransactionTestCase):
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_float_price:[1500 TO *]')['response']['numFound'], 2)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'column_float_price:*')['response']['numFound'], 8)
 
+    def test_import_encoded_data(self):
+        """
+        This tests for a complicated case where a UnicodeDecodeError
+        during import could be masked by an AttrbiuteError in the
+        return handler.
+        """
+        old_sniffer_size = settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE
+        settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE = 50
+
+        data_upload = utils.get_test_data_upload(self.user, self.dataset, utils.TEST_LATIN1_DATA_FILENAME)
+
+        self.dataset.import_data(self.user, data_upload)
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertNotEqual(task.id, None)
+        self.assertEqual(task.task_name, 'panda.tasks.import.csv')
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        data_upload = DataUpload.objects.get(id=data_upload.id)
+        task = TaskStatus.objects.get(id=task.id)
+
+        self.assertEqual(len(dataset.column_schema), 8)
+        self.assertEqual(dataset.row_count, None)
+        self.assertEqual(data_upload.imported, False)
+        self.assertEqual(task.status, 'FAILURE')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual('encoded' in task.traceback, True)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'walking')['response']['numFound'], 0)
+
+        settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE = old_sniffer_size
+

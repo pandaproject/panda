@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import traceback
+
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
 from livesettings import config_value
@@ -51,9 +53,14 @@ class ImportFileTask(AbortableTask):
         task_status = dataset.current_task 
 
         if einfo:
+            if hasattr(einfo, 'traceback'):
+                tb = einfo.traceback
+            else:
+                tb = ''.join(traceback.format_tb(einfo[2]))
+
             task_status.exception(
                 'Import failed',
-                u'\n'.join([einfo.traceback, unicode(retval)])
+                u'\n'.join([tb, unicode(retval)])
             )
             
             email_subject = 'Import failed: %s' % dataset.name

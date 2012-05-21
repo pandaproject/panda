@@ -48,3 +48,4 @@ class TestDataUpload(TransactionTestCase):
 
         with self.assertRaises(DataUpload.DoesNotExist):
             DataUpload.objects.get(id=upload_id)
+

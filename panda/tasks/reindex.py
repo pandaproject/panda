@@ -3,6 +3,7 @@
 import logging
 from math import floor
 import time
+import traceback
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
@@ -127,9 +128,14 @@ class ReindexTask(AbortableTask):
         task_status = dataset.current_task 
 
         if einfo:
+            if hasattr(einfo, 'traceback'):
+                tb = einfo.traceback
+            else:
+                tb = ''.join(traceback.format_tb(einfo[2]))
+
             task_status.exception(
                 'Reindex failed',
-                u'\n'.join([einfo.traceback, unicode(retval)])
+                u'\n'.join([tb, unicode(retval)])
             )
             
             email_subject = 'Reindex failed: %s' % dataset.name

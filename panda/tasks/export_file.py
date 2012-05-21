@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os.path
+import traceback
 from urllib import unquote
 
 from celery.contrib.abortable import AbortableTask
@@ -48,7 +49,12 @@ class ExportFileTask(AbortableTask):
         dataset_name = unquote(dataset.name)
 
         if einfo:
-            error_detail = u'\n'.join([einfo.traceback, unicode(retval)])
+            if hasattr(einfo, 'traceback'):
+                tb = einfo.traceback
+            else:
+                tb = ''.join(traceback.format_tb(einfo[2]))
+
+            error_detail = u'\n'.join([tb, unicode(retval)])
 
             task_status.exception('Export failed', error_detail)
             
