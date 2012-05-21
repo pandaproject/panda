@@ -144,14 +144,14 @@ class ReindexTask(AbortableTask):
             notification_type = 'Error'
         elif self.is_aborted():
             email_subject = 'Reindex aborted: %s' % dataset.name
-            email_message = 'Reindex aborted: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            email_message = 'Reindex aborted: %s\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
             notification_message = 'Reindex aborted: <strong>%s</strong>' % dataset.name
             notification_type = 'Info'
         else:
             task_status.complete('Reindex complete')
             
             email_subject = 'Reindex complete: %s' % dataset.name
-            email_message = 'Reindex complete: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            email_message = 'Reindex complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
 
             type_summary = retval.summarize()
 

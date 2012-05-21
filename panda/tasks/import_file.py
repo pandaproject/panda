@@ -76,7 +76,7 @@ class ImportFileTask(AbortableTask):
             task_status.complete('Import complete')
             
             email_subject = 'Import complete: %s' % dataset.name
-            email_message = 'Import complete: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            email_message = 'Import complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
 
             type_summary = retval.summarize()
 
