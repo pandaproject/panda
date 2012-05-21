@@ -579,14 +579,14 @@ Import
 
 Begin an import task. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/import/
+    http://localhost:8000/api/1.0/dataset/[slug]/import/[data-upload-id]/
 
 Export
 ------
 
 Exporting a dataset is an asynchronous operation. To initiate an export you simple need to make a GET request. The requesting user will be emailed when the export is complete::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/import/
+    http://localhost:8000/api/1.0/dataset/[slug]/export/
 
 Reindex
 -------
