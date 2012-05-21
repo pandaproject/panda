@@ -21,7 +21,6 @@ class NotificationResource(PandaModelResource):
     class Meta:
         queryset = Notification.objects.all()
         resource_name = 'notification'
-        limit = 1000    # Don't paginate notifications
         
         authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
@@ -44,8 +43,4 @@ class NotificationResource(PandaModelResource):
         kicks off Solr indexing).
         """
         pass
-
-    #def alter_list_data_to_serialize(request, data):
-        # TODO: trim paging data
-        #return data
 

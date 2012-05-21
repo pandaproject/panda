@@ -17,9 +17,15 @@ PANDA.models.User = Backbone.Model.extend({
     refresh_notifications: function(success_callback, error_callback) {
         /*
          * Refresh notifications list from the server.
+         *
+         * NB: Returns up to a thousand notifications.
+         * This may need to be tweaked later.
          */
         this.notifications.fetch({
-            data: "read_at__isnull=True",
+            data: {
+                read_at__isnull: true,
+                limit: 1000,
+            },
             success: _.bind(function(response) {
                 if (success_callback) {
                     success_callback(this);
