@@ -416,7 +416,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
 
     is_float: function(v) {
-        return parseFloat(v) && !_.isNaN(v);
+        return !_.isNaN(parseFloat(v));
     },
     
     validate_floats: function(c, values) {
