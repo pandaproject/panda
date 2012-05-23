@@ -127,6 +127,61 @@ class UserModelAdmin(UserAdmin):
 
     readonly_fields = ('last_login', 'date_joined')
 
+    actions = ['resend_activation']
+
+    def get_urls(self):
+        urls = super(UserModelAdmin, self).get_urls()
+        custom_urls = patterns('',
+            url(r'^(.+)/resend_activation$',
+                self.admin_site.admin_view(self.resend_activation_single),
+                name='%s_%s_resend_activation' % (self.model._meta.app_label, self.model._meta.module_name)
+            ),
+        )
+
+        return custom_urls + urls
+
+    def resend_activation_single(self, request, pk):
+        if not config_value('EMAIL', 'EMAIL_ENABLED'):
+            self.message_user(request, 'Email is not configured for your PANDA.')
+
+            return HttpResponseRedirect(
+                reverse('admin:auth_user_change', args=[pk])
+            )
+
+        user = get_object_or_404(User, pk=pk)
+        user_profile = user.get_profile()
+
+        user_profile.generate_activation_key()
+        user_profile.save()
+
+        user_profile.send_activation_email()
+        self.message_user(request, 'Activation email sent.')
+
+        return HttpResponseRedirect(
+            reverse('admin:auth_user_change', args=[pk])
+        )
+
+    def resend_activation(self, request, queryset):
+        if not config_value('EMAIL', 'EMAIL_ENABLED'):
+            self.message_user(request, 'Email is not configured for your PANDA.')
+            return HttpResponseRedirect(
+                reverse('admin:auth_user_changelist')
+            )
+
+        users = list(queryset)
+
+        for user in users:
+            user_profile = user.get_profile()
+
+            user_profile.generate_activation_key()
+            user_profile.save()
+
+            user_profile.send_activation_email()
+
+        self.message_user(request, 'Sent %i activation emails.' % len(users))
+
+    resend_activation.short_description = 'Resend activation email(s)'
+
     @transaction.commit_on_success
     def add_view(self, request, form_url='', extra_context=None):
         """

@@ -664,10 +664,3 @@ class TestDataset(TransactionTestCase):
 
         settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE = old_sniffer_size
 
-    def test_reserved_slug(self):
-        dataset = Dataset.objects.create(
-            name='schema',
-            description='Biographic information about contributors to the PANDA project.',
-            creator=self.user)  
-
-        self.assertEqual(

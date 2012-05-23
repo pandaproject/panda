@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import random
-import sha
 
 from ajaxuploader.views import AjaxFileUploader
 from csvkit.exceptions import FieldSizeLimitError
@@ -186,10 +184,7 @@ def forgot_password(request):
             return JSONResponse({ '__all__': 'Unknown or inactive email address.' }, status=400)
 
         user_profile = user.get_profile()
-        
-        salt = sha.new(str(random.random())).hexdigest()[:5]
-        user_profile.activation_key = sha.new(salt + user.username).hexdigest()
-        user_profile.activation_key_expiration = now() + settings.PANDA_ACTIVATION_PERIOD
+        user_profile.generate_activation_key()
         user_profile.save()
 
         email_subject = 'Forgotten password'
