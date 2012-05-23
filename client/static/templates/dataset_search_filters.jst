@@ -1,4 +1,5 @@
 <h4>Filter your search by specific columns</h4>
+<% if (has_any_filters) { %>
 <table class="table table-condensed">
 <% _.each(dataset.column_schema, function(c, i) { %>
     <tbody id="filter-<%= i %>"  class="filter control-group" data-filter-id="<%= i %>">
@@ -25,5 +26,7 @@
         <input type="submit" class="btn primary dataset-search-submit" value="Search" />
     </div>
 </div>
-
+<% } else { %>
+No filters have been created for this dataset. To create filters select <strong>Add column filters</strong> from the <strong>Actions</strong> menu on the dataset page.
+<% } %>
 
