@@ -468,7 +468,11 @@ class DataResource(PandaResource):
 
         task_type = ExportSearchTask
 
-        task = TaskStatus.objects.create(task_name=task_type.name, creator=request.user)
+        task = TaskStatus.objects.create(
+            task_name=task_type.name,
+            task_description='Export search results for "%s".' % query,
+            creator=request.user
+        )
 
         task_type.apply_async(
             args=[query, task.id],

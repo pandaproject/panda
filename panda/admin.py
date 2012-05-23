@@ -315,10 +315,11 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 class TaskStatusAdmin(admin.ModelAdmin):
-    fields = ('task_name', 'status', 'message', 'start', 'end', 'traceback', 'creator')
-    readonly_fields = ('task_name', 'status', 'message', 'start', 'end', 'traceback', 'creator')
+    fields = ('task_name', 'task_description', 'status', 'message', 'start', 'end', 'traceback', 'creator')
+    readonly_fields = ('task_name', 'task_description', 'status', 'message', 'start', 'end', 'traceback', 'creator')
     
-    list_display = ('task_name', 'status', 'start', 'end', 'creator')
+    list_display = ('task_name', 'task_description',  'status', 'start', 'end', 'creator')
+    list_display_links = ('task_name', 'task_description')
     list_filter = ('status', )
 
     actions = ['abort_task']

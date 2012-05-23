@@ -21,6 +21,8 @@ class TaskStatus(models.Model):
     """
     task_name = models.CharField(max_length=255,
         help_text='Identifying name for this task.')
+    task_description = models.TextField(
+        help_text='Description of the task.')
     status = models.CharField(max_length=50, default=states.PENDING, choices=TASK_STATUS_CHOICES,
         help_text='Current state of this task.')
     message = models.CharField(max_length=255, blank=True,
@@ -40,7 +42,7 @@ class TaskStatus(models.Model):
         verbose_name_plural = 'Tasks'
 
     def __unicode__(self):
-        return self.task_name
+        return self.task_description or self.task_name
 
     def request_abort(self):
         """

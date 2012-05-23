@@ -196,7 +196,11 @@ class Dataset(SluggedModel):
             if self.initial_upload is None and self.row_count is None:
                 self.initial_upload = upload
 
-            self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
+            self.current_task = TaskStatus.objects.create(
+                task_name=task_type.name,
+                task_description='Import data from %s into %s.' % (upload.filename, self.slug),
+                creator=user
+            )
             self.save()
 
             task_type.apply_async(
@@ -213,11 +217,18 @@ class Dataset(SluggedModel):
         Reindex the data currently stored for this ``Dataset``.
         """
         self.lock()
+        
+        task_type = ReindexTask
 
         try:
+            typed_column_count = 0
+
             if typed_columns:
                 for i, t in enumerate(typed_columns):
                     self.column_schema[i]['indexed'] = t
+                    
+                    if t:
+                        typed_column_count += 1
 
             if column_types:
                 for i, t in enumerate(column_types):
@@ -225,11 +236,15 @@ class Dataset(SluggedModel):
 
             self.column_schema = update_indexed_names(self.column_schema)
 
-            self.current_task = TaskStatus.objects.create(task_name='panda.tasks.reindex', creator=user)
+            self.current_task = TaskStatus.objects.create(
+                task_name=task_type.name,
+                task_description='Reindex %s with %i column filters.' % (self.slug, typed_column_count), 
+                creator=user
+            )
 
             self.save()
 
-            ReindexTask.apply_async(
+            task_type.apply_async(
                 args=[self.slug],
                 kwargs={},
                 task_id=self.current_task.id
@@ -247,7 +262,17 @@ class Dataset(SluggedModel):
         try:
             task_type = ExportCSVTask
 
-            self.current_task = TaskStatus.objects.create(task_name=task_type.name, creator=user)
+            if query:
+                description = 'Export search results for "%s" in %s.' % (query, self.slug)
+            else:
+                description = 'Exporting data in %s.' % self.slug
+
+            self.current_task = TaskStatus.objects.create(
+                task_name=task_type.name,
+                task_description=description,
+                creator=user
+            )
+
             self.save()
 
             task_type.apply_async(
