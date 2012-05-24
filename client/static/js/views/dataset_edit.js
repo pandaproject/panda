@@ -8,7 +8,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
     },
 
     render: function() {
-        all_categories = _.reject(Redd.get_categories().toJSON(), function(c) {
+        var all_categories = _.reject(Redd.get_categories().toJSON(), function(c) {
             return (c.id == PANDA.settings.UNCATEGORIZED_ID);
         });
 

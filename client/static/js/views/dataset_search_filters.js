@@ -159,8 +159,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             "has_any_filters": _.any(this.search.dataset.get("column_schema"), this.column_is_filterable)
         });
 
-        console.log(context);
-
         this.el.html(PANDA.templates.dataset_search_filters(context));
 
         var filters_are_on = false;

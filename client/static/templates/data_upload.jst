@@ -59,15 +59,38 @@
     </div>
 
     <div id="step-2" class="step disabled">
-        <h3>Wait while your data is uploaded</h3>
+        <h3>Describe your dataset</h3>
 
-        <p>Your file is currently being uploaded to PANDA. If you have a very large file this may take a little while.</p>
+        <p>Your file is currently being uploaded to PANDA. While your data is being uploaded please take a moment to provide some information about it, such as where and how it was acquired.</p>
 
         <div class="progress-bar">
             <span class="progress-value"><strong>0%</strong></span>
         </div>
 
         <div id="step-2-alert" class="alert"></div>
+        
+        <form id="dataset-details-form" class="form-stacked">
+            <div class="control-group">
+                <label for="dataset-name">Name</label>
+                <input class="span5" id="dataset-name" name="name" size="30" type="text" value="" maxlength="256" />
+            </div>
+
+            <div class="control-group">
+                <label for="dataset-description">Description</label>
+                <textarea class="span6" id="dataset-description" name="description" rows="5"></textarea>
+            </div>
+
+            <label for="categories">Categories</label>
+
+            <% _.each(all_categories, function(category) { %>
+            <label class="checkbox">
+                <input type="checkbox" name="categories" value="<%= category.slug %>" />
+                <%= category.name %>
+            </label>
+            <% }); %>
+        </form> 
+        
+        <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" disabled="disabled" />
     </div>
 
     <div id="step-3" class="step disabled">
@@ -79,7 +102,7 @@
         
         <div id="step-3-alert" class="alert"></div>
 
-        <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" disabled="disabled" />
+        <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="Finish" disabled="disabled" />
         <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" disabled="disabled" />
     </div>
 </div>
