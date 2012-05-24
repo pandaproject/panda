@@ -31,6 +31,8 @@ class UserProxy(User):
         self.__original_email = self.email
 
     def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        
         if self.first_name != self.__original_first_name or \
             self.last_name != self.__original_last_name or \
             self.email != self.__original_email:
@@ -40,8 +42,6 @@ class UserProxy(User):
                     dataset.update_full_text(commit=False)
                 
                 solr.commit(settings.SOLR_DATASETS_CORE)
-
-        super(User, self).save(*args, **kwargs)
 
         self.__original_first_name = self.first_name
         self.__original_last_name = self.last_name
