@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import email_re
 from tastypie import fields
@@ -11,6 +11,7 @@ from tastypie.resources import NOT_AVAILABLE
 from tastypie.validation import Validation
 
 from panda.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
+from panda.models import UserProxy
 
 class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -42,7 +43,7 @@ class UserResource(PandaModelResource):
     password = fields.CharField(attribute='password')
 
     class Meta:
-        queryset = User.objects.all()
+        queryset = UserProxy.objects.all()
         resource_name = 'user'
         allowed_methods = ['get', 'post', 'put', 'delete']
         excludes = ['username', 'is_staff', 'is_superuser']

@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
-from django.contrib.auth.models import User
 from django.db import models
+
+from panda.models.user_proxy import UserProxy
 
 class ActivityLog(models.Model):
     """
     A daily log of activity by a users.
     """
-    user = models.ForeignKey(User, related_name='activity_logs',
+    user = models.ForeignKey(UserProxy, related_name='activity_logs',
         help_text='The user who was active.')
     when = models.DateField(auto_now=True,
         help_text='The date this activity was recorded.')

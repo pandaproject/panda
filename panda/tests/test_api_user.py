@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
 from django.conf import settings
@@ -9,7 +10,7 @@ from django.utils import simplejson as json
 from tastypie.bundle import Bundle
 
 from panda.api.users import UserValidation
-from panda.models import User
+from panda.models import UserProxy
 from panda.tests import utils
 
 class TestUserValidation(TestCase):
@@ -138,7 +139,7 @@ class TestAPIUser(TransactionTestCase):
 
         self.assertEqual(response.status_code, 202)
 
-        after_user = User.objects.get(id=self.user.id)
+        after_user = UserProxy.objects.get(id=self.user.id)
 
         self.assertEqual(after_user.email, 'tester@tester.com')
         self.assertEqual(after_user.username, 'tester@tester.com')
@@ -184,7 +185,7 @@ class TestAPIUser(TransactionTestCase):
 
         self.assertEqual(response.status_code, 202)
 
-        after_user = User.objects.get(id=self.user.id)
+        after_user = UserProxy.objects.get(id=self.user.id)
 
         self.assertEqual(after_user.email, 'tester@tester.com')
         self.assertEqual(after_user.username, 'tester@tester.com')
@@ -209,7 +210,7 @@ class TestAPIUser(TransactionTestCase):
 
         self.assertEqual(response.status_code, 202)
 
-        after_user = User.objects.get(id=self.user.id)
+        after_user = UserProxy.objects.get(id=self.user.id)
 
         self.assertEqual(after_user.email, 'tester@tester.com')
         self.assertEqual(after_user.username, 'tester@tester.com')

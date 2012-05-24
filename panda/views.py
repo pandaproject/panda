@@ -6,7 +6,6 @@ from ajaxuploader.views import AjaxFileUploader
 from csvkit.exceptions import FieldSizeLimitError
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils.timezone import now
 from livesettings import config_value
@@ -16,7 +15,7 @@ from tastypie.serializers import Serializer
 from panda.api.notifications import NotificationResource
 from panda.api.users import UserValidation
 from panda.api.utils import PandaApiKeyAuthentication
-from panda.models import UserProfile
+from panda.models import UserProfile, UserProxy
 from panda.storage import PANDADataUploadBackend, PANDARelatedUploadBackend
 from panda.utils.mail import send_mail
 
@@ -83,6 +82,11 @@ def panda_login(request):
         user = authenticate(username=email.lower(), password=password)
 
         if user is not None:
+            # Convert authenticated user to a proxy model
+            _user_proxy = UserProxy()
+            _user_proxy.__dict__ = user.__dict__
+            user = _user_proxy
+
             if user.is_active:
                 login(request, user)
 
@@ -176,7 +180,7 @@ def forgot_password(request):
     """
     if request.method == 'POST':
         try:
-            user = User.objects.get(email=request.POST.get('email'))
+            user = UserProxy.objects.get(email=request.POST.get('email'))
         except UserProfile.DoesNotExist:
             return JSONResponse({ '__all__': 'Unknown or inactive email address.' }, status=400)
 

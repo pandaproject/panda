@@ -2,9 +2,10 @@
 
 import os.path
 
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now 
+
+from panda.models.user_proxy import UserProxy
 
 class BaseUpload(models.Model):
     """
@@ -16,7 +17,7 @@ class BaseUpload(models.Model):
         help_text='Filename as originally uploaded.')
     size = models.IntegerField(
         help_text='Size of the file in bytes.')
-    creator = models.ForeignKey(User,
+    creator = models.ForeignKey(UserProxy,
         help_text='The user who uploaded this file.')
     creation_date = models.DateTimeField(
         help_text='The date this file was uploaded.')

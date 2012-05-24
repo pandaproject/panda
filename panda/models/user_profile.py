@@ -4,18 +4,18 @@ import random
 import sha
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 from livesettings import config_value
 
+from panda.models.user_proxy import UserProxy
 from panda.utils.mail import send_mail
 
 class UserProfile(models.Model):
     """
     User metadata such as their activation key.
     """
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(UserProxy)
 
     activation_key = models.CharField(max_length=40, null=True, blank=True)
     activation_key_expiration = models.DateTimeField()

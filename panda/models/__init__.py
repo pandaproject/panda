@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.db import models
 from django.dispatch import receiver
 from tastypie.models import ApiKey
@@ -16,10 +16,11 @@ from panda.models.related_upload import RelatedUpload
 from panda.models.search_log import SearchLog
 from panda.models.task_status import TaskStatus
 from panda.models.user_profile import UserProfile
+from panda.models.user_proxy import UserProxy
 
-__all__ = ['ActivityLog', 'Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'SearchLog', 'TaskStatus', 'UserProfile']
+__all__ = ['ActivityLog', 'Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'SearchLog', 'TaskStatus', 'UserProfile', 'UserProxy']
 
-@receiver(models.signals.post_save, sender=User)
+@receiver(models.signals.post_save, sender=UserProxy)
 def on_user_post_save(sender, instance, created, **kwargs):
     """
     When a User is created, create an API key for them,

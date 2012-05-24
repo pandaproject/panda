@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.timezone import now 
 from djcelery.models import TASK_STATE_CHOICES
 
-from panda.models import User
+from panda.models.user_proxy import UserProxy
 
 TASK_STATUS_CHOICES = TASK_STATE_CHOICES
 TASK_STATUS_CHOICES.extend([
@@ -33,7 +33,7 @@ class TaskStatus(models.Model):
         help_text='Date and time that this task ceased processing (either complete or failed).')
     traceback = models.TextField(blank=True, null=True, default=None,
         help_text='Traceback that exited this task, if it failed.')
-    creator = models.ForeignKey(User, null=True, related_name='tasks',
+    creator = models.ForeignKey(UserProxy, null=True, related_name='tasks',
         help_text='The user who initiated this task.')
 
     class Meta:

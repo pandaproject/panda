@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from django import forms
+from django.conf import settings
 from django.conf.urls import patterns, url
 from django.contrib import admin
 from django.contrib.admin import helpers
@@ -19,7 +20,8 @@ from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, Tas
 from livesettings import config_value
 from tastypie.admin import ApiKeyInline
 
-from panda.models import Category, TaskStatus, UserProfile
+from panda import solr
+from panda.models import Category, TaskStatus, UserProfile, UserProxy
 
 # Hide celery monitors
 admin.site.unregister(CrontabSchedule)
@@ -34,7 +36,7 @@ class PandaUserCreationForm(forms.ModelForm):
     and email.
     """
     class Meta:
-        model = User
+        model = UserProxy
         fields = ("username",)
 
     username = forms.EmailField(label=_("E-mail"), max_length=75)
@@ -280,7 +282,7 @@ class UserModelAdmin(UserAdmin):
 
 admin.site.unregister(Group)
 admin.site.unregister(User)
-admin.site.register(User, UserModelAdmin)
+admin.site.register(UserProxy, UserModelAdmin)
 
 # Hide sites framework
 admin.site.unregister(Site)
@@ -298,7 +300,9 @@ class CategoryAdmin(admin.ModelAdmin):
             obj.save()
 
             for dataset in datasets:
-                dataset.update_full_text()
+                dataset.update_full_text(commit=False)
+
+            solr.commit(settings.SOLR_DATASETS_CORE)
         else:
             obj.save()
 
@@ -311,6 +315,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
         for dataset in datasets:
             dataset.update_full_text()
+
+        solr.commit(settings.SOLR_DATASETS_CORE)
 
 admin.site.register(Category, CategoryAdmin)
 

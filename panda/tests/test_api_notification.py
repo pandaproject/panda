@@ -8,7 +8,7 @@ from django.test.client import Client
 from django.utils import simplejson as json
 import pytz
 
-from panda.models import Notification, User 
+from panda.models import Notification, UserProxy 
 from panda.tests import utils
 
 class TestAPINotifications(TransactionTestCase):
@@ -49,7 +49,7 @@ class TestAPINotifications(TransactionTestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_get_unauthorized(self):
-        User.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
+        UserProxy.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
 
         notification = Notification.objects.get(related_dataset=self.dataset)
 
@@ -72,7 +72,7 @@ class TestAPINotifications(TransactionTestCase):
         self.assertEqual(body['meta']['previous'], None)
 
     def test_list_unauthorized(self):
-        User.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
+        UserProxy.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
 
         response = self.client.get('/api/1.0/notification/?', data={ 'limit': 5 }, **utils.get_auth_headers('nobody@nobody.com')) 
 
@@ -102,7 +102,7 @@ class TestAPINotifications(TransactionTestCase):
         self.assertNotEqual(notification.read_at, None)
 
     def test_update_unauthorized(self):
-        User.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
+        UserProxy.objects.create_user('nobody@nobody.com', 'nobody@nobody.com', 'password')
 
         notification = Notification.objects.get(related_dataset=self.dataset)
 

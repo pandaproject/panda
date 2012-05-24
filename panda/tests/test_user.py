@@ -4,7 +4,7 @@ from django.conf import settings
 from django.test import TransactionTestCase
 from django.utils.timezone import now
 
-from django.contrib.auth.models import User
+from panda.models import UserProxy
 from panda.tests import utils
 from tastypie.models import ApiKey
 
@@ -17,7 +17,7 @@ class TestUser(TransactionTestCase):
         self.user = utils.get_panda_user()
 
     def test_create_user(self):
-        new_user = User.objects.create(
+        new_user = UserProxy.objects.create(
             email="foo@bar.com",
             username="foo@bar.com"
         )

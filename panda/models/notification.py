@@ -1,11 +1,11 @@
 #!/user/bin/env python
 
-from django.contrib.auth.models import User
 from django.db import models
 
 from panda.models.dataset import Dataset
 from panda.models.export import Export
 from panda.models.task_status import TaskStatus
+from panda.models.user_proxy import UserProxy
 
 NOTIFICATION_TYPE_CHOICES = (
     ('Info', 'Info'),
@@ -17,7 +17,7 @@ class Notification(models.Model):
     """
     A user notification related to a task.
     """
-    recipient = models.ForeignKey(User, related_name='notifications',
+    recipient = models.ForeignKey(UserProxy, related_name='notifications',
         help_text='The user who should receive this notification.')
     message = models.TextField(
         help_text='The message to deliver.')

@@ -3,7 +3,6 @@
 from urllib import unquote
 
 from django.conf.urls.defaults import url
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.bundle import Bundle
@@ -14,6 +13,7 @@ from tastypie.serializers import Serializer
 from tastypie.utils.urls import trailing_slash
 
 from panda.fields import JSONField
+from panda.models import UserProxy
 
 PANDA_CACHE_CONTROL = 'max-age=0,no-cache,no-store'
 
@@ -121,8 +121,8 @@ class PandaApiKeyAuthentication(ApiKeyAuthentication):
             return self._unauthorized()
 
         try:
-            user = User.objects.get(username=email.lower())
-        except (User.DoesNotExist, User.MultipleObjectsReturned):
+            user = UserProxy.objects.get(username=email.lower())
+        except (UserProxy.DoesNotExist, UserProxy.MultipleObjectsReturned):
             return self._unauthorized()
 
         if not user.is_active:

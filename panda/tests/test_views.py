@@ -6,7 +6,7 @@ from django.test.client import Client
 from django.utils import simplejson as json
 from django.utils.timezone import now
 
-from panda.models import User, UserProfile
+from panda.models import UserProfile, UserProxy
 from panda.tests import utils
 
 class TestLogin(TransactionTestCase):
@@ -79,7 +79,7 @@ class TestActivate(TransactionTestCase):
         self.client = Client()
 
     def test_check_activation_key_valid(self):
-        new_user = User.objects.create(
+        new_user = UserProxy.objects.create(
             email="foo@bar.com",
             username="foo@bar.com",
             is_active=False
@@ -104,7 +104,7 @@ class TestActivate(TransactionTestCase):
         self.assertEqual(response.status_code, 400)
         
     def test_activate(self):
-        new_user = User.objects.create(
+        new_user = UserProxy.objects.create(
             email="foo@bar.com",
             username="foo@bar.com",
             is_active=False
@@ -127,7 +127,7 @@ class TestActivate(TransactionTestCase):
 
         self.assertEqual(response.status_code, 200)
 
-        self.assertEqual(authenticate(username='foo@bar.com', password='foobarbaz'), new_user)
+        self.assertEqual(authenticate(username='foo@bar.com', password='foobarbaz').pk, new_user.pk)
         
         # Refresh
         user_profile = UserProfile.objects.get(id=user_profile.id)
@@ -144,7 +144,7 @@ class  TestForgotPassword(TransactionTestCase):
         self.client = Client()
 
     def test_forgot_password(self):
-        new_user = User.objects.create(
+        new_user = UserProxy.objects.create(
             email="foo@bar.com",
             username="foo@bar.com",
             is_active=True
@@ -152,7 +152,7 @@ class  TestForgotPassword(TransactionTestCase):
 
         new_user.set_password('foobarbaz')
         new_user.save()
-        self.assertEqual(authenticate(username='foo@bar.com', password='foobarbaz'), new_user)
+        self.assertEqual(authenticate(username='foo@bar.com', password='foobarbaz').pk, new_user.pk)
         
         # Force expiration date into the past
         user_profile = new_user.get_profile() 

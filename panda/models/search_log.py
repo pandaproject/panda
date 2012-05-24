@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
-from django.contrib.auth.models import User
 from django.db import models
 
-from panda.models import Dataset
+from panda.models.dataset import Dataset
+from panda.models.user_proxy import UserProxy
 
 class SearchLog(models.Model):
     """
     A log of a user search.
     """
-    user = models.ForeignKey(User, related_name='search_logs',
+    user = models.ForeignKey(UserProxy, related_name='search_logs',
         help_text='The user who executed the search.')
     dataset = models.ForeignKey(Dataset, related_name='searches', null=True, default=None,
         help_text='The data set searched, or null if all were searched.')

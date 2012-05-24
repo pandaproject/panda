@@ -4,7 +4,6 @@ from itertools import chain
 from urllib import unquote
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now 
 
@@ -14,6 +13,7 @@ from panda.fields import JSONField
 from panda.models.category import Category
 from panda.models.slugged_model import SluggedModel
 from panda.models.task_status import TaskStatus
+from panda.models.user_proxy import UserProxy
 from panda.tasks import get_import_task_type_for_upload, ExportCSVTask, PurgeDataTask, ReindexTask 
 from panda.utils.column_schema import make_column_schema, update_indexed_names
 from panda.utils.typecoercion import DataTyper
@@ -40,7 +40,7 @@ class Dataset(SluggedModel):
         help_text='The currently executed or last finished task related to this dataset.') 
     creation_date = models.DateTimeField(null=True,
         help_text='The date this dataset was initially created.')
-    creator = models.ForeignKey(User, related_name='datasets',
+    creator = models.ForeignKey(UserProxy, related_name='datasets',
         help_text='The user who created this dataset.')
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
         help_text='Categories containing this Dataset.')
@@ -48,7 +48,7 @@ class Dataset(SluggedModel):
         help_text='When, if ever, was this dataset last modified via the API?')
     last_modification = models.TextField(null=True, blank=True, default=None,
         help_text='Description of the last modification made to this Dataset.')
-    last_modified_by = models.ForeignKey(User, null=True, blank=True,
+    last_modified_by = models.ForeignKey(UserProxy, null=True, blank=True,
         help_text='The user, if any, who last modified this dataset.')
     locked = models.BooleanField(default=False,
         help_text='Is this table locked for writing?')
