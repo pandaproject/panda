@@ -180,7 +180,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
     },
 
     on_related_upload_message: function(message) {
-        $("#related-upload-alert").alert("error", "<p>" + message + '</p>' , false);
+        $("#related-upload-alert").alert("alert-error", "<p>" + message + '</p>' , false);
     },
 
     index_types: function() {
