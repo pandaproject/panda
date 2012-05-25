@@ -281,7 +281,10 @@ PANDA.views.Root = Backbone.View.extend({
         var related_dataset = note.get("related_dataset");
 
         if (related_export) {
-            window.location = related_export + "download/"; 
+            var slash = related_export.lastIndexOf("/", related_export.length - 2);
+            var id = related_export.substring(slash + 1, related_export.length - 1);
+
+            this.goto_export(id);
         }
         else if (related_dataset) {
             var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
@@ -372,10 +375,10 @@ PANDA.views.Root = Backbone.View.extend({
 
         this.current_content_view.search(query, limit, page);
 
-        var path = "search/";
+        var path = "search";
 
         if (query) {
-            path += query;
+            path += "/" + query;
         }
         
         if (limit) {
@@ -489,6 +492,17 @@ PANDA.views.Root = Backbone.View.extend({
         this.current_content_view.reset();
 
         this._router.navigate("dashboard");
+    },
+
+    goto_export: function(id) {
+        if (!this.authenticate()) {
+            return;
+        }
+        
+        this.current_content_view = this.get_or_create_view("Export");
+        this.current_content_view.reset(id);
+
+        this._router.navigate("export/" + id);
     },
 
     goto_not_found: function() {

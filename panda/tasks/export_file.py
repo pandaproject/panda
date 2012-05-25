@@ -84,11 +84,11 @@ class ExportFileTask(AbortableTask):
             
             if query:
                 email_subject = 'Export complete: "%s" in %s' % (query, dataset_name)
-                email_message = 'Export complete: "%s" in %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (query, dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+                email_message = 'Export complete: "%s" in %s. Download your results:\n\nhttp://%s/#export/%i' % (query, dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
                 notification_message = 'Export complete: <strong>"%s" in %s</strong>' % (query, dataset_name)
             else:
                 email_subject = 'Export complete: %s' % dataset_name
-                email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+                email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/#export/%i' % (dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
                 notification_message = 'Export complete: <strong>%s</strong>' % dataset_name
 
             notification_type = 'Info'
