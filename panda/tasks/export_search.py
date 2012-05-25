@@ -187,7 +187,7 @@ class ExportSearchTask(AbortableTask):
                 dataset=None)
             
             email_subject = 'Export complete: %s' % query
-            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/api/1.0/export/%i/download/' % (query, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
+            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/#export/%i' % (query, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
             notification_message = 'Export complete: <strong>%s</strong>' % query
             notification_type = 'Info'
 
