@@ -5,7 +5,6 @@ import os
 import re
 from urllib import unquote
 
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponse
@@ -16,7 +15,7 @@ from livesettings import config_value
 from tastypie.serializers import Serializer
 
 from panda.api.category import CategoryResource
-from panda.models import ActivityLog, Category, Dataset, SearchLog
+from panda.models import ActivityLog, Category, Dataset, SearchLog, UserProxy
 
 def index(request):
     """
@@ -76,17 +75,17 @@ def dashboard(request):
     datasets_without_categories = [(unquote(dataset['name']), dataset['slug']) for dataset in Dataset.objects.filter(categories=None).values('name', 'slug')]
 
     # Users
-    user_count = User.objects.all().count()
-    inactive_user_count = User.objects.filter(is_active=False).count()
+    user_count = UserProxy.objects.all().count()
+    inactive_user_count = UserProxy.objects.filter(is_active=False).count()
 
     most_active_users = \
-        User.objects.all() \
+        UserProxy.objects.all() \
         .annotate(Count('activity_logs')) \
         .filter(activity_logs__count__gt=0) \
         .order_by('-activity_logs__count')[:10]
 
     least_active_users = \
-        User.objects.all() \
+        UserProxy.objects.all() \
         .annotate(Count('activity_logs')) \
         .exclude(id__in=[user.id for user in most_active_users]) \
         .order_by('activity_logs__count')[:10]
