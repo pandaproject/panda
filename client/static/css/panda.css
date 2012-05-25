@@ -62,6 +62,10 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 #login .demo-mode { display: block; }
 
+/* Search */
+
+#search-form .btn { margin-bottom: 9px; }
+
 /* News page */
 
 #recent-datasets h3 { line-height: 1.3em; }
@@ -73,6 +77,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Datasets search page */
 
+#datasets-search-form .btn { margin-bottom: 9px; }
 #datasets-search-results { margin: 0 20px; }
 #datasets-results table { margin-top: 5px; }
 
