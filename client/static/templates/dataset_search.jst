@@ -7,7 +7,7 @@
                     <h3>Search <strong><%= unescape(dataset.name) %></strong></h3>
                     <div class="row-fluid">
                         <div class="span10"><input class="dataset-search-query" type="text" name="query" value="<% if (query) { %><%= query["__all__"].replace(/"/g, '&quot;') %><% } %>" placeholder="Enter a search query" /></div>
-                        <div class="span2"><input type="submit" class="btn primary dataset-search-submit" value="Search" /></div>
+                        <div class="span2"><input type="submit" class="btn dataset-search-submit" value="Search" /></div>
                     </div>
                     <a id="toggle-advanced-search" href="#" onclick="return false;">More search options</a>
                     <% if (query) { %>
