@@ -1,12 +1,10 @@
 <div id="search" class="row-fluid">
-    <div class="span12">
-        <form id="search-form" class="well">
-            <h3>Search all data</h3>
-            <input id="search-query" type="text" name="query" class="span8" value="<% if (query) { %><%= query.replace(/"/g, '&quot;') %><% } %>" placeholder="Enter a search query" />
-            <input type="submit" id="search-submit" class="btn" value="Search" />
-            &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
-        </form>
-    </div>
+    <form id="search-form" class="well">
+        <h3>Search all data</h3>
+        <input id="search-query" type="text" name="query" class="span8" value="<% if (query) { %><%= query.replace(/"/g, '&quot;') %><% } %>" placeholder="Enter a search query" />
+        <input type="submit" id="search-submit" class="btn" value="Search" />
+        &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
+    </form>
 </div>
 
 <div id="search-results">
