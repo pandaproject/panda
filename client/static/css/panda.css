@@ -145,7 +145,9 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #dataset-search-filters { display: none; margin-top: 16px; }
 #dataset-search-filters table tbody { border:0; }
 #dataset-search-filters table td { vertical-align:baseline; border:0; }
-#dataset-search-filters table td.thin { width:10%; }
+#dataset-search-filters table td.remove-cell { width:50px; }
+#dataset-search-filters table td.name-cell { width:100px; text-align:right; }
+#dataset-search-filters table td.operator-cell { width:10%; }
 #dataset-search-filters table td.range { font-size: 0.9em; color: #999; vertical-align:bottom; padding-bottom:0px; }
 #dataset-search-filters table td.widget-cell { width:35%; }
 #dataset-search-filters table input { margin-bottom: 0; }

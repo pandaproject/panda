@@ -8,9 +8,9 @@
 </tr>
 
 <tr>
-    <td><a class="remove-filter" href="#" onclick="return false;">Remove</a>&nbsp;</td>
-    <td><strong><%= column["name"] %></strong>&nbsp;</td>
-    <td class="thin">
+    <td class="remove-cell"><a class="remove-filter" href="#" onclick="return false;">Remove</a>&nbsp;</td>
+    <td class="name-cell"><strong><%= column["name"] %></strong>&nbsp;</td>
+    <td class="operator-cell">
         <select class="operator" data-last-value="<%= query["operator"] %>">
             <% _.each(operations, function(op, name) { %>
                 <option value="<%= name %>" <% if (query["value"] && query["operator"] == name) { %>selected="selected"<% } %>><%= op["name"] %></option>
