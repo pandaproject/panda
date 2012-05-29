@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
-import os.path
-
 from django.conf import settings
 from django.test import TransactionTestCase
 
-from panda.models import SearchSubscription
+from panda.models import Notification, SearchSubscription
 from panda.tasks import RunSubscriptionsTask
 from panda.tests import utils
 
@@ -40,9 +38,6 @@ class TestSearchSubscriptions(TransactionTestCase):
 
         self.assertNotEqual(last_run, sub.last_run)
 
-        expected_filename = 'search_subscription_%s.csv' % sub.last_run.isoformat()
-
-        self.assertEqual(os.path.exists(os.path.join(settings.EXPORT_ROOT, expected_filename)), True)
-
-        os.remove(os.path.join(settings.EXPORT_ROOT, expected_filename))
+        self.assertEqual(Notification.objects.filter(recipient=sub.user).count(), 1)
+        self.assertEqual(Notification.objects.filter(related_dataset=sub.dataset).count(), 1)
 
