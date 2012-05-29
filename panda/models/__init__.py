@@ -14,11 +14,12 @@ from panda.models.export import Export
 from panda.models.notification import Notification 
 from panda.models.related_upload import RelatedUpload
 from panda.models.search_log import SearchLog
+from panda.models.search_subscription import SearchSubscription
 from panda.models.task_status import TaskStatus
 from panda.models.user_profile import UserProfile
 from panda.models.user_proxy import UserProxy
 
-__all__ = ['ActivityLog', 'Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'SearchLog', 'TaskStatus', 'UserProfile', 'UserProxy']
+__all__ = ['ActivityLog', 'Category', 'Dataset', 'DataUpload', 'Export', 'Notification', 'RelatedUpload', 'SearchLog', 'SearchSubscription', 'TaskStatus', 'UserProfile', 'UserProxy']
 
 @receiver(models.signals.post_save, sender=UserProxy)
 def on_user_post_save(sender, instance, created, **kwargs):

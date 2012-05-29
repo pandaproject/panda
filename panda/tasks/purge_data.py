@@ -14,7 +14,7 @@ class PurgeDataTask(Task):
     name = 'panda.tasks.purge.data'
 
     def run(self, dataset_slug):
-        log = logging.getLogger('panda.tasks.purge.data')
+        log = logging.getLogger(self.name)
         log.info('Beginning purge, dataset_slug: %s' % dataset_slug)
 
         solr.delete(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % dataset_slug)

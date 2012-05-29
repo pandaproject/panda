@@ -3,12 +3,14 @@
 from uuid import uuid4
 
 from django.utils import simplejson as json
+from django.utils.timezone import now
 
 def make_data_row(dataset, data, external_id=None):
     solr_row = {
         'dataset_slug': dataset.slug,
         'full_text': '\n'.join([unicode(d) for d in data]),
-        'data': json.dumps(data)
+        'data': json.dumps(data),
+        'last_modified': now().isoformat() + 'Z' 
     }
 
     if external_id:

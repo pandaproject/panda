@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import datetime
 import logging
 from math import floor
 import os.path
@@ -12,6 +11,7 @@ from celery.contrib.abortable import AbortableTask
 from csvkit import CSVKitWriter
 from django.conf import settings
 from django.utils import simplejson as json
+from django.utils.timezone import now 
 from livesettings import config_value
 
 from panda import solr
@@ -38,7 +38,7 @@ class ExportSearchTask(AbortableTask):
         task_status.begin('Preparing to import')
 
         if not filename:
-            filename = 'search_export_%s' % (datetime.datetime.utcnow().isoformat())
+            filename = 'search_export_%s' % (now().isoformat())
 
         zip_name = '%s.zip' % filename
 
