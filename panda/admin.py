@@ -45,8 +45,8 @@ class PandaUserCreationForm(forms.ModelForm):
         username = self.cleaned_data["username"]
         
         try:
-            User.objects.get(username=username)
-        except User.DoesNotExist:
+            UserProxy.objects.get(username=username)
+        except UserProxy.DoesNotExist:
             return username
 
         raise forms.ValidationError(_("A user with that email address already exists."))
@@ -147,10 +147,10 @@ class UserModelAdmin(UserAdmin):
             self.message_user(request, 'Email is not configured for your PANDA.')
 
             return HttpResponseRedirect(
-                reverse('admin:auth_user_change', args=[pk])
+                reverse('admin:panda_userproxy_change', args=[pk])
             )
 
-        user = get_object_or_404(User, pk=pk)
+        user = get_object_or_404(UserProxy, pk=pk)
         user_profile = user.get_profile()
 
         user_profile.generate_activation_key()
@@ -160,14 +160,14 @@ class UserModelAdmin(UserAdmin):
         self.message_user(request, 'Activation email sent.')
 
         return HttpResponseRedirect(
-            reverse('admin:auth_user_change', args=[pk])
+            reverse('admin:panda_userproxy_change', args=[pk])
         )
 
     def resend_activation(self, request, queryset):
         if not config_value('EMAIL', 'EMAIL_ENABLED'):
             self.message_user(request, 'Email is not configured for your PANDA.')
             return HttpResponseRedirect(
-                reverse('admin:auth_user_changelist')
+                reverse('admin:panda_userproxy_changelist')
             )
 
         users = list(queryset)
