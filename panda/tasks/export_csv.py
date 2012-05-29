@@ -38,6 +38,8 @@ class ExportCSVTask(ExportFileTask):
 
         if not filename:
             filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())
+        else:
+            filename = '%s.csv' % filename
 
         path = os.path.join(settings.EXPORT_ROOT, filename)
 
