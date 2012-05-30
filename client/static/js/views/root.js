@@ -360,7 +360,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.goto_login();
     },
 
-    goto_search: function(query, limit, page) {
+    goto_search: function(query, since, limit, page) {
         // This little trick avoids rerendering the Search view if
         // its already visible. Only the nested results need to be
         // rerendered.
@@ -373,20 +373,24 @@ PANDA.views.Root = Backbone.View.extend({
             this.current_content_view.reset(query);
         }
 
-        this.current_content_view.search(query, limit, page);
+        this.current_content_view.search(query, since, limit, page);
 
         var path = "search";
 
         if (query) {
             path += "/" + query;
-        }
-        
-        if (limit) {
-            path += "/" + limit;
-        }
 
-        if (page) {
-            path += "/" + page;
+            if (since) {
+                path += "/" + since;
+
+                if (limit) {
+                    path += "/" + limit;
+
+                    if (page) {
+                        path += "/" + page;
+                    }
+                }
+            }
         }
 
         this._router.navigate(path);
@@ -419,14 +423,14 @@ PANDA.views.Root = Backbone.View.extend({
 
         if (query) {
             path += "/" + query;
-        }
-    
-        if (limit) {
-            path += "/" + limit;
-        }
 
-        if (page) {
-            path += "/" + page;
+            if (limit) {
+                path += "/" + limit;
+
+                if (page) {
+                    path += "/" + page;
+                }
+            }
         }
 
         this._router.navigate(path);
@@ -443,7 +447,7 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate("dataset/" + slug);
     },
 
-    goto_dataset_search: function(slug, query, limit, page) {
+    goto_dataset_search: function(slug, query, since, limit, page) {
         if (!this.authenticate()) {
             return;
         }
@@ -453,20 +457,24 @@ PANDA.views.Root = Backbone.View.extend({
             this.current_content_view.reset(slug, query);
         }
 
-        this.current_content_view.search(query, limit, page);
+        this.current_content_view.search(query, since, limit, page);
 
         var path = "dataset/" + slug + "/search";
 
         if (query) {
             path += "/" + query;
-        }
-        
-        if (limit) {
-            path += "/" + limit;
-        }
 
-        if (page) {
-            path += "/" + page;
+            if (since) {
+                path += "/" + since;
+
+                if (limit) {
+                    path += "/" + limit;
+
+                    if (page) {
+                        path += "/" + page;
+                    }
+                }
+            }
         }
 
         this._router.navigate(path);

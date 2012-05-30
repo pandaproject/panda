@@ -2,7 +2,6 @@
 
 import os.path
 import traceback
-from urllib import unquote
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings

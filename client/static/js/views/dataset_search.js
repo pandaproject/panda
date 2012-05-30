@@ -8,6 +8,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
     dataset: null,
     query: null,
+    since: "all",
     search_filters: null,
     results: null,
     view: null,
@@ -22,6 +23,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
     reset: function(dataset_slug, query_string, success_callback) {
         this.decode_query_string(query_string);
+        this.since = "all";
         
         this.dataset = new PANDA.models.Dataset({ resource_uri: PANDA.API + "/dataset/" + dataset_slug + "/" });
 
@@ -131,17 +133,19 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         return false;
     },
 
-    search: function(query, limit, page) {
+    search: function(query, since, limit, page) {
         /*
          * Execute a search.
          *
          * TODO: error handler
          */
         this.decode_query_string(query);
+        this.since = since || "all";
 
         this.render();
         this.dataset.search(
             this.make_solr_query(),
+            since,
             limit,
             page,
             _.bind(function(dataset) {

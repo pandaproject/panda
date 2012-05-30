@@ -1,28 +1,29 @@
 PANDA.routers.Index = Backbone.Router.extend({
     routes: {
-        "activate/:activation_key":                     "activate",
-        "login":                                        "login",
-        "logout":                                       "logout",
-        "":                                             "search",
-        "search":                                       "search",
-        "search/:query":                                "search",
-        "search/:query/:limit":                         "search",
-        "search/:query/:limit/:page":                   "search",
-        "upload":                                       "data_upload",
-        "dataset/:dataset_slug/upload":                 "data_upload",
-        "datasets/:category":                           "datasets_search",
-        "datasets/:category/:query":                    "datasets_search",
-        "datasets/:category/:query/:limit":             "datasets_search",
-        "datasets/:category/:query/:limit/:page":       "datasets_search",
-        "dataset/:slug":                                "dataset_view",
-        "dataset/:slug/search":                         "dataset_view",
-        "dataset/:slug/search/:query":                  "dataset_search",
-        "dataset/:slug/search/:query/:limit":           "dataset_search",
-        "dataset/:slug/search/:query/:limit/:page":     "dataset_search",
-        "user/:id":                                     "user",
-        "dashboard":                                    "dashboard",
-        "export/:id":                                   "export",
-        "*path":                                        "not_found"
+        "activate/:activation_key":                         "activate",
+        "login":                                            "login",
+        "logout":                                           "logout",
+        "":                                                 "search",
+        "search":                                           "search",
+        "search/:query":                                    "search",
+        "search/:query/:since":                             "search",
+        "search/:query/:since/:limit":                      "search",
+        "search/:query/:since/:limit/:page":                "search",
+        "upload":                                           "data_upload",
+        "dataset/:dataset_slug/upload":                     "data_upload",
+        "datasets/:category":                               "datasets_search",
+        "datasets/:category/:query":                        "datasets_search",
+        "datasets/:category/:query/:limit":                 "datasets_search",
+        "datasets/:category/:query/:limit/:page":           "datasets_search",
+        "dataset/:slug":                                    "dataset_view",
+        "dataset/:slug/search/:query":                      "dataset_search",
+        "dataset/:slug/search/:query/:since":               "dataset_search",
+        "dataset/:slug/search/:query/:since/:limit":        "dataset_search",
+        "dataset/:slug/search/:query/:since/:limit/:page":  "dataset_search",
+        "user/:id":                                         "user",
+        "dashboard":                                        "dashboard",
+        "export/:id":                                       "export",
+        "*path":                                            "not_found"
     },
 
     initialize: function(options) {
@@ -41,8 +42,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_logout();
     },
 
-    search: function(query, limit, page) {
-        this.controller.goto_search(query, limit, page);
+    search: function(query, since, limit, page) {
+        this.controller.goto_search(query, since, limit, page);
     },
 
     data_upload: function(dataset_slug) {
@@ -57,8 +58,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_dataset_view(slug);
     },
 
-    dataset_search: function(slug, query, limit, page) {
-        this.controller.goto_dataset_search(slug, query, limit, page);
+    dataset_search: function(slug, query, since, limit, page) {
+        this.controller.goto_dataset_search(slug, query, since, limit, page);
     },
     
     user: function(id) {

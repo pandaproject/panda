@@ -1,4 +1,4 @@
-New search results for "{{ query }}" in {{ related_dataset.name }}'
+New search results for "{{ query }}" in {{ related_dataset.name }} ({{ count }} new rows)
 
 See just the new results:
 TODO

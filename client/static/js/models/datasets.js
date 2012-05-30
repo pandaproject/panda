@@ -259,7 +259,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         });
     },
 
-    search: function(query, limit, page, success_callback, error_callback) {
+    search: function(query, since, limit, page, success_callback, error_callback) {
         /*
          * Query the dataset search endpoint.
          */
@@ -335,7 +335,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         return response.objects;
     },
 
-    search: function(query, limit, page, success_callback, error_callback) {
+    search: function(query, since, limit, page, success_callback, error_callback) {
         /*
          * Query the data search endpoint.
          */

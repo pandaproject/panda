@@ -7,6 +7,7 @@ PANDA.views.Search = Backbone.View.extend({
 
     datasets:  new PANDA.collections.Datasets(),
     query: null,
+    since: "all",
     results: null,
     home_view: null,
 
@@ -19,6 +20,7 @@ PANDA.views.Search = Backbone.View.extend({
 
     reset: function(query) {
         this.query = query;
+        this.since = "all";
         this.render();
     },
 
@@ -45,17 +47,19 @@ PANDA.views.Search = Backbone.View.extend({
         return false;
     },
 
-    search: function(query, limit, page) {
+    search: function(query, since, limit, page) {
         /*
          * Execute cross-dataset search.
          *
          * TODO: error handler
          */
         this.query = query;
+        this.since = since || "all";
 
         if (this.query) {
             this.datasets.search(
                 query,
+                since,
                 limit,
                 page,
                 _.bind(function(datasets) {
