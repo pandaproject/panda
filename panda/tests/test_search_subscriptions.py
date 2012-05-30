@@ -38,6 +38,6 @@ class TestSearchSubscriptions(TransactionTestCase):
 
         self.assertNotEqual(last_run, sub.last_run)
 
-        self.assertEqual(Notification.objects.filter(recipient=sub.user).count(), 1)
-        self.assertEqual(Notification.objects.filter(related_dataset=sub.dataset).count(), 1)
+        self.assertEqual(Notification.objects.filter(recipient=sub.user).count(), 2)
+        self.assertEqual(Notification.objects.filter(related_dataset=sub.dataset).count(), 2)
 

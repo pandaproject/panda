@@ -1,0 +1,7 @@
+New search results for "{{ query }}" in {{ related_dataset.name }}'
+
+See just the new results:
+TODO
+
+See all results for your search query:
+http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/{{ query }}
