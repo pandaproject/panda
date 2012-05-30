@@ -1,0 +1,4 @@
+Export complete: {% if query %}"{{ query }}" in {% endif %}{{ related_dataset.name }} ({{ related_dataset.row_count|default:0 }} rows)
+
+Download your results:
+http://{{ site_domain }}/#export/{{ related_export.pk }}

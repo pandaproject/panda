@@ -1,0 +1,7 @@
+Export failed: "{{ query }}" in all datasets
+
+{{ error }}
+
+Traceback:
+
+{{ traceback }}

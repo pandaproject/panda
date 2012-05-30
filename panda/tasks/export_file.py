@@ -6,7 +6,6 @@ from urllib import unquote
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
-from livesettings import config_value
 
 from panda.utils.notifications import notify
 
@@ -46,7 +45,9 @@ class ExportFileTask(AbortableTask):
         from panda.models import Export
 
         task_status = dataset.current_task 
-        dataset_name = unquote(dataset.name)
+
+        export = None
+        extra_context = { 'query': query }
 
         if einfo:
             if hasattr(einfo, 'traceback'):
@@ -54,23 +55,18 @@ class ExportFileTask(AbortableTask):
             else:
                 tb = ''.join(traceback.format_tb(einfo[2]))
 
-            error_detail = u'\n'.join([tb, unicode(retval)])
-
             task_status.exception(
                 'Export failed',
                 u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
-            
-            if query:
-                email_subject = 'Export failed: "%s" in %s' % (query, dataset_name)
-                email_message = 'Export failed: "%s" in %s\n%s' % (query, dataset_name, error_detail)
-                notification_message = 'Export failed: <strong>"%s" in %s</strong>' % (query, dataset_name)
-            else:
-                email_subject = 'Export failed: %s' % dataset_name
-                email_message = 'Export failed: %s\n%s' % (dataset_name, error_detail)
-                notification_message = 'Export failed: <strong>%s</strong>' % dataset_name
 
+            template_prefix = 'export_failed'
+            extra_context['error'] = unicode(retval)
+            extra_context['traceback'] = tb
             notification_type = 'Error'
+        elif self.is_aborted():
+            template_prefix = 'export_aborted'
+            notification_type = 'Info'
         else:
             task_status.complete('Export complete')
 
@@ -81,27 +77,18 @@ class ExportFileTask(AbortableTask):
                 creator=task_status.creator,
                 creation_date=task_status.start,
                 dataset=dataset)
-            
-            if query:
-                email_subject = 'Export complete: "%s" in %s' % (query, dataset_name)
-                email_message = 'Export complete: "%s" in %s. Download your results:\n\nhttp://%s/#export/%i' % (query, dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
-                notification_message = 'Export complete: <strong>"%s" in %s</strong>' % (query, dataset_name)
-            else:
-                email_subject = 'Export complete: %s' % dataset_name
-                email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/#export/%i' % (dataset_name, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
-                notification_message = 'Export complete: <strong>%s</strong>' % dataset_name
 
+            template_prefix = 'export_complete'
             notification_type = 'Info'
-
+            
         if task_status.creator:
             notify(
                 task_status.creator,
-                notification_message,
+                template_prefix,
                 notification_type,
                 related_task=task_status,
                 related_dataset=dataset,
                 related_export=export,
-                email_subject=email_subject,
-                email_message=email_message
+                extra_context=extra_context
             )
 

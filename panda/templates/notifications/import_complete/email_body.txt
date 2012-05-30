@@ -1,0 +1,5 @@
+Import complete: {{ related_dataset.name }} ({{ related_dataset.row_count|default:0 }} rows)
+
+http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}
+
+{% if type_summary %}{{ type_summary }}{% endif %}

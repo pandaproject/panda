@@ -1,0 +1,4 @@
+Export complete: "{{ query }}" in all datasets
+
+Download your results:
+http://{{ site_domain }}/#export/{{ related_export.pk }}

@@ -4,7 +4,6 @@ import traceback
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
-from livesettings import config_value
 
 from panda import solr
 from panda.utils.notifications import notify
@@ -50,6 +49,8 @@ class ImportFileTask(AbortableTask):
         """
         task_status = dataset.current_task 
 
+        extra_context = {}
+
         if einfo:
             if hasattr(einfo, 'traceback'):
                 tb = einfo.traceback
@@ -61,38 +62,28 @@ class ImportFileTask(AbortableTask):
                 u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
             
-            email_subject = 'Import failed: %s' % dataset.name
-            email_message = 'Import failed: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
-            notification_message = 'Import failed: <strong>%s</strong>' % dataset.name
+            template_prefix = 'import_failed'
+            extra_context['error'] = unicode(retval)
+            extra_context['traceback'] = tb
             notification_type = 'Error'
         elif self.is_aborted():
-            email_subject = 'Import aborted: %s' % dataset.name
-            email_message = 'Import aborted: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
-            notification_message = 'Import aborted: <strong>%s</strong>' % dataset.name
+            template_prefix = 'import_aborted'
             notification_type = 'Info'
         else:
             task_status.complete('Import complete')
-            
-            email_subject = 'Import complete: %s' % dataset.name
-            email_message = 'Import complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count or 0, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
 
-            type_summary = retval.summarize()
-
-            if type_summary:
-                email_message += '\n\n' + type_summary
-
-            notification_message = 'Import complete: <strong>%s</strong>' % dataset.name
+            template_prefix = 'import_complete'
+            extra_context['type_summary'] = retval.summarize()
             notification_type = 'Info'
         
         if task_status.creator:
             notify(
                 task_status.creator,
-                notification_message,
+                template_prefix,
                 notification_type,
                 related_task=task_status,
                 related_dataset=dataset,
                 related_export=None,
-                email_subject=email_subject,
-                email_message=email_message
+                extra_context=extra_context
             )
 

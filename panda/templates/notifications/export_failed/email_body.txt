@@ -1,0 +1,9 @@
+Export failed: {% if query %}"{{ query }}" in {% endif %}{{ related_dataset.name }}
+
+http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}
+
+{{ error }}
+
+Traceback:
+
+{{ traceback }}

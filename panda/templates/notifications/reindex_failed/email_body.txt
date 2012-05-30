@@ -1,0 +1,3 @@
+Reindex failed: {{ related_dataset.name }}
+
+http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}

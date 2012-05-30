@@ -161,20 +161,27 @@ class ExportSearchTask(AbortableTask):
         """
         from panda.models import Export
 
+        export = None
+        extra_context = { 'query': query }
+
         if einfo:
             if isinstance(einfo, tuple):
-                traceback = '\n'.join(format_tb(einfo[2]))
+                tb = '\n'.join(format_tb(einfo[2]))
             else:
-                traceback = einfo.traceback
+                tb = einfo.traceback
 
-            error_detail = u'\n'.join([traceback, unicode(retval)])
-
-            task_status.exception('Export failed', error_detail)
+            task_status.exception(
+                'Export failed',
+                u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
+            )
             
-            email_subject = 'Export failed: %s' % query
-            email_message = 'Export failed: %s:\n%s' % (query, error_detail)
-            notification_message = 'Export failed: <strong>%s</strong>' % (query)
+            template_prefix = 'export_search_failed'
+            extra_context['error'] = unicode(retval)
+            extra_context['traceback'] = tb
             notification_type = 'Error'
+        elif self.is_aborted():
+            template_prefix = 'export_search_aborted'
+            notification_type = 'Info'
         else:
             task_status.complete('Export complete')
 
@@ -185,21 +192,18 @@ class ExportSearchTask(AbortableTask):
                 creator=task_status.creator,
                 creation_date=task_status.start,
                 dataset=None)
-            
-            email_subject = 'Export complete: %s' % query
-            email_message = 'Export complete: %s. Download your results:\n\nhttp://%s/#export/%i' % (query, config_value('DOMAIN', 'SITE_DOMAIN', export.id), export.id)
-            notification_message = 'Export complete: <strong>%s</strong>' % query
+
+            template_prefix = 'export_search_complete'
             notification_type = 'Info'
 
         if task_status.creator:
             notify(
                 task_status.creator,
-                notification_message,
+                template_prefix,
                 notification_type,
                 related_task=task_status,
                 related_dataset=None,
                 related_export=export,
-                email_subject=email_subject,
-                email_message=email_message
+                extra_context=extra_context
             )
 

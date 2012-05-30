@@ -136,39 +136,28 @@ class ReindexTask(AbortableTask):
                 u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
             
-            email_subject = 'Reindex failed: %s' % dataset.name
-            email_message = 'Reindex failed: %s:\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
-            notification_message = 'Reindex failed: <strong>%s</strong>' % dataset.name
+            template_prefix = 'reindex_failed'
+            extra_context = {}
             notification_type = 'Error'
         elif self.is_aborted():
-            email_subject = 'Reindex aborted: %s' % dataset.name
-            email_message = 'Reindex aborted: %s\n\nhttp://%s/#dataset/%s' % (dataset.name, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
-            notification_message = 'Reindex aborted: <strong>%s</strong>' % dataset.name
+            template_prefix = 'reindex_aborted'
+            extra_context = {}
             notification_type = 'Info'
         else:
-            task_status.complete('Reindex complete')
-            
-            email_subject = 'Reindex complete: %s' % dataset.name
-            email_message = 'Reindex complete: %s (%i rows)\n\nhttp://%s/#dataset/%s' % (dataset.name, dataset.row_count or 0, config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug)
+            task_status.complete('Import complete')
 
-            type_summary = retval.summarize()
-
-            if type_summary:
-                email_message += '\n\n' + type_summary
-
-            notification_message = 'Reindex complete: <strong>%s</strong>' % dataset.name
+            template_prefix = 'reindex_complete'
+            extra_context = { 'type_summary': retval.summarize() }
             notification_type = 'Info'
         
         if task_status.creator:
             notify(
                 task_status.creator,
-                notification_message,
+                template_prefix,
                 notification_type,
                 related_task=task_status,
                 related_dataset=dataset,
                 related_export=None,
-                email_subject=email_subject,
-                email_message=email_message
+                extra_context=extra_context
             )
-
 
