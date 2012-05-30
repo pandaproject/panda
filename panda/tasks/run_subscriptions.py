@@ -31,17 +31,17 @@ class RunSubscriptionsTask(Task):
 
             if sub.dataset:
                 solr_query = 'dataset_slug:%s %s' % (sub.dataset.slug, sub.query)
-                response = solr.query(
-                    settings.SOLR_DATA_CORE,
-                    solr_query,
-                    offset=0,
-                    limit=0
-                )
-
-                count = response['response']['numFound'] 
             else:
-                # TODO
-                pass
+                solr_query = sub.query
+
+            response = solr.query(
+                settings.SOLR_DATA_CORE,
+                solr_query,
+                offset=0,
+                limit=0
+            )
+
+            count = response['response']['numFound'] 
 
             notify(
                 sub.user,

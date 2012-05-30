@@ -20,7 +20,7 @@ class TestSearchSubscriptions(TransactionTestCase):
         self.dataset2 = utils.get_test_dataset(self.user)
         self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
-    def test_subscription_datasets(self):
+    def test_subscription_dataset(self):
         self.dataset.import_data(self.user, self.upload)
 
         sub = SearchSubscription.objects.create(
@@ -38,6 +38,27 @@ class TestSearchSubscriptions(TransactionTestCase):
 
         self.assertNotEqual(last_run, sub.last_run)
 
-        self.assertEqual(Notification.objects.filter(recipient=sub.user).count(), 2)
-        self.assertEqual(Notification.objects.filter(related_dataset=sub.dataset).count(), 2)
+        self.assertEqual(Notification.objects.filter(recipient=self.user).count(), 2)
+        self.assertEqual(Notification.objects.filter(related_dataset=self.dataset).count(), 2)
+
+    def test_subscription_global(self):
+        self.dataset.import_data(self.user, self.upload)
+
+        sub = SearchSubscription.objects.create(
+            user=self.user,
+            dataset=None,
+            query='*'
+        )
+
+        last_run = sub.last_run
+
+        RunSubscriptionsTask.apply_async()
+
+        # Refresh from database
+        sub = SearchSubscription.objects.get(pk=sub.pk)
+
+        self.assertNotEqual(last_run, sub.last_run)
+
+        self.assertEqual(Notification.objects.filter(recipient=self.user).count(), 2)
+        self.assertEqual(Notification.objects.filter(related_dataset=self.dataset).count(), 1)
 
