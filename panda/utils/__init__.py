@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-
 from django.conf import settings
 
 import column_schema
 import csvdata as csv
 import email
+import notifications
 import solr
 import typecoercion
 import xls

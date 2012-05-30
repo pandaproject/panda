@@ -8,7 +8,7 @@ from celery.contrib.abortable import AbortableTask
 from django.conf import settings
 from livesettings import config_value
 
-from panda.utils.mail import send_mail
+from panda.utils.notifications import notify
 
 class ExportFileTask(AbortableTask):
     """
@@ -43,7 +43,7 @@ class ExportFileTask(AbortableTask):
         """
         Send user notifications this task has finished.
         """
-        from panda.models import Export, Notification
+        from panda.models import Export
 
         task_status = dataset.current_task 
         dataset_name = unquote(dataset.name)
@@ -94,14 +94,14 @@ class ExportFileTask(AbortableTask):
             notification_type = 'Info'
 
         if task_status.creator:
-            Notification.objects.create(
-                recipient=task_status.creator,
+            notify(
+                task_status.creator,
+                notification_message,
+                notification_type,
                 related_task=task_status,
                 related_dataset=dataset,
                 related_export=export,
-                message=notification_message,
-                type=notification_type
+                email_subject=email_subject,
+                email_message=email_message
             )
-            
-            send_mail(email_subject, email_message, [task_status.creator.username])
 

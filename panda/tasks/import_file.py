@@ -7,7 +7,7 @@ from django.conf import settings
 from livesettings import config_value
 
 from panda import solr
-from panda.utils.mail import send_mail
+from panda.utils.notifications import notify
 
 SOLR_ADD_BUFFER_SIZE = 500
 
@@ -48,8 +48,6 @@ class ImportFileTask(AbortableTask):
         """
         Send user notifications this task has finished.
         """
-        from panda.models import Notification
-
         task_status = dataset.current_task 
 
         if einfo:
@@ -87,13 +85,14 @@ class ImportFileTask(AbortableTask):
             notification_type = 'Info'
         
         if task_status.creator:
-            Notification.objects.create(
-                recipient=task_status.creator,
+            notify(
+                task_status.creator,
+                notification_message,
+                notification_type,
                 related_task=task_status,
                 related_dataset=dataset,
-                message=notification_message,
-                type=notification_type
+                related_export=None,
+                email_subject=email_subject,
+                email_message=email_message
             )
-
-            send_mail(email_subject, email_message, [task_status.creator.username])
 

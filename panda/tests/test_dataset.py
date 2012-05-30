@@ -456,7 +456,7 @@ class TestDataset(TransactionTestCase):
     def test_export_csv(self):
         self.dataset.import_data(self.user, self.upload)
 
-        self.dataset.export_data(self.user, filename='test_export.csv')
+        self.dataset.export_data(self.user, filename='test_export')
 
         task = self.dataset.current_task
 
@@ -485,7 +485,7 @@ class TestDataset(TransactionTestCase):
     def test_export_query_csv(self):
         self.dataset.import_data(self.user, self.upload)
 
-        self.dataset.export_data(self.user, query='tribune', filename='test_export.csv')
+        self.dataset.export_data(self.user, query='tribune', filename='test_export')
 
         task = self.dataset.current_task
 
