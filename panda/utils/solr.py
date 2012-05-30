@@ -6,11 +6,14 @@ from django.utils import simplejson as json
 from django.utils.timezone import now
 
 def make_data_row(dataset, data, external_id=None):
+    last_modified = now().replace(microsecond=0, tzinfo=None)
+    last_modified = last_modified.isoformat('T') + 'Z' 
+
     solr_row = {
         'dataset_slug': dataset.slug,
         'full_text': '\n'.join([unicode(d) for d in data]),
         'data': json.dumps(data),
-        'last_modified': now().isoformat() + 'Z' 
+        'last_modified': last_modified 
     }
 
     if external_id:

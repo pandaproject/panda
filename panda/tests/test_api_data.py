@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+from time import sleep
+
 from django.conf import settings
 from django.test import TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
+from django.utils.timezone import now
 from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest
 
@@ -404,6 +407,38 @@ class TestAPIData(TransactionTestCase):
             self.assertEqual(result_dataset['objects'][0]['data'][1], 'Christopher')
             self.assertIn('resource_uri', result_dataset['objects'][0])
             self.assertIn('external_id', result_dataset['objects'][0])
+
+    def test_search_since(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        # Import second dataset so we can make sure only one matches 
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            creator=self.dataset.creator)
+
+        second_dataset.import_data(self.user, self.upload, 0)
+
+        between_time = now().replace(microsecond=0, tzinfo=None)
+        between_time = between_time.isoformat('T') 
+        sleep(1)
+        
+        # Import second dataset twice, to verify only one is matched
+        second_dataset.import_data(self.user, self.upload, 0)
+
+        response = self.client.get('/api/1.0/data/?q=Christopher&since=%s' % between_time, **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+
+        # Verify that each matched dataset includes one result
+        result_dataset = body['objects'][0]
+        self.assertEqual(result_dataset['meta']['total_count'], 1)
+        self.assertEqual(len(result_dataset['objects']), 1)
 
     def test_search_meta(self):
         self.dataset.import_data(self.user, self.upload, 0)

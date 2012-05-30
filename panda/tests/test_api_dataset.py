@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+from time import sleep
+
 from django.conf import settings
 from django.test import TestCase, TransactionTestCase
 from django.test.client import Client
 from django.utils import simplejson as json
+from django.utils.timezone import now
 from tastypie.bundle import Bundle
 
 from panda import solr
@@ -538,6 +541,42 @@ class TestAPIDataset(TransactionTestCase):
         response = self.client.get('/api/1.0/dataset/%s/data/?q=Christopher' % self.dataset.slug)
 
         self.assertEqual(response.status_code, 401)
+
+    def test_search_data_since(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        # Refetch dataset so that attributes will be updated
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+
+        # Import second dataset so we can make sure only one is matched
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            creator=self.dataset.creator)
+
+        second_dataset.import_data(self.user, self.upload, 0)
+
+        between_time = now().replace(microsecond=0, tzinfo=None)
+        between_time = between_time.isoformat('T')
+        sleep(1)
+
+        # Import 2nd dataset again, to verify only one is matched
+        second_dataset.import_data(self.user, self.upload, 0)
+
+        response = self.client.get('/api/1.0/dataset/%s/data/?q=Christopher&since=%s' % (self.dataset.slug, between_time), **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+        
+        # Verify that correct attributes of the dataset are attached
+        self.assertEqual(int(body['id']), self.dataset.id)
+        self.assertEqual(body['name'], self.dataset.name)
+        self.assertEqual(body['row_count'], self.dataset.row_count)
+        self.assertEqual(body['column_schema'], self.dataset.column_schema)
+
+        # Test that only one dataset and one import was matched
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
 
     def test_search_datasets(self):
         second_dataset = Dataset.objects.create(

@@ -394,10 +394,14 @@ class DataResource(PandaResource):
         self.throttle_check(request)
 
         query = request.GET.get('q', '')
+        since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
         group_limit = int(request.GET.get('group_limit', settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP))
         group_offset = int(request.GET.get('group_offset', 0))
+
+        if since:
+            query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
 
         response = solr.query_grouped(
             settings.SOLR_DATA_CORE,
@@ -493,6 +497,7 @@ class DataResource(PandaResource):
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
         query = request.GET.get('q', '')
+        since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
@@ -500,6 +505,9 @@ class DataResource(PandaResource):
             solr_query = 'dataset_slug:%s AND (%s)' % (dataset.slug, query)
         else:
             solr_query = 'dataset_slug:%s' % dataset.slug
+
+        if since:
+            solr_query += ' AND last_modified:[' + since + 'Z TO *]'
 
         response = solr.query(
             settings.SOLR_DATA_CORE,
