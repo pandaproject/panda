@@ -135,9 +135,13 @@ from celery.schedules import crontab
 CELERYBEAT_SCHEDULE = {
     'purge_orphaned_uploads': {
         'task': 'panda.tasks.cron.purge_orphaned_uploads',
-        'schedule': crontab(minute=0, hour=3),
+        'schedule': crontab(minute=0, hour=2),
         'kwargs': { 'fake': False }
     },
+    'run_subscriptions': {
+        'task': 'panda.tasks.cron.run_subscriptions',
+        'schedule': crontab(minute=30, hour=2)
+    }
 }
 
 # South
