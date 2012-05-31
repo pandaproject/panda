@@ -28,7 +28,14 @@ PANDA.views.User = Backbone.View.extend({
                         limit: 1000
                     },
                     success: _.bind(function(model, response) {
-                        this.render();
+                        this.user.refresh_subscriptions(
+                            _.bind(function(model, response) {
+                                this.render();
+                            }, this),
+                            function(model, response) {
+                                Redd.goto_server_error();
+                            }
+                        );
                     }, this),
                     error: _.bind(function(model, response) {
                         if (response.status == 404) {

@@ -31,7 +31,7 @@ PANDA.models.User = Backbone.Model.extend({
             },
             success: _.bind(function(response) {
                 if (success_callback) {
-                    success_callback(this);
+                    success_callback(this, response);
                 }
             }, this),
             error: function(xhr, textStatus) {
@@ -73,7 +73,7 @@ PANDA.models.User = Backbone.Model.extend({
             },
             success: _.bind(function(response) {
                 if (success_callback) {
-                    success_callback(this);
+                    success_callback(this, response);
                 }
             }, this),
             error: function(xhr, textStatus) {
