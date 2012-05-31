@@ -17,16 +17,17 @@ class SearchSubscriptionResource(PandaModelResource):
     class Meta:
         queryset = SearchSubscription.objects.all()
         resource_name = 'search_subscription'
+        allowed_methods = ['get', 'post', 'delete']
         
         authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 
     def obj_create(self, bundle, request=None, **kwargs):
-        return super(SearchSubscriptionResource, self).obj_create(bundle, request, recipient=request.user)
+        return super(SearchSubscriptionResource, self).obj_create(bundle, request, user=request.user)
 
     def apply_authorization_limits(self, request, object_list):
-        return object_list.filter(recipient=request.user)
+        return object_list.filter(user=request.user)
 
     def save_related(self, bundle):
         """

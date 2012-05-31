@@ -5,6 +5,7 @@ PANDA.models.User = Backbone.Model.extend({
     urlRoot: PANDA.API + "/user",
 
     notifications: null,
+    subscriptions: null,
 
     initialize: function(attributes) {
         if ("notifications" in attributes) {
@@ -12,6 +13,8 @@ PANDA.models.User = Backbone.Model.extend({
         } else {
             this.notifications = new PANDA.collections.Notifications();
         }
+
+        this.subscriptions = new PANDA.collections.SearchSubscriptions();
     },
 
     refresh_notifications: function(success_callback, error_callback) {
@@ -24,7 +27,7 @@ PANDA.models.User = Backbone.Model.extend({
         this.notifications.fetch({
             data: {
                 read_at__isnull: true,
-                limit: 1000,
+                limit: 1000
             },
             success: _.bind(function(response) {
                 if (success_callback) {
@@ -55,6 +58,32 @@ PANDA.models.User = Backbone.Model.extend({
 
         this.notifications.reset();
         success_callback();
+    },
+
+    refresh_subscriptions: function(success_callback, error_callback) {
+        /*
+         * Refresh subscriptions list from the server.
+         *
+         * NB: Returns up to a thousand subscriptions.
+         * This may need to be tweaked later.
+         */
+        this.subscriptions.fetch({
+            data: {
+                limit: 1000
+            },
+            success: _.bind(function(response) {
+                if (success_callback) {
+                    success_callback(this);
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(this, error);
+                }
+            }
+        });
     }
 });
 

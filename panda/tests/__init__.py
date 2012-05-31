@@ -11,6 +11,7 @@ from panda.tests.test_api_notification import TestAPINotifications
 from panda.tests.test_api_task_status import TestAPITaskStatus
 from panda.tests.test_api_data_upload import TestAPIDataUpload
 from panda.tests.test_api_related_upload import TestAPIRelatedUpload
+from panda.tests.test_api_search_subscriptions import TestAPISearchSubscriptions
 from panda.tests.test_api_user import TestUserValidation, TestAPIUser
 from panda.tests.test_api_category import TestAPICategories
 from panda.tests.test_dataset import TestDataset
