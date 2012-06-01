@@ -84,6 +84,29 @@ PANDA.models.User = Backbone.Model.extend({
                 }
             }
         });
+    },
+
+    toJSON: function(full) {
+        /*
+         * Append embedded models to serialized data.
+         *
+         * NOTE: never serialize embedded data from search results.
+         */
+        var js = Backbone.Model.prototype.toJSON.call(this);
+
+        if (full) {
+            js['notifications'] = this.notifications.toJSON();
+        } else {
+            js['notifications'] = this.notifications.map(function(note) { return note.id });
+        }
+
+        if (full) {
+            js['subscriptions'] = this.subscriptions.toJSON();
+        } else {
+            js['subscriptions'] = this.subscriptions.map(function(sub) { return sub.id });
+        }
+
+        return js;
     }
 });
 

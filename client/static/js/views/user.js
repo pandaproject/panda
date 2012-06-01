@@ -12,6 +12,8 @@ PANDA.views.User = Backbone.View.extend({
         
         this.edit_view = new PANDA.views.UserEdit();
         this.change_password_view = new PANDA.views.UserChangePassword();
+        
+        $("#subscriptions li .delete").live("click", this.delete_subscription);
     },
 
     reset: function(id) {
@@ -64,7 +66,7 @@ PANDA.views.User = Backbone.View.extend({
         $("#modal-edit-user").remove();
 
         var context = PANDA.utils.make_context({
-            user: this.user.toJSON(),
+            user: this.user.toJSON(true),
             datasets: this.datasets.results(),
             current_user: Redd.get_current_user().toJSON() 
         });
@@ -76,6 +78,8 @@ PANDA.views.User = Backbone.View.extend({
         
         this.change_password_view.el = $("#modal-user-change-password");
         $("#user-change-password").click(this.change_password);
+
+        $('#subscriptions li a[rel="tooltip"]').tooltip();
     },
 
     edit: function() {
@@ -86,6 +90,18 @@ PANDA.views.User = Backbone.View.extend({
     change_password: function() {
         this.change_password_view.render();
         $("#modal-user-change-password").modal("show");
+    },
+
+    delete_subscription: function(e) {
+        var element = $(e.currentTarget);
+        var uri = element.attr("data-uri"); 
+        var sub = this.user.subscriptions.get(uri);
+
+        this.user.subscriptions.remove(sub);
+        sub.destroy();
+        element.parent("li").remove();
+
+        return false;
     }
 });
 
