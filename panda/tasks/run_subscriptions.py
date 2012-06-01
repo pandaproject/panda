@@ -27,15 +27,15 @@ class RunSubscriptionsTask(Task):
             log.info('Running subscription: %s' % sub)
 
             since = sub.last_run.replace(microsecond=0, tzinfo=None)
-            since = since.isoformat('T') + 'Z' 
+            since = since.isoformat('T')
 
             sub.last_run = now()
             sub.save()
 
             if sub.dataset:
-                solr_query = 'dataset_slug:%s AND last_modified:[%s TO *] AND (%s)' % (sub.dataset.slug, since, sub.query)
+                solr_query = 'dataset_slug:%s AND last_modified:[%s TO *] AND (%s)' % (sub.dataset.slug, since + 'Z', sub.query)
             else:
-                solr_query = 'last_modified:[%s TO *] AND (%s)' % (since, sub.query)
+                solr_query = 'last_modified:[%s TO *] AND (%s)' % (since + 'Z', sub.query)
 
             response = solr.query(
                 settings.SOLR_DATA_CORE,
@@ -58,7 +58,8 @@ class RunSubscriptionsTask(Task):
                     related_export=None,
                     extra_context={
                         'query': sub.query,
-                        'count': count
+                        'count': count,
+                        'since': since
                     }
                 )
 

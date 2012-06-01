@@ -277,10 +277,20 @@ PANDA.models.Dataset = Backbone.Model.extend({
             this.data.meta.offset = 0;
         }
 
+        data = {
+            q: query,
+            limit: this.data.meta.limit,
+            offset: this.data.meta.offset
+        }
+
+        if (since != "all") {
+            data.since = since;
+        }
+
         Redd.ajax({
             url: PANDA.API + "/dataset/" + this.get("slug") + "/data/",
             dataType: 'json',
-            data: { q: query, limit: this.data.meta.limit, offset: this.data.meta.offset },
+            data: data,
             success: _.bind(function(response) {
                 this.process_search_results(response);
 
@@ -353,10 +363,20 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
             this.meta.offset = 0;
         }
 
+        data = {
+            q: query,
+            limit: this.meta.limit,
+            offset: this.meta.offset
+        }
+
+        if (since != "all") {
+            data.since = since;
+        }
+
         Redd.ajax({
             url: PANDA.API + "/data/",
             dataType: 'json',
-            data: { q: query, limit: this.meta.limit, offset: this.meta.offset },
+            data: data,
             success: _.bind(function(response) {
                 this.process_search_results(response); 
 
