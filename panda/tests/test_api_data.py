@@ -418,9 +418,9 @@ class TestAPIData(TransactionTestCase):
 
         second_dataset.import_data(self.user, self.upload, 0)
 
+        sleep(1)
         between_time = now().replace(microsecond=0, tzinfo=None)
         between_time = between_time.isoformat('T') 
-        sleep(1)
         
         # Import second dataset twice, to verify only one is matched
         second_dataset.import_data(self.user, self.upload, 0)

@@ -555,24 +555,21 @@ class TestAPIDataset(TransactionTestCase):
 
         second_dataset.import_data(self.user, self.upload, 0)
 
+        sleep(1)
         between_time = now().replace(microsecond=0, tzinfo=None)
         between_time = between_time.isoformat('T')
-        sleep(1)
 
         # Import 2nd dataset again, to verify only one is matched
         second_dataset.import_data(self.user, self.upload, 0)
 
-        response = self.client.get('/api/1.0/dataset/%s/data/?q=Christopher&since=%s' % (self.dataset.slug, between_time), **self.auth_headers)
+        response = self.client.get('/api/1.0/dataset/%s/data/?q=Christopher&since=%s' % (second_dataset.slug, between_time), **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
         
         # Verify that correct attributes of the dataset are attached
-        self.assertEqual(int(body['id']), self.dataset.id)
-        self.assertEqual(body['name'], self.dataset.name)
-        self.assertEqual(body['row_count'], self.dataset.row_count)
-        self.assertEqual(body['column_schema'], self.dataset.column_schema)
+        self.assertEqual(int(body['id']), second_dataset.id)
 
         # Test that only one dataset and one import was matched
         self.assertEqual(body['meta']['total_count'], 1)
