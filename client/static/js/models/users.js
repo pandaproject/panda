@@ -14,7 +14,11 @@ PANDA.models.User = Backbone.Model.extend({
             this.notifications = new PANDA.collections.Notifications();
         }
 
-        this.subscriptions = new PANDA.collections.SearchSubscriptions();
+        if ("subscriptions" in attributes) {
+            this.subscriptions = new PANDA.collections.SearchSubscriptions(attributes.subscriptions);
+        } else {
+            this.subscriptions = new PANDA.collections.SearchSubscriptions();
+        }
     },
 
     refresh_notifications: function(success_callback, error_callback) {
@@ -68,6 +72,7 @@ PANDA.models.User = Backbone.Model.extend({
          * This may need to be tweaked later.
          */
         this.subscriptions.fetch({
+            async: false,
             data: {
                 limit: 1000
             },

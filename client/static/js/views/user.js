@@ -24,20 +24,18 @@ PANDA.views.User = Backbone.View.extend({
             async: false,
             success: _.bind(function(model, response) {
                 this.datasets.fetch({
+                    async: false,
                     data: {
                         creator_email: this.user.get("email"),
                         simple: true,
                         limit: 1000
                     },
                     success: _.bind(function(model, response) {
-                        this.user.refresh_subscriptions(
-                            _.bind(function(model, response) {
-                                this.render();
-                            }, this),
-                            function(model, response) {
-                                Redd.goto_server_error();
-                            }
-                        );
+                        if (this.user.get("id") == Redd.get_current_user().get("id")) {
+                            this.user.refresh_subscriptions();
+                        }
+
+                        this.render();
                     }, this),
                     error: _.bind(function(model, response) {
                         if (response.status == 404) {

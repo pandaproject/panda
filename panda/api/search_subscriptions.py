@@ -12,7 +12,7 @@ class SearchSubscriptionResource(PandaModelResource):
     """
     from panda.api.datasets import DatasetResource
 
-    dataset = fields.ForeignKey(DatasetResource, 'dataset', null=True)
+    dataset = fields.ForeignKey(DatasetResource, 'dataset', null=True, full=True)
 
     class Meta:
         queryset = SearchSubscription.objects.all()
