@@ -69,6 +69,7 @@
 
         <div id="step-2-alert" class="alert"></div>
         
+        <% if (!dataset) { %>
         <form id="dataset-details-form" class="form-stacked">
             <div class="control-group">
                 <label for="dataset-name">Name</label>
@@ -88,7 +89,8 @@
                 <%= category.name %>
             </label>
             <% }); %>
-        </form> 
+        </form>
+        <% } %>
         
         <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" disabled="disabled" />
     </div>
