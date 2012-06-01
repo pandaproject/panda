@@ -20,6 +20,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         
         // Nuke old modals
         $("#modal-export-search-results").remove();
+        $("#modal-subscribe-search-results").remove();
 
         var context = PANDA.utils.make_context(this.dataset.data.meta);
 
@@ -34,6 +35,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         this.el.html(PANDA.templates.dataset_results(context));
 
          $("#search-results-export").click(this.export_results);
+         $("#search-results-subscribe").click(this.subscribe_results);
     },
     
     export_results: function() {
@@ -57,5 +59,26 @@ PANDA.views.DatasetResults = Backbone.View.extend({
                 bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
             }
         );
+    },
+    
+    subscribe_results: function() {
+        /*
+         * Subscribe to search results.
+         */
+        sub = new PANDA.models.SearchSubscription({
+            dataset: this.dataset.id,
+            query: this.search.make_solr_query()
+        });
+
+        sub.save({}, {
+            async: false,
+            success: _.bind(function(model, response) {
+                bootbox.alert("You are now subscribed to notifications for this query.");
+            }, this),
+            error: function(model, response) {
+                error = JSON.parse(response);
+                bootbox.alert("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            }
+        });
     }
 });

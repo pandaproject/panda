@@ -26,13 +26,16 @@ class RunSubscriptionsTask(Task):
         for sub in subscriptions:
             log.info('Running subscription: %s' % sub)
 
+            since = sub.last_run.replace(microsecond=0, tzinfo=None)
+            since = since.isoformat('T') + 'Z' 
+
             sub.last_run = now()
             sub.save()
 
             if sub.dataset:
-                solr_query = 'dataset_slug:%s %s' % (sub.dataset.slug, sub.query)
+                solr_query = 'dataset_slug:%s AND last_modified:[%s TO *] AND (%s)' % (sub.dataset.slug, since, sub.query)
             else:
-                solr_query = sub.query
+                solr_query = 'last_modified:[%s TO *] AND (%s)' % (since, sub.query)
 
             response = solr.query(
                 settings.SOLR_DATA_CORE,
@@ -43,18 +46,21 @@ class RunSubscriptionsTask(Task):
 
             count = response['response']['numFound'] 
 
-            notify(
-                sub.user,
-                'subscription_results',
-                'info',
-                related_task=None,
-                related_dataset=sub.dataset,
-                related_export=None,
-                extra_context={
-                    'query': sub.query,
-                    'count': count
-                }
-            )
+            log.info('Found %i new results' % count)
+
+            if count:
+                notify(
+                    sub.user,
+                    'subscription_results',
+                    'info',
+                    related_task=None,
+                    related_dataset=sub.dataset,
+                    related_export=None,
+                    extra_context={
+                        'query': sub.query,
+                        'count': count
+                    }
+                )
 
         log.info('Finished running subscribed searches')
 

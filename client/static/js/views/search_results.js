@@ -12,6 +12,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
     render: function() {
         // Nuke old modals
         $("#modal-export-search-results").remove();
+        $("#modal-subscribe-search-results").remove();
 
         var context = PANDA.utils.make_context(this.datasets.meta);
 
@@ -26,34 +27,26 @@ PANDA.views.SearchResults = Backbone.View.extend({
         this.el.html(PANDA.templates.search_results(context));
 
         $("#search-results-export").click(this.export_results);
+        $("#search-results-subscribe").click(this.subscribe_results);
     },
     
-    export_results: function() {
+    subscribe_results: function() {
         /*
-         * Export complete dataset to CSV files asynchronously.
+         * Subscribe to search results.
          */
-        data = {
-            q: this.search.query
-        };
+        sub = new PANDA.models.SearchSubscription({
+            dataset: null,
+            query: this.search.query
+        });
 
-        Redd.ajax({
-            url: PANDA.API + "/data/export/",
-            dataType: "json",
-            data: data,
-            success: _.bind(function(response) {
-                var note = "Your export has been successfully queued.";
-
-                if (PANDA.settings.EMAIL_ENABLED) {
-                    note += " When it is complete you will be emailed a link to download the file."
-                } else {
-                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
-                }
-
-                bootbox.alert(note);
+        sub.save({}, {
+            async: false,
+            success: _.bind(function(model, response) {
+                bootbox.alert("You are now subscribed to notifications for this query.");
             }, this),
-            error: function(xhr, textStatus) {
-                error = JSON.parse(xhr.responseText);
-                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            error: function(model, response) {
+                error = JSON.parse(response);
+                bootbox.alert("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>" + error.traceback + "</code>");
             }
         });
     }

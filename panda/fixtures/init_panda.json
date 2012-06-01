@@ -75,6 +75,16 @@
                     "add_activitylog", 
                     "panda", 
                     "activitylog"
+                ],
+                [
+                    "add_searchsubscription", 
+                    "panda", 
+                    "searchsubscription"
+                ],
+                [
+                    "delete_searchsubscription", 
+                    "panda", 
+                    "searchsubscription"
                 ]
             ]
         }
