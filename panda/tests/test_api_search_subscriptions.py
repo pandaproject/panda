@@ -153,7 +153,7 @@ class TestAPISearchSubscriptions(TransactionTestCase):
 
         response = self.client.delete('/api/1.0/search_subscription/%i/' % sub.id, **utils.get_auth_headers('nobody@nobody.com'))
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 404)
 
         response = self.client.get('/api/1.0/search_subscription/%i/' % sub.id, **self.auth_headers)
 

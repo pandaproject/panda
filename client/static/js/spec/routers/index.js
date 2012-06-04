@@ -32,7 +32,7 @@ describe("Index Router", function() {
     });
 
     it("should route to search", function() {
-        this.controller_mock.expects("goto_search").withExactArgs(undefined, undefined, undefined).once();
+        this.controller_mock.expects("goto_search").withExactArgs(undefined, undefined, undefined, undefined).once();
 
         this.router.navigate("", true);
 
@@ -40,7 +40,7 @@ describe("Index Router", function() {
     });
 
     it("should support search query", function() {
-        this.controller_mock.expects("goto_search").withExactArgs("query", undefined, undefined).once();
+        this.controller_mock.expects("goto_search").withExactArgs("query", undefined, undefined, undefined).once();
 
         this.router.navigate("search/query", true);
 
@@ -48,17 +48,17 @@ describe("Index Router", function() {
     });
 
     it("should support search limit", function() {
-        this.controller_mock.expects("goto_search").withExactArgs("query", "10", undefined).once();
+        this.controller_mock.expects("goto_search").withExactArgs("query", "all", "10", undefined).once();
 
-        this.router.navigate("search/query/10", true);
+        this.router.navigate("search/query/all/10", true);
 
         this.controller_mock.verify();
     });
 
     it("should support search paging", function() {
-        this.controller_mock.expects("goto_search").withExactArgs("query", "10", "2").once();
+        this.controller_mock.expects("goto_search").withExactArgs("query", "all", "10", "2").once();
 
-        this.router.navigate("search/query/10/2", true);
+        this.router.navigate("search/query/all/10/2", true);
 
         this.controller_mock.verify();
     });
@@ -112,7 +112,7 @@ describe("Index Router", function() {
     });
 
     it("should route to per-dataset search", function() {
-        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", undefined, undefined).once();
+        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", undefined, undefined, undefined).once();
 
         this.router.navigate("dataset/17/search/query", true);
 
@@ -120,17 +120,16 @@ describe("Index Router", function() {
     });
 
     it("should support per-dataset search limit", function() {
-        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", "10", undefined).once();
+        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", "all", "10", undefined).once();
 
-        this.router.navigate("dataset/17/search/query/10", true);
+        this.router.navigate("dataset/17/search/query/all/10", true);
 
         this.controller_mock.verify();
     });
 
     it("should support per-dataset search paging", function() {
-        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", "10", "2").once();
-
-        this.router.navigate("dataset/17/search/query/10/2", true);
+        this.controller_mock.expects("goto_dataset_search").withExactArgs("17", "query", "all", "10", "2").once();
+        this.router.navigate("dataset/17/search/query/all/10/2", true);
 
         this.controller_mock.verify();
     });
