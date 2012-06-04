@@ -17,39 +17,15 @@ PANDA.views.User = Backbone.View.extend({
     },
 
     reset: function(id) {
+        var error = false;
+
         this.user = new PANDA.models.User({ resource_uri: PANDA.API + "/user/" + id + "/" });
-        this.datasets = new PANDA.collections.Datasets();
 
         this.user.fetch({
             async: false,
-            success: _.bind(function(model, response) {
-                this.datasets.fetch({
-                    async: false,
-                    data: {
-                        creator_email: this.user.get("email"),
-                        simple: true,
-                        limit: 1000
-                    },
-                    success: _.bind(function(model, response) {
-                        if (this.user.get("id") == Redd.get_current_user().get("id")) {
-                            this.user.refresh_subscriptions();
-                        }
-
-                        this.render();
-                    }, this),
-                    error: _.bind(function(model, response) {
-                        if (response.status == 404) {
-                            Redd.goto_not_found(); 
-                        } else {
-                            Redd.goto_server_error();
-                        }
-                    }, this)
-                });
-
-                this.edit_view.set_user(this.user);
-                this.change_password_view.set_user(this.user);
-            }, this),
             error: _.bind(function(model, response) {
+                error = true;
+
                 if (response.status == 404) {
                     Redd.goto_not_found(); 
                 } else {
@@ -57,6 +33,43 @@ PANDA.views.User = Backbone.View.extend({
                 }
             }, this)
         });
+
+        if (error) {
+            return;
+        }
+
+        this.datasets = new PANDA.collections.Datasets();
+
+        this.datasets.fetch({
+            async: false,
+            data: {
+                creator_email: this.user.get("email"),
+                simple: true,
+                limit: 1000
+            },
+            error: _.bind(function(model, response) {
+                error = true;
+
+                if (response.status == 404) {
+                    Redd.goto_not_found(); 
+                } else {
+                    Redd.goto_server_error();
+                }
+            }, this)
+        });
+
+        if (error) {
+            return;
+        }
+
+        this.edit_view.set_user(this.user);
+        this.change_password_view.set_user(this.user);
+
+        if (this.user.get("id") == Redd.get_current_user().get("id")) {
+            this.user.refresh_subscriptions();
+        }
+
+        this.render();
     },
 
     render: function() {
