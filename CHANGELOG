@@ -1,6 +1,21 @@
 0.2.0
 -----
 
+* Implement automated search notifications. (#703)
+* Add landing pages for exports so they use the login logic. (#711)
+* Prompt for metadata during upload. (#710)
+* Add a human-readable description to tasks in the admin. (#709)
+* Fix longstanding bug where task error notifications may fail. (#700)
+* Add row count to import and reindex notification emails. (#697)
+* Fix filters so it is possible to search for a zero. (#696)
+* Add "Resend activation code" button to User admin pages. (#690)
+* Escape dataset names on User pages. (#685)
+* Reorganize import errors to be more readable. (#617)
+* Don't disable dataset search during import. (#483)
+* Update dataset full text when a user's name is changed via the admin. (#351)
+* Update dataset full text when a user's name is changed via the API. (#350)
+* Handle SMTP connection errors gracefully. (#335)
+* Normalize API behavior for Notications. (#237)
 * Fix bug where column filters could not be searched alone. (#694)
 * Fix bug where column filter ranges would not display. (#695)
 * Warn when uploading a file if low on storage space. (#693)
