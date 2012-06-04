@@ -13,6 +13,22 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
 The following release are in **reverse** version order. They **must** be performed in sequence (from lowest version number to highest version number--reverse order on this page).
 
+0.1.4 to 0.2.0
+==============
+
+To upgrade your PANDA from the 0.1.4 release to the 0.2.0 release, :doc:`SSH <ssh>` into your server and execute the following commands::
+
+    wget https://raw.github.com/pandaproject/panda/0.2.0/scripts/migrations/0.1.4-to-0.2.0.sh
+    sudo bash 0.1.4-to-0.2.0.sh
+
+Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-0.2.0.log``.
+
+.. note::
+
+    As part of this upgrade all existing activation keys will be voided. New activation keys can be generated via the admin.
+
+Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
+
 0.1.3 to 0.1.4
 ==============
 
