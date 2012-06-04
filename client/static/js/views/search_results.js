@@ -16,7 +16,13 @@ PANDA.views.SearchResults = Backbone.View.extend({
 
         var context = PANDA.utils.make_context(this.datasets.meta);
 
-        context["query"] = this.search.query,
+        context["query"] = this.search.query;
+        context["since"] = this.search.since;
+
+        if (this.search.since != "all") {
+            context["all_results_url"] = "#search/" + this.search.query;
+        }
+
         context["root_url"] = "#search/" + this.search.query + "/" + this.search.since;
         context["pager_unit"] = "dataset";
         context["row_count"] = null;
