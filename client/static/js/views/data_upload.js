@@ -204,10 +204,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     step_one: function() {
         $(".alert").hide();
-        $("#step-2 .progress-bar").hide();
         this.on_progress(null, null, 0, 1);
-        $("#step-3 .sample-data").hide();
-        $("#step-3 .sample-data").empty();
         
         $("#step-1 .notes.xls").hide();
         $(".csv-options").hide();
@@ -218,7 +215,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
         var filename = filepath_parts[filepath_parts.length - 1];
         var no_ext = filename.substr(0, filename.lastIndexOf('.'));
         
-        $("#step-2 .progress-bar").show();
         $("#dataset-name").val(no_ext);
         $("#step-2").collapse({ toggle: true, parent: "#steps" });
     },
@@ -226,7 +222,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
     step_three: function() {
         sample_data_html = PANDA.templates.inline_sample_data(this.upload.toJSON()); 
         $("#step-3 .sample-data").html(sample_data_html);
-        $("#step-3 .sample-data").show();
 
         $("#step-3").collapse({ toggle: true, parent: "#steps" });
     },
