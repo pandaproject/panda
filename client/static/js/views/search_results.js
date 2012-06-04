@@ -42,7 +42,8 @@ PANDA.views.SearchResults = Backbone.View.extend({
          */
         sub = new PANDA.models.SearchSubscription({
             dataset: null,
-            query: this.search.query
+            query: this.search.query,
+            query_url: this.search.query
         });
 
         sub.save({}, {

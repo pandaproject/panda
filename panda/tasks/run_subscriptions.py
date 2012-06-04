@@ -58,6 +58,7 @@ class RunSubscriptionsTask(Task):
                     related_export=None,
                     extra_context={
                         'query': sub.query,
+                        'query_url': sub.query_url,
                         'count': count,
                         'since': since
                     }

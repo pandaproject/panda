@@ -14,7 +14,9 @@ class SearchSubscription(models.Model):
     dataset = models.ForeignKey(Dataset, related_name='subscribed_searches', null=True, default=None,
         help_text='The dataset to be searched, or null if all are to be searched.')
     query = models.CharField(max_length=256, 
-        help_text='The search query to executed')
+        help_text='The search query to executed.')
+    query_url = models.CharField(max_length=256,
+        help_text='Query encoded for URL.')
     last_run = models.DateTimeField(auto_now=True,
         help_text='The last time this search this was run.')
 

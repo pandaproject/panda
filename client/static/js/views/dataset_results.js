@@ -24,7 +24,13 @@ PANDA.views.DatasetResults = Backbone.View.extend({
 
         var context = PANDA.utils.make_context(this.dataset.data.meta);
 
-        context["query"] = this.search.query,
+        context["query"] = this.search.query;
+        context["since"] = this.search.since;
+
+        if (this.search.since) {
+            context["all_results_url"] = "#dataset/" + this.dataset.get("slug") + "/search/" + this.search.encode_query_string();
+        }
+
         context["root_url"] = "#dataset/" + this.dataset.get("slug") + "/search/" + this.search.encode_query_string() + "/" + this.search.since;
         context["pager_unit"] = "row";
         context["row_count"] = this.dataset.get("row_count");
@@ -67,7 +73,8 @@ PANDA.views.DatasetResults = Backbone.View.extend({
          */
         sub = new PANDA.models.SearchSubscription({
             dataset: this.dataset.id,
-            query: this.search.make_solr_query()
+            query: this.search.make_solr_query(),
+            query_url:  this.search.encode_query_string()
         });
 
         sub.save({}, {
