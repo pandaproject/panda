@@ -28,84 +28,86 @@
     </div>
     <% } %>
 
-    <div id="step-1" class="step well collapse in">
-        <h3>Select your file</h3>
-       
-        <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:</p>
+    <div id="steps">
+        <div id="step-1" class="step well collapse in">
+            <h3>Select your file</h3>
+           
+            <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:</p>
 
-        <input type="file" id="upload-file" /><br />
+            <input type="file" id="upload-file" /><br />
 
-        <div class="alert alert-block alert-warn notes xls">
-            <h4 class="alert-heading">Excel styles will be lost!</h4>
-            <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
-            <ul>
-                <li>The date <strong>12/30/2011</strong> in Excel will become <strong>2011-12-30</strong> in PANDA.</li>
-                <li>A number shown rounded in Excel, <strong>12</strong>, will be expanded in PANDA, <strong>12.011113</strong>.</li>
-                <li>A value with prepended zeroes, <strong>000097</strong>, will be simplified to <strong>97</strong>. (If the leading zeroes were applied with a format.)
-            </ul>
-            <h4 class="alert-heading">Only the first worksheet will be searchable!</h4>
-            <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
-        </div>
-
-        <div class="csv-options">
-            <h5>Advanced CSV options<h5>
-            <label for="encoding">Character encoding <a data-content="<p>Unfortunantely, it is not possible for PANDA to automatically determine the encoding of a CSV file. The default is <strong>utf-8</strong>, which is correct for a large number of files, but there are many possible encodings. Census data, for example, is frequently distributed in the <strong>latin-1</strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA can not import your CSV file you may need to research what encoding it is in.</p>" title="Character encodings" data-placement="right" href="#" onclick="return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
-            <input type="text" id="upload-encoding" class="input-small" placeholder="utf-8" />
-        </div>
-
-        <div><input type="button" name="begin" id="upload-begin" class="btn btn-success" value="Begin upload" /></div>
-        
-        <div id="step-1-alert" class="alert"></div>
-    </div>
-
-    <div id="step-2" class="step well collapse">
-        <h3>Describe your dataset</h3>
-
-        <p>Your file is currently being uploaded to PANDA. While your data is being uploaded please take a moment to provide some information about it, such as where and how it was acquired.</p>
-
-        <div class="progress-bar">
-            <span class="progress-value"><strong>0%</strong></span>
-        </div>
-
-        <div id="step-2-alert" class="alert"></div>
-        
-        <% if (!dataset) { %>
-        <form id="dataset-details-form" class="form-stacked">
-            <div class="control-group">
-                <label for="dataset-name">Name</label>
-                <input class="span5" id="dataset-name" name="name" size="30" type="text" value="" maxlength="256" />
+            <div class="alert alert-block alert-warn notes xls">
+                <h4 class="alert-heading">Excel styles will be lost!</h4>
+                <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
+                <ul>
+                    <li>The date <strong>12/30/2011</strong> in Excel will become <strong>2011-12-30</strong> in PANDA.</li>
+                    <li>A number shown rounded in Excel, <strong>12</strong>, will be expanded in PANDA, <strong>12.011113</strong>.</li>
+                    <li>A value with prepended zeroes, <strong>000097</strong>, will be simplified to <strong>97</strong>. (If the leading zeroes were applied with a format.)
+                </ul>
+                <h4 class="alert-heading">Only the first worksheet will be searchable!</h4>
+                <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
             </div>
 
-            <div class="control-group">
-                <label for="dataset-description">Description</label>
-                <textarea class="span6" id="dataset-description" name="description" rows="5"></textarea>
+            <div class="csv-options">
+                <h5>Advanced CSV options<h5>
+                <label for="encoding">Character encoding <a data-content="<p>Unfortunantely, it is not possible for PANDA to automatically determine the encoding of a CSV file. The default is <strong>utf-8</strong>, which is correct for a large number of files, but there are many possible encodings. Census data, for example, is frequently distributed in the <strong>latin-1</strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA can not import your CSV file you may need to research what encoding it is in.</p>" title="Character encodings" data-placement="right" href="#" onclick="return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
+                <input type="text" id="upload-encoding" class="input-small" placeholder="utf-8" />
             </div>
 
-            <label for="categories">Categories</label>
-
-            <% _.each(all_categories, function(category) { %>
-            <label class="checkbox">
-                <input type="checkbox" name="categories" value="<%= category.slug %>" />
-                <%= category.name %>
-            </label>
-            <% }); %>
-        </form>
-        <% } %>
-        
-        <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" />
-    </div>
-
-    <div id="step-3" class="step well collapse">
-        <h3>Preview your data</h3>
-        <p>Your file has finished uploading. Please review the following sample data that was extracted from your file and verify it looks correct. If it not correct you may need to modify the file or save your data in another format. If you are satisifed with the preview then click Continue.</p>
-
-        <div class="sample-data">
+            <div><input type="button" name="begin" id="upload-begin" class="btn btn-success" value="Begin upload" /></div>
+            
+            <div id="step-1-alert" class="alert"></div>
         </div>
-        
-        <div id="step-3-alert" class="alert"></div>
 
-        <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="Finish" />
-        <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" />
+        <div id="step-2" class="step well collapse">
+            <h3>Describe your dataset</h3>
+
+            <p>Your file is currently being uploaded to PANDA. While your data is being uploaded please take a moment to provide some information about it, such as where and how it was acquired.</p>
+
+            <div class="progress-bar">
+                <span class="progress-value"><strong>0%</strong></span>
+            </div>
+
+            <div id="step-2-alert" class="alert"></div>
+            
+            <% if (!dataset) { %>
+            <form id="dataset-details-form" class="form-stacked">
+                <div class="control-group">
+                    <label for="dataset-name">Name</label>
+                    <input class="span5" id="dataset-name" name="name" size="30" type="text" value="" maxlength="256" />
+                </div>
+
+                <div class="control-group">
+                    <label for="dataset-description">Description</label>
+                    <textarea class="span6" id="dataset-description" name="description" rows="5"></textarea>
+                </div>
+
+                <label for="categories">Categories</label>
+
+                <% _.each(all_categories, function(category) { %>
+                <label class="checkbox">
+                    <input type="checkbox" name="categories" value="<%= category.slug %>" />
+                    <%= category.name %>
+                </label>
+                <% }); %>
+            </form>
+            <% } %>
+            
+            <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" />
+        </div>
+
+        <div id="step-3" class="step well collapse">
+            <h3>Preview your data</h3>
+            <p>Your file has finished uploading. Please review the following sample data that was extracted from your file and verify it looks correct. If it not correct you may need to modify the file or save your data in another format. If you are satisifed with the preview then click Continue.</p>
+
+            <div class="sample-data">
+            </div>
+            
+            <div id="step-3-alert" class="alert"></div>
+
+            <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="Finish" />
+            <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" />
+        </div>
     </div>
 </div>
 
