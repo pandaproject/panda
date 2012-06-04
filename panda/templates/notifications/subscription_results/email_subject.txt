@@ -1,1 +1,1 @@
-New search results for "{{ query }}" in {{ related_dataset.name }}'
+New search results for "{{ query }}"{% if related_dataset %} in {{ related_dataset.name }}{% endif %}
