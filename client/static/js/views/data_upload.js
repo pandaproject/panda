@@ -133,8 +133,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
         } else {
             $(".csv-options").hide();
         }
-
-        $("#upload-begin").removeAttr("disabled");
     },
 
     on_submit: function(id, fileName) {
@@ -178,8 +176,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
                     return;
                 }
             }
-
-            $("#upload-continue").attr("disabled", false);
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else if (responseJSON.error_message) {
@@ -192,7 +188,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     step_one_error_message: function(message) {
-        $("#upload-file").attr("disabled", true);
         $("#step-1-alert").alert("alert-error", message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" />' , false);
         $("#step-1-start-over").click(this.start_over_event);
     },
@@ -209,32 +204,18 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     step_one: function() {
         $(".alert").hide();
-        $("#step-2").addClass("disabled");
+        $("#step-2").collapse("show");
         $("#step-2 .progress-bar").hide();
         this.on_progress(null, null, 0, 1);
         $("#step-3 .sample-data").hide();
         $("#step-3 .sample-data").empty();
-        $("#step-3").addClass("disabled");
-        $("#upload-continue").attr("disabled", true);
-        $("#upload-finish").attr("disabled", true);
-        $("#upload-start-over").attr("disabled", true);
         
         $("#step-1 .notes.xls").hide();
         $(".csv-options").hide();
-        $("#upload-encoding").attr("disabled", false);
-        $("#upload-file").attr("disabled", false);
-        $("#upload-begin").attr("disabled", false);
-        $("#step-1").removeClass("disabled");
-
-        $("#step-3").removeClass("well");
-        $("#step-1").addClass("well");
     },
 
     step_two: function() {
-        $("#upload-encoding").attr("disabled", true);
-        $("#upload-begin").attr("disabled", true);
-        $("#step-1").addClass("disabled");
-        $("#upload-file").attr("disabled", true);
+        $("#step-1").collapse("hide");
         
         var filepath_parts = $("#upload-file").val().split("\\");
         var filename = filepath_parts[filepath_parts.length - 1];
@@ -242,26 +223,17 @@ PANDA.views.DataUpload = Backbone.View.extend({
         
         $("#step-2 .progress-bar").show();
         $("#dataset-name").val(no_ext);
-        $("#step-2").removeClass("disabled");
-        
-        $("#step-1").removeClass("well");
-        $("#step-2").addClass("well");
+        $("#step-2").collapse("hide");
     },
 
     step_three: function() {
-        $("#step-2").addClass("disabled");
+        $("#step-2").collapse("hide");
 
         sample_data_html = PANDA.templates.inline_sample_data(this.upload.toJSON()); 
         $("#step-3 .sample-data").html(sample_data_html);
         $("#step-3 .sample-data").show();
 
-        $("#step-3").removeClass("disabled");
-        $("#upload-continue").attr("disabled", true);
-        $("#upload-finish").attr("disabled", false);
-        $("#upload-start-over").attr("disabled", false);
-        
-        $("#step-2").removeClass("well");
-        $("#step-3").addClass("well");
+        $("#step-3").collapse("show");
     },
 
     begin_event: function() {
@@ -274,11 +246,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     finish_event: function() {
-        // Prevent double-clicks
-        $("#upload-continue").attr("disabled", true);
-        $("#upload-finish").attr("disabled", true);
-        $("#upload-start-over").attr("disabled", true);
-
         var fileName = this.upload.get("original_filename");
 
         var categories = $("#dataset-details-form").serializeObject().categories || new Array();
@@ -320,11 +287,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     start_over_event: function() {
-        // Prevent double-clicks
-        $("#upload-continue").attr("disabled", true);
-        $("#upload-finish").attr("disabled", true);
-        $("#upload-start-over").attr("disabled", true);
-
         if (this.upload) {
             this.upload.destroy({ async: false });
             this.upload = null;

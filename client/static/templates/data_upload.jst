@@ -28,7 +28,7 @@
     </div>
     <% } %>
 
-    <div id="step-1" class="step well">
+    <div id="step-1" class="step well collapse in">
         <h3>Select your file</h3>
        
         <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:</p>
@@ -58,7 +58,7 @@
         <div id="step-1-alert" class="alert"></div>
     </div>
 
-    <div id="step-2" class="step disabled">
+    <div id="step-2" class="step well collapse">
         <h3>Describe your dataset</h3>
 
         <p>Your file is currently being uploaded to PANDA. While your data is being uploaded please take a moment to provide some information about it, such as where and how it was acquired.</p>
@@ -92,10 +92,10 @@
         </form>
         <% } %>
         
-        <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" disabled="disabled" />
+        <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" />
     </div>
 
-    <div id="step-3" class="step disabled">
+    <div id="step-3" class="step well collapse">
         <h3>Preview your data</h3>
         <p>Your file has finished uploading. Please review the following sample data that was extracted from your file and verify it looks correct. If it not correct you may need to modify the file or save your data in another format. If you are satisifed with the preview then click Continue.</p>
 
@@ -104,8 +104,8 @@
         
         <div id="step-3-alert" class="alert"></div>
 
-        <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="Finish" disabled="disabled" />
-        <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" disabled="disabled" />
+        <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="Finish" />
+        <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" />
     </div>
 </div>
 

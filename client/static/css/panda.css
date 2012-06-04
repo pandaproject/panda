@@ -176,16 +176,14 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 #upload .alert { margin-top: 8px; }
 
+#upload h3 { line-height: 20px; margin-bottom: 20px;}
+
 .toggle-csv-options { display: block; }
 .csv-options { display: none; padding-bottom: 5px; }
 .csv-options h5 { margin-bottom: 5px; }
 
 .step { margin-top: 20px; }
 .step h3 { font-weight: bold; }
-.step.disabled { color: lightgray; margin-left: 20px; }
-.step.disabled h3 { color: lightgray; }
-.step.disabled h5 { color: lightgray; }
-.step.disabled label { color: lightgray; }
 
 #upload-progress { margin-bottom: 10px; }
 
