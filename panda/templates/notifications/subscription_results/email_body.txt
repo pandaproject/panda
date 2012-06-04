@@ -3,5 +3,8 @@ New search results for "{{ query }}"{% if related_dataset %} in {{ related_datas
 See just the new results:
 {% if related_dataset %}http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/search/{{ query }}/{{ since }}{% else %}http://{{ site_domain }}/#search/{{ query }}/{{ since }}{% endif %}
 
-See all results for your search query:
+See all results for your search:
 {% if related_dataset %}http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/search/{{ query }}{% else %}http://{{ site_domain }}/#search/{{ query }}{% endif %}
+
+To stop receiving notifications for this search, visit your user page:
+http://{{ site_domain }}/#user/{{ recipient.id }}
