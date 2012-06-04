@@ -134,6 +134,8 @@ service uwsgi start
 # Setup Celery
 wget -nv $CONFIG_URL/celeryd.conf -O /etc/init/celeryd.conf
 initctl reload-configuration
+mkdir /var/celery
+chown panda:panda /var/celery
 service celeryd start
 
 echo "PANDA installation complete."

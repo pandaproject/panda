@@ -42,6 +42,10 @@ rm /etc/cron.d/panda
 cp setup_panda/celeryd.conf -O /etc/init/celeryd.conf
 initctl reload-configuration
 
+# Create directory for celerybeat database
+mkdir /var/celery
+chown panda:panda /var/celery
+
 # Restart services
 service solr start 
 service uwsgi start

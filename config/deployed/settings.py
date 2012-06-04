@@ -22,3 +22,6 @@ SOLR_DIRECTORY = '/opt/solr/panda/solr'
 # Django-compressor
 COMPRESS_ENABLED = True 
 
+# Celery
+CELERYBEAT_SCHEDULE_FILENAME = '/var/celery/celerybeat-schedule'
+
