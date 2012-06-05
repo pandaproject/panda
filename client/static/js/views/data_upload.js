@@ -176,6 +176,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
                     return;
                 }
             }
+
+            $("#upload-continue").removeAttr("disabled");
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
         } else if (responseJSON.error_message) {
@@ -215,6 +217,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
         var filename = filepath_parts[filepath_parts.length - 1];
         var no_ext = filename.substr(0, filename.lastIndexOf('.'));
         
+        $("#upload-continue").attr("disabled", true);
+
         $("#dataset-name").val(no_ext);
         $("#step-2").collapse({ toggle: true, parent: "#steps" });
     },
@@ -222,6 +226,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
     step_three: function() {
         sample_data_html = PANDA.templates.inline_sample_data(this.upload.toJSON()); 
         $("#step-3 .sample-data").html(sample_data_html);
+
+        $("#upload-finish").removeAttr("disabled");
+        $("#upload-start-over").removeAttr("disabled");
 
         $("#step-3").collapse({ toggle: true, parent: "#steps" });
     },
@@ -236,6 +243,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     finish_event: function() {
+        $("#upload-finish").attr("disabled", true);
+        $("#upload-start-over").attr("disabled", true);
+
         var fileName = this.upload.get("original_filename");
 
         var categories = $("#dataset-details-form").serializeObject().categories || new Array();
@@ -277,6 +287,9 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     start_over_event: function() {
+        $("#upload-finish").attr("disabled", true);
+        $("#upload-start-over").attr("disabled", true);
+
         if (this.upload) {
             this.upload.destroy({ async: false });
             this.upload = null;
