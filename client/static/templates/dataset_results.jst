@@ -9,6 +9,8 @@
         <p>No rows matching query found in dataset <strong><%= unescape(dataset.name) %></strong>.</p>
 
         <p>Would you like to <a href="#search/<%= query["__all__"] %>">search all datasets instead?</a></p>
+            
+        <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get notified when results appear</a></p>
 
     <% } else { %>
 
@@ -63,7 +65,7 @@
 <div id="modal-subscribe-search-results" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Subscribe to these search results?</h3>
+        <h3>Get notified of new results for this search?</h3>
     </div>
     <div class="modal-body">
         <p>When you click <strong>Notify me</strong> you will begin receiving notifications any time new data is added to <strong><%= dataset.name %></strong> that matches your search for:</p>
@@ -71,6 +73,6 @@
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal">Subscribe</a>
+        <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal">Notify me</a>
     </div>
 </div>
