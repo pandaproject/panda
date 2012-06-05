@@ -60,7 +60,7 @@
         </div>
 
         <div id="step-2" class="step well collapse">
-            <h3>Describe your dataset</h3>
+            <h3><% if (dataset) { %>Wait while your file is uploaded<% } else { %>Describe your dataset<% } %></h3>
 
             <p>Your file is currently being uploaded to PANDA. While your data is being uploaded please take a moment to provide some information about it, such as where and how it was acquired.</p>
 
