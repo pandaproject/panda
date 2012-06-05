@@ -16,7 +16,7 @@
             <p>Showing only results created or updated after <strong><%= PANDA.templates.inline_timestamp({ d: since }) %></strong>. <a href="<%= all_results_url %>">Show all results instead &raquo;</a></p>
         <% } %>
 
-        <p><a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export search results to CSV</a> <a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get notified of new results</a></p>
+        <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get notified of new results</a> <a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export search results to CSV</a></p>
 
         <%= pager %>
 
@@ -66,7 +66,8 @@
         <h3>Subscribe to these search results?</h3>
     </div>
     <div class="modal-body">
-        When you subscribe to these search results you will receive a notification any time new data is added to this dataset which matches your query.
+        <p>When you click <strong>Notify me</strong> you will begin receiving notifications any time new data is added to <strong><%= dataset.name %></strong> that matches your search for:</p>
+        <p><code><%= solr_query %></code></p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>

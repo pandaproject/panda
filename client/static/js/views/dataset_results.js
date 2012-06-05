@@ -26,6 +26,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
 
         context["query"] = this.search.query;
         context["since"] = this.search.since;
+        context["solr_query"] = this.search.make_solr_query()
 
         if (this.search.since) {
             context["all_results_url"] = "#dataset/" + this.dataset.get("slug") + "/search/" + this.search.encode_query_string();
