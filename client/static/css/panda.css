@@ -21,6 +21,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 .pager .pagination { margin: 0 0 8px 0; float: left; }
 .pager .pagination a { padding: 0 14px; }
 
+.since-warning { margin-top: 20px; }
+
 /*.modal-body {overflow-y: auto; max-height: auto; padding: 15px;}
 .modal {max-height: 400px;}*/
 

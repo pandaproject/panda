@@ -12,11 +12,11 @@
 
     <% } else { %>
 
-        <% if (since != "all") { %>
-            <p>Showing only results created or updated after <strong><%= PANDA.templates.inline_timestamp({ d: since }) %></strong>. <a href="<%= all_results_url %>">Show all results instead &raquo;</a></p>
-        <% } %>
-
         <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get notified of new results</a> <a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export search results to CSV</a></p>
+
+        <% if (since != "all") { %>
+            <div class="alert alert-warn since-warning" style="display: block;">Showing only results created or updated after <strong><%= PANDA.templates.inline_timestamp({ d: since }) %></strong>. <a href="<%= all_results_url %>">Show all results instead &raquo;</a></div>
+        <% } %>
 
         <%= pager %>
 

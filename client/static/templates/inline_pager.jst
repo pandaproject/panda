@@ -1,20 +1,20 @@
 <div class="pager">
     <h3><%= offset + 1 %>-<%= Math.min(offset + limit, total_count) %> of <%= total_count %> matching <%= pager_unit %><% if (total_count > 1) { %>s<% } %> <% if (row_count) { %>(<%= row_count %> total <%= pager_unit %>s)<% } %></h3>
+    <% if (previous || next) { %>
     <div class="pagination">
         <ul>
-            <% if (previous || next) { %>
-                <% if (previous) { %>
-                    <li><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
-                <% } else { %>
-                    <li class="disabled"><a href="#" onclick="return false;">&larr; Previous</a></li> 
-                <% } %>
+            <% if (previous) { %>
+                <li><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
+            <% } else { %>
+                <li class="disabled"><a href="#" onclick="return false;">&larr; Previous</a></li> 
+            <% } %>
 
-                <% if (next) { %>
-                    <li><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
-                <% } else { %>
-                    <li class="disabled"><a href="#" onclick="return false;">Next &rarr;</a></li> 
-                <% } %>
+            <% if (next) { %>
+                <li><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
+            <% } else { %>
+                <li class="disabled"><a href="#" onclick="return false;">Next &rarr;</a></li> 
             <% } %>
         </ul>
     </div>
+    <% } %>
 </div>
