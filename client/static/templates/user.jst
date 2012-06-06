@@ -17,9 +17,9 @@
 <ul id="subscriptions">
     <% _.each(user.subscriptions, function(sub) { %>
         <% if (sub.dataset) { %>
-        <li><code><%= sub.query %></code> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a> <a data-original-title="View all search results" rel="tooltip" href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-list-alt"></i></a> <a data-original-title="Cancel notifications for this search" rel="tooltip" href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i></a></li>
+        <li><%= sub.query_human %> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a> <a data-original-title="View all search results" rel="tooltip" href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-list-alt"></i></a> <a data-original-title="Cancel notifications for this search" rel="tooltip" href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i></a></li>
         <% } else { %>
-        <li><code><%= sub.query %></code> in any dataset <a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.query_url %>"><i class="icon-list-alt"></i></a> <a data-original-title="Cancel notifications for this search" rel="tooltip" href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i></a></li>
+        <li><%= sub.query_human %> in any dataset <a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.query_url %>"><i class="icon-list-alt"></i></a> <a data-original-title="Cancel notifications for this search" rel="tooltip" href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i></a></li>
         <% } %>
     <% }); %>
 </ul>

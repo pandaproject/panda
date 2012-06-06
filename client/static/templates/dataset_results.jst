@@ -69,7 +69,7 @@
     </div>
     <div class="modal-body">
         <p>When you click <strong>Notify me</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email <% } %>notifications of new data added to <strong><%= dataset.name %></strong> that matches your search for:</p>
-        <p><code><%= solr_query %></code></p>
+        <p><%= query_human %></p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>

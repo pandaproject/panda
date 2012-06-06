@@ -14,7 +14,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     view: null,
 
     initialize: function(options) {
-        _.bindAll(this, "reset", "render", "search_event", "search", "encode_query_string", "decode_query_string", "make_solr_query");
+        _.bindAll(this, "reset", "render", "search_event", "search", "encode_query_string", "encode_human_readable", "decode_query_string", "make_solr_query");
 
         this.search_filters = new PANDA.views.DatasetSearchFilters({ search: this });
         this.results = new PANDA.views.DatasetResults({ search: this });
@@ -156,14 +156,62 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
          * Convert arguments from the search fields into a URL. 
          */
         var full_text = $(".dataset-search-query").val();
-        var query = full_text;
+        var q = full_text;
         var filters = this.search_filters.encode();
 
         if (filters) {
-            query += "|||" + filters;
+            q += "|||" + filters;
         }
 
-        return escape(query);
+        return escape(q);
+    },
+
+    encode_human_readable: function() {
+        var human = "";
+        var filter_parts = [];
+
+        _.each(this.query, function(v, k) {
+            if (k == "__all__") {
+                human = "\"" + v + "\" is in row";
+            } else {
+                var column = _.find(this.dataset.get("column_schema"), function(c) {
+                    return c["name"] == k;
+                });
+                var operation_text = this.search_filters.operations[column["type"]][v["operator"]]["name"];
+                var value = v["value"];
+                var range_value = v["range_value"];
+
+                if (column["type"] == "datetime") {
+                    value = moment(value, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm")
+                } else if (column["type"] == "date") {
+                    value = moment(value, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD")
+                } else if (column["type"] == "time") {
+                    value = moment(value, "YYYY-MM-DD HH:mm:ss").format("HH:mm")
+                }
+
+                var part = "<code>" + k + "</code> " + operation_text + " " + value;
+
+                if (range_value) {
+                    if (column["type"] == "datetime") {
+                        range_value = moment(range_value, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm")
+                    } else if (column["type"] == "date") {
+                        range_value = moment(range_value, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD")
+                    } else if (column["type"] == "time") {
+                        range_value = moment(range_value, "YYYY-MM-DD HH:mm:ss").format("HH:mm")
+                    }
+
+                    part += " to " + range_value;
+                }
+
+                filter_parts.push(part);
+            }
+        }, this);
+
+        if (filter_parts.length > 0) {
+            human += " and " + filter_parts.join(" and ");
+        }
+
+        return human;
     },
 
     decode_query_string: function(query_string) {

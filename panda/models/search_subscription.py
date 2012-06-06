@@ -17,6 +17,8 @@ class SearchSubscription(models.Model):
         help_text='The search query to executed.')
     query_url = models.CharField(max_length=256,
         help_text='Query encoded for URL.')
+    query_human = models.TextField(
+        help_text='Human-readable description of the query being run.')
     last_run = models.DateTimeField(auto_now=True,
         help_text='The last time this search this was run.')
 

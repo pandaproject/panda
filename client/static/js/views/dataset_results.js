@@ -21,6 +21,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         var context = PANDA.utils.make_context(this.dataset.data.meta);
 
         context["query"] = this.search.query;
+        context["query_human"] = this.search.encode_human_readable();
         context["since"] = this.search.since;
         context["solr_query"] = this.search.make_solr_query()
 
@@ -71,7 +72,8 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         sub = new PANDA.models.SearchSubscription({
             dataset: this.dataset.id,
             query: this.search.make_solr_query(),
-            query_url:  this.search.encode_query_string()
+            query_url: this.search.encode_query_string(),
+            query_human: this.search.encode_human_readable()
         });
 
         sub.save({}, {

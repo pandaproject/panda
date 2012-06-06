@@ -13,6 +13,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
         var context = PANDA.utils.make_context(this.datasets.meta);
 
         context["query"] = this.search.query;
+        context["query_human"] = "\"" + this.search.query + "\" is in row";
         context["since"] = this.search.since;
 
         if (this.search.since != "all") {
@@ -39,7 +40,8 @@ PANDA.views.SearchResults = Backbone.View.extend({
         sub = new PANDA.models.SearchSubscription({
             dataset: null,
             query: this.search.query,
-            query_url: this.search.query
+            query_url: this.search.query,
+            query_human: "\"" + this.search.query + "\" is in row"
         });
 
         sub.save({}, {
