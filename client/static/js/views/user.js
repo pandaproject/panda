@@ -86,8 +86,6 @@ PANDA.views.User = Backbone.View.extend({
         
         this.change_password_view.el = $("#modal-user-change-password");
         $("#user-change-password").click(this.change_password);
-
-        $('#subscriptions li a[rel="tooltip"]').tooltip();
     },
 
     edit: function() {
@@ -115,9 +113,6 @@ PANDA.views.User = Backbone.View.extend({
                         this.user.subscriptions.remove(sub);
                         sub.destroy();
                         element.parent("li").remove();
-
-                        // Destroy tooltip popup
-                        $(".tooltip").remove();
                     }, this)
                 },
                 {
