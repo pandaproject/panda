@@ -81,7 +81,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         sub.save({}, {
             async: false,
             success: _.bind(function(model, response) {
-                bootbox.alert("You are now subscribed to notifications for this query.");
+                bootbox.alert("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>");
             }, this),
             error: function(model, response) {
                 error = JSON.parse(response);
