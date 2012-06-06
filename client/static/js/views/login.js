@@ -17,9 +17,6 @@ PANDA.views.Login = Backbone.View.extend({
     },
 
     render: function() {
-        // Nuke old modals
-        $("#modal-forgot-password").remove();
-
         var email = $.cookie("email");
 
         var context = PANDA.utils.make_context({ email: email })

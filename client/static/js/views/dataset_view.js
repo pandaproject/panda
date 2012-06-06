@@ -15,13 +15,6 @@ PANDA.views.DatasetView = Backbone.View.extend({
     },
 
     render: function() {
-        // Nuke old modals
-        $("#modal-edit-dataset").remove();
-        $("#modal-upload-related").remove();
-        $("#modal-index-types").remove();
-        $("#modal-export-dataset").remove();
-        $("#modal-dataset-destroy").remove();
-
         // Render inlines
         data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
             context = {

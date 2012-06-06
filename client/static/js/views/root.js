@@ -331,6 +331,11 @@ PANDA.views.Root = Backbone.View.extend({
         /*
          * Register each view as it is created and never create more than one.
          */
+        // Clear detritus from previous views
+        $(".tooltip").remove();
+        $(".modal").remove()
+        $(".modal-backdrop").remove()
+
         if (name in this.views) {
             return this.views[name];
         }

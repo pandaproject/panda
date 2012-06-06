@@ -73,9 +73,6 @@ PANDA.views.User = Backbone.View.extend({
     },
 
     render: function() {
-        // Nuke old modals
-        $("#modal-edit-user").remove();
-
         var context = PANDA.utils.make_context({
             user: this.user.toJSON(true),
             datasets: this.datasets.results(),
@@ -111,6 +108,9 @@ PANDA.views.User = Backbone.View.extend({
         this.user.subscriptions.remove(sub);
         sub.destroy();
         element.parent("li").remove();
+
+        // Destroy tooltip popup
+        $(".tooltip").remove();
 
         return false;
     }

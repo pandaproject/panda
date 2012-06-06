@@ -18,10 +18,6 @@ PANDA.views.DatasetResults = Backbone.View.extend({
             return;
         }
         
-        // Nuke old modals
-        $("#modal-export-search-results").remove();
-        $("#modal-subscribe-search-results").remove();
-
         var context = PANDA.utils.make_context(this.dataset.data.meta);
 
         context["query"] = this.search.query;

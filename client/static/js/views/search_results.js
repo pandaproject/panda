@@ -10,10 +10,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
     },
 
     render: function() {
-        // Nuke old modals
-        $("#modal-export-search-results").remove();
-        $("#modal-subscribe-search-results").remove();
-
         var context = PANDA.utils.make_context(this.datasets.meta);
 
         context["query"] = this.search.query;
