@@ -172,7 +172,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
         _.each(this.query, function(v, k) {
             if (k == "__all__") {
-                human = "\"" + v + "\" is in row";
+                human = "Search for <code class=\"full-text\">" + v + "</code>";
             } else {
                 var column = _.find(this.dataset.get("column_schema"), function(c) {
                     return c["name"] == k;
@@ -189,7 +189,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                     value = moment(value, "YYYY-MM-DD HH:mm:ss").format("HH:mm")
                 }
 
-                var part = "<code>" + k + "</code> " + operation_text + " " + value;
+                var part = "<code class=\"column\">" + k + "</code> " + operation_text + " <code class=\"value\">" + value + "</code>";
 
                 if (range_value) {
                     if (column["type"] == "datetime") {
@@ -200,7 +200,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                         range_value = moment(range_value, "YYYY-MM-DD HH:mm:ss").format("HH:mm")
                     }
 
-                    part += " to " + range_value;
+                    part += " to <code class=\"value\">" + range_value + "</code>";
                 }
 
                 filter_parts.push(part);

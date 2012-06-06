@@ -5,25 +5,25 @@
 <p><a id="user-edit" href="#" class="btn" onclick="return false;">Edit my profile</a> <a id="user-change-password" href="#" class="btn" onclick="return false;">Change password</a></p>
 <% } %>
 
+<% if (user.email == current_user.email) { %>
+<h3>My search notifications</h3> 
+<ul id="subscriptions">
+    <% _.each(user.subscriptions, function(sub) { %>
+        <% if (sub.dataset) { %>
+        <li><%= sub.query_human %> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a><br /><a href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Cancel notifications for this search</a></li>
+        <% } else { %>
+        <li><%= sub.query_human %> in any dataset<br /><a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Cancel notifications for this search</a></li>
+        <% } %>
+    <% }); %>
+</ul>
+<% } %>
+
 <h3><% if (user.email == current_user.email) { %>My datasets<% } else { %>Datasets created by this user<% } %></h3> 
 <ul>
     <% _.each(datasets.datasets, function(dataset) { %>
     <li><a href="#dataset/<%= dataset.slug %>"><strong><%= unescape(dataset.name) %></strong></a></li>
     <% }); %>
 </ul>
-
-<% if (user.email == current_user.email) { %>
-<h3>My search notifications</h3> 
-<ul id="subscriptions">
-    <% _.each(user.subscriptions, function(sub) { %>
-        <% if (sub.dataset) { %>
-        <li><%= sub.query_human %> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a> <a data-original-title="View all search results" rel="tooltip" href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-list-alt"></i></a> <a data-original-title="Cancel notifications for this search" rel="tooltip" href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i></a></li>
-        <% } else { %>
-        <li><%= sub.query_human %> in any dataset <a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.query_url %>"><i class="icon-list-alt"></i></a> <a data-original-title="Cancel notifications for this search" rel="tooltip" href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i></a></li>
-        <% } %>
-    <% }); %>
-</ul>
-<% } %>
 
 <div id="modal-edit-user" class="modal hide fade">
 </div>

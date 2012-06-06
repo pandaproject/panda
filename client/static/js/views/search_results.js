@@ -13,7 +13,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
         var context = PANDA.utils.make_context(this.datasets.meta);
 
         context["query"] = this.search.query;
-        context["query_human"] = "\"" + this.search.query + "\" is in row";
+        context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
         context["since"] = this.search.since;
 
         if (this.search.since != "all") {
@@ -41,7 +41,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
             dataset: null,
             query: this.search.query,
             query_url: this.search.query,
-            query_human: "\"" + this.search.query + "\" is in row"
+            query_human: "Search for <code class=\"full-text\">" + this.search.query + "</code>"
         });
 
         sub.save({}, {

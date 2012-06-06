@@ -246,5 +246,9 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* User */
 
-#subscriptions li { line-height: 20px; }
+#subscriptions { list-style-type: none; margin-left: 0px; }
+#subscriptions li { line-height: 24px; margin-bottom: 12px; }
+code.full-text { }
+code.column { color: #333 }
+code.value { }
 
