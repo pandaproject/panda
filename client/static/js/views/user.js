@@ -105,14 +105,26 @@ PANDA.views.User = Backbone.View.extend({
         var uri = element.attr("data-uri"); 
         var sub = this.user.subscriptions.get(uri);
 
-        this.user.subscriptions.remove(sub);
-        sub.destroy();
-        element.parent("li").remove();
+        bootbox.dialog(
+            "Are you sure you want to stop receiving notifications for this search?",
+            [
+                {
+                    "label": "Stop notifications",
+                    "class": "btn-danger",
+                    "callback": _.bind(function(result) {
+                        this.user.subscriptions.remove(sub);
+                        sub.destroy();
+                        element.parent("li").remove();
 
-        // Destroy tooltip popup
-        $(".tooltip").remove();
-
-        return false;
+                        // Destroy tooltip popup
+                        $(".tooltip").remove();
+                    }, this)
+                },
+                {
+                    "label": "Cancel"
+                }
+            ]
+        );
     }
 });
 
