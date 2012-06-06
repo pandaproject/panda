@@ -49,16 +49,20 @@ class RunSubscriptionsTask(Task):
             log.info('Found %i new results' % count)
 
             if count:
+                if sub.dataset:
+                    url = '#dataset/%s/search/%s/%s' % (sub.dataset.slug, sub.query_url, since)
+                else:
+                    url = '#search/%s/%s' % (sub.query, since)
+                    
                 notify(
                     sub.user,
                     'subscription_results',
                     'info',
-                    related_task=None,
-                    related_dataset=sub.dataset,
-                    related_export=None,
+                    url=url,
                     extra_context={
                         'query': sub.query,
                         'query_url': sub.query_url,
+                        'related_dataset': sub.dataset,
                         'count': count,
                         'since': since
                     }

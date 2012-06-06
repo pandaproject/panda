@@ -15,7 +15,7 @@ def get_email_subject_template(prefix):
 def get_email_body_template(prefix):
     return get_template('/'.join(['notifications', prefix, 'email_body.txt']))
 
-def notify(recipient, template_prefix, note_type, related_task=None, related_dataset=None, related_export=None, extra_context={}):
+def notify(recipient, template_prefix, note_type, url=None, extra_context={}):
     """
     Notify a user of an event using the Notification system and
     email.
@@ -24,11 +24,9 @@ def notify(recipient, template_prefix, note_type, related_task=None, related_dat
 
     context = Context({
         'recipient': recipient,
-        'related_task': related_task,
-        'related_dataset': related_dataset,
-        'related_export': related_export,
         'type': note_type,
-        'site_domain': config_value('DOMAIN', 'SITE_DOMAIN'),
+        'url': url,
+        'site_domain': config_value('DOMAIN', 'SITE_DOMAIN')
     })
     context.update(extra_context)
 
@@ -36,11 +34,9 @@ def notify(recipient, template_prefix, note_type, related_task=None, related_dat
     
     Notification.objects.create(
         recipient=recipient,
-        related_task=related_task,
-        related_dataset=related_dataset,
-        related_export=related_export,
         message=message,
-        type=note_type
+        type=note_type,
+        url=url
     )
 
     # Don't HTML escape plain-text emails

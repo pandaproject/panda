@@ -125,6 +125,10 @@ class ReindexTask(AbortableTask):
         """
         task_status = dataset.current_task 
 
+        extra_context = {
+            'related_dataset': dataset
+        }
+
         if einfo:
             if hasattr(einfo, 'traceback'):
                 tb = einfo.traceback
@@ -137,17 +141,15 @@ class ReindexTask(AbortableTask):
             )
             
             template_prefix = 'reindex_failed'
-            extra_context = {}
             notification_type = 'Error'
         elif self.is_aborted():
             template_prefix = 'reindex_aborted'
-            extra_context = {}
             notification_type = 'Info'
         else:
             task_status.complete('Import complete')
 
             template_prefix = 'reindex_complete'
-            extra_context = { 'type_summary': retval.summarize() }
+            extra_context['type_summary'] = retval.summarize()
             notification_type = 'Info'
         
         if task_status.creator:
@@ -155,9 +157,7 @@ class ReindexTask(AbortableTask):
                 task_status.creator,
                 template_prefix,
                 notification_type,
-                related_task=task_status,
-                related_dataset=dataset,
-                related_export=None,
+                url='#dataset/%s' % dataset.slug,
                 extra_context=extra_context
             )
 

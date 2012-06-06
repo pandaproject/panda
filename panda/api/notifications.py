@@ -10,14 +10,6 @@ class NotificationResource(PandaModelResource):
     """
     Access to user notifications.
     """
-    from panda.api.datasets import DatasetResource
-    from panda.api.exports import ExportResource
-    from panda.api.tasks import TaskResource
-
-    related_dataset = fields.ForeignKey(DatasetResource, 'related_dataset', null=True)
-    related_task = fields.ToOneField(TaskResource, 'related_task', null=True)
-    related_export = fields.ToOneField(ExportResource, 'related_export', null=True)
-
     class Meta:
         queryset = Notification.objects.all()
         resource_name = 'notification'

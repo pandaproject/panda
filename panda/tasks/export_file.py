@@ -46,7 +46,11 @@ class ExportFileTask(AbortableTask):
         task_status = dataset.current_task 
 
         export = None
-        extra_context = { 'query': query }
+        extra_context = {
+            'query': query,
+            'related_dataset': dataset
+        }
+        url = None
 
         if einfo:
             if hasattr(einfo, 'traceback'):
@@ -77,6 +81,8 @@ class ExportFileTask(AbortableTask):
                 creation_date=task_status.start,
                 dataset=dataset)
 
+            url = '#export/%i' % export.id
+
             template_prefix = 'export_complete'
             notification_type = 'Info'
             
@@ -85,9 +91,7 @@ class ExportFileTask(AbortableTask):
                 task_status.creator,
                 template_prefix,
                 notification_type,
-                related_task=task_status,
-                related_dataset=dataset,
-                related_export=export,
+                url,
                 extra_context=extra_context
             )
 

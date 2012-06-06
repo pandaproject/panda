@@ -2,9 +2,6 @@
 
 from django.db import models
 
-from panda.models.dataset import Dataset
-from panda.models.export import Export
-from panda.models.task_status import TaskStatus
 from panda.models.user_proxy import UserProxy
 
 NOTIFICATION_TYPE_CHOICES = (
@@ -27,12 +24,8 @@ class Notification(models.Model):
         help_text='When this notification was created')
     read_at = models.DateTimeField(null=True, blank=True, default=None,
         help_text='When this notification was read by the user.')
-    related_task = models.ForeignKey(TaskStatus, null=True, default=None,
-        help_text='A task related to this notification, if any.')
-    related_dataset = models.ForeignKey(Dataset, null=True, default=None,
-        help_text='A dataset related to this notification, if any.')
-    related_export = models.ForeignKey(Export, null=True, default=None,
-        help_text='A file export related to this notification, ifany.')
+    url = models.URLField(null=True, default=None,
+        help_text='A url to link to when displaying this notification.') 
 
     class Meta:
         app_label = 'panda'

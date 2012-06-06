@@ -277,26 +277,14 @@ PANDA.views.Root = Backbone.View.extend({
 
         var note_id = anchor.data("notification-id");
         var note = this._current_user.notifications.get(note_id);
-        var related_export = note.get("related_export");
-        var related_dataset = note.get("related_dataset");
-
-        if (related_export) {
-            var slash = related_export.lastIndexOf("/", related_export.length - 2);
-            var id = related_export.substring(slash + 1, related_export.length - 1);
-
-            this.goto_export(id);
-        }
-        else if (related_dataset) {
-            var slash = related_dataset.lastIndexOf("/", related_dataset.length - 2);
-            var slug = related_dataset.substring(slash + 1, related_dataset.length - 1);
-
-            this.goto_dataset_view(slug);
-        }
+        var url = note.get("url");
 
         var now = moment().format("YYYY-MM-DDTHH:mm:ss");
         note.save({ read_at: now });
         this._current_user.notifications.remove(note);
         this.configure_navbar(); 
+
+        window.location = url;
 
         return false;
     },

@@ -49,7 +49,9 @@ class ImportFileTask(AbortableTask):
         """
         task_status = dataset.current_task 
 
-        extra_context = {}
+        extra_context = {
+            'related_dataset': dataset
+        }
 
         if einfo:
             if hasattr(einfo, 'traceback'):
@@ -81,9 +83,7 @@ class ImportFileTask(AbortableTask):
                 task_status.creator,
                 template_prefix,
                 notification_type,
-                related_task=task_status,
-                related_dataset=dataset,
-                related_export=None,
+                url='#dataset/%s' % dataset.slug,
                 extra_context=extra_context
             )
 

@@ -39,7 +39,6 @@ class TestSearchSubscriptions(TransactionTestCase):
         self.assertNotEqual(last_run, sub.last_run)
 
         self.assertEqual(Notification.objects.filter(recipient=self.user).count(), 2)
-        self.assertEqual(Notification.objects.filter(related_dataset=self.dataset).count(), 2)
 
     def test_subscription_global(self):
         self.dataset.import_data(self.user, self.upload)
@@ -60,5 +59,4 @@ class TestSearchSubscriptions(TransactionTestCase):
         self.assertNotEqual(last_run, sub.last_run)
 
         self.assertEqual(Notification.objects.filter(recipient=self.user).count(), 2)
-        self.assertEqual(Notification.objects.filter(related_dataset=self.dataset).count(), 1)
 
