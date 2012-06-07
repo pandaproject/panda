@@ -73,6 +73,8 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/errors.js"></script>
     {% endcompress %}
 
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/excanvas.min.js"></script><![endif]-->
+
     <script type="text/javascript">
         PANDA.settings.VERSION = "{{ settings.PANDA_VERSION }}";
         PANDA.settings.STATIC_URL = "{{ settings.STATIC_URL }}";
