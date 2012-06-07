@@ -120,7 +120,12 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     on_file_selected: function() {
         var filename = $("#upload-file").val();
+        var filepath_parts = $("#upload-file").val().split("\\");
+        var filename = filepath_parts[filepath_parts.length - 1];
         var ext = filename.substr(filename.lastIndexOf('.') + 1);
+        var no_ext = filename.substr(0, filename.lastIndexOf('.'));
+        
+        $("#dataset-name").val(no_ext);
 
         if (ext == 'xls' || ext == 'xlsx') {
             $("#step-1 .notes.xls").show();
@@ -213,13 +218,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
     },
 
     step_two: function() {
-        var filepath_parts = $("#upload-file").val().split("\\");
-        var filename = filepath_parts[filepath_parts.length - 1];
-        var no_ext = filename.substr(0, filename.lastIndexOf('.'));
-        
         $("#upload-continue").attr("disabled", true);
-
-        $("#dataset-name").val(no_ext);
         $("#step-2").collapse({ toggle: true, parent: "#steps" });
     },
 
