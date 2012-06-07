@@ -8,7 +8,7 @@ exec 1> >(tee /var/log/panda-install.log) 2>&1
 
 echo "PANDA installation beginning."
 
-CONFIG_URL="https://raw.github.com/pandaproject/panda/0.2.0/setup_panda"
+CONFIG_URL="https://raw.github.com/pandaproject/panda/0.2.1/setup_panda"
 
 # Setup environment variables
 echo "DEPLOYMENT_TARGET=\"deployed\"" >> /etc/environment
@@ -105,7 +105,7 @@ sudo -u postgres createdb -O panda panda
 cd /opt
 git clone git://github.com/pandaproject/panda.git panda
 cd /opt/panda
-git checkout 0.2.0
+git checkout 0.2.1
 pip install -r requirements.txt
 
 # Setup panda directories 
