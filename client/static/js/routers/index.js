@@ -70,8 +70,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_dashboard();
     },
 
-    export: function(id) {
-        this.controller.goto_export(id);
+    fetch_export: function(id) {
+        this.controller.goto_fetch_export(id);
     },
 
     not_found: function(path) {

@@ -495,12 +495,12 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate("dashboard");
     },
 
-    goto_export: function(id) {
+    goto_fetch_export: function(id) {
         if (!this.authenticate()) {
             return;
         }
         
-        this.current_content_view = this.get_or_create_view("Export");
+        this.current_content_view = this.get_or_create_view("FetchExport");
         this.current_content_view.reset(id);
 
         this._router.navigate("export/" + id);

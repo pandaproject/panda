@@ -1,4 +1,4 @@
-PANDA.views.Export = Backbone.View.extend({
+PANDA.views.FetchExport = Backbone.View.extend({
     el: $("#content"),
 
     initialize: function() {
@@ -14,7 +14,7 @@ PANDA.views.Export = Backbone.View.extend({
     render: function() {
         var context = PANDA.utils.make_context({});
 
-        this.el.html(PANDA.templates.export(context));
+        this.el.html(PANDA.templates.fetch_export(context));
     }
 });
 
