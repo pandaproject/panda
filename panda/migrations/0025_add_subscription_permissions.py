@@ -11,15 +11,13 @@ class Migration(DataMigration):
         This migration will fail if run against a clean database (fresh setup)
         This is fine because the permission will be installed from the fixture.
         """
-        group = orm['auth.group'].objects.get(name='panda_user')
 
         try:
+            group = orm['auth.group'].objects.get(name='panda_user')
+
             perm = orm['auth.permission'].objects.get(codename='add_searchsubscription')
             group.permissions.add(perm)
-        except:
-            pass
 
-        try:
             perm = orm['auth.permission'].objects.get(codename='delete_searchsubscription')
             group.permissions.add(perm)
         except:
