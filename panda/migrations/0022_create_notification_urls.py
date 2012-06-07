@@ -11,9 +11,9 @@ class Migration(DataMigration):
         if not db.dry_run:
             for notification in orm.Notification.objects.all():
                 if notification.related_export:
-                    notification.url = '#export/' + notification.related_export.id
+                    notification.url = '#export/%i' % notification.related_export.id
                 elif notification.related_dataset:
-                    notification.url = '#dataset/' + notification.related_dataset.slug
+                    notification.url = '#dataset/%s' % notification.related_dataset.slug
 
                 notification.save()
 
