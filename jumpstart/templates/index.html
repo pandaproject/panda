@@ -1,0 +1,15 @@
+<h1>Welcome to PANDA!</h1>
+
+<p>Please answer the following questions to configure your PANDA:</p>
+
+<form id="setup" method="POST">
+    <label for="timezone">What time zone does your organization do most of its work in?</label>
+    <select name="timezone">
+        {% for tz in timezones %}
+        <option value="{{ tz }}" {% if tz == "US/Central" %}selected="selected"{% endif %}>{{ tz }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="submit" value="Submit" />
+</form>
+
