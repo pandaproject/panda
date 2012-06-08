@@ -33,7 +33,7 @@ def index():
         app.logger.debug('3')
         subprocess.call(['initctl', 'reload-configuration'])
         app.logger.debug('4')
-        subprocess.call(['service', 'uwsgi', 'restart'])
+        subprocess.call(['service', 'uwsgi', '--full-restart'])
         app.logger.debug('5')
 
         return ''
