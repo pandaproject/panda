@@ -24,9 +24,7 @@ def index():
         with open(LOCAL_SETTINGS_PATH, 'w') as f:
             f.write("TIME_ZONE = '%s'\n" % timezone)
 
-        app.logger.debug('before popen')
         subprocess.Popen(['bash', 'swap.sh'], shell=True)
-        app.logger.debug('after popen')
 
         return 'Reload me!'
     else:
