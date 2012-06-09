@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import shutil
 import subprocess
 
 from pytz import common_timezones
@@ -26,7 +25,7 @@ def index():
             f.write("TIME_ZONE = '%s'\n" % timezone)
 
         app.logger.debug('before popen')
-        subprocess.Popen(['swap.sh'])
+        subprocess.Popen(['bash swap.sh'])
         app.logger.debug('after popen')
 
         return 'Reload me!'
