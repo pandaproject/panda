@@ -25,7 +25,7 @@ def index():
             f.write("TIME_ZONE = '%s'\n" % timezone)
 
         app.logger.debug('before popen')
-        subprocess.Popen(['bash', 'swap.sh'], shell=True, stderr=subprocess.STDOUT)
+        subprocess.Popen(['bash', 'swap.sh'])
         app.logger.debug('after popen')
 
         return 'Reload me!'

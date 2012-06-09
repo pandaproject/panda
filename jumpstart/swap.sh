@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+set -x
+exec 1> >(tee /tmp/jumpstart.log) 2>&1
+
 echo "1" > /tmp/foo.txt
 cp /opt/panda/setup_panda/uwsgi.conf /etc/init/uwsgi.conf
 
