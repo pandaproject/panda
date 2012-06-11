@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+import time
 
 from flask import Flask, render_template, request
 from pytz import common_timezones
@@ -19,8 +20,13 @@ app = Flask(__name__)
 app.debug = DEBUG
 
 class RestartDaemon(Daemon):
-    # Simple daemon so that a uwsgi process can reboot itself
+    """
+    Simple daemon so that a uwsgi process can reboot itself
+    """
     def run(self):
+        # Sleep for a moment to give uwsgi a chance to return a response
+        time.sleep(5)
+
         subprocess.call(['sudo', '/opt/panda/jumpstart/restart-uwsgi.sh'])
         
         if os.path.exists(self.pidfile):
@@ -37,7 +43,7 @@ def index():
 	    daemon = RestartDaemon('/tmp/jumpstart-restart.pid', stdout='/var/log/jumpstart-restart.log')
 	    daemon.start()
 
-        # Execution never reaches this point
+        # TODO
         return 'Reloading!'
     else:
         context = {
