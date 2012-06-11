@@ -6,11 +6,12 @@
 
 <a href="javascript:location.reload(true)">Refresh this page</a>
 
-<script type="text/javascript" src="static/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
 <script type="text/javascript">
     var timer_id = null;
 
     window.check_finished = function() {
+        // TODO
         console.log("Checking"); 
     }
 
