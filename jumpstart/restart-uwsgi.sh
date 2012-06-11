@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 sudo service nginx stop
 sudo service uwsgi stop
