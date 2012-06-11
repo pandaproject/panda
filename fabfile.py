@@ -210,6 +210,14 @@ def reset_solr():
     sudo('chown -R solr:solr %(solr_path)s' % env)
     sudo('service solr start')
 
+def reset_jumpstart():
+    """
+    Reset the configuration to run the jumpstart server.
+    """
+    sudo('sudo cp ../setup_panda/uwsgi_jumpstart.conf /etc/init/uwsgi.conf')
+    sudo('service uwsgi stop')
+    sudo('service uwsgi start')
+
 """
 Commands - Local development
 """

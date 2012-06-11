@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import subprocess
 
 from flask import Flask, render_template, request
@@ -20,8 +21,10 @@ app.debug = DEBUG
 class RestartDaemon(Daemon):
     # Simple daemon so that a uwsgi process can reboot itself
     def run(self):
-        subprocess.Popen(['sudo', '/opt/panda/jumpstart/restart-uwsgi.sh'])
-        self.stop()
+        subprocess.call(['sudo', '/opt/panda/jumpstart/restart-uwsgi.sh'])
+        
+        if os.path.exists(self.pidfile):
+            os.remove(self.pidfile)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -31,7 +34,7 @@ def index():
         with open(LOCAL_SETTINGS_PATH, 'w') as f:
             f.write("TIME_ZONE = '%s'\n" % timezone)
 
-	    daemon = RestartDaemon('/tmp/restart.pid')
+	    daemon = RestartDaemon('/tmp/jumpstart-restart.pid', stdout='/var/log/jumpstart-restart.log')
 	    daemon.start()
 
         # Execution never reaches this point
