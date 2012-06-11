@@ -46,6 +46,10 @@ initctl reload-configuration
 mkdir /var/celery
 chown panda:panda /var/celery
 
+# Install new Solr configuration (backwards compatible)
+cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
+cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
+
 # Restart services
 service solr start 
 service uwsgi start
