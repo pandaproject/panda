@@ -43,8 +43,7 @@ def index():
 	    daemon = RestartDaemon('/tmp/jumpstart-restart.pid', stdout='/var/log/jumpstart-restart.log')
 	    daemon.start()
 
-        # TODO
-        return 'Reloading!'
+        return render_template('wait.html')
     else:
         context = {
             'timezones': common_timezones
