@@ -1,0 +1,24 @@
+body {
+    background-color: #404040;
+    color: white;
+}
+
+#index {
+    width: 400px;
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#index h2 {
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+#index .alert {
+    display: block;
+}
+
+#setup {
+    margin-top: 30px;
+}

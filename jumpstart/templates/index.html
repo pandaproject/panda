@@ -1,18 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Welcome to PANDA!</h1>
+<div id="index">
+    <img src="{{ url_for('static', filename='panda_and_ire.png') }}" />
+    <h2>Welcome to PANDA!</h2>
 
-<p>Please answer the following questions to configure your PANDA:</p>
+    <div class="alert alert-info"><strong>Congratulations&mdash;your PANDA is almost ready!</strong><br />Just answer the following questions to finish setting up.</div>
 
-<form id="setup" method="POST">
-    <label for="timezone">What time zone does your organization do most of its work in?</label>
-    <select name="timezone">
-        {% for tz in timezones %}
-        <option value="{{ tz }}" {% if tz == "US/Central" %}selected="selected"{% endif %}>{{ tz }}</option>
-        {% endfor %}
-    </select>
+    <form id="setup" method="POST">
+        <div class="control-group">
+            <label for="timezone">What time zone does your organization do most of its work in?</label>
+            <select name="timezone">
+                {% for tz in timezones %}
+                <option value="{{ tz }}" {% if tz == "US/Central" %}selected="selected"{% endif %}>{{ tz }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <input type="submit" value="Submit" />
-</form>
+        <input class="btn" type="submit" value="Submit" />
+    </form>
+</div>
 {% endblock %}
