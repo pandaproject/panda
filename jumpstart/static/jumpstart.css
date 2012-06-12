@@ -3,22 +3,31 @@ body {
     color: white;
 }
 
-#index {
+#index, #wait {
     width: 400px;
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
 }
 
-#index h2 {
+h2 {
     font-weight: normal;
     margin-bottom: 10px;
 }
 
-#index .alert {
+.alert {
     display: block;
 }
 
 #setup {
     margin-top: 30px;
 }
+
+.checking, .ready {
+    margin-top: 10px;
+}
+
+.ready {
+    display: none;
+}
+

@@ -1,19 +1,29 @@
-<h1>Now configuring your PANDA...</h1>
+{% extends "base.html" %}
 
-<p>Please enjoy some Rush while your PANDA is configured</p>
+{% block content %}
+<div id="wait">
+    <h2>Now configuring your PANDA...</h2>
 
-<iframe width="420" height="315" src="http://www.youtube.com/embed/KNZru4JG_Uo" frameborder="0" allowfullscreen></iframe>
+    <p>Please enjoy some Rush while we set things up for you!</p>
 
-<a href="javascript:location.reload(true)">Refresh this page</a>
+    <iframe width="420" height="315" src="http://www.youtube.com/embed/KNZru4JG_Uo" frameborder="0" allowfullscreen></iframe>
 
-<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
-<script type="text/javascript">
-    var timer_id = null;
+    <div class="checking">This page will automatically update when your PANDA is ready.</div>
+    <div class="ready"><h2>Your PANDA is ready! <a href="javascript:location.reload(true)"><br />Go to my PANDA! &raquo;</a></h2></div>
 
-    window.check_finished = function() {
-        // TODO
-        console.log("Checking"); 
-    }
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
+    <script type="text/javascript">
+        var timer_id = null;
 
-    timer_id = setTimeout(check_finished, 2500);
-</script>
+        window.check_finished = function() {
+            $.getJSON("/api/1.0/", null, function() {
+                $(".checking").hide();
+                $(".ready").show();
+                clearInterval(timer_id);
+            });
+        }
+
+        timer_id = setInterval(check_finished, 2500);
+    </script>
+</div>
+{% endblock %}

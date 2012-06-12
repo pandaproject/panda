@@ -3,13 +3,14 @@
 <head>
     <title>PANDA Setup</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='chosen/chosen.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jumpstart.css') }}">
 </head>
 <body>
     <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
-        <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
-        {% block footer %}
-        {% endblock %}
-    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
+    
+    {% block footer %}
+    {% endblock %}
 </body>
