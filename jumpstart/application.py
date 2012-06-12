@@ -15,7 +15,7 @@ TEST_MODE = False
 
 PANDA_PATH = '/opt/panda'
 LOCAL_SETTINGS_PATH = '%s/local_settings.py' % PANDA_PATH
-RESTART_SCRIPT_PATH = '%s/jumpstarts/restart-uwsgi.sh' % PANDA_PATH
+RESTART_SCRIPT_PATH = '%s/jumpstart/restart-uwsgi.sh' % PANDA_PATH
 DAEMON_PID_PATH = '/tmp/jumpstart-restart.pid'
 DAEMON_LOG_PATH = '/var/log/jumpstart-restart.log'
 
