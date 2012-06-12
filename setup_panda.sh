@@ -82,9 +82,7 @@ service solr start
 
 # Setup uWSGI
 adduser --system --no-create-home --disabled-login --disabled-password --group panda
-mkdir /var/run/uwsgi
-chown panda:panda /var/run/uwsgi
-wget -nv $CONFIG_URL/uwsgi.conf -O /etc/init/uwsgi.conf
+wget -nv $CONFIG_URL/uwsgi_jumpstart.conf -O /etc/init/uwsgi.conf
 initctl reload-configuration
 
 # Setup nginx
