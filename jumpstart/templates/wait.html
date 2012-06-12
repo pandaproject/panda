@@ -9,7 +9,12 @@
     <iframe width="420" height="315" src="http://www.youtube.com/embed/KNZru4JG_Uo" frameborder="0" allowfullscreen></iframe>
 
     <div class="checking">This page will automatically update when your PANDA is ready.</div>
-    <div class="ready"><h2>Your PANDA is ready! <a href="javascript:location.reload(true)"><br />Go to my PANDA! &raquo;</a></h2></div>
+    <div class="ready">
+        <h2>Your PANDA is ready!<br />
+            <a href="javascript:location.reload(true)">Go to your PANDA &raquo;</a>
+        </h2>
+        Or, <a href="/admin/settings">visit the admin settings page to configure email and set a domain name</a> (you can always do this later).
+    </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
     <script type="text/javascript">
