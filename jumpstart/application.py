@@ -11,9 +11,13 @@ from daemon import Daemon
 
 # Configuration
 DEBUG = True
+TEST_MODE = False
 
 PANDA_PATH = '/opt/panda'
 LOCAL_SETTINGS_PATH = '%s/local_settings.py' % PANDA_PATH
+RESTART_SCRIPT_PATH = '%s/jumpstarts/restart-uwsgi.sh' % PANDA_PATH
+DAEMON_PID_PATH = '/tmp/jumpstart-restart.pid'
+DAEMON_LOG_PATH = '/var/log/jumpstart-restart.log'
 
 # Setup
 app = Flask(__name__)
@@ -27,7 +31,7 @@ class RestartDaemon(Daemon):
         # Sleep for a moment to give uwsgi a chance to return a response
         time.sleep(5)
 
-        subprocess.call(['sudo', '/opt/panda/jumpstart/restart-uwsgi.sh'])
+        subprocess.call(['sudo', RESTART_SCRIPT_PATH])
         
         if os.path.exists(self.pidfile):
             os.remove(self.pidfile)
@@ -37,11 +41,12 @@ def index():
     if request.method == 'POST':
         timezone = request.form['timezone']
 
-        with open(LOCAL_SETTINGS_PATH, 'w') as f:
-            f.write("TIME_ZONE = '%s'\n" % timezone)
+        if not TEST_MODE:
+            with open(LOCAL_SETTINGS_PATH, 'w') as f:
+                f.write("TIME_ZONE = '%s'\n" % timezone)
 
-	    daemon = RestartDaemon('/tmp/jumpstart-restart.pid', stdout='/var/log/jumpstart-restart.log')
-	    daemon.start()
+	        daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
+	        daemon.start()
 
         return render_template('wait.html')
     else:
@@ -52,5 +57,8 @@ def index():
         return render_template('index.html', **context)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    # When using Runserver, enable TEST_MODE 
+    TEST_MODE = True
+
+    app.run(host='0.0.0.0', port=8000)
 
