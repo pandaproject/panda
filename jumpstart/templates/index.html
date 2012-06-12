@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="index">
-    <img src="{{ url_for('static', filename='panda_and_ire.png') }}" />
+    <img src="{{ settings.STATIC_URL }}panda_and_ire.png" />
     <h2>Welcome to PANDA!</h2>
 
     <div class="alert alert-info"><strong>Congratulations&mdash;your PANDA is almost ready!</strong><br />Just answer a few questions to finish setting up.</div>

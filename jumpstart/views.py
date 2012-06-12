@@ -4,6 +4,7 @@ import os
 import subprocess
 import time
 
+from django.conf import settings
 from django.shortcuts import render_to_response
 from pytz import common_timezones
 
@@ -38,11 +39,12 @@ def jumpstart(request):
         daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
         daemon.start()
 
-        return render_to_response('wait.html')
+        return render_to_response('wait.html', { 'settings': settings })
     else:
         context = {
+            'settings': settings,
             'timezones': common_timezones
         }
 
-        return render_to_response('index.html', **context)
+        return render_to_response('index.html', context)
 
