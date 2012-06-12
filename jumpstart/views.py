@@ -4,24 +4,16 @@ import os
 import subprocess
 import time
 
-from flask import Flask, render_template, request
+from django.shortcuts import render_to_response
 from pytz import common_timezones
 
 from daemon import Daemon
-
-# Configuration
-DEBUG = True
-TEST_MODE = False
 
 PANDA_PATH = '/opt/panda'
 LOCAL_SETTINGS_PATH = '%s/local_settings.py' % PANDA_PATH
 RESTART_SCRIPT_PATH = '%s/jumpstart/restart-uwsgi.sh' % PANDA_PATH
 DAEMON_PID_PATH = '/tmp/jumpstart-restart.pid'
 DAEMON_LOG_PATH = '/var/log/jumpstart-restart.log'
-
-# Setup
-app = Flask(__name__)
-app.debug = DEBUG
 
 class RestartDaemon(Daemon):
     """
@@ -36,29 +28,21 @@ class RestartDaemon(Daemon):
         if os.path.exists(self.pidfile):
             os.remove(self.pidfile)
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
+def jumpstart(request):
     if request.method == 'POST':
-        timezone = request.form['timezone']
+        timezone = request.POST['timezone']
 
-        if not TEST_MODE:
-            with open(LOCAL_SETTINGS_PATH, 'w') as f:
-                f.write("TIME_ZONE = '%s'\n" % timezone)
+        with open(LOCAL_SETTINGS_PATH, 'w') as f:
+            f.write("TIME_ZONE = '%s'\n" % timezone)
 
-	        daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
-	        daemon.start()
+        daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
+        daemon.start()
 
-        return render_template('wait.html')
+        return render_to_response('wait.html')
     else:
         context = {
             'timezones': common_timezones
         }
 
-        return render_template('index.html', **context)
-
-if __name__ == '__main__':
-    # When using Runserver, enable TEST_MODE 
-    TEST_MODE = True
-
-    app.run(host='0.0.0.0', port=8000)
+        return render_to_response('index.html', **context)
 
