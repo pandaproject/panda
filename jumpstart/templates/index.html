@@ -5,7 +5,7 @@
     <img src="{{ url_for('static', filename='panda_and_ire.png') }}" />
     <h2>Welcome to PANDA!</h2>
 
-    <div class="alert alert-info"><strong>Congratulations&mdash;your PANDA is almost ready!</strong><br />Just answer the following questions to finish setting up.</div>
+    <div class="alert alert-info"><strong>Congratulations&mdash;your PANDA is almost ready!</strong><br />Just answer a few questions to finish setting up.</div>
 
     <form id="setup" method="POST">
         <div class="control-group">
@@ -17,7 +17,72 @@
             </select>
         </div>
 
+        <h3>Setup your administrative user</h3>
+        <fieldset>
+            <div class="control-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" value="" />
+                <span class="help-inline"></span>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="control-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" />
+                <span class="help-inline"></span>
+            </div>
+            <div class="control-group">
+                <label for="reenter_password">Re-enter password</label>
+                <input type="password" name="reenter_password" />
+                <span class="help-inline"></span>
+            </div>
+        </fieldset>
+
         <input class="btn" type="submit" value="Submit" />
     </form>
 </div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript">
+    function show_error(input, error) {
+        input.parents(".control-group").addClass("error");
+        input.siblings(".help-inline").text(error);
+    }
+
+    $("#setup").submit(function(e) {
+        var error = false;
+        $(this).find(".control-group").removeClass("error");
+        $(this).find(".help-inline").text("");
+
+        var email = $("input[name='email']");
+
+        if (!email.val()) {
+            show_error(email, "This field is required.");
+            error = true;
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i.test(email.val())) {
+            show_error(email, "Not a valid email address.");
+            error = true;  
+        }
+
+        var password = $("input[name='password']");
+
+        if (!password.val()) {
+            show_error(password, "This field is required.");
+            error = true;
+        }
+
+        var password2 = $("input[name='reenter_password']");
+
+        if (!password2.val()) {
+            show_error(password2, "This field is required.");
+            error = true;
+        } else if (password.val() != password2.val()) {
+            show_error(password2, "Passwords do not match.");
+            error = true;
+        }
+
+        return !error;
+    });
+</script>
 {% endblock %}
