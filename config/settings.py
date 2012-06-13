@@ -109,6 +109,7 @@ INSTALLED_APPS = (
     'compressor',
     'livesettings',
 
+    'jumpstart',
     'panda',
     'client'
 )

@@ -3,28 +3,9 @@
 from config.settings import *
 from config.deployed.settings import *
 
-# Running in deployed mode
+# Running in jumpstart mode
+# This means the app will have root access!
 SETTINGS = 'jumpstart'
-
-INSTALLED_APPS = (
-    'longerusername',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.admin',
-    'django.contrib.humanize',
-    'django.contrib.sites',
-    'django.contrib.staticfiles',
-
-    'south',
-    'tastypie',
-    'djcelery',
-    'compressor',
-    'livesettings',
-
-    'jumpstart'
-)
 
 try:
     from local_settings import *
