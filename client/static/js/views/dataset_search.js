@@ -168,15 +168,19 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
     encode_human_readable: function() {
         var human = "";
-        var filter_parts = [];
+        var full_text = null;
+        var parts = [];
 
         _.each(this.query, function(v, k) {
             if (k == "__all__") {
-                human = "Search for <code class=\"full-text\">" + v + "</code>";
+                if (v) {
+                    full_text = "Search for <code class=\"full-text\">" + v + "</code>";
+                }
             } else {
                 var column = _.find(this.dataset.get("column_schema"), function(c) {
                     return c["name"] == k;
                 });
+
                 var operation_text = this.search_filters.operations[column["type"]][v["operator"]]["name"];
                 var value = v["value"];
                 var range_value = v["range_value"];
@@ -203,13 +207,15 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                     part += " to <code class=\"value\">" + range_value + "</code>";
                 }
 
-                filter_parts.push(part);
+                parts.push(part);
             }
         }, this);
 
-        if (filter_parts.length > 0) {
-            human += " and " + filter_parts.join(" and ");
+        if (full_text) {
+            parts.unshift(full_text);
         }
+
+        human = parts.join(" and ");
 
         return human;
     },
