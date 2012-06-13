@@ -30,21 +30,21 @@ class RestartDaemon(Daemon):
             os.remove(self.pidfile)
 
 def jumpstart(request):
-    if request.method == 'POST':
-        timezone = request.POST['timezone']
+    context = {
+        'settings': settings,
+        'timezones': common_timezones
+    }
 
-        with open(LOCAL_SETTINGS_PATH, 'w') as f:
-            f.write("TIME_ZONE = '%s'\n" % timezone)
+    return render_to_response('jumpstart/index.html', context)
 
-        daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
-        daemon.start()
+def wait(request):
+    timezone = request.POST['timezone']
 
-        return render_to_response('wait.html', { 'settings': settings })
-    else:
-        context = {
-            'settings': settings,
-            'timezones': common_timezones
-        }
+    with open(LOCAL_SETTINGS_PATH, 'w') as f:
+        f.write("TIME_ZONE = '%s'\n" % timezone)
 
-        return render_to_response('index.html', context)
+    daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
+    daemon.start()
+
+    return render_to_response('jumpstart/wait.html', { 'settings': settings })
 

@@ -25,3 +25,8 @@ COMPRESS_ENABLED = True
 # Celery
 CELERYBEAT_SCHEDULE_FILENAME = '/var/celery/celerybeat-schedule'
 
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
