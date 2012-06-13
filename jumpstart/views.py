@@ -5,8 +5,10 @@ import subprocess
 import time
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from pytz import common_timezones
+from tastypie.models import ApiKey
 
 from daemon import Daemon
 
@@ -36,6 +38,8 @@ def jumpstart(request):
 
 def wait(request):
     timezone = request.POST['timezone']
+    email = request.POST['email']
+    password = request.POST['password']
 
     # Test if running under runserver
     # (Via: http://stackoverflow.com/questions/10962703/django-distinguish-development-server-manage-py-runserver-from-the-regular-o)
@@ -47,6 +51,13 @@ def wait(request):
 
         if wsgi_wrapper_path:
             f.write("DEBUG = 'True'\n")
+
+    admin = User.objects.create_user(email, email, password)
+    admin.is_staff = True
+    admin.is_superuser = True
+    admin.save()
+
+    ApiKey.objects.get_or_create(user=admin)
 
     if not wsgi_wrapper_path:
         daemon = RestartDaemon(settings.DAEMON_PID_PATH, stdout=settings.DAEMON_LOG_PATH)
