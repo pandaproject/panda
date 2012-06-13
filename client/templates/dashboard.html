@@ -34,7 +34,7 @@
                 <h3>Most active users in the last 30 days</h3>
                 <ul>
                     {% for user in most_active_users %}
-                    <li><a href="#user/{{ user.id }}">{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
+                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -42,7 +42,7 @@
                 <h3>Least active users in the last 30 days</h3>
                 <ul>
                     {% for user in least_active_users %}
-                    <li><a href="#user/{{ user.id }}">{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
+                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -54,7 +54,7 @@
                 <h3>Most searched datasets in the last 30 days</h3>
                 <ul>
                     {% for name, slug, count in most_searched_datasets %}
-                    <li><a href="#dataset/{{ slug }}">{{ name }}</a> ({{ count }} search{{ count|pluralize:"es" }})</li>
+                    <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong> ({{ count }} search{{ count|pluralize:"es" }})</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -77,28 +77,24 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Application</td>
+                            <td>Application data{% if not upload_disk_total %}, uploaded files (and exports){% endif %}{% if not indices_disk_total %}, search data{% endif %}</td>
                             <td>{{ root_disk_total|filesizeformat }} ({{ root_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ root_disk_free|filesizeformat }}</td>
                         </tr>
+                        {% if upload_disk_total %}
                         <tr>
                             <td>Uploaded files (and exports)</td>
-                            {% if upload_disk_total %}
                             <td>{{ upload_disk_total|filesizeformat }} ({{ upload_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ upload_disk_free|filesizeformat }}</td>
-                            {% else %}
-                            <td colspan="2">Uploads are currently stored on the root disk.</td>
-                            {% endif %}
                         </tr>
+                        {% endif %}
+                        {% if indices_disk_total %}
                         <tr>
-                            <td>Searchable data</td>
-                            {% if indices_disk_total %}
+                            <td>Search data</td>
                             <td>{{ indices_disk_total|filesizeformat }} ({{ indices_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ indices_disk_free|filesizeformat }}</td>
-                            {% else %}
-                            <td colspan="2">Uploads are currently stored on the root disk.</td>
-                            {% endif %}
                         </tr>
+                        {% endif %}
                     </tbody>
                 </table>
                 <p><strong>Low disk?</strong> Read about <a href="http://panda.readthedocs.org/en/{{ settings.PANDA_VERSION }}/storage.html">upgrading your storage space</a>.</p>
