@@ -4,9 +4,7 @@ from django.conf import settings
 from django.conf.urls.defaults import include, patterns
 from django.contrib import admin
 
-admin.autodiscover()
-admin.site.index_template = 'admin/panda_index.html'
-
+# Jumpstart mode
 if settings.SETTINGS == 'jumpstart':
     urlpatterns = patterns('',
         (r'', include('jumpstart.urls')),
@@ -14,7 +12,11 @@ if settings.SETTINGS == 'jumpstart':
             { 'document_root': settings.STATIC_ROOT,
                 'show_indexes': True }),
     )
+# Normal mode
 else:
+    admin.autodiscover()
+    admin.site.index_template = 'admin/panda_index.html'
+
     urlpatterns = patterns('',
         (r'', include('panda.urls')),
         (r'', include('client.urls')),

@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <title>PANDA Setup</title>
-    <link rel=stylesheet type=text/css href="{{ settings.STATIC_URL }}bootstrap/css/bootstrap.css">
-    <link rel=stylesheet type=text/css href="{{ settings.STATIC_URL }}jumpstart.css">
+    <link rel=stylesheet type=text/css href="{{ settings.STATIC_URL }}css/bootstrap.css">
+    <link rel=stylesheet type=text/css href="{{ settings.STATIC_URL }}css/jumpstart.css">
 </head>
 <body>
     <div id="content">{% block content %}{% endblock %}</div>
 
-    <script type="text/javascript" src="{{ settings.STATIC_URL }}jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/jquery-1.7.1.js"></script>
     
     {% block footer %}
     {% endblock %}

@@ -214,11 +214,8 @@ def reset_jumpstart():
     """
     Reset the configuration to run the jumpstart server.
     """
-    sudo('sudo cp %(path)s/setup_panda/uwsgi_jumpstart.conf /etc/init/uwsgi.conf' % env)
     sudo('service uwsgi stop')
-
-    env.vars = 'DEPLOYMENT_TARGET="jumpstart"'
-    collect_static_files()
+    sudo('sudo cp %(path)s/setup_panda/uwsgi_jumpstart.conf /etc/init/uwsgi.conf' % env)
     sudo('service uwsgi start')
 
 """
