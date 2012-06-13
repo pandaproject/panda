@@ -41,7 +41,7 @@ class TestUserValidation(TestCase):
             self.assertNotIn("email", errors)
 
 class TestAPIUser(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

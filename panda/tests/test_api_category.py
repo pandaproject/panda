@@ -9,7 +9,7 @@ from panda.models import Category
 from panda.tests import utils
 
 class TestAPICategories(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

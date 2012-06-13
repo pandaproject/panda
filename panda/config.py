@@ -96,15 +96,6 @@ config_register(PositiveIntegerValue(
     ordering=0
 ))
 
-config_register(BooleanValue(
-    MISC_GROUP,
-    'DEMO_MODE',
-    description='Enable demo mode?',
-    help_text='Displays default credentials on login screen.',
-    default=False,
-    ordering=1
-))
-
 # Performance settings
 PERF_GROUP = ConfigurationGroup(
     'PERF',

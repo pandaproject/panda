@@ -10,7 +10,7 @@ from panda.models import UserProfile, UserProxy
 from panda.tests import utils
 
 class TestLogin(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         self.user = utils.get_panda_user()
@@ -71,7 +71,7 @@ class TestLogin(TransactionTestCase):
         self.assertEqual(body, None)
 
 class TestActivate(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         self.user = utils.get_panda_user()
@@ -136,7 +136,7 @@ class TestActivate(TransactionTestCase):
         self.assertLess(user_profile.activation_key_expiration, now())
 
 class  TestForgotPassword(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         self.user = utils.get_panda_user()

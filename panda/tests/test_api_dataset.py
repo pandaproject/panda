@@ -26,7 +26,7 @@ class TestDatasetValidation(TestCase):
         self.assertIn('name', errors)
 
 class TestAPIDataset(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

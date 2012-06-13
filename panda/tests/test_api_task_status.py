@@ -12,7 +12,7 @@ from panda.models import TaskStatus
 from panda.tests import utils
 
 class TestAPITaskStatus(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

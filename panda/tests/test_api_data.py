@@ -15,7 +15,7 @@ from panda.models import Dataset
 from panda.tests import utils
 
 class TestDataValidation(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         self.validator = DataValidation()
@@ -45,7 +45,7 @@ class TestDataValidation(TransactionTestCase):
         self.assertIn('external_id', errors)
 
 class TestAPIData(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

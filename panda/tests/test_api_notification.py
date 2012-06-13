@@ -12,7 +12,7 @@ from panda.models import Notification, UserProxy
 from panda.tests import utils
 
 class TestAPINotifications(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

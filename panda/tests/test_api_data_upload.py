@@ -11,7 +11,7 @@ from panda.models import DataUpload
 from panda.tests import utils
 
 class TestAPIDataUpload(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         self.user = utils.get_panda_user()

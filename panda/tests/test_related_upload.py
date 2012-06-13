@@ -8,7 +8,7 @@ from django.test import TransactionTestCase
 from panda.tests import utils
 
 class TestRelatedUpload(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

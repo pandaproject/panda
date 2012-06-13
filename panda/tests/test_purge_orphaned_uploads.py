@@ -10,7 +10,7 @@ from panda.tasks import PurgeOrphanedUploadsTask
 from panda.tests import utils
 
 class TestPurgeOrphanedUploads(TestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

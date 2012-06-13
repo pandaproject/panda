@@ -10,7 +10,7 @@ from panda.tests import utils
 from tastypie.models import ApiKey
 
 class TestUser(TransactionTestCase):
-    fixtures = ['init_panda.json']
+    fixtures = ['init_panda.json', 'test_users.json']
 
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True

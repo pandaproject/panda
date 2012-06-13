@@ -5,14 +5,6 @@
             <h2>Log in to PANDA</h2>
             <div class="alert"></div>
 
-            <% if (PANDA.settings.DEMO_MODE) { %>
-            <div class="alert warning demo-mode">
-            <p><strong>Demo mode enabled!</strong></p>
-            <p>User: <code>user@pandaproject.net</code> Password: <code>user</code></p>
-            <p>Admin: <code>panda@pandaproject.net</code> Password: <code>panda</code></p>
-            </div>
-            <% } %>
-            
             <div class="control-group">
                 <label for="email">Email</label>
                 <input type="text" name="email" value="<%= email %>" />

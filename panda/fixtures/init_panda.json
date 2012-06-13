@@ -1,42 +1,6 @@
 [
     {
         "pk": 1, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "panda@pandaproject.net", 
-            "first_name": "Redd", 
-            "last_name": "", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2011-11-04T00:00:00Z", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$e9f01$a4249715c0bb488f94c2092335319150af40fcd8", 
-            "email": "panda@pandaproject.net", 
-            "date_joined": "2011-11-04T00:00:00Z"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "panda.userprofile", 
-        "fields": {
-            "activation_key": "dc04cb8ce3be6232c5ab93234f65c7e70c5259fd", 
-            "user": 1, 
-            "activation_key_expiration": "2011-11-04T00:00:00Z"
-        }
-    },
-    {
-        "pk": 1, 
-        "model": "tastypie.apikey", 
-        "fields": {
-            "user": 1, 
-            "key": "edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b", 
-            "created": "2011-11-04T00:00:00Z"
-        }
-    },
-    {
-        "pk": 1, 
         "model": "auth.group", 
         "fields": {
             "name": "panda_user", 
@@ -87,42 +51,6 @@
                     "searchsubscription"
                 ]
             ]
-        }
-    },
-    {
-        "pk": 2, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "user@pandaproject.net", 
-            "first_name": "User", 
-            "last_name": "", 
-            "is_active": true, 
-            "is_superuser": false, 
-            "is_staff": false, 
-            "last_login": "2011-11-04T00:00:00Z", 
-            "groups": [1], 
-            "user_permissions": [], 
-            "password": "sha1$33a1d$62ae95c2d8ac599c28234d092e3f88d13e69ba67", 
-            "email": "user@pandaproject.net", 
-            "date_joined": "2011-11-04T00:00:00Z"
-        }
-    },
-    {
-        "pk": 2, 
-        "model": "panda.userprofile", 
-        "fields": {
-            "activation_key": "5b504615736a95b5948438669714eef213757ee6", 
-            "user": 2, 
-            "activation_key_expiration": "2011-11-04T00:00:00Z"
-        }
-    },
-    {
-        "pk": 2, 
-        "model": "tastypie.apikey", 
-        "fields": {
-            "user": 2, 
-            "key": "edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84c", 
-            "created": "2011-11-04T00:00:00Z"
         }
     },
     {
