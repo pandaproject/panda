@@ -401,15 +401,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             var range_value = null;
         }
 
-        if (value < c["min"] || value > c["max"]) {
-            throw new Error("Value is outside range of column.");
-        }
-
         if (range_value) {
-            if (range_value < c["min"] || range_value > c["max"]) {
-                throw new Error("Second value is outside range of column.");
-            }
-
             if (value > range_value) {
                 throw new Error("The first value should always be less than the second value."); 
             }
@@ -437,15 +429,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             var range_value = null;
         }
 
-        if (value < c["min"] || value > c["max"]) {
-            throw new Error("Value is outside range of column");
-        }
-
         if (range_value) {
-            if (range_value < c["min"] || range_value > c["max"]) {
-                throw new Error("Second value is outside range of column");
-            }
-
             if (value > range_value) {
                 throw new Error("The first value should always be less than the second value."); 
             }
@@ -484,20 +468,9 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             var range_value = null;
         }
 
-        var min = moment(c["min"], "YYYY-MM-DD HH:mm:ss");
-        var max = moment(c["max"], "YYYY-MM-DD HH:mm:ss");
-
-        if (value < min || value > max) {
-            throw new Error("Value is outside range of column.");
-        }
-        
         if (range_value) {
-            if (range_value < min || range_value > max) {
-                throw new Error("Second value is outside range of column.");
-            }
-
             if (value > range_value) {
-                throw new Error("The first value should always be less than the second value."); 
+                throw new Error("The first date must be before the second date."); 
             }
         }
     },
@@ -531,20 +504,9 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             var range_value = null;
         }
 
-        var min = moment(c["min"], "YYYY-MM-DD HH:mm:ss");
-        var max = moment(c["max"], "YYYY-MM-DD HH:mm:ss");
-
-        if (value < min || value > max) {
-            throw new Error("Value is outside range of column.");
-        }
-        
         if (range_value) {
-            if (range_value < min || range_value > max) {
-                throw new Error("Second value is outside range of column.");
-            }
-
             if (value > range_value) {
-                throw new Error("The first value should always be less than the second value."); 
+                throw new Error("The first date must be before the second before."); 
             }
         }
     },
@@ -580,20 +542,9 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             var range_value = null;
         }
 
-        var min = moment(c["min"], "YYYY-MM-DD HH:mm:ss");
-        var max = moment(c["max"], "YYYY-MM-DD HH:mm:ss");
-
-        if (value < min || value > max) {
-            throw new Error("Value is outside range of column.");
-        }
-        
         if (range_value) {
-            if (range_value < min || range_value > max) {
-                throw new Error("Second value is outside range of column.");
-            }
-
             if (value > range_value) {
-                throw new Error("The first value should always be less than the second value."); 
+                throw new Error("The first time must be before the second time."); 
             }
         }
     }
