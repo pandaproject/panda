@@ -12,8 +12,6 @@ from daemon import Daemon
 
 LOCAL_SETTINGS_PATH = '%s/local_settings.py' % settings.SITE_ROOT
 RESTART_SCRIPT_PATH = '%s/jumpstart/restart-uwsgi.sh' % settings.SITE_ROOT 
-DAEMON_PID_PATH = '/tmp/jumpstart-restart.pid'
-DAEMON_LOG_PATH = '/var/log/jumpstart-restart.log'
 
 class RestartDaemon(Daemon):
     """
@@ -51,7 +49,7 @@ def wait(request):
             f.write("DEBUG = 'True'\n")
 
     if not wsgi_wrapper_path:
-        daemon = RestartDaemon(DAEMON_PID_PATH, stdout=DAEMON_LOG_PATH)
+        daemon = RestartDaemon(settings.DAEMON_PID_PATH, stdout=settings.DAEMON_LOG_PATH)
         daemon.start()
 
     return render_to_response('jumpstart/wait.html', { 'settings': settings })
