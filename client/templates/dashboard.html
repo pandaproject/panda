@@ -120,7 +120,7 @@ $(function () {
     window.DASHBOARD.search_ticks = [
     {% for day in searches_by_day %}
         {% if forloop.counter|divisibleby:'5' %}
-        [{{ forloop.counter }}, "{{ day.day|date:'N jS' }}"]
+        [{{ forloop.counter }}, "{{ day.day|date:'N j' }}"]
         {% endif %}
         {% if not forloop.last and forloop.counter|divisibleby:'5' and forloop.revcounter > 5 %},{% endif %}
     {% endfor %}
@@ -136,7 +136,7 @@ $(function () {
     window.DASHBOARD.user_ticks = [
     {% for day in active_users_by_day %}
         {% if forloop.counter|divisibleby:'3' %}
-        [{{ forloop.counter }}, "{{ day.when|date:'N jS' }}"]
+        [{{ forloop.counter }}, "{{ day.when|date:'N j' }}"]
         {% endif %}
         {% if not forloop.last and forloop.counter|divisibleby:'3' and forloop.revcounter > 3 %},{% endif %}
     {% endfor %}
