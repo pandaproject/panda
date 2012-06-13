@@ -24,6 +24,10 @@ h2 {
     margin-top: 30px;
 }
 
+label {
+    color: white;
+}
+
 .checking, .ready {
     margin-top: 10px;
 }
