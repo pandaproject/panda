@@ -20,7 +20,7 @@ PANDA.views.Dashboard = Backbone.View.extend({
 
     draw_charts: function() {
         var wrapper_width = $("#search-chart-wrapper").width();
-        $("#searches-by-day").width(wrapper_width).height(wrapper_width * 2 / 3);
+        $("#searches-by-day").width(wrapper_width).height(wrapper_width * 1 / 2);
 
         $.plot($("#searches-by-day"), [window.DASHBOARD.search_data], {
             color: "rgb(255, 0, 0)",

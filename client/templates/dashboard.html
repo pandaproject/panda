@@ -7,7 +7,7 @@
                 <h3>Missing descriptions</h3>
                 <ul>
                 {% for name, slug in datasets_without_descriptions %}
-                    <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
+                <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong></li>
                 {% endfor %}
                 </ul>
             </div>
@@ -15,7 +15,7 @@
                 <h3>Missing categories</h3>
                 <ul>
                     {% for name, slug in datasets_without_categories %}
-                    <li><a href="#dataset/{{ slug }}">{{ name }}</a></li>
+                    <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong></li>
                 {% endfor %}
                 </ul>
             </div>
@@ -28,6 +28,7 @@
                 <div id="users-by-day" class="chart"></div>
             </div>
         </div>
+
         <div class="row-fluid">
             <div class="span6">
                 <h3>Most active users in the last 30 days</h3>
@@ -49,10 +50,6 @@
 
         <h2>Searches <small>{{ total_searches }} total</small></h2>
         <div class="row-fluid">
-            <div class="span6" id="search-chart-wrapper">
-                <h3>Search count by day</h3>
-                <div id="searches-by-day" class="chart"></div>
-            </div>
             <div class="span6">
                 <h3>Most searched datasets in the last 30 days</h3>
                 <ul>
@@ -60,6 +57,10 @@
                     <li><a href="#dataset/{{ slug }}">{{ name }}</a> ({{ count }} search{{ count|pluralize:"es" }})</li>
                     {% endfor %}
                 </ul>
+            </div>
+            <div class="span6" id="search-chart-wrapper">
+                <h3>Search count by day</h3>
+                <div id="searches-by-day" class="chart"></div>
             </div>
         </div> 
 
@@ -76,12 +77,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Root</td>
+                            <td>Application</td>
                             <td>{{ root_disk_total|filesizeformat }} ({{ root_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ root_disk_free|filesizeformat }}</td>
                         </tr>
                         <tr>
-                            <td>Uploads (and exports)</td>
+                            <td>Uploaded files (and exports)</td>
                             {% if upload_disk_total %}
                             <td>{{ upload_disk_total|filesizeformat }} ({{ upload_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ upload_disk_free|filesizeformat }}</td>
@@ -90,7 +91,7 @@
                             {% endif %}
                         </tr>
                         <tr>
-                            <td>Search indices</td>
+                            <td>Searchable data</td>
                             {% if indices_disk_total %}
                             <td>{{ indices_disk_total|filesizeformat }} ({{ indices_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ indices_disk_free|filesizeformat }}</td>
