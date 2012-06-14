@@ -5,6 +5,7 @@ import os.path
 from django.conf import settings
 from django.test import TransactionTestCase
 
+from panda import solr
 from panda.models import DataUpload
 from panda.tests import utils
 
@@ -42,10 +43,16 @@ class TestDataUpload(TransactionTestCase):
 
         self.assertEqual(os.path.isfile(path), True)
 
+        solr.delete(settings.SOLR_DATA_CORE, '*:*')
+        self.dataset.import_data(self.user, upload)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
+
         upload.delete()
 
         self.assertEqual(os.path.exists(path), False)
 
         with self.assertRaises(DataUpload.DoesNotExist):
             DataUpload.objects.get(id=upload_id)
+        
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 0)
 

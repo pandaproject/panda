@@ -158,7 +158,7 @@ class Dataset(SluggedModel):
 
         # Manually delete related uploads so their delete method is called
         for upload in chain(self.data_uploads.all(), self.related_uploads.all()):
-            upload.delete()
+            upload.delete(skip_purge=True)
 
         # Cleanup data in Solr
         PurgeDataTask.apply_async(args=[self.slug])

@@ -8,6 +8,7 @@ from django.db import models
 from panda import utils
 from panda.fields import JSONField
 from panda.models.base_upload import BaseUpload
+from panda.tasks import PurgeDataTask
 
 class DataUpload(BaseUpload):
     """
@@ -96,4 +97,14 @@ class DataUpload(BaseUpload):
                 dialect_params[k] = v
 
         return dialect_params
+
+    def delete(self, *args, **kwargs):
+        """
+        Cancel any in progress task.
+        """
+        # Cleanup data in Solr
+        if self.dataset and not kwargs.pop('skip_purge', False):
+            PurgeDataTask.apply_async(args=[self.dataset.slug, self.id])
+
+        super(DataUpload, self).delete(*args, **kwargs)
 
