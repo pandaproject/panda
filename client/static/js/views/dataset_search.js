@@ -64,20 +64,24 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         if (task) {
             if (task.get("task_name").startsWith("panda.tasks.import")) {
                 if (task.get("status") == "STARTED") {
-                    $("#dataset-search .alert").alert_block("alert-info", "Import in progress!", "<p>Data is being made searchable. Search results may be incomplete.</p><p>Status: " + task.get("message") + ". <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>", false);
+                    $("#dataset-search .alert").alert_block("alert-info", "Import in progress!", "<p>This dataset is being made searchable. Search results may be incomplete.</p><p>Status: " + task.get("message") + ". <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>", false);
                 } else if (task.get("status") == "PENDING") {
-                    $("#dataset-search .alert").alert_block("alert-info", "Queued for import!", "<p>Data is waiting to be made searchable. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>", false);
+                    $("#dataset-search .alert").alert_block("alert-info", "Import queued!", "<p>This dataset is waiting to be made searchable. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>", false);
                 } else if (task.get("status") == "FAILURE") {
-                    $("#dataset-search .alert").alert_block("alert-error", "Import failed!", '<p>The process to make data searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                    $("#dataset-search .alert").alert_block("alert-error", "Import failed!", '<p>The process to make this dataset searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                } else if (task.get("status") == "ABORTED") {
+                    $("#dataset-search .alert").alert_block("alert-error", "Import aborted!", '<p>The process to make data searchable was aborted by an administrator. Search results may be incomplete.</p>', false);
                 }
             }
             else if (task.get("task_name").startsWith("panda.tasks.reindex")) {
                 if (task.get("status") == "STARTED") {
-                    $("#dataset-search .alert").alert_block("alert-info", "Reindexing in progress!", "<p>Data is being made searchable. Search results may be incomplete.</p><p>Status: " + task.get("message") + ".</p> <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a", false);
+                    $("#dataset-search .alert").alert_block("alert-info", "Reindexing in progress!", "<p>Search data for this dataset is being updated. Search results may be incomplete.</p><p>Status: " + task.get("message") + ". <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>", false);
                 } else if (task.get("status") == "PENDING") {
-                    $("#dataset-search .alert").alert_block("alert-info", "Queued for reindexing!", "<p>Data is waiting to be made searchable. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>", false);
+                    $("#dataset-search .alert").alert_block("alert-info", "Reindexing queued!", "<p>This dataset is waiting to have its search data updated. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>", false);
                 } else if (task.get("status") == "FAILURE") {
-                    $("#dataset-search .alert").alert_block("alert-error", "Reindexing failed!", '<p>The process to make data searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                    $("#dataset-search .alert").alert_block("alert-error", "Reindexing failed!", '<p>The process to make update this dataset\'s search data failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>', false);
+                } else if (task.get("status") == "ABORTED") {
+                    $("#dataset-search .alert").alert_block("alert-error", "Reindexing aborted!", '<p>The process to udpate this dataset\'s search data was aborted by an administrator. Search results may be incomplete.</p>', false);
                 }
             }
         }
