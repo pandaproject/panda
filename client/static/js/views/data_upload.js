@@ -176,8 +176,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
             // Verify headers match
             if (this.dataset && this.dataset.get("column_schema")) {
-                console.log(this.upload.get("columns"));
-                console.log(_.pluck(this.dataset.get("column_schema"), "name"));
                 if (!this.upload.get("columns").equals(_.pluck(this.dataset.get("column_schema"), "name"))) {
                     this.step_two_error_message("The columns headers in this file do not match those of the existing data.");
                     return;

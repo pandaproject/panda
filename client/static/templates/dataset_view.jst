@@ -58,15 +58,13 @@
         </div>
         <div class="span7">
             <h6>Data files</h6>
-            <% if (dataset.data_uploads.length > 0) { %>
             <ul class="data-uploads">
                 <% _.each(data_uploads_html, function(u) { %>
                     <%= u %>
                 <% }); %>
             </ul>
-            <% } else { %>
-            <p><em>None uploaded.</em></p>
-            <% } %>
+            <p id="no-data-uploads" <% if (dataset.data_uploads.length > 0) { %>style="display:none;"<% } %>><em>None uploaded.</em></p>
+
             <% if (dataset.locked) { %>
             <p class="disabled"><i class="icon-ban-circle"></i> Upload more data</p>
             <% } else { %>
@@ -191,4 +189,7 @@
 </div>
 
 <div id="modal-related-upload-destroy" class="modal hide fade">
+</div>
+
+<div id="modal-data-upload-destroy" class="modal hide fade">
 </div>

@@ -6,6 +6,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         this.edit_view = new PANDA.views.DatasetEdit();
 
+        $(".data-uploads .delete").live("click", this.delete_data_upload);
         $(".related-uploads .delete").live("click", this.delete_related_upload);
     },
 
@@ -101,6 +102,33 @@ PANDA.views.DatasetView = Backbone.View.extend({
         }, this));
 
         $("#modal-related-upload-destroy").modal("show");
+
+        return false;
+    },
+
+    delete_data_upload: function(e) {
+        var element = $(e.currentTarget)
+        var uri = element.attr("data-uri"); 
+        var upload = this.dataset.data_uploads.get(uri);
+
+        $("#modal-data-upload-destroy").html(PANDA.templates.modal_data_upload_destroy({ upload: upload.toJSON() }));
+
+        $("#data-upload-destroy").click(_.bind(function() {
+            this.dataset.data_uploads.remove(upload);
+            upload.destroy();
+            element.parent("li").remove();
+
+            if (this.dataset.data_uploads.length == 0) {
+                $(".data-uploads").hide();
+                $("#no-data-uploads").show();
+            }
+
+            $("#modal-data-upload-destroy").modal("hide");
+
+            return false;
+        }, this));
+
+        $("#modal-data-upload-destroy").modal("show");
 
         return false;
     },

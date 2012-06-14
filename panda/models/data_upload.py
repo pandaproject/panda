@@ -102,6 +102,11 @@ class DataUpload(BaseUpload):
         """
         Cancel any in progress task.
         """
+        if self.initial_upload_for.count():
+            for dataset in self.initial_upload_for.all():
+                dataset.initial_upload = None
+                dataset.save()
+
         # Cleanup data in Solr
         if self.dataset and not kwargs.pop('skip_purge', False):
             PurgeDataTask.apply_async(args=[self.dataset.slug, self.id])

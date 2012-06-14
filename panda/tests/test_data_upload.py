@@ -6,7 +6,7 @@ from django.conf import settings
 from django.test import TransactionTestCase
 
 from panda import solr
-from panda.models import DataUpload
+from panda.models import Dataset, DataUpload
 from panda.tests import utils
 
 class TestDataUpload(TransactionTestCase):
@@ -46,8 +46,15 @@ class TestDataUpload(TransactionTestCase):
         solr.delete(settings.SOLR_DATA_CORE, '*:*')
         self.dataset.import_data(self.user, upload)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
+        
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        self.assertEqual(dataset.initial_upload, upload)
 
         upload.delete()
+
+        # Ensure dataset still exists
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        self.assertEqual(dataset.initial_upload, None)
 
         self.assertEqual(os.path.exists(path), False)
 
