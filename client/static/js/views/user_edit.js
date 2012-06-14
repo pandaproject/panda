@@ -36,6 +36,21 @@ PANDA.views.UserEdit = Backbone.View.extend({
             errors["email"] = ["This field is required."];
         }
 
+        if (!data["verify-password"]) {
+            errors["verify-password"] = ["This field is required."];
+        } else {
+            $.ajax({
+                url: '/login/',
+                dataType: 'json',
+                type: 'POST',
+                data: { email: Redd.get_current_user().get("email"), password: data["verify-password"] },
+                async: false,
+                error: function(xhr, status, error) {
+                    errors["verify-password"] = ["Incorrect password."]; 
+                }
+            });
+        }
+
         return errors;
     },
 
