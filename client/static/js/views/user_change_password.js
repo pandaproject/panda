@@ -32,6 +32,21 @@ PANDA.views.UserChangePassword = Backbone.View.extend({
         var data = $("#user-change-password-form").serializeObject();
         var errors = {};
 
+        if (!data["current-password"]) {
+            errors["current-password"] = ["This field is required."];
+        } else {
+            $.ajax({
+                url: '/login/',
+                dataType: 'json',
+                type: 'POST',
+                data: { email: Redd.get_current_user().get("email"), password: data["current-password"] },
+                async: false,
+                error: function(xhr, status, error) {
+                    errors["current-password"] = ["Incorrect password."]; 
+                }
+            });
+        }
+
         if (!data["password"]) {
             errors["password"] = ["This field is required."];
         }
@@ -52,7 +67,7 @@ PANDA.views.UserChangePassword = Backbone.View.extend({
          * Update user's password.
          */
         var errors = this.validate();
-        
+
         if (!_.isEmpty(errors)) {
             $("#user-change-password-form").show_errors(errors, "Save failed!");
         
