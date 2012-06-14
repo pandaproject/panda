@@ -102,13 +102,16 @@ class DataUpload(BaseUpload):
         """
         Cancel any in progress task.
         """
+        skip_purge = kwargs.pop('skip_purge', False)
+
+        # Update related datasets so deletes will not cascade
         if self.initial_upload_for.count():
             for dataset in self.initial_upload_for.all():
                 dataset.initial_upload = None
                 dataset.save()
 
         # Cleanup data in Solr
-        if self.dataset and not kwargs.pop('skip_purge', False):
+        if self.dataset and self.imported and not skip_purge:
             PurgeDataTask.apply_async(args=[self.dataset.slug, self.id])
 
         super(DataUpload, self).delete(*args, **kwargs)

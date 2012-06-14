@@ -1,7 +1,7 @@
 <div id="view-dataset">
     <div class="row-fluid">
         <h3>
-            About <strong><%= unescape(dataset.name) %></strong> <% if (dataset.row_count) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
+            About <strong><%= unescape(dataset.name) %></strong> <% if (dataset.row_count != null) { %>(<%= dataset.row_count %> rows)&nbsp;<% } else { %>(row count not available)&nbsp;<% } %>
         </h3>
         <div id="dataset-actions" class="btn-group">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>

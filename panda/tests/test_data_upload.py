@@ -46,15 +46,19 @@ class TestDataUpload(TransactionTestCase):
         solr.delete(settings.SOLR_DATA_CORE, '*:*')
         self.dataset.import_data(self.user, upload)
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
+
+        upload = DataUpload.objects.get(id=upload_id)
         
         dataset = Dataset.objects.get(id=self.dataset.id)
         self.assertEqual(dataset.initial_upload, upload)
+        self.assertEqual(dataset.row_count, 4)
 
         upload.delete()
 
         # Ensure dataset still exists
         dataset = Dataset.objects.get(id=self.dataset.id)
         self.assertEqual(dataset.initial_upload, None)
+        self.assertEqual(dataset.row_count, 0)
 
         self.assertEqual(os.path.exists(path), False)
 
