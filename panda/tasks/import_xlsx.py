@@ -70,7 +70,7 @@ class ImportXLSXTask(ImportFileTask):
             if external_id_field_index is not None:
                 external_id = values[external_id_field_index]
 
-            data = utils.solr.make_data_row(dataset, values, external_id=external_id)
+            data = utils.solr.make_data_row(dataset, values, data_upload=upload, external_id=external_id)
             data = data_typer(data, values)
 
             add_buffer.append(data)

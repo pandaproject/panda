@@ -62,6 +62,7 @@ class ReindexTask(AbortableTask):
 
             new_data = utils.solr.make_data_row(dataset, row)
             new_data['id'] = data['id'] 
+            new_data['data_upload_id'] = data['data_upload_id']
             new_data = data_typer(new_data, row)
 
             add_buffer.append(new_data)

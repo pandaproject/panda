@@ -82,7 +82,7 @@ class ImportCSVTask(ImportFileTask):
             if external_id_field_index is not None:
                 external_id = row[external_id_field_index]
 
-            data = utils.solr.make_data_row(dataset, row, external_id=external_id)
+            data = utils.solr.make_data_row(dataset, row, data_upload=upload, external_id=external_id)
             data = data_typer(data, row)
 
             add_buffer.append(data)

@@ -237,6 +237,7 @@ def local_reset_database():
     local('python manage.py syncdb --noinput' % env)
     local('python manage.py migrate --noinput' % env)
     local('python manage.py loaddata panda/fixtures/init_panda.json' % env)
+    local('python manage.py loaddata panda/fixtures/test_users.json' % env)
 
 def local_reset_solr():
     """
