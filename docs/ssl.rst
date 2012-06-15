@@ -69,7 +69,7 @@ The last thing you'll need to do is reconfigure PANDA's webserver (Nginx) to use
 
 .. code-block:: bash
 
-    sudo wget https://raw.github.com/pandaproject/panda/0.2.1/setup_panda/nginx_ssl -O /etc/nginx/sites-available/panda
+    sudo wget https://raw.github.com/pandaproject/panda/1.0.0/setup_panda/nginx_ssl -O /etc/nginx/sites-available/panda
     sudo service nginx restart
 
 Your PANDA should now redirect all unsecured requests to a secure ``https://`` url.

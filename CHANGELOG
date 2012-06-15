@@ -1,8 +1,16 @@
-0.2.1
+1.0.0
 -----
 
-
-
+* Datasets are no longer locked for editing during exports. (#659)
+* PANDA instances now have unique SECRET_KEYS for added security. (#465)
+* A password confirmation is now required to edit a user profile. (#677)
+* Datasets with aborted imports no longer appear broken. (#705)
+* Add refresh page link to dataset import status alerts. (#738)
+* Fix search subscription text when not using any full-text query (#747)
+* Add delete button for data uploads (also deletes data imported from that upload). (#754)
+* Improve appearance of the dashboard. (#765)
+* Eliminate default accounts and demo mode. (#769)
+* Implement "Welcome to PANDA" setup page. (#752)
 
 0.2.0
 -----
