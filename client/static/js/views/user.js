@@ -86,6 +86,14 @@ PANDA.views.User = Backbone.View.extend({
         
         this.change_password_view.el = $("#modal-user-change-password");
         $("#user-change-password").click(this.change_password);
+
+        $('#modal-edit-user').on('shown', function () {
+            $("#user-first-name").focus();
+        });
+
+        $('#modal-user-change-password').on('shown', function () {
+            $("#user-current-password").focus();
+        });
     },
 
     edit: function() {

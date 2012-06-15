@@ -30,6 +30,10 @@ PANDA.views.Login = Backbone.View.extend({
                 this.send_forgot_password(); 
             }
         }, this));
+
+        $('#modal-forgot-password').on('shown', function () {
+            $("#forgot-email").focus();
+        })
     },
 
     validate: function() {

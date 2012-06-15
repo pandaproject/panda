@@ -51,6 +51,11 @@ PANDA.views.DatasetView = Backbone.View.extend({
         this.el.html(PANDA.templates.dataset_view(context));
         
         this.edit_view.el = $("#modal-edit-dataset");
+
+        $('#modal-edit-dataset').on('shown', function () {
+            $("#dataset-name").focus();
+        });
+
         $('#view-dataset a[rel="tooltip"]').tooltip();
 
         this.related_uploader = new qq.FileUploaderBasic({
@@ -87,7 +92,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         $("#modal-related-upload-destroy").html(PANDA.templates.modal_related_upload_destroy({ upload: upload.toJSON() }));
 
         $("#related-upload-destroy").click(_.bind(function() {
-            this.dataset.related_uploads.remove(upload);
+            this.dataset.related_uploads.remov(upload);
             upload.destroy();
             element.parent("li").remove();
 
@@ -135,6 +140,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
     edit: function() {
         this.edit_view.render();
+
         $("#modal-edit-dataset").modal("show");
     },
 

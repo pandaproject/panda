@@ -219,6 +219,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     step_two: function() {
         $("#upload-continue").attr("disabled", true);
+        $("#dataset-name").focus();
         $("#step-2").collapse({ toggle: true, parent: "#steps" });
     },
 
