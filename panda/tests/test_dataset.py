@@ -455,19 +455,17 @@ class TestDataset(TransactionTestCase):
 
     def test_export_csv(self):
         self.dataset.import_data(self.user, self.upload)
+        
+        dataset = Dataset.objects.get(id=self.dataset.id)
 
-        self.dataset.export_data(self.user, filename='test_export')
-
-        task = self.dataset.current_task
-
-        self.assertNotEqual(task, None)
-        self.assertNotEqual(task.id, None)
-        self.assertEqual(task.task_name, 'panda.tasks.export.csv')
+        dataset.export_data(self.user, filename='test_export')
+        self.assertEqual(dataset.locked, False)
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
-        task = TaskStatus.objects.get(id=task.id)
+        task = TaskStatus.objects.get(id=dataset.current_task.id)
 
+        self.assertEqual(task.task_name, 'panda.tasks.export.csv')
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)
@@ -484,19 +482,17 @@ class TestDataset(TransactionTestCase):
 
     def test_export_query_csv(self):
         self.dataset.import_data(self.user, self.upload)
+        
+        dataset = Dataset.objects.get(id=self.dataset.id)
 
-        self.dataset.export_data(self.user, query='tribune', filename='test_export')
-
-        task = self.dataset.current_task
-
-        self.assertNotEqual(task, None)
-        self.assertNotEqual(task.id, None)
-        self.assertEqual(task.task_name, 'panda.tasks.export.csv')
+        dataset.export_data(self.user, query='tribune', filename='test_export')
+        self.assertEqual(dataset.locked, False)
 
         # Refresh from database
         dataset = Dataset.objects.get(id=self.dataset.id)
-        task = TaskStatus.objects.get(id=task.id)
+        task = TaskStatus.objects.get(id=dataset.current_task.id)
 
+        self.assertEqual(task.task_name, 'panda.tasks.export.csv')
         self.assertEqual(task.status, 'SUCCESS')
         self.assertNotEqual(task.start, None)
         self.assertNotEqual(task.end, None)

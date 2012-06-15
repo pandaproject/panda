@@ -32,10 +32,7 @@ class ExportFileTask(AbortableTask):
         dataset = Dataset.objects.get(slug=args[0])
         query = kwargs.get('query', None)
 
-        try:
-            self.send_notifications(dataset, query, retval, einfo) 
-        finally:
-            dataset.unlock()
+        self.send_notifications(dataset, query, retval, einfo) 
 
     def send_notifications(self, dataset, query, retval, einfo):
         """

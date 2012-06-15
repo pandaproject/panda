@@ -257,32 +257,26 @@ class Dataset(SluggedModel):
         """
         Execute the data export task for this ``Dataset``.
         """
-        self.lock()
+        task_type = ExportCSVTask
 
-        try:
-            task_type = ExportCSVTask
+        if query:
+            description = 'Export search results for "%s" in %s.' % (query, self.slug)
+        else:
+            description = 'Exporting data in %s.' % self.slug
 
-            if query:
-                description = 'Export search results for "%s" in %s.' % (query, self.slug)
-            else:
-                description = 'Exporting data in %s.' % self.slug
+        self.current_task = TaskStatus.objects.create(
+            task_name=task_type.name,
+            task_description=description,
+            creator=user
+        )
 
-            self.current_task = TaskStatus.objects.create(
-                task_name=task_type.name,
-                task_description=description,
-                creator=user
-            )
+        self.save()
 
-            self.save()
-
-            task_type.apply_async(
-                args=[self.slug],
-                kwargs={ 'query': query, 'filename': filename },
-                task_id=self.current_task.id
-            )
-        except:
-            self.unlock()
-            raise
+        task_type.apply_async(
+            args=[self.slug],
+            kwargs={ 'query': query, 'filename': filename },
+            task_id=self.current_task.id
+        )
 
     def get_row(self, external_id):
         """
