@@ -250,7 +250,7 @@ PANDA.views.Root = Backbone.View.extend({
                 }, this);
             } else {
                 $("#navbar-notifications .count").removeClass("badge-info");
-                $("#navbar-notifications .dropdown-menu").append('<li><a href="#">No new notifications</a></li>');
+                $("#navbar-notifications .dropdown-menu").append('<li><a href="#"><em>No new notifications</em></a></li>');
             }
             
             $("#navbar-notifications .dropdown-menu").append('<li class="divider"></li>');

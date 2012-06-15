@@ -11,6 +11,17 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #navbar-admin { display: none; }
 .navbar .menu-dropdown, .navbar .dropdown-menu { min-width: 300px; max-width: 400px; }
 
+#navbar-notifications .dropdown-menu li:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#navbar-notifications .dropdown-menu a {
+    white-space: normal;
+    padding-bottom: 2px;
+    padding-top: 1px;
+    overflow-x: hidden;
+}
+
 #content { padding: 20px; }
 
 .alert { display: none; }
