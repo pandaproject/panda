@@ -1,0 +1,6 @@
+{% if root_disk_free < settings.PANDA_AVAILABLE_SPACE_WARN %}* The drive containing your PANDA application is {% if root_disk_free < settings.PANDA_AVAILABLE_SPACE_CRITICAL %}CRITICALLY {% endif %}low on disk space: {{ root_disk_free|filesizeformat }} remains ({{ root_disk_percent_used|floatformat }}% full){% endif %}
+{% if upload_disk_total != None and upload_disk_free < settings.PANDA_AVAILABLE_SPACE_WARN %}* The drive containing your PANDA's uploads is {% if upload_disk_free < settings.PANDA_AVAILABLE_SPACE_CRITICAL %}CRITICALLY {% endif %}low on disk space: {{ upload_disk_free|filesizeformat }} remains ({{ upload_disk_percent_used|floatformat }}% full){% endif %}
+{% if indices_disk_total and indices_disk_free < settings.PANDA_AVAILABLE_SPACE_WARN %}* The drive containing your PANDA's search indices ({{ indices_disk }}) is {% if indices_disk_free < settings.PANDA_AVAILABLE_SPACE_CRITICAL %}CRITICALLY {% endif %}low on disk space: {{ indices_disk_free|filesizeformat }} remains ({{ indices_disk_percent_used|floatformat }}% full){% endif %}
+
+Your can always check your current disk usage on your PANDA Dashboard:
+http://{{ site_domain }}/#dashboard

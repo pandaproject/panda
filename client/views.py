@@ -14,6 +14,7 @@ from django.utils.timezone import now
 from livesettings import config_value
 from tastypie.serializers import Serializer
 
+from client import utils
 from panda.api.category import CategoryResource
 from panda.models import ActivityLog, Category, Dataset, SearchLog, UserProxy
 
@@ -48,20 +49,6 @@ def index(request):
             'categories': categories_bootstrap
         })
     })
-
-def _get_total_disk_space(p):
-    """
-    Calculate the total disk space of the device on which a given file path resides.
-    """
-    s = os.statvfs(p)
-    return s.f_frsize * s.f_blocks   
-
-def _get_free_disk_space(p):
-    """
-    Returns the number of free bytes on the drive that ``p`` is on
-    """
-    s = os.statvfs(p)
-    return s.f_frsize * s.f_bavail
 
 def dashboard(request):
     """
@@ -143,13 +130,13 @@ def dashboard(request):
     upload_disk = os.stat(settings.MEDIA_ROOT).st_dev
     indices_disk = os.stat(settings.SOLR_DIRECTORY).st_dev
 
-    root_disk_total = _get_total_disk_space('/')
-    root_disk_free = _get_free_disk_space('/')
+    root_disk_total = utils.get_total_disk_space('/')
+    root_disk_free = utils.get_free_disk_space('/')
     root_disk_percent_used = 100 - (float(root_disk_free) / root_disk_total * 100)
 
     if upload_disk != root_disk:    
-        upload_disk_total = _get_total_disk_space(settings.MEDIA_ROOT)
-        upload_disk_free = _get_free_disk_space(settings.MEDIA_ROOT)
+        upload_disk_total = utils.get_total_disk_space(settings.MEDIA_ROOT)
+        upload_disk_free = utils.get_free_disk_space(settings.MEDIA_ROOT)
         upload_disk_percent_used = 100 - (float(upload_disk_free) / upload_disk_total * 100)
     else:
         upload_disk_total = None
@@ -157,8 +144,8 @@ def dashboard(request):
         upload_disk_percent_used = None
 
     if indices_disk != root_disk:
-        indices_disk_total = _get_total_disk_space(settings.SOLR_DIRECTORY)
-        indices_disk_free = _get_free_disk_space(settings.SOLR_DIRECTORY)
+        indices_disk_total = utils.get_total_disk_space(settings.SOLR_DIRECTORY)
+        indices_disk_free = utils.get_free_disk_space(settings.SOLR_DIRECTORY)
         indices_disk_percent_used = 100 - (float(indices_disk_free) / indices_disk_total * 100)
     else:
         indices_disk_total = None

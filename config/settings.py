@@ -143,6 +143,10 @@ CELERYBEAT_SCHEDULE = {
     'run_subscriptions': {
         'task': 'panda.tasks.cron.run_subscriptions',
         'schedule': crontab(minute=30, hour=2)
+    },
+    'run_admin_alerts': {
+        'task': 'panda.tasks.cron.run_admin_alerts',
+        'schedule': crontab(minute=0, hour=4)
     }
 }
 
