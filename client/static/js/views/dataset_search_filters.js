@@ -1,5 +1,13 @@
 PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     operations: {
+        "unicode": {
+            "is_like": {
+                "name": "is like",
+                "widget_template": "inline_widget_single_input",
+                "parser": "parse_inline_widget_single_input",
+                "validator": "validate_unicode"
+            }
+        },
         "int": {
             "is": {
                 "name": "is",
@@ -186,7 +194,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         /*
          * Determine if a column is filterable.
          */
-        return c["indexed"] && c["type"] && c["type"] != "unicode";
+        return c["indexed"] && c["type"];
     },
 
     column_has_query: function(c) {
@@ -242,7 +250,13 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         if (this.column_has_query(c)) {
             return this.search.query[c["name"]];
         } else {
-            return { "operator": "is", "value": "", "range_value": "" };
+            var op = "is";
+
+            if (c["type"] == "unicode") {
+                op = "is_like";
+            }
+
+            return { "operator": op, "value": "", "range_value": "" };
         }
     },
 
@@ -379,6 +393,12 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     },
 
     /* Value validators - prepare values from widgets for Solr query */
+
+    validate_unicode: function(c, values) {
+        if (!values["value"]) {
+            throw new Error("No value provided.");
+        }
+    },
 
     is_int: function(v) {
         return parseFloat(v) == parseInt(v) && !_.isNaN(v);

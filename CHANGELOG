@@ -1,6 +1,7 @@
 1.0.0
 -----
 
+* Implement "Text" column filter. (#758)
 * Make modal dialogs focus first form field on open. (#674)
 * Fix display of notifications in navbar. (#749)
 * Datasets are no longer locked for editing during exports. (#659)

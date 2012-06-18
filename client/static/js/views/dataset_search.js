@@ -295,7 +295,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 q += " AND ";
             }
 
-            if (v["operator"] == "is") {
+            if (v["operator"] == "is_like") {
+                q += c["indexed_name"] + ':(' + v["value"] + ')';
+            } else if (v["operator"] == "is") {
                 q += c["indexed_name"] + ':"' + v["value"] + '"';
             } else if (v["operator"] == "is_greater") {
                 q += c["indexed_name"] + ":[" + v["value"] + " TO *]";

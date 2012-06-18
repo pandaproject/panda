@@ -53,7 +53,7 @@
         <field name="last_modified" type="date" indexed="true" stored="false" required="false" />
 
         <!-- Dynamic typed fields that correspond to Python types -->
-        <dynamicField name="column_unicode_*" type="string" indexed="true" stored="false" />
+        <dynamicField name="column_unicode_*" type="text_general" indexed="true" stored="false" />
         <dynamicField name="column_int_*" type="long" indexed="true" stored="false" />
         <dynamicField name="column_bool_*" type="boolean" indexed="true" stored="false" />
         <dynamicField name="column_float_*" type="float" indexed="true" stored="false" />
