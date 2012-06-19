@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.test import TransactionTestCase
 
-from panda.models import Notification, SearchSubscription
+from panda.models import Category, Notification, SearchSubscription
 from panda.tasks import RunSubscriptionsTask
 from panda.tests import utils
 
@@ -26,6 +26,28 @@ class TestSearchSubscriptions(TransactionTestCase):
         sub = SearchSubscription.objects.create(
             user=self.user,
             dataset=self.dataset,
+            query='*'
+        )
+
+        last_run = sub.last_run
+
+        RunSubscriptionsTask.apply_async()
+
+        # Refresh from database
+        sub = SearchSubscription.objects.get(pk=sub.pk)
+
+        self.assertNotEqual(last_run, sub.last_run)
+
+        self.assertEqual(Notification.objects.filter(recipient=self.user).count(), 2)
+
+    def test_subscription_category(self):
+        self.dataset.import_data(self.user, self.upload)
+        category = Category.objects.get(slug="politics")
+        category.datasets.add(self.dataset)
+
+        sub = SearchSubscription.objects.create(
+            user=self.user,
+            category=category,
             query='*'
         )
 

@@ -10,9 +10,11 @@ class SearchSubscriptionResource(PandaModelResource):
     """
     Access to user subscriptions.
     """
+    from panda.api.category import CategoryResource
     from panda.api.datasets import DatasetResource
 
     dataset = fields.ForeignKey(DatasetResource, 'dataset', null=True, full=True)
+    category = fields.ForeignKey(CategoryResource, 'category', null=True, full=True)
 
     class Meta:
         queryset = SearchSubscription.objects.all()

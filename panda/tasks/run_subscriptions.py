@@ -31,11 +31,14 @@ class RunSubscriptionsTask(Task):
 
             sub.last_run = now()
             sub.save()
+   
+            solr_query = 'last_modified:[%s TO *] AND (%s)' % (since + 'Z', sub.query)
 
             if sub.dataset:
-                solr_query = 'dataset_slug:%s AND last_modified:[%s TO *] AND (%s)' % (sub.dataset.slug, since + 'Z', sub.query)
-            else:
-                solr_query = 'last_modified:[%s TO *] AND (%s)' % (since + 'Z', sub.query)
+                solr_query += ' dataset_slug:%s' % (sub.dataset.slug)
+            elif sub.category:
+                dataset_slugs = sub.category.datasets.values_list('slug', flat=True)
+                solr_query += ' dataset_slug:(%s)' % ' '.join(dataset_slugs)
 
             response = solr.query(
                 settings.SOLR_DATA_CORE,
@@ -51,8 +54,10 @@ class RunSubscriptionsTask(Task):
             if count:
                 if sub.dataset:
                     url = '#dataset/%s/search/%s/%s' % (sub.dataset.slug, sub.query_url, since)
+                elif sub.category:
+                    url = '#search/%s/%s/%s' % (sub.category.slug, sub.query, since)
                 else:
-                    url = '#search/%s/%s' % (sub.query, since)
+                    url = '#search/all/%s/%s' % (sub.query, since)
                     
                 notify(
                     sub.user,
@@ -62,6 +67,7 @@ class RunSubscriptionsTask(Task):
                     extra_context={
                         'query': sub.query,
                         'query_url': sub.query_url,
+                        'category': sub.category,
                         'related_dataset': sub.dataset,
                         'count': count,
                         'since': since

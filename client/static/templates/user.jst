@@ -11,8 +11,10 @@
     <% _.each(user.subscriptions, function(sub) { %>
         <% if (sub.dataset) { %>
         <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a><br /><a href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Cancel notifications for this search</a></li>
+        <% } else if (sub.category) { %>
+        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in <strong><%= sub.category.name %></strong><br /><a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.category.name %>/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Cancel notifications for this search</a></li>
         <% } else { %>
-        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in any dataset<br /><a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Cancel notifications for this search</a></li>
+        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in any dataset<br /><a data-original-title="View all search results" rel="tooltip" href="#search/all/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Cancel notifications for this search</a></li>
         <% } %>
     <% }); %>
 </ul>

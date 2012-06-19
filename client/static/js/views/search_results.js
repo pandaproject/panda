@@ -14,7 +14,13 @@ PANDA.views.SearchResults = Backbone.View.extend({
 
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
-        context["category"] = this.search.category;
+
+        if (this.search.category == "all") {
+            context["category"] = null;
+        } else {
+            context["category"] = Redd.get_category_by_slug(this.search.category).toJSON();
+        }
+
         context["since"] = this.search.since;
 
         if (this.search.since != "all") {
@@ -38,9 +44,16 @@ PANDA.views.SearchResults = Backbone.View.extend({
         /*
          * Subscribe to search results.
          */
+        if (this.search.category == "all") {
+            category = null;
+        } else {
+            category = Redd.get_category_by_slug(this.search.category).id;
+        }
+
         sub = new PANDA.models.SearchSubscription({
             dataset: null,
             query: this.search.query,
+            category: category,
             query_url: this.search.query,
             query_human: "Search for <code class=\"full-text\">" + this.search.query + "</code>"
         });

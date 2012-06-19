@@ -1,10 +1,10 @@
 New search results for "{{ query }}"{% if related_dataset %} in {{ related_dataset.name }}{% endif %} ({{ count }} new)
 
 See just the new results:
-{% if related_dataset %}http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/search/{{ query_url }}/{{ since }}{% else %}http://{{ site_domain }}/#search/{{ query }}/{{ since }}{% endif %}
+{% if related_dataset %}http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/search/{{ query_url }}/{{ since }}{% else %}http://{{ site_domain }}/#search/{% if category %}{{ category.slug }}{% else %}all{% endif %}/{{ query }}/{{ since }}{% endif %}
 
 See all results for your search:
-{% if related_dataset %}http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/search/{{ query_url }}{% else %}http://{{ site_domain }}/#search/{{ query }}{% endif %}
+{% if related_dataset %}http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}/search/{{ query_url }}{% else %}http://{{ site_domain }}/#search/{% if category %}{{ category.slug }}{% else %}all{% endif %}/{{ query }}{% endif %}
 
 To stop receiving notifications for this search, visit your user page:
 http://{{ site_domain }}/#user/{{ recipient.id }}

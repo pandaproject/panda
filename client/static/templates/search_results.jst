@@ -86,11 +86,12 @@
         <h3>Get notified of new results for this search?</h3>
     </div>
     <div class="modal-body">
-        <p>When you click <strong>Notify me</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email<% }%> notifications of new data added to PANDA that matches your search for:</p>
-        <p><%= query_human %></p>
+        <p>When you click <strong>Notify me</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email<% }%> notifications of new data added to PANDA that matches:</p>
+        <p><%= query_human %><% if (category) { %> in <strong><%= category.name %></strong><% } %></p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal">Notify me</a>
     </div>
 </div>
+

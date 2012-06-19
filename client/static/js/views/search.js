@@ -64,6 +64,8 @@ PANDA.views.Search = Backbone.View.extend({
         this.category = category;
         this.since = since || "all";
 
+        this.render();
+
         if (this.query) {
             this.datasets.search(
                 category,
