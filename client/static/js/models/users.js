@@ -91,6 +91,28 @@ PANDA.models.User = Backbone.Model.extend({
         });
     },
 
+    set_show_login_help: function(value, success_callback, error_callback) {
+        $.ajax({
+            url: this.url() + this.get("id") + "/login_help/",
+            contentType: "application/json",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({ "show_login_help": value }),
+            success: _.bind(function(response) {
+                if (success_callback) {
+                    success_callback(this, response);
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(this, error);
+                }
+            }
+        });
+    },
+
     toJSON: function(full) {
         /*
          * Append embedded models to serialized data.

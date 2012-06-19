@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
+from django.conf.urls.defaults import url
 from django.contrib.auth.models import Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import email_re
 from tastypie import fields
 from tastypie import http
 from tastypie.authorization import Authorization
-from tastypie.exceptions import NotFound, ImmediateHttpResponse
+from tastypie.exceptions import BadRequest, NotFound, ImmediateHttpResponse
 from tastypie.resources import NOT_AVAILABLE
+from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from panda.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
@@ -53,6 +55,14 @@ class UserResource(PandaModelResource):
         authorization = UserAuthorization()
         validation = UserValidation()
         serializer = PandaSerializer()
+
+    def override_urls(self):
+        """
+        Add urls for search endpoint.
+        """
+        return [
+            url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/login_help%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('login_help'), name='api_user_login_help'),
+        ]
 
     def hydrate_email(self, bundle):
         """
@@ -147,5 +157,37 @@ class UserResource(PandaModelResource):
         # Now pick up the M2M bits.
         m2m_bundle = self.hydrate_m2m(bundle)
         self.save_m2m(m2m_bundle)
+
         return bundle
+
+    def login_help(self, request, **kwargs):
+        """
+        Set the status of the "show_login_help" flag.
+        """
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if 'pk' in kwargs:
+            get_id = int(kwargs['pk'])
+        else:
+            get_id = int(request.GET.get('id', ''))
+
+        # CHECK AUTHORIZATION 
+        if request and not request.user.is_superuser and get_id != request.user.id:
+            raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+
+        deserialized = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
+        deserialized = self.alter_deserialized_list_data(request, deserialized)
+
+        if not 'show_login_help' in deserialized:
+            raise BadRequest("Invalid data sent.")
+
+        user = UserProxy.objects.get(id=get_id)
+        profile = user.get_profile()
+
+        profile.show_login_help = deserialized['show_login_help']
+        profile.save()
+
+        return self.create_response(request, {}, response_class=http.HttpAccepted) 
 
