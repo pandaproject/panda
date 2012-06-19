@@ -71,8 +71,12 @@ PANDA.views.Login = Backbone.View.extend({
                 if (!_.isUndefined(this.next) && !_.isNull(this.next)) {
                     window.location.hash = this.next;
                 } else {
-                    Redd.goto_search();
-                    window.scroll(0, 0);
+                    if (data.show_login_help) {
+                        Redd.goto_login_help();
+                    } else {
+                        Redd.goto_search();
+                        window.scroll(0, 0);
+                    }
                 }
             }, this),
             error: function(xhr, status, error) {

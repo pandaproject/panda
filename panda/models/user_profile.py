@@ -19,6 +19,7 @@ class UserProfile(models.Model):
 
     activation_key = models.CharField(max_length=40, null=True, blank=True)
     activation_key_expiration = models.DateTimeField()
+    show_login_help = models.BooleanField(default=True)
 
     class Meta:
         app_label = 'panda'

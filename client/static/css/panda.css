@@ -255,6 +255,14 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 #dashboard .chart { margin: 15px 0 20px; }
 
+/* Login Help */
+
+#login-help h1 { margin-bottom: 10px; }
+#login-help img { margin-bottom: 10px; border: 1px solid #999; }
+#login-help h2 { margin-top: 10px; }
+#login-help h3 { margin-top: 5px; }
+#login-help form { margin-top: 5px; }
+
 /* User */
 
 #subscriptions { list-style-type: none; margin-left: 0px; }

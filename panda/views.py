@@ -12,6 +12,7 @@ from livesettings import config_value
 from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
 
+from client.utils import get_free_disk_space
 from panda.api.notifications import NotificationResource
 from panda.api.users import UserValidation
 from panda.api.utils import PandaApiKeyAuthentication
@@ -67,6 +68,7 @@ def make_user_login_response(user):
         'email': user.email,
         'api_key': user.api_key.key,
         'is_staff': user.is_staff,
+        'show_login_help': user.get_profile().show_login_help,
         'notifications': notifications
     }
 
@@ -204,13 +206,6 @@ def forgot_password(request):
         # Invalid request
         return JSONResponse(None, status=400)
 
-def _get_free_disk_space(p):
-    """
-    Returns the number of free bytes on the drive that ``p`` is on
-    """
-    s = os.statvfs(p)
-    return s.f_frsize * s.f_bavail
-
 def check_available_space(request):
     """
     Check the amount of space left on each disk.
@@ -218,15 +213,15 @@ def check_available_space(request):
     return JSONResponse({
         'root': {
             'device': os.stat('/').st_dev,
-            'free_space': _get_free_disk_space('/')
+            'free_space': get_free_disk_space('/')
         },
         'uploads': {
             'device':  os.stat(settings.MEDIA_ROOT).st_dev,
-            'free_space': _get_free_disk_space(settings.MEDIA_ROOT)
+            'free_space': get_free_disk_space(settings.MEDIA_ROOT)
         },
         'indices': {
             'device': os.stat(settings.SOLR_DIRECTORY).st_dev,
-            'free_space': _get_free_disk_space(settings.SOLR_DIRECTORY)
+            'free_space': get_free_disk_space(settings.SOLR_DIRECTORY)
         }
     })
 
