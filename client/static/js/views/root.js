@@ -353,7 +353,7 @@ PANDA.views.Root = Backbone.View.extend({
         this.goto_login();
     },
 
-    goto_search: function(query, since, limit, page) {
+    goto_search: function(category, query, since, limit, page) {
         // This little trick avoids rerendering the Search view if
         // its already visible. Only the nested results need to be
         // rerendered.
@@ -363,12 +363,12 @@ PANDA.views.Root = Backbone.View.extend({
 
         if (!(this.current_content_view instanceof PANDA.views.Search)) {
             this.current_content_view = this.get_or_create_view("Search");
-            this.current_content_view.reset(query);
+            this.current_content_view.reset(category, query);
         }
 
-        this.current_content_view.search(query, since, limit, page);
+        this.current_content_view.search(category, query, since, limit, page);
 
-        var path = "search";
+        var path = "search/" + category;
 
         if (query) {
             path += "/" + query;

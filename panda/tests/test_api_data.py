@@ -11,7 +11,7 @@ from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest
 
 from panda.api.data import DataResource, DataValidation
-from panda.models import Dataset
+from panda.models import Category, Dataset
 from panda.tests import utils
 
 class TestDataValidation(TransactionTestCase):
@@ -407,6 +407,43 @@ class TestAPIData(TransactionTestCase):
             self.assertEqual(result_dataset['objects'][0]['data'][1], 'Christopher')
             self.assertIn('resource_uri', result_dataset['objects'][0])
             self.assertIn('external_id', result_dataset['objects'][0])
+
+    def test_search_category(self):
+        category = Category.objects.get(slug='politics')
+
+        self.dataset.import_data(self.user, self.upload, 0)
+        self.dataset = Dataset.objects.get(id=self.dataset.id)
+        category.datasets.add(self.dataset)
+
+        # Import second dataset so we can make sure both match 
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            creator=self.dataset.creator)
+
+        second_dataset.import_data(self.user, self.upload, 0)
+
+        response = self.client.get('/api/1.0/data/?q=Christopher&category=politics', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+
+        # Verify that each matched dataset includes one result
+        result_dataset = body['objects'][0]
+        self.assertEqual(result_dataset['meta']['total_count'], 1)
+        self.assertEqual(len(result_dataset['objects']), 1)
+
+        self.assertEqual(result_dataset['name'], self.dataset.name)
+        self.assertEqual(result_dataset['row_count'], self.dataset.row_count)
+        self.assertEqual(result_dataset['column_schema'], self.dataset.column_schema)
+
+        self.assertEqual(result_dataset['objects'][0]['data'][1], 'Christopher')
+        self.assertIn('resource_uri', result_dataset['objects'][0])
+        self.assertIn('external_id', result_dataset['objects'][0])
 
     def test_search_since(self):
         self.dataset.import_data(self.user, self.upload, 0)

@@ -14,13 +14,14 @@ PANDA.views.SearchResults = Backbone.View.extend({
 
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
+        context["category"] = this.search.category;
         context["since"] = this.search.since;
 
         if (this.search.since != "all") {
-            context["all_results_url"] = "#search/" + this.search.query;
+            context["all_results_url"] = "#search/" + this.search.category + "/" + this.search.query;
         }
 
-        context["root_url"] = "#search/" + this.search.query + "/" + this.search.since;
+        context["root_url"] = "#search/" + this.search.category + "/" + this.search.query + "/" + this.search.since;
         context["pager_unit"] = "dataset";
         context["row_count"] = null;
         context["datasets"] = this.datasets.results();

@@ -32,7 +32,7 @@ describe("Index Router", function() {
     });
 
     it("should route to search", function() {
-        this.controller_mock.expects("goto_search").withExactArgs(undefined, undefined, undefined, undefined).once();
+        this.controller_mock.expects("goto_search").withExactArgs(undefined, undefined, undefined, undefined, undefined).once();
 
         this.router.navigate("", true);
 
@@ -40,25 +40,25 @@ describe("Index Router", function() {
     });
 
     it("should support search query", function() {
-        this.controller_mock.expects("goto_search").withExactArgs("query", undefined, undefined, undefined).once();
+        this.controller_mock.expects("goto_search").withExactArgs("all", "query", undefined, undefined, undefined).once();
 
-        this.router.navigate("search/query", true);
+        this.router.navigate("search/all/query", true);
 
         this.controller_mock.verify();
     });
 
     it("should support search limit", function() {
-        this.controller_mock.expects("goto_search").withExactArgs("query", "all", "10", undefined).once();
+        this.controller_mock.expects("goto_search").withExactArgs("all", "query", "all", "10", undefined).once();
 
-        this.router.navigate("search/query/all/10", true);
+        this.router.navigate("search/all/query/all/10", true);
 
         this.controller_mock.verify();
     });
 
     it("should support search paging", function() {
-        this.controller_mock.expects("goto_search").withExactArgs("query", "all", "10", "2").once();
+        this.controller_mock.expects("goto_search").withExactArgs("all", "query", "all", "10", "2").once();
 
-        this.router.navigate("search/query/all/10/2", true);
+        this.router.navigate("search/all/query/all/10/2", true);
 
         this.controller_mock.verify();
     });

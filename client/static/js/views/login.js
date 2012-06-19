@@ -74,7 +74,7 @@ PANDA.views.Login = Backbone.View.extend({
                     if (data.show_login_help) {
                         Redd.goto_login_help();
                     } else {
-                        Redd.goto_search();
+                        Redd.goto_search("all");
                         window.scroll(0, 0);
                     }
                 }

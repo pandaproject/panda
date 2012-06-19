@@ -345,7 +345,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         return response.objects;
     },
 
-    search: function(query, since, limit, page, success_callback, error_callback) {
+    search: function(category, query, since, limit, page, success_callback, error_callback) {
         /*
          * Query the data search endpoint.
          */
@@ -371,6 +371,10 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
 
         if (since != "all") {
             data.since = since;
+        }
+
+        if (category != "all") {
+            data.category = category;
         }
 
         Redd.ajax({

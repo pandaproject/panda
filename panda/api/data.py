@@ -17,7 +17,7 @@ from panda import solr
 from panda.api.datasets import DatasetResource
 from panda.exceptions import DatasetLockedError
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
-from panda.models import Dataset, SearchLog, TaskStatus
+from panda.models import Category, Dataset, SearchLog, TaskStatus
 from panda.tasks import ExportSearchTask
 
 class SolrObject(object):
@@ -394,11 +394,21 @@ class DataResource(PandaResource):
         self.throttle_check(request)
 
         query = request.GET.get('q', '')
+        category = request.GET.get('category', '')
         since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
         offset = int(request.GET.get('offset', 0))
         group_limit = int(request.GET.get('group_limit', settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP))
         group_offset = int(request.GET.get('group_offset', 0))
+
+        if category:
+            if category != 'uncategorized':
+                category = Category.objects.get(slug=category)
+                dataset_slugs = category.datasets.values_list('slug', flat=True)
+            else:
+                dataset_slugs = Dataset.objects.filter(categories=None).values_list('slug', flat=True) 
+
+            query += ' dataset_slug:(%s)' % ' '.join(dataset_slugs)
 
         if since:
             query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query

@@ -85,7 +85,7 @@ PANDA.views.Activate = Backbone.View.extend({
             data: $("#activation-form").serialize(),
             success: function(data, status, xhr) {
                 Redd.set_current_user(new PANDA.models.User(data));
-                Redd.goto_search();
+                Redd.goto_search("all");
             },
             error: function(xhr, status, error) {
                 Redd.set_current_user(null);

@@ -282,7 +282,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
             success: _.bind(function() {
                 this.dataset = null;
 
-                Redd.goto_search();
+                Redd.goto_search("all");
             }, this)
         });
     }

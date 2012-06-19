@@ -4,11 +4,11 @@ PANDA.routers.Index = Backbone.Router.extend({
         "login":                                            "login",
         "logout":                                           "logout",
         "":                                                 "search",
-        "search":                                           "search",
-        "search/:query":                                    "search",
-        "search/:query/:since":                             "search",
-        "search/:query/:since/:limit":                      "search",
-        "search/:query/:since/:limit/:page":                "search",
+        "search/:category":                                 "search",
+        "search/:category/:query":                          "search",
+        "search/:category/:query/:since":                   "search",
+        "search/:category/:query/:since/:limit":            "search",
+        "search/:category/:query/:since/:limit/:page":      "search",
         "upload":                                           "data_upload",
         "dataset/:dataset_slug/upload":                     "data_upload",
         "datasets/:category":                               "datasets_search",
@@ -43,8 +43,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_logout();
     },
 
-    search: function(query, since, limit, page) {
-        this.controller.goto_search(query, since, limit, page);
+    search: function(category, query, since, limit, page) {
+        this.controller.goto_search(category, query, since, limit, page);
     },
 
     data_upload: function(dataset_slug) {

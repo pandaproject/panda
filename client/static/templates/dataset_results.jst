@@ -8,7 +8,7 @@
 
         <p>No rows matching query found in dataset <strong><%= unescape(dataset.name) %></strong>.</p>
 
-        <p>Would you like to <a href="#search/<%= query["__all__"] %>">search all datasets instead?</a></p>
+        <p>Would you like to <a href="#search/all/<%= query["__all__"] %>">search all datasets instead?</a></p>
             
         <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get <% if (PANDA.settings.EMAIL_ENABLED) { %>email <% } %>notifications when results appear</a></p>
 

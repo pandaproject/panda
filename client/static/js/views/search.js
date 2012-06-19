@@ -7,6 +7,7 @@ PANDA.views.Search = Backbone.View.extend({
 
     datasets:  new PANDA.collections.Datasets(),
     query: null,
+    category: null,
     since: "all",
     results: null,
     home_view: null,
@@ -18,14 +19,19 @@ PANDA.views.Search = Backbone.View.extend({
         this.home_view = new PANDA.views.Home();
     },
 
-    reset: function(query) {
+    reset: function(category, query) {
         this.query = query;
+        this.category = category;
         this.since = "all";
         this.render();
     },
 
     render: function() {
-        var context = PANDA.utils.make_context({ query: this.query });
+        var context = PANDA.utils.make_context({
+            categories: Redd.get_categories(),
+            category: this.category,
+            query: this.query
+        });
 
         this.el.html(PANDA.templates.search(context));
 
@@ -40,24 +46,27 @@ PANDA.views.Search = Backbone.View.extend({
     },
 
     search_event: function() {
+        this.category = $("#search-form #search-category").val();
         this.query = $("#search-form #search-query").val();
 
-        Redd.goto_search(this.query);
+        Redd.goto_search(this.category, this.query);
 
         return false;
     },
 
-    search: function(query, since, limit, page) {
+    search: function(category, query, since, limit, page) {
         /*
          * Execute cross-dataset search.
          *
          * TODO: error handler
          */
         this.query = query;
+        this.category = category;
         this.since = since || "all";
 
         if (this.query) {
             this.datasets.search(
+                category,
                 query,
                 since,
                 limit,
