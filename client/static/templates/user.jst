@@ -18,6 +18,13 @@
         <% } %>
     <% }); %>
 </ul>
+
+<h3>My exports</h3>
+<ul id="exports">
+    <% _.each(user.exports, function(exp) { %>
+        <li><a href="<%= exp.resource_uri %>download/"><%= exp.original_filename %></a> (<%= moment(exp.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().fromNow() %>)</li>
+    <% }); %>
+</ul>
 <% } %>
 
 <h3><% if (user.email == current_user.email) { %>My datasets<% } else { %>Datasets created by this user<% } %></h3> 
