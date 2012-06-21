@@ -69,14 +69,10 @@ PANDA.models.User = Backbone.Model.extend({
     refresh_notifications: function(success_callback, error_callback) {
         /*
          * Refresh notifications list from the server.
-         *
-         * NB: Returns up to a thousand notifications.
-         * This may need to be tweaked later.
          */
         this.notifications.fetch({
             data: {
-                read_at__isnull: true,
-                limit: 1000
+                limit: PANDA.settings.NOTIFICATIONS_TO_SHOW 
             },
             success: _.bind(function(response) {
                 if (success_callback) {
@@ -93,7 +89,7 @@ PANDA.models.User = Backbone.Model.extend({
         });
     },
 
-    mark_notifications_read: function(success_callback) {
+    mark_notifications_read: function() {
         /*
          * Mark all notifications as read.
          *
@@ -102,11 +98,10 @@ PANDA.models.User = Backbone.Model.extend({
         var now = moment().format("YYYY-MM-DDTHH:mm:ss");
 
         this.notifications.each(function(note) {
-            note.save({ read_at: now }, { async: false });
+            note.save({ read_at: now });
         });
 
         this.notifications.reset();
-        success_callback();
     },
 
     set_show_login_help: function(value, success_callback, error_callback) {

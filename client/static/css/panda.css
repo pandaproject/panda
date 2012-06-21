@@ -16,19 +16,26 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 .navbar .dropdown-menu ul {
     margin-left: 0px;
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: scroll;
-}
-
-#navbar-notifications .dropdown-menu ul li:nth-child(even) {
-    background-color: #f9f9f9;
 }
 
 #navbar-notifications .dropdown-menu ul a {
     white-space: normal;
-    padding-bottom: 2px;
-    padding-top: 1px;
+    padding-bottom: 3px;
+    padding-top: 3px;
     overflow-x: hidden;
+    border-top: 1px solid #efefef;
+}
+
+#navbar-notifications .dropdown-menu ul a.unread {
+    background-color: #edf5f9;
+    border-top: 1px solid #ccc;
+}
+
+#navbar-notifications .dropdown-menu ul a.unread:hover {
+    background-color: #0088cc;
+    border-top: 1px solid #ccc;
 }
 
 #content { padding: 20px; }

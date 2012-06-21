@@ -36,7 +36,7 @@ PANDA.views.Root = Backbone.View.extend({
         // Configure the global navbar
         this.configure_navbar();
 
-        $("#navbar-notifications .clear-unread").live("click", this.clear_unread_notifications);
+        $("#navbar-notifications > a").live("click", this.clear_unread_notifications);
         $("#navbar-notifications a.notification").live("click", this.notification_clicked);
 
         // Setup occasional updates of notifications
@@ -242,18 +242,28 @@ PANDA.views.Root = Backbone.View.extend({
             // Notifications
             $("#navbar-notifications .dropdown-menu ul").empty();
 
+            var unread_count = 0;
+
             if (this._current_user.notifications.length > 0) {
-                $("#navbar-notifications .count").addClass("badge-info");
 
                 this._current_user.notifications.each(function(note) {
-                    $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#" onclick="return false;" class="notification" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
+                    var unread = note.get("read_at") ? "" : " unread"
+
+                    if (unread) { unread_count += 1 };
+
+                    $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#" onclick="return false;" class="notification' + unread + '" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
                 }, this);
             } else {
+                $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>No notifications</em></a></li>');
+            }
+
+            if (unread_count) {
+                $("#navbar-notifications .count").addClass("badge-info");
+            } else {
                 $("#navbar-notifications .count").removeClass("badge-info");
-                $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>No new notifications</em></a></li>');
             }
             
-            $("#navbar-notifications .count").text(this._current_user.notifications.length);
+            $("#navbar-notifications .count").text(unread_count);
 
             $("#navbar-admin").toggle(this._current_user.get("is_staff"));
             $(".navbar").show();
@@ -270,11 +280,6 @@ PANDA.views.Root = Backbone.View.extend({
         var note_id = anchor.data("notification-id");
         var note = this._current_user.notifications.get(note_id);
         var url = note.get("url");
-
-        var now = moment().format("YYYY-MM-DDTHH:mm:ss");
-        note.save({ read_at: now });
-        this._current_user.notifications.remove(note);
-        this.configure_navbar(); 
 
         window.location = url;
 
@@ -300,9 +305,11 @@ PANDA.views.Root = Backbone.View.extend({
         /*
          * Marks all of the current user's notifications as read.
          */
-        this._current_user.mark_notifications_read(_.bind(function() {
-            this.configure_navbar();
-        }, this));
+        $("#navbar-notifications").toggleClass("open");
+        $("#navbar-notifications .count").removeClass("badge-info");
+        $("#navbar-notifications .count").text("0");
+
+        this._current_user.mark_notifications_read();
 
         return false;
     },
