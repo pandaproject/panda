@@ -5,6 +5,8 @@ PANDA.models.User = Backbone.Model.extend({
     urlRoot: PANDA.API + "/user",
 
     notifications: null,
+    datasets: null,
+    exports: null,
     subscriptions: null,
 
     initialize: function(attributes) {
@@ -19,6 +21,49 @@ PANDA.models.User = Backbone.Model.extend({
         } else {
             this.subscriptions = new PANDA.collections.SearchSubscriptions();
         }
+
+        if ("datasets" in attributes) {
+            this.datasets = new PANDA.collections.Datasets(attributes.datasets);
+        } else {
+            this.datasets = new PANDA.collections.Datasets();
+        }
+
+        if ("exports" in attributes) {
+            this.exports = new PANDA.collections.Exports(attributes.exports);
+        } else {
+            this.exports = new PANDA.collections.Exports();
+        }
+    },
+
+    parse: function(response) {
+        /*
+         * Extract embedded models from serialized data.
+         */
+        if ("notifications" in response) {
+            this.notifications = new PANDA.collections.Notifications(response.notifications);
+        } else {
+            this.notifications = new PANDA.collections.Notifications();
+        }
+
+        if ("subscriptions" in response) {
+            this.subscriptions = new PANDA.collections.SearchSubscriptions(response.subscriptions);
+        } else {
+            this.subscriptions = new PANDA.collections.SearchSubscriptions();
+        }
+
+        if ("datasets" in response) {
+            this.datasets = new PANDA.collections.Datasets(response.datasets);
+        } else {
+            this.datasets = new PANDA.collections.Datasets();
+        }
+
+        if ("exports" in response) {
+            this.exports = new PANDA.collections.Exports(response.exports);
+        } else {
+            this.exports = new PANDA.collections.Exports();
+        }
+
+        return response 
     },
 
     refresh_notifications: function(success_callback, error_callback) {
@@ -64,33 +109,6 @@ PANDA.models.User = Backbone.Model.extend({
         success_callback();
     },
 
-    refresh_subscriptions: function(success_callback, error_callback) {
-        /*
-         * Refresh subscriptions list from the server.
-         *
-         * NB: Returns up to a thousand subscriptions.
-         * This may need to be tweaked later.
-         */
-        this.subscriptions.fetch({
-            async: false,
-            data: {
-                limit: 1000
-            },
-            success: _.bind(function(response) {
-                if (success_callback) {
-                    success_callback(this, response);
-                }
-            }, this),
-            error: function(xhr, textStatus) {
-                error = JSON.parse(xhr.responseText);
-
-                if (error_callback) {
-                    error_callback(this, error);
-                }
-            }
-        });
-    },
-
     set_show_login_help: function(value, success_callback, error_callback) {
         $.ajax({
             url: this.url() + this.get("id") + "/login_help/",
@@ -122,15 +140,27 @@ PANDA.models.User = Backbone.Model.extend({
         var js = Backbone.Model.prototype.toJSON.call(this);
 
         if (full) {
-            js['notifications'] = this.notifications.toJSON();
+            js["notifications"] = this.notifications.toJSON();
         } else {
-            js['notifications'] = this.notifications.map(function(note) { return note.id });
+            js["notifications"] = this.notifications.map(function(note) { return note.id });
         }
 
         if (full) {
-            js['subscriptions'] = this.subscriptions.toJSON();
+            js["subscriptions"] = this.subscriptions.toJSON();
         } else {
-            js['subscriptions'] = this.subscriptions.map(function(sub) { return sub.id });
+            js["subscriptions"] = this.subscriptions.map(function(sub) { return sub.id });
+        }
+
+        if (full) {
+            js["datasets"] = this.datasets.toJSON();
+        } else {
+            js["datasets"] = this.datasets.map(function(dataset) { return dataset.id });
+        }
+
+        if (full) {
+            js["exports"] = this.exports.toJSON();
+        } else {
+            js["exports"] = this.exports.map(function(exp) { return exp.id });
         }
 
         return js;

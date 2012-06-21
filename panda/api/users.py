@@ -13,7 +13,7 @@ from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from panda.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
-from panda.models import UserProxy
+from panda.models import Export, UserProxy
 
 class UserValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -78,6 +78,56 @@ class UserResource(PandaModelResource):
         Always remove the password form the serialized bundle.
         """
         del bundle.data['password']
+
+        user = bundle.obj
+
+        if 'notifications' in bundle.request.GET and bundle.request.GET['notifications'].lower() == 'true':
+            from panda.api.notifications import NotificationResource
+            
+            resource = NotificationResource()
+
+            notifications = user.notifications.filter(recipient=bundle.request.user, read_at__isnull=True)
+
+            bundles = [resource.build_bundle(obj=n) for n in notifications]
+            notifications = [resource.full_dehydrate(b) for b in bundles]
+
+            bundle.data['notifications'] = notifications
+
+        if 'exports' in bundle.request.GET and bundle.request.GET['exports'].lower() == 'true':
+            from panda.api.exports import ExportResource
+
+            resource = ExportResource()
+
+            exports = Export.objects.filter(creator=user)
+
+            bundles = [resource.build_bundle(obj=e) for e in exports]
+            exports = [resource.full_dehydrate(b) for b in bundles]
+
+            bundle.data['exports'] = exports
+
+        if 'datasets' in bundle.request.GET and bundle.request.GET['datasets'].lower() == 'true':
+            from panda.api.datasets import DatasetResource
+
+            resource = DatasetResource()
+
+            datasets = user.datasets.filter()
+
+            bundles = [resource.build_bundle(obj=d) for d in datasets]
+            datasets = [resource.simplify_bundle(resource.full_dehydrate(b)) for b in bundles]
+
+            bundle.data['datasets'] = datasets
+
+        if 'search_subscriptions' in bundle.request.GET and bundle.request.GET['search_subscriptions'].lower() == 'true':
+            from panda.api.search_subscriptions import SearchSubscriptionResource
+
+            resource = SearchSubscriptionResource()
+
+            subscriptions = user.search_subscriptions.filter(user=bundle.request.user)
+
+            bundles = [resource.build_bundle(obj=s) for s in subscriptions]
+            datasets = [resource.full_dehydrate(b) for b in bundles]
+
+            bundle.data['subscriptions'] = datasets
 
         return bundle
 

@@ -2,7 +2,6 @@ PANDA.views.User = Backbone.View.extend({
     el: $("#content"),
 
     user: null,
-    datasets: null,
 
     edit_view: null,
     change_password_view: null,
@@ -23,29 +22,11 @@ PANDA.views.User = Backbone.View.extend({
 
         this.user.fetch({
             async: false,
-            error: _.bind(function(model, response) {
-                error = true;
-
-                if (response.status == 404) {
-                    Redd.goto_not_found(); 
-                } else {
-                    Redd.goto_server_error();
-                }
-            }, this)
-        });
-
-        if (error) {
-            return;
-        }
-
-        this.datasets = new PANDA.collections.Datasets();
-
-        this.datasets.fetch({
-            async: false,
             data: {
-                creator_email: this.user.get("email"),
-                simple: true,
-                limit: 1000
+                "notifications": true,
+                "datasets": true,
+                "exports": true,
+                "search_subscriptions": true
             },
             error: _.bind(function(model, response) {
                 error = true;
@@ -65,17 +46,12 @@ PANDA.views.User = Backbone.View.extend({
         this.edit_view.set_user(this.user);
         this.change_password_view.set_user(this.user);
 
-        if (this.user.get("id") == Redd.get_current_user().get("id")) {
-            this.user.refresh_subscriptions();
-        }
-
         this.render();
     },
 
     render: function() {
         var context = PANDA.utils.make_context({
             user: this.user.toJSON(true),
-            datasets: this.datasets.results(),
             current_user: Redd.get_current_user().toJSON() 
         });
 
