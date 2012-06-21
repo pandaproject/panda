@@ -9,13 +9,22 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #loading-indicator { width: 32px; }
 #loading-indicator img { display: none; position: relative; top: 2px; }
 #navbar-admin { display: none; }
-.navbar .menu-dropdown, .navbar .dropdown-menu { min-width: 300px; max-width: 400px; }
 
-#navbar-notifications .dropdown-menu li:nth-child(even) {
+.navbar .menu-dropdown, .navbar .dropdown-menu {
+    width: 400px;
+}
+
+.navbar .dropdown-menu ul {
+    margin-left: 0px;
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+#navbar-notifications .dropdown-menu ul li:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-#navbar-notifications .dropdown-menu a {
+#navbar-notifications .dropdown-menu ul a {
     white-space: normal;
     padding-bottom: 2px;
     padding-top: 1px;

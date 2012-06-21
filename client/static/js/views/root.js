@@ -240,26 +240,18 @@ PANDA.views.Root = Backbone.View.extend({
             }
 
             // Notifications
-            $("#navbar-notifications .dropdown-menu").empty();
+            $("#navbar-notifications .dropdown-menu ul").empty();
 
             if (this._current_user.notifications.length > 0) {
                 $("#navbar-notifications .count").addClass("badge-info");
 
                 this._current_user.notifications.each(function(note) {
-                    $("#navbar-notifications .dropdown-menu").append('<li><a href="#" onclick="return false;" class="notification" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
+                    $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#" onclick="return false;" class="notification" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
                 }, this);
             } else {
                 $("#navbar-notifications .count").removeClass("badge-info");
-                $("#navbar-notifications .dropdown-menu").append('<li><a href="#"><em>No new notifications</em></a></li>');
+                $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>No new notifications</em></a></li>');
             }
-            
-            $("#navbar-notifications .dropdown-menu").append('<li class="divider"></li>');
-
-            if (this._current_user.notifications.models.length > 0) {
-                $("#navbar-notifications .dropdown-menu").append('<li class="clear-unread"><a href="#">Clear notifications</a></li>');
-            }
-
-            $("#navbar-notifications .dropdown-menu").append('<li><a href="javascript:alert(\'View previous notifications (TODO)\');">View all notifications</a></li>');
             
             $("#navbar-notifications .count").text(this._current_user.notifications.length);
 
