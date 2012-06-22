@@ -92,16 +92,29 @@ PANDA.models.User = Backbone.Model.extend({
     mark_notifications_read: function() {
         /*
          * Mark all notifications as read.
-         *
-         * TODO: bulk update
          */
         var now = moment().format("YYYY-MM-DDTHH:mm:ss");
 
+        var patch = { objects: [] };
+
         this.notifications.each(function(note) {
-            note.save({ read_at: now });
+            if (!note.get("read_at")) {
+                note.set({ read_at: now });
+                patch.objects.push({ resource_uri: note.id, read_at: now });
+            }
         });
 
-        this.notifications.reset();
+        if (patch.objects.length == 0) {
+            return;
+        }
+
+        $.ajax({
+            url: this.notifications.url() + "?patch=true",
+            contentType: "application/json",
+            dataType: "json",
+            type: "PUT",
+            data: JSON.stringify(patch)
+        });
     },
 
     set_show_login_help: function(value, success_callback, error_callback) {

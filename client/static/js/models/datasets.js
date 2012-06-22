@@ -239,10 +239,10 @@ PANDA.models.Dataset = Backbone.Model.extend({
 
         Redd.ajax({
             url: this.url() + "?patch=true",
-            type: 'PUT',
+            type: "PUT",
             data: JSON.stringify(this.toJSON()),
-            contentType: 'application/json',
-            dataType: 'json',
+            contentType: "application/json",
+            dataType: "json",
             async: false,
             success: _.bind(function(response) {
                 this.set(response);

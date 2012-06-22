@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 
 from panda.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
@@ -35,4 +34,14 @@ class NotificationResource(PandaModelResource):
         kicks off Solr indexing).
         """
         pass
+
+    def put_list(self, request, **kwargs):
+        """
+        Allow emulating a ``PATCH`` request by passing ``?patch=true``.
+        (As a workaround for IE's broken XMLHttpRequest.)
+        """
+        if request.GET.get('patch', 'false').lower() == 'true':
+            return super(NotificationResource, self).patch_list(request, **kwargs)
+        else:
+            return super(NotificationResource, self).put_list(request, **kwargs)
 

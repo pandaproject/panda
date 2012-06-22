@@ -306,10 +306,15 @@ PANDA.views.Root = Backbone.View.extend({
          * Marks all of the current user's notifications as read.
          */
         $("#navbar-notifications").toggleClass("open");
-        $("#navbar-notifications .count").removeClass("badge-info");
-        $("#navbar-notifications .count").text("0");
+        
+        if ($("#navbar-notifications").hasClass("open")) {
+            $("#navbar-notifications .count").removeClass("badge-info");
+            $("#navbar-notifications .count").text("0");
 
-        this._current_user.mark_notifications_read();
+            this._current_user.mark_notifications_read();
+        } else {
+            $("#navbar-notifications .dropdown-menu ul li a").removeClass("unread");
+        }
 
         return false;
     },
