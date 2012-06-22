@@ -25,6 +25,7 @@
                     catenateAll="1"
                     preserveOriginal="1"
                     />
+                <filter class="solr.SynonymFilterFactory" synonyms="english_names.txt" ignoreCase="true" expand="true" />
                 <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
             <analyzer type="query">

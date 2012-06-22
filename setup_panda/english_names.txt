@@ -1,0 +1,1138 @@
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#-----------------------------------------------------------------------
+
+#common english names
+# nickname(s) => real name(s)
+jon, jonathan
+jonny, jon, john
+Abigail, Abbie, Abby, Gail, Nabby
+Ada, Adie
+Adelaide, Addie, Adela, Dell, Della
+Adele, Adelle, Adela, Addie, Dell, Della
+Adeline, Adelina, Adaline, Addie, Aline, Dell, Della
+Adrienne, Adriana, Adie
+Agatha, Aggie
+Agnes, Aggie, Ness, Nessie
+Aileen, Eileen, Allie, Lena
+Alberta, Allie, Bertie
+Alexandra, Alexandria, Alex, Alix, Alexa, Alla, Allie, Ali, Lexy, Sandra, Sandy
+Alexis, Alex
+Alfreda, Alfie, Alfy, Frieda, Freda, Freddie, Freddy
+Alice, Alicia, Alyce, Alisa, Alissa, Alyssa, Allie, Ally, Ali, Elsie, Lisa
+Alison, Allison, Alyson, Allyson, Allie, Ally, Ali
+Althea, Thea
+Amabel, Mabel, Mab, Mabs, Mabbie
+Amanda, Mandy
+Amelia, Amy, Millie, Milly
+Amy, Aimee, Amie
+Anastasia, Ana, Stacy
+Andrea, Andy
+Angela, Angelica, Angelina, Angeline, Angel, Angie
+Anita, Ana, Nita
+Anna, Ann, Anne, Ann, Annie, Nance, Nancy, Nancie, Nan, Nana, Nanny, Nanette, Nannette, Nina
+Annabel, Annabelle, Anabel, Ann, Anna, Bel, Belle, Bell
+Annette, Annetta, Annie, Netta, Nettie, Netty
+Antoinette, Nettie, Netty, Net, Netta, Toni, Tony, Toy, Toi
+Antonia, Toni, Tony, Tonya, Tonia
+Arabella, Arabel, Arabelle, Bel, Bell, Belle, Bella
+Arlene, Arline, Arleen, Arlyne, Lena, Arly, Lynn
+Ashley, Ash
+Audrey, Dee
+Augusta, Augustina, Aggy, Augie, Gussie, Gusty, Ina, Tina
+Aurora, Rori
+Barbara, Bab, Babs, Babbie, Barbie, Babette
+Beatrice, Beatrix, Bea, Bee, Beattie, Trixie, Trissie
+Belinda, Bel, Bell, Belle, Linda, Lindy, Lin, Lynn
+Belle, Bell, Bel, Bella
+Berenice, Bernice, Bernie
+Bertha, Berta, Bertie
+Beverly, Beverley, Bev
+Blanche, Blanch
+Bonnie, Bonny
+Brenda, Brendie, Brandy
+Bridget, Bridgette, Brigid, Brigit, Biddie, Biddy, Bridie, Bridey, Brie, Bree, Brita
+Brittany, Brittney, Britney, Brit, Britt, Brita, Brie
+Camille, Camilla, Cammie, Cammy, Millie
+Candace, Candice, Candy
+Caren, Carin, Caryn
+Carla, Carlie, Carly
+Carlotta, Carlota, Lotta, Lottie, Lotty
+Carol, Carole, Carrol, Carroll, Karol, Carrie, Carry
+Caroline, Carolyn, Carolina, Carlyne, Carline, Karoline, Carrie, Carry, Caddie, Caddy, Carlie, Carly, Callie, Cally, Carol, Lynn, Lynne, Lin
+Cassandra, Cass, Cassie, Cassey, Casey, Sandra, Sandy
+Catherine, Cathryn, Catheryn, Catharine, Cathleen, Cat, Cattie, Catty, Cathie, Cathy, Cassie, Kit, Kitty, Kittie
+Cecilia, Cecillia, Cecelia, Cecile, Cecily, Cicely, Cissy, Sissy, Celia
+Charity, Chattie, Chatty, Cherry
+Charlotte, Lotta, Lottie, Lotty, Lola, Lolita, Chattie, Charlie
+Cheryl, Cherie
+Christine, Christina, Christiana, Chris, Christy, Christie, Christa, Chrissie, Kit, Tina
+Clara, Clare, Clair, Claire
+Clarice, Clarissa, Clara, Clare, Clair
+Claudia, Claudie
+Clementine, Clementina, Clem, Clemmie, Tina
+Colleen, Coleen
+Constance, Connie, Connee
+Cora, Co, Corrie
+Cordelia, Cordy, Delia
+Corinne, Corinna, Cora, Corrie
+Cornelia, Connie, Corny, Nell, Nellie
+Courtney, Court, Courtie
+Crystal, Chrystal, Crys, Chris
+Cynthia, Cindy
+Daisy, Daysie
+Danielle, Daniela, Dani, Danny
+Daphne, Daph, Daphie
+Darlene, Darleen, Darlyne, Lena, Darla
+Deborah, Debbie, Debby, Debra
+Delia, Dell, Della
+Dell, Della
+Denise, Denice, Denny
+Diana, Diane, Dianne, Di
+Dinah, Dina, Di
+Dolores, Delores, Lola, Lolita
+Dominique, Dominica, Minnie, Nicki, Nikki
+Dora, Dorrie, Dori
+Doreen, Dorene, Dorrie
+Doris, Dorris, Dorrie
+Dorothy, Dorothea, Dora, Dorrie, Doll, Dolly, Dodie, Dot, Dottie, Dotty, Dee
+Edith, Edyth, Edythe, Edie, Edye, Dee
+Edna, Eddie
+Elaine, Helaine, Ellie, Elly, Lainie
+Eleanor, Elinor, Ella, Ellie, Elly, Nell, Nellie, Nelly, Nora, Lally, Lallie
+Elisa, Eliza, Elisia, Elissa, Elise, Elyse, Elsa, Elsie
+Elizabeth, Elisabeth, Betty, Bettie, Bet, Bett, Bette, Betta, Betsy, Betsey, Betsi, Beth, Bess, Bessie, Bessy, Bettina, Elsie, Elisa, Elsa, Eliza, Ellie, Elly, Ilse, Liz, Lizzy, Lizzie, Liza, Lisa, Lise, Lisette, Lizette, Lisbet, Lizbeth, Libby
+Ella, Ellie, Elly, Nellie, Nelly
+Eloise, Heloise, Lois
+Elvira, Elvie
+Emily, Emilia, Em, Emmy, Emmie, Millie, Milly
+Emma, Em, Emm, Emmy, Emmie
+Erica, Erika, Ericka, Ricky, Rickie
+Ernestine, Earnestine, Erna, Ernie, Tina
+Estelle, Estella, Essie, Stella
+Esther, Ester, Hester, Essie, Ettie, Etty, Hettie, Hetty
+Ethel, Eth
+Etta, Ettie, Etty
+Eugenia, Gene, Genie
+Eulalia, Eula, Lally, Lallie
+Eunice, Euny, Eunie
+Eustacia, Stacy, Stacey, Stacia
+Eve, Eva, Evie
+Eveline, Evelyn, Evelina, Eve, Evie, Lynn
+Evangeline, Evangelina, Eve, Evie, Angie, Lynn
+Faith, Fae, Fay, Faye
+Felicia, Felicity, Felice, Fee, Fel
+Florence, Flo, Floy, Floss, Flossie, Flora, Florrie
+Frances, Fan, Fannie, Fanny, Fran, Frannie, Franny, Francie, Francy, France, Frankie, Franky
+Francesca, Francisca, Fran, Cesca
+Francine, Fan, Fannie, Fanny, Fran, Frannie, Franny, Francie, Francy, France, Frankie, Franky
+Frederica, Frederika, Fredericka, Freda, Freddie, Freddy, Ricky, Rickie
+Gabrielle, Gabriela, Gabriella, Gabby, Gabi, Gaby
+Genevieve, Gene, Ginny, Jenny, Viv
+Georgina, Georgine, Georgie, Gina
+Geraldine, Gerry, Gerrie, Gerri, Jerry, Dina
+Gertrude, Gertie, Trudie, Trudy
+Gillian, Jillian, Jill
+Gladys, Glad
+Glenda, Glen
+Gloria, Glory
+Grace, Gracie
+Gwendolen, Gwendolyn, Gwen, Gwenda, Wendy
+Hannah, Hanna, Ann, Annie, Nana, Nanny
+Harriet, Hattie, Hatty
+Heather, Hettie, Hetty
+Helen, Helena, Elena, Ellen, Nell, Nellie, Nelly, Ellie, Elly, Lena, Lala, Lally, Lallie
+Henrietta, Etta, Ettie, Etty, Hettie, Hetty, Nettie, Netty
+Hillary, Hilary, Hill, Hillie
+Hilda, Hylda, Hildie
+Imogen, Imogene, Immy, Immie
+Irene, Renie, Rena
+Isabel, Isabelle, Isabella, Bel, Bell, Belle, Bella, Issy
+Jacqueline, Jacquelyn, Jackie, Jacky
+Jane, Janie, Janey, Jenny, Jennie, Jen, Janet
+Janet, Janette, Janetta, Jan, Nettie, Netty, Netta
+Janice, Janis, Jenice, Jan
+Jean, Jeanne, Jeanie, Jeannie
+Jeannette, Jeannetta, Jeanette, Jeanie, Jeannie, Nettie, Netty, Netta
+Jemima, Jem, Jemma, Mima, Mimi
+Jennifer, Jen, Jenny, Jennie, Jenne
+Jessica, Jess, Jessie
+Joanna, Joanne, Joann, Johanna, Joan, Jo, Jody
+Joceline, Jocelyn, Jo, Lynn
+Josephine, Jo, Josie, Josey, Jozy, Jody
+Joyce, Joy
+Judith, Judy, Judie, Jude, Jody, Jodie
+Julia, Julie, Jule
+Julianne, Juliana, Julie, Jule
+Juliet, Juliette, Julie, Jule
+Karen, Karin, Karyn
+Katherine, Katharine, Kathryn, Kathrine, Kathrynne, Katrina, Kate, Kathie, Kathy, Katie, Katy, Kay, Katty, Kattie, Kit, Kitty, Kittie
+Kathleen, Kathlene, Kathlyn, Kathlynne, Kathie, Kathy, Katie, Katy, Katty, Kattie
+Kelly, Kelley
+Kimberly, Kimberley, Kim
+Kristina, Kristin, Kristine, Kristen, Kris, Kristi, Kristy, Kristie, Krista
+Laura, Lora, Laurie, Loretta, Lolly
+Lauren, Laurel, Laurie
+Laverne, Laverna, Verna
+Lavinia, Vina, Vinnie
+Leah, Lea, Lee, Leigh
+Leona, Lee
+Leonora, Leonore, Lenora, Lenore, Nora
+Leslie, Lesley, Les
+Leticia, Letitia, Lettie, Tisha
+Lillian, Lilian, Lily, Lilly, Lili, Lilli, Lil, Lillie
+Lily, Lilly, Lili, Lilli, Lil, Lillie
+Linda, Lynda, Lindy, Lin, Lynn, Lynne
+Lorraine, Loraine, Lora, Lori, Lorie
+Loretta, Etta, Lorrie, Lori, Retta
+Lottie, Lotty, Lotta
+Louise, Louisa, Lou, Lu, Lulu, Lula, Lois
+Lucille, Lucile, Lu, Lucy, Lucky
+Lucinda, Lu, Lucy, Lucky, Cindy
+Lucy, Lucie, Luci, Lucia, Lu, Lulu, Luce, Lucky
+Lydia, Liddy, Lyddie
+Lynn, Lynne
+Mabel, Mabelle, Mable, Mab, Mabs, Mabbie
+Madeline, Madeleine, Madelyn, Maddie, Maddy, Mady
+Magdaline, Magdalen, Magdalena, Magda, Magsie, Lena
+Marcia, Marcie, Marcy, Marci
+Margaret, Margarita, Marguerite, Margret, Maggie, Marge, Margie, Marjorie, Margery, Madge, Margot, Margo, Magsie, Maisie, Daisy, Mamie, Maidie, Mae, May, Meg, Megan, Peggy, Greta, Gretchen, Rita
+Marianne, Marianna, Maryann, Maryanne, Marian, Mary, Ann
+Marilyn, Marilynn, Marylin, Marlene, Marlyn, Mary, Lynn
+Maribel, Maribelle, Mary, Bell
+Marietta, Mariett, Mariette, Mary, Etta, Ettie, Etty
+Marjorie, Marjory, Margery, Marge, Margie
+Martha, Marta, Marty, Mat, Mattie, Matty, Pat, Pattie, Patty
+Mary, Maria, Marie
+Mary, Mae, May, Moll, Molly, Mollie, Polly, Mamie, Mimi, Minnie
+Matilda, Mathilda, Mat, Matty, Mattie, Maud, Maude, Patty, Pattie, Tilda, Tillie, Tilly
+Maud, Maude, Maudie, Maudy
+Maureen, Maury
+Maxine, Max, Maxie
+Megan, Meg
+Melanie, Mel, Mellie
+Melinda, Mel, Mellie, Linda, Mindy
+Melissa, Mel, Mellie, Missie, Missy, Lisa, Lissa
+Mercedes, Mercy, Sadie
+Meredith, Merry
+Michelle, Michele, Mickey, Shelly
+Mildred, Millie, Milly
+Millicent, Milicent, Melicent, Millie, Milly
+Minnie, Minna, Mina
+Miranda, Randy
+Molly, Mollie, Moll, Polly
+Monica, Nicki
+Myra, Mira
+Nadine, Nada, Dee
+Natalie, Nathalie, Natalia, Natasha, Nattie, Natty
+Nell, Nelle, Nellie, Nelly
+Nettie, Netty, Netta
+Nicole, Nicky, Nicki, Nikki, Nikky
+Norma, Normie
+Octavia, Tave, Tavy, Tavia
+Olive, Olivia, Ollie, Olly, Nollie, Livvy, Livia
+Pamela, Pam, Pammie, Pammy
+Patricia, Pat, Pattie, Patty, Patsy, Paddy, Tricia, Trisha, Trissie
+Paula, Paulina, Pauline, Paulie
+Pearl, Pearlie
+Peggy, Peg
+Penelope, Pen, Penny
+Phoebe, Phebe
+Phyllis, Phyl, Phyllie, Phil
+Priscilla, Prissy
+Prudence, Prudie, Prudy, Prue, Pru
+Rachel, Rachie, Rae, Ray
+Raquel, Kelly, Kellie
+Rebecca, Beck, Becky, Reba
+Regina, Reggie, Ray, Gina, Ginny, Rena
+Renata, Nata, Natie, Rennie, Renny, Renae
+Renee, Rene, Renae
+Roberta, Robbie, Robby, Robin, Robyn, Bobbie, Bobby, Berta, Bertie
+Rose, Rosa, Rosie, Rosy
+Rosabel, Rosabelle, Rosabella, Rose, Rosie, Rosy, Bell
+Rosalie, Rosalee, Rose, Rosie, Rosy
+Rosaline, Rosalyn, Rose, Rosie, Rosy
+Rosalind, Rosalinda, Rose, Rosie, Rosy, Linda
+Roseanna, Rosanna, Rosanne, Rose, Rosie, Rosy
+Rosemary, Rosemarie, Rose, Rosie, Rosy
+Roxanne, Roxanna, Roxana, Roxie, Roxy
+Ruby, Rubina, Ruby, Rubie
+Ruth, Ruthie
+Sabrina, Brina, Sabby
+Samantha, Sam, Sammie, Sammy
+Sarah, Sara, Sadie, Sal, Sally, Sallie
+Sharon, Sharron
+Shirley, Shirlee, Shirlie, Shirl
+Sibyl, Sybil, Sibylle, Syble, Sib, Sibbie
+Sonia, Sonya
+Sophia, Sophie, Sophy
+Stacy, Stacey, Stacie, Staci
+Stephanie, Stephania, Stephana, Stefanie, Stefania, Stefana, Steph, Stephie
+Susan, Susanna, Susannah, Susanne, Suzanne, Sue, Susie, Susi, Susy, Suzie, Suzy, Sukie
+Sylvia, Silvia, Syl, Sylvie
+Tabitha, Tabby
+Tamara, Tamar, Tammy, Tammie
+Tanya, Tania
+Teresa, Theresa, Therese, Terry, Terri, Teri, Terrie, Tess, Tessa, Tessie, Tracy, Trissie
+Tiffany, Tiff, Tiffy
+Tracy, Tracey, Tracie, Traci
+Ursula, Ursa, Ursie, Sulie
+Valentina, Val, Vallie
+Valerie, Valery, Valeria, Val, Vallie
+Vanessa, Van, Vannie, Nessa
+Veronica, Nicky, Nicki, Ronnie, Ronni, Ronny
+Victoria, Vic, Vick, Vickie, Vicky, Vicki, Viki, Vikki
+Viola, Vi
+Violet, Violette, Violetta, Vi, Lettie
+Virginia, Ginger, Ginny, Jinny, Jenny, Virgie
+Vivian, Vivien, Viv
+Wilhelmina, Willa, Wilma, Willie, Billie, Mina, Minnie
+Winifred, Winnie, Freda, Freddie
+Yolanda, Yolande
+Yvonne, Vonnie, Vonna
+Yvette, Vettie, Vetta
+Zoe, Zoey
+Aaron, Aron, Ron, Ronnie, Ronny
+Abel, Abe, Abie
+Abner, Ab, Abbie
+Abraham, Abe, Abie, Bram
+Adam, Ad, Addie, Addy, Ade
+Adrian, Ade
+Alan, Allan, Allen, Al
+Albert, Al, Bert, Bertie
+Alexander, Al, Alex, Alec, Aleck, Lex, Sandy, Sander
+Alfred, Al, Alf, Alfie, Fred, Freddie, Freddy
+Algernon, Algie, Algy, Alger
+Alonso, Alonzo, Al, Lon, Lonnie, Lonny
+Alvin, Alwin, Alwyn, Al, Vin, Vinny, Win
+Andrew, Andy, Drew
+Andre, Andres, Andreas, Andy
+Anthony, Antony, Anton, Tony
+Archibald, Arch, Archie, Baldie
+Arnold, Arnie
+Arthur, Art, Artie
+Augustus, August, Augustine, Augie, Gus, Gussy, Gust, Gustus
+Austin, Austen
+Baldwin, Baldie, Win
+Barrett, Barry, Barrie
+Bartholomew, Bart, Barty, Bartlett, Bartley, Bat, Batty
+Basil, Baz, Basie
+Benedict, Ben, Bennie, Benny
+Benjamin, Ben, Bennie, Benny, Benjy, Benjie
+Bennet, Bennett, Ben, Bennie, Benny
+Bernard, Barnard, Bernie, Berney, Barney, Barnie
+Bradford, Brad, Ford
+Bradley, Brad
+Brandon, Branden, Brandy
+Brenton, Brent
+Bret, Brett
+Brian, Bryan, Bryant
+Burton, Burt
+Byron, Ron, Ronnie, Ronny
+Caleb, Cal
+Calvin, Cal, Vin, Vinny
+Cameron, Cam, Ron, Ronny
+Carl, Karl, Carlos
+Carey, Cary, Carry
+Casey, Kasey
+Caspar, Casper, Cas, Cass
+Cassius, Cas, Cass
+Cecil, Cis
+Cedric, Ced, Rick, Ricky
+Charles, Charlie, Charley, Chuck, Chas
+Chester, Chet
+Christopher, Kristopher, Kristofer, Chris, Kris, Cris, Christy, Kit, Kester, Kristof, Toph, Topher
+Christian, Chris, Christy, Kit
+Clarence, Clare, Clair
+Claude, Claud
+Clayton, Clay
+Clement, Clem
+Clifford, Cliff, Ford
+Clinton, Clint
+Curtis, Kurtis, Curt, Kurt
+Cyril, Cy
+Cyrus, Cy
+Daniel, Dan, Danny
+Darrell, Darrel, Darryl, Daryl, Darry
+David, Dave, Davie, Davy
+Dean, Deane
+Dennis, Denis, Den, Denny
+Derek, Derrick, Derry, Rick, Ricky
+Dexter, Dex
+Dominic, Dominick, Dominique, Dom, Nick
+Donald, Don, Donnie, Donny
+Douglas, Doug
+Duane, Dwayne
+Dustin, Dusty
+Earl, Earle
+Edgar, Ed, Eddie, Eddy, Ned
+Edward, Ed, Eddie, Eddy, Ned, Ted, Teddy
+Edwin, Ed, Eddie, Eddy, Ned
+Elbert, Bert, Bertie
+Elijah, Eli, Lige
+Elliot, Elliott, El
+Elmer, El
+Elvin, Elwin, Elwyn, El, Vin, Win
+Elwood, El, Woody
+Emery, Emmery, Emory, Em
+Emil, Emile, Em
+Emmanuel, Emanuel, Immanuel, Manuel, Manny, Mannie
+Eric, Erik, Erick, Rick, Ricky
+Ernest, Earnest, Ernie
+Ervin, Erwin, Irvin, Irvine, Irving, Irwin, Erv, Vin, Win
+Eugene, Gene
+Everett, Everette
+Fabian, Fabe, Fab
+Ferdinand, Ferdie, Fred, Freddie
+Fernando, Ferdie, Fern
+Floyd, Floy
+Francis, Frank, Frankie, Franky, Fran
+Francisco, Frank, Frankie, Franky, Fran
+Franklin, Franklyn, Frank, Frankie, Franky
+Frederick, Frederic, Fredrick, Fredric, Fred, Freddie, Freddy, Rick, Ricky
+Fred, Freddie
+Gabriel, Gabe, Gabby
+Garrett, Garret, Gary, Garry
+Geoffrey, Jeffrey, Jeff
+George, Georgie, Geordie
+Gerald, Gerard, Gerry, Jerry
+Gilbert, Gil, Bert
+Glenn, Glen
+Gregory, Gregor, Greg, Gregg
+Griffith, Griffin, Griff
+Harold, Hal, Harry
+Harvey, Harve
+Henry, Harry, Hank
+Herbert, Herb, Bert, Bertie
+Herman, Manny, Mannie
+Howard, Howie
+Hubert, Hugh, Bert, Bertie
+Hugh, Hughie, Hugo
+Immanuel, Manny, Mannie
+Irvin, Irvine, Irving, Irwin
+Isaac, Isaak, Ike
+Isidore, Isidor, Isadore, Isador, Izzy
+Jack, Jackie, Jacky
+Jacob, Jake
+James, Jim, Jimmy, Jimmie, Jamie, Jem
+Jason, Jay
+Jasper, Jay
+Jeffrey, Jeffery, Geoffrey, Jeff
+Jeremy, Jeremiah, Jerry
+Jerome, Jerry
+Jesse, Jess, Jessie, Jessy
+John, Jack, Jackie, Jacky, Johnny
+Jonathan, Jon, Jonny
+Joseph, Joe, Joey, Jo, Jos, Jody
+Joshua, Josh
+Julian, Julius, Jule, Jules
+Karl, Carl
+Kelly, Kelley
+Kelvin, Kel, Kelly
+Kenneth, Ken, Kenny
+Kevin, Kev
+Kristopher, Kris, Kit, Kester
+Lamont, Monty, Monte
+Lancelot, Launcelot, Lance
+Laurence, Lawrence, Lorence, Lorenzo, Lauren, Loren, Larry, Lars, Laurie, Lawrie
+Lee, Leigh
+Leo, Leon, Lee
+Leonard, Leo, Len, Lenny, Lennie
+Leopold, Leo, Poldie
+Leroy, Lee, Roy
+Leslie, Lesley, Les
+Lester, Les
+Lewis, Lew, Lewie
+Lincoln, Lin, Linc, Lynn
+Lloyd, Loyd, Loyde, Floyd, Loy, Floy
+Louis, Luis, Lou, Louie
+Luke, Lucas
+Malcolm, Mal, Malc, Mac
+Manuel, Manny, Mannie
+Mark, Marc, Marcus, Markus
+Martin, Mart, Marty
+Marvin, Mervin, Marv, Merv
+Matthew, Matt, Mat, Matty, Mattie
+Maximilian, Max
+Melvin, Mel
+Michael, Mike, Mickey
+Milton, Milt
+Mitchell, Mitch
+Montague, Monty, Monte
+Montgomery, Monty, Monte
+Morris, Maurice, Morry
+Mortimer, Mort, Morty
+Moses, Mo, Moe, Mose, Moss
+Nathan, Nathaniel, Nat, Nate
+Neal, Neil
+Nicholas, Nicolas, Nick, Nicky
+Norman, Norm
+Oliver, Ollie, Noll, Nollie, Nolly
+Oscar, Ossy
+Oswald, Ossy, Ozzie, Ozzy
+Patrick, Pat, Patty, Paddy, Patsy
+Paul, Pauly
+Peter, Pete
+Philip, Phillip, Phil, Pip
+Ralph, Rafe
+Randall, Randal, Rand, Randy
+Randolph, Rand, Randy, Dolph
+Raphael, Rafael, Raff, Rafe
+Raymond, Raymund, Ray
+Reginald, Reg, Reggie, Rex
+Reuben, Ruben, Rube, Ruby
+Reynold, Ray
+Richard, Dick, Rick, Ricky, Rich, Richie
+Rick, Ricky
+Robert, Bob, Bobbie, Bobby, Dob, Rob, Robbie, Robby, Robin, Bert
+Roderic, Roderick, Rod, Roddy, Rick, Ricky
+Rodney, Rod
+Roger, Rodger, Rodge
+Roland, Rolly, Roly
+Ronald, Ron, Ronnie, Ronny
+Ron, Ronnie
+Roscoe, Ross
+Reuben, Ruben, Rubin, Rube, Ruby
+Rudolph, Rudolf, Rudy, Rolf, Dolph, Dolf
+Russell, Russel, Russ
+Samson, Sampson, Sam, Sammy
+Samuel, Sam, Sammy
+Scott, Scotty
+Sebastian, Seb, Bass
+Sidney, Sydney, Sid, Syd
+Silvester, Sylvester, Syl, Vester
+Solomon, Sol, Solly, Sal
+Stanley, Stan
+Stephen, Steven, Steve, Stevie
+Stuart, Stewart, Stu, Stew
+Terrence, Terence, Terrance, Terry
+Theodore, Ted, Teddy, Theo
+Timothy, Tim, Timmy
+Thomas, Tom, Tommy
+Tracy, Tracey
+Tyler, Ty
+Valentine, Val
+Victor, Vic, Vick
+Vincent, Vince, Vin, Vinny
+Virgil, Vergil, Virge
+Vernon, Vern
+Wallace, Wally
+Walter, Walt, Wally
+Wesley, Wes
+Wilbur, Wilber, Will, Willie, Willy
+Wiley, Will, Willie, Willy
+Wilfred, Wilfrid, Will, Willie, Willy, Fred, Freddie, Freddy
+Willard, Will, Willie, Willy
+Willis, Bill, Billy, Billie, Will, Willie, Willy
+William, Bill, Billy, Billie, Will, Willie, Willy
+Wilson, Will, Willie, Willy
+Winfred, Win, Winnie, Winny, Fred, Freddie, Freddy
+Winston, Win, Winnie, Winny
+Woodrow, Wood, Woody
+Zachariah, Zacharias, Zachary, Zack, Zacky, Zach
+
+
+#### ORIGINAL LIST ######
+
+#Abigail - Abbie, Abby, Gail, Nabby
+#Ada - Adie
+#Adelaide - Addie, Adela, Dell, Della
+#Adele, Adelle, Adela - Addie, Dell, Della
+#Adeline, Adelina, Adaline - Addie, Aline, Dell, Della
+#Adrienne, Adriana - Adie
+#Agatha - Aggie
+#Agnes - Aggie, Ness, Nessie
+#Aileen, Eileen - Allie, Lena
+#Alberta - Allie, Bertie
+#Alexandra, Alexandria - Alex, Alix, Alexa, Alla, Allie, Ali, Lexy, Sandra, Sandy
+#Alexis - Alex
+#Alfreda - Alfie, Alfy, Frieda, Freda, Freddie, Freddy
+#Alice, Alicia, Alyce, Alisa, Alissa, Alyssa - Allie, Ally, Ali, Elsie, Lisa
+#Alison, Allison, Alyson, Allyson - Allie, Ally, Ali
+#Althea - Thea
+#Amabel - Mabel, Mab, Mabs, Mabbie (see Mabel)
+#Amanda - Mandy
+#Amelia - Amy, Millie, Milly
+#Amy, Aimee, Amie
+#Anastasia - Ana, Stacy
+#Andrea - Andy
+#Angela, Angelica, Angelina, Angeline, Angel - Angie
+#Anita - Ana, Nita
+#Anna, Ann, Anne - Ann, Annie, Nance, Nancy, Nancie, Nan, Nana, Nanny, Nanette, Nannette, Nina
+#Annabel, Annabelle, Anabel - Ann, Anna, Bel, Belle, Bell
+#Annette, Annetta - Annie, Netta, Nettie, Netty
+#Antoinette - Nettie, Netty, Net, Netta, Toni, Tony, Toy, Toi
+#Antonia - Toni, Tony, Tonya, Tonia
+#Arabella, Arabel, Arabelle - Bel, Bell, Belle, Bella
+#Arlene, Arline, Arleen, Arlyne - Lena, Arly, Lynn
+#Ashley - Ash
+#Audrey - Dee
+#Augusta, Augustina - Aggy, Augie, Gussie, Gusty, Ina, Tina
+#Aurora - Rori 
+#Barbara - Bab, Babs, Babbie, Barbie, Babette
+#Beatrice, Beatrix - Bea, Bee, Beattie, Trixie, Trissie
+#Belinda - Bel, Bell, Belle, Linda, Lindy, Lin, Lynn
+#Belle, Bell, Bel, Bella (see Annabel, Arabella, Isabel, Rosabel, Belinda)
+#Berenice, Bernice - Bernie
+#Bertha, Berta - Bertie
+#Betty (see Elizabeth)
+#Beverly, Beverley - Bev
+#Blanche, Blanch
+#Bonnie, Bonny
+#Brenda - Brendie, Brandy
+#Bridget, Bridgette, Brigid, Brigit - Biddie, Biddy, Bridie, Bridey, Brie, Bree, Brita
+#Brittany, Brittney, Britney - Brit, Britt, Brita, Brie
+# 
+#Camille, Camilla - Cammie, Cammy, Millie
+#Candace, Candice - Candy
+#Caren, Carin, Caryn
+#Carla - Carlie, Carly (see Caroline)
+#Carlotta, Carlota - Lotta, Lottie, Lotty (see Charlotte)
+#Carmen
+#Carol, Carole, Carrol, Carroll, Karol - Carrie, Carry (see Caroline)
+#Caroline, Carolyn, Carolina, Carlyne, Carline, Karoline - Carrie, Carry, Caddie, Caddy, Carlie, Carly, Callie, Cally, Carol, Lynn, Lynne, Lin
+#Cassandra - Cass, Cassie, Cassey, Casey, Sandra, Sandy
+#Catherine, Cathryn, Catheryn, Catharine, Cathleen - Cat, Cattie, Catty, Cathie, Cathy, Cassie, Kit, Kitty, Kittie
+#Cecilia, Cecillia, Cecelia, Cecile, Cecily, Cicely - Cissy, Sissy, Celia
+#Celia
+#Charity - Chattie, Chatty, Cherry
+#Charlotte - Lotta, Lottie, Lotty, Lola, Lolita, Chattie, Charlie
+#Cheryl - Cherie
+#Christine, Christina, Christiana - Chris, Christy, Christie, Christa, Chrissie, Kit, Tina
+#Clara, Clare, Clair, Claire
+#Clarice, Clarissa - Clara, Clare, Clair
+#Claudia - Claudie
+#Clementine, Clementina - Clem, Clemmie, Tina
+#Colleen, Coleen
+#Constance - Connie, Connee
+#Cora - Co, Corrie (see Corinne)
+#Cordelia - Cordy, Delia
+#Corinne, Corinna - Cora, Corrie
+#Cornelia - Connie, Corny, Nell, Nellie
+#Courtney - Court, Courtie
+#Crystal, Chrystal - Crys, Chris
+#Cynthia - Cindy
+# 
+#Daisy, Daysie
+#Danielle, Daniela - Dani, Danny
+#Daphne - Daph, Daphie
+#Darlene, Darleen, Darlyne - Lena, Darla
+#Deborah - Debbie, Debby, Debra
+#Delia - Dell, Della
+#Dell, Della (see Adelaide, Adele, Adeline, Delia)
+#Denise, Denice - Denny
+#Diana, Diane, Dianne - Di
+#Dinah, Dina - Di
+#Dolores, Delores - Lola, Lolita
+#Dominique, Dominica - Minnie, Nicki, Nikki
+#Donna
+#Dora - Dorrie, Dori (see Dorothy)
+#Doreen, Dorene - Dorrie
+#Doris, Dorris - Dorrie
+#Dorothy, Dorothea - Dora, Dorrie, Doll, Dolly, Dodie, Dot, Dottie, Dotty, Dee
+# 
+#Edith, Edyth, Edythe - Edie, Edye, Dee
+#Edna - Eddie
+#Elaine, Helaine - Ellie, Elly, Lainie
+#Eleanor, Elinor - Ella, Ellie, Elly, Nell, Nellie, Nelly, Nora, Lally, Lallie
+#Elisa, Eliza, Elisia, Elissa, Elise, Elyse, Elsa - Elsie (see Elizabeth)
+#Elizabeth, Elisabeth - Betty, Bettie, Bet, Bett, Bette, Betta, Betsy, Betsey, Betsi, Beth, Bess, Bessie, Bessy, Bettina, Elsie, Elisa, Elsa, Eliza, Ellie, Elly, Ilse, Liz, Lizzy, Lizzie, Liza, Lisa, Lise, Lisette, Lizette, Lisbet, Lizbeth, Libby
+#Ella - Ellie, Elly, Nellie, Nelly (see Eleanor, Elaine, Helen)
+#Ellen (see Helen)
+#Eloise, Heloise - Lois
+#Elsie (see Alice, Elizabeth)
+#Elvira - Elvie
+#Emily, Emilia - Em, Emmy, Emmie, Millie, Milly
+#Emma - Em, Emm, Emmy, Emmie
+#Erica, Erika, Ericka - Ricky, Rickie
+#Erin
+#Ernestine, Earnestine - Erna, Ernie, Tina
+#Estelle, Estella - Essie, Stella
+#Esther, Ester, Hester - Essie, Ettie, Etty, Hettie, Hetty
+#Ethel - Eth
+#Etta - Ettie, Etty (see Henrietta, Esther, Loretta, Marietta)
+#Eugenia - Gene, Genie
+#Eulalia - Eula, Lally, Lallie
+#Eunice - Euny, Eunie
+#Eustacia - Stacy, Stacey, Stacia
+#Eve, Eva - Evie
+#Eveline, Evelyn, Evelina - Eve, Evie, Lynn
+#Evangeline, Evangelina - Eve, Evie, Angie, Lynn
+#Faith - Fae, Fay, Faye
+#Felicia, Felicity, Felice - Fee, Fel
+#Florence - Flo, Floy, Floss, Flossie, Flora, Florrie
+#Frances - Fan, Fannie, Fanny, Fran, Frannie, Franny, Francie, Francy, France, Frankie, Franky
+#Francesca, Francisca - Fran, Cesca
+#Francine - Fan, Fannie, Fanny, Fran, Frannie, Franny, Francie, Francy, France, Frankie, Franky
+#Frederica, Frederika, Fredericka - Freda, Freddie, Freddy, Ricky, Rickie
+#Gabrielle, Gabriela, Gabriella - Gabby, Gabi, Gaby
+#Genevieve - Gene, Ginny, Jenny, Viv
+#Georgina, Georgine - Georgie, Gina
+#Geraldine - Gerry, Gerrie, Gerri, Jerry, Dina
+#Gertrude - Gertie, Trudie, Trudy
+#Gillian, Jillian - Jill
+#Gina (see Regina, Georgina)
+#Gladys - Glad
+#Glenda - Glen
+#Gloria - Glory
+#Grace - Gracie
+#Gwendolen, Gwendolyn - Gwen, Gwenda, Wendy
+#Hannah, Hanna - Ann, Annie, Nana, Nanny
+#Harriet - Hattie, Hatty
+#Hazel
+#Heather - Hettie, Hetty
+#Helen, Helena, Elena, Ellen - Nell, Nellie, Nelly, Ellie, Elly, Lena, Lala, Lally, Lallie
+#Henrietta - Etta, Ettie, Etty, Hettie, Hetty, Nettie, Netty
+#Hester (see Esther)
+#Hillary, Hilary - Hill, Hillie
+#Hilda, Hylda - Hildie
+#Holly
+#Hope
+#Ida
+#Imogen, Imogene - Immy, Immie
+#Irene - Renie, Rena
+#Iris
+#Isabel, Isabelle, Isabella - Bel, Bell, Belle, Bella, Issy
+#Jacqueline, Jacquelyn - Jackie, Jacky
+#Jane - Janie, Janey, Jenny, Jennie, Jen, Janet
+#Janet, Janette, Janetta - Jan, Nettie, Netty, Netta
+#Janice, Janis, Jenice - Jan
+#Jean, Jeanne - Jeanie, Jeannie
+#Jeannette, Jeannetta, Jeanette - Jeanie, Jeannie, Nettie, Netty, Netta
+#Jemima - Jem, Jemma, Mima, Mimi
+#Jennifer - Jen, Jenny, Jennie, Jenne
+#Jenny (see Jane, Jennifer, Virginia, Genevieve)
+#Jessica - Jess, Jessie
+#Jill (see Gillian)
+#Joanna, Joanne, Joann, Johanna, Joan - Jo, Jody
+#Joceline, Jocelyn - Jo, Lynn
+#Josephine - Jo, Josie, Josey, Jozy, Jody
+#Joyce - Joy
+#Judith - Judy, Judie, Jude, Jody, Jodie
+#Julia - Julie, Jule
+#Julianne, Juliana - Julie, Jule
+#Juliet, Juliette - Julie, Jule
+#June
+#Karen, Karin, Karyn
+#Katherine, Katharine, Kathryn, Kathrine, Kathrynne, Katrina - Kate, Kathie, Kathy, Katie, Katy, Kay, Katty, Kattie, Kit, Kitty, Kittie
+#Kathleen, Kathlene, Kathlyn, Kathlynne - Kathie, Kathy, Katie, Katy, Katty, Kattie
+#Kelly, Kelley
+#Kimberly, Kimberley - Kim
+#Kristina, Kristin, Kristine, Kristen - Kris, Kristi, Kristy, Kristie, Krista
+#Laura, Lora - Laurie, Loretta, Lolly
+#Lauren, Laurel - Laurie
+#Laverne, Laverna - Verna
+#Lavinia - Vina, Vinnie
+#Leah, Lea, Lee, Leigh
+#Lena (see Helen, Aileen, Arlene, Darlene, Magdalene)
+#Leona - Lee
+#Leonora, Leonore, Lenora, Lenore - Nora
+#Leslie, Lesley - Les
+#Leticia, Letitia - Lettie, Tisha
+#Lillian, Lilian - Lily, Lilly, Lili, Lilli, Lil, Lillie
+#Lily, Lilly, Lili, Lilli - Lil, Lillie
+#Linda, Lynda - Lindy, Lin, Lynn, Lynne
+#Lisa (see Alice, Elizabeth, Melissa)
+#Lois (see Eloise, Louise)
+#Lorraine, Loraine - Lora, Lori, Lorie
+#Loretta - Etta, Lorrie, Lori, Retta (see Laura)
+#Lottie, Lotty, Lotta (see Charlotte, Carlotta)
+#Louise, Louisa - Lou, Lu, Lulu, Lula, Lois
+#Lucille, Lucile - Lu, Lucy, Lucky
+#Lucinda - Lu, Lucy, Lucky, Cindy
+#Lucy, Lucie, Luci, Lucia - Lu, Lulu, Luce, Lucky (see Lucille, Lucinda)
+#Lydia - Liddy, Lyddie
+#Lynn, Lynne (see Caroline, Marilyn, Linda, Arlene, Evelyn and other names with -line/lyn)
+#Mabel, Mabelle, Mable - Mab, Mabs, Mabbie (see Amabel)
+#Madeline, Madeleine, Madelyn - Maddie, Maddy, Mady
+#Magdaline, Magdalen, Magdalena - Magda, Magsie, Lena
+#Marcia - Marcie, Marcy, Marci
+#Margaret, Margarita, Marguerite, Margret - Maggie, Marge, Margie, Marjorie, Margery, Madge, Margot, Margo, Magsie, Maisie, Daisy, Mamie, Maidie, Mae, May, Meg, Megan, Peggy, Greta, Gretchen, Rita
+#Marianne, Marianna, Maryann, Maryanne, Marian - Mary, Ann
+#Marilyn, Marilynn, Marylin, Marlene, Marlyn - Mary, Lynn
+#Maribel, Maribelle - Mary, Bell
+#Marietta, Mariett, Mariette - Mary, Etta, Ettie, Etty
+#Marina
+#Marion
+#Marjorie, Marjory, Margery - Marge, Margie (see Margaret)
+#Martha, Marta - Marty, Mat, Mattie, Matty, Pat, Pattie, Patty
+#Mary, Maria, Marie
+#Mary - Mae, May, Moll, Molly, Mollie, Polly, Mamie, Mimi, Minnie
+#Matilda, Mathilda - Mat, Matty, Mattie, Maud, Maude, Patty, Pattie, Tilda, Tillie, Tilly
+#Maud, Maude - Maudie, Maudy (see Matilda)
+#Maureen - Maury
+#Maxine - Max, Maxie
+#Megan - Meg (see Margaret)
+#Melanie - Mel, Mellie
+#Melinda - Mel, Mellie, Linda, Mindy
+#Melissa - Mel, Mellie, Missie, Missy, Lisa, Lissa
+#Mercedes - Mercy, Sadie
+#Meredith - Merry
+#Michelle, Michele - Mickey, Shelly
+#Mildred - Millie, Milly
+#Millicent, Milicent, Melicent - Millie, Milly
+#Minnie, Minna, Mina (see Wilhelmina, Mary)
+#Miranda - Randy
+#Miriam
+#Molly, Mollie - Moll, Polly (see Mary)
+#Monica - Nicki
+#Muriel
+#Myra, Mira
+#Nadine - Nada, Dee
+#Natalie, Nathalie, Natalia, Natasha - Nattie, Natty
+#Nancy (see Anna)
+#Nell, Nelle - Nellie, Nelly (see Eleanor, Helen, Cornelia)
+#Nettie, Netty, Netta (see Annette, Antoinette, Henrietta, Janet, Jeannette)
+#Nicole - Nicky, Nicki, Nikki, Nikky
+#Nina (see Anna)
+#Nora (see Eleanor, Leonora)
+#Norma - Normie
+#Octavia - Tave, Tavy, Tavia
+#Olive, Olivia - Ollie, Olly, Nollie, Livvy, Livia
+#Ophelia
+#Pamela - Pam, Pammie, Pammy
+#Patricia - Pat, Pattie, Patty, Patsy, Paddy, Tricia, Trisha, Trissie
+#Paula, Paulina, Pauline - Paulie
+#Pearl - Pearlie
+#Peggy - Peg (see Margaret)
+#Penelope - Pen, Penny
+#Phoebe, Phebe
+#Phyllis - Phyl, Phyllie, Phil
+#Polly (see Mary, Molly)
+#Priscilla - Prissy
+#Prudence - Prudie, Prudy, Prue, Pru
+#Rachel - Rachie, Rae, Ray
+#Raquel - Kelly, Kellie
+#Rebecca - Beck, Becky, Reba
+#Regina - Reggie, Ray, Gina, Ginny, Rena
+#Renata - Nata, Natie, Rennie, Renny, Renae
+#Renee, Rene, Renae (see Renata)
+#Rhonda
+#Roberta - Robbie, Robby, Robin, Robyn, Bobbie, Bobby, Berta, Bertie
+#Rose, Rosa - Rosie, Rosy
+#Rosabel, Rosabelle, Rosabella - Rose, Rosie, Rosy, Bell
+#Rosalie, Rosalee - Rose, Rosie, Rosy
+#Rosaline, Rosalyn - Rose, Rosie, Rosy
+#Rosalind, Rosalinda - Rose, Rosie, Rosy, Linda
+#Roseanna, Rosanna, Rosanne - Rose, Rosie, Rosy
+#Rosemary, Rosemarie - Rose, Rosie, Rosy
+#Roxanne, Roxanna, Roxana - Roxie, Roxy
+#Ruby, Rubina - Ruby, Rubie
+#Ruth - Ruthie
+#Sabrina - Brina, Sabby
+#Samantha - Sam, Sammie, Sammy
+#Sarah, Sara - Sadie, Sal, Sally, Sallie
+#Shannon
+#Sharon, Sharron
+#Sheila
+#Shirley, Shirlee, Shirlie - Shirl
+#Sibyl, Sybil, Sibylle, Syble - Sib, Sibbie
+#Sonia, Sonya
+#Sophia - Sophie, Sophy
+#Stacy, Stacey, Stacie, Staci (see Anastasia, Eustacia)
+#Stephanie, Stephania, Stephana, Stefanie, Stefania, Stefana - Steph, Stephie
+#Stella (see Estelle)
+#Susan, Susanna, Susannah, Susanne, Suzanne - Sue, Susie, Susi, Susy, Suzie, Suzy, Sukie
+#Sylvia, Silvia - Syl, Sylvie
+#Tabitha - Tabby
+#Tamara, Tamar - Tammy, Tammie
+#Tanya, Tania
+#Teresa, Theresa, Therese - Terry, Terri, Teri, Terrie, Tess, Tessa, Tessie, Tracy, Trissie
+#Tiffany - Tiff, Tiffy
+#Thelma
+#Tina (see Christine, Ernestine, Bettina, Albertina, Augustina, Clementina)
+#Tracy, Tracey, Tracie, Traci (see Teresa)
+#Ursula - Ursa, Ursie, Sulie
+#Valentina - Val, Vallie
+#Valerie, Valery, Valeria - Val, Vallie
+#Vanessa - Van, Vannie, Nessa
+#Vera
+#Verna (see Laverne)
+#Veronica - Nicky, Nicki, Ronnie, Ronni, Ronny
+#Victoria - Vic, Vick, Vickie, Vicky, Vicki, Viki, Vikki
+#Vida
+#Viola - Vi
+#Violet, Violette, Violetta - Vi, Lettie
+#Virginia - Ginger, Ginny, Jinny, Jenny, Virgie
+#Vivian, Vivien - Viv
+#Wanda
+#Wendy (see Gwendolen)
+#Wilhelmina - Willa, Wilma, Willie, Billie, Mina, Minnie
+#Winifred - Winnie, Freda, Freddie
+#Yolanda, Yolande
+#Yvonne - Vonnie, Vonna
+#Yvette - Vettie, Vetta
+#Zoe - Zoey 
+#Aaron, Aron - Ron, Ronnie, Ronny
+#Abel - Abe, Abie
+#Abner - Ab, Abbie
+#Abraham - Abe, Abie, Bram
+#Adam - Ad, Addie, Addy, Ade
+#Adrian - Ade
+#Alan, Allan, Allen - Al
+#Albert - Al, Bert, Bertie
+#Alexander - Al, Alex, Alec, Aleck, Lex, Sandy, Sander
+#Alfred - Al, Alf, Alfie, Fred, Freddie, Freddy
+#Algernon - Algie, Algy, Alger
+#Alonso, Alonzo - Al, Lon, Lonnie, Lonny
+#Alvin, Alwin, Alwyn - Al, Vin, Vinny, Win
+#Andrew - Andy, Drew
+#Andre, Andres, Andreas - Andy
+#Anthony, Antony, Anton - Tony
+#Archibald - Arch, Archie, Baldie
+#Arnold - Arnie
+#Arthur - Art, Artie
+#Augustus, August, Augustine - Augie, Gus, Gussy, Gust, Gustus
+#Austin, Austen
+#Baldwin - Baldie, Win
+#Barrett - Barry, Barrie
+#Bartholomew - Bart, Barty, Bartlett, Bartley, Bat, Batty
+#Basil - Baz, Basie
+#Benedict - Ben, Bennie, Benny
+#Benjamin - Ben, Bennie, Benny, Benjy, Benjie
+#Bennet, Bennett - Ben, Bennie, Benny
+#Bernard, Barnard - Bernie, Berney, Barney, Barnie
+#Bert (see Albert, Bertram, Herbert, Hubert, Robert)
+#Blake
+#Bradford - Brad, Ford
+#Bradley - Brad
+#Brandon, Branden - Brandy
+#Brenton - Brent
+#Bret, Brett
+#Brian, Bryan, Bryant
+#Bruce
+#Bruno
+#Burton - Burt
+#Byron - Ron, Ronnie, Ronny
+#Caleb - Cal
+#Calvin - Cal, Vin, Vinny
+#Cameron - Cam, Ron, Ronny
+#Carl, Karl, Carlos
+#Carey, Cary, Carry
+#Casey, Kasey
+#Caspar, Casper - Cas, Cass
+#Cassius - Cas, Cass
+#Cecil - Cis
+#Cedric - Ced, Rick, Ricky
+#Charles - Charlie, Charley, Chuck, Chas
+#Chester - Chet
+#Christopher, Kristopher, Kristofer - Chris, Kris, Cris, Christy, Kit, Kester, Kristof, Toph, Topher
+#Christian - Chris, Christy, Kit
+#Clarence - Clare, Clair
+#Clark
+#Claude, Claud
+#Clayton - Clay
+#Clement - Clem
+#Clifford - Cliff, Ford
+#Clinton - Clint
+#Clyde
+#Craig
+#Curtis, Kurtis - Curt, Kurt
+#Cyril - Cy
+#Cyrus - Cy
+#Dale
+#Daniel - Dan, Danny
+#Darrell, Darrel, Darryl, Daryl - Darry
+#David - Dave, Davie, Davy
+#Dean, Deane
+#Dennis, Denis - Den, Denny
+#Derek, Derrick - Derry, Rick, Ricky
+#Dexter - Dex
+#Dominic, Dominick, Dominique - Dom, Nick
+#Donald - Don, Donnie, Donny
+#Douglas - Doug
+#Duane, Dwayne
+#Dustin - Dusty
+#Dwight
+#Earl, Earle
+#Edgar - Ed, Eddie, Eddy, Ned
+#Edward - Ed, Eddie, Eddy, Ned, Ted, Teddy
+#Edwin - Ed, Eddie, Eddy, Ned
+#Elbert - Bert, Bertie
+#Elijah - Eli, Lige
+#Elliot, Elliott - El
+#Elmer - El
+#Elvin, Elwin, Elwyn - El, Vin, Win
+#Elwood - El, Woody
+#Emery, Emmery, Emory - Em
+#Emil, Emile - Em
+#Emmanuel, Emanuel, Immanuel, Manuel - Manny, Mannie
+#Eric, Erik, Erick - Rick, Ricky
+#Ernest, Earnest - Ernie
+#Ervin, Erwin, Irvin, Irvine, Irving, Irwin - Erv, Vin, Win
+#Ethan
+#Eugene - Gene
+#Everett, Everette
+#Fabian - Fabe, Fab
+#Felix
+#Ferdinand - Ferdie, Fred, Freddie
+#Fernando - Ferdie, Fern
+#Floyd - Floy (see Lloyd)
+#Francis - Frank, Frankie, Franky, Fran
+#Francisco - Frank, Frankie, Franky, Fran
+#Franklin, Franklyn - Frank, Frankie, Franky
+#Frederick, Frederic, Fredrick, Fredric - Fred, Freddie, Freddy, Rick, Ricky
+#Fred, Freddie (see Alfred, Frederick, Wilfred, Winfred)
+#Gabriel - Gabe, Gabby
+#Garrett, Garret - Gary, Garry
+#Geoffrey, Jeffrey - Jeff
+#George - Georgie, Geordie
+#Gerald, Gerard - Gerry, Jerry
+#Gilbert - Gil, Bert
+#Glenn, Glen
+#Graham
+#Grant
+#Gregory, Gregor - Greg, Gregg
+#Griffith, Griffin - Griff
+#Harold - Hal, Harry
+#Harvey - Harve
+#Henry - Harry, Hank
+#Herbert - Herb, Bert, Bertie
+#Herman - Manny, Mannie
+#Howard - Howie
+#Hubert - Hugh, Bert, Bertie
+#Hugh - Hughie, Hugo
+#Ian
+#Immanuel - Manny, Mannie (see Emmanuel)
+#Irvin, Irvine, Irving, Irwin (see Ervin)
+#Isaac, Isaak - Ike
+#Isidore, Isidor, Isadore, Isador - Izzy
+#Jack - Jackie, Jacky
+#Jacob - Jake
+#James - Jim, Jimmy, Jimmie, Jamie, Jem
+#Jason - Jay
+#Jasper - Jay
+#Jeffrey, Jeffery, Geoffrey - Jeff
+#Jeremy, Jeremiah - Jerry
+#Jerome - Jerry
+#Jesse - Jess, Jessie, Jessy
+#John - Jack, Jackie, Jacky, Johnny
+#Jonathan - Jon, Jonny
+#Joseph - Joe, Joey, Jo, Jos, Jody
+#Joshua - Josh
+#Julian, Julius - Jule, Jules
+#Justin
+#Karl, Carl
+#Keith
+#Kelly, Kelley
+#Kelvin - Kel, Kelly
+#Kenneth - Ken, Kenny
+#Kevin - Kev
+#Kristopher - Kris, Kit, Kester (see Christopher)
+#Lamont - Monty, Monte
+#Lancelot, Launcelot - Lance
+#Laurence, Lawrence, Lorence, Lorenzo, Lauren, Loren - Larry, Lars, Laurie, Lawrie
+#Lee, Leigh
+#Leo, Leon - Lee
+#Leonard - Leo, Len, Lenny, Lennie
+#Leopold - Leo, Poldie
+#Leroy - Lee, Roy
+#Leslie, Lesley - Les
+#Lester - Les
+#Lewis - Lew, Lewie
+#Lincoln - Lin, Linc, Lynn
+#Lloyd, Loyd, Loyde, Floyd - Loy, Floy
+#Louis, Luis - Lou, Louie
+#Luke, Lucas
+#Lynn
+#Malcolm - Mal, Malc, Mac
+#Manuel - Manny, Mannie (see Emmanuel)
+#Mark, Marc, Marcus, Markus
+#Martin - Mart, Marty
+#Marvin, Mervin - Marv, Merv
+#Matthew - Matt, Mat, Matty, Mattie
+#Maximilian - Max
+#Melvin - Mel
+#Michael - Mike, Mickey
+#Milton - Milt
+#Mitchell - Mitch
+#Montague - Monty, Monte
+#Montgomery - Monty, Monte
+#Morris, Maurice - Morry
+#Mortimer - Mort, Morty
+#Moses - Mo, Moe, Mose, Moss
+#Nathan, Nathaniel - Nat, Nate
+#Neal, Neil
+#Nicholas, Nicolas - Nick, Nicky
+#Norman - Norm
+#Oliver - Ollie, Noll, Nollie, Nolly
+#Oscar - Ossy
+#Oswald - Ossy, Ozzie, Ozzy
+#Patrick - Pat, Patty, Paddy, Patsy
+#Paul - Pauly
+#Peter - Pete
+#Philip, Phillip - Phil, Pip
+#Ralph - Rafe
+#Randall, Randal - Rand, Randy
+#Randolph - Rand, Randy, Dolph
+#Raphael, Rafael - Raff, Rafe
+#Raymond, Raymund - Ray
+#Reginald - Reg, Reggie, Rex
+#Reuben, Ruben - Rube, Ruby
+#Reynold - Ray
+#Richard - Dick, Rick, Ricky, Rich, Richie
+#Rick, Ricky (see Cedric, Derek, Eric, Frederick, Richard, Roderic)
+#Robert - Bob, Bobbie, Bobby, Dob, Rob, Robbie, Robby, Robin, Bert
+#Roderic, Roderick - Rod, Roddy, Rick, Ricky
+#Rodney - Rod
+#Roger, Rodger - Rodge
+#Roland - Rolly, Roly
+#Ronald - Ron, Ronnie, Ronny
+#Ron, Ronnie (see Aaron, Byron, Cameron, Ronald)
+#Roscoe - Ross
+#Reuben, Ruben, Rubin - Rube, Ruby
+#Rudolph, Rudolf - Rudy, Rolf, Dolph, Dolf
+#Russell, Russel - Russ
+#Ryan
+#Samson, Sampson - Sam, Sammy
+#Samuel - Sam, Sammy
+#Scott - Scotty
+#Sean
+#Sebastian - Seb, Bass
+#Sidney, Sydney - Sid, Syd
+#Silvester, Sylvester - Syl, Vester
+#Simon
+#Solomon - Sol, Solly, Sal
+#Stanley - Stan
+#Stephen, Steven - Steve, Stevie
+#Stuart, Stewart - Stu, Stew
+#Terrence, Terence, Terrance - Terry
+#Theodore - Ted, Teddy, Theo
+#Timothy - Tim, Timmy
+#Thomas - Tom, Tommy
+#Todd
+#Tracy, Tracey
+#Travis
+#Troy
+#Tyler - Ty
+#Valentine - Val
+#Victor - Vic, Vick
+#Vincent - Vince, Vin, Vinny
+#Virgil, Vergil - Virge
+#Vernon - Vern
+#Wallace - Wally
+#Walter - Walt, Wally
+#Warren
+#Wayne
+#Wesley - Wes
+#Wilbur, Wilber - Will, Willie, Willy
+#Wiley - Will, Willie, Willy
+#Wilfred, Wilfrid - Will, Willie, Willy, Fred, Freddie, Freddy
+#Willard - Will, Willie, Willy
+#Willis - Bill, Billy, Billie, Will, Willie, Willy
+#William - Bill, Billy, Billie, Will, Willie, Willy
+#Wilson - Will, Willie, Willy
+#Winfred - Win, Winnie, Winny, Fred, Freddie, Freddy
+#Winston - Win, Winnie, Winny
+#Woodrow - Wood, Woody
+#Zachariah, Zacharias, Zachary - Zack, Zacky, Zach. 

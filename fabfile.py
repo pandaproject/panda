@@ -179,6 +179,7 @@ def reset_solr():
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
 
     sudo('cp %(path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata/conf/schema.xml' % env)
+    sudo('cp %(path)s/setup_panda/english_names.txt %(solr_path)s/pandadata/conf/english_names.txt' % env)
     sudo('cp %(path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata/conf/solrconfig.xml' % env)
     sudo('cp %(path)s/setup_panda/panda.jar %(solr_path)s/pandadata/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata/data' % env)
@@ -189,6 +190,7 @@ def reset_solr():
     sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
 
     sudo('cp %(path)s/setup_panda/data_schema.xml %(solr_path)s/pandadata_test/conf/schema.xml' % env)
+    sudo('cp %(path)s/setup_panda/english_names.txt %(solr_path)s/pandadata_test/conf/english_names.txt' % env)
     sudo('cp %(path)s/setup_panda/solrconfig.xml %(solr_path)s/pandadata_test/conf/solrconfig.xml' % env)
     sudo('cp %(path)s/setup_panda/panda.jar %(solr_path)s/pandadata_test/lib/panda.jar' % env)
     sudo('rm -rf %(solr_path)s/pandadata_test/data' % env)
@@ -253,6 +255,7 @@ def local_reset_solr():
     local('cp setup_panda/panda.jar %(local_solr_home)s/pandadata/lib/panda.jar' % env)
     local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadata/conf/solrconfig.xml' % env)
     local('cp setup_panda/data_schema.xml %(local_solr_home)s/pandadata/conf/schema.xml' % env)
+    local('cp setup_panda/english_names.txt %(local_solr_home)s/pandadata/conf/english_names.txt' % env)
 
     # data_test
     local('mkdir -p %(local_solr_home)s/pandadata_test/conf' % env)
@@ -262,6 +265,7 @@ def local_reset_solr():
     local('cp setup_panda/panda.jar %(local_solr_home)s/pandadata_test/lib/panda.jar' % env)
     local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadata_test/conf/solrconfig.xml' % env)
     local('cp setup_panda/data_schema.xml %(local_solr_home)s/pandadata_test/conf/schema.xml' % env)
+    local('cp setup_panda/english_names.txt %(local_solr_home)s/pandadata_test/conf/english_names.txt' % env)
 
     # datasets
     local('mkdir -p %(local_solr_home)s/pandadatasets/conf' % env)
