@@ -37,7 +37,6 @@ PANDA.views.Root = Backbone.View.extend({
         this.configure_navbar();
 
         $("#navbar-notifications > a").live("click", this.clear_unread_notifications);
-        $("#navbar-notifications a.notification").live("click", this.notification_clicked);
 
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
@@ -251,7 +250,7 @@ PANDA.views.Root = Backbone.View.extend({
 
                     if (unread) { unread_count += 1 };
 
-                    $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#" onclick="return false;" class="notification' + unread + '" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
+                    $("#navbar-notifications .dropdown-menu ul").append('<li><a href="' + note.get("url") + '" class="' + unread + '" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
                 }, this);
             } else {
                 $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>No notifications</em></a></li>');
@@ -268,22 +267,6 @@ PANDA.views.Root = Backbone.View.extend({
             $("#navbar-admin").toggle(this._current_user.get("is_staff"));
             $(".navbar").show();
         }
-    },
-
-    notification_clicked: function(event) {
-        var anchor = $(event.target);
-
-        while (!anchor.is("a")) {
-            anchor = anchor.parent();
-        }
-
-        var note_id = anchor.data("notification-id");
-        var note = this._current_user.notifications.get(note_id);
-        var url = note.get("url");
-
-        window.location = url;
-
-        return false;
     },
 
     refresh_categories: function() {
