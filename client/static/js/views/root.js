@@ -477,6 +477,27 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate(path);
     },
 
+    goto_notifications: function(limit, page) {
+        if (!this.authenticate()) {
+            return;
+        }
+
+        this.current_content_view = this.get_or_create_view("Notifications");
+        this.current_content_view.reset(limit, page);
+
+        var path = "notifications";
+
+        if (limit) {
+            path += "/" + limit;
+
+            if (page) {
+                path += "/" + page;
+            }
+        }
+
+        this._router.navigate(path);
+    },
+
     goto_user: function(id) {
         if (!this.authenticate()) {
             return;

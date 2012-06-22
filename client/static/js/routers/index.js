@@ -20,6 +20,9 @@ PANDA.routers.Index = Backbone.Router.extend({
         "dataset/:slug/search/:query/:since":               "dataset_search",
         "dataset/:slug/search/:query/:since/:limit":        "dataset_search",
         "dataset/:slug/search/:query/:since/:limit/:page":  "dataset_search",
+        "notifications":                                    "notifications",
+        "notifications/:limit":                             "notifications",
+        "notifications/:limit/:page":                       "notifications",
         "user/:id":                                         "user",
         "dashboard":                                        "dashboard",
         "getting-started":                                  "login_help",
@@ -63,6 +66,10 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_dataset_search(slug, query, since, limit, page);
     },
     
+    notifications: function(limit, page) {
+        this.controller.goto_notifications(limit, page);
+    },
+
     user: function(id) {
         this.controller.goto_user(id);
     },
