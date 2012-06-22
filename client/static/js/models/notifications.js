@@ -11,6 +11,18 @@ PANDA.collections.Notifications = Backbone.Collection.extend({
     */
     model: PANDA.models.Notification,
     urlRoot: PANDA.API + "/notification",
+
+    meta: null,
+
+    parse: function(response) {
+        /*
+        Parse page metadata in addition to objects.
+        */
+        this.meta = response.meta;
+        this.meta.page = Math.floor(this.meta.offset / this.meta.limit) + 1;
+
+        return response.objects;
+    },
     
     comparator: function(note) {
         /*

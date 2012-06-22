@@ -1,6 +1,14 @@
 <div class="row-fluid">
     <div class="span12">
-        STUFF HERE!
+        <%= pager %>
+
+        <ul>
+        <% _.each(notifications, function(note) { %>
+            <li><%= note.message %></li>
+        <% }); %> 
+        </ul>
+
+        <%= pager %>
     </div>
 </div>
 
