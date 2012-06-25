@@ -13,6 +13,22 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
 The following release are in **reverse** version order. They **must** be performed in sequence (from lowest version number to highest version number--reverse order on this page).
 
+0.2.0 to 1.0.0
+==============
+
+To upgrade your PANDA from the 0.2.0 release to the 1.0.0 release, :doc:`SSH <ssh>` into your server and execute the following commands::
+
+    wget https://raw.github.com/pandaproject/panda/0.2.0/scripts/migrations/0.2.0-to-1.0.0.sh
+    sudo bash 0.2.0-to-1.0.0.sh
+
+Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-1.0.0.log``.
+
+.. note::
+
+    This upgrade will automatically upgrade your server's Ubuntu distrubution to version 12.04. This long-release version of Ubuntu will be supported by Canonical (the company behind Ubuntu) for five years. If you have made any customizations to your PANDA's server environment be away that this upgrade could have unintended consequences.
+
+Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
+
 0.1.4 to 0.2.0
 ==============
 
