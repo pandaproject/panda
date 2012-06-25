@@ -18,7 +18,7 @@ The following release are in **reverse** version order. They **must** be perform
 
 To upgrade your PANDA from the 0.2.0 release to the 1.0.0 release, :doc:`SSH <ssh>` into your server and execute the following commands::
 
-    wget https://raw.github.com/pandaproject/panda/0.2.0/scripts/migrations/0.2.0-to-1.0.0.sh
+    wget https://raw.github.com/pandaproject/panda/1.0.0/scripts/migrations/0.2.0-to-1.0.0.sh
     sudo bash 0.2.0-to-1.0.0.sh
 
 Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-1.0.0.log``.
