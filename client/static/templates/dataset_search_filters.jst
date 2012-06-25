@@ -1,4 +1,4 @@
-<h4>Filter your search by specific columns</h4>
+<h4>Search by column</h4>
 <% if (has_any_filters) { %>
 <table class="table table-condensed">
 <% _.each(dataset.column_schema, function(c, i) { %>
@@ -12,7 +12,7 @@
 
 <div class="row-fluid">
     <div class="span10">
-        <strong>Add filter</strong>&nbsp;</td>
+        <strong>Add to search</strong>&nbsp;</td>
         <select id="add-filter">
             <option value="">Pick a column...</option>
             <% _.each(dataset.column_schema, function(c, i) { %>
@@ -27,6 +27,6 @@
     </div>
 </div>
 <% } else { %>
-No filters have been created for this dataset. To create filters select <strong>Add column filters</strong> from the <strong>Actions</strong> menu on the dataset page.
+Searching specific columns has not enabled for any columns in this dataset. To enable it select <strong>Enable column search</strong> from the <strong>Actions</strong> menu on the dataset page.
 <% } %>
 

@@ -14,9 +14,9 @@
                 <% } %>
                 <li><a href="#modal-upload-related" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-upload"></i> Upload related file</a></li>
                 <% if (dataset.locked) { %>
-                <li><a class="disabled" href="#" onclick="return false;"><i class="icon-ban-circle"></i> Add column filters</a></li>
+                <li><a class="disabled" href="#" onclick="return false;"><i class="icon-ban-circle"></i> Enable column search</a></li>
                 <% } else { %>
-                <li><a href="#modal-index-types" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-asterisk"></i> Add column filters</a></li>
+                <li><a href="#modal-index-types" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-asterisk"></i> Enable column search</a></li>
                 <% } %>
                 <% if (dataset.locked) { %>
                 <li><a class="disabled" href="#" onclick="return false;"><i class="icon-ban-circle"></i> Export to CSV</a></li>
@@ -118,9 +118,10 @@
 <div id="modal-index-types" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Select columns to filter by</h3>
+        <h3>Select columns to search</h3>
     </div>
     <div class="modal-body">
+        <p>For each column that you would like to search check the <strong>Enabled?</strong> checkbox and choose what type of data the column contains from the <strong>Data type</strong> dropdown list. Any values that can not be converted to the chosen type will not be searchable.</p>
         <form id="typed-columns-form">
         <table class="table table-striped">
             <thead>
@@ -153,7 +154,7 @@
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="dataset-index-types" class="btn btn-primary" data-dismiss="modal">Index</a>
+        <a href="#" id="dataset-index-types" class="btn btn-primary" data-dismiss="modal">Make columns searchable</a>
     </div>
 </div>
 
