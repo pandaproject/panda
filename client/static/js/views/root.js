@@ -110,10 +110,10 @@ PANDA.views.Root = Backbone.View.extend({
         this._current_user = user;
 
         if (this._current_user) {
-            $.cookie("id", this._current_user.get("id"));
-            $.cookie("email", this._current_user.get("email"));
-            $.cookie("api_key", this._current_user.get("api_key"));
-            $.cookie("is_staff", this._current_user.get("is_staff").toString());
+            $.cookie("id", this._current_user.get("id"), { expires: 30 });
+            $.cookie("email", this._current_user.get("email"), { expires: 30 });
+            $.cookie("api_key", this._current_user.get("api_key"), { expires: 30 });
+            $.cookie("is_staff", this._current_user.get("is_staff").toString(), { expires: 30 });
         } else {
             $.cookie("id", null);
             $.cookie("email", null);
