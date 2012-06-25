@@ -55,7 +55,7 @@ Method #2 - Use a script over SSH
 
 This method is slightly more complex and assumes you have some experience operating servers. It also provides greater feedback for users who want to understand more about how PANDA works.
 
-Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-baba68d3``. This is the official Ubuntu 11.10 AMI. It may take a moment to return a result. When it does, click "Select".
+Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-8cfa58e5``. This is the official Ubuntu 12.04 AMI. It may take a moment to return a result. When it does, click "Select".
 
 On the next page you'll need to select an **Instance Type**. See the `notes above regarding instance types`_. We recommend you select ``m1.small``.
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# PANDA Project server setup script for Ubuntu 11.10
+# PANDA Project server setup script for Ubuntu 12.04
 # Must be executed with sudo!
 
 set -x
