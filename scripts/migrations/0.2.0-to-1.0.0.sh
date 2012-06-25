@@ -20,10 +20,6 @@ service nginx stop
 service uwsgi stop
 service solr stop
 
-# Install outstanding updates
-apt-get --yes update
-apt-get --yes upgrade
-
 # Fetch updated source code
 cd /opt/panda
 git pull
@@ -40,6 +36,7 @@ sudo -u panda -E python manage.py collectstatic --noinput
 
 # Install new Solr configuration
 cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
+cp setup_panda/english_names.txt /opt/solr/panda/solr/pandadata/conf/english_names.txt
 cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
 
 # Restart services

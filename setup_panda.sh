@@ -54,6 +54,7 @@ mkdir /opt/solr/panda/solr/pandadata/conf
 mkdir /opt/solr/panda/solr/pandadata/lib
 
 cp $CONFIG_PATH/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
+cp $CONFIG_PATH/english_names.txt /opt/solr/panda/solr/pandadata/conf/english_names.txt
 cp $CONFIG_PATH/solrconfig.xml /opt/solr/panda/solr/pandadata/conf/solrconfig.xml
 cp $CONFIG_PATH/panda.jar /opt/solr/panda/solr/pandadata/lib/panda.jar
 
@@ -62,6 +63,7 @@ mkdir /opt/solr/panda/solr/pandadata_test/conf
 mkdir /opt/solr/panda/solr/pandadata_test/lib
 
 cp $CONFIG_PATH/data_schema.xml /opt/solr/panda/solr/pandadata_test/conf/schema.xml
+cp $CONFIG_PATH/english_names.txt /opt/solr/panda/solr/pandadata_test/conf/english_names.txt
 cp $CONFIG_PATH/solrconfig.xml /opt/solr/panda/solr/pandadata_test/conf/solrconfig.xml
 cp $CONFIG_PATH/panda.jar /opt/solr/panda/solr/pandadata_test/lib/panda.jar
 
