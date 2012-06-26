@@ -23,6 +23,7 @@ class DataUploadResource(PandaModelResource):
     size = fields.IntegerField('size', readonly=True)
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     creation_date = fields.DateTimeField('creation_date', readonly=True)
+    title = fields.CharField('title', null=True)
     dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True, readonly=True)
     data_type = fields.CharField('data_type', null=True, readonly=True)
     encoding = fields.CharField('encoding', readonly=True)

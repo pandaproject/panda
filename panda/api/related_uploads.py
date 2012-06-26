@@ -26,6 +26,7 @@ class RelatedUploadResource(PandaModelResource):
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     creation_date = fields.DateTimeField('creation_date', readonly=True)
     dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True, readonly=True)
+    title = fields.CharField('title', null=True)
 
     class Meta:
         queryset = RelatedUpload.objects.all()
