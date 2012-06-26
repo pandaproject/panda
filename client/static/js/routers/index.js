@@ -26,7 +26,7 @@ PANDA.routers.Index = Backbone.Router.extend({
         "user/:id":                                         "user",
         "dashboard":                                        "dashboard",
         "getting-started":                                  "login_help",
-        "export/:id":                                       "export",
+        "export/:id":                                       "fetch_export",
         "*path":                                            "not_found"
     },
 
