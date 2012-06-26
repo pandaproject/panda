@@ -4,6 +4,7 @@ PANDA.routers.Index = Backbone.Router.extend({
         "login":                                            "login",
         "logout":                                           "logout",
         "":                                                 "search",
+        "search":                                           "search",
         "search/:category":                                 "search",
         "search/:category/:query":                          "search",
         "search/:category/:query/:since":                   "search",

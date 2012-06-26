@@ -353,6 +353,8 @@ PANDA.views.Root = Backbone.View.extend({
             this.current_content_view.reset(category, query);
         }
 
+        category = category || "all";
+
         this.current_content_view.search(category, query, since, limit, page);
 
         var path = "search/" + category;
