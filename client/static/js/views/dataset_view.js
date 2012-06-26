@@ -6,6 +6,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         this.edit_view = new PANDA.views.DatasetEdit();
 
+        $(".data-uploads .edit, .related-uploads .edit").live("click", this.edit_upload);
         $(".data-uploads .delete").live("click", this.delete_data_upload);
         $(".related-uploads .delete").live("click", this.delete_related_upload);
     },
@@ -17,21 +18,18 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
     render: function() {
         // Render inlines
-        data_uploads_html = this.dataset.data_uploads.map(_.bind(function(data_upload) {
-            context = {
-                upload: data_upload.toJSON()
-            }
-
-            return PANDA.templates.inline_data_upload_item(context);
+        data_uploads_html = this.dataset.data_uploads.map(_.bind(function(upload) {
+            return PANDA.templates.inline_upload_item({
+                upload_type: "data",
+                upload: upload.toJSON()
+            });
         }, this));
 
-        related_uploads_html = this.dataset.related_uploads.map(_.bind(function(related_upload) {
-            context = {
-                editable: false,
-                upload: related_upload.toJSON()
-            }
-
-            return PANDA.templates.inline_related_upload_item(context);
+        related_uploads_html = this.dataset.related_uploads.map(_.bind(function(upload) {
+            return PANDA.templates.inline_upload_item({
+                upload_type: "related",
+                upload: upload.toJSON()
+            });
         }, this));
 
         sample_data_html = PANDA.templates.inline_sample_data({
@@ -84,8 +82,45 @@ PANDA.views.DatasetView = Backbone.View.extend({
         $("#dataset-destroy").click(this.destroy);
     },
 
+    edit_upload: function(e) {
+        /*
+         * Provide a modal dialog to allow editing upload metadata. Save that data
+         * and refresh the UI.
+         */
+        var element = $(e.currentTarget).parent("li");
+        var uri = element.attr("data-uri"); 
+        var upload_type = element.attr("data-type");
+
+        if (upload_type == "data") {
+            var upload = this.dataset.data_uploads.get(uri);
+        } else {
+            var upload = this.dataset.related_uploads.get(uri);
+        }
+
+        $("#modal-upload-edit").html(PANDA.templates.modal_upload_edit({ upload: upload.toJSON() }));
+
+        $("#upload-save").click(function() {
+            upload.save({ title: $("#upload-title").val() }, { async: false });
+
+            element.replaceWith(
+                PANDA.templates.inline_upload_item({ upload_type: upload_type, upload: upload.toJSON() })
+            );
+
+            // Enable tooltips on new list item
+            $("li[data-uri='" + upload.id + "']").children('a[rel="tooltip"]').tooltip();
+
+            $("#modal-upload-edit").modal("hide");
+
+            return false;
+        });
+
+        $("#modal-upload-edit").modal("show");
+
+        return false;
+    },
+
     delete_related_upload: function(e) {
-        var element = $(e.currentTarget)
+        var element = $(e.currentTarget).parent("li");
         var uri = element.attr("data-uri"); 
         var upload = this.dataset.related_uploads.get(uri);
 
@@ -112,7 +147,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
     },
 
     delete_data_upload: function(e) {
-        var element = $(e.currentTarget)
+        var element = $(e.currentTarget).parent("li");
         var uri = element.attr("data-uri"); 
         var upload = this.dataset.data_uploads.get(uri);
 

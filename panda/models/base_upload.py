@@ -21,6 +21,8 @@ class BaseUpload(models.Model):
         help_text='The user who uploaded this file.')
     creation_date = models.DateTimeField(
         help_text='The date this file was uploaded.')
+    title = models.TextField(max_length=256,
+        help_text='A user-friendly name for this file.')
 
     class Meta:
         app_label = 'panda'
@@ -32,6 +34,9 @@ class BaseUpload(models.Model):
     def save(self, *args, **kwargs):
         if not self.creation_date:
             self.creation_date = now()
+
+        if not self.title:
+            self.title = self.original_filename
 
         super(BaseUpload, self).save(*args, **kwargs)
 

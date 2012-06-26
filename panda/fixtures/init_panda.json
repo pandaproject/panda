@@ -26,10 +26,20 @@
                     "notification"
                 ], 
                 [
+                    "change_dataupload", 
+                    "panda", 
+                    "dataupload"
+                ], 
+                [
                     "delete_dataupload", 
                     "panda", 
                     "dataupload"
                 ], 
+                [
+                    "change_relatedupload", 
+                    "panda", 
+                    "relatedupload"
+                ],
                 [
                     "delete_relatedupload", 
                     "panda", 

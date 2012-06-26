@@ -9,7 +9,7 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from panda.api.utils import PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
+from panda.api.utils import JSONApiField, PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
 from panda.models import DataUpload
 
 class DataUploadResource(PandaModelResource):
@@ -18,13 +18,25 @@ class DataUploadResource(PandaModelResource):
     """
     from panda.api.users import UserResource
 
-    creator = fields.ForeignKey(UserResource, 'creator', full=True)
-    dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True)
+    filename = fields.CharField('filename', readonly=True)
+    original_filename = fields.CharField('original_filename', readonly=True)
+    size = fields.IntegerField('size', readonly=True)
+    creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
+    creation_date = fields.DateTimeField('creation_date', readonly=True)
+    dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True, readonly=True)
+    data_type = fields.CharField('date_type', null=True, readonly=True)
+    encoding = fields.CharField('encoding', readonly=True)
+    dialect = fields.CharField('dialect', null=True, readonly=True)
+    columns = JSONApiField('columns', null=True, readonly=True)
+    sample_data = JSONApiField('sample_data', null=True, readonly=True)
+    guessed_types = JSONApiField('guessed_types', null=True, readonly=True)
+    imported = fields.BooleanField('imported', readonly=True)
 
     class Meta:
         queryset = DataUpload.objects.all()
         resource_name = 'data_upload'
-        allowed_methods = ['get', 'delete']
+        allowed_methods = ['get', 'put', 'delete']
+        always_return_data = True
 
         authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()

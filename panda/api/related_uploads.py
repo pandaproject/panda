@@ -20,13 +20,17 @@ class RelatedUploadResource(PandaModelResource):
     """
     from panda.api.users import UserResource
 
-    creator = fields.ForeignKey(UserResource, 'creator', full=True)
-    dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset')
+    filename = fields.CharField('filename', readonly=True)
+    original_filename = fields.CharField('original_filename', readonly=True)
+    size = fields.IntegerField('size', readonly=True)
+    creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
+    creation_date = fields.DateTimeField('creation_date', readonly=True)
+    dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True, readonly=True)
 
     class Meta:
         queryset = RelatedUpload.objects.all()
         resource_name = 'related_upload'
-        allowed_methods = ['get', 'delete']
+        allowed_methods = ['get', 'put', 'delete']
 
         authentication = PandaApiKeyAuthentication()
         authorization = DjangoAuthorization()
