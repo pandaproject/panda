@@ -146,7 +146,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                     "callback": _.bind(function(result) {
                         uploads.remove(upload);
                         upload.destroy();
-                        element.parent("li").remove();
+                        element.remove();
 
                         if (uploads.length == 0) {
                             $("." + upload_type + "-uploads").hide();
@@ -211,7 +211,8 @@ PANDA.views.DatasetView = Backbone.View.extend({
             this.dataset.related_uploads.add(related_upload);
 
             $("#no-related-uploads").hide();
-            $(".related-uploads").append(PANDA.templates.inline_related_upload_item({ 
+            $(".related-uploads").append(PANDA.templates.inline_upload_item({ 
+                upload_type: "related",
                 upload: related_upload.toJSON()
             }));
             $(".related-uploads").show();

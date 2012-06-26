@@ -3,8 +3,14 @@
     <h3>Edit upload</h3>
 </div>
 <div class="modal-body">
-    <form>
-        <input id="upload-title" value="<%= upload.title %>"></input>
+    <form class="form-stacked">
+        <div class="alert-message"></div>
+
+        <div class="control-group">
+            <label for="dataset-name">Title</label>
+            <input class="span5" id="upload-title" name="title" size="30" type="text" value="<%= upload.title %>" maxlength="256"></input>
+            <span class="help-inline"></span>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
