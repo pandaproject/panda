@@ -197,7 +197,15 @@ PANDA.views.DatasetView = Backbone.View.extend({
          * Handler for when a related upload starts.
          */
         this.related_uploader.setParams({ dataset_slug: this.dataset.get("slug") }); 
-        $("#modal-upload-related .progress-bar").show();
+       
+        // Use fileuploader's Ajax support detection to determine
+        // if we can render a progress bar
+        if (!qq.UploadHandlerXhr.isSupported()) {
+            $("#modal-upload-related .progress-bar").hide();
+            $("#modal-upload-related .ie-progress").show();
+        } else {
+            $("#modal-upload-related .progress-bar").show();
+        }
     },
 
     on_related_upload_progress: function(id, fileName, loaded, total) {
@@ -234,6 +242,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
             $("#modal-upload-related").modal("hide")
             $("#modal-upload-related .progress-bar").hide();
+            $("#modal-upload-related .ie-progress").hide();
             $("#modal-upload-related .modal-footer input").removeAttr("disabled"); 
             this.on_related_upload_progress(null, null, 0, 1);
         } else if (responseJSON.forbidden) {
