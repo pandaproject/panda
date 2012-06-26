@@ -160,6 +160,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
     on_progress: function(id, fileName, loaded, total) {
         /*
          * Handler for when a file upload reports its progress.
+         *
+         * NB: This never files in IE and older FF due to the lack of XHR support.
          */
         var pct = Math.floor(loaded / total * 100);
 
@@ -182,6 +184,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
                 }
             }
 
+            $("#step-2 .ie-progress strong").text("Upload complete!");
             $("#upload-continue").removeAttr("disabled");
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
@@ -221,6 +224,13 @@ PANDA.views.DataUpload = Backbone.View.extend({
         $("#upload-continue").attr("disabled", true);
         $("#dataset-name").focus();
         $("#step-2").collapse({ toggle: true, parent: "#steps" });
+
+        // Use fileuploader's Ajax support detection to determine
+        // if we can render a progress bar
+        if (!qq.UploadHandlerXhr.isSupported()) {
+            $("#step-2 .progress-bar").hide();
+            $("#step-2 .ie-progress").show();
+        }
     },
 
     step_three: function() {

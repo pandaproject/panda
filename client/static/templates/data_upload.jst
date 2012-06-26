@@ -62,7 +62,7 @@
         <div id="step-2" class="step well collapse">
             <h3><% if (dataset) { %>Wait while your file is uploaded<% } else { %>Describe your dataset<% } %></h3>
 
-            <p>Your file is currently being uploaded to PANDA. While your data is being uploaded please take a moment to provide some information about it, such as where and how it was acquired.</p>
+            <p>Your file is currently being uploaded to PANDA. While you wait please take a moment to provide some information about it, such as when and how it was acquired.</p>
 
             <div class="progress-bar">
                 <span class="progress-value"><strong>0%</strong></span>
@@ -93,6 +93,10 @@
             </form>
             <% } %>
             
+            <div class="ie-progress">
+                <p><strong>Upload in progress, please wait...</strong></p>
+            </div> 
+
             <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" disabled="disabled" />
         </div>
 
