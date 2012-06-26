@@ -7,8 +7,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         this.edit_view = new PANDA.views.DatasetEdit();
 
         $(".data-uploads .edit, .related-uploads .edit").live("click", this.edit_upload);
-        $(".data-uploads .delete").live("click", this.delete_data_upload);
-        $(".related-uploads .delete").live("click", this.delete_related_upload);
+        $(".data-uploads .delete, .related-uploads .delete").live("click", this.delete_upload);
     },
 
     set_dataset: function(dataset) {
@@ -119,56 +118,47 @@ PANDA.views.DatasetView = Backbone.View.extend({
         return false;
     },
 
-    delete_related_upload: function(e) {
+    delete_upload: function(e) {
         var element = $(e.currentTarget).parent("li");
         var uri = element.attr("data-uri"); 
-        var upload = this.dataset.related_uploads.get(uri);
+        var upload_type = element.attr("data-type"); 
 
-        $("#modal-related-upload-destroy").html(PANDA.templates.modal_related_upload_destroy({ upload: upload.toJSON() }));
+        if (upload_type == "data") {
+            var uploads = this.dataset.data_uploads;
+        } else {
+            var uploads = this.dataset.related_uploads;
+        }
+            
+        var upload = uploads.get(uri);
+            
+        var message = "<p>This will irreversibly destroy <strong>" + upload.get("title") + "</strong>. It will not be possible to recover this file.</p>";
 
-        $("#related-upload-destroy").click(_.bind(function() {
-            this.dataset.related_uploads.remov(upload);
-            upload.destroy();
-            element.parent("li").remove();
+        if (upload_type == "data") {
+            message += "<p><strong>All data imported from this file will also be deleted.</strong></p>";
+        }
 
-            if (this.dataset.related_uploads.length == 0) {
-                $(".related-uploads").hide();
-                $("#no-related-uploads").show();
-            }
+        bootbox.dialog(
+            message,
+            [
+                {
+                    "label": "Delete",
+                    "class": "btn-danger",
+                    "callback": _.bind(function(result) {
+                        uploads.remove(upload);
+                        upload.destroy();
+                        element.parent("li").remove();
 
-            $("#modal-related-upload-destroy").modal("hide");
-
-            return false;
-        }, this));
-
-        $("#modal-related-upload-destroy").modal("show");
-
-        return false;
-    },
-
-    delete_data_upload: function(e) {
-        var element = $(e.currentTarget).parent("li");
-        var uri = element.attr("data-uri"); 
-        var upload = this.dataset.data_uploads.get(uri);
-
-        $("#modal-data-upload-destroy").html(PANDA.templates.modal_data_upload_destroy({ upload: upload.toJSON() }));
-
-        $("#data-upload-destroy").click(_.bind(function() {
-            this.dataset.data_uploads.remove(upload);
-            upload.destroy();
-            element.parent("li").remove();
-
-            if (this.dataset.data_uploads.length == 0) {
-                $(".data-uploads").hide();
-                $("#no-data-uploads").show();
-            }
-
-            $("#modal-data-upload-destroy").modal("hide");
-
-            return false;
-        }, this));
-
-        $("#modal-data-upload-destroy").modal("show");
+                        if (uploads.length == 0) {
+                            $("." + upload_type + "-uploads").hide();
+                            $("#no-" + upload_type + "-uploads").show();
+                        }
+                    }, this)
+                },
+                {
+                    "label": "Cancel"
+                }
+            ]
+        );
 
         return false;
     },
