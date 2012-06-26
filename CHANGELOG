@@ -1,6 +1,17 @@
 1.0.0
 -----
 
+* Fix broken export links in notifications. (#783)
+* Fix so that hitting enter in modal dialogs submits the form. (#781)
+* Add descriptions for data and related uploads. (#757)
+* Fix major bug in IE8 with handling encoding errors. (#688)
+* Upgrade all deployments to Ubuntu 12.04 LTS release. (#684)
+* User login cookies now last 30 days. (#639)
+* Reword "Column filters" to be easier to understand. (#591)
+* Major performance improvements for user pages. (#778)
+* Automatically match nicknames in search. (#761)
+* Search for data within dataset categories. (#760)
+* Add links to data exports to user pages. (#759)
 * Implement "Text" column filter. (#758)
 * Make modal dialogs focus first form field on open. (#674)
 * Fix display of notifications in navbar. (#749)
