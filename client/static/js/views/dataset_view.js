@@ -53,6 +53,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
             $("#dataset-name").focus();
         });
 
+        $('#modal-upload-edit').on('shown', function () {
+            $("#upload-title").focus();
+        });
+
         $('#view-dataset a[rel="tooltip"]').tooltip();
 
         this.related_uploader = new qq.FileUploaderBasic({
@@ -98,7 +102,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         $("#modal-upload-edit").html(PANDA.templates.modal_upload_edit({ upload: upload.toJSON() }));
 
-        $("#upload-save").click(function() {
+        var save = function() {
             upload.save({ title: $("#upload-title").val() }, { async: false });
 
             element.replaceWith(
@@ -111,6 +115,15 @@ PANDA.views.DatasetView = Backbone.View.extend({
             $("#modal-upload-edit").modal("hide");
 
             return false;
+        }
+
+        $("#upload-save").click(save);
+
+        $("#edit-upload-form").keypress(function(e) {
+            if (e.keyCode == 13 && e.target.type != "textarea") {
+                save(); 
+                return false;
+            }
         });
 
         $("#modal-upload-edit").modal("show");
