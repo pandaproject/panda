@@ -24,7 +24,7 @@ class DataUploadResource(PandaModelResource):
     creator = fields.ForeignKey(UserResource, 'creator', full=True, readonly=True)
     creation_date = fields.DateTimeField('creation_date', readonly=True)
     dataset = fields.ForeignKey('panda.api.datasets.DatasetResource', 'dataset', null=True, readonly=True)
-    data_type = fields.CharField('date_type', null=True, readonly=True)
+    data_type = fields.CharField('data_type', null=True, readonly=True)
     encoding = fields.CharField('encoding', readonly=True)
     dialect = fields.CharField('dialect', null=True, readonly=True)
     columns = JSONApiField('columns', null=True, readonly=True)

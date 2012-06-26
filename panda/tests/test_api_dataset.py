@@ -305,6 +305,9 @@ class TestAPIDataset(TransactionTestCase):
         row_count = data['row_count']
         data['row_count'] = 2717
 
+        # Fixes issue with deserialization of users embedded in data_uploads -- is this a bug?
+        data['data_uploads'] = [du['resource_uri'] for du in data['data_uploads']]
+
         response = self.client.put('/api/1.0/dataset/%s/' % self.dataset.slug, content_type='application/json', data=json.dumps(data), **utils.get_auth_headers('panda@pandaproject.net'))
 
         new_data = json.loads(response.content)
