@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import random
+import string
+
 from django.conf import settings
 from django.test import TransactionTestCase
 from django.utils.timezone import now
@@ -21,6 +24,22 @@ class TestUser(TransactionTestCase):
         new_user = UserProxy.objects.create(
             email="foo@bar.com",
             username="foo@bar.com"
+        )
+
+        ApiKey.objects.get(user=new_user)
+        new_user.groups.get(name="panda_user")
+        user_profile = new_user.get_profile()
+
+        self.assertNotEqual(user_profile, None)
+        self.assertNotEqual(user_profile.activation_key, None)
+        self.assertGreater(user_profile.activation_key_expiration, now())
+
+    def test_long_email(self):
+        long_email = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(100))
+
+        new_user = UserProxy.objects.create(
+            email=long_email,
+            username=long_email
         )
 
         ApiKey.objects.get(user=new_user)
