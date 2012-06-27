@@ -12,30 +12,32 @@ PANDA.models.Dataset = Backbone.Model.extend({
     data: null,
 
     initialize: function(attributes) {
-        if ("categories" in attributes) {
-            this.categories = new PANDA.collections.Categories(attributes.categories);
-        } else {
-            this.categories = new PANDA.collections.Categories();
-        }
+        if (attributes) {
+            if ("categories" in attributes) {
+                this.categories = new PANDA.collections.Categories(attributes.categories);
+            } else {
+                this.categories = new PANDA.collections.Categories();
+            }
 
-        if ("creator" in attributes) {
-            this.creator = new PANDA.models.User(attributes.creator);
-        }
-        
-        if ("current_task" in attributes) {
-            this.current_task = new PANDA.models.Task(attributes.current_task);
-        }
+            if ("creator" in attributes) {
+                this.creator = new PANDA.models.User(attributes.creator);
+            }
+            
+            if ("current_task" in attributes) {
+                this.current_task = new PANDA.models.Task(attributes.current_task);
+            }
 
-        if ("data_uploads" in attributes) {
-            this.data_uploads = new PANDA.collections.DataUploads(attributes.data_uploads);
-        } else {
-            this.data_uploads = new PANDA.collections.DataUploads();
-        }
+            if ("data_uploads" in attributes) {
+                this.data_uploads = new PANDA.collections.DataUploads(attributes.data_uploads);
+            } else {
+                this.data_uploads = new PANDA.collections.DataUploads();
+            }
 
-        if ("related_uploads" in attributes) {
-            this.related_uploads = new PANDA.collections.RelatedUploads(attributes.related_uploads);
-        } else {
-            this.related_uploads = new PANDA.collections.RelatedUploads();
+            if ("related_uploads" in attributes) {
+                this.related_uploads = new PANDA.collections.RelatedUploads(attributes.related_uploads);
+            } else {
+                this.related_uploads = new PANDA.collections.RelatedUploads();
+            }
         }
 
         this.data = new PANDA.collections.Data();
