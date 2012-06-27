@@ -290,7 +290,6 @@ PANDA.views.DatasetView = Backbone.View.extend({
                     note,
                     function() {
                         Redd.goto_dataset_view(dataset.get("slug"));
-                        window.scrollTo(0, 0);
                     }
                 );
             },

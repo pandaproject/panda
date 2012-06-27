@@ -127,10 +127,3 @@ $(".alert .close").live("click", function() {
     return false;
 });
 
-$(".scroll-up").live("click", function() {
-    /*
-     * Handler for UI elements that should reset the viewport (pseudo-paging).
-     */
-    window.scrollTo(0, 0);
-});
-

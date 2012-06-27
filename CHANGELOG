@@ -1,6 +1,7 @@
 1.0.0
 -----
 
+* Ensure new pages always begin scrolled to the top. (#790)
 * Fix broken export links in notifications. (#783)
 * Fix so that hitting enter in modal dialogs submits the form. (#781)
 * Add descriptions for data and related uploads. (#757)

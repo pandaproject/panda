@@ -312,6 +312,8 @@ PANDA.views.Root = Backbone.View.extend({
         $(".tooltip").remove();
         $(".modal").remove()
         $(".modal-backdrop").remove()
+        
+        window.scrollTo(0, 0);
 
         if (name in this.views) {
             return this.views[name];
