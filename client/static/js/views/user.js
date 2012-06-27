@@ -1,6 +1,9 @@
 PANDA.views.User = Backbone.View.extend({
-    user: null,
+    events: {
+        "click #subscriptions li .delete":   "delete_subscription"
+    },
 
+    user: null,
     edit_view: null,
     change_password_view: null,
 
@@ -9,8 +12,6 @@ PANDA.views.User = Backbone.View.extend({
         
         this.edit_view = new PANDA.views.UserEdit();
         this.change_password_view = new PANDA.views.UserChangePassword();
-        
-        $("#subscriptions li .delete").live("click", this.delete_subscription);
     },
 
     reset: function(id) {

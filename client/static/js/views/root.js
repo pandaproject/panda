@@ -6,6 +6,10 @@ PANDA.views.Root = Backbone.View.extend({
      */
     el: "body",
 
+    events: {
+        "click #navbar-notifications > a":   "clear_unread_notifications"
+    },
+
     views: {},
 
     _router: null,
@@ -35,8 +39,6 @@ PANDA.views.Root = Backbone.View.extend({
 
         // Configure the global navbar
         this.configure_navbar();
-
-        $("#navbar-notifications > a").live("click", this.clear_unread_notifications);
 
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);

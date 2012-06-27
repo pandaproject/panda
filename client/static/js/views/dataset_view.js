@@ -2,13 +2,15 @@ PANDA.views.DatasetView = Backbone.View.extend({
     dataset: null,
     edit_view: null,
 
+    events: {
+        "click .data-uploads .edit, .related-uploads .edit":   "edit_upload",
+        "click .data-uploads .edit, .related-uploads .delete":   "delete_upload"
+    },
+
     initialize: function(options) {
         _.bindAll(this);
 
         this.edit_view = new PANDA.views.DatasetEdit();
-
-        $(".data-uploads .edit, .related-uploads .edit").live("click", this.edit_upload);
-        $(".data-uploads .delete, .related-uploads .delete").live("click", this.delete_upload);
     },
 
     reset: function(dataset) {
