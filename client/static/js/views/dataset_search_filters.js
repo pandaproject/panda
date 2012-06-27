@@ -148,8 +148,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         }
     },
 
-    el: null,
-
     search: null,
 
     initialize: function(options) {
