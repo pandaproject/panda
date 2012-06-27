@@ -1,19 +1,41 @@
 <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Edit</h3>
+    <h3>Related stories</h3>
 </div>
 <div class="modal-body">
     <form id="related-stories-form" class="form-stacked">
         <div class="alert-message"></div>
 
-        <div class="control-group">
-            <label for="dataset-name">Name</label>
-            <input class="span5" id="dataset-name" name="name" size="30" type="text" value="<%= PANDA.utils.escapes_to_entities(unescape(dataset.name)) %>" maxlength="256" />
-            <span class="help-inline"></span>
-        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Title (optional)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% _.each(dataset.related_stories, function(story, i) { %>
+                <tr>
+                    <td><input type="text" value="<%= story.title || '' %>"></input></td>
+                    <td><input type="text" value="<%= story.url || '' %>"></input></td>
+                    <td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> Delete row</a></td>
+                </tr>
+                    <% var n = i; %>
+                <% }); %>
+                <tr>
+                    <td><input type="text" value=""></input></td>
+                    <td><input type="text" value=""></input></td>
+                    <td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> Delete row</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><a class="add-row" href="#" onclick="return false;"><i class="icon-plus"></i> Add row</a></p>
+
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-    <a href="#" id="related-stories-save" class="btn btn-primary" data-dismiss="modal">Update related stories</a>
+    <a href="#" class="btn btn-primary save" data-dismiss="modal">Update related stories</a>
 </div>

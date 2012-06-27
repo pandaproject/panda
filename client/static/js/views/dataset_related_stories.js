@@ -1,6 +1,8 @@
 PANDA.views.RelatedStories = Backbone.View.extend({
     events: {
-        "click #related-stories-save":   "save"
+        "click .save":          "save",
+        "click .add-row":       "add_row",
+        "click .remove-row":    "remove_row"
     },
 
     dataset: null,
@@ -28,39 +30,41 @@ PANDA.views.RelatedStories = Backbone.View.extend({
         }, this));
     },
 
-    validate: function() {
-        /*
-         * Validate metadata for save.
-         */
-        var data = $("#related-stories-form").serializeObject();
-        var errors = {};
+    add_row: function() {
+        this.$("tbody").append('<tr><td><input type="text" value=""></input></td><td><input type="text" value=""></input></td><td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> Delete row</a></td></tr>');
 
-        /*if (!data["name"]) {
-            errors["name"] = ["This field is required."];
-        }*/
+        return false;
+    },
 
-        return errors;
+    remove_row: function(e) {
+        $(e.currentTarget).closest("tr").remove();
     },
 
     save: function() {
         /*
          * Save metadata edited via modal.
          */
-        var errors = this.validate();
-        
-        if (!_.isEmpty(errors)) {
-            $("#related-stories-form").show_errors(errors, "Save failed!");
-        
-            return false;
-        }
-        
-        var form_values = $("#t-form").serializeObject();
+        var related_stories = [];
 
-        var s = {};
+        var rows = this.$("tbody tr");
 
-        //TODO
-        
-        this.dataset.patch(s, 
+        _.each(rows, function(row) {
+            var inputs = $(row).find("input");
+
+            var url = $(inputs[0]).val();
+            var title = $(inputs[1]).val();
+
+            if (!url) {
+                return;
+            }
+            
+            related_stories.push({
+                url: url,
+                title: title
+            });
+        });
+
+        this.dataset.patch({ related_stories: related_stories }, 
            function(dataset) {
                 $("#modal-related-stories").modal("hide");
                 Redd.goto_dataset_view(dataset.get("slug"));
