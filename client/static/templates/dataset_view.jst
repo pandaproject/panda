@@ -7,6 +7,7 @@
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a id="dataset-edit" href="#" onclick="return false;"><i class="icon-pencil"></i> Edit</a></li>
+                <li><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Update related stories</a></li>
                 <% if (dataset.locked) { %>
                 <li><a class="disabled" href="#" onclick="return false;"><i class="icon-ban-circle"></i> Upload more data</a></li>
                 <% } else { %>
@@ -52,9 +53,22 @@
                     <a href="#datasets/<%= category.slug %>"><%= category.name %></a><% if (index != list.length - 1) { %>,<% } %>
                 <% }); %>
                 <% } else { %>
-                <em>None selected.</em>
+                    <em>None selected.</em>
                 <% } %>
             </p>
+
+            <h6>Related stories</h6>
+
+            <p>
+                <% if (dataset.related_stories.length > 0) { %>
+                <% _.each(dataset.related_stories, function(story, index, list) { %>
+                    <a href="<%= story.url %>"><%= story.title || story.url %></a><% if (index != list.length - 1) { %><br /><% } %>
+                <% }); %>
+                <% } else { %>
+                    <em>No related stories.</em>
+                <% } %>
+            </p>
+            <p><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Update related stories</a></p>
         </div>
         <div class="span7">
             <h6>Data files</h6>
@@ -201,4 +215,7 @@
 </div>
 
 <div id="modal-upload-edit" class="modal hide fade">
+</div>
+
+<div id="modal-related-stories" class="modal hide fade">
 </div>

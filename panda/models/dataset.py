@@ -54,6 +54,7 @@ class Dataset(SluggedModel):
         help_text='Is this table locked for writing?')
     locked_at = models.DateTimeField(null=True, default=None,
         help_text='Time this dataset was last locked.')
+    related_stories = JSONField(default=[])
 
     class Meta:
         app_label = 'panda'
