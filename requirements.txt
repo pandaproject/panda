@@ -16,7 +16,7 @@ BeautifulSoup==3.2.0
 sphinx==1.0.7
 requests==0.8.3
 south==0.7.4
-git+https://github.com/GoodCloud/django-longer-username.git@cdf0375ec5#egg=longerusername
+git+https://github.com/GoodCloud/django-longer-username.git@e4e85d7d29b2#egg=longerusername
 hg+https://bitbucket.org/ericgazoni/openpyxl/@134c257abd1e#egg=openpyxl
 xlrd==0.7.3
 hg+https://bitbucket.org/bkroeze/django-keyedcache/@fa1f452a53f7#egg=django-keyedcache
