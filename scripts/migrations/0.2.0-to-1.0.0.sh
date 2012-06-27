@@ -31,6 +31,10 @@ pip install -U -r requirements.txt
 # Migrate database
 sudo -u panda -E python manage.py migrate panda --noinput
 
+# Re-run django-longerusername for those may have missed it (see #789)
+sudo python manage.py migrate longerusername zero --fake
+sudo python manage.py migrate longerusername 0001
+
 # Regenerate assets
 sudo -u panda -E python manage.py collectstatic --noinput
 
