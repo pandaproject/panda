@@ -12,7 +12,7 @@ PANDA.views.Dashboard = Backbone.View.extend({
             url: "/dashboard/",
             dataType: "html",
             success: _.bind(function(response) {
-                $("#content").html(response);
+                this.$el.html(response);
                 this.draw_charts();
             }, this)
         });

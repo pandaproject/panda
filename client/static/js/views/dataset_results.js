@@ -3,13 +3,11 @@ PANDA.views.DatasetResults = Backbone.View.extend({
 
     initialize: function(options) {
         _.bindAll(this);
-
-        this.search = options.search;
     },
 
-    set_dataset: function(dataset) {
-        this.dataset = dataset;
-        this.dataset.data.bind("reset", this.render);
+    reset: function(search) {
+        this.search = search;
+        this.search.dataset.data.bind("reset", this.render);
     },
 
     render: function() {
@@ -18,7 +16,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
             return;
         }
         
-        var context = PANDA.utils.make_context(this.dataset.data.meta);
+        var context = PANDA.utils.make_context(this.search.dataset.data.meta);
 
         context["query"] = this.search.query;
         context["query_human"] = this.search.encode_human_readable();
@@ -26,17 +24,17 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         context["solr_query"] = this.search.make_solr_query()
 
         if (this.search.since) {
-            context["all_results_url"] = "#dataset/" + this.dataset.get("slug") + "/search/" + this.search.encode_query_string();
+            context["all_results_url"] = "#dataset/" + this.search.dataset.get("slug") + "/search/" + this.search.encode_query_string();
         }
 
-        context["root_url"] = "#dataset/" + this.dataset.get("slug") + "/search/" + this.search.encode_query_string() + "/" + this.search.since;
+        context["root_url"] = "#dataset/" + this.search.dataset.get("slug") + "/search/" + this.search.encode_query_string() + "/" + this.search.since;
         context["pager_unit"] = "row";
-        context["row_count"] = this.dataset.get("row_count");
-        context["dataset"] = this.dataset.results();
+        context["row_count"] = this.search.dataset.get("row_count");
+        context["dataset"] = this.search.dataset.results();
 
         context["pager"] = PANDA.templates.inline_pager(context);
 
-        this.el.html(PANDA.templates.dataset_results(context));
+        this.$el.html(PANDA.templates.dataset_results(context));
 
          $("#search-results-export").click(this.export_results);
          $("#search-results-subscribe").click(this.subscribe_results);
@@ -46,7 +44,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         /*
          * Export complete dataset to CSV asynchronously.
          */
-        this.dataset.export_data(
+        this.search.dataset.export_data(
             this.search.make_solr_query(),
             function() {
                 var note = "Your export has been successfully queued.";
@@ -70,7 +68,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
          * Subscribe to search results.
          */
         sub = new PANDA.models.SearchSubscription({
-            dataset: this.dataset.id,
+            dataset: this.search.dataset.id,
             query: this.search.make_solr_query(),
             query_url: this.search.encode_query_string(),
             query_human: this.search.encode_human_readable()

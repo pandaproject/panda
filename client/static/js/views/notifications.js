@@ -1,6 +1,4 @@
 PANDA.views.Notifications = Backbone.View.extend({
-    el: $("#content"),
-
     notifications: null,
 
     initialize: function(options) {
@@ -33,7 +31,7 @@ PANDA.views.Notifications = Backbone.View.extend({
 
         context["pager"] = PANDA.templates.inline_pager(context);
 
-        this.el.html(PANDA.templates.notifications(context));
+        this.$el.html(PANDA.templates.notifications(context));
     }
 });
 

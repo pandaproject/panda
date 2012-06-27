@@ -16,6 +16,7 @@ PANDA.utils = {};
 // AKA: The simplest thing that works.
 // Mostly populated in index.html.
 PANDA.settings = {
+    CONTENT_ELEMENT: "#content",
     NOTIFICATIONS_INTERVAL: 20000,
     NOTIFICATIONS_TO_SHOW: 50
 };

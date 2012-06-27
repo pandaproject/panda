@@ -1,6 +1,4 @@
 PANDA.views.User = Backbone.View.extend({
-    el: $("#content"),
-
     user: null,
 
     edit_view: null,
@@ -55,12 +53,12 @@ PANDA.views.User = Backbone.View.extend({
             current_user: Redd.get_current_user().toJSON() 
         });
 
-        this.el.html(PANDA.templates.user(context));
+        this.$el.html(PANDA.templates.user(context));
 
-        this.edit_view.el = $("#modal-edit-user");
+        this.edit_view.setElement("#modal-edit-user");
         $("#user-edit").click(this.edit);
         
-        this.change_password_view.el = $("#modal-user-change-password");
+        this.change_password_view.setElement("#modal-user-change-password");
         $("#user-change-password").click(this.change_password);
 
         $('#modal-edit-user').on('shown', function () {

@@ -1,4 +1,5 @@
 PANDA.views.DatasetView = Backbone.View.extend({
+    dataset: null,
     edit_view: null,
 
     initialize: function(options) {
@@ -10,9 +11,9 @@ PANDA.views.DatasetView = Backbone.View.extend({
         $(".data-uploads .delete, .related-uploads .delete").live("click", this.delete_upload);
     },
 
-    set_dataset: function(dataset) {
+    reset: function(dataset) {
         this.dataset = dataset;
-        this.edit_view.set_dataset(dataset);
+        this.edit_view.reset(dataset);
     },
 
     render: function() {
@@ -45,9 +46,9 @@ PANDA.views.DatasetView = Backbone.View.extend({
             'sample_data_html': sample_data_html
         });
 
-        this.el.html(PANDA.templates.dataset_view(context));
+        this.$el.html(PANDA.templates.dataset_view(context));
         
-        this.edit_view.el = $("#modal-edit-dataset");
+        this.edit_view.setElement("#modal-edit-dataset");
 
         $('#modal-edit-dataset').on('shown', function () {
             $("#dataset-name").focus();

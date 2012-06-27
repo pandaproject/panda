@@ -1,9 +1,11 @@
 PANDA.views.DatasetEdit = Backbone.View.extend({
+    dataset: null,
+
     initialize: function(options) {
         _.bindAll(this);
     },
 
-    set_dataset: function(dataset) {
+    reset: function(dataset) {
         this.dataset = dataset;
     },
 
@@ -18,7 +20,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
             'all_categories': all_categories 
         });
 
-        this.el.html(PANDA.templates.modal_dataset_edit(context));
+        this.$el.html(PANDA.templates.modal_dataset_edit(context));
 
         $("#dataset-edit-save").click(this.edit_save);
 

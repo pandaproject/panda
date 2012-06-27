@@ -1,11 +1,9 @@
 PANDA.views.Search = Backbone.View.extend({
-    el: $("#content"),
-
     events: {
         "submit #search-form":      "search_event"
     },
 
-    datasets:  new PANDA.collections.Datasets(),
+    datasets:  null,
     query: null,
     category: null,
     since: "all",
@@ -15,7 +13,8 @@ PANDA.views.Search = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this);
 
-        this.results = new PANDA.views.SearchResults({ datasets: this.datasets, search: this });
+        this.datasets = new PANDA.collections.Datasets();
+        this.results = new PANDA.views.SearchResults();
         this.home_view = new PANDA.views.Home();
     },
 
@@ -23,6 +22,9 @@ PANDA.views.Search = Backbone.View.extend({
         this.query = query;
         this.category = category;
         this.since = "all";
+
+        this.results.reset(this);
+
         this.render();
     },
 
@@ -33,10 +35,10 @@ PANDA.views.Search = Backbone.View.extend({
             query: this.query
         });
 
-        this.el.html(PANDA.templates.search(context));
+        this.$el.html(PANDA.templates.search(context));
 
-        this.results.el = $("#search-results");
-        this.home_view.el = $("#search-results");
+        this.results.setElement("#search-results");
+        this.home_view.setElement("#search-results");
 
         if (!this.query) {
             this.home_view.render();
@@ -58,7 +60,7 @@ PANDA.views.Search = Backbone.View.extend({
         /*
          * Execute cross-dataset search.
          *
-         * TODO: error handler
+         * TODO: error handler (#600)
          */
         this.query = query;
         this.category = category;

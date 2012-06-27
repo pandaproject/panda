@@ -14,7 +14,7 @@ PANDA.views.UserEdit = Backbone.View.extend({
             'user': this.user.toJSON(true)
         });
 
-        this.el.html(PANDA.templates.modal_user_edit(context));
+        this.$el.html(PANDA.templates.modal_user_edit(context));
 
         $("#user-edit-save").click(this.edit_save);
 

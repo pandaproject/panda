@@ -1,6 +1,4 @@
 PANDA.views.Login = Backbone.View.extend({
-    el: $("#content"),
-    
     events: {
         "submit #login-form":   "login"
     },
@@ -21,7 +19,7 @@ PANDA.views.Login = Backbone.View.extend({
 
         var context = PANDA.utils.make_context({ email: email })
 
-        this.el.html(PANDA.templates.login(context));
+        this.$el.html(PANDA.templates.login(context));
 
         $("#send-forgot-password").click(this.send_forgot_password);
 

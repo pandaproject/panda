@@ -1,16 +1,16 @@
 PANDA.views.SearchResults = Backbone.View.extend({
-    datasets: null,
     search: null,
 
     initialize: function(options) {
         _.bindAll(this);
+    },
 
-        this.datasets = options.datasets; 
-        this.search = options.search;
+    reset: function(search) {
+        this.search = search
     },
 
     render: function() {
-        var context = PANDA.utils.make_context(this.datasets.meta);
+        var context = PANDA.utils.make_context(this.search.datasets.meta);
 
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
@@ -30,11 +30,11 @@ PANDA.views.SearchResults = Backbone.View.extend({
         context["root_url"] = "#search/" + this.search.category + "/" + this.search.query + "/" + this.search.since;
         context["pager_unit"] = "dataset";
         context["row_count"] = null;
-        context["datasets"] = this.datasets.results();
+        context["datasets"] = this.search.datasets.results();
 
         context["pager"] = PANDA.templates.inline_pager(context);
 
-        this.el.html(PANDA.templates.search_results(context));
+        this.$el.html(PANDA.templates.search_results(context));
 
         $("#search-results-export").click(this.export_results);
         $("#search-results-subscribe").click(this.subscribe_results);

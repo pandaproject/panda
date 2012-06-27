@@ -1,6 +1,4 @@
 PANDA.views.Activate = Backbone.View.extend({
-    el: $("#content"),
-    
     events: {
         "submit #activation-form":   "activate"
     },
@@ -39,7 +37,7 @@ PANDA.views.Activate = Backbone.View.extend({
 
     render: function(data) {
         var context = PANDA.utils.make_context(data)
-        this.el.html(PANDA.templates.activate(context));
+        this.$el.html(PANDA.templates.activate(context));
     },
 
     validate: function() {

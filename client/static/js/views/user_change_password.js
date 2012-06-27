@@ -14,7 +14,7 @@ PANDA.views.UserChangePassword = Backbone.View.extend({
             'user': this.user.toJSON(true)
         });
 
-        this.el.html(PANDA.templates.modal_user_change_password(context));
+        this.$el.html(PANDA.templates.modal_user_change_password(context));
 
         $("#user-change-password-save").click(this.change_password_save);
         

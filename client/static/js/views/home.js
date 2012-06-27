@@ -13,7 +13,7 @@ PANDA.views.Home = Backbone.View.extend({
                     recent: recent_datasets.results()
                 });
 
-                this.el.html(PANDA.templates.home(context));
+                this.$el.html(PANDA.templates.home(context));
             }, this)
         });
     }

@@ -1,6 +1,4 @@
 PANDA.views.LoginHelp = Backbone.View.extend({
-    el: $("#content"),
-
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -12,7 +10,7 @@ PANDA.views.LoginHelp = Backbone.View.extend({
     render: function() {
         var context = PANDA.utils.make_context({});
 
-        this.el.html(PANDA.templates.login_help(context));
+        this.$el.html(PANDA.templates.login_help(context));
 
         $("#show-again").click(this.show_again);
         $("#dont-show-again").click(this.dont_show_again);

@@ -13,8 +13,6 @@ CustomUploadButton = {
 }
 
 PANDA.views.DataUpload = Backbone.View.extend({
-    el: $("#content"),
-
     events: {
         "click #upload-begin":         "begin_event",
         "click #upload-continue":      "continue_event",
@@ -90,7 +88,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
             all_categories:  all_categories
         });
 
-        this.el.html(PANDA.templates.data_upload(context));
+        this.$el.html(PANDA.templates.data_upload(context));
         
         $('a[rel="popover"]').popover();
 

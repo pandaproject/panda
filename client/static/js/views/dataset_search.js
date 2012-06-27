@@ -1,6 +1,4 @@
 PANDA.views.DatasetSearch = Backbone.View.extend({
-    el: $("#content"),
-
     events: {
         "submit #dataset-search-form":      "search_event",
         "click #toggle-advanced-search":    "toggle_advanced_search"
@@ -16,8 +14,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, "reset", "render", "search_event", "search", "encode_query_string", "encode_human_readable", "decode_query_string", "make_solr_query");
 
-        this.search_filters = new PANDA.views.DatasetSearchFilters({ search: this });
-        this.results = new PANDA.views.DatasetResults({ search: this });
+        this.search_filters = new PANDA.views.DatasetSearchFilters();
+        this.results = new PANDA.views.DatasetResults();
         this.view = new PANDA.views.DatasetView();
     },
 
@@ -30,8 +28,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         this.dataset.fetch({
             async: false,
             success: _.bind(function(model, response) {
-                this.results.set_dataset(model);
-                this.view.set_dataset(model);
+                this.search_filters.reset(this);
+                this.results.reset(this);
+                this.view.reset(this.dataset);
                 this.render();
             }, this),
             error: _.bind(function(model, response) {
@@ -50,14 +49,13 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             dataset: this.dataset.results()
         });
 
-        this.el.html(PANDA.templates.dataset_search(context));
+        this.$el.html(PANDA.templates.dataset_search(context));
 
-        // Render search filters
-        this.search_filters.el = $("#dataset-search-filters");
+        this.search_filters.setElement("#dataset-search-filters");
         this.search_filters.render();
 
-        this.results.el = $("#dataset-search-results");
-        this.view.el = $("#dataset-search-results");
+        this.results.setElement("#dataset-search-results");
+        this.view.setElement("#dataset-search-results");
 
         var task = this.dataset.current_task;
 

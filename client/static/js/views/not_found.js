@@ -1,6 +1,4 @@
 PANDA.views.NotFound = Backbone.View.extend({
-    el: $("#content"),
-    
     initialize: function() {
         _.bindAll(this);
     },
@@ -10,7 +8,7 @@ PANDA.views.NotFound = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.html(PANDA.templates.not_found());
+        this.$el.html(PANDA.templates.not_found());
     }
 });
 

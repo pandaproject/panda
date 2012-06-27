@@ -1,6 +1,4 @@
 PANDA.views.DatasetsSearch = Backbone.View.extend({
-    el: $("#content"),
-
     events: {
         "submit #datasets-search-form":      "search_event"
     },
@@ -13,7 +11,7 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
         _.bindAll(this);
 
         this.datasets = new PANDA.collections.Datasets();
-        this.results = new PANDA.views.DatasetsResults({ search: this });
+        this.results = new PANDA.views.DatasetsResults();
     },
 
     reset: function(category, query, limit, page) {
@@ -33,6 +31,7 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
             limit,
             page,
             _.bind(function(datasets) {
+                this.results.reset(this);
                 this.results.render();
             }, this)
         );
@@ -46,9 +45,9 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
             datasets: this.datasets.results()
         });
 
-        this.el.html(PANDA.templates.datasets_search(context));
+        this.$el.html(PANDA.templates.datasets_search(context));
 
-        this.results.el = $("#datasets-search-results");
+        this.results.setElement("#datasets-search-results");
 
         $('a[rel="popover"]').popover();
     },

@@ -4,7 +4,7 @@ PANDA.views.Root = Backbone.View.extend({
      *
      * A single instance of this object exists in the global namespace as "Redd".
      */
-    el: $("body"),
+    el: "body",
 
     views: {},
 
@@ -302,7 +302,7 @@ PANDA.views.Root = Backbone.View.extend({
         return false;
     },
 
-    get_or_create_view: function(name, options) {
+    get_or_create_view: function(name) {
         /*
          * Register each view as it is created and never create more than one.
          */
@@ -315,7 +315,7 @@ PANDA.views.Root = Backbone.View.extend({
             return this.views[name];
         }
 
-        this.views[name] = new PANDA.views[name](options);
+        this.views[name] = new PANDA.views[name]({ el: PANDA.settings.CONTENT_ELEMENT });
 
         return this.views[name];
     },
