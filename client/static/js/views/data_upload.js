@@ -17,7 +17,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
         "click #upload-begin":         "begin_event",
         "click #upload-continue":      "continue_event",
         "click #upload-finish":        "finish_event",
-        "click #upload-start-over":    "start_over_event"
+        "click #upload-start-over":    "start_over_event",
+        "click #step-1-start-over":    "start_over_event",
+        "click #step-2-start-over":    "start_over_event",
+        "click #step-3-start-over":    "start_over_event"
     },
     
     file_uploader: null,
@@ -197,17 +200,14 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     step_one_error_message: function(message) {
         $("#step-1-alert").alert("alert-error", message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" />' , false);
-        $("#step-1-start-over").click(this.start_over_event);
     },
 
     step_two_error_message: function(message) {
         $("#step-2-alert").alert("alert-error", message + ' <input id="step-2-start-over" type="button" class="btn" value="Try again" />' , false);
-        $("#step-2-start-over").click(this.start_over_event);
     },
 
     step_three_error_message: function(message) {
         $("#step-3-alert").alert("alert-error", message + ' <input id="step-3-start-over" type="button" class="btn" value="Try again" />' , false);
-        $("#step-3-start-over").click(this.start_over_event);
     },
 
     step_one: function() {

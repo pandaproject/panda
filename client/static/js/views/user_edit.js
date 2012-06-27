@@ -1,4 +1,8 @@
 PANDA.views.UserEdit = Backbone.View.extend({
+    events: {
+        "click #user-edit-save":   "edit_save"
+    },
+
     user: null,
 
     initialize: function(options) {
@@ -15,8 +19,6 @@ PANDA.views.UserEdit = Backbone.View.extend({
         });
 
         this.$el.html(PANDA.templates.modal_user_edit(context));
-
-        $("#user-edit-save").click(this.edit_save);
 
         $("#edit-user-form").keypress(_.bind(function(e) {
             if (e.keyCode == 13 && e.target.type != "textarea") {

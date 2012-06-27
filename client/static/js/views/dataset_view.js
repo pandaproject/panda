@@ -1,11 +1,16 @@
 PANDA.views.DatasetView = Backbone.View.extend({
-    dataset: null,
-    edit_view: null,
-
     events: {
         "click .data-uploads .edit, .related-uploads .edit":   "edit_upload",
-        "click .data-uploads .edit, .related-uploads .delete":   "delete_upload"
+        "click .data-uploads .edit, .related-uploads .delete":   "delete_upload",
+        "click #dataset-edit":              "edit",
+        "click #dataset-upload-related":    "upload_related",
+        "click #dataset-index-types":       "index_types",
+        "click #dataset-export":            "export_data",
+        "click #dataset-destroy":           "destroy"
     },
+
+    dataset: null,
+    edit_view: null,
 
     initialize: function(options) {
         _.bindAll(this);
@@ -80,12 +85,6 @@ PANDA.views.DatasetView = Backbone.View.extend({
         // Create upload button
         var upload_button = CustomUploadButton.init();
         this.related_uploader._button = upload_button;
-
-        $("#dataset-edit").click(this.edit);
-        $("#dataset-upload-related").click(this.upload_related);
-        $("#dataset-index-types").click(this.index_types);
-        $("#dataset-export").click(this.export_data);
-        $("#dataset-destroy").click(this.destroy);
     },
 
     edit_upload: function(e) {

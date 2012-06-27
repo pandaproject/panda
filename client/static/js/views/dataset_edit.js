@@ -1,4 +1,8 @@
 PANDA.views.DatasetEdit = Backbone.View.extend({
+    events: {
+        "click #dataset-edit-save":   "edit_save"
+    },
+
     dataset: null,
 
     initialize: function(options) {
@@ -21,8 +25,6 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         });
 
         this.$el.html(PANDA.templates.modal_dataset_edit(context));
-
-        $("#dataset-edit-save").click(this.edit_save);
 
         $("#edit-dataset-form").keypress(_.bind(function(e) {
             if (e.keyCode == 13 && e.target.type != "textarea") {

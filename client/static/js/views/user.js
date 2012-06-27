@@ -1,6 +1,8 @@
 PANDA.views.User = Backbone.View.extend({
     events: {
-        "click #subscriptions li .delete":   "delete_subscription"
+        "click #subscriptions li .delete":  "delete_subscription",
+        "click #user-edit":                 "edit",
+        "click #user-change-password":      "change_password"
     },
 
     user: null,
@@ -57,10 +59,8 @@ PANDA.views.User = Backbone.View.extend({
         this.$el.html(PANDA.templates.user(context));
 
         this.edit_view.setElement("#modal-edit-user");
-        $("#user-edit").click(this.edit);
         
         this.change_password_view.setElement("#modal-user-change-password");
-        $("#user-change-password").click(this.change_password);
 
         $('#modal-edit-user').on('shown', function () {
             $("#user-first-name").focus();

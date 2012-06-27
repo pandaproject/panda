@@ -148,6 +148,10 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         }
     },
 
+    events: {
+        "click .remove-filter":   "remove_filter"
+    },
+
     search: null,
 
     initialize: function(options) {
@@ -187,7 +191,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         $("#add-filter").change(this.add_filter);
         $(".operator").change(this.change_operator);
-        $(".remove-filter").click(this.remove_filter);
     },
 
     column_is_filterable: function(c) {
@@ -296,7 +299,6 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
             filter.show();
 
             filter.find(".operator").change(this.change_operator);
-            filter.find(".remove-filter").click(this.remove_filter);
         }
         
         $("#add-filter").val("");

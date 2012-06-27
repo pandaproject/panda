@@ -1,4 +1,9 @@
 PANDA.views.SearchResults = Backbone.View.extend({
+    events: {
+        /*"click #search-results-export":      "export_results",*/
+        "click #search-results-subscribe":   "subscribe_results",
+    },
+
     search: null,
 
     initialize: function(options) {
@@ -35,9 +40,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
         context["pager"] = PANDA.templates.inline_pager(context);
 
         this.$el.html(PANDA.templates.search_results(context));
-
-        $("#search-results-export").click(this.export_results);
-        $("#search-results-subscribe").click(this.subscribe_results);
     },
     
     subscribe_results: function() {

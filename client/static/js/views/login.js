@@ -1,6 +1,7 @@
 PANDA.views.Login = Backbone.View.extend({
     events: {
-        "submit #login-form":   "login"
+        "submit #login-form":           "login",
+        "click #send-forgot-password":  "send_forgot_password"
     },
 
     next: null,
@@ -20,8 +21,6 @@ PANDA.views.Login = Backbone.View.extend({
         var context = PANDA.utils.make_context({ email: email })
 
         this.$el.html(PANDA.templates.login(context));
-
-        $("#send-forgot-password").click(this.send_forgot_password);
 
         $("#forgot-password-form").keypress(_.bind(function(e) {
             if (e.keyCode == 13 && e.target.type != "textarea") {
