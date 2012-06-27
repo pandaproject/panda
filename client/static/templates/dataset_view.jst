@@ -6,8 +6,8 @@
         <div id="dataset-actions" class="btn-group">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a id="dataset-edit" href="#" onclick="return false;"><i class="icon-pencil"></i> Edit</a></li>
-                <li><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Update related stories</a></li>
+                <li><a href="#modal-edit-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-pencil"></i> Edit name, description or categories</a></li>
+                <li><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Add or remove related stories</a></li>
                 <% if (dataset.locked) { %>
                 <li><a class="disabled" href="#" onclick="return false;"><i class="icon-ban-circle"></i> Upload more data</a></li>
                 <% } else { %>
@@ -57,6 +57,8 @@
                 <% } %>
             </p>
 
+            <p><a href="#modal-edit-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-pencil"></i> Edit name, description or categories</a></p>
+
             <h6>Related stories</h6>
 
             <p>
@@ -68,7 +70,7 @@
                     <em>No related stories.</em>
                 <% } %>
             </p>
-            <p><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Update related stories</a></p>
+            <p><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Add or remove related stories</a></p>
         </div>
         <div class="span7">
             <h6>Data files</h6>
@@ -82,7 +84,7 @@
             <% if (dataset.locked) { %>
             <p class="disabled"><i class="icon-ban-circle"></i> Upload more data</p>
             <% } else { %>
-            <p><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data</a></p>
+            <p><a href="#dataset/<%= dataset.slug %>/upload"><i class="icon-plus-sign"></i> Upload more data &raquo;</a></p>
             <% } %>
 
             <h6>Related files</h6>
