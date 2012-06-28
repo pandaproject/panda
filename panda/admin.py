@@ -37,24 +37,24 @@ class PandaUserCreationForm(forms.ModelForm):
     """
     class Meta:
         model = UserProxy
-        fields = ("username",)
+        fields = ("email",)
 
-    username = forms.EmailField(label=_("E-mail"), max_length=75)
+    email = forms.EmailField(label=_("E-mail"), max_length=75)
 
     def clean_username(self):
-        username = self.cleaned_data["username"]
+        email = self.cleaned_data["email"]
         
         try:
-            UserProxy.objects.get(username=username)
+            UserProxy.objects.get(email=email)
         except UserProxy.DoesNotExist:
-            return username
+            return email
 
         raise forms.ValidationError(_("A user with that email address already exists."))
 
     def save(self, commit=True):
         user = super(PandaUserCreationForm, self).save(commit=False)
-        user.username = user.username.lower()
-        user.email = user.username
+        user.email = user.email.lower()
+        user.username = user.email
         user.is_active = False
 
         if commit:
@@ -73,12 +73,15 @@ class PandaUserChangeForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(PandaUserChangeForm, self).__init__(*args, **kwargs)
 
+        # We edit the email field and copy it to the username field
+        del self.fields['username']
+        
         self.fields['password'].required = False
 
     def save(self, commit=True):
         user = super(PandaUserChangeForm, self).save(commit=False)
-        user.username = user.username.lower()
-        user.email = user.username
+        user.email = user.email.lower()
+        user.username = user.email
 
         if commit:
             user.save()
@@ -112,12 +115,12 @@ class UserModelAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'first_name', 'last_name')}
+            'fields': ('email', 'first_name', 'last_name')}
         ),
     )
 
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
