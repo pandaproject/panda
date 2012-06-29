@@ -6,12 +6,12 @@ import subprocess
 import time
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from pytz import common_timezones
 from tastypie.models import ApiKey
 
 from daemon import Daemon
+from panda.models import UserProxy
 
 LOCAL_SETTINGS_PATH = '%s/local_settings.py' % settings.SITE_ROOT
 RESTART_SCRIPT_PATH = '%s/jumpstart/restart-uwsgi.sh' % settings.SITE_ROOT 
@@ -57,7 +57,7 @@ def wait(request):
         if wsgi_wrapper_path:
             f.write("DEBUG = 'True'\n")
 
-    admin = User.objects.create_user(email, email, password)
+    admin = UserProxy.objects.create_user(email, email, password)
     admin.is_staff = True
     admin.is_superuser = True
     admin.save()
