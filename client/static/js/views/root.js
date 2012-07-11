@@ -290,8 +290,6 @@ PANDA.views.Root = Backbone.View.extend({
         /*
          * Marks all of the current user's notifications as read.
          */
-        $("#navbar-notifications").toggleClass("open");
-        
         if ($("#navbar-notifications").hasClass("open")) {
             $("#navbar-notifications .count").removeClass("badge-info");
             $("#navbar-notifications .count").text("0");
@@ -301,7 +299,7 @@ PANDA.views.Root = Backbone.View.extend({
             $("#navbar-notifications .dropdown-menu ul li a").removeClass("unread");
         }
 
-        return false;
+        return true;
     },
 
     get_or_create_view: function(name) {
