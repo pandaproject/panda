@@ -1,7 +1,7 @@
 PANDA.views.DatasetView = Backbone.View.extend({
     events: {
         "click .data-uploads .edit, .related-uploads .edit":   "edit_upload",
-        "click .data-uploads .edit, .related-uploads .delete":   "delete_upload",
+        "click .data-uploads .delete, .related-uploads .delete":   "delete_upload",
         "click #dataset-upload-related":    "upload_related",
         "click #dataset-index-types":       "index_types",
         "click #dataset-export":            "export_data",
