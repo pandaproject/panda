@@ -9,7 +9,7 @@ If you're reading this documentation is probably because your organization has s
 What is PANDA?
 ==============
 
-First and foremost PANDA is a "data warehouse", which means that it stores all the datasets you work with on a daily basis--voter registration records, police reports, water test results, etc. When you upload your data to PANDA it's stored safely away so that it can be easily found again, either by yourself or by another reporter in your organization.
+First and foremost PANDA is a "data library", which means that it stores all the datasets you work with on a daily basis--voter registration records, police reports, water test results, etc. When you upload your data to PANDA it's stored safely away so that it can be easily found again, either by yourself or by another reporter in your organization.
 
 PANDA is also a search engine. By uploading your datasets to PANDA you make them searchable by everyone in your organization. This search feature is designed to work like Google, so you don't need to learn a new way of exploring the data.
 
