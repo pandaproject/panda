@@ -26,7 +26,7 @@ class TestUserAdmin(TransactionTestCase):
         self.assertEqual(response.status_code, 200)
 
         new_user = {
-            'username': 'foo@bar.com',
+            'email': 'foo@bar.com',
             'last_name': 'Barman'
         }
 
