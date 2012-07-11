@@ -509,15 +509,15 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate("dashboard");
     },
 
-    goto_login_help: function() {
+    goto_welcome: function() {
         if (!this.authenticate()) {
             return;
         }
 
-        this.current_content_view = this.get_or_create_view("LoginHelp");
+        this.current_content_view = this.get_or_create_view("Welcome");
         this.current_content_view.reset();
 
-        this._router.navigate("getting-started");
+        this._router.navigate("welcome");
     },
 
     goto_fetch_export: function(id) {

@@ -7,7 +7,7 @@
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="#modal-edit-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-pencil"></i> Edit name, description or categories</a></li>
-                <li><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Add or remove related stories</a></li>
+                <li><a href="#modal-related-links" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Add or remove related links</a></li>
                 <% if (dataset.locked) { %>
                 <li><a class="disabled" href="#" onclick="return false;"><i class="icon-ban-circle"></i> Upload more data</a></li>
                 <% } else { %>
@@ -59,7 +59,7 @@
 
             <p><a href="#modal-edit-dataset" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-pencil"></i> Edit name, description or categories</a></p>
 
-            <h6>Related stories</h6>
+            <h6>Related links</h6>
 
             <p>
                 <% if (dataset.related_stories.length > 0) { %>
@@ -67,10 +67,10 @@
                     <a href="<%= story.url %>"><%= story.title || story.url %></a><% if (index != list.length - 1) { %><br /><% } %>
                 <% }); %>
                 <% } else { %>
-                    <em>No related stories.</em>
+                    <em>No related links.</em>
                 <% } %>
             </p>
-            <p><a href="#modal-related-stories" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Add or remove related stories</a></p>
+            <p><a href="#modal-related-links" data-toggle="modal" data-backdrop="true" data-keyboard="true"><i class="icon-bookmark"></i> Add or remove related links</a></p>
         </div>
         <div class="span7">
             <h6>Data files</h6>
@@ -219,5 +219,5 @@
 <div id="modal-upload-edit" class="modal hide fade">
 </div>
 
-<div id="modal-related-stories" class="modal hide fade">
+<div id="modal-related-links" class="modal hide fade">
 </div>

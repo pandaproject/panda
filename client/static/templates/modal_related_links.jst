@@ -1,9 +1,9 @@
 <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Related stories</h3>
+    <h3>Related links</h3>
 </div>
 <div class="modal-body">
-    <form id="related-stories-form" class="form-stacked">
+    <form id="related-links-form" class="form-stacked">
         <div class="alert-message"></div>
 
         <table class="table table-striped">
@@ -17,8 +17,8 @@
             <tbody>
                 <% _.each(dataset.related_stories, function(story, i) { %>
                 <tr>
-                    <td><input type="text" value="<%= story.title || '' %>"></input></td>
                     <td><input type="text" value="<%= story.url || '' %>"></input></td>
+                    <td><input type="text" value="<%= story.title || '' %>"></input></td>
                     <td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> Delete row</a></td>
                 </tr>
                     <% var n = i; %>
@@ -37,5 +37,5 @@
 </div>
 <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-    <a href="#" class="btn btn-primary save" data-dismiss="modal">Update related stories</a>
+    <a href="#" class="btn btn-primary save" data-dismiss="modal">Update related links</a>
 </div>

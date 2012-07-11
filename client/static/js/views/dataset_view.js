@@ -10,19 +10,19 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
     dataset: null,
     edit_view: null,
-    related_stories_view: null,
+    related_links_view: null,
 
     initialize: function(options) {
         _.bindAll(this);
 
         this.edit_view = new PANDA.views.DatasetEdit();
-        this.related_stories_view = new PANDA.views.RelatedStories();
+        this.related_links_view = new PANDA.views.RelatedLinks();
     },
 
     reset: function(dataset) {
         this.dataset = dataset;
         this.edit_view.reset(dataset);
-        this.related_stories_view.reset(dataset);
+        this.related_links_view.reset(dataset);
     },
 
     render: function() {
@@ -59,8 +59,8 @@ PANDA.views.DatasetView = Backbone.View.extend({
         
         this.edit_view.setElement("#modal-edit-dataset");
         this.edit_view.render();
-        this.related_stories_view.setElement("#modal-related-stories");
-        this.related_stories_view.render();
+        this.related_links_view.setElement("#modal-related-links");
+        this.related_links_view.render();
 
         $('#modal-edit-dataset').on('shown', function () {
             $("#dataset-name").focus();

@@ -1,4 +1,4 @@
-PANDA.views.UserChangePassword = Backbone.View.extend({
+PANDA.views.ChangePassword = Backbone.View.extend({
     events: {
         "click #user-change-password-save":   "change_password_save"
     },
@@ -18,7 +18,7 @@ PANDA.views.UserChangePassword = Backbone.View.extend({
             'user': this.user.toJSON(true)
         });
 
-        this.$el.html(PANDA.templates.modal_user_change_password(context));
+        this.$el.html(PANDA.templates.modal_change_password(context));
         
         $("#user-change-password-form").keypress(_.bind(function(e) {
             if (e.keyCode == 13 && e.target.type != "textarea") {

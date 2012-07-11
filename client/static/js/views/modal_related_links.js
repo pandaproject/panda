@@ -1,4 +1,4 @@
-PANDA.views.RelatedStories = Backbone.View.extend({
+PANDA.views.RelatedLinks = Backbone.View.extend({
     events: {
         "click .save":          "save",
         "click .add-row":       "add_row",
@@ -20,9 +20,9 @@ PANDA.views.RelatedStories = Backbone.View.extend({
             'dataset': this.dataset.toJSON(true),
         });
 
-        this.$el.html(PANDA.templates.modal_related_stories(context));
+        this.$el.html(PANDA.templates.modal_related_links(context));
 
-        $("#related-stories-form").keypress(_.bind(function(e) {
+        $("#related-links-form").keypress(_.bind(function(e) {
             if (e.keyCode == 13 && e.target.type != "textarea") {
                 this.save(); 
                 return false;
@@ -44,7 +44,7 @@ PANDA.views.RelatedStories = Backbone.View.extend({
         /*
          * Save metadata edited via modal.
          */
-        var related_stories = [];
+        var related_links = [];
 
         var rows = this.$("tbody tr");
 
@@ -58,15 +58,15 @@ PANDA.views.RelatedStories = Backbone.View.extend({
                 return;
             }
             
-            related_stories.push({
+            related_links.push({
                 url: url,
                 title: title
             });
         });
 
-        this.dataset.patch({ related_stories: related_stories }, 
+        this.dataset.patch({ related_stories: related_links }, 
            function(dataset) {
-                $("#modal-related-stories").modal("hide");
+                $("#modal-related-links").modal("hide");
                 Redd.goto_dataset_view(dataset.get("slug"));
             },
             function(dataset, response) {
@@ -76,7 +76,7 @@ PANDA.views.RelatedStories = Backbone.View.extend({
                     errors = { "__all__": "Unknown error" }; 
                 }
 
-                $("#related-stories-form").show_errors(errors, "Save failed!");
+                $("#related-links-form").show_errors(errors, "Save failed!");
             }
         );
 

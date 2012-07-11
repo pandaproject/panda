@@ -26,7 +26,7 @@ PANDA.routers.Index = Backbone.Router.extend({
         "notifications/:limit/:page":                       "notifications",
         "user/:id":                                         "user",
         "dashboard":                                        "dashboard",
-        "getting-started":                                  "login_help",
+        "welcome":                                          "welcome",
         "export/:id":                                       "fetch_export",
         "*path":                                            "not_found"
     },
@@ -79,8 +79,8 @@ PANDA.routers.Index = Backbone.Router.extend({
         this.controller.goto_dashboard();
     },
 
-    login_help: function() {
-        this.controller.goto_login_help();
+    welcome: function() {
+        this.controller.goto_welcome();
     },
 
     fetch_export: function(id) {

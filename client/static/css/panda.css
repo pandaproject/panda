@@ -200,8 +200,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #modal-index-types table { width: 100%; }
 #modal-index-types table td { padding: 2px 2px 2px 8px; vertical-align: middle;}
 #modal-index-types select { margin-top: 8px; }
-#modal-related-stories input { width: 150px; }
-#modal-related-stories .remove-row { white-space: nowrap; }
+#modal-related-links input { width: 150px; }
+#modal-related-links .remove-row { white-space: nowrap; }
 
 /* Upload page */
 
