@@ -94,8 +94,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #welcome p { font-size: 16px; line-height: 22px; }
 
 #welcome h1 { margin-bottom: 10px; }
-#welcome img { margin-bottom: 10px; border: 1px solid #999; }
-#welcome h2 { margin-top: 10px; }
+#welcome img { float: right; margin: 0 0 16px 16px; border: 1px solid #999; }
+#welcome h2 { margin-top: 20px; }
 #welcome h3 { margin-top: 5px; }
 #welcome form { margin-top: 5px; }
 
