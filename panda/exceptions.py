@@ -6,6 +6,12 @@ class DatasetLockedError(Exception):
     """
     pass
 
+class DataUploadNotDeletable(Exception):
+    """
+    Exception raised when a DataUpload can not be deleted.
+    """
+    pass
+
 class DataSamplingError(Exception):
     """
     Exception raised when data can't be sampled from a file,

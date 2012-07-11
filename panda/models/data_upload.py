@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db import models
 
 from panda import utils
+from panda.exceptions import DataUploadNotDeletable
 from panda.fields import JSONField
 from panda.models.base_upload import BaseUpload
 from panda.tasks import PurgeDataTask
@@ -33,6 +34,8 @@ class DataUpload(BaseUpload):
         help_text='Column types guessed based on a sample of data.')
     imported = models.BooleanField(default=False,
         help_text='Has this upload ever been imported into its parent dataset.')
+    deletable = models.BooleanField(default=True,
+        help_text='Can this data upload be deleted? False for uploads prior to 1.0.')
     
     file_root = settings.MEDIA_ROOT
 
@@ -103,6 +106,11 @@ class DataUpload(BaseUpload):
         Cancel any in progress task.
         """
         skip_purge = kwargs.pop('skip_purge', False)
+        force = kwargs.pop('force', False)
+
+        # Don't allow deletion of dated uploads unless forced
+        if not self.deletable and not force:
+            raise DataUploadNotDeletable('This data upload was created before deleting individual data uploads was supported. In order to delete it you must delete the entire dataset.')
 
         # Update related datasets so deletes will not cascade
         if self.initial_upload_for.count():

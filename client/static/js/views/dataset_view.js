@@ -150,11 +150,33 @@ PANDA.views.DatasetView = Backbone.View.extend({
         }
             
         var upload = uploads.get(uri);
+
+        if (upload_type == "data" && upload.get("deletable") == false) {
+            bootbox.alert("This data upload was created before deleting individual data uploads was supported. In order to delete it you must delete the entire dataset.");
+            return false;
+        }
             
         var message = "<p>This will irreversibly destroy <strong>" + upload.get("title") + "</strong>. It will not be possible to recover this file.</p>";
 
         if (upload_type == "data") {
             message += "<p><strong>All data imported from this file will also be deleted.</strong></p>";
+        }
+
+        var deleter = function(result) {
+            upload.destroy({
+                wait: true,
+                success: function() {
+                    element.remove();
+
+                    if (uploads.length == 0) {
+                        $("." + upload_type + "-uploads").hide();
+                        $("#no-" + upload_type + "-uploads").show();
+                    }
+                },
+                error: function(model, response) {
+                    bootbox.alert(response.responseText);
+                }
+            });
         }
 
         bootbox.dialog(
@@ -163,16 +185,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 {
                     "label": "Delete",
                     "class": "btn-danger",
-                    "callback": _.bind(function(result) {
-                        uploads.remove(upload);
-                        upload.destroy();
-                        element.remove();
-
-                        if (uploads.length == 0) {
-                            $("." + upload_type + "-uploads").hide();
-                            $("#no-" + upload_type + "-uploads").show();
-                        }
-                    }, this)
+                    "callback": _.bind(deleter, this)
                 },
                 {
                     "label": "Cancel"

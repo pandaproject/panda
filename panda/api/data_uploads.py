@@ -3,13 +3,17 @@
 from mimetypes import guess_type
 
 from django.conf.urls.defaults import url
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from tastypie import fields
+from tastypie import http
 from tastypie.authorization import DjangoAuthorization
+from tastypie.exceptions import ImmediateHttpResponse, NotFound
 from tastypie.utils.urls import trailing_slash
 
 from panda.api.utils import JSONApiField, PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
+from panda.exceptions import DataUploadNotDeletable
 from panda.models import DataUpload
 
 class DataUploadResource(PandaModelResource):
@@ -50,6 +54,26 @@ class DataUploadResource(PandaModelResource):
         return [
             url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('download'), name='api_download_data_upload'),
         ]
+
+    def obj_delete(self, request=None, **kwargs):
+        """
+        Override delete to also update related Dataset's metadata.
+        """
+        obj = kwargs.pop('_obj', None)
+
+        if not hasattr(obj, 'delete'):
+            try:
+                obj = self.obj_get(request, **kwargs)
+            except ObjectDoesNotExist:
+                raise NotFound("A model instance matching the provided arguments could not be found.")
+
+        try:
+            obj.delete()
+        except DataUploadNotDeletable, e:
+            raise ImmediateHttpResponse(response=http.HttpForbidden(e.message))
+
+        if obj.dataset:
+            obj.dataset.update_full_text()
 
     def download(self, request, **kwargs):
         """

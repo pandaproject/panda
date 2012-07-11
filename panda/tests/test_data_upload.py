@@ -6,6 +6,7 @@ from django.conf import settings
 from django.test import TransactionTestCase
 
 from panda import solr
+from panda.exceptions import DataUploadNotDeletable
 from panda.models import Dataset, DataUpload
 from panda.tests import utils
 
@@ -35,6 +36,8 @@ class TestDataUpload(TransactionTestCase):
         
         self.assertEqual(len(self.upload.guessed_types), 4)
         self.assertEqual(self.upload.guessed_types, ['int', 'unicode', 'unicode', 'unicode']);
+        
+        self.assertEqual(upload.deletable, True)
 
     def test_delete(self):
         upload = utils.get_test_data_upload(self.user, self.dataset)
@@ -66,4 +69,13 @@ class TestDataUpload(TransactionTestCase):
             DataUpload.objects.get(id=upload_id)
         
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 0)
+
+    def test_undeletable(self):
+        upload = utils.get_test_data_upload(self.user, self.dataset)
+
+        upload.deletable = False
+        upload.save()
+        
+        with self.assertRaises(DataUploadNotDeletable):
+            upload.delete()
 
