@@ -1,7 +1,6 @@
 PANDA.views.Welcome = Backbone.View.extend({
     events: {
-        "click #show-again":        "show_again",
-        "click #dont-show-again":   "dont_show_again",
+        "click .start":        "start"
     },
 
     initialize: function(options) {
@@ -18,13 +17,10 @@ PANDA.views.Welcome = Backbone.View.extend({
         this.$el.html(PANDA.templates.welcome(context));
     },
 
-    show_again: function() {
-        Redd.get_current_user().set_show_login_help(true);
-        Redd.goto_search("all");
-    },
+    start: function() {
+        var show_again = this.$(".show-again").is(":checked");
 
-    dont_show_again: function() {
-        Redd.get_current_user().set_show_login_help(false);
+        Redd.get_current_user().set_show_login_help(show_again);
         Redd.goto_search("all");
     }
 });
