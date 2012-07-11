@@ -87,10 +87,10 @@ PANDA.views.User = Backbone.View.extend({
         var sub = this.user.subscriptions.get(uri);
 
         bootbox.dialog(
-            "Are you sure you want to stop receiving notifications for this search?",
+            "Are you sure you want to delete this subscription?",
             [
                 {
-                    "label": "Stop notifications",
+                    "label": "Delete",
                     "class": "btn-danger",
                     "callback": _.bind(function(result) {
                         this.user.subscriptions.remove(sub);

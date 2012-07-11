@@ -9,12 +9,12 @@
             <p>No rows matching query found in any dataset.</p>
             
             <% if (!category || category.slug != 'uncategorized') { %>
-            <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get <% if (PANDA.settings.EMAIL_ENABLED) { %>email <% } %>notifications when results appear</a></p>
+            <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Subscribe to search results</a></p>
             <% } %>
 
         <% } else { %>
 
-            <p><% if (!category || category.slug != 'uncategorized') { %><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Get <% if (PANDA.settings.EMAIL_ENABLED) { %>email <% } %>notifications of new results</a> <% } %><a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export results to CSV files</a></p>
+            <p><% if (!category || category.slug != 'uncategorized') { %><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Subscribe to search results</a> <% } %><a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export search results to CSV files</a></p>
 
             <% if (since != "all") { %>
                 <div class="alert alert-warn since-warning" style="display: block;">Showing only results created or updated after <strong><%= PANDA.templates.inline_timestamp({ d: since }) %></strong>. <a href="<%= all_results_url %>">Show all results instead &raquo;</a></div>
@@ -85,15 +85,15 @@
 <div id="modal-subscribe-search-results" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Get notified of new results for this search?</h3>
+        <h3>Subscribe to this search?</h3>
     </div>
     <div class="modal-body">
-        <p>When you click <strong>Notify me</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email<% }%> notifications of new data added to PANDA that matches:</p>
+        <p>When you click <strong>Subscribe</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email<% }%> notifications of new data added to PANDA that matches:</p>
         <p><%= query_human %><% if (category) { %> in <strong><%= category.name %></strong><% } %></p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal">Notify me</a>
+        <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal">Subscribe</a>
     </div>
 </div>
 
