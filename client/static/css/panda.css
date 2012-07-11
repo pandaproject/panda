@@ -17,7 +17,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 .navbar .dropdown-menu ul {
     margin-left: 0px;
     max-height: 400px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #navbar-notifications .dropdown-menu ul a {
