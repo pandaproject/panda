@@ -64,7 +64,7 @@ PANDA.views.RelatedLinks = Backbone.View.extend({
             });
         });
 
-        this.dataset.patch({ related_stories: related_links }, 
+        this.dataset.patch({ related_links: related_links }, 
            function(dataset) {
                 $("#modal-related-links").modal("hide");
                 Redd.goto_dataset_view(dataset.get("slug"));

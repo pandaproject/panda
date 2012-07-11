@@ -62,9 +62,9 @@
             <h6>Related links</h6>
 
             <p>
-                <% if (dataset.related_stories.length > 0) { %>
-                <% _.each(dataset.related_stories, function(story, index, list) { %>
-                    <a href="<%= story.url %>"><%= story.title || story.url %></a><% if (index != list.length - 1) { %><br /><% } %>
+                <% if (dataset.related_links.length > 0) { %>
+                <% _.each(dataset.related_links, function(link, index, list) { %>
+                    <a href="<%= link.url %>"><%= link.title || link.url %></a><% if (index != list.length - 1) { %><br /><% } %>
                 <% }); %>
                 <% } else { %>
                     <em>No related links.</em>

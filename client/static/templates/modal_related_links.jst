@@ -15,10 +15,10 @@
                 </tr>
             </thead>
             <tbody>
-                <% _.each(dataset.related_stories, function(story, i) { %>
+                <% _.each(dataset.related_links, function(link, i) { %>
                 <tr>
-                    <td><input type="text" value="<%= story.url || '' %>"></input></td>
-                    <td><input type="text" value="<%= story.title || '' %>"></input></td>
+                    <td><input type="text" value="<%= link.url || '' %>"></input></td>
+                    <td><input type="text" value="<%= link.title || '' %>"></input></td>
                     <td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> Delete row</a></td>
                 </tr>
                     <% var n = i; %>
