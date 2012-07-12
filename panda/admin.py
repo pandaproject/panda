@@ -13,7 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
 from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, TaskState, WorkerState
@@ -141,6 +141,10 @@ class UserModelAdmin(UserAdmin):
                 self.admin_site.admin_view(self.resend_activation_single),
                 name='%s_%s_resend_activation' % (self.model._meta.app_label, self.model._meta.module_name)
             ),
+            url(r'^add_many$',
+                self.admin_site.admin_view(self.add_many),
+                name='%s_%s_add_many' % (self.model._meta.app_label, self.model._meta.module_name)
+            ),
         )
 
         return custom_urls + urls
@@ -186,6 +190,25 @@ class UserModelAdmin(UserAdmin):
         self.message_user(request, 'Sent %i activation emails.' % len(users))
 
     resend_activation.short_description = 'Resend activation email(s)'
+
+    def add_many(self, request, extra_context=None):
+        if request.method == 'POST':
+            pass
+        else:
+            model = self.model
+            opts = model._meta
+
+            context = {
+                'title': _('Add %s') % force_unicode(opts.verbose_name),
+                'media': self.media,
+                #'errors': helpers.AdminErrorList(form, formsets),
+                'app_label': opts.app_label,
+                'email_enabled': config_value('EMAIL', 'EMAIL_ENABLED')
+            }
+
+            context.update(extra_context or {})
+
+            return render_to_response('admin/panda/userproxy/add_many_form.html', context)
 
     @transaction.commit_on_success
     def add_view(self, request, form_url='', extra_context=None):
