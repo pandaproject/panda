@@ -91,7 +91,7 @@ class DataResource(PandaResource):
 
     def override_urls(self):
         """
-        Add urls for search endpoint.
+        Add urls for export.
         """
         url(r'^export%s' % trailing_slash(), self.wrap_view('search_export'), name='api_data_search_export'),
 
@@ -490,6 +490,20 @@ class DataResource(PandaResource):
         self.throttle_check(request)
 
         query = request.GET.get('q', '')
+        category = request.GET.get('category', '')
+        since = request.GET.get('since', None)
+
+        if category:
+            if category != 'uncategorized':
+                category = Category.objects.get(slug=category)
+                dataset_slugs = category.datasets.values_list('slug', flat=True)
+            else:
+                dataset_slugs = Dataset.objects.filter(categories=None).values_list('slug', flat=True) 
+
+            query += ' dataset_slug:(%s)' % ' '.join(dataset_slugs)
+
+        if since:
+            query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
 
         task_type = ExportSearchTask
 

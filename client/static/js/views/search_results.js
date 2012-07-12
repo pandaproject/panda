@@ -77,7 +77,9 @@ PANDA.views.SearchResults = Backbone.View.extend({
          * Export all results to CSV asynchronously.
          */
         this.search.datasets.export_data(
+            this.search.category,
             this.search.query,
+            this.search.since,
             function() {
                 var note = "Your export has been successfully queued.";
 

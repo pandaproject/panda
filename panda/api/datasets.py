@@ -93,7 +93,6 @@ class DatasetResource(SluggedModelResource):
             # Nested urls for accessing data
             url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_list'), name='api_dataset_data_list'),
             url(r'^(?P<dataset_resource_name>%s)/(?P<dataset_slug>[\w\d_-]+)/(?P<resource_name>%s)/(?P<external_id>[\w\d_-]+)%s$' % (self._meta.resource_name, data_resource._meta.resource_name, trailing_slash()), data_resource.wrap_view('dispatch_detail'), name='api_dataset_data_detail'),
-            url(r'^data/export%s' % trailing_slash(), data_resource.wrap_view('search_export'), name='api_dataset_data_search_export'),
             url(r'^data%s' % trailing_slash(), data_resource.wrap_view('search_all_data'), name='api_data_search')
         ]
 
@@ -298,6 +297,10 @@ class DatasetResource(SluggedModelResource):
     def export_data(self, request, **kwargs):
         """
         Dummy endpoint for kicking off data export tasks.
+
+        NB: This endpoint is used for both exporting complete datasets
+        (without a query arg) and exporting dataset search results
+        (with a query arg).
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -310,8 +313,14 @@ class DatasetResource(SluggedModelResource):
 
         dataset = Dataset.objects.get(slug=slug)
 
+        query = request.GET.get('q', '')
+        since = request.GET.get('since', None)
+
+        if since:
+            query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
+
         try:
-            dataset.export_data(request.user, query=request.GET.get('q', None))
+            dataset.export_data(request.user, query=query)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 

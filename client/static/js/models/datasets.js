@@ -198,15 +198,21 @@ PANDA.models.Dataset = Backbone.Model.extend({
         });
     },
 
-    export_data: function(query, success_callback, error_callback) {
+    export_data: function(query, since, success_callback, error_callback) {
         /*
          * Kick off the dataset export and update the model with
          * the task id and status.
+         *
+         * NB: Uses the "single dataset" export url, resulting in a CSV.
          */
         data = {};
 
         if (query) {
             data['q'] = query;
+        }
+
+        if (since != "all") {
+            data.since = since;
         }
 
         Redd.ajax({
@@ -482,15 +488,24 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         this.reset(datasets);
     },
 
-    export_data: function(query, success_callback, error_callback) {
+    export_data: function(category, query, since, success_callback, error_callback) {
         /*
-         * Kick off the search export and update the model with
-         * the task id and status.
+         * Kick off a search export. 
+         *
+         * NB: Uses the cross-dataset export url, resulting in a ZIP file.
          */
         data = {};
 
         if (query) {
             data['q'] = query;
+        }
+
+        if (since != "all") {
+            data.since = since;
+        }
+
+        if (category != "all") {
+            data.category = category;
         }
 
         Redd.ajax({

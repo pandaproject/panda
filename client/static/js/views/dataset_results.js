@@ -48,6 +48,7 @@ PANDA.views.DatasetResults = Backbone.View.extend({
          */
         this.search.dataset.export_data(
             this.search.make_solr_query(),
+            this.search.since,
             function() {
                 var note = "Your export has been successfully queued.";
 

@@ -29,7 +29,7 @@ class ExportCSVTask(ExportFileTask):
         from panda.models import Dataset
 
         log = logging.getLogger(self.name)
-        log.info('Beginning export, dataset_slug: %s' % dataset_slug)
+        log.info('Beginning export, dataset_slug:%s %s' % (dataset_slug, query))
 
         dataset = Dataset.objects.get(slug=dataset_slug)
 
@@ -102,7 +102,7 @@ class ExportCSVTask(ExportFileTask):
 
         task_status.update('100% complete')
 
-        log.info('Finished export, dataset_slug: %s' % dataset_slug)
+        log.info('Finished export, dataset_slug:%s %s' % (dataset_slug, query))
 
         return filename
 
