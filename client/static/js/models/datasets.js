@@ -482,6 +482,36 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         this.reset(datasets);
     },
 
+    export_data: function(query, success_callback, error_callback) {
+        /*
+         * Kick off the search export and update the model with
+         * the task id and status.
+         */
+        data = {};
+
+        if (query) {
+            data['q'] = query;
+        }
+
+        Redd.ajax({
+            url: PANDA.API + "/data/export/",
+            dataType: 'json',
+            data: data,
+            success: _.bind(function(response) {
+                if (success_callback) {
+                    success_callback(this); 
+                }
+            }, this),
+            error: function(xhr, textStatus) {
+                var error = JSON.parse(xhr.responseText);
+
+                if (error_callback) {
+                    error_callback(this, error);
+                }
+            }
+        });
+    },
+
     results: function() {
         /*
          * Grab the current data in a simplified data structure appropriate

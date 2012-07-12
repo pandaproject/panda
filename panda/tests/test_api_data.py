@@ -518,3 +518,10 @@ class TestAPIData(TransactionTestCase):
 
         self.assertEqual(response.status_code, 401)   
 
+    def test_export_data(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+
+        response = self.client.get('/api/1.0/data/export/?q=joseph', **self.auth_headers)
+
+        self.assertEqual(response.status_code, 200)
+

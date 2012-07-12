@@ -1,6 +1,6 @@
 PANDA.views.SearchResults = Backbone.View.extend({
     events: {
-        /*"click #search-results-export":      "export_results",*/
+        "click #search-results-export":      "export_results",
         "click #search-results-subscribe":   "subscribe_results",
     },
 
@@ -70,6 +70,29 @@ PANDA.views.SearchResults = Backbone.View.extend({
                 bootbox.alert("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>" + error.traceback + "</code>");
             }
         });
+    },
+
+    export_results: function() {
+        /*
+         * Export all results to CSV asynchronously.
+         */
+        this.search.datasets.export_data(
+            this.search.query,
+            function() {
+                var note = "Your export has been successfully queued.";
+
+                if (PANDA.settings.EMAIL_ENABLED) {
+                    note += " When it is complete you will be emailed a link to download the file."
+                } else {
+                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                }
+
+                bootbox.alert(note);
+            },
+            function(error) {
+                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+            }
+        );
     }
 });
 

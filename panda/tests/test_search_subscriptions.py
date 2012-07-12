@@ -21,6 +21,7 @@ class TestSearchSubscriptions(TransactionTestCase):
         self.upload = utils.get_test_data_upload(self.user, self.dataset)
 
     def test_subscription_dataset(self):
+        # TODO: FAILING ITERMITTENTLY
         self.dataset.import_data(self.user, self.upload)
 
         sub = SearchSubscription.objects.create(

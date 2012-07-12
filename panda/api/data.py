@@ -3,6 +3,7 @@
 import re
 
 from django.conf import settings
+from django.conf.urls.defaults import url
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
@@ -11,6 +12,7 @@ from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest, NotFound, ImmediateHttpResponse
 from tastypie.utils import dict_strip_unicode_keys 
 from tastypie.utils.mime import build_content_type
+from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from panda import solr
@@ -86,6 +88,12 @@ class DataResource(PandaResource):
         validation = DataValidation()
 
         object_class = SolrObject
+
+    def override_urls(self):
+        """
+        Add urls for search endpoint.
+        """
+        url(r'^export%s' % trailing_slash(), self.wrap_view('search_export'), name='api_data_search_export'),
 
     def dehydrate_data(self, bundle):
         """
@@ -474,6 +482,9 @@ class DataResource(PandaResource):
         return self.create_response(request, page)
 
     def search_export(self, request, **kwargs):
+        """
+        Export the results of a Solr query.
+        """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
