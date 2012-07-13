@@ -10,6 +10,7 @@ from django.utils.timezone import now
 from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest
 
+from panda import solr
 from panda.api.data import DataResource, DataValidation
 from panda.models import Category, Dataset
 from panda.tests import utils
@@ -474,6 +475,53 @@ class TestAPIData(TransactionTestCase):
 
         # Verify that each matched dataset includes one result
         result_dataset = body['objects'][0]
+        self.assertEqual(result_dataset['meta']['total_count'], 1)
+        self.assertEqual(len(result_dataset['objects']), 1)
+
+    def test_search_stale_dataset(self):
+        self.dataset.import_data(self.user, self.upload, 0)
+        self.dataset.update_full_text()
+
+        # Import second dataset so we can make sure both match 
+        second_dataset = Dataset.objects.create(
+            name='Second dataset',
+            creator=self.dataset.creator)
+
+        second_dataset.import_data(self.user, self.upload, 0)
+        second_dataset.update_full_text()
+
+        # Manually delete second dataset to simulate an integrity issue
+        from django.db import connection, transaction
+        cursor = connection.cursor()
+
+        cursor.execute("DELETE FROM panda_dataset WHERE slug='%s'" % second_dataset.slug)
+        transaction.commit_unless_managed()
+
+        # Verify Solr data still exists
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.dataset.slug)['response']['numFound'], 4)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % second_dataset.slug)['response']['numFound'], 4)
+        self.assertEqual(solr.query(settings.SOLR_DATASETS_CORE, 'slug:%s' % self.dataset.slug)['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATASETS_CORE, 'slug:%s' % second_dataset.slug)['response']['numFound'], 1)
+
+        # Execute search, which should invoke purge as a side-effect
+        response = self.client.get('/api/1.0/data/?q=Christopher', **self.auth_headers)
+        self.assertEqual(response.status_code, 200)
+
+        # Verify Solr data has been purged
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % self.dataset.slug)['response']['numFound'], 4)
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'dataset_slug:%s' % second_dataset.slug)['response']['numFound'], 0)
+        self.assertEqual(solr.query(settings.SOLR_DATASETS_CORE, 'slug:%s' % self.dataset.slug)['response']['numFound'], 1)
+        self.assertEqual(solr.query(settings.SOLR_DATASETS_CORE, 'slug:%s' % second_dataset.slug)['response']['numFound'], 0)
+
+        body = json.loads(response.content)
+
+        # Verify that the group count is correct
+        self.assertEqual(body['meta']['total_count'], 1)
+        self.assertEqual(len(body['objects']), 1)
+
+        # Verify that each matched dataset includes one result
+        result_dataset = body['objects'][0]
+        self.assertEqual(result_dataset['slug'], self.dataset.slug)
         self.assertEqual(result_dataset['meta']['total_count'], 1)
         self.assertEqual(len(result_dataset['objects']), 1)
 

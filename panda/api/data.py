@@ -20,7 +20,7 @@ from panda.api.datasets import DatasetResource
 from panda.exceptions import DatasetLockedError
 from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
 from panda.models import Category, Dataset, SearchLog, TaskStatus
-from panda.tasks import ExportSearchTask
+from panda.tasks import ExportSearchTask, PurgeDataTask
 
 class SolrObject(object):
     """
@@ -444,9 +444,21 @@ class DataResource(PandaResource):
         for group in groups:
             dataset_slug = group['groupValue']
             results = group['doclist']
+            
+            try:
+                dataset = Dataset.objects.get(slug=dataset_slug)
+            # In the event that stale data exists in Solr, skip this dataset,
+            # request the invalid data be purged and return the other results.
+            # Pagination may be wrong, but this is the most functional solution. (#793)
+            except Dataset.DoesNotExist:
+                PurgeDataTask.apply_async(args=[dataset_slug])
+                solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset_slug)
 
+                page['meta']['total_count'] -= 1
+
+                continue
+            
             dataset_resource = DatasetResource()
-            dataset = Dataset.objects.get(slug=dataset_slug)
             dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
             dataset_bundle = dataset_resource.full_dehydrate(dataset_bundle)
             dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
