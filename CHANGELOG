@@ -1,6 +1,13 @@
 1.0.0
 -----
 
+* Add form for adding users in bulk to admin. (#762)
+* Fix broken Change Password and Logout buttons on admin pages. (#795)
+* Implement global search results export. (#788)
+* Increase uWSGI buffer size to prevent overflows. (#792)
+* Fix emails so they can be longer than 30 characters. (#789)
+* Add "Related Links" section to dataset pages. (#763)
+* Make progress bars degrade gracefully in IE. (#426)
 * Ensure new pages always begin scrolled to the top. (#790)
 * Fix broken export links in notifications. (#783)
 * Fix so that hitting enter in modal dialogs submits the form. (#781)
