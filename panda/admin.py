@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from StringIO import StringIO
+
 from django import forms
 from django.conf import settings
 from django.conf.urls import patterns, url
@@ -16,10 +18,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.csrf import csrf_exempt
 from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, TaskState, WorkerState
 from livesettings import config_value
 from tastypie.admin import ApiKeyInline
+from tastypie.models import ApiKey
 
+from csvkit import CSVKitReader
+from csvkit.sniffer import sniff_dialect as csvkit_sniff
 from panda import solr
 from panda.models import Category, TaskStatus, UserProfile, UserProxy
 
@@ -191,24 +197,61 @@ class UserModelAdmin(UserAdmin):
 
     resend_activation.short_description = 'Resend activation email(s)'
 
+    @csrf_exempt
+    @transaction.commit_on_success
     def add_many(self, request, extra_context=None):
+        model = self.model
+        opts = model._meta
+
+        context = {
+            'title': _('Add %s') % force_unicode(opts.verbose_name_plural),
+            'media': self.media,
+            'error': [],
+            'app_label': opts.app_label,
+            'email_enabled': config_value('EMAIL', 'EMAIL_ENABLED')
+        }
+        
+        context.update(extra_context or {})
+
         if request.method == 'POST':
-            pass
-        else:
-            model = self.model
-            opts = model._meta
+            try:
+                user_data = request.POST.get('user-data', '') 
 
-            context = {
-                'title': _('Add %s') % force_unicode(opts.verbose_name),
-                'media': self.media,
-                #'errors': helpers.AdminErrorList(form, formsets),
-                'app_label': opts.app_label,
-                'email_enabled': config_value('EMAIL', 'EMAIL_ENABLED')
-            }
+                if not user_data:
+                    raise Exception('No user data provided.')
 
-            context.update(extra_context or {})
+                context['user_data'] = user_data
 
-            return render_to_response('admin/panda/userproxy/add_many_form.html', context)
+                try:
+                    csv_dialect = csvkit_sniff(user_data)
+                except UnicodeDecodeError:
+                    raise Exception('Only UTF-8 data is supported.')
+
+                if not csv_dialect:
+                    raise Exception('Unable to determine the format of the data you entered. Please ensure it is valid CSV data.')
+
+                reader = CSVKitReader(StringIO(user_data), dialect=csv_dialect)
+                reader.next() 
+
+                for row in reader:
+                    if len(row) < 4:
+                        raise Exception('Row %i has less than 4 columns.' % i)
+                    if len(row) > 4:
+                        raise Exception('Row %i has more than 4 columns.' % i)
+
+                    if UserProxy.objects.get(email=row[0]):
+                        raise Exception('User "%s" already exists'  % row[0])
+
+                    user = UserProxy.objects.create_user(row[0], row[0], row[1] or None)
+                    user.first_name = row[2]
+                    user.last_name = row[3]
+                    user.save()
+
+                    ApiKey.objects.get_or_create(user=user)
+            except Exception, e:
+                context['error'] = e.message
+
+        return render_to_response('admin/panda/userproxy/add_many_form.html', context)
 
     @transaction.commit_on_success
     def add_view(self, request, form_url='', extra_context=None):
