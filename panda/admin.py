@@ -245,6 +245,7 @@ class UserModelAdmin(UserAdmin):
                         raise Exception('User "%s" already exists'  % row[0])
 
                     user = UserProxy.objects.create_user(row[0], row[0], row[1] or None)
+                    user.is_active = bool(row[1]) # active if a password is provided
                     user.first_name = row[2]
                     user.last_name = row[3]
                     user.save()
@@ -252,13 +253,6 @@ class UserModelAdmin(UserAdmin):
                     ApiKey.objects.get_or_create(user=user)
 
                     if not row[1] and config_value('EMAIL', 'EMAIL_ENABLED'):
-                        user_profile = user.get_profile()
-
-                        user_profile.generate_activation_key()
-                        user_profile.save()
-
-                        user_profile.send_activation_email()
-
                         emails += 1
 
                 self.message_user(request, 'Successfully created %i user(s)' % (i + 1))

@@ -39,5 +39,6 @@ def on_user_post_save(sender, instance, created, **kwargs):
         user_profile.generate_activation_key()
         user_profile.save()
 
-        user_profile.send_activation_email()
+        if not instance.has_usable_password():
+            user_profile.send_activation_email()
 

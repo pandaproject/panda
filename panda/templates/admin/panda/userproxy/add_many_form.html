@@ -36,8 +36,8 @@
 {% endblock %}
 {% url 'admin:panda_userproxy_add_many' as form_url %}
 
-<form action="{{ form_url }}" method="post" id="add_many_form">{% block form_top %}{% csrf_token %}<p>{% trans "Enter an email address. You may also specify the user's first and last name or leave that for them to do." %}</p>
-    <p>{% if email_enabled %}{% trans "The new user will be emailed a link to activate their account." %}{% else %}{% trans "<strong>Note:</strong> Email is not <a href=\"/admin/settings/\">enabled</a> for your PANDA. <strong>Your users will not receive activation emails.</strong> (You will need to activate them manually.)" %}{% endif %}</p>{% endblock %}
+<form action="{{ form_url }}" method="post" id="add_many_form">{% block form_top %}{% csrf_token %}<p>{% trans "Type or paste user data into the field below in <strong>CSV format</strong>. The provided header row is required. The first_name and last_name fields may be blank left blank for any or all rows." %}</p>
+    <p>{% if email_enabled %}{% trans "If the password field is not blank the user will be activated immediately, otherwise the user will be sent an activation email." %}{% else %}{% trans "<strong>Important:</strong> Email is not <a href=\"/admin/settings/\">enabled</a> for your PANDA. <strong>Users will not receive activation emails.</strong> If the password field is not blank the user will be activated, otherwise you will need to activate them manually." %}{% endif %}</p>{% endblock %}
 <div>
 
 {% if error %}
