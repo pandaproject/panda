@@ -16,6 +16,7 @@ from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
@@ -197,19 +198,18 @@ class UserModelAdmin(UserAdmin):
 
     resend_activation.short_description = 'Resend activation email(s)'
 
-    @csrf_exempt
     @transaction.commit_on_success
     def add_many(self, request, extra_context=None):
         model = self.model
         opts = model._meta
 
-        context = {
+        context = RequestContext(request, {
             'title': _('Add %s') % force_unicode(opts.verbose_name_plural),
             'media': self.media,
             'error': [],
             'app_label': opts.app_label,
             'email_enabled': config_value('EMAIL', 'EMAIL_ENABLED')
-        }
+        })
         
         context.update(extra_context or {})
 
@@ -233,13 +233,15 @@ class UserModelAdmin(UserAdmin):
                 reader = CSVKitReader(StringIO(user_data), dialect=csv_dialect)
                 reader.next() 
 
-                for row in reader:
+                emails = 0
+
+                for i, row in enumerate(reader):
                     if len(row) < 4:
                         raise Exception('Row %i has less than 4 columns.' % i)
                     if len(row) > 4:
                         raise Exception('Row %i has more than 4 columns.' % i)
 
-                    if UserProxy.objects.get(email=row[0]):
+                    if UserProxy.objects.filter(email=row[0]).count():
                         raise Exception('User "%s" already exists'  % row[0])
 
                     user = UserProxy.objects.create_user(row[0], row[0], row[1] or None)
@@ -248,6 +250,21 @@ class UserModelAdmin(UserAdmin):
                     user.save()
 
                     ApiKey.objects.get_or_create(user=user)
+
+                    if not row[1] and config_value('EMAIL', 'EMAIL_ENABLED'):
+                        user_profile = user.get_profile()
+
+                        user_profile.generate_activation_key()
+                        user_profile.save()
+
+                        user_profile.send_activation_email()
+
+                        emails += 1
+
+                self.message_user(request, 'Successfully created %i user(s)' % (i + 1))
+
+                if emails:
+                    self.message_user(request, 'Sent %i activation email(s)' % emails)
             except Exception, e:
                 context['error'] = e.message
 
