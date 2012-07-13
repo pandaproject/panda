@@ -18,10 +18,12 @@ class TestUser(TransactionTestCase):
         self.user = utils.get_panda_user()
 
     def test_create_user(self):
-        new_user = UserProxy.objects.create(
-            email="foo@bar.com",
-            username="foo@bar.com"
+        new_user = UserProxy.objects.create_user(
+            'foo@bar.com',
+            'foo@bar.com'
         )
+        new_user.is_active = False
+        new_user.save()
 
         ApiKey.objects.get(user=new_user)
         new_user.groups.get(name="panda_user")
@@ -34,10 +36,9 @@ class TestUser(TransactionTestCase):
     def test_long_email(self):
         long_email = ''.join('F' for x in range(60))
 
-        new_user = UserProxy.objects.create(
-            email=long_email,
-            username=long_email
-        )
+        new_user = UserProxy.objects.create_user(long_email, long_email)
+        new_user.is_active = False
+        new_user.save()
 
         ApiKey.objects.get(user=new_user)
         new_user.groups.get(name="panda_user")

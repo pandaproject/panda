@@ -6,9 +6,8 @@
 {% if change %}{% if not is_popup %}
   <ul class="object-tools">
     {% block object-tools-items %}
-    <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
-    {% endblock %}
     <li><a href="../../../{{ opts.app_label }}/{{ opts.object_name.lower }}/{{ object_id }}/resend_activation">{% trans "Resend activation email" %}</a></li>
+    {% endblock %}
   </ul>
 {% endif %}{% endif %}
 {% endblock %}

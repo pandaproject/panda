@@ -79,11 +79,12 @@ class TestActivate(TransactionTestCase):
         self.client = Client()
 
     def test_check_activation_key_valid(self):
-        new_user = UserProxy.objects.create(
-            email="foo@bar.com",
-            username="foo@bar.com",
-            is_active=False
+        new_user = UserProxy.objects.create_user(
+            'foo@bar.com',
+            'foo@bar.com'
         )
+        new_user.is_active = False
+        new_user.save()
 
         user_profile = new_user.get_profile()
 
@@ -104,11 +105,12 @@ class TestActivate(TransactionTestCase):
         self.assertEqual(response.status_code, 400)
         
     def test_activate(self):
-        new_user = UserProxy.objects.create(
-            email="foo@bar.com",
-            username="foo@bar.com",
-            is_active=False
+        new_user = UserProxy.objects.create_user(
+            'foo@bar.com',
+            'foo@bar.com'
         )
+        new_user.is_active = False
+        new_user.save()
 
         user_profile = new_user.get_profile()
         self.assertNotEqual(user_profile.activation_key, None)
@@ -144,14 +146,12 @@ class  TestForgotPassword(TransactionTestCase):
         self.client = Client()
 
     def test_forgot_password(self):
-        new_user = UserProxy.objects.create(
-            email="foo@bar.com",
-            username="foo@bar.com",
-            is_active=True
+        new_user = UserProxy.objects.create_user(
+            'foo@bar.com',
+            'foo@bar.com',
+            'foobarbaz'
         )
 
-        new_user.set_password('foobarbaz')
-        new_user.save()
         self.assertEqual(authenticate(username='foo@bar.com', password='foobarbaz').pk, new_user.pk)
         
         # Force expiration date into the past

@@ -3,6 +3,7 @@
 from django.contrib.auth.models import Group
 from django.db import models
 from django.dispatch import receiver
+from django.utils.timezone import now
 from tastypie.models import ApiKey
 
 from panda import config # Needed for autodiscovery
@@ -37,8 +38,14 @@ def on_user_post_save(sender, instance, created, **kwargs):
 
         user_profile = UserProfile(user=instance)
         user_profile.generate_activation_key()
+
+        # Expire activation key if they were created with a password
+        if instance.has_usable_password():
+            user_profile.activation_key_expiration=now()
+
         user_profile.save()
 
+        # Send an activation email if they were created without a password
         if not instance.has_usable_password():
             user_profile.send_activation_email()
 
