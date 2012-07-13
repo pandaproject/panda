@@ -23,6 +23,8 @@ To upgrade your PANDA from the 0.2.0 release to the 1.0.0 release, :doc:`SSH <ss
 
 Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-1.0.0.log``.
 
+After running this upgrade your PANDA will be reset into *jumpstart* mode, giving you an opportunity to set your local timezone and create an administrative user. You should visit your PANDA soon after the upgrade to complete this process. If already have an administrative user configured, simply create one with dummy data and then deactivate or delete it after completing the jumpstart.
+
 .. note::
 
     This upgrade will automatically upgrade your server's Ubuntu distrubution to version 12.04. This long-release version of Ubuntu will be supported by Canonical (the company behind Ubuntu) for five years. If you have made any customizations to your PANDA's server environment be away that this upgrade could have unintended consequences.

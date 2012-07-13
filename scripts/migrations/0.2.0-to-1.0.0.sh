@@ -43,8 +43,8 @@ cp setup_panda/data_schema.xml /opt/solr/panda/solr/pandadata/conf/schema.xml
 cp setup_panda/english_names.txt /opt/solr/panda/solr/pandadata/conf/english_names.txt
 cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schema.xml
 
-# Install new uwsgi configuration
-cp setup_panda/uwsgi.conf /etc/init/uwsgi.conf
+# Install uwsgi jumpstart configuration
+cp setup_panda/uwsgi_jumpstart.conf /etc/init/uwsgi.conf
 
 # Restart services
 service solr start 
