@@ -206,7 +206,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 /* Dataset view page */
 
-#view-dataset h3 { display: block; float: left; margin-bottom: 8px; }
+#view-dataset h3 { display: block; float: left; }
+#view-dataset h6 { margin-top: 10px; margin-bottom: 3px; }
 #view-dataset #dataset-actions { float: left; } 
 #view-dataset #dataset-actions a.disabled { color: #aaa; cursor: default; } 
 #view-dataset p.disabled { color: #aaa; } 

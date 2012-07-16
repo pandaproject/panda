@@ -35,7 +35,7 @@
 
         <%= sample_data_html %>
         
-        <p><em><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></em> <a href="#dataset/<%= dataset.slug %>/search/*">View all rows &raquo;</a></p>
+        <div><em><% if (dataset.row_count) { %>Showing <%= dataset.sample_data.length %> sample rows from <%= dataset.row_count %> total rows in this dataset.<% } else { %>Showing <%= dataset.sample_data.length %> rows of an unknown total number of rows in this dataset.<% } %></em> <a href="#dataset/<%= dataset.slug %>/search/*">View all rows &raquo;</a></div>
         <% } %>
     </div>
 
