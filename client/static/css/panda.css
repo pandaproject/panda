@@ -38,6 +38,10 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     border-top: 1px solid #ccc;
 }
 
+#navbar-notifications .divider {
+    margin: 3px 1px;
+}
+
 #content { padding: 20px; }
 
 .alert { display: none; }
