@@ -47,7 +47,7 @@ class PandaUserCreationForm(forms.ModelForm):
 
     email = forms.EmailField(label=_("E-mail"), max_length=75)
 
-    def clean_username(self):
+    def clean_email(self):
         email = self.cleaned_data["email"]
         
         try:
@@ -117,6 +117,8 @@ class UserModelAdmin(UserAdmin):
     inlines = [UserProfileInline, PandaApiKeyInline]
     add_form = PandaUserCreationForm
     form = PandaUserChangeForm
+
+    add_form_template = 'admin/panda/userproxy/add_form.html'
 
     add_fieldsets = (
         (None, {
@@ -201,8 +203,6 @@ class UserModelAdmin(UserAdmin):
     def add_many(self, request, extra_context=None):
         model = self.model
         opts = model._meta
-
-        print opts
 
         context = RequestContext(request, {
             'opts': opts,

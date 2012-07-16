@@ -51,7 +51,6 @@
 {% endfor %}
 
 {% block after_field_sets %}
-<script type="text/javascript">document.getElementById("id_username").focus();</script>
 {% endblock %}
 
 {% for inline_admin_formset in inline_admin_formsets %}
@@ -61,10 +60,6 @@
 {% block after_related_objects %}{% endblock %}
 
 {% submit_row %}
-
-{% if adminform and add %}
-   <script type="text/javascript">document.getElementById("{{ adminform.first_field.id_for_label }}").focus();</script>
-{% endif %}
 
 {# JavaScript for prepopulated fields #}
 {% prepopulated_fields_js %}
