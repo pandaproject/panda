@@ -96,10 +96,11 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #welcome h1 { margin-bottom: 10px; }
 #welcome img { float: right; margin: 0 0 16px 16px; border: 1px solid #999; }
 #welcome h2 { margin-top: 20px; }
-#welcome h3 { margin-top: 5px; }
+#welcome h3 { margin-top: 5px; font-weight: bold; }
 #welcome form { margin-top: 5px; }
 
-#welcome li { line-height: inherit; font-weight: bold; }
+#welcome li { line-height: inherit; font-size: 18px; }
+#welcome li p { line-height: inherit; font-size: 16px; line-height: 22px; }
 
 /* Search */
 
