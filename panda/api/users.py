@@ -150,6 +150,16 @@ class UserResource(PandaModelResource):
 
         return bundle
 
+    def put_detail(self, request, **kwargs):
+        """
+        Allow emulating a ``PATCH`` request by passing ``?patch=true``.
+        (As a workaround for IE's broken XMLHttpRequest.)
+        """
+        if request.GET.get('patch', 'false').lower() == 'true':
+            return super(UserResource, self).patch_detail(request, **kwargs)
+        else:
+            return super(UserResource, self).put_detail(request, **kwargs)
+
     def obj_update(self, bundle, request=None, skip_errors=False, **kwargs):
         """
         A ORM-specific implementation of ``obj_update``.

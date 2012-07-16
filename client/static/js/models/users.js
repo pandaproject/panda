@@ -66,6 +66,37 @@ PANDA.models.User = Backbone.Model.extend({
         return response 
     },
 
+    patch: function(attributes, success_callback, error_callback) {
+        /*
+         * Update a user in place using the PATCH verb.
+         *
+         * A special-case for the user edit page so that readonly attributes
+         * are not lost.
+         */
+        this.set(attributes || {});
+
+        Redd.ajax({
+            url: this.url() + "?patch=true",
+            type: "PUT",
+            data: JSON.stringify(this.toJSON()),
+            contentType: "application/json",
+            dataType: "json",
+            async: false,
+            success: _.bind(function(response) {
+                this.set(response);
+
+                if (success_callback) {
+                    success_callback(this);
+                }
+            }, this),
+            error: _.bind(function(xhr, status, error) {
+                if (error_callback) {
+                    error_callback(this, xhr.responseText);
+                }
+            }, this)
+        });
+    },
+
     refresh_notifications: function(success_callback, error_callback) {
         /*
          * Refresh notifications list from the server.

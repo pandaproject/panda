@@ -61,6 +61,7 @@ PANDA.views.UserEdit = Backbone.View.extend({
          * Save metadata edited via modal.
          */
         var errors = this.validate();
+
         
         if (!_.isEmpty(errors)) {
             $("#edit-user-form").show_errors(errors, "Save failed!");
@@ -70,14 +71,15 @@ PANDA.views.UserEdit = Backbone.View.extend({
         
         var form_values = $("#edit-user-form").serializeObject();
 
-        this.user.save(form_values, { 
-            success: _.bind(function(response) {
+        this.user.patch(
+            form_values, 
+            _.bind(function(response) {
                 $("#modal-edit-user").modal("hide");
                 Redd.get_current_user().set({ "email": this.user.get("email") });
                 Redd.set_current_user(Redd.get_current_user());
                 Redd.goto_user(this.user.get("id"));
             }, this),
-            error: function(model, response) {
+            function(model, response) {
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
@@ -86,7 +88,9 @@ PANDA.views.UserEdit = Backbone.View.extend({
 
                 $("#edit-user-form").show_errors(errors, "Save failed!");
             }
-        });
+        );
+
+        $("#modal-edit-user").modal("hide");
 
         return false;
     }
