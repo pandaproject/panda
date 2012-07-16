@@ -18,8 +18,8 @@
 <div class="breadcrumbs">
      <a href="../../../">{% trans "Home" %}</a> &rsaquo;
      <a href="../../">{{ app_label|capfirst|escape }}</a> &rsaquo;
-     {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &rsaquo;
-     {% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+     <a href="../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+     {% trans "Add Many" %} {{ opts.verbose_name_plural }}
 </div>
 {% endblock %}
 
@@ -55,7 +55,6 @@ example@example.com,mypass123,John,Doe{% endif %}</textarea><br />
 {% endfor %}
 
 {% block after_field_sets %}
-<script type="text/javascript">document.getElementById("id_username").focus();</script>
 {% endblock %}
 
 {% block after_related_objects %}{% endblock %}

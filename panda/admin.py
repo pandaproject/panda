@@ -19,7 +19,6 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _
-from django.views.decorators.csrf import csrf_exempt
 from djcelery.models import CrontabSchedule, IntervalSchedule, PeriodicTask, TaskState, WorkerState
 from livesettings import config_value
 from tastypie.admin import ApiKeyInline
@@ -148,7 +147,7 @@ class UserModelAdmin(UserAdmin):
                 self.admin_site.admin_view(self.resend_activation_single),
                 name='%s_%s_resend_activation' % (self.model._meta.app_label, self.model._meta.module_name)
             ),
-            url(r'^add_many$',
+            url(r'^add_many/$',
                 self.admin_site.admin_view(self.add_many),
                 name='%s_%s_add_many' % (self.model._meta.app_label, self.model._meta.module_name)
             ),
@@ -203,7 +202,10 @@ class UserModelAdmin(UserAdmin):
         model = self.model
         opts = model._meta
 
+        print opts
+
         context = RequestContext(request, {
+            'opts': opts,
             'title': _('Add %s') % force_unicode(opts.verbose_name_plural),
             'media': self.media,
             'error': [],
