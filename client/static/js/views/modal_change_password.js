@@ -78,11 +78,12 @@ PANDA.views.ChangePassword = Backbone.View.extend({
         
         var form_values = $("#user-change-password-form").serializeObject();
 
-        this.user.save(form_values, { 
-            success: _.bind(function(response) {
+        this.user.patch(
+            form_values,
+            _.bind(function(response) {
                 $("#modal-user-change-password").modal("hide");
             }, this),
-            error: function(model, response) {
+            function(model, response) {
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
@@ -91,7 +92,7 @@ PANDA.views.ChangePassword = Backbone.View.extend({
 
                 $("#user-change-password-form").show_errors(errors, "Save failed!");
             }
-        });
+        );
 
         return false;
     }
