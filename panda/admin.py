@@ -233,7 +233,6 @@ class UserModelAdmin(UserAdmin):
                     raise Exception('Unable to determine the format of the data you entered. Please ensure it is valid CSV data.')
 
                 reader = CSVKitReader(StringIO(user_data), dialect=csv_dialect)
-                reader.next() 
 
                 emails = 0
 

@@ -36,7 +36,7 @@
 {% endblock %}
 {% url 'admin:panda_userproxy_add_many' as form_url %}
 
-<form action="{{ form_url }}" method="post" id="add_many_form">{% block form_top %}{% csrf_token %}<p>{% trans "Type or paste user data into the field below in <strong>CSV format</strong>. The provided header row is required. The first_name and last_name fields may be blank left blank for any or all rows." %}</p>
+<form action="{{ form_url }}" method="post" id="add_many_form">{% block form_top %}{% csrf_token %}<p>{% trans "Type or paste user data into the field below in <strong>CSV format</strong>. The first_name and last_name fields may be blank left blank for any or all rows." %}</p>
     <p>{% if email_enabled %}{% trans "If the password field is not blank the user will be activated immediately, otherwise the user will be sent an activation email." %}{% else %}{% trans "<strong>Important:</strong> Email is not <a href=\"/admin/settings/\">enabled</a> for your PANDA. <strong>Users will not receive activation emails.</strong> If the password field is not blank the user will be activated, otherwise you will need to activate them manually." %}{% endif %}</p>{% endblock %}
 <div>
 
@@ -46,8 +46,9 @@
     </p>
 {% endif %}
 
-<textarea name="user-data" rows="20", cols="100" value="">{% if user_data %}{% autoescape off %}{{ user_data }}{% endautoescape %}{% else %}email,password,first_name,last_name
-example@example.com,mypass123,John,Doe{% endif %}</textarea><br />
+<p><strong><code>email,password,first_name,last_name</code></strong></p>
+
+<textarea name="user-data" rows="20", cols="100" value="">{% if user_data %}{% autoescape off %}{{ user_data }}{% endautoescape %}{% else %}example@example.com,mypass123,John,Doe{% endif %}</textarea><br />
 <input type="submit" value="Add new users" />
 
 {% for fieldset in adminform %}
