@@ -58,7 +58,7 @@ def make_user_login_response(user):
     """
     nr = NotificationResource()
 
-    notifications = user.notifications.filter(read_at__isnull=True)
+    notifications = user.notifications.all()[:settings.PANDA_NOTIFICATIONS_TO_SHOW]
 
     bundles = [nr.build_bundle(obj=n) for n in notifications]
     notifications = [nr.full_dehydrate(b) for b in bundles]
