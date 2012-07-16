@@ -212,7 +212,7 @@ PANDA.models.Dataset = Backbone.Model.extend({
         }
 
         if (since != "all") {
-            data.since = since;
+            data['since'] = since;
         }
 
         Redd.ajax({

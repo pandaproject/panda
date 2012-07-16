@@ -316,6 +316,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
          */
         this.dataset.export_data(
             null,
+            "all",
             function(dataset) {
                 var note = "Your export has been successfully queued.";
 
