@@ -72,21 +72,14 @@ The disadvantage of this method is that you will need to wait while the setup sc
 
     An installation log will be created at ``/var/log/panda-install.log`` in case you need to review any part of the process.
 
-Step 4. Check your PANDA
-------------------------
+Step 4. Setting up your PANDA
+-----------------------------
 
 Once you've completed your selected installation method you'll want to verify that your new PANDA is available. You can browse directly using to your instance using its "Public DNS Name". Navigate to the EC2 `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and select your instance. The public DNS name will be listed among the instance details in the bottom pane. It will look something like this: ``ec2-50-16-157-39.compute-1.amazonaws.com``. Visit this in your browser, like so::
 
     http://ec2-50-16-157-39.compute-1.amazonaws.com/
 
-You can login using the default user credentials::
+Your PANDA will be running in setup mode. This guided process will give you an opportunity to create an administrative user. Once you've completed the setup you will be directed to login to your PANDA with your new administrative user.
 
-    Username: user@pandaproject.net
-    Password: user
+You may also wish to configure :doc:`DNS <dns>`, :doc:`E-mail <email>` and/or :doc:`Secure connections (SSL) <ssl>`.
 
-Or the default administrator credentials::
-
-    Username: panda@pandaproject.net
-    Password: panda
-
-Once you have verified that your instance is online you may wish to configure :doc:`DNS <dns>`, :doc:`E-mail <email>` and/or :doc:`Secure connections (SSL) <ssl>`.

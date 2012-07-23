@@ -22,9 +22,7 @@ Once you have your new domain name directed to your PANDA, you'll want to config
 
 Replace ``localhost:8000`` with your PANDA's domain name.
 
-You'll be prompted to log in. If this is your first time, you can use the default username, ``panda@pandaproject.net``, and the default password ``panda``.
-
-Once you've logged in, you'll see a list of configuration options. In the section titled "Site domain settings," fill in your new domain name and click "Update Settings".
+You will be prompted to log in as an administrative user. Once logged in you will see a list of configuration options. In the section titled "Site domain settings," fill in your new domain name and click "Update Settings".
 
 To test the new domain name, click the "Home" link at the top of the screen and then the link to "Add" a new User. Fill in your own email address and click "Save." You should get an activation email in your inbox. Click the activation link and verify that you return to your PANDA.
 

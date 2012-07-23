@@ -39,6 +39,7 @@ This script will setup the complete application, *except* for Solr. Be sure to r
     python manage.py syncdb --noinput
     python manage.py migrate --noinput
     python manage.py loaddata panda/fixtures/init_panda.json
+    python manage.py loaddata panda/fixtures/test_users.json
 
     # Start PANDA
     python manage.py runserver
@@ -89,6 +90,8 @@ Checking your PANDA
 Your PANDA should now be running at::
 
     http://localhost:8000/
+
+A PANDA installed locally will not run through the normal setup mode procudure. Instead, two default users will be created.
 
 You can login using the default user credentials::
 
