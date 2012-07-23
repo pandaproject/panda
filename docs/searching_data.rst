@@ -45,11 +45,11 @@ PANDA makes it possible to search within specific columns of data within a datas
 Enabling column search
 ----------------------
 
-Because per-column search requires additional processing and storage, it is not enabled for any columns by default. (For very large datasets you should consult with your administrator before you enable it.) In order to enable column search visit your dataset's details page and select "Enable column search" from the *Actions* menu.
+Because per-column search requires additional processing and storage, it is not enabled for any columns by default. (For very large datasets you should consult with your administrator before you enable it.) In order to enable column search visit your dataset's details page and select "Enable column search" from the **Actions** menu.
 
 .. figure:: images/panda-enable-column-search.png
 
-In the window which appears check the "Enabled?" checkbox for each column that you want to be able to search. PANDA will make an effort to guess the "Data type" for each column, but you should verify these are what you expect and correct them if not. Once you've made your selections, click *Make columns searchable*.
+In the window which appears check the "Enabled?" checkbox for each column that you want to be able to search. PANDA will make an effort to guess the "Data type" for each column, but you should verify these are what you expect and correct them if not. Once you've made your selections, click **Make columns searchable**.
 
 .. figure:: images/panda-enable-column-search2.png
 

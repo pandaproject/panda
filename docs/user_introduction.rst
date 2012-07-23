@@ -44,4 +44,5 @@ Read more on the following subjects:
     uploading.rst
     searching_data.rst
     searching_datasets.rst
+    search_subscriptions.rst
 

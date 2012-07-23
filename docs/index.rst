@@ -25,6 +25,7 @@ Documentation for reporters
     uploading.rst
     searching_data.rst
     searching_datasets.rst
+    search_subscriptions.rst
 
 **Questions?** Ask them on our `User group <http://bit.ly/pandagroup>`_!
 
