@@ -1,6 +1,7 @@
 1.0.0
 -----
 
+* Remove nginx file size upload limitation. (#832)
 * Stale data in Solr indexes will no longer break search. (#793)
 * Add form for adding users in bulk to admin. (#762)
 * Fix broken Change Password and Logout buttons on admin pages. (#795)

@@ -46,6 +46,10 @@ cp setup_panda/datasets_schema.xml /opt/solr/panda/solr/pandadatasets/conf/schem
 # Install uwsgi jumpstart configuration
 cp setup_panda/uwsgi_jumpstart.conf /etc/init/uwsgi.conf
 
+# Rewrite nginx configuration
+# (can't just copy new version since they may have enabled ssl)
+sudo sed -i 's/client_max_body_size 1G/client_max_body_size 0/g' /etc/nginx/sites-available/panda
+
 # Restart services
 service solr start 
 service uwsgi start
