@@ -91,7 +91,7 @@ PANDA supports updating users via a simulated PATCH verb. To update a user PUT t
 Tasks
 =====
 
-The Task API allows you to access data about import, export and reindexing processes running on PANDA. This data is read-only.
+The Task API allows you to access data about asynchronous processes running on PANDA. This data is read-only.
 
 Example Task object:
 
@@ -113,25 +113,25 @@ Schema
 
 ::
 
-    http://localhost:8000/api/1.0/task/schema/
+    GET http://localhost:8000/api/1.0/task/schema/
 
 List
 ----
 
 ::
 
-    http://localhost:8000/api/1.0/task/
+    GET http://localhost:8000/api/1.0/task/
 
 List filtered by status 
 -----------------------
 
 List tasks that are PENDING (queued, but have not yet started processing)::
 
-    http://localhost:8000/api/1.0/task/?status=PENDING
+    GET http://localhost:8000/api/1.0/task/?status=PENDING
 
 .. note::
 
-    Possible task statuses are ``PENDING``, ``STARTED``, ``SUCCESS``, and ``FAILURE``.
+    Possible task statuses are ``PENDING``, ``STARTED``, ``SUCCESS``, ``FAILURE``, ``ABORT REQUESTED`` and ``ABORTED``.
 
 
 List filtered by date
@@ -139,14 +139,14 @@ List filtered by date
 
 List tasks that ended on October 31st, 2011::
 
-    http://localhost:8000/api/1.0/task/?end__year=2011&end__month=10&end__day=31
+    GET http://localhost:8000/api/1.0/task/?end__year=2011&end__month=10&end__day=31
 
 Fetch
 -----
 
 ::
 
-    http://localhost:8000/api/1.0/task/[id]/
+    GET http://localhost:8000/api/1.0/task/[id]/
 
 Data Uploads
 ============
