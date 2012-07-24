@@ -394,6 +394,53 @@ Fetch
 
     http://localhost:8000/api/1.0/category/[slug]/
 
+Exports
+=======
+
+Example Export object:
+
+.. code-block:: javascript
+
+    {
+        creation_date: "2012-07-12T14:38:00",
+        creator: "/api/1.0/user/2/",
+        dataset: null,
+        filename: "search_export_2012-07-12T14:38:00.078677+00:00.zip",
+        id: "1",
+        original_filename: "search_export_2012-07-12T14:38:00.078677+00:00.zip",
+        resource_uri: "/api/1.0/export/1/",
+        size: 287,
+        title: "search_export_2012-07-12T14:38:00.078677+00:00.zip"
+    }
+
+Schema
+------
+
+::
+
+    http://localhost:8000/api/1.0/export/schema/
+
+List
+----
+
+::
+
+    http://localhost:8000/api/1.0/export/
+
+Fetch
+-----
+
+::
+
+    http://localhost:8000/api/1.0/export/[id]/
+
+Download
+--------
+
+::
+
+    http://localhost:8000/api/1.0/export/[id]/download/
+
 Datasets
 ========
 
@@ -510,7 +557,8 @@ Example Dataset object:
                         "PANDA Project"
                     ]
                 ],
-                size: 168
+                size: 168,
+                title: "Contributors"
             }
         ],
         description: "",
