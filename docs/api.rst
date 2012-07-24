@@ -218,7 +218,8 @@ Example DataUpload object:
                 "PANDA Project"
             ]
         ],
-        size: 168
+        size: 168,
+        title: "PANDA Project Contributors"
     }
 
 Schema
@@ -226,28 +227,28 @@ Schema
 
 ::
 
-    http://localhost:8000/api/1.0/data_upload/schema/
+    GET http://localhost:8000/api/1.0/data_upload/schema/
 
 List
 ----
 
 ::
 
-    http://localhost:8000/api/1.0/data_upload/
+    GET http://localhost:8000/api/1.0/data_upload/
 
 Fetch
 -----
 
 ::
 
-    http://localhost:8000/api/1.0/data_upload/[id]/
+    GET http://localhost:8000/api/1.0/data_upload/[id]/
 
 Download original file
 ----------------------
 
 ::
 
-    http://localhost:8000/api/1.0/data_upload/[id]/download/
+    GET http://localhost:8000/api/1.0/data_upload/[id]/download/
 
 Upload as form-data
 -------------------
@@ -268,6 +269,11 @@ Upload via AJAX
 .. note::
 
     When using either upload method you may specify the character encoding of the file by passing it as a parameter, e.g. ``?encoding=latin1``
+
+Update
+------
+
+Data uploads may be updated by PUTing new data to the object's endpoint. However, only the ``title`` field is writeable. All other fields are read-only.
 
 Related Uploads
 ===============
@@ -295,7 +301,8 @@ Example RelatedUpload object:
         id: "1",
         original_filename: "PANDA.1.png",
         resource_uri: "/api/1.0/related_upload/1/",
-        size: 58990
+        size: 58990,
+        title: "PANDA Logo"
     }
 
 Schema
@@ -303,28 +310,28 @@ Schema
 
 ::
 
-    http://localhost:8000/api/1.0/related_upload/schema/
+    GET http://localhost:8000/api/1.0/related_upload/schema/
 
 List
 ----
 
 ::
 
-    http://localhost:8000/api/1.0/related_upload/
+    GET http://localhost:8000/api/1.0/related_upload/
 
 Fetch
 -----
 
 ::
 
-    http://localhost:8000/api/1.0/related_upload/[id]/
+    GET http://localhost:8000/api/1.0/related_upload/[id]/
 
 Download original file
 ----------------------
 
 ::
 
-    http://localhost:8000/api/1.0/related_upload/[id]/download/
+    GET http://localhost:8000/api/1.0/related_upload/[id]/download/
 
 Upload as form-data
 -------------------
@@ -341,6 +348,11 @@ Upload via AJAX
 
     curl -H "PANDA_EMAIL: panda@pandaproject.net" -H "PANDA_API_KEY: edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b" \
     --data-binary @README.txt -H "X-Requested-With:XMLHttpRequest" http://localhost:8000/related_upload/?qqfile=test.csv
+
+Update
+------
+
+Related uploads may be updated by PUTing new data to the object's endpoint. However, only the ``title`` field is writeable. All other fields are read-only.
 
 Categories
 ==========
