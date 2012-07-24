@@ -603,21 +603,21 @@ Schema
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/schema/
+    GET http://localhost:8000/api/1.0/dataset/schema/
 
 List
 ----
 
 ::
     
-    http://localhost:8000/api/1.0/dataset/
+    GET http://localhost:8000/api/1.0/dataset/
 
 List filtered by category
 -------------------------
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/?category=[slug]
+    GET http://localhost:8000/api/1.0/dataset/?category=[slug]
 
 List filtered by user
 ---------------------
@@ -626,7 +626,7 @@ A shortcut is provided for listing datasets created by a specific user. Simply p
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/?creator_email=[email]
+    GET http://localhost:8000/api/1.0/dataset/?creator_email=[email]
 
 Search for datasets
 -------------------
@@ -639,21 +639,30 @@ The Dataset list endpoint also provides full-text search over datasets' metadata
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/?q=[query]
+    GET http://localhost:8000/api/1.0/dataset/?q=[query]
 
 Fetch
 -----
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/
+    GET http://localhost:8000/api/1.0/dataset/[slug]/
 
 Create
 ------
 
-To create a new Dataset, ``POST`` a JSON document containing at least a ``name`` property to ``/api/1.0/dataset/``. Other properties such as ``description`` may also be included.
+To create a new Dataset, POST a JSON document containing at least a ``name`` property to the dataset endpoint. Other properties such as ``description`` may also be included.
 
-If data has already been uploaded for this dataset, you may also specify the ``data_upload`` property as either an embedded Upload object, or a URI to an existing DataUpload (for example, ``/api/1.0/data_upload/17/``). 
+::
+
+    POST http://localhost:8000/api/1.0/dataset/
+
+    {
+        "title": "My new dataset",
+        "description": "Lets fill this with new data!"
+    }
+
+If data has already been uploaded for this dataset, you may also specify the ``data_upload`` property as either an embedded DataUpload object, or a URI to an existing DataUpload (for example, ``/api/1.0/data_upload/17/``). 
 
 If you are creating a Dataset specifically to be updated via the API you will want to specify columns at creation time. You can do this by providing a ``columns`` query string parameter containing a comma-separated list of column names, such as ``?columns=foo,bar,baz``. You may also specify a ``column_types`` parameter which is an array of types for the columns, such as ``column_types=int,unicode,bool``. Lastly, if you want PANDA to automatically indexed typed columns for data added to this dataset, you can pass a ``typed_columns`` parameter indicating which columns should be indexed, such as ``typed_columns=true,false,true``.
 
@@ -662,14 +671,18 @@ Import
 
 Begin an import task. Any data previously imported for this dataset will be lost. Returns the original dataset, which will include the id of the new import task::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/import/[data-upload-id]/
+    GET http://localhost:8000/api/1.0/dataset/[slug]/import/[data-upload-id]/
 
 Export
 ------
 
 Exporting a dataset is an asynchronous operation. To initiate an export you simple need to make a GET request. The requesting user will be emailed when the export is complete::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/export/
+    GET http://localhost:8000/api/1.0/dataset/[slug]/export/
+
+You can export only results which match a query by appending the ``q`` querystring parameter. You can export only results after a certain time by appending the ``since`` querystring parameter. These may be combined::
+
+    GET http://localhost:8000/api/1.0/dataset/[slug]/export/?q=John&since=2012-01-01T00:00:00
 
 Reindex
 -------
@@ -678,7 +691,7 @@ Reindexing allows you to add (or remove) typed columns from the dataset. You ini
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/reindex/
+    GET http://localhost:8000/api/1.0/dataset/[slug]/reindex/
 
 Data
 ========
