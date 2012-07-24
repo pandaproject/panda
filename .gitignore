@@ -14,3 +14,4 @@ local_settings.py
 coverage_html
 .coverage
 celerybeat-schedule.db
+_site

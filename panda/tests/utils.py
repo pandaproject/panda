@@ -29,7 +29,7 @@ def setup_test_solr():
     solr.delete(settings.SOLR_DATASETS_CORE, '*:*')
 
 def get_auth_headers(email='user@pandaproject.net'):
-    user = UserProxy.objects.get(username=email)
+    user = UserProxy.objects.get(email=email)
 
     return {
         'HTTP_PANDA_EMAIL': email,
@@ -37,10 +37,10 @@ def get_auth_headers(email='user@pandaproject.net'):
     }
 
 def get_admin_user():
-    return UserProxy.objects.get(username='panda@pandaproject.net')
+    return UserProxy.objects.get(email='panda@pandaproject.net')
 
 def get_panda_user():
-    return UserProxy.objects.get(username='user@pandaproject.net')
+    return UserProxy.objects.get(email='user@pandaproject.net')
 
 def get_test_dataset(creator):
     dataset = Dataset.objects.create(

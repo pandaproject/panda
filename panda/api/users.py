@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from django.conf.urls.defaults import url
-from django.contrib.auth.models import Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import email_re
 from tastypie import fields
@@ -134,19 +133,38 @@ class UserResource(PandaModelResource):
     def obj_create(self, bundle, request=None, **kwargs):
         """
         Create user using email as username and optionally using a supplied password.
-
-        All users created via the API are automatically assigned to the panda_users group.
         """
         if not request.user.is_superuser:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
-        bundle = super(UserResource, self).obj_create(bundle, request=request, username=bundle.data['email'], **kwargs)
-        bundle.obj.set_password(bundle.data.get('password'))
+        bundle.obj = self._meta.object_class()
 
-        panda_user = Group.objects.get(name='panda_user')
+        for key, value in kwargs.items():
+            setattr(bundle.obj, key, value)
 
-        bundle.obj.groups.add(panda_user)
+        bundle = self.full_hydrate(bundle)
+        self.is_valid(bundle,request)
+
+        bundle.obj.username = bundle.obj.email
+
+        # Set password before saving so the post-save signal will correctly send email
+        if bundle.data.get('password'):
+            bundle.obj.set_password(bundle.data.get('password'))
+        else:
+            bundle.obj.set_unusable_password()
+
+        if bundle.errors:
+            self.error_response(bundle.errors, request)
+
+        # Save FKs just in case.
+        self.save_related(bundle)
+
+        # Save parent
         bundle.obj.save()
+
+        # Now pick up the M2M bits.
+        m2m_bundle = self.hydrate_m2m(bundle)
+        self.save_m2m(m2m_bundle)
 
         return bundle
 

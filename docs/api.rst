@@ -63,7 +63,7 @@ Fetch
 Create
 ------
 
-To create a new user, POST a JSON document containing at least the ``email`` property to http://localhost:8000/api/1.0/user/. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted the user will need to set a password before they can log in (not yet implemented).
+To create a new user, POST a JSON document containing at least the ``email`` property to ``http://localhost:8000/api/1.0/user/``. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted and email is enabled the new user will be sent an activation email.
 
 Tasks
 =====
