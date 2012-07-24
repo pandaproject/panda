@@ -44,26 +44,49 @@ Schema
 
 ::
 
-    http://localhost:8000/api/1.0/user/schema/
+    GET http://localhost:8000/api/1.0/user/schema/
 
 List
 ----
 
 ::
 
-    http://localhost:8000/api/1.0/user/
+    GET http://localhost:8000/api/1.0/user/
 
 Fetch
 -----
 
 ::
 
-    http://localhost:8000/api/1.0/user/[id]/
+    GET http://localhost:8000/api/1.0/user/[id]/
 
 Create
 ------
 
-To create a new user, POST a JSON document containing at least the ``email`` property to ``http://localhost:8000/api/1.0/user/``. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted and email is enabled the new user will be sent an activation email.
+New users are created by POSTing a JSON document containing at least the ``email`` property to the user endpoint. Other properties such as ``first_name`` and ``last_name`` may also be set. If a ``password`` property is specified it will be set on the new user, but it will not be included in the response. If ``password`` is omitted and email is enabled the new user will be sent an activation email.
+
+::
+
+    POST http://localhost:8000/api/1.0/user/
+
+    {
+        "email": "test@test.com",
+        "first_name": "John",
+        "last_name": "Doe"
+    }
+
+Update
+------
+
+PANDA supports updating users via a simulated PATCH verb. To update a user PUT to the user's URL, with ``patch`` as a query string parameter. In the body of your request include only those attributes of the user you want to change.
+
+::
+
+    PUT http://localhost:8000/api/1.0/user/[id]/?patch=true
+
+    {
+        "last_name": "My New Last Name"
+    }
 
 Tasks
 =====
