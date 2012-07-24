@@ -696,13 +696,13 @@ Reindexing allows you to add (or remove) typed columns from the dataset. You ini
 Data
 ========
 
-``Data`` objects are referenced by a unicode ``external_id`` property, specified at the time they are created. This property must be unique within a given ``Dataset``, but does not need to be unique globally. Data objects are accessible at per-dataset endpoints (e.g. ``/api/1.0/dataset/[slug]/data/``). There is also a cross-dataset Data search endpoint at ``/api/1.0/data/``, however, this endpoint can only be used for search--not for create, update, or delete. (See below for more.)
+Data objects are referenced by a unicode ``external_id`` property, specified at the time they are created. This property must be unique within a given ``Dataset``, but does not need to be unique globally. Data objects are accessible at per-dataset endpoints (e.g. ``/api/1.0/dataset/[slug]/data/``). There is also a cross-dataset Data search endpoint at ``/api/1.0/data/``, however, this endpoint can only be used for search--not for create, update, or delete. (See below for more.)
 
 .. warning::
 
-    The ``external_id`` property of a Data object is the only way it can be accessed through the API. In order to work with Data via the API you **must** include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
+    The ``external_id`` property of a Data object is the only way it can be referenced via the API. In order to work with Data via the API you **must** include this property at the time you create it. By default this property is ``null`` and the Data can not be accessed except via search.
 
-An example ``Data`` object with an ``external_id``:
+An example Data object with an ``external_id``:
 
 .. code-block:: javascript
 
@@ -747,34 +747,36 @@ There is no schema endpoint for Data.
 List
 ----
 
-When listing data, PANDA will return a simplified ``Dataset`` object with an embedded ``meta`` object and an embedded ``objects`` array containing ``Data`` objects. The added Dataset metadata is purely for convenience when building user interfaces. 
+When listing data, PANDA will return a simplified Dataset object with an embedded ``meta`` object and an embedded ``objects`` array containing Data objects. The added Dataset metadata is purely for convenience when building user interfaces. 
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/data/
+    GET http://localhost:8000/api/1.0/dataset/[slug]/data/
     
 Search
 ------
 
 Full-text queries function as "filters" over the normal ``Data`` list. Therefore, search results will be in the same format as the list results described above::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/data/?q=[query]
+    GET http://localhost:8000/api/1.0/dataset/[slug]/data/?q=[query]
 
 For details on searching Data across all Datasets, see below.
 
 Fetch
 -----
 
-To fetch a single ``Data`` from a given ``Dataset``::
+To fetch a single Data object from a given Dataset::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/data/[external_id]/
+    GET http://localhost:8000/api/1.0/dataset/[slug]/data/[external_id]/
 
 Create and update
 -----------------
 
-Because Data is stored in Solr (rather than a SQL database), there is no functional difference between Create and Update. In either case any Data with the same ``external_id`` will be overwritten when the new Data is created. Because of this requests may be either ``POST``'ed to the list endpoint or ``PUT`` to the detail endpoint.
+Because Data is stored in Solr (rather than a SQL database), there is no functional difference between Create and Update. In either case any Data with the same ``external_id`` will be overwritten when the new Data is created. Because of this requests may be either POSTed to the list endpoint or PUT to the detail endpoint.
 
-An example POST::
+An examplew with POST::
+
+    POST http://localhost:8000/api/1.0/dataset/[slug]/data/
 
     {
         "data": [
@@ -782,14 +784,12 @@ An example POST::
             "column B value",
             "column C value"
         ],
-        "external_id": "id_value"
+        "external_id": "123456"
     }
 
-This object would be ``POST``'ed to::
+An example with PUT::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/data/
-
-An example ``PUT``::
+    PUT http://localhost:8000/api/1.0/dataset/[slug]/data/123456/
 
     {
         "data": [
@@ -799,14 +799,10 @@ An example ``PUT``::
         ]
     }
 
-This object would be ``PUT`` to::
-
-    http://localhost:8000/api/1.0/dataset/[slug]/data/id_value/
-
 Bulk create and update
 ----------------------
 
-To create or update objects in bulk you may ``PUT`` an array of objects to the list endpoint. Any object with a matching ``external_id`` will be deleted and then new objects will be created. The body of the request should be formatted like::
+To create or update objects in bulk you may PUT an array of objects to the list endpoint. Any object with a matching ``external_id`` will be deleted and then new objects will be created. The body of the request should be formatted like::
 
     {
         "objects": [
@@ -832,16 +828,18 @@ To create or update objects in bulk you may ``PUT`` an array of objects to the l
 Delete
 ------
 
-To delete an object send a ``DELETE`` request to its detail url. The body of the request should be empty.
+To delete an object send a DELETE request to its detail url. The body of the request should be empty::
+
+    DELETE http://localhost:8000/api/1.0/dataset/[slug]/data/[external_id]/
 
 Delete all data from a dataset
 ------------------------------
 
-In addition to deleting individual objects, its possible to delete all objects within a dataset, by sending a ``DELETE`` request to the root per-dataset data endpoint. The body of the request should be empty.
+In addition to deleting individual objects, its possible to delete all Data within a Dataset, by sending a DELETE request to the root per-dataset data endpoint. The body of the request should be empty.
 
 ::
 
-    http://localhost:8000/api/1.0/dataset/[slug]/data/
+    DELETE http://localhost:8000/api/1.0/dataset/[slug]/data/
 
 Global search
 =============
@@ -850,7 +848,7 @@ Searching all data functions slightly differently than searching within a single
 
     http:://localhost:8000/api/1.0/data/?q=[query]
 
-The response is a ``meta`` object with paging information and an ``objects`` array containing simplified ``Dataset`` objects, each of which contains its own ``meta`` object and an ``objects`` array containing ``Data`` objects. **Each Dataset contains a group of matching Data.**
+The response is a ``meta`` object with paging information and an ``objects`` array containing simplified Dataset objects, each of which contains its own ``meta`` object and an ``objects`` array containing Data objects. **Each Dataset contains a group of matching Data.**
 
-When using this endpoint the ``limit`` and ``offset`` parameters refer to the ``Datasets`` (that is, the **groups**) returned. If you wish to paginate the result sets within each group you can use ``group_limit`` and ``group_offset``, however, this is rarely useful behavior.
+When using this endpoint the ``limit`` and ``offset`` parameters refer to the Datasets (that is, the **groups**) returned. If you wish to paginate the result sets within each group you can use ``group_limit`` and ``group_offset``, however, this is rarely useful behavior.
 
