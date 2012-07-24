@@ -9,7 +9,7 @@ The PANDA API follows the conventions of `Tastypie <https://github.com/toastdriv
 
 .. note::
 
-    You will probably want to try these URLs in your browser. In order to make them work you'll need to use the ``format``, ``email``, and ``api_key`` query string parameters. For example, to authenticate as the default administrative user that comes with PANDA, append the following query string to any url described on this page::
+    You will probably want to try these URLs in your browser. In order to make them work you'll need to use the ``format``, ``email``, and ``api_key`` query string parameters. For example, if you had a user named panda@pandaproject.net you might append the following query string to any url described on this page::
 
         ?format=json&email=panda@pandaproject.net&api_key=edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b
 
