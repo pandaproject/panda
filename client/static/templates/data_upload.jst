@@ -36,18 +36,20 @@
 
             <input type="file" id="upload-file" /><br />
 
-            <div class="alert alert-block alert-warn notes xls">
-                <h4 class="alert-heading">Excel styles will be lost!</h4>
-                <p>When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA. For example:</p>
-                <ul>
-                    <li>The date <strong>12/30/2011</strong> in Excel will become <strong>2011-12-30</strong> in PANDA.</li>
-                    <li>A number shown rounded in Excel, <strong>12</strong>, will be expanded in PANDA, <strong>12.011113</strong>.</li>
-                    <li>A value with prepended zeroes, <strong>000097</strong>, will be simplified to <strong>97</strong>. (If the leading zeroes were applied with a format.)
-                    <li>When importing formulas, such as <strong>=B1+5</strong> PANDA will store the computed value only, <strong>10</strong>.</li>
-                    <li>Pivot tables and other embedded objects will be discarded.</li>
-                </ul>
-                <h4 class="alert-heading">Only the first worksheet will be searchable!</h4>
-                <p>Only the first worksheet of any Excel workbook will be made searchable. However, you will always be able to redownload the complete workbook.</p>
+            <div class="alert alert-warn notes xls">
+                <strong>Excel styles will be lost!</strong> When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA than it does in your spreadsheet application. In addition, only the first worksheet of your file will be made searchable. Read more in our documentation on <a href="http://pandaproject.net/docs/handling-unsupported-excel-features.html">handling unsupported Excel features</a>.
+            </div>
+            
+            <div class="alert alert-error notes access">
+                Access files can not be uploaded to PANDA. Read our documentation on <a href="http://pandaproject.net/docs/importing-access-files.html">importing Access files</a>.
+            </div>
+
+            <div class="alert alert-error notes dbf">
+                DBF files can not be uploaded to PANDA. Read our documentation on <a href="http://pandaproject.net/docs/importing-dbf-files.html">importing DBF files</a>.
+            </div>
+
+            <div class="alert alert-error notes other">
+                Unknown file type. Please upload either an CSV or Excel file.
             </div>
 
             <div class="csv-options">

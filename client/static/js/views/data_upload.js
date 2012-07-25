@@ -29,6 +29,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
     dataset_is_new: false,
     available_space: null,
 
+    allowed_extensions: ["csv", "xls", "xlsx"],
+
     initialize: function() {
         _.bindAll(this);
     },
@@ -98,7 +100,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         this.file_uploader = new qq.FileUploaderBasic({
             action: "/data_upload/",
             multiple: false,
-            allowedExtensions: ["csv", "xls", "xlsx"],
+            allowedExtensions: this.allowed_extensions,
             onSubmit: this.on_submit,
             onProgress: this.on_progress,
             onComplete: this.on_complete,
@@ -128,17 +130,15 @@ PANDA.views.DataUpload = Backbone.View.extend({
         
         $("#dataset-name").val(no_ext);
 
-        if (ext == 'xls' || ext == 'xlsx') {
-            $("#step-1 .notes.xls").show();
-        } else {
-            $("#step-1 .notes.xls").hide();
-        }
+        var known_extensions = ['csv', 'xls', 'xlsx', 'mdb', 'access', 'dbf'];
 
-        if (ext == 'csv') {
-            $(".csv-options").show();
-        } else {
-            $(".csv-options").hide();
-        }
+        $(".csv-options").toggle(ext == 'csv');
+        $("#step-1 .notes.xls").toggle(ext == 'xls' || ext == 'xlsx');
+        $("#step-1 .notes.access").toggle(ext == 'mdb' || ext == 'access');
+        $("#step-1 .notes.dbf").toggle(ext == 'dbf');
+
+        $("#upload-begin").attr("disabled", _.indexOf(this.allowed_extensions, ext) >= 0 ? false : true);
+        $("#step-1 .notes.other").toggle(_.indexOf(known_extensions, ext) >= 0 ? false : true);
     },
 
     on_submit: function(id, fileName) {

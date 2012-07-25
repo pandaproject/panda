@@ -225,14 +225,16 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 
 #upload h3 { line-height: 20px; margin-bottom: 20px;}
 
-.toggle-csv-options { display: block; }
-.csv-options { display: none; padding-bottom: 5px; }
-.csv-options h5 { margin-bottom: 5px; }
+#upload .notes h4 { margin: 5px 0; } 
 
-.step { margin-top: 20px; }
-.step h3 { font-weight: bold; }
+#upload .toggle-csv-options { display: block; }
+#upload .csv-options { display: none; padding-bottom: 5px; }
+#upload .csv-options h5 { margin-bottom: 5px; }
 
-#upload-progress { margin-bottom: 10px; }
+#upload .step { margin-top: 20px; }
+#upload .step h3 { font-weight: bold; }
+
+#upload #upload-progress { margin-bottom: 10px; }
 
 .progress-bar {
     background-color: #f5f5f5;
