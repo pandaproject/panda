@@ -16,7 +16,7 @@ def sniff_dialect(path, encoding='utf-8'):
         try:
             csv_dialect = csvkit_sniff(f.read(settings.PANDA_SNIFFER_MAX_SAMPLE_SIZE))
         except UnicodeDecodeError:
-            raise DataSamplingError('This CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file.' % (encoding))
+            raise DataSamplingError('This CSV file contains characters that are not %s encoded. You need to input the correct encoding in order to import data from this file. Read our documentation about <a href="http://pandaproject.net/docs/determining-the-encoding-of-a-csv-file.html">determining the encoding of a CSV file</a>.' % (encoding))
 
         if not csv_dialect:
             raise NotSniffableError('CSV dialect could not be automatically inferred.') 
