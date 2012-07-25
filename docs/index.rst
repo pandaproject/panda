@@ -15,25 +15,12 @@ The PANDA Project is `2011 Knight News Challenge winner <http://www.knightfounda
 
 Logistical support and fiscal agency for PANDA have been provided by `Investigative Reporters and Editors <http://www.ire.org/>`_. Our sincere thanks to them helping make it a reality.
 
-Documentation for reporters
-===========================
+.. note::
 
-.. toctree::
-    :maxdepth: 1
-
-    user_introduction.rst
-    uploading.rst
-    searching_data.rst
-    searching_datasets.rst
-    search_subscriptions.rst
-
-**Questions?** Ask them on our `User group <http://bit.ly/pandagroup>`_!
-
-Documentation for editors
-=========================
+    **Are you a reporter?** Documentation for users can be found at the `PANDA Project Cookbook <http://pandaproject.github.com/>`_.
 
 What is PANDA?
---------------
+==============
 
 PANDA is:
 
@@ -53,11 +40,8 @@ PANDA is *not*:
 
 See our :doc:`Frequently Asked Questions (FAQ) <faq>` for much more.
 
-Documentation for adminstrators
-===============================
-
 Setup
------
+=====
 
 .. toctree::
     :maxdepth: 1 
@@ -66,7 +50,7 @@ Setup
     production.rst
 
 Configuration
--------------
+=============
 
 .. toctree::
     :maxdepth: 1
@@ -76,8 +60,8 @@ Configuration
     Performance <performance.rst>
     Secure connections (SSL) <ssl.rst>
 
-Usage
------
+Administration
+==============
 
 .. toctree::
     :maxdepth: 1
@@ -87,7 +71,7 @@ Usage
     API Keys <api_keys.rst>
 
 Server maintenance 
-------------------
+==================
 
 .. toctree::
     :maxdepth: 1
@@ -99,7 +83,7 @@ Server maintenance
     Upgrades <upgrades.rst>
 
 Extending PANDA
----------------
+===============
 
 .. toctree::
     :maxdepth: 1 
