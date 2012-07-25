@@ -11,6 +11,7 @@ Use the tools appropriate to your operating system to install the following pack
 * virtualenv
 * virtualenvwrapper
 * PostgreSQL
+* Mercurial (hg)
 
 Set up PANDA
 ============
