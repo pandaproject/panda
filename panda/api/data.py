@@ -61,7 +61,9 @@ class DataValidation(Validation):
             errors['data'] = ['The data field is required.']
 
         if 'external_id' in bundle.data:
-            if not re.match('^[\w\d_-]+$', bundle.data['external_id']):
+            if not isinstance(bundle.data['external_id'], basestring):
+                errors['external_id'] = ['external_id must be a string.']
+            elif not re.match('^[\w\d_-]+$', bundle.data['external_id']):
                 errors['external_id'] = ['external_id can only contain letters, numbers, underscores and dashes.']
 
         return errors
@@ -324,6 +326,9 @@ class DataResource(PandaResource):
             bundle = self.build_bundle(data=dict_strip_unicode_keys(object_data), request=request)
 
             self.is_valid(bundle, request)
+
+            if bundle.errors:
+                self.error_response(bundle.errors, request)
 
             bundles.append(bundle)
             data.append((

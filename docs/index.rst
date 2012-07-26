@@ -88,6 +88,7 @@ Extending PANDA
 .. toctree::
     :maxdepth: 1 
 
+    api_tutorial.rst
     api.rst
 
 * `Source code repository <https://github.com/pandaproject/panda>`_
