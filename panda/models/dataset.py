@@ -398,7 +398,7 @@ class Dataset(SluggedModel):
             old_row_count = self.row_count
             self.row_count = 0
             self.last_modified = now()
-            self.last_modification = 'All %i rows deleted' % old_row_count
+            self.last_modification = 'All %i rows deleted' % old_row_count or 0
             self.save()
         finally:
             self.unlock()
