@@ -30,7 +30,7 @@ ln -s /etc/init.d/ssh /etc/rc4.d/S20ssh
 ln -s /etc/init.d/ssh /etc/rc5.d/S20ssh
 
 # Setup Solr + Jetty
-wget -nv http://mirror.uoregon.edu/apache//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/apache-solr-3.4.0.tgz
+wget -nv http://archive.apache.org/dist/lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O /opt/apache-solr-3.4.0.tgz
 
 cd /opt
 tar -xzf apache-solr-3.4.0.tgz
