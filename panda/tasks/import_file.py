@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 import traceback
 
 from celery.contrib.abortable import AbortableTask
@@ -31,7 +32,14 @@ class ImportFileTask(AbortableTask):
         """
         from panda.models import Dataset
 
-        dataset = Dataset.objects.get(slug=args[0])
+        log = logging.getLogger(self.name)
+
+        try:
+            dataset = Dataset.objects.get(slug=args[0])
+        except Dataset.DoesNotExist:
+            log.warning('Can not send import notifications due to Dataset being deleted, dataset_slug: %s' % args[0])
+
+            return
 
         try:
             try:

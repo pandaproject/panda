@@ -32,7 +32,12 @@ class ReindexTask(AbortableTask):
         log = logging.getLogger(self.name)
         log.info('Beginning reindex, dataset_slug: %s' % dataset_slug)
 
-        dataset = Dataset.objects.get(slug=dataset_slug)
+        try:
+            dataset = Dataset.objects.get(slug=dataset_slug)
+        except Dataset.DoesNotExist:
+            log.warning('Reindexing failed due to Dataset being deleted, dataset_slug: %s' % dataset_slug)
+
+            return
 
         task_status = dataset.current_task
         task_status.begin('Preparing to reindex')
@@ -94,7 +99,13 @@ class ReindexTask(AbortableTask):
         task_status.update('100% complete')
 
         # Refresh dataset
-        dataset = Dataset.objects.get(slug=dataset_slug)
+        try:
+            dataset = Dataset.objects.get(slug=dataset_slug)
+        except Dataset.DoesNotExist:
+            log.warning('Reindexing could not be completed due to Dataset being deleted, dataset_slug: %s' % dataset_slug)
+
+            return
+
         dataset.column_schema = data_typer.schema 
         dataset.save()
 
@@ -108,7 +119,14 @@ class ReindexTask(AbortableTask):
         """
         from panda.models import Dataset
 
-        dataset = Dataset.objects.get(slug=args[0])
+        log = logging.getLogger(self.name)
+
+        try:
+            dataset = Dataset.objects.get(slug=args[0])
+        except Dataset.DoesNotExist:
+            log.warning('Can not send reindexing notifications due to Dataset being deleted, dataset_slug: %s' % args[0])
+
+            return
 
         try:
             try:

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 import os.path
 import traceback
 
@@ -29,7 +30,15 @@ class ExportFileTask(AbortableTask):
         """
         from panda.models import Dataset
 
-        dataset = Dataset.objects.get(slug=args[0])
+        log = logging.getLogger(self.name)
+
+        try:
+            dataset = Dataset.objects.get(slug=args[0])
+        except Dataset.DoesNotExist:
+            log.warning('Can not send export notifications due to Dataset being deleted, dataset_slug: %s' % args[0])
+
+            return
+        
         query = kwargs.get('query', None)
 
         self.send_notifications(dataset, query, retval, einfo) 

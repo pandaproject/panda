@@ -28,8 +28,14 @@ class ImportXLSTask(ImportFileTask):
         
         log = logging.getLogger(self.name)
         log.info('Beginning import, dataset_slug: %s' % dataset_slug)
+    
+        try:
+            dataset = Dataset.objects.get(slug=dataset_slug)
+        except Dataset.DoesNotExist:
+            log.warning('Import failed due to Dataset being deleted, dataset_slug: %s' % dataset_slug)
 
-        dataset = Dataset.objects.get(slug=dataset_slug)
+            return
+
         upload = DataUpload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
@@ -92,7 +98,12 @@ class ImportXLSTask(ImportFileTask):
         task_status.update('100% complete')
 
         # Refresh dataset from database so there is no chance of crushing changes made since the task started
-        dataset = Dataset.objects.get(slug=dataset_slug)
+        try:
+            dataset = Dataset.objects.get(slug=dataset_slug)
+        except Dataset.DoesNotExist:
+            log.warning('Import could not be completed due to Dataset being deleted, dataset_slug: %s' % dataset_slug)
+
+            return
 
         if not dataset.row_count:
             dataset.row_count = i

@@ -31,10 +31,15 @@ class ExportCSVTask(ExportFileTask):
         log = logging.getLogger(self.name)
         log.info('Beginning export, dataset_slug:%s %s' % (dataset_slug, query))
 
-        dataset = Dataset.objects.get(slug=dataset_slug)
+        try:
+            dataset = Dataset.objects.get(slug=dataset_slug)
+        except Dataset.DoesNotExist:
+            log.warning('Export failed due to Dataset being deleted, dataset_slug: %s' % dataset_slug)
+
+            return
 
         task_status = dataset.current_task
-        task_status.begin('Preparing to import')
+        task_status.begin('Preparing to export')
 
         if not filename:
             filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())

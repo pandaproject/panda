@@ -75,7 +75,12 @@ class ExportSearchTask(AbortableTask):
         throttle = config_value('PERF', 'TASK_THROTTLE')
 
         for dataset_slug in datasets:
-            dataset = Dataset.objects.get(slug=dataset_slug)
+            try:
+                dataset = Dataset.objects.get(slug=dataset_slug)
+            except Dataset.DoesNotExist:
+                log.warning('Skipping part of export due to Dataset being deleted, dataset_slug: %s' % dataset_slug)
+
+                continue
 
             filename = '%s.csv' % dataset_slug
             file_path = os.path.join(path, filename)
