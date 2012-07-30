@@ -64,20 +64,22 @@ def dashboard(request):
     user_count = UserProxy.objects.all().count()
     inactive_user_count = UserProxy.objects.filter(is_active=False).count()
 
-    most_active_users = \
-        UserProxy.objects.all() \
-        .annotate(Count('activity_logs')) \
-        .filter(activity_logs__count__gt=0) \
-        .order_by('-activity_logs__count')[:10]
-
-    least_active_users = \
-        UserProxy.objects.all() \
-        .annotate(Count('activity_logs')) \
-        .exclude(id__in=[user.id for user in most_active_users]) \
-        .order_by('activity_logs__count')[:10]
-
     today = now().date()
     thirty_days_ago = today - datetime.timedelta(days=30)
+
+    active_users = list(UserProxy.objects.raw('SELECT auth_user.*, count(panda_activitylog.id) AS activity_logs__count FROM auth_user LEFT JOIN panda_activitylog ON panda_activitylog.user_id = auth_user.id WHERE auth_user.is_active = True AND panda_activitylog.when > %s GROUP BY auth_user.id ORDER BY activity_logs__count DESC, auth_user.id ASC', [thirty_days_ago]))
+
+    most_active_users = active_users[:10]
+
+    if len(active_users) > 10:
+        least_active_users = active_users[-10:]
+        least_active_users.reverse()
+    else:
+        least_active_users = []
+
+    inactive_users = UserProxy.objects.all() \
+        .annotate(Count('activity_logs')) \
+        .filter(activity_logs__count=0)
 
     _active_users_by_day = \
         list(ActivityLog.objects.filter(when__gt=thirty_days_ago) \
@@ -161,6 +163,7 @@ def dashboard(request):
         'inactive_user_count': inactive_user_count,
         'most_active_users': most_active_users,
         'least_active_users': least_active_users,
+        'inactive_users': inactive_users,
         'active_users_by_day': active_users_by_day,
         'total_searches': total_searches,
         'most_searched_datasets': most_searched_datasets,

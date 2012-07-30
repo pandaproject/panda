@@ -30,7 +30,7 @@
         </div>
 
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span4">
                 <h3>Most active users in the last 30 days</h3>
                 <ul>
                     {% for user in most_active_users %}
@@ -38,11 +38,19 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="span6">
+            <div class="span4">
                 <h3>Least active users in the last 30 days</h3>
                 <ul>
                     {% for user in least_active_users %}
                     <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="span4">
+                <h3>Inactive users in the last 30 days</h3>
+                <ul>
+                    {% for user in inactive_users %}
+                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a></li>
                     {% endfor %}
                 </ul>
             </div>
