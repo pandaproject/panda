@@ -329,6 +329,13 @@ PANDA.views.Root = Backbone.View.extend({
         this._router.navigate("activate/" + activation_key);
     },
 
+        goto_reset_password: function(activation_key) {
+        this.current_content_view = this.get_or_create_view("ResetPassword");
+        this.current_content_view.reset(activation_key);
+
+        this._router.navigate("reset-password/" + activation_key);
+    },
+
     goto_login: function(next) {
         this.current_content_view = this.get_or_create_view("Login");
         this.current_content_view.reset(next);
