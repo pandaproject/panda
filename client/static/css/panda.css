@@ -7,7 +7,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 .navbar .container-fluid { padding-left: 0; }
 #logo a { padding: 0; margin-top: 4px; margin-left: 10px; }
 #loading-indicator { width: 32px; }
-#loading-indicator img { display: none; position: relative; top: 2px; }
+#loading-indicator img { display: none; position: relative; top: -1px; }
 #navbar-admin { display: none; }
 
 .navbar .menu-dropdown, .navbar .dropdown-menu {
