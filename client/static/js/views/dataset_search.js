@@ -132,23 +132,44 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         return false;
     },
 
+    slow_query_warning: function() {
+        /*
+         * Display a warning when a query is taking a very long time to return.
+         */
+        this.$("#dataset-search-results").html("<strong>Warning!</strong> This query seems to be taking a very long time. It may still finish or it may have failed.");
+    },
+
+    search_error: function(error) {
+        /*
+         * Display a server error resulting from search.
+         */
+        this.$("#dataset-search-results").html("<h3>Error executing query!</h3> <p>" + error.error_message + "</p>");
+    },
+
     search: function(query, since, limit, page) {
         /*
          * Execute a search.
-         *
-         * TODO: error handler
          */
         this.decode_query_string(query);
         this.since = since || "all";
 
         this.render();
+
+        var slow_query_timer = setTimeout(this.slow_query_warning, PANDA.settings.SLOW_QUERY_TIMEOUT);
+
         this.dataset.search(
             this.make_solr_query(),
             since,
             limit,
             page,
             _.bind(function(dataset) {
+                clearTimeout(slow_query_timer);
                 this.results.render();
+            }, this),
+            _.bind(function(dataset, error) {
+                clearTimeout(slow_query_timer);
+                this.search_error(error);
+                
             }, this)
         );
     },

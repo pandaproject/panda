@@ -17,7 +17,8 @@ PANDA.utils = {};
 // Mostly populated in index.html.
 PANDA.settings = {
     CONTENT_ELEMENT: "#content",
-    NOTIFICATIONS_INTERVAL: 20000
+    NOTIFICATIONS_INTERVAL: 20000,
+    SLOW_QUERY_TIMEOUT: 10000
 };
 
 PANDA.utils.make_context = function(ctx) {

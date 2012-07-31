@@ -56,11 +56,23 @@ PANDA.views.Search = Backbone.View.extend({
         return false;
     },
 
+    slow_query_warning: function() {
+        /*
+         * Display a warning when a query is taking a very long time to return.
+         */
+        this.$("#search-results").html("<strong>Warning!</strong> This query seems to be taking a very long time. It may still finish or it may have failed.");
+    },
+
+    search_error: function(error) {
+        /*
+         * Display a server error resulting from search.
+         */
+        this.$("#search-results").html("<h3>Error executing query!</h3> <p>" + error.error_message + "</p>");
+    },
+
     search: function(category, query, since, limit, page) {
         /*
          * Execute cross-dataset search.
-         *
-         * TODO: error handler (#600)
          */
         this.query = query;
         this.category = category;
@@ -69,6 +81,8 @@ PANDA.views.Search = Backbone.View.extend({
         this.render();
 
         if (this.query) {
+            var slow_query_timer = setTimeout(this.slow_query_warning, PANDA.settings.SLOW_QUERY_TIMEOUT);
+
             this.datasets.search(
                 category,
                 query,
@@ -76,7 +90,13 @@ PANDA.views.Search = Backbone.View.extend({
                 limit,
                 page,
                 _.bind(function(datasets) {
+                    clearTimeout(slow_query_timer);
                     this.results.render(); 
+                }, this),
+                _.bind(function(datasets, error) {
+                    clearTimeout(slow_query_timer);
+                    this.search_error(error);
+                    
                 }, this)
             );
         } else {
