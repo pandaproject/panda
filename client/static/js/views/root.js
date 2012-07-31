@@ -51,7 +51,7 @@ PANDA.views.Root = Backbone.View.extend({
             $("#loading-indicator img").show();
         });
 
-        $(document).ajaxComplete(function() {
+        $(document).ajaxStop(function() {
             $("#loading-indicator img").hide();
         });
     },

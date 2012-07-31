@@ -553,6 +553,9 @@ class DataResource(PandaResource):
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
 
+        import time
+        time.sleep(30)
+
         if query:
             solr_query = 'dataset_slug:%s AND (%s)' % (dataset.slug, query)
         else:
