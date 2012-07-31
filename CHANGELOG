@@ -1,6 +1,7 @@
 1.0.0
 -----
 
+* Proper error messages when a search fails. (#600)
 * Upgrade to Django 1.4.1 security release.
 * Wrote new user documentation at pandaproject.net.
 * Remove nginx file size upload limitation. (#832)
