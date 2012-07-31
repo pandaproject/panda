@@ -1,6 +1,7 @@
 1.0.0
 -----
 
+* Upgrade to Django 1.4.1 security release.
 * Wrote new user documentation at pandaproject.net.
 * Remove nginx file size upload limitation. (#832)
 * Stale data in Solr indexes will no longer break search. (#793)
