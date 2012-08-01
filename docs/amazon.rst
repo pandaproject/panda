@@ -35,7 +35,7 @@ Step 3. Launch your server
 Method #1 - Use an Amazon Machine Instance (AMI)
 ------------------------------------------------
 
-This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-3c8a2a55``. It may take a moment to return a result. When it does, click "Select".
+This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-553e963c``. It may take a moment to return a result. When it does, click "Select".
 
 .. figure::  images/amazon-select-ami.png
    :align:  center 
@@ -75,7 +75,7 @@ The disadvantage of this method is that you will need to wait while the setup sc
 Step 4. Setting up your PANDA
 -----------------------------
 
-Once you've completed your selected installation method you'll want to verify that your new PANDA is available. You can browse directly using to your instance using its "Public DNS Name". Navigate to the EC2 `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and select your instance. The public DNS name will be listed among the instance details in the bottom pane. It will look something like this: ``ec2-50-16-157-39.compute-1.amazonaws.com``. Visit this in your browser, like so::
+Once you've completed your selected installation method you can will the web interface to complete setup. You can browse directly using to your instance using its "Public DNS Name". Navigate to the EC2 `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and select your instance. The public DNS name will be listed among the instance details in the bottom pane. It will look something like this: ``ec2-50-16-157-39.compute-1.amazonaws.com``. Visit this in your browser, like so::
 
     http://ec2-50-16-157-39.compute-1.amazonaws.com/
 
