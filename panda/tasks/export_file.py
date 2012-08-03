@@ -87,6 +87,8 @@ class ExportFileTask(AbortableTask):
                 creation_date=task_status.start,
                 dataset=dataset)
 
+            extra_context['related_export'] = export
+
             url = '#export/%i' % export.id
 
             template_prefix = 'export_complete'
