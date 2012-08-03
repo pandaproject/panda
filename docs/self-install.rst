@@ -8,7 +8,7 @@ Installation
 Server requirements
 -------------------
 
-PANDA requires a server running `Ubuntu 11.10 <http://www.ubuntu.com/download/server/download>`_. Whether you want to run PANDA in a virtual machine or on the old Compaq under your desk, as long as it can run Ubuntu 11.10, you should be fine. (Performance, of course, may vary widely depending on the hardware.)
+PANDA requires a server running `Ubuntu 12.04 <http://www.ubuntu.com/download/server/download>`_. Whether you want to run PANDA in a virtual machine or on the old Compaq under your desk, as long as it can run Ubuntu 12.04, you should be fine. (Performance, of course, may vary widely depending on the hardware.)
 
 Running the install script
 --------------------------

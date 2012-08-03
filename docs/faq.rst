@@ -89,7 +89,7 @@ Technical questions
 What platforms does PANDA run on?
 ---------------------------------
 
-PANDA requires `Ubuntu <http://www.ubuntu.com/>`_ 11.10. We anticipate upgrading this requirement to Ubuntu 12.04 LTS before the end of the grant.
+PANDA requires `Ubuntu <http://www.ubuntu.com/>`_ 12.04. This is a Long-Term Support release of Ubuntu, meaning it will be supported with patches by Canonical for five-years.
 
 Support for other platforms is unlikely, but not totally out of the question.
 
@@ -103,7 +103,7 @@ Obviously nothing is actually stopping you from installing other stuff on the sa
 Can I run PANDA on that old Dell under my desk?
 -----------------------------------------------
 
-Very likely! If it can run Ubuntu 11.10 it can probably run PANDA. We don't have "minimum requirements", but the specs of an EC2 small are:
+Very likely! If it can run Ubuntu 12.04 it can probably run PANDA. We don't have "minimum requirements", but the specs of an EC2 small are:
 
 * 1.7 GB RAM
 * 1.6 ghz single-core processor
