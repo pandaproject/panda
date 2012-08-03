@@ -3,7 +3,6 @@
 import re
 
 from django.conf import settings
-from django.conf.urls.defaults import url
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
 from tastypie import fields, http
@@ -12,7 +11,6 @@ from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest, NotFound, ImmediateHttpResponse
 from tastypie.utils import dict_strip_unicode_keys 
 from tastypie.utils.mime import build_content_type
-from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from panda import solr
@@ -90,12 +88,6 @@ class DataResource(PandaResource):
         validation = DataValidation()
 
         object_class = SolrObject
-
-    def override_urls(self):
-        """
-        Add urls for export.
-        """
-        url(r'^export%s' % trailing_slash(), self.wrap_view('search_export'), name='api_data_search_export'),
 
     def dehydrate_data(self, bundle):
         """
@@ -413,6 +405,7 @@ class DataResource(PandaResource):
         offset = int(request.GET.get('offset', 0))
         group_limit = int(request.GET.get('group_limit', settings.PANDA_DEFAULT_SEARCH_ROWS_PER_GROUP))
         group_offset = int(request.GET.get('group_offset', 0))
+        export = bool(request.GET.get('export', False))
 
         if category:
             if category != 'uncategorized':
@@ -426,119 +419,95 @@ class DataResource(PandaResource):
         if since:
             query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
 
-        response = solr.query_grouped(
-            settings.SOLR_DATA_CORE,
-            query,
-            'dataset_slug',
-            offset=offset,
-            limit=limit,
-            group_limit=group_limit,
-            group_offset=group_offset
-        )
-        groups = response['grouped']['dataset_slug']['groups']
+        if export:
+            task_type = ExportSearchTask
 
-        page = PandaPaginator(
-            request.GET,
-            groups,
-            resource_uri=request.path_info,
-            count=response['grouped']['dataset_slug']['ngroups']
-        ).page()
+            task = TaskStatus.objects.create(
+                task_name=task_type.name,
+                task_description='Export search results for "%s".' % query,
+                creator=request.user
+            )
 
-        datasets = []
+            task_type.apply_async(
+                args=[query, task.id],
+                kwargs={},
+                task_id=task.id
+            )
+        else:
+            response = solr.query_grouped(
+                settings.SOLR_DATA_CORE,
+                query,
+                'dataset_slug',
+                offset=offset,
+                limit=limit,
+                group_limit=group_limit,
+                group_offset=group_offset
+            )
+            groups = response['grouped']['dataset_slug']['groups']
 
-        for group in groups:
-            dataset_slug = group['groupValue']
-            results = group['doclist']
-            
-            try:
-                dataset = Dataset.objects.get(slug=dataset_slug)
-            # In the event that stale data exists in Solr, skip this dataset,
-            # request the invalid data be purged and return the other results.
-            # Pagination may be wrong, but this is the most functional solution. (#793)
-            except Dataset.DoesNotExist:
-                PurgeDataTask.apply_async(args=[dataset_slug])
-                solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset_slug)
-
-                page['meta']['total_count'] -= 1
-
-                continue
-            
-            dataset_resource = DatasetResource()
-            dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
-            dataset_bundle = dataset_resource.full_dehydrate(dataset_bundle)
-            dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
-
-            objects = [SolrObject(obj) for obj in results['docs']]
-            
-            dataset_search_url = reverse('api_dataset_data_list', kwargs={ 'api_name': self._meta.api_name, 'dataset_resource_name': 'dataset', 'resource_name': 'data', 'dataset_slug': dataset.slug })
-
-            data_page = PandaPaginator(
-                { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
-                objects,
-                resource_uri=dataset_search_url,
-                count=results['numFound']
+            page = PandaPaginator(
+                request.GET,
+                groups,
+                resource_uri=request.path_info,
+                count=response['grouped']['dataset_slug']['ngroups']
             ).page()
 
-            dataset_bundle.data.update(data_page)
-            dataset_bundle.data['objects'] = []
+            datasets = []
 
-            for obj in objects:
-                data_bundle = self.build_bundle(obj=obj, request=request)
-                data_bundle = self.full_dehydrate(data_bundle)
-                dataset_bundle.data['objects'].append(data_bundle)
+            for group in groups:
+                dataset_slug = group['groupValue']
+                results = group['doclist']
+                
+                try:
+                    dataset = Dataset.objects.get(slug=dataset_slug)
+                # In the event that stale data exists in Solr, skip this dataset,
+                # request the invalid data be purged and return the other results.
+                # Pagination may be wrong, but this is the most functional solution. (#793)
+                except Dataset.DoesNotExist:
+                    PurgeDataTask.apply_async(args=[dataset_slug])
+                    solr.delete(settings.SOLR_DATASETS_CORE, 'slug:%s' % dataset_slug)
 
-            datasets.append(dataset_bundle.data)
+                    page['meta']['total_count'] -= 1
 
-        page['objects'] = datasets
-        
-        # Log query
-        SearchLog.objects.create(user=request.user, dataset=None, query=query)
+                    continue
+                
+                dataset_resource = DatasetResource()
+                dataset_bundle = dataset_resource.build_bundle(obj=dataset, request=request)
+                dataset_bundle = dataset_resource.full_dehydrate(dataset_bundle)
+                dataset_bundle = dataset_resource.simplify_bundle(dataset_bundle)
 
-        self.log_throttled_access(request)
+                objects = [SolrObject(obj) for obj in results['docs']]
+                
+                dataset_search_url = reverse('api_dataset_data_list', kwargs={ 'api_name': self._meta.api_name, 'dataset_resource_name': 'dataset', 'resource_name': 'data', 'dataset_slug': dataset.slug })
 
-        return self.create_response(request, page)
+                data_page = PandaPaginator(
+                    { 'limit': str(group_limit), 'offset': str(group_offset), 'q': query },
+                    objects,
+                    resource_uri=dataset_search_url,
+                    count=results['numFound']
+                ).page()
 
-    def search_export(self, request, **kwargs):
-        """
-        Export the results of a Solr query.
-        """
-        self.method_check(request, allowed=['get'])
-        self.is_authenticated(request)
-        self.throttle_check(request)
+                dataset_bundle.data.update(data_page)
+                dataset_bundle.data['objects'] = []
 
-        query = request.GET.get('q', '')
-        category = request.GET.get('category', '')
-        since = request.GET.get('since', None)
+                for obj in objects:
+                    data_bundle = self.build_bundle(obj=obj, request=request)
+                    data_bundle = self.full_dehydrate(data_bundle)
+                    dataset_bundle.data['objects'].append(data_bundle)
 
-        if category:
-            if category != 'uncategorized':
-                category = Category.objects.get(slug=category)
-                dataset_slugs = category.datasets.values_list('slug', flat=True)
-            else:
-                dataset_slugs = Dataset.objects.filter(categories=None).values_list('slug', flat=True) 
+                datasets.append(dataset_bundle.data)
 
-            query += ' dataset_slug:(%s)' % ' '.join(dataset_slugs)
-
-        if since:
-            query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
-
-        task_type = ExportSearchTask
-
-        task = TaskStatus.objects.create(
-            task_name=task_type.name,
-            task_description='Export search results for "%s".' % query,
-            creator=request.user
-        )
-
-        task_type.apply_async(
-            args=[query, task.id],
-            kwargs={},
-            task_id=task.id
-        )
+            page['objects'] = datasets
+            
+            # Log query
+            SearchLog.objects.create(user=request.user, dataset=None, query=query)
 
         self.log_throttled_access(request)
 
-        return self.create_response(request, 'Export queued.')
+        if export:
+            return self.create_response(request, 'Export queued.')
+        else:
+            return self.create_response(request, page)
 
     def search_dataset_data(self, request, **kwargs):
         """

@@ -494,10 +494,12 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
          *
          * NB: Uses the cross-dataset export url, resulting in a ZIP file.
          */
-        data = {};
+        data = {
+            export: true
+        };
 
         if (query) {
-            data['q'] = query;
+            data.q = query;
         }
 
         if (since != "all") {
@@ -509,7 +511,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
         }
 
         Redd.ajax({
-            url: PANDA.API + "/data/export/",
+            url: PANDA.API + "/data/",
             dataType: 'json',
             data: data,
             success: _.bind(function(response) {

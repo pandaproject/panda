@@ -852,3 +852,10 @@ The response is a ``meta`` object with paging information and an ``objects`` arr
 
 When using this endpoint the ``limit`` and ``offset`` parameters refer to the Datasets (that is, the **groups**) returned. If you wish to paginate the result sets within each group you can use ``group_limit`` and ``group_offset``, however, this is rarely useful behavior.
 
+Exporting global search results
+===============================
+
+You may export any set of search results to a zip file by passing ``export=true`` in the querystring. The ``limit``, ``offset``, ``group_limit`` and ``group_offset`` parameters will be ignored for export.
+
+This is an asynchronous operation which will return success or failure based on whether the export task was queued. Use the Task API to check its status or the Export API to retrieve the results.
+

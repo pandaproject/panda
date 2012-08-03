@@ -569,7 +569,8 @@ class TestAPIData(TransactionTestCase):
     def test_export_data(self):
         self.dataset.import_data(self.user, self.upload, 0)
 
-        response = self.client.get('/api/1.0/data/export/?q=joseph', **self.auth_headers)
+        response = self.client.get('/api/1.0/data/?q=joseph&export=true', **self.auth_headers)
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, '"Export queued."')
 
