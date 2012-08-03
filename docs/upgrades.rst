@@ -23,7 +23,7 @@ To upgrade your PANDA from the 0.2.0 release to the 1.0.0 release, :doc:`SSH <ss
 
 Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-1.0.0.log``.
 
-After running this upgrade your PANDA will be reset into *setup mode*, giving you an opportunity to set your local timezone and create an administrative user. You should visit your PANDA soon after the upgrade to complete this process. If already have an administrative user configured, simply create one with dummy data and then deactivate or delete it after completing the setup.
+After running this upgrade your PANDA will be reset into *setup mode*, giving you an opportunity to set your local timezone and create an administrative user. You should visit your PANDA soon after the upgrade to complete this process. If already have an administrative user configured, simply create one with dummy data and then deactivate or delete it after completing the setup. **DO NOT attempt to recreate a user that already exists.** Doing so will render that account unable to login.
 
 .. note::
 
