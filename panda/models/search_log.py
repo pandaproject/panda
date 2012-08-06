@@ -13,7 +13,7 @@ class SearchLog(models.Model):
         help_text='The user who executed the search.')
     dataset = models.ForeignKey(Dataset, related_name='searches', null=True, default=None,
         help_text='The data set searched, or null if all were searched.')
-    query = models.CharField(max_length=256, 
+    query = models.CharField(max_length=4096, 
         help_text='The search query that was executed')
     when = models.DateTimeField(auto_now=True,
         help_text='The date and time this search was logged.')
