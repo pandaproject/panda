@@ -71,13 +71,22 @@ Installing Solr can be tricky and will vary quite a bit depending on your operat
     # Get into the env
     workon panda
 
-    # Install solr 3.4.0
+    # Update brew
     brew update
+    brew install git
+
+    # Install solr 3.4.0 (hacky, but it works)
+    cd /usr/local/Cellar/
+    git checkout da53d68 /usr/local/Library/Formula/solr.rb
     brew install solr
+    git reset --hard
 
     # Create Solr home directory
     sudo mkdir /var/solr
     sudo chown $USER /var/solr
+
+    # Jump back to the directory where you installed PANDA
+    cd ~/src/panda
 
     # This command will install all Solr configuration
     fab local_reset_solr
