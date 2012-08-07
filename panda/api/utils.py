@@ -2,8 +2,11 @@
 
 from urllib import unquote
 
+from django.conf import settings
 from django.conf.urls.defaults import url
 from django.http import HttpResponse
+from django.middleware.csrf import _sanitize_token, constant_time_compare
+from django.utils.http import same_origin
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.bundle import Bundle
 from tastypie.fields import ApiField, CharField
@@ -111,6 +114,29 @@ class PandaApiKeyAuthentication(ApiKeyAuthentication):
     Custom API Auth that accepts parameters as cookies or headers as well as GET params.
     """
     def is_authenticated(self, request, **kwargs):
+        # Session handling shamelessly cribbed from a newer version of Tastypie
+        csrf_token = _sanitize_token(request.COOKIES.get(settings.CSRF_COOKIE_NAME, ''))
+
+        if request.is_secure():
+            referer = request.META.get('HTTP_REFERER')
+
+            if referer is None:
+                return False
+
+            good_referer = 'https://%s/' % request.get_host()
+
+            if not same_origin(referer, good_referer):
+                return False
+
+        request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
+
+        if not constant_time_compare(request_csrf_token, csrf_token):
+            return False
+
+        if request.user.is_authenticated():
+            return request.user.is_authenticated()
+
+        # Now check for API credentials in the request
         email = request.COOKIES.get('email') or request.META.get('HTTP_PANDA_EMAIL') or request.GET.get('email')
         api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('api_key')
 
@@ -125,12 +151,20 @@ class PandaApiKeyAuthentication(ApiKeyAuthentication):
         except (UserProxy.DoesNotExist, UserProxy.MultipleObjectsReturned):
             return self._unauthorized()
 
-        if not user.is_active:
-            return self._unauthorized()
+        if user.is_active:
+            request.user = user
 
-        request.user = user
+            return self.get_key(user, api_key)
 
-        return self.get_key(user, api_key)
+        return self._unauthorized()
+
+    def get_identifier(self, request):
+        """
+        Provides a unique string identifier for the requestor.
+
+        This implementation returns the user's username.
+        """
+        return request.user.username
 
 class PandaSerializer(Serializer):
     """

@@ -66,7 +66,6 @@ def make_user_login_response(user):
     return {
         'id': user.id,
         'email': user.email,
-        'api_key': user.api_key.key,
         'is_staff': user.is_staff,
         'show_login_help': user.get_profile().show_login_help,
         'notifications': notifications

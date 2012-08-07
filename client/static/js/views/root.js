@@ -43,6 +43,31 @@ PANDA.views.Root = Backbone.View.extend({
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
 
+        // TODO - abstract into a method
+        $.ajaxSetup({ 
+             beforeSend: function(xhr, settings) {
+                 function getCookie(name) {
+                     var cookieValue = null;
+                     if (document.cookie && document.cookie != '') {
+                         var cookies = document.cookie.split(';');
+                         for (var i = 0; i < cookies.length; i++) {
+                             var cookie = jQuery.trim(cookies[i]);
+                             // Does this cookie string begin with the name we want?
+                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                             break;
+                         }
+                     }
+                 }
+                 return cookieValue;
+                 }
+                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                     // Only send the token to relative URLs i.e. locally.
+                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                 }
+             } 
+        });
+
         return this;
     },
 
@@ -76,14 +101,12 @@ PANDA.views.Root = Backbone.View.extend({
 
         var id = $.cookie("id");
         var email = $.cookie("email");
-        var api_key = $.cookie("api_key");
         var is_staff = $.cookie("is_staff") === "true" ? true : false;
 
-        if (email && api_key) {
+        if (email) {
             this.set_current_user(new PANDA.models.User({
                 "id": id,
                 "email": email,
-                "api_key": api_key,
                 "is_staff": is_staff
             }));
 
@@ -114,12 +137,10 @@ PANDA.views.Root = Backbone.View.extend({
         if (this._current_user) {
             $.cookie("id", this._current_user.get("id"), { expires: 30 });
             $.cookie("email", this._current_user.get("email"), { expires: 30 });
-            $.cookie("api_key", this._current_user.get("api_key"), { expires: 30 });
             $.cookie("is_staff", this._current_user.get("is_staff").toString(), { expires: 30 });
         } else {
             $.cookie("id", null);
             $.cookie("email", null);
-            $.cookie("api_key", null);
             $.cookie("is_staff", null);
             $.cookie("activity_recorded", null)
         }
