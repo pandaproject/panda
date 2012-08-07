@@ -21,7 +21,7 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     overflow-y: auto;
 }
 
-#navbar-notifications .dropdown-menu ul a {
+#navbar-notifications .dropdown-menu ul li {
     white-space: normal;
     padding-bottom: 3px;
     padding-top: 3px;
@@ -29,12 +29,12 @@ h3 { font-weight: normal; padding-bottom: 4px; }
     border-top: 1px solid #efefef;
 }
 
-#navbar-notifications .dropdown-menu ul a.unread {
+#navbar-notifications .dropdown-menu ul li.unread {
     background-color: #edf5f9;
     border-top: 1px solid #ccc;
 }
 
-#navbar-notifications .dropdown-menu ul a.unread:hover {
+#navbar-notifications .dropdown-menu ul li.unread:hover {
     background-color: #0088cc;
     border-top: 1px solid #ccc;
 }

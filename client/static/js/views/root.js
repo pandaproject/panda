@@ -250,9 +250,11 @@ PANDA.views.Root = Backbone.View.extend({
                 this._current_user.notifications.each(function(note) {
                     var unread = note.get("read_at") ? "" : " unread"
 
-                    if (unread) { unread_count += 1 };
+                    if (unread) { 
+                        unread_count += 1
+                    };
 
-                    $("#navbar-notifications .dropdown-menu ul").append('<li><a href="' + note.get("url") + '" class="' + unread + '" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
+                    $("#navbar-notifications .dropdown-menu ul").append('<li class="' + unread + '"><a href="' + note.get("url") + '" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
                 }, this);
             } else {
                 $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>No notifications</em></a></li>');
@@ -296,7 +298,7 @@ PANDA.views.Root = Backbone.View.extend({
 
             this._current_user.mark_notifications_read();
         } else {
-            $("#navbar-notifications .dropdown-menu ul li a").removeClass("unread");
+            $("#navbar-notifications .dropdown-menu ul li").removeClass("unread");
         }
 
         return true;
