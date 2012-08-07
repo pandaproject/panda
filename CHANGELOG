@@ -1,6 +1,7 @@
 1.0.1
 -----
 
+* Notifications list fixed in IE9. (#822)
 * Fix for searching categories with many datasets. (#849)
 * Fixed broken cross-dataset export link. (#848)
 * Fixed broken export links in email. (#847)
