@@ -12,7 +12,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import ImmediateHttpResponse, NotFound
 from tastypie.utils.urls import trailing_slash
 
-from panda.api.utils import JSONApiField, PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
+from panda.api.utils import JSONApiField, PandaAuthentication, PandaModelResource, PandaSerializer
 from panda.exceptions import DataUploadNotDeletable
 from panda.models import DataUpload
 
@@ -43,7 +43,7 @@ class DataUploadResource(PandaModelResource):
         allowed_methods = ['get', 'put', 'delete']
         always_return_data = True
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 

@@ -10,7 +10,7 @@ from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
 from panda import solr
-from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, JSONApiField, SluggedModelResource, PandaSerializer
+from panda.api.utils import PandaAuthentication, PandaPaginator, JSONApiField, SluggedModelResource, PandaSerializer
 from panda.exceptions import DataImportError, DatasetLockedError
 from panda.models import Category, Dataset, DataUpload
 from panda.utils.column_schema import make_column_schema
@@ -58,7 +58,7 @@ class DatasetResource(SluggedModelResource):
         allowed_methods = ['get', 'post', 'put', 'delete']
         always_return_data = True
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         validation = DatasetValidation()
         serializer = PandaSerializer()

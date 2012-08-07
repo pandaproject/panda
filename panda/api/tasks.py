@@ -3,7 +3,7 @@
 from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 
-from panda.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
+from panda.api.utils import PandaAuthentication, PandaSerializer, PandaModelResource
 from panda.models import TaskStatus
 
 class TaskResource(PandaModelResource):
@@ -24,7 +24,7 @@ class TaskResource(PandaModelResource):
             'end': ('year', 'month', 'day')
         }
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 

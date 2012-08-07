@@ -11,7 +11,7 @@ from tastypie.resources import NOT_AVAILABLE
 from tastypie.utils.urls import trailing_slash
 from tastypie.validation import Validation
 
-from panda.api.utils import PandaApiKeyAuthentication, PandaSerializer, PandaModelResource
+from panda.api.utils import PandaAuthentication, PandaSerializer, PandaModelResource
 from panda.models import Export, UserProxy
 
 class UserValidation(Validation):
@@ -50,7 +50,7 @@ class UserResource(PandaModelResource):
         excludes = ['username', 'is_staff', 'is_superuser']
         always_return_data = True
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = UserAuthorization()
         validation = UserValidation()
         serializer = PandaSerializer()

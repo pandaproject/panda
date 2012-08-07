@@ -27,6 +27,9 @@ PANDA.views.Root = Backbone.View.extend({
         // Track Ajax events
         this.track_ajax_events();
 
+        // Handle CSRF cookies for POST data
+        this.configure_csrf_handling();
+
         // Override Backbone's sync handler with the authenticated version
         Backbone.noAuthSync = Backbone.sync;
         Backbone.sync = _.bind(this.sync, this);
@@ -43,7 +46,22 @@ PANDA.views.Root = Backbone.View.extend({
         // Setup occasional updates of notifications
         this.notifications_refresh_timer_id = window.setInterval(this.refresh_notifications, PANDA.settings.NOTIFICATIONS_INTERVAL);
 
-        // TODO - abstract into a method
+        return this;
+    },
+
+    track_ajax_events: function() {
+        $(document).ajaxStart(function() {
+            $("#loading-indicator img").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $("#loading-indicator img").hide();
+        });
+    },
+
+    configure_csrf_handling: function() {
+        // Always attach the CSRF token to requests
+        // Cribbed from http://stackoverflow.com/a/7093862/24608
         $.ajaxSetup({ 
              beforeSend: function(xhr, settings) {
                  function getCookie(name) {
@@ -66,18 +84,6 @@ PANDA.views.Root = Backbone.View.extend({
                      xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                  }
              } 
-        });
-
-        return this;
-    },
-
-    track_ajax_events: function() {
-        $(document).ajaxStart(function() {
-            $("#loading-indicator img").show();
-        });
-
-        $(document).ajaxStop(function() {
-            $("#loading-indicator img").hide();
         });
     },
 

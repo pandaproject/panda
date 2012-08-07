@@ -109,12 +109,16 @@ class SluggedModelResource(PandaModelResource):
             url(r"^(?P<resource_name>%s)/(?P<slug>[\w\d_-]+)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
 
-class PandaApiKeyAuthentication(ApiKeyAuthentication):
+class PandaAuthentication(ApiKeyAuthentication):
     """
-    Custom API Auth that accepts parameters as cookies or headers as well as GET params.
+    Custom API Auth that authenticates via sessions, headers or querystring parameters. 
     """
-    def is_authenticated(self, request, **kwargs):
-        # Session handling shamelessly cribbed from a newer version of Tastypie
+    def try_sessions(self, request, **kwargs):
+        """
+        Attempt to authenticate with sessions.
+
+        Cribbed from a newer version of Tastypie than we're using.
+        """
         csrf_token = _sanitize_token(request.COOKIES.get(settings.CSRF_COOKIE_NAME, ''))
 
         if request.is_secure():
@@ -133,28 +137,43 @@ class PandaApiKeyAuthentication(ApiKeyAuthentication):
         if not constant_time_compare(request_csrf_token, csrf_token):
             return False
 
-        if request.user.is_authenticated():
-            return request.user.is_authenticated()
+        return request.user.is_authenticated()
 
-        # Now check for API credentials in the request
-        email = request.COOKIES.get('email') or request.META.get('HTTP_PANDA_EMAIL') or request.GET.get('email')
-        api_key = request.COOKIES.get('api_key') or request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('api_key')
+    def try_api_keys(self, request, **kwargs):
+        """
+        Attempt to authenticate with API keys in headers or parameters.
+        """
+        email = request.META.get('HTTP_PANDA_EMAIL') or request.GET.get('email')
+        api_key = request.META.get('HTTP_PANDA_API_KEY') or request.GET.get('api_key')
 
         if email:
             email = unquote(email)
 
         if not email or not api_key:
-            return self._unauthorized()
+            return False
 
         try:
             user = UserProxy.objects.get(username=email.lower())
         except (UserProxy.DoesNotExist, UserProxy.MultipleObjectsReturned):
-            return self._unauthorized()
+            return False 
 
-        if user.is_active:
-            request.user = user
+        if not user.is_active:
+            return False
+        
+        request.user = user
 
-            return self.get_key(user, api_key)
+        return self.get_key(user, api_key)
+
+    def is_authenticated(self, request, **kwargs):
+        authenticated = self.try_sessions(request, **kwargs)
+
+        if authenticated:
+            return True
+
+        authenticated = self.try_api_keys(request, **kwargs)
+
+        if authenticated:
+            return True
 
         return self._unauthorized()
 

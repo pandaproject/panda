@@ -9,7 +9,7 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.utils.urls import trailing_slash
 
-from panda.api.utils import PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
+from panda.api.utils import PandaAuthentication, PandaModelResource, PandaSerializer
 from panda.models import Export
 
 class ExportResource(PandaModelResource):
@@ -26,7 +26,7 @@ class ExportResource(PandaModelResource):
         resource_name = 'export'
         allowed_methods = ['get']
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 

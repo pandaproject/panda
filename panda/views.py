@@ -15,7 +15,7 @@ from tastypie.serializers import Serializer
 from client.utils import get_free_disk_space
 from panda.api.notifications import NotificationResource
 from panda.api.users import UserValidation
-from panda.api.utils import PandaApiKeyAuthentication
+from panda.api.utils import PandaAuthentication
 from panda.models import UserProfile, UserProxy
 from panda.storage import PANDADataUploadBackend, PANDARelatedUploadBackend
 from panda.utils.mail import send_mail
@@ -36,7 +36,7 @@ class SecureAjaxFileUploader(AjaxFileUploader):
     A custom version of AjaxFileUploader that checks for authorization.
     """
     def __call__(self, request):
-        auth = PandaApiKeyAuthentication()
+        auth = PandaAuthentication()
 
         if auth.is_authenticated(request) != True:
             # Valum's FileUploader only parses the response if the status code is 200.

@@ -5,7 +5,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpConflict
 
-from panda.api.utils import PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
+from panda.api.utils import PandaAuthentication, PandaModelResource, PandaSerializer
 from django.db import IntegrityError
 from panda.models import ActivityLog 
 
@@ -22,7 +22,7 @@ class ActivityLogResource(PandaModelResource):
         resource_name = 'activity_log'
         allowed_methods = ['get', 'post']
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 

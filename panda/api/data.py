@@ -16,7 +16,7 @@ from tastypie.validation import Validation
 from panda import solr
 from panda.api.datasets import DatasetResource
 from panda.exceptions import DatasetLockedError
-from panda.api.utils import PandaApiKeyAuthentication, PandaPaginator, PandaResource, PandaSerializer
+from panda.api.utils import PandaAuthentication, PandaPaginator, PandaResource, PandaSerializer
 from panda.models import Category, Dataset, SearchLog, TaskStatus
 from panda.tasks import ExportSearchTask, PurgeDataTask
 
@@ -82,7 +82,7 @@ class DataResource(PandaResource):
         allowed_methods = ['get', 'post', 'put', 'delete']
         always_return_data = True
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
         validation = DataValidation()

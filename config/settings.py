@@ -116,6 +116,8 @@ INSTALLED_APPS = (
     'client'
 )
 
+SESSION_COOKIE_AGE = 2592000    # 30 days
+
 AUTH_PROFILE_MODULE = 'panda.UserProfile'
 
 # Django-compressor

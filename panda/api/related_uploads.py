@@ -11,7 +11,7 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import NotFound
 from tastypie.utils.urls import trailing_slash
 
-from panda.api.utils import PandaApiKeyAuthentication, PandaModelResource, PandaSerializer
+from panda.api.utils import PandaAuthentication, PandaModelResource, PandaSerializer
 from panda.models import RelatedUpload
 
 class RelatedUploadResource(PandaModelResource):
@@ -33,7 +33,7 @@ class RelatedUploadResource(PandaModelResource):
         resource_name = 'related_upload'
         allowed_methods = ['get', 'put', 'delete']
 
-        authentication = PandaApiKeyAuthentication()
+        authentication = PandaAuthentication()
         authorization = DjangoAuthorization()
         serializer = PandaSerializer()
 
