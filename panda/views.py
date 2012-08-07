@@ -5,7 +5,7 @@ import os
 from ajaxuploader.views import AjaxFileUploader
 from csvkit.exceptions import FieldSizeLimitError
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.utils.timezone import now
 from livesettings import config_value
@@ -102,6 +102,14 @@ def panda_login(request):
     else:
         # Invalid request
         return JSONResponse(None, status=400)
+
+def panda_logout(request):
+    """
+    Logout any active session.
+    """
+    logout(request)
+
+    return JSONResponse({ '__all__': 'Successfully logged out' }, status=200)
 
 def check_activation_key(request, activation_key):
     """

@@ -25,8 +25,10 @@ class TestLogin(TransactionTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(body['email'], 'user@pandaproject.net')
-        self.assertEqual(body['api_key'], 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84c')
         self.assertEqual(body['notifications'], [])
+
+        # Verify old code is dead
+        self.assertNotIn('api_key', body)
 
     def test_login_disabled(self):
         self.user.is_active = False

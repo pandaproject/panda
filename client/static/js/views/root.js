@@ -373,8 +373,16 @@ PANDA.views.Root = Backbone.View.extend({
     },
     
     goto_logout: function() {
+        // Request a session logout
+        $.ajax({
+            url: '/logout/',
+            type: 'POST'
+        });
+
+        // Blow away local cookies
         this.set_current_user(null);
 
+        // Back to the login screen
         this.goto_login();
     },
 
