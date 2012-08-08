@@ -1,6 +1,5 @@
 <li data-type="<%= upload_type %>" data-uri="<%= upload.resource_uri %>">
-    <strong><a href="/api/1.0/<%= upload_type %>_upload/<%= upload.id %>/download/"><%= upload.title %></a></strong>
-    uploaded by <%= PANDA.templates.inline_user(upload.creator) %>
+    <a href="#" onclick="return false;" class="download"><%= upload.title %></a> uploaded by <%= PANDA.templates.inline_user(upload.creator) %>
 
     <a data-original-title="<%= upload.original_filename %><br /><%= PANDA.utils.format_file_size(upload.size) %><br />Uploaded <%= PANDA.templates.inline_timestamp({ d: upload.creation_date }) %>" data-placement="top" href="#" onclick="return false;" rel="tooltip"><i class="icon-info-sign"></i></a>
 

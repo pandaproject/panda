@@ -1,5 +1,6 @@
 PANDA.views.DatasetView = Backbone.View.extend({
     events: {
+        "click .data-uploads .download, .related-uploads .download":   "download_upload",
         "click .data-uploads .edit, .related-uploads .edit":   "edit_upload",
         "click .data-uploads .delete, .related-uploads .delete":   "delete_upload",
         "click #dataset-upload-related":    "upload_related",
@@ -90,6 +91,16 @@ PANDA.views.DatasetView = Backbone.View.extend({
         // Create upload button
         var upload_button = CustomUploadButton.init();
         this.related_uploader._button = upload_button;
+    },
+
+    download_upload: function(e) {
+        /*
+         * Download the original file.
+         */
+        var element = $(e.currentTarget).parent("li");
+        var uri = element.attr("data-uri"); 
+
+        PANDA.utils.csrf_download(uri + "download/");
     },
 
     edit_upload: function(e) {

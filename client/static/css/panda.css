@@ -231,6 +231,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 #view-dataset #dataset-actions a.disabled { color: #aaa; cursor: default; } 
 #view-dataset p.disabled { color: #aaa; } 
 #view-dataset .sample-data { margin-top: 5px; margin-bottom: 10px; }
+#view-dataset .data-uploads .download { font-weight: bold; }
+#view-dataset .related-uploads .download { font-weight: bold; }
 #modal-upload-related .progress-bar { display: none; }
 #modal-index-types table { width: 100%; }
 #modal-index-types table td { padding: 2px 2px 2px 8px; vertical-align: middle;}

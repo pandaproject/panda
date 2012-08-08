@@ -75,3 +75,13 @@ PANDA.utils.escapes_to_entities = function(escaped_text) {
     return escaped_text.replace(/%(..)/g,"&#x$1;");
 };
 
+PANDA.utils.csrf_download = function(url) {
+    var iframe = $("<iframe />");
+    var form = $('<form action="' + url + '" method="POST"><input type="hidden" name="csrfmiddlewaretoken" value="' + $.cookie('csrftoken') + '" /></form>');
+
+    $("body").append(iframe);
+    iframe.append(form);
+    form.submit();
+    iframe.remove();
+};
+

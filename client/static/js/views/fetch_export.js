@@ -5,8 +5,8 @@ PANDA.views.FetchExport = Backbone.View.extend({
 
     reset: function(id) {
         this.render();
-
-        $("#export-download").attr("src", "/api/1.0/export/" + id + "/download/");
+        
+        PANDA.utils.csrf_download("/api/1.0/export/" + id + "/download/");
     },
 
     render: function() {

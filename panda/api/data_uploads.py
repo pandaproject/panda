@@ -79,7 +79,8 @@ class DataUploadResource(PandaModelResource):
         """
         Download the original file that was uploaded.
         """
-        self.method_check(request, allowed=['get'])
+        # Allow POST so csrf token can come through
+        self.method_check(request, allowed=['get', 'post'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
