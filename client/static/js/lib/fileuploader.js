@@ -1011,7 +1011,7 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         form.appendChild(input);
 
         // PANDA HACK
-        form.appendChild('<input type="hidden" value="' +  $.cookie('csrftoken') + '" />');
+        form.appendChild(qq.toElement('<input type="hidden" name="csrfmiddlewaretoken" value="' +  $.cookie('csrftoken') + '" />'));
         // END PANDA :HACK
 
         var self = this;

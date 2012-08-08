@@ -17,7 +17,7 @@ PANDA.views.RelatedLinks = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
-            'dataset': this.dataset.toJSON(true),
+            'dataset': this.dataset.toJSON(true)
         });
 
         this.$el.html(PANDA.templates.modal_related_links(context));

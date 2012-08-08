@@ -495,7 +495,7 @@ PANDA.collections.Datasets = Backbone.Collection.extend({
          * NB: Uses the cross-dataset export url, resulting in a ZIP file.
          */
         data = {
-            export: true
+            "export": true
         };
 
         if (query) {

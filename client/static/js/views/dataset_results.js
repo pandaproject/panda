@@ -1,7 +1,7 @@
 PANDA.views.DatasetResults = Backbone.View.extend({
     events: {
         "click #search-results-export":      "export_results",
-        "click #search-results-subscribe":   "subscribe_results",
+        "click #search-results-subscribe":   "subscribe_results"
     },
 
     dataset: null,
