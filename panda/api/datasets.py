@@ -12,7 +12,7 @@ from tastypie.validation import Validation
 from panda import solr
 from panda.api.utils import PandaAuthentication, PandaPaginator, JSONApiField, SluggedModelResource, PandaSerializer
 from panda.exceptions import DataImportError, DatasetLockedError
-from panda.models import Category, Dataset, DataUpload
+from panda.models import Category, Dataset, DataUpload, UserProxy
 from panda.utils.column_schema import make_column_schema
 
 class DatasetValidation(Validation):
@@ -165,7 +165,11 @@ class DatasetResource(SluggedModelResource):
         """
         Set creator and update full text.
         """
-        bundle = super(DatasetResource, self).obj_create(bundle, request=request, creator=request.user, **kwargs)
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
+        bundle = super(DatasetResource, self).obj_create(bundle, request=request, creator=user, **kwargs)
 
         if 'columns' in request.GET:
             columns = request.GET['columns'].split(',')
@@ -230,8 +234,12 @@ class DatasetResource(SluggedModelResource):
         dataset = Dataset.objects.get(slug=slug)
         upload = DataUpload.objects.get(id=kwargs['upload_id'])
 
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         try:
-            dataset.import_data(request.user, upload)
+            dataset.import_data(user, upload)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
         except DataImportError, e:
@@ -280,8 +288,12 @@ class DatasetResource(SluggedModelResource):
         else:
             column_types = None
 
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         try:
-            dataset.reindex_data(request.user, typed_columns=typed_columns, column_types=column_types)
+            dataset.reindex_data(user, typed_columns=typed_columns, column_types=column_types)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
@@ -319,8 +331,12 @@ class DatasetResource(SluggedModelResource):
         if since:
             query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
 
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         try:
-            dataset.export_data(request.user, query=query)
+            dataset.export_data(user, query=query)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 

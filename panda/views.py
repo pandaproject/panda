@@ -38,7 +38,7 @@ class SecureAjaxFileUploader(AjaxFileUploader):
     def __call__(self, request):
         auth = PandaAuthentication()
 
-        if auth.is_authenticated(request) != True:
+        if not auth.is_authenticated(request):
             # Valum's FileUploader only parses the response if the status code is 200.
             return JSONResponse({ 'success': False, 'forbidden': True }, status=200)
 

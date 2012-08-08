@@ -39,7 +39,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         this.file_uploader = null;
         this.upload = null;
 
-        $.ajax({
+        Redd.ajax({
             url: '/check_available_space/',
             dataType: 'json',
             type: 'GET',

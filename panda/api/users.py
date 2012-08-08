@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from django.conf import settings
 from django.conf.urls.defaults import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import email_re
@@ -85,7 +86,7 @@ class UserResource(PandaModelResource):
             
             resource = NotificationResource()
 
-            notifications = user.notifications.filter(recipient=bundle.request.user, read_at__isnull=True)
+            notifications = user.notifications.all()[:settings.PANDA_NOTIFICATIONS_TO_SHOW]
 
             bundles = [resource.build_bundle(obj=n) for n in notifications]
             notifications = [resource.full_dehydrate(b) for b in bundles]
@@ -109,7 +110,7 @@ class UserResource(PandaModelResource):
 
             resource = DatasetResource()
 
-            datasets = user.datasets.filter()
+            datasets = user.datasets.all()
 
             bundles = [resource.build_bundle(obj=d) for d in datasets]
             datasets = [resource.simplify_bundle(resource.full_dehydrate(b)) for b in bundles]
@@ -121,7 +122,7 @@ class UserResource(PandaModelResource):
 
             resource = SearchSubscriptionResource()
 
-            subscriptions = user.search_subscriptions.filter(user=bundle.request.user)
+            subscriptions = user.search_subscriptions.all()
 
             bundles = [resource.build_bundle(obj=s) for s in subscriptions]
             datasets = [resource.full_dehydrate(b) for b in bundles]

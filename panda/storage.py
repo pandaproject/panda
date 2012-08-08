@@ -7,7 +7,7 @@ from ajaxuploader.backends.base import AbstractUploadBackend
 from django.conf import settings
 
 from panda.api import DataUploadResource, RelatedUploadResource, UserResource
-from panda.models import Dataset, DataUpload, RelatedUpload
+from panda.models import Dataset, DataUpload, RelatedUpload, UserProxy
 
 class PANDAAbstractUploadBackend(AbstractUploadBackend):
     """
@@ -83,11 +83,15 @@ class PANDADataUploadBackend(PANDAAbstractUploadBackend):
             if not encoding:
                 encoding = 'utf-8'
 
+            # Because users may have authenticated via headers the request.user may
+            # not be a full User instance. To be sure, we fetch one.
+            creator = UserProxy.objects.get(id=request.user.id)
+
             upload = DataUpload.objects.create(
                 filename=filename,
                 original_filename=self._original_filename,
                 size=size,
-                creator=request.user,
+                creator=creator,
                 dataset=dataset,
                 encoding=encoding)
 
@@ -128,11 +132,15 @@ class PANDARelatedUploadBackend(PANDAAbstractUploadBackend):
 
             dataset = Dataset.objects.get(slug=request.REQUEST['dataset_slug'])
 
+            # Because users may have authenticated via headers the request.user may
+            # not be a full User instance. To be sure, we fetch one.
+            creator = UserProxy.objects.get(id=request.user.id)
+
             upload = RelatedUpload.objects.create(
                 filename=filename,
                 original_filename=self._original_filename,
                 size=size,
-                creator=request.user,
+                creator=creator,
                 dataset=dataset)
 
             dataset.update_full_text()

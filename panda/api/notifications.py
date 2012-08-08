@@ -3,7 +3,7 @@
 from tastypie.authorization import DjangoAuthorization
 
 from panda.api.utils import PandaAuthentication, PandaSerializer, PandaModelResource
-from panda.models import Notification 
+from panda.models import Notification, UserProxy 
 
 class NotificationResource(PandaModelResource):
     """
@@ -22,10 +22,18 @@ class NotificationResource(PandaModelResource):
         }
 
     def obj_create(self, bundle, request=None, **kwargs):
-        return super(NotificationResource, self).obj_create(bundle, request, recipient=request.user)
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
+        return super(NotificationResource, self).obj_create(bundle, request, recipient=user)
 
     def apply_authorization_limits(self, request, object_list):
-        return object_list.filter(recipient=request.user)
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
+        return object_list.filter(recipient=user)
 
     def save_related(self, bundle):
         """

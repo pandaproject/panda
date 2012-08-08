@@ -7,7 +7,7 @@ from tastypie.http import HttpConflict
 
 from panda.api.utils import PandaAuthentication, PandaModelResource, PandaSerializer
 from django.db import IntegrityError
-from panda.models import ActivityLog 
+from panda.models import ActivityLog, UserProxy
 
 class ActivityLogResource(PandaModelResource):
     """
@@ -30,8 +30,12 @@ class ActivityLogResource(PandaModelResource):
         """
         Create an activity log for the accessing user.
         """
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         try:
-            bundle = super(ActivityLogResource, self).obj_create(bundle, request=request, user=request.user, **kwargs)
+            bundle = super(ActivityLogResource, self).obj_create(bundle, request=request, user=user, **kwargs)
         except IntegrityError:
             raise ImmediateHttpResponse(response=HttpConflict('Activity has already been recorded.'))
 

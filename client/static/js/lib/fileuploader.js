@@ -1,4 +1,9 @@
 /**
+ * 
+ * NOTE WELL:
+ * This module has been modified for PANDA. Do NOT upgrade
+ * without assessing changes!
+ *
  * http://github.com/valums/file-uploader
  * 
  * Multiple file upload component with progress-bar, drag-and-drop. 
@@ -1005,6 +1010,10 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         var form = this._createForm(iframe, params);
         form.appendChild(input);
 
+        // PANDA HACK
+        form.appendChild('<input type="hidden" value="' +  $.cookie('csrftoken') + '" />');
+        // END PANDA :HACK
+
         var self = this;
         this._attachLoadEvent(iframe, function(){                                 
             self.log('iframe loaded');
@@ -1201,6 +1210,9 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.setRequestHeader("X-File-Name", encodeURIComponent(name));
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
+        // PANDA HACK
+        xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+        // END PANDA HACK
         xhr.send(file);
     },
     _onComplete: function(id, xhr){

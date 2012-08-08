@@ -17,7 +17,7 @@ from panda import solr
 from panda.api.datasets import DatasetResource
 from panda.exceptions import DatasetLockedError
 from panda.api.utils import PandaAuthentication, PandaPaginator, PandaResource, PandaSerializer
-from panda.models import Category, Dataset, SearchLog, TaskStatus
+from panda.models import Category, Dataset, SearchLog, TaskStatus, UserProxy
 from panda.tasks import ExportSearchTask, PurgeDataTask
 
 class SolrObject(object):
@@ -237,8 +237,12 @@ class DataResource(PandaResource):
         else:
             external_id = None
 
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         try:
-            row = dataset.add_row(request.user, bundle.data['data'], external_id=external_id)
+            row = dataset.add_row(user, bundle.data['data'], external_id=external_id)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
@@ -264,8 +268,12 @@ class DataResource(PandaResource):
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         try:
-            dataset.delete_row(request.user, kwargs['external_id'])
+            dataset.delete_row(user, kwargs['external_id'])
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
@@ -329,9 +337,13 @@ class DataResource(PandaResource):
             ))
         
             self.validate_bundle_data(bundle, request, dataset)
+
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
         
         try:
-            solr_rows = dataset.add_many_rows(request.user, data)
+            solr_rows = dataset.add_many_rows(user, data)
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
@@ -377,9 +389,13 @@ class DataResource(PandaResource):
         not supported.
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
+
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
         
         try:
-            dataset.delete_all_rows(request.user) 
+            dataset.delete_all_rows(user) 
         except DatasetLockedError:
             raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
 
@@ -419,13 +435,17 @@ class DataResource(PandaResource):
         if since:
             query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
 
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
         if export:
             task_type = ExportSearchTask
 
             task = TaskStatus.objects.create(
                 task_name=task_type.name,
                 task_description='Export search results for "%s".' % query,
-                creator=request.user
+                creator=user
             )
 
             task_type.apply_async(
@@ -500,7 +520,7 @@ class DataResource(PandaResource):
             page['objects'] = datasets
             
             # Log query
-            SearchLog.objects.create(user=request.user, dataset=None, query=query)
+            SearchLog.objects.create(user=user, dataset=None, query=query)
 
         self.log_throttled_access(request)
 
@@ -558,8 +578,12 @@ class DataResource(PandaResource):
             bundle = self.build_bundle(obj=obj, request=request)
             bundle = self.full_dehydrate(bundle)
             dataset_bundle.data['objects'].append(bundle.data)
+
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
         
-        SearchLog.objects.create(user=request.user, dataset=dataset, query=query)
+        SearchLog.objects.create(user=user, dataset=dataset, query=query)
 
         return dataset_bundle
 

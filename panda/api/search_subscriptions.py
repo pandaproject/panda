@@ -4,7 +4,7 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 
 from panda.api.utils import PandaAuthentication, PandaSerializer, PandaModelResource
-from panda.models import SearchSubscription 
+from panda.models import SearchSubscription, UserProxy 
 
 class SearchSubscriptionResource(PandaModelResource):
     """
@@ -26,10 +26,18 @@ class SearchSubscriptionResource(PandaModelResource):
         serializer = PandaSerializer()
 
     def obj_create(self, bundle, request=None, **kwargs):
-        return super(SearchSubscriptionResource, self).obj_create(bundle, request, user=request.user)
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
+        return super(SearchSubscriptionResource, self).obj_create(bundle, request, user=user)
 
     def apply_authorization_limits(self, request, object_list):
-        return object_list.filter(user=request.user)
+        # Because users may have authenticated via headers the request.user may
+        # not be a full User instance. To be sure, we fetch one.
+        user = UserProxy.objects.get(id=request.user.id)
+
+        return object_list.filter(user=user)
 
     def save_related(self, bundle):
         """

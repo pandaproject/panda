@@ -1,4 +1,9 @@
 /**
+ *
+ * NOTE WELL:
+ * This module has been modified for PANDA. Do NOT upgrade
+ * without assessing changes!
+ *
  * Backbone-tastypie.js 0.1
  * (c) 2011 Paul Uithol
  * 
@@ -27,15 +32,6 @@
 	 */
 	Backbone.oldSync = Backbone.sync;
 	Backbone.sync = function( method, model, options ) {
-		var headers = '';
-	
-		if ( Backbone.Tastypie.apiKey && Backbone.Tastypie.apiKey.username.length ) {
-			headers = _.extend( {
-				'Authorization': 'ApiKey ' + Backbone.Tastypie.apiKey.username + ':' + Backbone.Tastypie.apiKey.key
-			}, options.headers );
-			options.headers = headers;
-		}
-
 		if ( ( method === 'create' && Backbone.Tastypie.doGetOnEmptyPostResponse ) ||
 			( method === 'update' && Backbone.Tastypie.doGetOnEmptyPutResponse ) ) {
 			var dfd = new $.Deferred();
@@ -47,9 +43,13 @@
 				// Otherwise, resolve the deferred (which triggers the original 'success' callbacks).
 				if ( !resp && ( xhr.status === 201 || xhr.status === 202 || xhr.status === 204 ) ) { // 201 CREATED, 202 ACCEPTED or 204 NO CONTENT; response null or empty.
 					var location = xhr.getResponseHeader( 'Location' ) || model.id;
+
 					return $.ajax( {
 						   url: location,
-						   headers: headers,
+                           // PANDA HACK
+                           // modified to reuse original headers so CSRF persists
+						   headers: options.headers,
+                           // END PANDA HACK
 						   success: dfd.resolve,
 						   error: dfd.reject
 						});
