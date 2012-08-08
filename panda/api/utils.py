@@ -132,7 +132,7 @@ class PandaAuthentication(ApiKeyAuthentication):
             if not same_origin(referer, good_referer):
                 return False
 
-        request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
+        request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '') or request.POST.get('csrfmiddlewaretoken', '')
 
         if not constant_time_compare(request_csrf_token, csrf_token):
             return False

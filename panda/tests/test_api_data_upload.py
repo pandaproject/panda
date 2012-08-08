@@ -109,7 +109,7 @@ class TestAPIDataUpload(TransactionTestCase):
         self.assertEqual(response.status_code, 200)
 
         body = json.loads(response.content)
-        
+
         self.assertEqual(body['success'], False)
         self.assertEqual(body['forbidden'], True)
 
