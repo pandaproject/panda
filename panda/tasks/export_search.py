@@ -44,13 +44,13 @@ class ExportSearchTask(AbortableTask):
 
         path = os.path.join(settings.EXPORT_ROOT, filename)
         zip_path = os.path.join(settings.EXPORT_ROOT, zip_name)
-        
-        zipfile = ZipFile(zip_path, 'w')
 
         try:
             os.makedirs(os.path.realpath(path))
         except:
             pass
+        
+        zipfile = ZipFile(zip_path, 'w')
 
         response = solr.query_grouped(
             settings.SOLR_DATA_CORE,
