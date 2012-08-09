@@ -62,6 +62,7 @@ class PandaUserCreationForm(forms.ModelForm):
         user.email = user.email.lower()
         user.username = user.email
         user.is_active = False
+        user.set_unusable_password()
 
         if commit:
             user.save()
