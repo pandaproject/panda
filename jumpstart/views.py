@@ -7,6 +7,7 @@ import time
 
 from django.conf import settings
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 from pytz import common_timezones
 from tastypie.models import ApiKey
 
@@ -30,10 +31,10 @@ class RestartDaemon(Daemon):
             os.remove(self.pidfile)
 
 def jumpstart(request):
-    context = {
+    context = RequestContext(request, {
         'settings': settings,
         'timezones': common_timezones
-    }
+    })
 
     return render_to_response('jumpstart/index.html', context)
 

@@ -8,6 +8,8 @@
     <div class="alert alert-info"><strong>Congratulations&mdash;your PANDA is almost ready!</strong><br />Just answer a few questions to finish setting up.</div>
 
     <form id="setup" method="POST" action="wait">
+        {% csrf_token %}
+
         <div class="control-group">
             <label for="timezone">What time zone does your organization do most of its work in?</label>
             <select name="timezone">
