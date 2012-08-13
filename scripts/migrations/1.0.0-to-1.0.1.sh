@@ -25,6 +25,9 @@ git checkout 1.0.1
 # Update Python requirements
 pip install -U -r requirements.txt
 
+# Migrate database
+sudo -u panda -E python manage.py migrate panda --noinput
+
 # Regenerate assets
 sudo -u panda -E python manage.py collectstatic --noinput
 
