@@ -21,6 +21,9 @@ To upgrade your PANDA from the 1.0.0 release to the 1.0.1 release, :doc:`SSH <ss
     wget https://raw.github.com/pandaproject/panda/1.0.1/scripts/migrations/1.0.0-to-1.0.1.sh
     sudo bash 1.0.0-to-1.0.1.sh
 
+    # This will disconnect you and restart your PANDA
+    sudo reboot
+
 Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-1.0.1.log``.
 
 Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
