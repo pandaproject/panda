@@ -1,7 +1,7 @@
 1.0.2
 -----
 
-
+* Fix unescaped names in subscription dialogs.
 
 1.0.1
 -----

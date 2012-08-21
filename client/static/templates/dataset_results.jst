@@ -71,7 +71,7 @@
     </div>
     <div class="modal-body">
         <p>When you click <strong>Subscribe</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email<% }%> notifications of new data added to PANDA that matches:</p>
-        <p><%= query_human %> in <strong><%= dataset.name %></strong></p>
+        <p><%= query_human %> in <strong><%= unescape(dataset.name) %></strong></p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
