@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+{% load i18n %}
 {% load compress %}
 
 <html>
@@ -22,35 +23,35 @@
                 <ul class="nav pull-left">
                     <li id="logo"><a href="#search/all"><img src="{{ settings.STATIC_URL }}img/panda_and_ire.png" /></a></li>
                     <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ settings.STATIC_URL }}img/ajax-loader.gif" /></a></li>
-                    <li><a href="#search/all">Search</a></li>
-                    <li><a href="#upload">Upload</a></li>
+                    <li><a href="#search/all">{% trans "Search" %}</a></li>
+                    <li><a href="#upload">{% trans "Upload" %}</a></li>
                     <li id="navbar-categories" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Find a dataset <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Find a dataset" %} <b class="caret"></b></a>
                         <ul id="categories-list" class="dropdown-menu">
                         </ul>
                     </li>
                     <li id="navbar-help" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Help" %} <b class="caret"></b></a>
                         <ul id="help-list" class="dropdown-menu">
-                            <li><a href="#welcome">Welcome to PANDA</a></li>
-                            <li><a href="http://pandaproject.net/">Read the documentation</a></li>
-                            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/panda-project-users">Ask a question on the user group</a></li>
+                            <li><a href="#welcome">{% trans "Welcome to PANDA" %}</a></li>
+                            <li><a href="http://pandaproject.net/">{% trans "Read the documentation" %}</a></li>
+                            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/panda-project-users">{% trans "Ask a question on the user group" %}</a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav pull-right">
                     <li id="navbar-email"><a href="#"></a></li>
                     <li id="navbar-notifications" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications <span class="count badge">0</span> <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Notifications" %} <span class="count badge">0</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <ul>
                             </ul>
                             <li class="divider"></li>
-                            <li><a href="#notifications">View all notifications</a></li>
+                            <li><a href="#notifications">{% trans "View all notifications" %}</a></li>
                         </ul>
                     </li>
-                    <li id="navbar-admin"><a href="/admin">Admin</a></li>
-                    <li><a href="#logout">Logout</a></li>
+                    <li id="navbar-admin"><a href="/admin">{% trans "Admin" %}</a></li>
+                    <li><a href="#logout">{% trans "Logout" %}</a></li>
                 </ul>
             </div>
         </div>
