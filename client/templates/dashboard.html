@@ -87,20 +87,20 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Application data{% if not upload_disk_total %}, uploaded files (and exports){% endif %}{% if not indices_disk_total %}, search data{% endif %}</td>
+                            <td>{% if not upload_disk_total and not indices_disk_total %}Application data, uploaded files (and exports) and search data{% elif not upload_disk_total %}Application data and uploaded files (and exports){% elif not indices_disk_total %}Application data and search data{% else %}Application data{% endif %}</td>
                             <td>{{ root_disk_total|filesizeformat }} ({{ root_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ root_disk_free|filesizeformat }}</td>
                         </tr>
                         {% if upload_disk_total %}
                         <tr>
-                            <td>Uploaded files (and exports)</td>
+                            <td>{% trans "Uploaded files (and exports)" %}</td>
                             <td>{{ upload_disk_total|filesizeformat }} ({{ upload_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ upload_disk_free|filesizeformat }}</td>
                         </tr>
                         {% endif %}
                         {% if indices_disk_total %}
                         <tr>
-                            <td>Search data</td>
+                            <td>{% trans "Search data" %}</td>
                             <td>{{ indices_disk_total|filesizeformat }} ({{ indices_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ indices_disk_free|filesizeformat }}</td>
                         </tr>
