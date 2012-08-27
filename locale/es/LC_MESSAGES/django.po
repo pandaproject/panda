@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-27 11:43-0500\n"
+"POT-Creation-Date: 2012-08-27 15:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,47 +124,47 @@ msgstr ""
 
 #: client/templates/index.html:26
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: client/templates/index.html:27
 msgid "Upload"
-msgstr ""
+msgstr "Subir"
 
 #: client/templates/index.html:29
 msgid "Find a dataset"
-msgstr ""
+msgstr "Encontrar un dataset"
 
 #: client/templates/index.html:34
 msgid "Help"
-msgstr ""
+msgstr "Ayudar"
 
 #: client/templates/index.html:36
 msgid "Welcome to PANDA"
-msgstr ""
+msgstr "Bienvenida a PANDA"
 
 #: client/templates/index.html:37
 msgid "Read the documentation"
-msgstr ""
+msgstr "Lea la documentación"
 
 #: client/templates/index.html:38
 msgid "Ask a question on the user group"
-msgstr ""
+msgstr "Haz una pregunta en el grupo de usuarios"
 
 #: client/templates/index.html:45
 msgid "Notifications"
-msgstr ""
+msgstr "Notificaciones"
 
 #: client/templates/index.html:50
 msgid "View all notifications"
-msgstr ""
+msgstr "Ver todas las notificaciones"
 
 #: client/templates/index.html:53
 msgid "Admin"
-msgstr ""
+msgstr "Administración"
 
 #: client/templates/index.html:54
 msgid "Logout"
-msgstr ""
+msgstr "Logout"
 
 #: coverage_html/_Users_onyxfish_src_django_django_views_static.html:287
 #: coverage_html/_Users_onyxfish_src_django_django_views_static.html:290
@@ -280,6 +280,22 @@ msgstr ""
 
 #: panda/templates/admin/panda/userproxy/change_list.html:15
 msgid "Add Many Users"
+msgstr ""
+
+#: templates/404.html:5
+msgid "Not Found"
+msgstr ""
+
+#: templates/500.html:5
+msgid "Server Error"
+msgstr ""
+
+#: templates/admin/base_site.html:4
+msgid "PANDA Administration"
+msgstr ""
+
+#: templates/admin/base_site.html:7
+msgid "(version 1.0.2)"
 msgstr ""
 
 #: templates/admin/panda_index.html:10
