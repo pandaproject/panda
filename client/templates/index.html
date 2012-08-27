@@ -80,6 +80,13 @@
 
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/excanvas.min.js"></script><![endif]-->
 
+    {% if settings.LANGUAGE_CODE != 'en-us' %}
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/moment/{{ settings.LANGUAGE_CODE }}.js"></script>
+    <script type="text/javascript">
+        moment.lang("{{ settings.LANGUAGE_CODE }}");
+    </script>
+    {% endif %}
+
     <script type="text/javascript">
         PANDA.settings.VERSION = "{{ settings.PANDA_VERSION }}";
         PANDA.settings.STATIC_URL = "{{ settings.STATIC_URL }}";
@@ -96,6 +103,7 @@
     </script>
 
     <script type="text/javascript" src="templates.js"></script>
+    <script type="text/javascript" src="i18n.js"></script>
 
     {% compress js %}
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/activity_log.js"></script>

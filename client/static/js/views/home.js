@@ -3,6 +3,13 @@ PANDA.views.Home = Backbone.View.extend({
         _.bindAll(this);
     },
 
+    text: {
+        recently_added_datasets: gettext("Recently added datasets"),
+        created_timestamp: gettext("Created %(timeago)s"),
+        browse_all_datasets: gettext("Browse all %(count)s datasets"),
+        dashboard_link: gettext("Want to see how your PANDA is being used? Visit the <a %(link)s>Dashboard</a>!")
+    },
+
     render: function() {
         var recent_datasets = new PANDA.collections.Datasets()
 
@@ -10,7 +17,8 @@ PANDA.views.Home = Backbone.View.extend({
             data: { limit: 5 },
             success: _.bind(function() {
                 var context = PANDA.utils.make_context({
-                    recent: recent_datasets.results()
+                    recent: recent_datasets.results(),
+                    text: this.text
                 });
 
                 this.$el.html(PANDA.templates.home(context));
