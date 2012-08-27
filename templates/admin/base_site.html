@@ -1,10 +1,10 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block title %}PANDA Administration{% endblock %}
+{% block title %}{% trans "PANDA Administration" %}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="/">PANDA</a> (version 1.0.2)</h1>
+<h1 id="site-name"><a href="/">PANDA</a> {% trans "(version 1.0.2)" %}</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
