@@ -1,0 +1,286 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-27 10:40-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: client/templates/dashboard.html:7
+msgid "PANDA Dashboard"
+msgstr ""
+
+#: client/templates/dashboard.html:7
+#, python-format
+msgid "Version %(version)s"
+msgstr "Versión %(version)s"
+
+#: client/templates/dashboard.html:8
+#, python-format
+msgid "Datasets <small>%(dataset_count)s total</small>"
+msgstr ""
+
+#: client/templates/dashboard.html:11
+msgid "Missing descriptions"
+msgstr "Descripciones que faltan"
+
+#: client/templates/dashboard.html:19
+msgid "Missing categories"
+msgstr "Categorías que faltan"
+
+#: client/templates/dashboard.html:28
+#, python-format
+msgid ""
+"Users <small>%(user_count)s total, %(activated_user_count)s activated</small>"
+msgstr ""
+
+#: client/templates/dashboard.html:31
+msgid "Users active over last 30 days"
+msgstr ""
+
+#: client/templates/dashboard.html:38
+msgid "Most active users in the last 30 days"
+msgstr ""
+
+#: client/templates/dashboard.html:41 client/templates/dashboard.html.py:49
+#, python-format
+msgid "(active on %(days_active)s day)"
+msgid_plural "(active on %(days_active)s days)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/templates/dashboard.html:46
+msgid "Least active users in the last 30 days"
+msgstr ""
+
+#: client/templates/dashboard.html:54
+msgid "Inactive users in the last 30 days"
+msgstr ""
+
+#: client/templates/dashboard.html:63
+#, python-format
+msgid "Searches <small>%(total_searches)s total</small>"
+msgstr ""
+
+#: client/templates/dashboard.html:66
+msgid "Most searched datasets in the last 30 days"
+msgstr ""
+
+#: client/templates/dashboard.html:69
+#, python-format
+msgid "(%(count)s search)"
+msgid_plural "(%(count)s searches)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/templates/dashboard.html:74
+msgid "Search count by day"
+msgstr ""
+
+#: client/templates/dashboard.html:79
+msgid "Disk usage"
+msgstr ""
+
+#: client/templates/dashboard.html:85
+msgid "Disk"
+msgstr ""
+
+#: client/templates/dashboard.html:86
+msgid "Capacity"
+msgstr ""
+
+#: client/templates/dashboard.html:87
+msgid "Remaining"
+msgstr ""
+
+#: client/templates/dashboard.html:113
+msgid "Low disk?"
+msgstr ""
+
+#: client/templates/dashboard.html:113
+#, python-format
+msgid "Read about <a href=\"%(url)s\">upgrading your storage space</a>."
+msgstr ""
+
+#: coverage_html/_Users_onyxfish_src_django_django_views_static.html:287
+#: coverage_html/_Users_onyxfish_src_django_django_views_static.html:290
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: panda/admin.py:48
+msgid "E-mail"
+msgstr ""
+
+#: panda/admin.py:58
+msgid "A user with that email address already exists."
+msgstr ""
+
+#: panda/admin.py:133
+msgid "Personal info"
+msgstr ""
+
+#: panda/admin.py:134
+msgid "Permissions"
+msgstr ""
+
+#: panda/admin.py:135
+msgid "Important dates"
+msgstr ""
+
+#: panda/admin.py:210 panda/admin.py:352
+#, python-format
+msgid "Add %s"
+msgstr ""
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:19
+#: panda/templates/admin/panda/userproxy/add_form.html:19
+#: panda/templates/admin/panda/userproxy/add_many_form.html:19
+#: templates/livesettings/site_settings.html:50
+msgid "Home"
+msgstr ""
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:22
+#: panda/templates/admin/panda/userproxy/add_form.html:22
+#: templates/admin/panda_index.html:21
+msgid "Add"
+msgstr ""
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:31
+#: panda/templates/admin/panda/userproxy/add_form.html:31
+#: panda/templates/admin/panda/userproxy/add_many_form.html:31
+msgid "History"
+msgstr ""
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:32
+#: panda/templates/admin/panda/userproxy/add_form.html:32
+#: panda/templates/admin/panda/userproxy/add_many_form.html:32
+msgid "View on site"
+msgstr ""
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:34
+msgid "Abort"
+msgstr ""
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:43
+#: panda/templates/admin/panda/userproxy/add_form.html:44
+#: templates/livesettings/site_settings.html:65
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: panda/templates/admin/panda/userproxy/add_form.html:37
+msgid ""
+"Enter an email address. You may also specify the user's first and last name "
+"or leave that for them to do."
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/add_form.html:38
+msgid "The new user will be emailed a link to activate their account."
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/add_form.html:38
+msgid "<strong>Note:</strong> Email is not <a href=\\"
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:22
+msgid "Add Many"
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:39
+msgid ""
+"Type or paste user data into the field below in <strong>CSV format</strong>. "
+"The first_name and last_name fields may be blank left blank for any or all "
+"rows."
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:40
+msgid ""
+"If the password field is not blank the user will be activated immediately, "
+"otherwise the user will be sent an activation email."
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:40
+msgid "<strong>Important:</strong> Email is not <a href=\\"
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/change_form.html:9
+msgid "Resend activation email"
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/change_list.html:12
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: panda/templates/admin/panda/userproxy/change_list.html:15
+msgid "Add Many Users"
+msgstr ""
+
+#: templates/admin/panda_index.html:10
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr ""
+
+#: templates/admin/panda_index.html:11
+#, python-format
+msgid "%(name)s"
+msgstr ""
+
+#: templates/admin/panda_index.html:27
+msgid "Change"
+msgstr ""
+
+#: templates/admin/panda_index.html:37
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: templates/livesettings/site_settings.html:47
+msgid "Documentation"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:47
+msgid "Change password"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:47
+msgid "Log out"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:51
+msgid "Edit Site Settings"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:58
+msgid "Livesettings are disabled for this site."
+msgstr ""
+
+#: templates/livesettings/site_settings.html:59
+msgid "All configuration options must be edited in the site settings.py file"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:81
+#, python-format
+msgid "Group settings: %(name)s"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:108
+msgid "Update Settings"
+msgstr ""
+
+#: templates/livesettings/site_settings.html:114
+msgid "You don't have permission to edit values."
+msgstr ""
