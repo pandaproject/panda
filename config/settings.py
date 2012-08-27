@@ -46,7 +46,7 @@ USE_TZ = True
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
-USE_L10N = True
+USE_L10N = False 
 
 LOCALE_PATHS = (os.path.join(SITE_ROOT, 'locale'),)
 
