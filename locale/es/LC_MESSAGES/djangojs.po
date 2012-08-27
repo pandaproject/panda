@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-27 15:50-0500\n"
+"POT-Creation-Date: 2012-08-27 16:59-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,3 +53,109 @@ msgstr "Escriba una consulta de búsqueda"
 #: client/static/js/views/search.js:17
 msgid "Search"
 msgstr "Buscar"
+
+#: client/static/js/views/search_results.js:10
+#, fuzzy
+msgid "Please enter a search query."
+msgstr "Escriba una consulta de búsqueda"
+
+#: client/static/js/views/search_results.js:11
+msgid "No rows matching query found in any dataset."
+msgstr ""
+
+#: client/static/js/views/search_results.js:12
+msgid "Subscribe to search results"
+msgstr ""
+
+#: client/static/js/views/search_results.js:13
+msgid "Export search results to CSV files"
+msgstr ""
+
+#: client/static/js/views/search_results.js:14
+msgid ""
+"Showing only results created or updated after <strong>%(since)s</strong>."
+msgstr ""
+
+#: client/static/js/views/search_results.js:15
+msgid "Show all results instead"
+msgstr ""
+
+#: client/static/js/views/search_results.js:16
+msgid "View more results from this dataset"
+msgstr ""
+
+#: client/static/js/views/search_results.js:18
+msgid "Are you sure you want to export this search?"
+msgstr ""
+
+#: client/static/js/views/search_results.js:19
+msgid ""
+"<p>This may take a long time to complete. You will be notified when it is "
+"finished.</p><p>Please note that changes made to the data during export may "
+"not be accurately reflected.</p>"
+msgstr ""
+
+#: client/static/js/views/search_results.js:20
+#: client/static/js/views/search_results.js:29
+msgid "Cancel"
+msgstr ""
+
+#: client/static/js/views/search_results.js:21
+msgid "Continue with export"
+msgstr ""
+
+#: client/static/js/views/search_results.js:22
+msgid ""
+"Your export has been successfully queued. When it is complete you will be "
+"emailed a link to download the file."
+msgstr ""
+
+#: client/static/js/views/search_results.js:23
+msgid ""
+"Your export has been successfully queued. Your PANDA does not have email "
+"configured, so you will need to check your Notifications list to see when it "
+"is ready to be downloaded."
+msgstr ""
+
+#: client/static/js/views/search_results.js:24
+msgid ""
+"<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
+msgstr ""
+
+#: client/static/js/views/search_results.js:26
+msgid "Subscribe to this search?"
+msgstr ""
+
+#: client/static/js/views/search_results.js:27
+msgid ""
+"When you click <strong>Subscribe</strong> you will begin receiving daily "
+"email notifications of new data added to PANDA that matches your search."
+msgstr ""
+
+#: client/static/js/views/search_results.js:28
+msgid ""
+"When you click <strong>Subscribe</strong> you will begin receiving daily "
+"notifications of new data added to PANDA that matches your search."
+msgstr ""
+
+#: client/static/js/views/search_results.js:30
+msgid "Subscribe"
+msgstr ""
+
+#: client/static/js/views/search_results.js:31
+msgid ""
+"<p>You will now receive notifications for this search.</p><p>You cancel "
+"these notifications on your user page.</p>"
+msgstr ""
+
+#: client/static/js/views/search_results.js:32
+msgid ""
+"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
+"s</code>"
+msgstr ""
+
+#: client/static/js/views/search_results.js:37
+msgid "%(count)s matching row (%(row_count)s total rows)"
+msgid_plural "%(count)s matching rows (%(row_count)s total rows)"
+msgstr[0] ""
+msgstr[1] ""
