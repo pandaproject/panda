@@ -17,8 +17,8 @@ PANDA.views.Home = Backbone.View.extend({
             data: { limit: 5 },
             success: _.bind(function() {
                 var context = PANDA.utils.make_context({
-                    recent: recent_datasets.results(),
-                    text: this.text
+                    text: this.text,
+                    recent: recent_datasets.results()
                 });
 
                 this.$el.html(PANDA.templates.home(context));
