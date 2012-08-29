@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-27 16:59-0500\n"
+"POT-Creation-Date: 2012-08-28 09:36-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,12 +165,6 @@ msgstr "Administración"
 #: client/templates/index.html:54
 msgid "Logout"
 msgstr "Logout"
-
-#: coverage_html/_Users_onyxfish_src_django_django_views_static.html:287
-#: coverage_html/_Users_onyxfish_src_django_django_views_static.html:290
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
 
 #: panda/admin.py:48
 msgid "E-mail"

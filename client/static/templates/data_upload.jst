@@ -1,72 +1,73 @@
 <div id="upload">
     <h2>
         <% if (dataset) { %>
-            Add data to <a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a>
+            <%= interpolate(text.add_data, { dataset: '<a href="#dataset/' + dataset.slug  + '">' + unescape(dataset.name) }, true) %></a>
         <% } else { %>
-            Upload new data
+            <%= text.upload_new_data %> 
         <% } %>
     </h2>
 
     <% if (available_space) { %>
         <% if (available_space.uploads.free_space <= PANDA.settings.AVAILABLE_SPACE_CRITICAL) { %>
-        <div class="alert alert-error" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.uploads.free_space) %> available for files. You should contact your PANDA adminstrator about expanding the available storage space. <strong>Uploads may fail.</strong></div>
+        <div class="alert alert-error" style="display: block;"><%= interpolate(text.upload_space_critical, { space: PANDA.utils.format_file_size(available_space.uploads.free_space) }, true) %></div>
         <% } else if (available_space.uploads.free_space <= PANDA.settings.AVAILABLE_SPACE_WARN) { %>
-        <div class="alert alert-warn" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.uploads.free_space) %> available for files. You should contact your PANDA adminstrator about expanding the available storage space.</div>
+        <div class="alert alert-warn" style="display: block;"><%= interpolate(text.upload_space_warning, { space: PANDA.utils.format_file_size(available_space.uploads.free_space) }, true) %></div>
         <% } %>
 
         <% if (available_space.indices.free_space <= PANDA.settings.AVAILABLE_SPACE_CRITICAL) { %>
-        <div class="alert alert-error" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.indices.free_space) %> available for search indices. You should contact your PANDA adminstrator about expanding the available storage space. <strong>Uploads may fail.</strong></div>
+        <div class="alert alert-error" style="display: block;"><%= interpolate(text.index_space_critical, { space: PANDA.utils.format_file_size(available_space.indices.free_space) }, true) %></div>
         <% } else if (available_space.indices.free_space <= PANDA.settings.AVAILABLE_SPACE_WARN) { %>
-        <div class="alert alert-warn" style="display: block;">Your PANDA has <%= PANDA.utils.format_file_size(available_space.indices.free_space) %> available for search indices. You should contact your PANDA adminstrator about expanding the available storage space.</div>
+        <div class="alert alert-warn" style="display: block;"><%= interpolate(text.index_space_warning, { space: PANDA.utils.format_file_size(available_space.indices.free_space) }, true) %></div>
         <% } %>
     <% } %>
 
     <% if (dataset) { %>
     <div class="alert alert-block alert-warn" style="display: block;">
         <p>
-            <strong>Note:</strong> When adding data to an existing dataset the file you upload must have <strong>exactly</strong> the same headers as the existing data.</p>
+            <%= text.adding_data_warning %>
+        </p>
     </div>
     <% } %>
 
     <div id="steps">
         <div id="step-1" class="step well collapse in">
-            <h3>Select your file</h3>
+            <h3><%= text.select_your_file %></h3>
            
-            <p>Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or .xlsx)</strong> file from your computer:</p>
+            <p><%= text.file_types %></p>
 
             <input type="file" id="upload-file" /><br />
 
             <div class="alert alert-warn notes xls">
-                <strong>Excel styles will be lost!</strong> When making this file searchable all formatting applied to the cells will be lost. This means your data may appear differently in PANDA than it does in your spreadsheet application. In addition, only the first worksheet of your file will be made searchable. Read more in our documentation on <a href="http://pandaproject.net/docs/handling-unsupported-excel-features.html">handling unsupported Excel features</a>.
+                <%= text.excel_styles_warning %> 
             </div>
             
             <div class="alert alert-error notes access">
-                Access files can not be uploaded to PANDA. Read our documentation on <a href="http://pandaproject.net/docs/importing-access-files.html">importing Access files</a>.
+                <%= text.access_files_error %>.
             </div>
 
             <div class="alert alert-error notes dbf">
-                DBF files can not be uploaded to PANDA. Read our documentation on <a href="http://pandaproject.net/docs/importing-dbf-files.html">importing DBF files</a>.
+                <%= text.dbf_files_error %>
             </div>
 
             <div class="alert alert-error notes other">
-                Unknown file type. Please upload either an CSV or Excel file.
+                <%= text.unknown_files_error %>
             </div>
 
             <div class="csv-options">
-                <h5>Advanced CSV options</h5>
-                <label for="encoding">Character encoding <a data-content="<p>Unfortunantely, it is not possible for PANDA to automatically determine the encoding of a CSV file. The default is <strong>utf-8</strong>, which is correct for a large number of files, but there are many possible encodings. Census data, for example, is frequently distributed in the <strong>latin-1</strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA can not import your CSV file you may need to research what encoding it is in.</p>" title="Character encodings" data-placement="right" href="#" onclick="return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
+                <h5><%= text.advanced_csv_options %></h5>
+                <label for="encoding"><%= text.character_encodings %> <a data-content="<%= text.character_encodings_help %>" title="<%= text.character_encodings %>" data-placement="right" href="#" onclick="return false;" rel="popover"><i class="icon-question-sign"></i></a></label>
                 <input type="text" id="upload-encoding" class="input-small" placeholder="utf-8" />
             </div>
 
-            <div><input type="button" name="begin" id="upload-begin" class="btn btn-success" value="Begin upload" /></div>
+            <div><input type="button" name="begin" id="upload-begin" class="btn btn-success" value="<%= text.begin_upload %>" /></div>
             
             <div id="step-1-alert" class="alert"></div>
         </div>
 
         <div id="step-2" class="step well collapse">
-            <h3><% if (dataset) { %>Wait while your file is uploaded<% } else { %>Describe your dataset<% } %></h3>
+            <h3><% if (dataset) { %><%= text.wait_for_upload %><% } else { %><%= text.describe_your_dataset %><% } %></h3>
 
-            <p>Your file is currently being uploaded to PANDA. While you wait please take a moment to provide some information about it, such as when and how it was acquired.</p>
+            <p><%= text.while_youre_waiting %></p>
 
             <div class="progress-bar">
                 <span class="progress-value"><strong>0%</strong></span>
@@ -77,16 +78,16 @@
             <% if (!dataset) { %>
             <form id="dataset-details-form" class="form-stacked">
                 <div class="control-group">
-                    <label for="dataset-name">Name</label>
+                    <label for="dataset-name"><%= text.dataset_name %></label>
                     <input class="span5" id="dataset-name" name="name" size="30" type="text" value="" maxlength="256" />
                 </div>
 
                 <div class="control-group">
-                    <label for="dataset-description">Description</label>
+                    <label for="dataset-description"><%= text.dataset_description %></label>
                     <textarea class="span6" id="dataset-description" name="description" rows="5"></textarea>
                 </div>
 
-                <label for="categories">Categories</label>
+                <label for="categories"><%= text.dataset_categories %></label>
 
                 <% _.each(all_categories, function(category) { %>
                 <label class="checkbox">
@@ -98,23 +99,23 @@
             <% } %>
             
             <div class="ie-progress">
-                <p><strong>Upload in progress, please wait...</strong></p>
+                <p><strong><%= text.uploading %></strong></p>
             </div> 
 
-            <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="Continue" disabled="disabled" />
+            <input type="button" name="continue" id="upload-continue" class="btn btn-success" value="<%= text.continue_to_preview %>" disabled="disabled" />
         </div>
 
         <div id="step-3" class="step well collapse">
-            <h3>Preview your data</h3>
-            <p>Your file has finished uploading. Please review the following sample data that was extracted from your file and verify it looks correct. If it not correct you may need to modify the file or save your data in another format. If you are satisifed with the preview then click Continue.</p>
+            <h3><%= text.preview_your_data %></h3>
+            <p><%= text.please_review %></p>
 
             <div class="sample-data">
             </div>
             
             <div id="step-3-alert" class="alert"></div>
 
-            <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="Finish" disabled="disabled" />
-            <input type="button" name="start-over" id="upload-start-over" class="btn" value="Start over" disabled="disabled" />
+            <input type="button" name="continue" id="upload-finish" class="btn btn-success" value="<%= text.finish %>" disabled="disabled" />
+            <input type="button" name="start-over" id="upload-start-over" class="btn" value="<%= text.start_over %>" disabled="disabled" />
         </div>
     </div>
 </div>
@@ -122,11 +123,11 @@
 <div id="upload-traceback-modal" class="modal hide fade in">
     <div class="modal-header">
         <a href="#" class="close">&times;</a>
-        <h3>Error processing dataset</h3>
+        <h3><%= text.error_title %></h3>
     </div>
     <div class="modal-body">
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" value="Close" />
+        <input type="button" class="btn" data-dismiss="modal" value="<%= text.error_close %>" />
     </div>
 </div>

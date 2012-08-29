@@ -106,6 +106,10 @@
     <script type="text/javascript" src="i18n.js"></script>
 
     {% compress js %}
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/activate.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/data_upload.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/home.js"></script>
+
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/activity_log.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/exports.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/notifications.js"></script>
@@ -117,6 +121,7 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/categories.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/datasets.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/data.js"></script>
+
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/not_found.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/server_error.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/activate.js"></script>

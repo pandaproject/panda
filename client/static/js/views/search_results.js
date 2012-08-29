@@ -19,17 +19,12 @@ PANDA.views.SearchResults = Backbone.View.extend({
         export_body: gettext("<p>This may take a long time to complete. You will be notified when it is finished.</p><p>Please note that changes made to the data during export may not be accurately reflected.</p>"),
         export_cancel: gettext("Cancel"),
         export_continue: gettext("Continue with export"),
-        export_success_email: gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file."),
-        export_success_no_email: gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."),
-        export_failure: gettext("<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"),
 
         subscribe_title: gettext("Subscribe to this search?"),
         subscribe_body_email: gettext("When you click <strong>Subscribe</strong> you will begin receiving daily email notifications of new data added to PANDA that matches your search."),
         subscribe_body_no_email: gettext("When you click <strong>Subscribe</strong> you will begin receiving daily notifications of new data added to PANDA that matches your search."),
         subscribe_cancel: gettext("Cancel"),
-        subscribe_continue: gettext("Subscribe"),
-        subscribe_success: gettext("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>"),
-        subscribe_failure: gettext("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)s</code>")
+        subscribe_continue: gettext("Subscribe")
     },
 
     text_makers: {
@@ -100,11 +95,11 @@ PANDA.views.SearchResults = Backbone.View.extend({
         sub.save({}, {
             async: false,
             success: _.bind(function(model, response) {
-                bootbox.alert(this.text.subscribe_success);
+                bootbox.alert(gettext("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>"));
             }, this),
             error: function(model, response) {
                 error = JSON.parse(response);
-                bootbox.alert(interpolate(this.text.subscribe_failure, { traceback: error.traceback }, true));
+                bootbox.alert(interpolate(gettext("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)s</code>"), { traceback: error.traceback }, true));
             }
         });
     },
@@ -119,15 +114,15 @@ PANDA.views.SearchResults = Backbone.View.extend({
             this.search.since,
             function() {
                 if (PANDA.settings.EMAIL_ENABLED) {
-                    note = this.text.export_success_email;
+                    note = gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
                 } else {
-                    note = this.text.export_success_no_email;
+                    note = gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded.");
                 }
 
                 bootbox.alert(note);
             },
             function(error) {
-                bootbox.alert(interpolate(this.text.export_failure, { traceback: error.traceback }, true));
+                bootbox.alert(interpolate(gettext("<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"), { traceback: error.traceback }, true));
             }
         );
     }

@@ -31,6 +31,8 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     allowed_extensions: ["csv", "xls", "xlsx"],
 
+    text: PANDA.text.DataUpload(),
+
     initialize: function() {
         _.bindAll(this);
     },
@@ -88,6 +90,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         });
 
         var context = PANDA.utils.make_context({
+            text: this.text,
             dataset: dataset_json,
             available_space: this.available_space,
             all_categories:  all_categories
