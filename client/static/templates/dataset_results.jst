@@ -2,13 +2,13 @@
     <div class="span12">
     <% if (!query) { %>
 
-        <p>Please enter a search query.</p>
+        <p><%= text.no_query %></p>
 
     <% } else if (dataset.meta.total_count == 0) { %>
 
-        <p>No rows matching query found in dataset <strong><%= unescape(dataset.name) %></strong>.</p>
+        <p><%= interpolate(text.no_matching_rows, { dataset: unescape(dataset.name) }, true) %></p>
 
-        <p>Would you like to <a href="#search/all/<%= query["__all__"] %>">search all datasets instead?</a></p>
+        <p><%= interpolate(text.search_all_instead, { url: "#search/all/" + query["__all__"] }, true) %></p>
             
         <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Subscribe to search results</a></p>
 
