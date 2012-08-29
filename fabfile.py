@@ -338,8 +338,8 @@ def coverage():
     local('open coverage_html/index.html')
 
 def makemessages():
-    local('python manage.py makemessages -a')
-    local('python manage.py makemessages -a -d djangojs -e js')
+    local('python manage.py makemessages -a -i _site -i media -i docs -i coverage_html')
+    local('python manage.py makemessages -a -d djangojs -e js -i _site -i media -i docs -i coverage_html')
 
 def compilemessages():
     local('python manage.py compilemessages')

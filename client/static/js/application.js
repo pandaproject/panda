@@ -6,6 +6,7 @@ PANDA.API = "/api/1.0";
 PANDA.collections = {};
 PANDA.models = {};
 PANDA.views = {};
+PANDA.text = {};
 PANDA.routers = {};
 PANDA.templates = {};
 PANDA.errors = {};
