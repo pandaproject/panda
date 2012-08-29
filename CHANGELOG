@@ -1,6 +1,7 @@
 1.0.2
 -----
 
+* Fix bug causing dates in XLS files to be imported as numbers.
 * Fix unescaped names in subscription dialogs.
 
 1.0.1

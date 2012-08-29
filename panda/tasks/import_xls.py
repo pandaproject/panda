@@ -69,8 +69,8 @@ class ImportXLSTask(ImportFileTask):
             if external_id_field_index is not None:
                 external_id = values[external_id_field_index]
 
-            data = utils.solr.make_data_row(dataset, values, data_upload=upload, external_id=external_id)
-            data = data_typer(data, values)
+            data = utils.solr.make_data_row(dataset, normal_values, data_upload=upload, external_id=external_id)
+            data = data_typer(data, normal_values)
 
             add_buffer.append(data)
 
