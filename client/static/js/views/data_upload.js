@@ -110,10 +110,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
             showMessage: this.step_one_error_message,
             sizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
             messages: {
-                typeError: "{file} is not a supported type. Only CSV, XLS, and XLSX files are currently supported.",
-                sizeError: "{file} is too large, the maximum file size is " + PANDA.settings.MAX_UPLOAD_SIZE + " bytes.",
-                emptyError: "{file} is empty.",
-                onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
+                typeError: gettext("{file} is not a supported type. Only CSV, XLS, and XLSX files are currently supported."),
+                sizeError: interpolate(gettext("{file} is too large, the maximum file size is %(size)s bytes.", { size: PANDA.settings.MAX_UPLOAD_SIZE }, true)),
+                emptyError: gettext("{file} is empty."),
+                onLeave: gettext("Your file is being uploaded, if you leave now the upload will be cancelled.")
             }
         });
         
@@ -183,12 +183,12 @@ PANDA.views.DataUpload = Backbone.View.extend({
             // Verify headers match
             if (this.dataset && this.dataset.get("column_schema")) {
                 if (!this.upload.get("columns").equals(_.pluck(this.dataset.get("column_schema"), "name"))) {
-                    this.step_two_error_message("The columns headers in this file do not match those of the existing data.");
+                    this.step_two_error_message(gettext("The columns headers in this file do not match those of the existing data."));
                     return;
                 }
             }
 
-            $("#step-2 .ie-progress strong").text("Upload complete!");
+            $("#step-2 .ie-progress strong").text(gettext("Upload complete!"));
             $("#upload-continue").removeAttr("disabled");
         } else if (responseJSON.forbidden) {
             Redd.goto_login(window.location.hash);
@@ -197,20 +197,20 @@ PANDA.views.DataUpload = Backbone.View.extend({
         } else if (responseJSON.xhr) {
             this.step_two_error_message(responseJSON.xhr.status + ' ' + responseJSON.xhr.statusText);
         } else {
-            this.step_two_error_message('An unexpected error occurred.');
+            this.step_two_error_message(gettext("An unexpected error occurred."));
         }
     },
 
     step_one_error_message: function(message) {
-        $("#step-1-alert").alert("alert-error", message + ' <input id="step-1-start-over" type="button" class="btn" value="Try again" />' , false);
+        $("#step-1-alert").alert("alert-error", message + ' <input id="step-1-start-over" type="button" class="btn" value="' + gettext("Try again") + '" />' , false);
     },
 
     step_two_error_message: function(message) {
-        $("#step-2-alert").alert("alert-error", message + ' <input id="step-2-start-over" type="button" class="btn" value="Try again" />' , false);
+        $("#step-2-alert").alert("alert-error", message + ' <input id="step-2-start-over" type="button" class="btn" value="' + gettext("Try again") + '" />' , false);
     },
 
     step_three_error_message: function(message) {
-        $("#step-3-alert").alert("alert-error", message + ' <input id="step-3-start-over" type="button" class="btn" value="Try again" />' , false);
+        $("#step-3-alert").alert("alert-error", message + ' <input id="step-3-start-over" type="button" class="btn" value="' + gettext("Try again") + '" />' , false);
     },
 
     step_one: function() {
