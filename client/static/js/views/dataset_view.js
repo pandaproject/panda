@@ -13,6 +13,8 @@ PANDA.views.DatasetView = Backbone.View.extend({
     edit_view: null,
     related_links_view: null,
 
+    text: PANDA.text.DatasetView(),
+
     initialize: function(options) {
         _.bindAll(this);
 
@@ -48,6 +50,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         });
 
         var context = PANDA.utils.make_context({
+            'text': this.text,
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
             'all_categories': Redd.get_categories().toJSON(), 
