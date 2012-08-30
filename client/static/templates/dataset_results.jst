@@ -10,14 +10,14 @@
 
         <p><%= interpolate(text.search_all_instead, { url: "#search/all/" + query["__all__"] }, true) %></p>
             
-        <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Subscribe to search results</a></p>
+        <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> <%= text.subscribe %></a></p>
 
     <% } else { %>
 
-        <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> Subscribe to search results</a> <a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> Export search results to CSV</a></p>
+        <p><a href="#modal-subscribe-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-envelope"></i> <%= text.subscribe %></a> <a href="#modal-export-search-results" data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn"><i class="icon-share"></i> <%= text.export_results %></a></p>
 
         <% if (since != "all") { %>
-            <div class="alert alert-warn since-warning" style="display: block;">Showing only results created or updated after <strong><%= PANDA.templates.inline_timestamp({ d: since }) %></strong>. <a href="<%= all_results_url %>">Show all results instead &raquo;</a></div>
+            <div class="alert alert-warn since-warning" style="display: block;"><%= interpolate(text.since, { since: PANDA.templates.inline_timestamp({ d: since }) }, true) %>. <a href="<%= all_results_url %>"><%= text.show_all %> &raquo;</a></div>
         <% } %>
 
         <%= pager %>
@@ -51,30 +51,28 @@
 <div id="modal-export-search-results" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Are you sure you want to export this search?</h3>
+        <h3><%= text.export_title %></h3>
     </div>
     <div class="modal-body">
-        <p>This may take a long time to complete. You will be notified when it is finished.</p>
-
-        <p>Please note that changes made to the dataset during export may not be accurately reflected.</p>
+        <%= text.export_body %> 
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="search-results-export" class="btn btn-primary" data-dismiss="modal">Continue with export</a>
+        <a href="#" class="btn" data-dismiss="modal"><%= text.cancel %></a>
+        <a href="#" id="search-results-export" class="btn btn-primary" data-dismiss="modal"><%= text.export_continue %></a>
     </div>
 </div>
 
 <div id="modal-subscribe-search-results" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Subscribe to this search?</h3>
+        <h3><%= text.subscribe_title %></h3>
     </div>
     <div class="modal-body">
-        <p>When you click <strong>Subscribe</strong> you will begin receiving daily <% if (PANDA.settings.EMAIL_ENABLED) { %>email<% }%> notifications of new data added to PANDA that matches:</p>
-        <p><%= query_human %> in <strong><%= unescape(dataset.name) %></strong></p>
+        <p><% if (PANDA.settings.EMAIL_ENABLED) { %><%= text.subscribe_body_email %><% } else { %><%= text.subscribe_body_no_email %><% } %></p>
+        <p><%= interpolate(text.subscribe_query, { query: query_human, dataset: unescape(dataset.name) }, true) %></p>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal">Subscribe</a>
+        <a href="#" class="btn" data-dismiss="modal"><%= text.cancel %></a>
+        <a href="#" id="search-results-subscribe" class="btn btn-primary" data-dismiss="modal"><%= text.subscribe_continue %></a>
     </div>
 </div>
