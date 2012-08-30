@@ -53,18 +53,16 @@ PANDA.views.DatasetResults = Backbone.View.extend({
             this.search.make_solr_query(),
             this.search.since,
             function() {
-                var note = "Your export has been successfully queued.";
-
                 if (PANDA.settings.EMAIL_ENABLED) {
-                    note += " When it is complete you will be emailed a link to download the file."
+                    note += gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
                 } else {
-                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                    note += gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded.");
                 }
 
                 bootbox.alert(note);
             },
             function(error) {
-                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+                bootbox.alert(interpolate(gettext("<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>", { traceback: error.traceback }, true)));
             }
         );
     },
@@ -83,11 +81,11 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         sub.save({}, {
             async: false,
             success: _.bind(function(model, response) {
-                bootbox.alert("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>");
+                bootbox.alert(gettext("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>"));
             }, this),
             error: function(model, response) {
                 error = JSON.parse(response);
-                bootbox.alert("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>" + error.traceback + "</code>");
+                bootbox.alert(interpolate(gettext("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)s</code>", { traceback: error.traceback }, true)));
             }
         });
     }
