@@ -4,14 +4,14 @@
         <form id="dataset-search-form" class="well">
             <div class="row-fluid">
                 <div class="span8">
-                    <h3>Search <strong><%= unescape(dataset.name) %></strong></h3>
+                    <h3><%= interpolate(text.search_dataset, { dataset: unescape(dataset.name) }, true) %></h3>
                     <div class="row-fluid">
-                        <div class="span10"><input class="dataset-search-query" type="text" name="query" value="<% if (query) { %><%= query["__all__"].replace(/"/g, '&quot;') %><% } %>" placeholder="Enter a search query" /></div>
-                        <div class="span2"><input type="submit" class="btn dataset-search-submit" value="Search" /></div>
+                        <div class="span10"><input class="dataset-search-query" type="text" name="query" value="<% if (query) { %><%= query["__all__"].replace(/"/g, '&quot;') %><% } %>" placeholder="<%= text.search_placeholder %>" /></div>
+                        <div class="span2"><input type="submit" class="btn dataset-search-submit" value="<%= text.search %>" /></div>
                     </div>
-                    <a id="toggle-advanced-search" href="#" onclick="return false;">More search options</a>
+                    <a id="toggle-advanced-search" href="#" onclick="return false;"><%= text.more_options %></a>
                     <% if (query) { %>
-                    &nbsp;<a href="#dataset/<%= dataset.slug %>">Back to dataset details</a>
+                    &nbsp;<a href="#dataset/<%= dataset.slug %>"><%= text.back_to_dataset %></a>
                     <% } %>
                     
                     <div id="dataset-search-filters">
@@ -25,36 +25,36 @@
                         <div class="row-fluid">
                             <div class="search-help-box span6">
                                 <div class="contents">
-                                    <h4>Wildcards</h4>
-                                    Use an asterisk to match part of a word: <code>coff*</code> will match "coffee", "Coffer" or "coffins".
+                                    <h4><%= text.wildcards %></h4>
+                                    <%= text.wildcards_help %> 
                                 </div>
                             </div>
                             <div class="search-help-box span6">
                                     <div class="contents">
-                                    <h4>Exact phrases</h4>
-                                    Put phrases in quotes: <code>"Chicago Bears"</code> will not match "Chicago Panda Bears".
+                                    <h4><%= text.exact_phrases %></h4>
+                                    <%= text.exact_phrases_help %> 
                                 </div>
                             </div>
                         </div>
                         <div class="row-fluid">
                             <div class="search-help-box span6">
                                 <div class="contents">
-                                    <h4>AND/OR</h4>
-                                    Use AND and OR to find combinations of terms: <code>homicide AND first</code> will match "first degree homicide" or "homicide, first degree", but not just "homicide".
+                                    <h4><%= text.and_or %></h4>
+                                    <%= text.and_or_help %>
                                 </div>
                             </div>
                             <div class="search-help-box span6">
                                 <div class="contents">
-                                    <h4>Grouping</h4>
-                                    Group words with parantheses: <code>homicide AND (first OR 1st)</code> will match "1st degree homicide", "first degree homicide", or "homicide, first degree".
+                                    <h4><%= text.grouping %></h4>
+                                    <%= text.grouping_help %>
                                 </div>
                             </div>
                         </div>
                         <div class="row-fluid">
                             <div class="search-help-box span12">
                                 <div class="contents">
-                                    <h4>Alternate names</h4>
-                                    PANDA will attempt to match informal and alternate English first names: <code>bill</code> will match "Bill", "Billy", "William", etc. It will not match mispellings.
+                                    <h4><%= text.alternate_names %></h4>
+                                    <%= text.alternate_names_help %>
                                 </div>
                             </div>
                         </div>
@@ -71,15 +71,14 @@
 <div id="modal-dataset-traceback" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Error importing data</h3>
+        <h3><%= text.error_title %></h3>
     </div>
     <div class="modal-body">
         <% if (dataset.current_task && dataset.current_task.traceback) { %>
-        <p>The import failed with the following exception:</p>
-        <code><%= dataset.current_task.traceback %></code>
+        <%= interpolate(text.error_body, { traceback: dataset.current_task.traceback }, true) %>
         <% } %>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" class="btn" data-dismiss="modal"><%= text.close %></a>
     </div>
 </div>

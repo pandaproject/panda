@@ -10,12 +10,7 @@ PANDA.views.Search = Backbone.View.extend({
     results: null,
     home_view: null,
 
-    text: {
-        search_all_data: gettext("Search all data"),
-        all: gettext("All"),
-        search_placeholder: gettext("Enter a search query"),
-        search: gettext("Search")
-    },
+    text: PANDA.text.Search(), 
 
     initialize: function() {
         _.bindAll(this);
