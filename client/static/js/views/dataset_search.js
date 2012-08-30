@@ -11,6 +11,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
     results: null,
     view: null,
 
+    text: PANDA.text.DatasetSearch(),
+
     initialize: function(options) {
         _.bindAll(this, "reset", "render", "search_event", "search", "encode_query_string", "encode_human_readable", "decode_query_string", "make_solr_query");
 
@@ -45,6 +47,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
+            text: this.text,
             query: this.query,
             dataset: this.dataset.results()
         });
