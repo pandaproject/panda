@@ -44,6 +44,13 @@ PANDA.text.DatasetView = function() {
         type_date: gettext("Date"),
         type_time: gettext("Time"),
         type_datetime: gettext("Date and Time"),
-        type_bool: gettext("True or False")
+        type_bool: gettext("True or False"),
+        make_columns_searchable: gettext("Make columns searchable"),
+        export_title: gettext("Are you sure you want to export this dataset?"),
+        export_body: gettext("<p>This may take a long time to complete. You will be notified when it is finished.</p><p>Please note that changes made to the dataset during export may not be accurately reflected.</p>"),
+        export_continue: gettext("Continue with export"),
+        delete_title: gettext("Are you sure you want to delete this dataset?"),
+        delete_body: gettext("<p>This will irreversibly destroy <strong>%(dataset)s</strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>"),
+        delete_continue: gettext("Continue with delete")
     }
 }
