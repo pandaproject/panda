@@ -1,6 +1,8 @@
 PANDA.views.DatasetsResults = Backbone.View.extend({
     search: null,
 
+    text: PANDA.text.DatasetsResults(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -12,6 +14,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
     render: function() {
         var context = PANDA.utils.make_context(this.search.datasets.meta);
 
+        context["text"] = this.text;
         context["query"] = this.search.query;
         context["category"] = this.search.category;
         context["datasets"] = this.search.datasets.results()["datasets"];
