@@ -5,6 +5,8 @@ PANDA.views.UserEdit = Backbone.View.extend({
 
     user: null,
 
+    text: PANDA.text.UserEdit(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -15,7 +17,8 @@ PANDA.views.UserEdit = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
-            'user': this.user.toJSON(true)
+            text: this.text,
+            user: this.user.toJSON(true)
         });
 
         this.$el.html(PANDA.templates.modal_user_edit(context));
@@ -35,11 +38,11 @@ PANDA.views.UserEdit = Backbone.View.extend({
         var errors = {};
 
         if (!data["email"]) {
-            errors["email"] = ["This field is required."];
+            errors["email"] = [gettext("This field is required.")];
         }
 
         if (!data["verify-password"]) {
-            errors["verify-password"] = ["This field is required."];
+            errors["verify-password"] = [gettext("This field is required.")];
         } else {
             $.ajax({
                 url: '/login/',
@@ -48,7 +51,7 @@ PANDA.views.UserEdit = Backbone.View.extend({
                 data: { email: Redd.get_current_user().get("email"), password: data["verify-password"] },
                 async: false,
                 error: function(xhr, status, error) {
-                    errors["verify-password"] = ["Incorrect password."]; 
+                    errors["verify-password"] = [gettext("Incorrect password.")]; 
                 }
             });
         }
@@ -64,7 +67,7 @@ PANDA.views.UserEdit = Backbone.View.extend({
 
         
         if (!_.isEmpty(errors)) {
-            $("#edit-user-form").show_errors(errors, "Save failed!");
+            $("#edit-user-form").show_errors(errors, gettext("Save failed!"));
         
             return false;
         }
@@ -83,10 +86,10 @@ PANDA.views.UserEdit = Backbone.View.extend({
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#edit-user-form").show_errors(errors, "Save failed!");
+                $("#edit-user-form").show_errors(errors, gettext("Save failed!"));
             }
         );
 
