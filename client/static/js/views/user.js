@@ -9,6 +9,8 @@ PANDA.views.User = Backbone.View.extend({
     edit_view: null,
     change_password_view: null,
 
+    text: PANDA.text.User(),
+
     initialize: function(options) {
         _.bindAll(this);
         
@@ -52,6 +54,7 @@ PANDA.views.User = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
+            text: text,
             user: this.user.toJSON(true),
             current_user: Redd.get_current_user().toJSON() 
         });
@@ -87,10 +90,10 @@ PANDA.views.User = Backbone.View.extend({
         var sub = this.user.subscriptions.get(uri);
 
         bootbox.dialog(
-            "Are you sure you want to delete this subscription?",
+            gettext("Are you sure you want to delete this subscription?"),
             [
                 {
-                    "label": "Delete",
+                    "label": gettext("Delete"),
                     "class": "btn-danger",
                     "callback": _.bind(function(result) {
                         this.user.subscriptions.remove(sub);
@@ -99,7 +102,7 @@ PANDA.views.User = Backbone.View.extend({
                     }, this)
                 },
                 {
-                    "label": "Cancel"
+                    "label": gettext("Cancel")
                 }
             ]
         );
