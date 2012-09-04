@@ -5,6 +5,8 @@ PANDA.views.ChangePassword = Backbone.View.extend({
 
     user: null,
 
+    text: PANDA.text.ChangePassword(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -15,7 +17,8 @@ PANDA.views.ChangePassword = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
-            'user': this.user.toJSON(true)
+            text: this.text,
+            user: this.user.toJSON(true)
         });
 
         this.$el.html(PANDA.templates.modal_change_password(context));
@@ -35,7 +38,7 @@ PANDA.views.ChangePassword = Backbone.View.extend({
         var errors = {};
 
         if (!data["current-password"]) {
-            errors["current-password"] = ["This field is required."];
+            errors["current-password"] = [gettext("This field is required.")];
         } else {
             $.ajax({
                 url: '/login/',
@@ -44,21 +47,21 @@ PANDA.views.ChangePassword = Backbone.View.extend({
                 data: { email: Redd.get_current_user().get("email"), password: data["current-password"] },
                 async: false,
                 error: function(xhr, status, error) {
-                    errors["current-password"] = ["Incorrect password."]; 
+                    errors["current-password"] = [gettext("Incorrect password.")]; 
                 }
             });
         }
 
         if (!data["password"]) {
-            errors["password"] = ["This field is required."];
+            errors["password"] = [gettext("This field is required.")];
         }
 
         if (!data["password2"]) {
-            errors["password2"] = ["Reenter your password."];
+            errors["password2"] = [gettext("Reenter your password.")];
         }
 
         if (data["password"] != data["password2"]) {
-            errors["password2"] = ["Passwords do not match."];
+            errors["password2"] = [gettext("Passwords do not match.")];
         }
 
         return errors;
@@ -71,7 +74,7 @@ PANDA.views.ChangePassword = Backbone.View.extend({
         var errors = this.validate();
 
         if (!_.isEmpty(errors)) {
-            $("#user-change-password-form").show_errors(errors, "Save failed!");
+            $("#user-change-password-form").show_errors(errors, gettext("Save failed!"));
         
             return false;
         }
@@ -87,10 +90,10 @@ PANDA.views.ChangePassword = Backbone.View.extend({
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#user-change-password-form").show_errors(errors, "Save failed!");
+                $("#user-change-password-form").show_errors(errors, gettext("Save failed!"));
             }
         );
 
