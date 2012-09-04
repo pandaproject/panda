@@ -3,6 +3,8 @@ PANDA.views.Welcome = Backbone.View.extend({
         "click .start":        "start"
     },
 
+    text: PANDA.text.Welcome(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -12,7 +14,9 @@ PANDA.views.Welcome = Backbone.View.extend({
     },
 
     render: function() {
-        var context = PANDA.utils.make_context({});
+        var context = PANDA.utils.make_context({
+            text: this.text
+        });
 
         this.$el.html(PANDA.templates.welcome(context));
     },

@@ -54,7 +54,7 @@ PANDA.views.User = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
-            text: text,
+            text: this.text,
             user: this.user.toJSON(true),
             current_user: Redd.get_current_user().toJSON() 
         });
