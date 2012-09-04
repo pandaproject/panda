@@ -65,7 +65,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         if (task) {
             if (task.get("task_name").startsWith("panda.tasks.import")) {
                 if (task.get("status") == "STARTED") {
-                    var alert_body = interpolate(gettext("<p>This dataset is being made searchable. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>", { message: task.get("message") }, true));
+                    var alert_body = interpolate(gettext("<p>This dataset is being made searchable. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), { message: task.get("message") }, true);
                     $("#dataset-search .alert").alert_block("alert-info", gettext("Import in progress!"), alert_body, false);
                 } else if (task.get("status") == "PENDING") {
                     $("#dataset-search .alert").alert_block("alert-info", gettext("Import queued!"), gettext("<p>This dataset is waiting to be made searchable. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>"), false);
@@ -77,7 +77,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             }
             else if (task.get("task_name").startsWith("panda.tasks.reindex")) {
                 if (task.get("status") == "STARTED") {
-                    var alert_body = interpolate(gettext("<p>Search data for this dataset is being updated. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>", { message: task.get("message") }, true));
+                    var alert_body = interpolate(gettext("<p>Search data for this dataset is being updated. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), { message: task.get("message") }, true);
                     $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing in progress!"), alert_body, false);
                 } else if (task.get("status") == "PENDING") {
                     $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing queued!"), gettext("<p>This dataset is waiting to have its search data updated. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>"), false);
