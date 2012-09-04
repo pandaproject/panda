@@ -1,6 +1,8 @@
 PANDA.views.Notifications = Backbone.View.extend({
     notifications: null,
 
+    text: PANDA.text.Notifications(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -23,6 +25,7 @@ PANDA.views.Notifications = Backbone.View.extend({
         var context = PANDA.utils.make_context(this.notifications.meta);
             
         _.extend(context, {
+            text: this.text,
             notifications: this.notifications.toJSON(),
             root_url: "#notifications",
             pager_unit: "notification",
