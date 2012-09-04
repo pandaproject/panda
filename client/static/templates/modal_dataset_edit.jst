@@ -1,24 +1,24 @@
 <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Edit</h3>
+    <h3><%= text.edit %></h3>
 </div>
 <div class="modal-body">
     <form id="edit-dataset-form" class="form-stacked">
         <div class="alert-message"></div>
 
         <div class="control-group">
-            <label for="dataset-name">Name</label>
+            <label for="dataset-name"><%= text.name %></label>
             <input class="span5" id="dataset-name" name="name" size="30" type="text" value="<%= PANDA.utils.escapes_to_entities(unescape(dataset.name)) %>" maxlength="256" />
             <span class="help-inline"></span>
         </div>
 
         <div class="control-group">
-            <label for="dataset-description">Description</label>
-            <textarea class="span6" id="dataset-description" name="description" rows="5" placeholder="Describe this dataset" ><%= unescape(dataset.description) %></textarea>
+            <label for="dataset-description"><%= text.description %></label>
+            <textarea class="span6" id="dataset-description" name="description" rows="5" placeholder="<%= text.description_placeholder %>" ><%= unescape(dataset.description) %></textarea>
             <span class="help-inline"></span>
         </div>
 
-        <label for="categories">Categories</label>
+        <label for="categories"><%= text.categories %></label>
 
         <% _.each(all_categories, function(category) { %>
         <label class="checkbox">
@@ -29,6 +29,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-    <a href="#" id="dataset-edit-save" class="btn btn-primary" data-dismiss="modal">Save</a>
+    <a href="#" class="btn" data-dismiss="modal"><%= text.cancel %></a>
+    <a href="#" id="dataset-edit-save" class="btn btn-primary" data-dismiss="modal"><%= text.save %></a>
 </div>
+
