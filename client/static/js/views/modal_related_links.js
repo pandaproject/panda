@@ -7,6 +7,8 @@ PANDA.views.RelatedLinks = Backbone.View.extend({
 
     dataset: null,
 
+    text: PANDA.text.RelatedLinks(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -17,7 +19,8 @@ PANDA.views.RelatedLinks = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
-            'dataset': this.dataset.toJSON(true)
+            text: this.text,
+            dataset: this.dataset.toJSON(true)
         });
 
         this.$el.html(PANDA.templates.modal_related_links(context));
@@ -31,7 +34,7 @@ PANDA.views.RelatedLinks = Backbone.View.extend({
     },
 
     add_row: function() {
-        this.$("tbody").append('<tr><td><input type="text" value=""></input></td><td><input type="text" value=""></input></td><td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> Delete row</a></td></tr>');
+        this.$("tbody").append('<tr><td><input type="text" value=""></input></td><td><input type="text" value=""></input></td><td><a class="remove-row" href="#" onclick="return false;"><i class="icon-minus"></i> ' + gettext("Delete row") + '</a></td></tr>');
 
         return false;
     },
@@ -73,10 +76,10 @@ PANDA.views.RelatedLinks = Backbone.View.extend({
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#related-links-form").show_errors(errors, "Save failed!");
+                $("#related-links-form").show_errors(errors, gettext("Save failed!"));
             }
         );
 
