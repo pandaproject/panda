@@ -5,6 +5,8 @@ PANDA.views.ResetPassword = Backbone.View.extend({
 
     activation_key: null,
 
+    text: PANDA.text.ResetPassword(),
+
     initialize: function() {
         _.bindAll(this);
     },
@@ -27,16 +29,18 @@ PANDA.views.ResetPassword = Backbone.View.extend({
                 try {
                     errors = $.parseJSON(xhr.responseText);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#reset-form").show_errors(errors, "Password reset failed!");
+                $("#reset-form").show_errors(errors, gettext("Password reset failed!"));
             }, this)
         });
     },
 
     render: function(data) {
         var context = PANDA.utils.make_context(data)
+        context.text = this.text;
+
         this.$el.html(PANDA.templates.reset_password(context));
     },
 
@@ -45,18 +49,18 @@ PANDA.views.ResetPassword = Backbone.View.extend({
         var errors = {};
 
         if (!data["password"]) {
-            errors["password"] = ["This field is required."]
+            errors["password"] = [gettext("This field is required.")]
         }
 
         if (!data["reenter_password"]) {
-            errors["reenter_password"] = ["This field is required."]
+            errors["reenter_password"] = [gettext("This field is required.")]
         }
 
         if (data["password"] != data["reenter_password"]) {
             if ("password" in errors || "reenter_password" in errors) {
                 // Skip
             } else {
-                errors["reenter_password"] = ["Passwords do not match."]
+                errors["reenter_password"] = [gettext("Passwords do not match.")]
             }
         }
 
@@ -67,7 +71,7 @@ PANDA.views.ResetPassword = Backbone.View.extend({
         var errors = this.validate();
 
         if (!_.isEmpty(errors)) {
-            $("#reset-form").show_errors(errors, "Password reset failed!");
+            $("#reset-form").show_errors(errors, gettext("Password reset failed!"));
 
             return false;
         }
@@ -86,10 +90,10 @@ PANDA.views.ResetPassword = Backbone.View.extend({
                 try {
                     errors = $.parseJSON(xhr.responseText);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#reset-form").show_errors(errors, "Password reset failed!");
+                $("#reset-form").show_errors(errors, gettext("Password reset failed!"));
             }
         });
 
