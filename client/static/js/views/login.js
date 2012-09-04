@@ -6,6 +6,8 @@ PANDA.views.Login = Backbone.View.extend({
 
     next: null,
 
+    text: PANDA.text.Login(),
+
     initialize: function() {
         _.bindAll(this);
     },
@@ -18,7 +20,10 @@ PANDA.views.Login = Backbone.View.extend({
     render: function() {
         var email = $.cookie("email");
 
-        var context = PANDA.utils.make_context({ email: email })
+        var context = PANDA.utils.make_context({
+            text: this.text,
+            email: email
+        });
 
         this.$el.html(PANDA.templates.login(context));
 
@@ -38,11 +43,11 @@ PANDA.views.Login = Backbone.View.extend({
         var errors = {};
 
         if (!data["email"]) {
-            errors["email"] = ["Please enter your email."];
+            errors["email"] = [gettext("Please enter your email.")];
         }
 
         if (!data["password"]) {
-            errors["password"] = ["Please enter your password."];
+            errors["password"] = [gettext("Please enter your password.")];
         }
 
         return errors;
@@ -52,7 +57,7 @@ PANDA.views.Login = Backbone.View.extend({
         var errors = this.validate();
 
         if (!_.isEmpty(errors)) {
-            $("#login-form").show_errors(errors, "Login failed!");
+            $("#login-form").show_errors(errors, gettext("Login failed!"));
         
             return false;
         }
@@ -81,10 +86,10 @@ PANDA.views.Login = Backbone.View.extend({
                 try {
                     var errors = $.parseJSON(xhr.responseText);
                 } catch(e) {
-                    var errors = { "__all__": "Unknown error" }; 
+                    var errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#login-form").show_errors(errors, "Login failed!");
+                $("#login-form").show_errors(errors, gettext("Login failed!"));
             }
         });
 
@@ -96,7 +101,7 @@ PANDA.views.Login = Backbone.View.extend({
         var errors = {};
 
         if (!data["email"]) {
-            errors["email"] = ["Please enter your email."];
+            errors["email"] = [gettext("Please enter your email.")];
         }
 
         return errors;
@@ -106,7 +111,7 @@ PANDA.views.Login = Backbone.View.extend({
         var errors = this.validate_forgot_password();
 
         if (!_.isEmpty(errors)) {
-            $("#forgot-password-form").show_errors(errors, "Error!");
+            $("#forgot-password-form").show_errors(errors, gettext("Error!"));
         
             return false;
         }
@@ -117,7 +122,7 @@ PANDA.views.Login = Backbone.View.extend({
             type: 'POST',
             data: $("#forgot-password-form").serialize(),
             success: _.bind(function(data, status, xhr) {
-                bootbox.alert("Email sent.");
+                bootbox.alert(gettext("Email sent."));
             }, this),
             error: function(xhr, status, error) {
                 bootbox.alert(error);
