@@ -1,19 +1,19 @@
 <div class="modal-header">
     <a href="#" class="close">&times;</a>
-    <h3>Edit upload</h3>
+    <h3><%= text.edit_upload %></h3>
 </div>
 <div class="modal-body">
     <form id="edit-upload-form" class="form-stacked">
         <div class="alert-message"></div>
 
         <div class="control-group">
-            <label for="upload-title">Title</label>
+            <label for="upload-title"><%= text.title %></label>
             <input class="span5" id="upload-title" name="title" size="30" type="text" value="<%= upload.title %>" maxlength="256"></input>
             <span class="help-inline"></span>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <input type="button" class="btn" data-dismiss="modal" value="Cancel" />
-    <input id="upload-save" type="button" class="btn btn-success" value="Save" />
+    <input type="button" class="btn" data-dismiss="modal" value="<%= text.cancel %>" />
+    <input id="upload-save" type="button" class="btn btn-success" value="<%= text.save %>" />
 </div>

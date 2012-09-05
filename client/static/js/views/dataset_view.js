@@ -121,7 +121,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
             var upload = this.dataset.related_uploads.get(uri);
         }
 
-        $("#modal-upload-edit").html(PANDA.templates.modal_upload_edit({ upload: upload.toJSON() }));
+        $("#modal-upload-edit").html(PANDA.templates.modal_upload_edit({
+            text: this.text,
+            upload: upload.toJSON()
+        }));
 
         var save = function() {
             upload.save({ title: $("#upload-title").val() }, { async: false });
