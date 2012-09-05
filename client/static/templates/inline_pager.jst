@@ -1,18 +1,30 @@
 <div class="pager">
-    <h3><%= offset + 1 %>-<%= Math.min(offset + limit, total_count) %> of <%= total_count %> matching <%= pager_unit %><% if (total_count > 1) { %>s<% } %> <% if (row_count) { %>(<%= row_count %> total <%= pager_unit %>s)<% } %></h3>
+    <h3>
+    <% if (pager_unit == "row") { %>
+        <%= text.matching_rows(offset, limit, total_count) %>
+    <% } else if (pager_unit == "dataset") { %>
+        <%= text.matching_datasets(offset, limit, total_count) %>
+    <% } %> 
+    <% if (row_count) { %>
+        <% if (pager_unit == "row") { %>
+            <%= text.total_rows(row_count) %>
+        <% } else if (pager_unit == "dataset") { %>
+            <%= text.total_datasets(row_count) %>
+        <% } %>
+    <% } %></h3>
     <% if (previous || next) { %>
     <div class="pagination">
         <ul>
             <% if (previous) { %>
-                <li><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; Previous</a> 
+                <li><a href="<%= root_url %>/<%= limit %>/<%= page - 1 %>">&larr; <%= text.previous %></a> 
             <% } else { %>
-                <li class="disabled"><a href="#" onclick="return false;">&larr; Previous</a></li> 
+                <li class="disabled"><a href="#" onclick="return false;">&larr; <%= text.previous %></a></li> 
             <% } %>
 
             <% if (next) { %>
-                <li><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>">Next &rarr;</a> 
+                <li><a href="<%= root_url %>/<%= limit %>/<%= page + 1 %>"><%= text.next %> &rarr;</a> 
             <% } else { %>
-                <li class="disabled"><a href="#" onclick="return false;">Next &rarr;</a></li> 
+                <li class="disabled"><a href="#" onclick="return false;"><%= text.next %> &rarr;</a></li> 
             <% } %>
         </ul>
     </div>

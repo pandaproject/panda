@@ -8,14 +8,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
 
     text: PANDA.text.SearchResults(),
 
-    text_makers: {
-        matching_rows: function(dataset) {
-            var text = ngettext("%(count)s matching row (%(row_count)s total rows)", "%(count)s matching rows (%(row_count)s total rows)", dataset.meta.total_count);
-            
-            return interpolate(text, { count: dataset.meta.total_count, row_count: dataset.row_count }, true);
-        }
-    },
-
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -25,10 +17,16 @@ PANDA.views.SearchResults = Backbone.View.extend({
     },
 
     render: function() {
+        var pager_context = PANDA.utils.make_context(this.search.datasets.meta);
+        pager_context.text = PANDA.inlines_text;
+        pager_context.pager_unit = "dataset";
+        pager_context.row_count = null;
+        
+        var pager = PANDA.templates.inline_pager(pager_context);
+
         var context = PANDA.utils.make_context(this.search.datasets.meta);
 
         context.text = this.text;
-        context.text_makers = this.text_makers;
 
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
@@ -46,11 +44,10 @@ PANDA.views.SearchResults = Backbone.View.extend({
         }
 
         context["root_url"] = "#search/" + this.search.category + "/" + this.search.query + "/" + this.search.since;
-        context["pager_unit"] = "dataset";
         context["row_count"] = null;
         context["datasets"] = this.search.datasets.results();
 
-        context["pager"] = PANDA.templates.inline_pager(context);
+        context["pager"] = pager; 
 
         this.$el.html(PANDA.templates.search_results(context));
     },

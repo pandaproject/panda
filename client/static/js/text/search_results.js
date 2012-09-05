@@ -17,6 +17,12 @@ PANDA.text.SearchResults = function() {
         subscribe_body_email: gettext("When you click <strong>Subscribe</strong> you will begin receiving daily email notifications of new data added to PANDA that matches your search."),
         subscribe_body_no_email: gettext("When you click <strong>Subscribe</strong> you will begin receiving daily notifications of new data added to PANDA that matches your search."),
         subscribe_cancel: gettext("Cancel"),
-        subscribe_continue: gettext("Subscribe")
+        subscribe_continue: gettext("Subscribe"),
+
+        matching_rows: function(dataset) {
+            var out = ngettext("%(count)s matching row (%(row_count)s total rows)", "%(count)s matching rows (%(row_count)s total rows)", dataset.meta.total_count);
+            
+            return interpolate(out, { count: dataset.meta.total_count, row_count: dataset.row_count }, true);
+        }
     }
 }
