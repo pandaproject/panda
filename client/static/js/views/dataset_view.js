@@ -32,6 +32,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         // Render inlines
         data_uploads_html = this.dataset.data_uploads.map(_.bind(function(upload) {
             return PANDA.templates.inline_upload_item({
+                text: PANDA.inlines_text,
                 upload_type: "data",
                 upload: upload.toJSON()
             });
@@ -39,6 +40,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         related_uploads_html = this.dataset.related_uploads.map(_.bind(function(upload) {
             return PANDA.templates.inline_upload_item({
+                text: PANDA.inlines_text,
                 upload_type: "related",
                 upload: upload.toJSON()
             });

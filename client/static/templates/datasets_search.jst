@@ -11,7 +11,7 @@
                 </select>
                 <input id="datasets-search-query" type="text" name="query" class="input-xxlarge" value="<%= query %>" placeholder="<%= text.query_placeholder %>" />
                 <input type="submit" id="datasets-search-submit" class="btn" value="<%= text.search %>" />
-                &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
+                &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip({ text: PANDA.inlines_text }) %>
             </fieldset>
         </form>
     </div>

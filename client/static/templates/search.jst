@@ -9,7 +9,7 @@
         </select>
         <input id="search-query" type="text" name="query" class="input-xxlarge" value="<% if (query) { %><%= query.replace(/"/g, '&quot;') %><% } %>" placeholder="<%= text.search_placeholder %>" />
         <input type="submit" id="search-submit" class="btn" value="<%= text.search %>" />
-        &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
+        &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip({ text: PANDA.inlines_text }) %>
     </form>
 </div>
 
