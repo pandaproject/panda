@@ -7,6 +7,8 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
     datasets: null,
     query: null,
 
+    text: PANDA.text.DatasetsSearch(),
+
     initialize: function(options) {
         _.bindAll(this);
 
@@ -39,6 +41,7 @@ PANDA.views.DatasetsSearch = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
+            text: this.text,
             categories: Redd.get_categories(),
             category: this.category,
             query: this.query || "",

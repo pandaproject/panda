@@ -22,6 +22,13 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         if (!this.search.query) {
             return;
         }
+
+        var pager_context = PANDA.utils.make_context(this.search.dataset.data.meta);
+        pager_context.text = PANDA.inlines_text;
+        pager_context.pager_unit = "row";
+        pager_context.row_count = this.search.dataset.get("row_count");
+        
+        var pager = PANDA.templates.inline_pager(pager_context);
         
         var context = PANDA.utils.make_context(this.search.dataset.data.meta);
 
@@ -36,11 +43,10 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         }
 
         context["root_url"] = "#dataset/" + this.search.dataset.get("slug") + "/search/" + this.search.encode_query_string() + "/" + this.search.since;
-        context["pager_unit"] = "row";
         context["row_count"] = this.search.dataset.get("row_count");
         context["dataset"] = this.search.dataset.results();
 
-        context["pager"] = PANDA.templates.inline_pager(context);
+        context["pager"] = pager; 
 
         this.$el.html(PANDA.templates.dataset_results(context));
     },

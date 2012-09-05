@@ -111,10 +111,12 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/dataset_results.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/dataset_search.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/dataset_view.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/datasets_search.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/datasets_results.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/fetch_export.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/home.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/inline_search_filters.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/inlines.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/login.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/modal_change_password.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/modal_dataset_edit.js"></script>
@@ -171,6 +173,9 @@
 
     <script type="text/javascript">
         $(function() {
+            // Bootstrap inline text for all views
+            PANDA.inlines_text = PANDA.text.Inlines();
+
             window.Redd = new PANDA.views.Root();
             Redd.start_routing();
 
