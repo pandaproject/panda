@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-28 09:36-0500\n"
+"POT-Creation-Date: 2012-09-05 13:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,646 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: client/static/js/views/home.js:7
+#: client/static/js/text/activate.js:3
+msgid "Activate your PANDA account"
+msgstr ""
+
+#: client/static/js/text/activate.js:4 client/static/js/text/login.js:4
+#: client/static/js/text/modal_user_edit.js:6
+msgid "Email"
+msgstr ""
+
+#: client/static/js/text/activate.js:5
+#: client/static/js/text/modal_user_edit.js:4
+msgid "First name"
+msgstr ""
+
+#: client/static/js/text/activate.js:6
+#: client/static/js/text/modal_user_edit.js:5
+msgid "Last name"
+msgstr ""
+
+#: client/static/js/text/activate.js:7 client/static/js/text/login.js:5
+#: client/static/js/text/reset_password.js:4
+msgid "Password"
+msgstr ""
+
+#: client/static/js/text/activate.js:8
+#: client/static/js/text/reset_password.js:5
+msgid "Re-enter password"
+msgstr ""
+
+#: client/static/js/text/activate.js:9
+msgid "Activate"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:3
+msgid "Add data to %(dataset)s"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:4
+msgid "Upload new data"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:5
+msgid ""
+"Your PANDA has %(space)s available for files. You should contact your PANDA "
+"adminstrator about expanding the available storage space. <strong>Uploads "
+"may fail.</strong>"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:6
+msgid ""
+"Your PANDA has %(space)s available for files. You should contact your PANDA "
+"adminstrator about expanding the available storage space."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:7
+msgid ""
+"Your PANDA has %(space)s available for search indices. You should contact "
+"your PANDA adminstrator about expanding the available storage space. "
+"<strong>Uploads may fail.</strong>"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:8
+msgid ""
+"Your PANDA has %(space)s available for search indices. You should contact "
+"your PANDA adminstrator about expanding the available storage space."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:9
+msgid ""
+"<strong>Note:</strong> When adding data to an existing dataset the file you "
+"upload must have <strong>exactly</strong> the same headers as the existing "
+"data."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:10
+msgid "Select your file"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:11
+msgid ""
+"Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or ."
+"xlsx)</strong> file from your computer:"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:12
+msgid ""
+"<strong>Excel styles will be lost!</strong> When making this file searchable "
+"all formatting applied to the cells will be lost. This means your data may "
+"appear differently in PANDA than it does in your spreadsheet application. In "
+"addition, only the first worksheet of your file will be made searchable. "
+"Read more in our documentation on <a href=\"http://pandaproject.net/docs/"
+"handling-unsupported-excel-features.html\">handling unsupported Excel "
+"features</a>."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:13
+msgid ""
+"Access files can not be uploaded to PANDA. Read our documentation on <a href="
+"\"http://pandaproject.net/docs/importing-access-files.html\">importing "
+"Access files</a>"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:14
+msgid ""
+"DBF files can not be uploaded to PANDA. Read our documentation on <a href="
+"\"http://pandaproject.net/docs/importing-dbf-files.html\">importing DBF "
+"files</a>."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:15
+msgid "Unknown file type. Please upload either an CSV or Excel file."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:16
+msgid "Advanced CSV options"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:17
+msgid "Character encodings"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:18
+msgid ""
+"<p>Unfortunantely, it is not possible for PANDA to automatically determine "
+"the encoding of a CSV file. The default is <strong>utf-8</strong>, which is "
+"correct for a large number of files, but there are many possible encodings. "
+"Census data, for example, is frequently distributed in the <strong>latin-1</"
+"strong> encoding.</p><p>&nbsp;</p><p>Encodings are a complex topic. If PANDA "
+"can not import your CSV file you may need to research what encoding it is in."
+"</p>"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:19
+msgid "Begin upload"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:20
+msgid "Wait while your file is uploaded"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:21
+msgid "Describe your dataset"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:22
+msgid ""
+"Your file is currently being uploaded to PANDA. While you wait please take a "
+"moment to provide some information about it, such as when and how it was "
+"acquired."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:23
+#: client/static/js/text/modal_dataset_edit.js:4
+msgid "Name"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:24
+#: client/static/js/text/dataset_view.js:21
+#: client/static/js/text/modal_dataset_edit.js:5
+msgid "Description"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:25
+#: client/static/js/text/dataset_view.js:23
+#: client/static/js/text/datasets_results.js:6
+#: client/static/js/text/modal_dataset_edit.js:7
+msgid "Categories"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:26
+#: client/static/js/text/dataset_view.js:32
+msgid "Upload in progress, please wait..."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:27
+msgid "Continue"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:28
+msgid "Preview your data"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:29
+msgid ""
+"Your file has finished uploading. Please review the following sample data "
+"that was extracted from your file and verify it looks correct. If it not "
+"correct you may need to modify the file or save your data in another format. "
+"If you are satisifed with the preview then click Continue."
+msgstr ""
+
+#: client/static/js/text/data_upload.js:30
+msgid "Finish"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:31
+msgid "Start over"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:32
+msgid "Error processing dataset"
+msgstr ""
+
+#: client/static/js/text/data_upload.js:33
+#: client/static/js/text/dataset_search.js:20
+msgid "Close"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:3
+#, fuzzy
+msgid "Please enter a search query"
+msgstr "Escriba una consulta de búsqueda"
+
+#: client/static/js/text/dataset_results.js:4
+msgid "No rows matching query found in dataset <strong>%(dataset)s</strong>."
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:5
+msgid "Would you like to <a href=\"%(url)s\">search all datasets instead</a>?"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:6
+#: client/static/js/text/search_results.js:5
+msgid "Subscribe to search results"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:7
+msgid "Export search results to CSV"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:8
+msgid ""
+"Showing only results created or updated after <strong>%(since)s</strong>"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:9
+#: client/static/js/text/search_results.js:8
+msgid "Show all results instead"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:10
+#: client/static/js/text/search_results.js:11
+msgid "Are you sure you want to export this search?"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:11
+#: client/static/js/text/dataset_view.js:50
+msgid ""
+"<p>This may take a long time to complete. You will be notified when it is "
+"finished.</p><p>Please note that changes made to the dataset during export "
+"may not be accurately reflected.</p>"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:12
+#: client/static/js/text/dataset_view.js:51
+#: client/static/js/text/search_results.js:14
+msgid "Continue with export"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:13
+#: client/static/js/text/search_results.js:16
+msgid "Subscribe to this search?"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:14
+msgid ""
+"When you click <strong>Subscribe</strong> you will begin receiving daily "
+"email notifications of new data added to PANDA that matches:"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:15
+msgid ""
+"When you click <strong>Subscribe</strong> you will begin receiving daily "
+"notifications of new data added to PANDA that matches:"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:16
+msgid "%(query)s in <strong>%(dataset)s</strong>"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:17
+#: client/static/js/text/search_results.js:20
+msgid "Subscribe"
+msgstr ""
+
+#: client/static/js/text/dataset_results.js:18
+#: client/static/js/text/dataset_view.js:33 client/static/js/text/login.js:10
+#: client/static/js/text/modal_change_password.js:7
+#: client/static/js/text/modal_dataset_edit.js:8
+#: client/static/js/text/modal_related_links.js:8
+#: client/static/js/text/modal_user_edit.js:8
+#: client/static/js/text/search_results.js:13
+#: client/static/js/text/search_results.js:19
+#: client/static/js/views/user.js:105
+msgid "Cancel"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:3
+msgid "Search <strong>%(dataset)s</strong>"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:4
+#: client/static/js/text/datasets_search.js:5
+#: client/static/js/text/search.js:5
+msgid "Enter a search query"
+msgstr "Escriba una consulta de búsqueda"
+
+#: client/static/js/text/dataset_search.js:5
+#: client/static/js/text/datasets_search.js:6
+#: client/static/js/text/inline_search_filters.js:5
+#: client/static/js/text/search.js:6
+msgid "Search"
+msgstr "Buscar"
+
+#: client/static/js/text/dataset_search.js:6
+msgid "More search options"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:7
+msgid "Back to dataset details"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:8
+msgid "Wildcards"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:9
+msgid ""
+"Use an asterisk to match part of a word: <code>coff*</code> will match "
+"\"coffee\", \"Coffer\" or \"coffins\"."
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:10
+msgid "Exact phrases"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:11
+msgid ""
+"Put phrases in quotes: <code>\"Chicago Bears\"</code> will not match "
+"\"Chicago Panda Bears\"."
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:12
+msgid "AND/OR"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:13
+msgid ""
+"Use AND and OR to find combinations of terms: <code>homicide AND first</"
+"code> will match \"first degree homicide\" or \"homicide, first degree\", "
+"but not just \"homicide\"."
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:14
+msgid "Grouping"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:15
+msgid ""
+"Group words with parantheses: <code>homicide AND (first OR 1st)</code> will "
+"match \"1st degree homicide\", \"first degree homicide\", or \"homicide, "
+"first degree\"."
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:16
+msgid "Alternate names"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:17
+msgid ""
+"PANDA will attempt to match informal and alternate English first names: "
+"<code>bill</code> will match \"Bill\", \"Billy\", \"William\", etc. It will "
+"not match mispellings."
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:18
+msgid "Error importing data"
+msgstr ""
+
+#: client/static/js/text/dataset_search.js:19
+msgid ""
+"<p>The import failed with the following exception:</p><code>%(traceback)s</"
+"code>"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:3
+msgid "About <strong>%(dataset)s</strong>"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:4
+msgid "(%(count)s rows)"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:5
+msgid "(row count not available)"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:6
+msgid "Actions"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:7
+msgid "Edit name, description or categories"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:8
+msgid "Add or remove related links"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:9
+msgid "Upload more data"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:10
+msgid "Upload related file"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:11
+msgid "Enable column search"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:12
+msgid "Export to CSV"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:13 client/static/js/views/user.js:96
+msgid "Delete"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:14
+#, fuzzy
+msgid "Sample data"
+msgstr "Buscar todos los datos"
+
+#: client/static/js/text/dataset_view.js:15
+msgid ""
+"Showing %(count)s sample rows from %(total)s total rows in this dataset."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:16
+msgid ""
+"Showing %(count)s rows of an unknown total number of rows in this dataset."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:17
+msgid "View all rows"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:18
+msgid "Created by %(creator)s on <strong>%(when)s</strong>."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:19
+msgid "Data last modified by %(modifier)s on <strong>%(when)s</strong>"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:20
+msgid "Data never modified."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:22
+msgid "Edit this dataset to add a description."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:24
+msgid "None selected."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:25
+#: client/static/js/text/modal_related_links.js:3
+msgid "Related links"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:26
+msgid "No related links."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:27
+msgid "Related files"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:28
+#: client/static/js/text/dataset_view.js:30
+msgid "None uploaded."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:29
+msgid "Data files"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:31
+msgid "Upload a related file"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:34
+msgid "Upload"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:35
+msgid "Select columns to search"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:36
+msgid ""
+"For each column that you would like to search check the <strong>Enabled?</"
+"strong> checkbox and choose what type of data the column contains from the "
+"<strong>Data type</strong> dropdown list. Any values that can not be "
+"converted to the chosen type will not be searchable."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:37
+msgid "Column"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:38
+msgid "Enabled"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:39
+msgid "Data type"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:40
+msgid "Pick a type..."
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:41
+msgid "Text"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:42
+msgid "Whole Number"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:43
+msgid "Decimal Number"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:44
+msgid "Date"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:45
+msgid "Time"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:46
+msgid "Date and Time"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:47
+msgid "True or False"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:48
+msgid "Make columns searchable"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:49
+msgid "Are you sure you want to export this dataset?"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:52
+msgid "Are you sure you want to delete this dataset?"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:53
+msgid ""
+"<p>This will irreversibly destroy <strong>%(dataset)s</strong>. Data from "
+"this dataset will no longer be available to search and the original data "
+"files uploaded with it will be lost.</p>"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:54
+msgid "Continue with delete"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:55
+msgid "Edit upload"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:56
+msgid "Title"
+msgstr ""
+
+#: client/static/js/text/dataset_view.js:57
+#: client/static/js/text/modal_dataset_edit.js:9
+#: client/static/js/text/modal_user_edit.js:9
+msgid "Save"
+msgstr ""
+
+#: client/static/js/text/datasets_results.js:3
+msgid "No matching datasets found."
+msgstr ""
+
+#: client/static/js/text/datasets_results.js:4
+msgid "Expand your search to <a href=\"%(url)s\">all categories</a>?"
+msgstr ""
+
+#: client/static/js/text/datasets_results.js:5
+msgid "Dataset"
+msgstr ""
+
+#: client/static/js/text/datasets_results.js:7
+msgid "Created"
+msgstr ""
+
+#: client/static/js/text/datasets_results.js:8
+msgid "Columns"
+msgstr ""
+
+#: client/static/js/text/datasets_search.js:3
+msgid "Find a dataset"
+msgstr ""
+
+#: client/static/js/text/datasets_search.js:4
+#, fuzzy
+msgid "all"
+msgstr "Todos"
+
+#: client/static/js/text/fetch_export.js:3
+msgid "Your export will begin downloading shortly..."
+msgstr ""
+
+#: client/static/js/text/fetch_export.js:4
+msgid "Return to PANDA"
+msgstr ""
+
+#: client/static/js/text/home.js:3
 msgid "Recently added datasets"
 msgstr "Datasets agregados recientemente"
 
-#: client/static/js/views/home.js:8
+#: client/static/js/text/home.js:4
 msgid "Created %(timeago)s"
 msgstr "Creada %(timeago)s"
 
-#: client/static/js/views/home.js:9
+#: client/static/js/text/home.js:5
 msgid "Browse all %(count)s datasets"
 msgstr "Navegar por los %(count)s datasets"
 
-#: client/static/js/views/home.js:10
+#: client/static/js/text/home.js:6
 msgid ""
 "Want to see how your PANDA is being used? Visit the <a %(link)s>Dashboard</"
 "a>!"
@@ -38,124 +665,813 @@ msgstr ""
 "¿Quieres ver cómo su PANDA se está utilizando? Visite el <a %(link)"
 "s>Dashboard</a>!"
 
-#: client/static/js/views/search.js:14
+#: client/static/js/text/inline_search_filters.js:3
+msgid "Add to search"
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:4
+msgid "Pick a column..."
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:6
+msgid "Remove"
+msgstr ""
+
+#: client/static/js/text/inlines.js:5
+msgid "Previous"
+msgstr ""
+
+#: client/static/js/text/inlines.js:6
+msgid "Next"
+msgstr ""
+
+#: client/static/js/text/inlines.js:9
+msgid "%(start)s-%(end)s of %(count)s matching row"
+msgid_plural "%(start)s-%(end)s of %(count)s matching rows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/static/js/text/inlines.js:19
+msgid "(%(total)s total row)"
+msgid_plural " (%(total)s total rows)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/static/js/text/inlines.js:26
+msgid "%(start)s-%(end)s of %(count)s matching dataset"
+msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/static/js/text/inlines.js:36
+msgid "(%(total)s total dataset)"
+msgid_plural " (%(total)s total datasets)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/static/js/text/inlines.js:43
+msgid "uploaded by %(user)s"
+msgstr ""
+
+#: client/static/js/text/inlines.js:44
+msgid "Uploaded %(when)s"
+msgstr ""
+
+#: client/static/js/text/inlines.js:45
+msgid "Edit title"
+msgstr ""
+
+#: client/static/js/text/inlines.js:46
+msgid "Click to delete"
+msgstr ""
+
+#: client/static/js/text/inlines.js:49
+msgid ""
+"<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
+"match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
+"li><li>Put phrases in quotes: <code>&quot;Chicago Bears&quot;</code> will "
+"not match &quot;Chicago Panda Bears&quot;.</li><li>Use AND and OR to find "
+"combinations of terms: <code>homicide AND first</code> will match &quot;"
+"first degree homicide&quot; or &quot;homicide, first degree&quot;, but not "
+"just &quot;homicide&quot;.</li><li>Group words with parantheses: "
+"<code>homicide AND (first OR 1st)</code> will match &quot;1st degree "
+"homicide&quot;, &quot;first degree homicide&quot;, or &quot;homicide, first "
+"degree&quot;.</li><li>PANDA will attempt to match informal and alternate "
+"English first names: <code>bill</code> will match &quot;Bill&quot;, &quot;"
+"Billy&quot;, &quot;William&quot;, etc. It will not match mispellings.</li></"
+"ul>"
+msgstr ""
+
+#: client/static/js/text/inlines.js:50
+msgid "Advanced searching"
+msgstr ""
+
+#: client/static/js/text/inlines.js:51
+msgid "Advanced"
+msgstr ""
+
+#: client/static/js/text/login.js:3
+msgid "Log in to PANDA"
+msgstr ""
+
+#: client/static/js/text/login.js:6
+msgid "Forget your password?"
+msgstr ""
+
+#: client/static/js/text/login.js:7
+msgid "Login"
+msgstr ""
+
+#: client/static/js/text/login.js:8
+msgid ""
+"Enter your email address below and PANDA will send you a link you can follow "
+"to reset your password."
+msgstr ""
+
+#: client/static/js/text/login.js:9
+msgid ""
+"Your PANDA adminstrator has not yet configured email for your server, so "
+"your password can not be automatically reset. Please contact your "
+"adminstrator and ask them to either configure email or to reset your "
+"password manually."
+msgstr ""
+
+#: client/static/js/text/login.js:11
+msgid "Send email"
+msgstr ""
+
+#: client/static/js/text/modal_change_password.js:3
+#: client/static/js/text/user.js:4
+msgid "Change password"
+msgstr ""
+
+#: client/static/js/text/modal_change_password.js:4
+msgid "Current password"
+msgstr ""
+
+#: client/static/js/text/modal_change_password.js:5
+msgid "New password"
+msgstr ""
+
+#: client/static/js/text/modal_change_password.js:6
+msgid "Reenter new password"
+msgstr ""
+
+#: client/static/js/text/modal_change_password.js:8
+msgid "Change"
+msgstr ""
+
+#: client/static/js/text/modal_dataset_edit.js:3
+msgid "Edit"
+msgstr ""
+
+#: client/static/js/text/modal_dataset_edit.js:6
+msgid "Describe this dataset"
+msgstr ""
+
+#: client/static/js/text/modal_related_links.js:4
+msgid "URL"
+msgstr ""
+
+#: client/static/js/text/modal_related_links.js:5
+msgid "Title (optional)"
+msgstr ""
+
+#: client/static/js/text/modal_related_links.js:6
+#: client/static/js/views/modal_related_links.js:37
+msgid "Delete row"
+msgstr ""
+
+#: client/static/js/text/modal_related_links.js:7
+msgid "Add row"
+msgstr ""
+
+#: client/static/js/text/modal_related_links.js:9
+msgid "Update related links"
+msgstr ""
+
+#: client/static/js/text/modal_user_edit.js:3
+msgid "Edit profile"
+msgstr ""
+
+#: client/static/js/text/modal_user_edit.js:7
+msgid "Verify password"
+msgstr ""
+
+#: client/static/js/text/not_found.js:3
+msgid "Not found"
+msgstr ""
+
+#: client/static/js/text/reset_password.js:3
+msgid "Reset your password"
+msgstr ""
+
+#: client/static/js/text/reset_password.js:6
+msgid "Reset password"
+msgstr ""
+
+#: client/static/js/text/search.js:3
 msgid "Search all data"
 msgstr "Buscar todos los datos"
 
-#: client/static/js/views/search.js:15
+#: client/static/js/text/search.js:4
 msgid "All"
 msgstr "Todos"
 
-#: client/static/js/views/search.js:16
-msgid "Enter a search query"
-msgstr "Escriba una consulta de búsqueda"
-
-#: client/static/js/views/search.js:17
-msgid "Search"
-msgstr "Buscar"
-
-#: client/static/js/views/search_results.js:10
+#: client/static/js/text/search_results.js:3
 #, fuzzy
 msgid "Please enter a search query."
 msgstr "Escriba una consulta de búsqueda"
 
-#: client/static/js/views/search_results.js:11
+#: client/static/js/text/search_results.js:4
 msgid "No rows matching query found in any dataset."
 msgstr ""
 
-#: client/static/js/views/search_results.js:12
-msgid "Subscribe to search results"
-msgstr ""
-
-#: client/static/js/views/search_results.js:13
+#: client/static/js/text/search_results.js:6
 msgid "Export search results to CSV files"
 msgstr ""
 
-#: client/static/js/views/search_results.js:14
+#: client/static/js/text/search_results.js:7
 msgid ""
 "Showing only results created or updated after <strong>%(since)s</strong>."
 msgstr ""
 
-#: client/static/js/views/search_results.js:15
-msgid "Show all results instead"
-msgstr ""
-
-#: client/static/js/views/search_results.js:16
+#: client/static/js/text/search_results.js:9
 msgid "View more results from this dataset"
 msgstr ""
 
-#: client/static/js/views/search_results.js:18
-msgid "Are you sure you want to export this search?"
-msgstr ""
-
-#: client/static/js/views/search_results.js:19
+#: client/static/js/text/search_results.js:12
 msgid ""
 "<p>This may take a long time to complete. You will be notified when it is "
 "finished.</p><p>Please note that changes made to the data during export may "
 "not be accurately reflected.</p>"
 msgstr ""
 
-#: client/static/js/views/search_results.js:20
-#: client/static/js/views/search_results.js:29
-msgid "Cancel"
+#: client/static/js/text/search_results.js:17
+msgid ""
+"When you click <strong>Subscribe</strong> you will begin receiving daily "
+"email notifications of new data added to PANDA that matches your search."
 msgstr ""
 
-#: client/static/js/views/search_results.js:21
-msgid "Continue with export"
+#: client/static/js/text/search_results.js:18
+msgid ""
+"When you click <strong>Subscribe</strong> you will begin receiving daily "
+"notifications of new data added to PANDA that matches your search."
 msgstr ""
 
-#: client/static/js/views/search_results.js:22
+#: client/static/js/text/search_results.js:23
+msgid "%(count)s matching row (%(row_count)s total rows)"
+msgid_plural "%(count)s matching rows (%(row_count)s total rows)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/static/js/text/server_error.js:3
+msgid "Server Error"
+msgstr ""
+
+#: client/static/js/text/user.js:3
+msgid "Edit my profile"
+msgstr ""
+
+#: client/static/js/text/user.js:5
+msgid "My search subscriptions"
+msgstr ""
+
+#: client/static/js/text/user.js:6
+msgid "Run this search"
+msgstr ""
+
+#: client/static/js/text/user.js:7
+msgid "Delete this subscription"
+msgstr ""
+
+#: client/static/js/text/user.js:8
+msgid "My exports"
+msgstr ""
+
+#: client/static/js/text/user.js:9
+msgid "My datasets"
+msgstr ""
+
+#: client/static/js/text/user.js:10
+msgid "Datasets created by this user"
+msgstr ""
+
+#: client/static/js/text/welcome.js:3
+msgid "Welcome to PANDA!"
+msgstr ""
+
+#: client/static/js/text/welcome.js:4
+msgid ""
+"Congratulations! If you're reading this then your organization has started "
+"using PANDA to manage its newsroom data. As a journalist you're bound to be "
+"skeptical of this new system. This brief introduction will introduce you to "
+"PANDA and explain how it can save you time, keep your data safe and improve "
+"the quality of your reporting."
+msgstr ""
+
+#: client/static/js/text/welcome.js:5
+msgid "What is PANDA?"
+msgstr ""
+
+#: client/static/js/text/welcome.js:6
+msgid ""
+"First and foremost PANDA is a \"data library\", which means that it stores "
+"all the datasets you work with on a daily basis&mdash;voter registration "
+"records, police reports, water test results, etc. When you upload your data "
+"to PANDA it's stored safely away so that it can be easily found again, "
+"either by you or by another reporter in your organization."
+msgstr ""
+
+#: client/static/js/text/welcome.js:7
+msgid ""
+"PANDA is also a search engine. By uploading your datasets to PANDA you make "
+"them searchable by everyone in your organization. This search feature is "
+"designed to work like Google, so you don't need to learn a new way of "
+"exploring the data."
+msgstr ""
+
+#: client/static/js/text/welcome.js:8
+msgid "How does PANDA help me?"
+msgstr ""
+
+#: client/static/js/text/welcome.js:9
+msgid "PANDA will save you time"
+msgstr ""
+
+#: client/static/js/text/welcome.js:10
+msgid ""
+"When all your data is stored in PANDA, it is just a quick search away. No "
+"more opening Excel and scrolling, scrolling, scrolling to find one piece of "
+"information. PANDA is fast and always available. Give data to your PANDA now "
+"and it will save you time on deadline."
+msgstr ""
+
+#: client/static/js/text/welcome.js:11
+msgid "PANDA will keep your data safe"
+msgstr ""
+
+#: client/static/js/text/welcome.js:12
+msgid ""
+"Never again will you have to worry about a crashing computer, a lost thumb "
+"drive or a scratched CD. Give data to PANDA and PANDA will keep it safe. "
+"With PANDA's search engine you will always be able to find it again."
+msgstr ""
+
+#: client/static/js/text/welcome.js:13
+msgid "PANDA will improve your reporting"
+msgstr ""
+
+#: client/static/js/text/welcome.js:14
+msgid ""
+"PANDA encourages serendipity in the reporting process. By having access to "
+"all the newsworthy data in your newsroom you will uncover information you "
+"might have otherwise overlooked. For instance, a search for the name of a "
+"state senator might return a dataset of his political affiliations, a record "
+"of his graduation, a list of bills he has sponsored and that he has a "
+"brother who is an energy lobbyist."
+msgstr ""
+
+#: client/static/js/text/welcome.js:15
+msgid "How does PANDA help my organization?"
+msgstr ""
+
+#: client/static/js/text/welcome.js:16
+msgid ""
+"By providing a single place to store all the data reporters work with PANDA "
+"will encourage knowledge sharing, prevent catastrophic data loss and slow "
+"information attrition when reporters retire or change jobs. In particular we "
+"hope to eliminate the situation where more than one reporter is using FOIA "
+"or other channels to acquire the same dataset."
+msgstr ""
+
+#: client/static/js/text/welcome.js:17
+msgid "Get started!"
+msgstr ""
+
+#: client/static/js/text/welcome.js:18
+msgid ""
+"If you need additional help use the <strong>Help</strong> menu at the top of "
+"the screen."
+msgstr ""
+
+#: client/static/js/text/welcome.js:19
+msgid "Start using PANDA!"
+msgstr ""
+
+#: client/static/js/text/welcome.js:20
+msgid "Show this page next time I log in"
+msgstr ""
+
+#: client/static/js/views/activate.js:32
+#: client/static/js/views/activate.js:102 client/static/js/views/login.js:89
+#: client/static/js/views/modal_change_password.js:93
+#: client/static/js/views/modal_dataset_edit.js:102
+#: client/static/js/views/modal_related_links.js:79
+#: client/static/js/views/modal_user_edit.js:89
+#: client/static/js/views/reset_password.js:32
+#: client/static/js/views/reset_password.js:93
+msgid "Unknown error"
+msgstr ""
+
+#: client/static/js/views/activate.js:35 client/static/js/views/activate.js:77
+#: client/static/js/views/activate.js:105
+msgid "Activation failed!"
+msgstr ""
+
+#: client/static/js/views/activate.js:51 client/static/js/views/activate.js:55
+#: client/static/js/views/activate.js:59
+#: client/static/js/views/modal_change_password.js:41
+#: client/static/js/views/modal_change_password.js:56
+#: client/static/js/views/modal_dataset_edit.js:48
+#: client/static/js/views/modal_user_edit.js:41
+#: client/static/js/views/modal_user_edit.js:45
+#: client/static/js/views/reset_password.js:52
+#: client/static/js/views/reset_password.js:56
+msgid "This field is required."
+msgstr ""
+
+#: client/static/js/views/activate.js:66
+#: client/static/js/views/modal_change_password.js:64
+#: client/static/js/views/reset_password.js:63
+msgid "Passwords do not match."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:113
+msgid ""
+"{file} is not a supported type. Only CSV, XLS, and XLSX files are currently "
+"supported."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:114
+#: client/static/js/views/dataset_view.js:90
+msgid "{file} is too large, the maximum file size is %(size)s bytes."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:115
+#: client/static/js/views/dataset_view.js:91
+msgid "{file} is empty."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:116
+#: client/static/js/views/dataset_view.js:92
+msgid ""
+"Your file is being uploaded, if you leave now the upload will be cancelled."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:186
+msgid ""
+"The columns headers in this file do not match those of the existing data."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:191
+msgid "Upload complete!"
+msgstr ""
+
+#: client/static/js/views/data_upload.js:200
+msgid "An unexpected error occurred."
+msgstr ""
+
+#: client/static/js/views/data_upload.js:205
+#: client/static/js/views/data_upload.js:209
+#: client/static/js/views/data_upload.js:213
+msgid "Try again"
+msgstr ""
+
+#: client/static/js/views/dataset_results.js:63
+#: client/static/js/views/dataset_view.js:339
+#: client/static/js/views/search_results.js:95
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
 msgstr ""
 
-#: client/static/js/views/search_results.js:23
+#: client/static/js/views/dataset_results.js:65
+#: client/static/js/views/dataset_view.js:341
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
 "is ready to be downloaded."
 msgstr ""
 
-#: client/static/js/views/search_results.js:24
+#: client/static/js/views/dataset_results.js:71
+#: client/static/js/views/dataset_view.js:347
+#: client/static/js/views/search_results.js:103
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
 
-#: client/static/js/views/search_results.js:26
-msgid "Subscribe to this search?"
-msgstr ""
-
-#: client/static/js/views/search_results.js:27
-msgid ""
-"When you click <strong>Subscribe</strong> you will begin receiving daily "
-"email notifications of new data added to PANDA that matches your search."
-msgstr ""
-
-#: client/static/js/views/search_results.js:28
-msgid ""
-"When you click <strong>Subscribe</strong> you will begin receiving daily "
-"notifications of new data added to PANDA that matches your search."
-msgstr ""
-
-#: client/static/js/views/search_results.js:30
-msgid "Subscribe"
-msgstr ""
-
-#: client/static/js/views/search_results.js:31
+#: client/static/js/views/dataset_results.js:90
+#: client/static/js/views/search_results.js:76
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
 msgstr ""
 
-#: client/static/js/views/search_results.js:32
+#: client/static/js/views/dataset_results.js:94
+#: client/static/js/views/search_results.js:80
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
 "s</code>"
 msgstr ""
 
-#: client/static/js/views/search_results.js:37
-msgid "%(count)s matching row (%(row_count)s total rows)"
-msgid_plural "%(count)s matching rows (%(row_count)s total rows)"
-msgstr[0] ""
-msgstr[1] ""
+#: client/static/js/views/dataset_search.js:68
+msgid ""
+"<p>This dataset is being made searchable. Search results may be incomplete.</"
+"p><p>Status: %(message)s. <a href=\"javascript:location.reload"
+"(true)\">Refresh to see updated status &raquo;</a></p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:69
+msgid "Import in progress!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:71
+msgid "Import queued!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:71
+msgid ""
+"<p>This dataset is waiting to be made searchable. Search results may be "
+"incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see "
+"updated status &raquo;</a</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:73
+msgid "Import failed!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:73
+msgid ""
+"<p>The process to make this dataset searchable failed. Search results may be "
+"incomplete. <a href=\"#modal-dataset-traceback\" class=\"btn inline\" data-"
+"toggle=\"modal\" data-backdrop=\"true\" data-keyboard=\"true\">Show detailed "
+"error message</a></p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:75
+msgid "Import aborted!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:75
+msgid ""
+"<p>The process to make data searchable was aborted by an administrator. "
+"Search results may be incomplete.</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:80
+msgid ""
+"<p>Search data for this dataset is being updated. Search results may be "
+"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload"
+"(true)\">Refresh to see updated status &raquo;</a></p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:81
+msgid "Reindexing in progress!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:83
+msgid "Reindexing queued!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:83
+msgid ""
+"<p>This dataset is waiting to have its search data updated. Search results "
+"may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to "
+"see updated status &raquo;</a</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:85
+msgid "Reindexing failed!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:85
+msgid ""
+"<p>The process to make update this dataset's search data failed. Search "
+"results may be incomplete. <a href=\"#modal-dataset-traceback\" class=\"btn "
+"inline\" data-toggle=\"modal\" data-backdrop=\"true\" data-keyboard=\"true"
+"\">Show detailed error message</a></p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:87
+msgid "Reindexing aborted!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:87
+msgid ""
+"<p>The process to udpate this dataset's search data was aborted by an "
+"administrator. Search results may be incomplete.</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:144
+msgid ""
+"<strong>Warning!</strong> This query seems to be taking a very long time. It "
+"may still finish or it may have failed."
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:151
+msgid "<h3>Error executing query!</h3> <p>%(error)s</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:205
+msgid "Search for <code class=\"full-text\">%(full_text_query)s</code>"
+msgstr ""
+
+#: client/static/js/views/dataset_view.js:174
+msgid ""
+"This data upload was created before deleting individual data uploads was "
+"supported. In order to delete it you must delete the entire dataset."
+msgstr ""
+
+#: client/static/js/views/dataset_view.js:179
+msgid ""
+"<p>This will irreversibly destroy <strong>%(title)s</strong>. It will not be "
+"possible to recover this file.</p><p><strong>All data imported from this "
+"file will also be deleted.</strong></p>"
+msgstr ""
+
+#: client/static/js/views/dataset_view.js:181
+msgid ""
+"<p>This will irreversibly destroy <strong>%(title)s</strong>. It will not be "
+"possible to recover this file.</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_view.js:313
+msgid ""
+"Your data indexing task has been successfully queued. You will receive an "
+"email when it is complete."
+msgstr ""
+
+#: client/static/js/views/dataset_view.js:315
+msgid ""
+"Your data indexing task has been successfully queued. Your PANDA does not "
+"have email configured, so you will need to check your Notifications list to "
+"see when the task is complete."
+msgstr ""
+
+#: client/static/js/views/dataset_view.js:326
+msgid ""
+"<p>Your data indexing task failed to start!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:5
+msgid "is like"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:13
+#: client/static/js/views/inline_search_filters.js:39
+#: client/static/js/views/inline_search_filters.js:65
+#: client/static/js/views/inline_search_filters.js:73
+#: client/static/js/views/inline_search_filters.js:99
+#: client/static/js/views/inline_search_filters.js:125
+msgid "is"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:19
+#: client/static/js/views/inline_search_filters.js:45
+msgid "is greater than or equal to"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:25
+#: client/static/js/views/inline_search_filters.js:51
+msgid "is less than or equal to"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:31
+#: client/static/js/views/inline_search_filters.js:57
+#: client/static/js/views/inline_search_filters.js:91
+#: client/static/js/views/inline_search_filters.js:117
+#: client/static/js/views/inline_search_filters.js:143
+msgid "is in the range"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:79
+#: client/static/js/views/inline_search_filters.js:105
+msgid "is on or after"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:85
+#: client/static/js/views/inline_search_filters.js:111
+msgid "is on or before"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:131
+msgid "is at or after"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:137
+msgid "is at or before"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:192
+msgid "Fewer search options"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:405
+msgid "No value provided."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:415
+msgid "Value is not an integer!"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:422
+msgid "Second value is not an integer!"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:432
+#: client/static/js/views/inline_search_filters.js:460
+msgid "The first value should always be less than the second value."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:443
+msgid "Value is not an float!"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:450
+msgid "Second value is not an float!"
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:474
+#: client/static/js/views/inline_search_filters.js:485
+msgid "Datetime must be in format \"YYYY-MM-DD HH:MM\"."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:480
+msgid "Value is not a valid datetime."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:491
+msgid "Second value is not a valid datetime."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:499
+msgid "The first date must be before the second date."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:510
+#: client/static/js/views/inline_search_filters.js:521
+msgid "Date must be in format \"YYYY-MM-DD\"."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:516
+msgid "Value is not a valid date."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:527
+msgid "Second value is not a valid date."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:535
+msgid "The first date must be before the second before."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:546
+#: client/static/js/views/inline_search_filters.js:558
+msgid "Time must be in format \"HH:MM\"."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:553
+msgid "Value is not a valid time."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:565
+msgid "Second value is not a valid time."
+msgstr ""
+
+#: client/static/js/views/inline_search_filters.js:573
+msgid "The first time must be before the second time."
+msgstr ""
+
+#: client/static/js/views/login.js:46 client/static/js/views/login.js.c:104
+#, fuzzy
+msgid "Please enter your email."
+msgstr "Escriba una consulta de búsqueda"
+
+#: client/static/js/views/login.js:50
+#, fuzzy
+msgid "Please enter your password."
+msgstr "Escriba una consulta de búsqueda"
+
+#: client/static/js/views/login.js:60 client/static/js/views/login.js.c:92
+msgid "Login failed!"
+msgstr ""
+
+#: client/static/js/views/login.js:114
+msgid "Error!"
+msgstr ""
+
+#: client/static/js/views/login.js:125
+msgid "Email sent."
+msgstr ""
+
+#: client/static/js/views/modal_change_password.js:50
+#: client/static/js/views/modal_user_edit.js:54
+msgid "Incorrect password."
+msgstr ""
+
+#: client/static/js/views/modal_change_password.js:60
+msgid "Reenter your password."
+msgstr ""
+
+#: client/static/js/views/modal_change_password.js:77
+#: client/static/js/views/modal_change_password.js:96
+#: client/static/js/views/modal_dataset_edit.js:61
+#: client/static/js/views/modal_dataset_edit.js:105
+#: client/static/js/views/modal_related_links.js:82
+#: client/static/js/views/modal_user_edit.js:70
+#: client/static/js/views/modal_user_edit.js:92
+msgid "Save failed!"
+msgstr ""
+
+#: client/static/js/views/reset_password.js:35
+#: client/static/js/views/reset_password.js:74
+#: client/static/js/views/reset_password.js:96
+msgid "Password reset failed!"
+msgstr ""
+
+#: client/static/js/views/user.js:93
+msgid "Are you sure you want to delete this subscription?"
+msgstr ""
