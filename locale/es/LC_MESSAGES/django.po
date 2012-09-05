@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-05 15:52-0500\n"
+"POT-Creation-Date: 2012-09-05 16:14-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -321,6 +321,7 @@ msgid "Export complete: %(dataset_name)s (%(row_count)s rows)"
 msgstr ""
 
 #: panda/templates/notifications/export_complete/email_body.txt:4
+#: panda/templates/notifications/export_search_complete/email_body.txt:4
 msgid "Download your results:"
 msgstr ""
 
@@ -342,6 +343,126 @@ msgstr ""
 #: panda/templates/notifications/export_complete/message.html:2
 #, python-format
 msgid "Export complete: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/export_failed/email_body.txt:2
+#: panda/templates/notifications/export_failed/email_subject.txt:2
+#, python-format
+msgid "Export failed: \"%(query)s\" in %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/export_failed/email_body.txt:2
+#: panda/templates/notifications/export_failed/email_subject.txt:2
+#, python-format
+msgid "Export failed: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/export_failed/email_body.txt:8
+#: panda/templates/notifications/export_search_failed/email_body.txt:6
+#: panda/templates/notifications/import_failed/email_body.txt:8
+msgid "Traceback:"
+msgstr ""
+
+#: panda/templates/notifications/export_failed/message.html:2
+#, python-format
+msgid "Export failed: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/export_failed/message.html:2
+#, python-format
+msgid "Export failed: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/export_search_aborted/message.html:2
+#, python-format
+msgid "Export aborted: \"%(query)s\" in all datasets"
+msgstr ""
+
+#: panda/templates/notifications/export_search_complete/email_body.txt:2
+#: panda/templates/notifications/export_search_complete/email_subject.txt:2
+#: panda/templates/notifications/export_search_complete/message.html:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in all datasets"
+msgstr ""
+
+#: panda/templates/notifications/export_search_failed/email_body.txt:2
+#: panda/templates/notifications/export_search_failed/message.html:2
+#, python-format
+msgid "Export failed: \"%(query)s\" in all datasets"
+msgstr ""
+
+#: panda/templates/notifications/import_aborted/email_body.txt:2
+#: panda/templates/notifications/import_aborted/email_subject.txt:2
+#, python-format
+msgid "Imported aborted: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/import_aborted/message.html:2
+#, python-format
+msgid "Imported aborted: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/import_complete/email_body.txt:2
+#, python-format
+msgid "Imported complete: %(dataset_name)s (%(row_count)s rows)"
+msgstr ""
+
+#: panda/templates/notifications/import_complete/email_subject.txt:2
+#, python-format
+msgid "Imported complete: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/import_complete/message.html:2
+#, python-format
+msgid "Imported complete: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/import_failed/email_body.txt:2
+#: panda/templates/notifications/import_failed/email_subject.txt:2
+#, python-format
+msgid "Imported failed: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/import_failed/message.html:2
+#, python-format
+msgid "Imported failed: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/reindex_aborted/email_body.txt:2
+#: panda/templates/notifications/reindex_aborted/email_subject.txt:2
+#, python-format
+msgid "Reindex aborted: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/reindex_aborted/message.html:2
+#, python-format
+msgid "Reindex aborted: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/reindex_complete/email_body.txt:2
+#, python-format
+msgid "Reindex complete: %(dataset_name)s (%(row_count)s rows)"
+msgstr ""
+
+#: panda/templates/notifications/reindex_complete/email_subject.txt:2
+#, python-format
+msgid "Reindex complete: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/reindex_complete/message.html:2
+#, python-format
+msgid "Reindex complete: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/reindex_failed/email_body.txt:2
+#: panda/templates/notifications/reindex_failed/email_subject.txt:2
+#, python-format
+msgid "Reindex failed: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/reindex_failed/message.html:2
+#, python-format
+msgid "Reindex failed: <strong>%(dataset_name)s</strong>"
 msgstr ""
 
 #: templates/404.html:5
