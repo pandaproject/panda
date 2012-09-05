@@ -1,1 +1,2 @@
-Import complete: {{ related_dataset.name }}
+{% load i18n %}
+{% blocktrans with related_dataset.name as dataset_name %}Imported complete: {{ dataset_name }}{% endblocktrans %}

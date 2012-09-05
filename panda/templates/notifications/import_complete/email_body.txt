@@ -1,4 +1,5 @@
-Import complete: {{ related_dataset.name }} ({{ related_dataset.row_count|default:0 }} rows)
+{% load i18n %}
+{% blocktrans with related_dataset.name as dataset_name and row_count as related_dataset.row_count|default:0 %}Imported complete: {{ dataset_name }} ({{ row_count }} rows){% endblocktrans %}
 
 http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}
 

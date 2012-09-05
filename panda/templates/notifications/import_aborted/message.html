@@ -1,1 +1,2 @@
-Import aborted: <strong>{{ related_dataset.name }}</strong>
+{% load i18n %}
+{% blocktrans with related_dataset.name as dataset_name %}Imported aborted: <strong>{{ dataset_name }}</strong>{% endblocktrans %}
