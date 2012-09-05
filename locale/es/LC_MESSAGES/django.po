@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-05 16:14-0500\n"
+"POT-Creation-Date: 2012-09-05 16:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -284,6 +284,52 @@ msgstr ""
 msgid "Add Many Users"
 msgstr ""
 
+#: panda/templates/notifications/disk_space_alert/email_body.txt:1
+#, python-format
+msgid ""
+"The drive containing your PANDA application is CRITICALLY low on disk space: "
+"%(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:1
+#, python-format
+msgid ""
+"The drive containing your PANDA application is low on disk space: %(bytes)s "
+"remains (%(percent)s%% full)"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:3
+#, python-format
+msgid ""
+"The drive containing your PANDA uploads is CRITICALLY low on disk space: "
+"%(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:3
+#, python-format
+msgid ""
+"The drive containing your PANDA uploads is low on disk space: %(bytes)s "
+"remains (%(percent)s%% full)"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:5
+#, python-format
+msgid ""
+"The drive containing your PANDA search indices is CRITICALLY low on disk "
+"space: %(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:5
+#, python-format
+msgid ""
+"The drive containing your PANDA search indices is low on disk space: "
+"%(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:7
+msgid "Your can always check your current disk usage on your PANDA Dashboard:"
+msgstr ""
+
 #: panda/templates/notifications/disk_space_alert/email_subject.txt:1
 msgid "Low disk space!"
 msgstr ""
@@ -463,6 +509,35 @@ msgstr ""
 #: panda/templates/notifications/reindex_failed/message.html:2
 #, python-format
 msgid "Reindex failed: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/subscription_results/email_body.txt:2
+#, python-format
+msgid ""
+"New search results for \"%(query)s\" in %(dataset_name)s (%(count)s new)"
+msgstr ""
+
+#: panda/templates/notifications/subscription_results/email_body.txt:4
+msgid "See just the new results:"
+msgstr ""
+
+#: panda/templates/notifications/subscription_results/email_body.txt:7
+msgid "See all results for your search:"
+msgstr ""
+
+#: panda/templates/notifications/subscription_results/email_body.txt:10
+msgid "To stop receiving notifications for this search, visit your user page:"
+msgstr ""
+
+#: panda/templates/notifications/subscription_results/email_subject.txt:2
+#, python-format
+msgid "New search results for \"%(query)s\" in %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/subscription_results/message.html:2
+#, python-format
+msgid ""
+"New search results for \"%(query)s\" in <strong>%(dataset_name)s</strong>"
 msgstr ""
 
 #: templates/404.html:5

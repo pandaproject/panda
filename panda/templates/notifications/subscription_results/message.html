@@ -1,1 +1,2 @@
-New search results for: "{{ query }}"{% if related_dataset %} in <strong>{{ related_dataset.name }}</strong>{% endif %}
+{% load i18n %}
+{% if related_dataset %}{% blocktrans with related_dataset.name as dataset_name %}New search results for "{{ query }}" in <strong>{{ dataset_name }}</strong>{% endblocktrans %}{% else %}New search results for "{{ query }}"{% endif %}
