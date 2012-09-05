@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if query %}{% blocktrans with related_dataset.name as dataset_name and related_dataset.row_count|default:0 as row_count %}Export complete: "{{ query }}" in {{ dataset_name }} ({{ row_count }} rows){% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name and related_dataset.row_count|default:0 as row_count %}Export complete: {{ dataset_name }} ({{ row_count }} rows){% endblocktrans %}
+{% if query %}{% blocktrans with related_dataset.name as dataset_name and related_dataset.row_count|default:0 as row_count %}Export complete: "{{ query }}" in {{ dataset_name }} ({{ row_count }} rows){% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name and related_dataset.row_count|default:0 as row_count %}Export complete: {{ dataset_name }} ({{ row_count }} rows){% endblocktrans %}{% endif %}
 
 {% blocktrans %}Download your results:{% endblocktrans %}
 http://{{ site_domain }}/#export/{{ related_export.pk }}

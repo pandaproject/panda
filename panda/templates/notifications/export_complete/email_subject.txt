@@ -1,3 +1,2 @@
 {% load i18n %}
-{% if query %}{% blocktrans with related_dataset.name as dataset_name %}Export complete: "{{ query }}" in {{ dataset_name }}{% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name %}Export complete: {{ dataset_name }}{% endblocktrans %}
-
+{% if query %}{% blocktrans with related_dataset.name as dataset_name %}Export complete: "{{ query }}" in {{ dataset_name }}{% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name %}Export complete: {{ dataset_name }}{% endblocktrans %}{% endif %}
