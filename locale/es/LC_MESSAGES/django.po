@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-05 13:22-0500\n"
+"POT-Creation-Date: 2012-09-05 15:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,6 +166,14 @@ msgstr "Administración"
 msgid "Logout"
 msgstr "Logout"
 
+#: jumpstart/views.py:37
+msgid "English"
+msgstr ""
+
+#: jumpstart/views.py:37
+msgid "Spanish"
+msgstr ""
+
 #: panda/admin.py:48
 msgid "E-mail"
 msgstr ""
@@ -274,6 +282,66 @@ msgstr ""
 
 #: panda/templates/admin/panda/userproxy/change_list.html:15
 msgid "Add Many Users"
+msgstr ""
+
+#: panda/templates/notifications/disk_space_alert/email_subject.txt:1
+msgid "Low disk space!"
+msgstr ""
+
+#: panda/templates/notifications/export_aborted/email_body.txt:2
+#: panda/templates/notifications/export_aborted/email_subject.txt:2
+#, python-format
+msgid "Export aborted: \"%(query)s\" in %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/export_aborted/email_body.txt:2
+#: panda/templates/notifications/export_aborted/email_subject.txt:2
+#, python-format
+msgid "Export aborted: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/export_aborted/message.html:2
+#, python-format
+msgid "Export aborted: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/export_aborted/message.html:2
+#, python-format
+msgid "Export aborted: <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/email_body.txt:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in %(dataset_name)s (%(row_count)s rows)"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/email_body.txt:2
+#, python-format
+msgid "Export complete: %(dataset_name)s (%(row_count)s rows)"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/email_body.txt:4
+msgid "Download your results:"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/email_subject.txt:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/email_subject.txt:2
+#, python-format
+msgid "Export complete: %(dataset_name)s"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/message.html:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+
+#: panda/templates/notifications/export_complete/message.html:2
+#, python-format
+msgid "Export complete: <strong>%(dataset_name)s</strong>"
 msgstr ""
 
 #: templates/404.html:5
