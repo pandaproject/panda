@@ -51,6 +51,9 @@ PANDA.text.DatasetView = function() {
         export_continue: gettext("Continue with export"),
         delete_title: gettext("Are you sure you want to delete this dataset?"),
         delete_body: gettext("<p>This will irreversibly destroy <strong>%(dataset)s</strong>. Data from this dataset will no longer be available to search and the original data files uploaded with it will be lost.</p>"),
-        delete_continue: gettext("Continue with delete")
+        delete_continue: gettext("Continue with delete"),
+        edit_upload: gettext("Edit upload"),
+        title: gettext("Title"),
+        save: gettext("Save") 
     }
 }
