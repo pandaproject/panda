@@ -11,6 +11,15 @@
         {% csrf_token %}
 
         <div class="control-group">
+            <label for="language">What language should your PANDA be in?</label>
+            <select name="language">
+                {% for lang in languages %}
+                <option value="{{ lang.0 }}" {% if lang.0 == "en" %}selected="selected"{% endif %}>{{ lang.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="control-group">
             <label for="timezone">What time zone does your organization do most of its work in?</label>
             <select name="timezone">
                 {% for tz in timezones %}
