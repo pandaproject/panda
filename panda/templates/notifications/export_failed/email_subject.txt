@@ -1,1 +1,3 @@
-Export failed: "{{ query }}" in all datasets
+{% load i18n %}
+{% if query %}{% blocktrans with related_dataset.name as dataset_name %}Export failed: "{{ query }}" in {{ dataset_name }}{% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name %}Export failed: {{ dataset_name }}{% endblocktrans %}
+

@@ -1,1 +1,2 @@
-Export aborted: {% if query %}"{{ query }}" in {% endif %}<strong>{{ related_dataset.name }}</strong>
+{% load i18n %}
+{% if query %}{% blocktrans with related_dataset.name as dataset_name %}Export aborted: "{{ query }}" in <strong>{{ dataset_name }}</strong>{% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name %}Export aborted: <strong>{{ dataset_name }}</strong>{% endblocktrans %}

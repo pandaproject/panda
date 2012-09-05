@@ -1,9 +1,10 @@
-Export failed: {% if query %}"{{ query }}" in {% endif %}{{ related_dataset.name }}
+{% load i18n %}
+{% if query %}{% blocktrans with related_dataset.name as dataset_name %}Export failed: "{{ query }}" in {{ dataset_name }}{% endblocktrans %}{% else %}{% blocktrans with related_dataset.name as dataset_name %}Export failed: {{ dataset_name }}{% endblocktrans %}
 
 http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}
 
 {{ error }}
 
-Traceback:
+{% trans "Traceback:"%}
 
 {{ traceback }}
