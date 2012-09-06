@@ -9,6 +9,7 @@ import time
 from csvkit import CSVKitWriter
 from django.conf import settings
 from django.utils import simplejson as json
+from django.utils.translation import ugettext
 from livesettings import config_value
 
 from panda import solr
@@ -39,7 +40,7 @@ class ExportCSVTask(ExportFileTask):
             return
 
         task_status = dataset.current_task
-        task_status.begin('Preparing to export')
+        task_status.begin(ugettext('Preparing to export'))
 
         if not filename:
             filename = '%s_%s.csv' % (dataset_slug, datetime.datetime.utcnow().isoformat())
@@ -90,10 +91,10 @@ class ExportCSVTask(ExportFileTask):
 
                 writer.writerow(data)
 
-            task_status.update('%.0f%% complete' % floor(float(n) / float(total_count) * 100))
+            task_status.update(ugettext('%.0f%% complete') % floor(float(n) / float(total_count) * 100))
 
             if self.is_aborted():
-                task_status.abort('Aborted after exporting %.0f%%' % floor(float(n) / float(total_count) * 100))
+                task_status.abort(ugettext('Aborted after exporting %.0f%%') % floor(float(n) / float(total_count) * 100))
 
                 log.warning('Export aborted, dataset_slug: %s' % dataset_slug)
 
@@ -105,7 +106,7 @@ class ExportCSVTask(ExportFileTask):
 
         f.close()
 
-        task_status.update('100% complete')
+        task_status.update(ugettext('100% complete'))
 
         log.info('Finished export, dataset_slug:%s %s' % (dataset_slug, query))
 

@@ -6,6 +6,7 @@ from math import floor
 import time
 
 from django.conf import settings
+from django.utils.translation import ugettext
 from livesettings import config_value
 from openpyxl.reader.excel import load_workbook
 
@@ -40,7 +41,7 @@ class ImportXLSXTask(ImportFileTask):
         upload = DataUpload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
-        task_status.begin('Preparing to import')
+        task_status.begin(ugettext('Preparing to import'))
 
         book = load_workbook(upload.get_path(), use_iterators=True)
         sheet = book.get_active_sheet()
@@ -85,10 +86,10 @@ class ImportXLSXTask(ImportFileTask):
                 solr.add(settings.SOLR_DATA_CORE, add_buffer)
                 add_buffer = []
 
-                task_status.update('%.0f%% complete' % floor(float(i) / float(row_count) * 100))
+                task_status.update(ugettext('%.0f%% complete') % floor(float(i) / float(row_count) * 100))
 
                 if self.is_aborted():
-                    task_status.abort('Aborted after importing %.0f%%' % floor(float(i) / float(row_count) * 100))
+                    task_status.abort(ugettext('Aborted after importing %.0f%%') % floor(float(i) / float(row_count) * 100))
 
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
@@ -102,7 +103,7 @@ class ImportXLSXTask(ImportFileTask):
 
         solr.commit(settings.SOLR_DATA_CORE)
 
-        task_status.update('100% complete')
+        task_status.update(ugettext('100% complete'))
 
         # Refresh dataset from database so there is no chance of crushing changes made since the task started
         try:

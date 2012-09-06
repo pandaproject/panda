@@ -8,6 +8,7 @@ import traceback
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
 from django.utils import simplejson as json
+from django.utils.translation import ugettext
 from livesettings import config_value
 
 from panda import solr, utils
@@ -40,10 +41,10 @@ class ReindexTask(AbortableTask):
             return
 
         task_status = dataset.current_task
-        task_status.begin('Preparing to reindex')
+        task_status.begin(ugettext('Preparing to reindex'))
 
         if self.is_aborted():
-            task_status.abort('Aborted during preparation')
+            task_status.abort(ugettext('Aborted during preparation'))
 
             log.warning('Reindex aborted, dataset_slug: %s' % dataset_slug)
 
@@ -77,10 +78,10 @@ class ReindexTask(AbortableTask):
 
                 add_buffer = []
 
-                task_status.update('%.0f%% complete' % floor(float(i) / float(dataset.row_count) * 100))
+                task_status.update(ugettext('%.0f%% complete') % floor(float(i) / float(dataset.row_count) * 100))
 
                 if self.is_aborted():
-                    task_status.abort('Aborted after reindexing %.0f%%' % floor(float(i) / float(dataset.row_count) * 100))
+                    task_status.abort(ugettext('Aborted after reindexing %.0f%%') % floor(float(i) / float(dataset.row_count) * 100))
 
                     log.warning('Reindex aborted, dataset_slug: %s' % dataset_slug)
 
@@ -96,7 +97,7 @@ class ReindexTask(AbortableTask):
 
         solr.commit(settings.SOLR_DATA_CORE)
 
-        task_status.update('100% complete')
+        task_status.update(ugettext('100% complete'))
 
         # Refresh dataset
         try:
@@ -155,7 +156,7 @@ class ReindexTask(AbortableTask):
                 tb = ''.join(traceback.format_tb(einfo[2]))
 
             task_status.exception(
-                'Reindex failed',
+                ugettext('Reindex failed'),
                 u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
             
