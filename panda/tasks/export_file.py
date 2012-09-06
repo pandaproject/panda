@@ -6,6 +6,7 @@ import traceback
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
+from django.utils.translation import ugettext
 
 from panda.utils.notifications import notify
 
@@ -65,7 +66,7 @@ class ExportFileTask(AbortableTask):
                 tb = ''.join(traceback.format_tb(einfo[2]))
 
             task_status.exception(
-                'Export failed',
+                ugettext('Export failed'),
                 u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
 
@@ -77,7 +78,7 @@ class ExportFileTask(AbortableTask):
             template_prefix = 'export_aborted'
             notification_type = 'Info'
         else:
-            task_status.complete('Export complete')
+            task_status.complete(ugettext('Export complete'))
 
             export = Export.objects.create(
                 filename=retval,

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-05 16:54-0500\n"
+"POT-Creation-Date: 2012-09-06 08:51-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,6 +197,90 @@ msgstr ""
 #: panda/admin.py:210 panda/admin.py:352
 #, python-format
 msgid "Add %s"
+msgstr ""
+
+#: panda/tasks/export_csv.py:43
+msgid "Preparing to export"
+msgstr ""
+
+#: panda/tasks/export_csv.py:94 panda/tasks/export_search.py:123
+#: panda/tasks/import_xls.py:82 panda/tasks/import_xlsx.py:89
+#: panda/tasks/reindex.py:81
+#, python-format
+msgid "%.0f%% complete"
+msgstr ""
+
+#: panda/tasks/export_csv.py:97 panda/tasks/export_search.py:126
+#, python-format
+msgid "Aborted after exporting %.0f%%"
+msgstr ""
+
+#: panda/tasks/export_csv.py:109 panda/tasks/export_search.py:147
+#: panda/tasks/import_xls.py:99 panda/tasks/import_xlsx.py:106
+#: panda/tasks/reindex.py:100
+#, python-format
+msgid "100% complete"
+msgstr ""
+
+#: panda/tasks/export_file.py:69 panda/tasks/export_search.py:181
+msgid "Export failed"
+msgstr ""
+
+#: panda/tasks/export_file.py:81 panda/tasks/export_search.py:193
+msgid "Export complete"
+msgstr ""
+
+#: panda/tasks/import_csv.py:53 panda/tasks/import_xls.py:43
+#: panda/tasks/import_xlsx.py:44
+msgid "Preparing to import"
+msgstr ""
+
+#: panda/tasks/import_csv.py:85
+#, python-format
+msgid ""
+"This CSV file contains characters that are not %(encoding)s encoded in or "
+"after row %(row)i. You need to re-upload this file and input the correct "
+"encoding in order to import data from this file."
+msgstr ""
+
+#: panda/tasks/import_csv.py:102
+#, python-format
+msgid "%.0f%% complete (estimated)"
+msgstr ""
+
+#: panda/tasks/import_csv.py:105
+#, python-format
+msgid "Aborted after importing %.0f%% (estimated)"
+msgstr ""
+
+#: panda/tasks/import_file.py:72
+msgid "Import failed"
+msgstr ""
+
+#: panda/tasks/import_file.py:84
+msgid "Import complete"
+msgstr ""
+
+#: panda/tasks/import_xls.py:85 panda/tasks/import_xlsx.py:92
+#, python-format
+msgid "Aborted after importing %.0f%%"
+msgstr ""
+
+#: panda/tasks/reindex.py:44
+msgid "Preparing to reindex"
+msgstr ""
+
+#: panda/tasks/reindex.py:47
+msgid "Aborted during preparation"
+msgstr ""
+
+#: panda/tasks/reindex.py:84
+#, python-format
+msgid "Aborted after reindexing %.0f%%"
+msgstr ""
+
+#: panda/tasks/reindex.py:159
+msgid "Reindex failed"
 msgstr ""
 
 #: panda/templates/admin/panda/taskstatus/change_form.html:19

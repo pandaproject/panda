@@ -6,6 +6,7 @@ import time
 
 from csvkit import CSVKitReader
 from django.conf import settings
+from django.utils.translation import ugettext
 from livesettings import config_value
 
 from panda import solr, utils
@@ -49,7 +50,7 @@ class ImportCSVTask(ImportFileTask):
         upload = DataUpload.objects.get(id=upload_id)
 
         task_status = dataset.current_task
-        task_status.begin('Preparing to import')
+        task_status.begin(ugettext('Preparing to import'))
 
         line_count = self._count_lines(upload.get_path())
 
@@ -81,7 +82,7 @@ class ImportCSVTask(ImportFileTask):
                 i -= 1
                 break
             except UnicodeDecodeError:
-                raise DataImportError('This CSV file contains characters that are not %s encoded in or after row %i. You need to re-upload this file and input the correct encoding in order to import data from this file.' % (upload.encoding, i))
+                raise DataImportError(ugettext('This CSV file contains characters that are not %(encoding)s encoded in or after row %(row)i. You need to re-upload this file and input the correct encoding in order to import data from this file.') % { 'encoding': upload.encoding, 'row': i })
 
             external_id = None
 
@@ -98,10 +99,10 @@ class ImportCSVTask(ImportFileTask):
 
                 add_buffer = []
 
-                task_status.update('%.0f%% complete (estimated)' % floor(float(i) / float(line_count) * 100))
+                task_status.update(ugettext('%.0f%% complete (estimated)') % floor(float(i) / float(line_count) * 100))
 
                 if self.is_aborted():
-                    task_status.abort('Aborted after importing %.0f%% (estimated)' % floor(float(i) / float(line_count) * 100))
+                    task_status.abort(ugettext('Aborted after importing %.0f%% (estimated)') % floor(float(i) / float(line_count) * 100))
 
                     log.warning('Import aborted, dataset_slug: %s' % dataset_slug)
 
