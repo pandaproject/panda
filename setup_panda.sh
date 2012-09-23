@@ -38,7 +38,7 @@ mv apache-solr-3.4.0 solr
 cp -r solr/example solr/panda
 
 # Get PANDA code
-git clone git://github.com/pandaproject/panda.git panda
+git clone https://github.com/pandaproject/panda.git panda
 cd /opt/panda
 git checkout $VERSION
 
