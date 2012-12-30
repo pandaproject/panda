@@ -14,7 +14,7 @@ env.repository_url = 'git://github.com/pandaproject/panda.git'
 env.hosts = ['panda.beta.tribapps.com']
 env.vars = 'DEPLOYMENT_TARGET="deployed"'
 
-env.local_solr = '/usr/local/Cellar/solr/3.4.0/libexec/example'
+env.local_solr = 'apache-solr-3.4.0/example'
 env.local_solr_home = '/var/solr'
 
 env.local_test_email = 'panda@pandaproject.net'

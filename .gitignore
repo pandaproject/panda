@@ -16,3 +16,4 @@ coverage_html
 celerybeat-schedule.db
 _site
 *.bak
+apache-solr-3.4.0

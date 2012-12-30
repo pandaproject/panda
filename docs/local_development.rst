@@ -64,22 +64,17 @@ Open *another* terminal in the PANDA directory and enter:
 Set up Solr
 ===========
 
-Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion, using `Homebrew <https://github.com/mxcl/homebrew>`_. If you've just started the PANDA server, open a new terminal in the PANDA directory and enter these commands:
+Installing Solr can be tricky and will vary quite a bit depending on your operating system. The following will get you up and running on OSX Lion (and probably other versions). If you've just started the PANDA server, open a new terminal in the PANDA directory and enter these commands:
 
 .. code-block:: bash
 
     # Get into the env
     workon panda
 
-    # Update brew
-    brew update
-    brew install git
-
-    # Install solr 3.4.0 (hacky, but it works)
-    cd /usr/local/Cellar/
-    git checkout da53d68 /usr/local/Library/Formula/solr.rb
-    brew install solr
-    git reset --hard
+    # Fetch the Solr 3.4.0 binaries
+    curl http://archive.apache.org/dist/lucene/solr/3.4.0/apache-solr-3.4.0.tgz -o apache-solr-3.4.0.tgz
+    tar -zxf apache-solr-3.4.0.tgz
+    rm apache-solr-3.4.0.tgz
 
     # Create Solr home directory
     sudo mkdir /var/solr
