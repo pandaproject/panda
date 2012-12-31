@@ -32,6 +32,20 @@ PANDA.routers.Index = Backbone.Router.extend({
         "*path":                                            "not_found"
     },
 
+    _fffix: function(param) {
+        /*
+         * The latest FF encodes urls in a non-standard way, as documented
+         * in these Backbone tickets:
+         * https://github.com/documentcloud/backbone/pull/1156
+         * https://github.com/documentcloud/backbone/pull/1219
+         */
+        if ($.browser.mozilla) {
+            return param.replace("%20", " ");
+        } else {
+            return param;
+        }
+    },
+
     initialize: function(options) {
         this.controller = options.controller;
     },
@@ -53,7 +67,7 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     search: function(category, query, since, limit, page) {
-        this.controller.goto_search(category, query, since, limit, page);
+        this.controller.goto_search(category, this._fffix(query), since, limit, page);
     },
 
     data_upload: function(dataset_slug) {
@@ -61,7 +75,7 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     datasets_search: function(category, query, limit, page) {
-        this.controller.goto_datasets_search(category, query, limit, page);
+        this.controller.goto_datasets_search(category, this._fffix(query), limit, page);
     },
 
     dataset_view: function(slug) {
@@ -69,7 +83,7 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     dataset_search: function(slug, query, since, limit, page) {
-        this.controller.goto_dataset_search(slug, query, since, limit, page);
+        this.controller.goto_dataset_search(slug, this._fffix(query), since, limit, page);
     },
     
     notifications: function(limit, page) {
