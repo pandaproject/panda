@@ -17,6 +17,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
     render: function() {
         var context = PANDA.utils.make_context(this.search.datasets.meta);
 
+        console.log(this.search.query);
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
 
@@ -32,7 +33,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
             context["all_results_url"] = "#search/" + this.search.category + "/" + this.search.query;
         }
 
-        context["root_url"] = "#search/" + this.search.category + "/" + this.search.query + "/" + this.search.since;
+        context["root_url"] = "#search/" + this.search.category + "/" + escape(this.search.query) + "/" + this.search.since;
         context["pager_unit"] = "dataset";
         context["row_count"] = null;
         context["datasets"] = this.search.datasets.results();
