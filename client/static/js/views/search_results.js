@@ -17,7 +17,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
     render: function() {
         var context = PANDA.utils.make_context(this.search.datasets.meta);
 
-        console.log(this.search.query);
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
 
