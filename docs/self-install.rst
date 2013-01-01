@@ -17,7 +17,7 @@ SSH into your server and run the following setup commands:
 
 .. code-block:: bash
 
-    wget https://raw.github.com/pandaproject/panda/1.0.2/setup_panda.sh
+    wget https://raw.github.com/pandaproject/panda/1.0.3/setup_panda.sh
     sudo bash setup_panda.sh
 
 Note that the setup script **must** be run with sudo.
