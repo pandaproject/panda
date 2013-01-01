@@ -1,8 +1,13 @@
 1.0.2
 -----
 
+* Fix bug preventing datasets with related uploads from being deleted. (#862)
+* Escape queries when URLs are passed via hrefs. (#867)
+* Workaround obscure Firefox url decoding issue. (#863)
+* Prevent long dataset descriptions from overflowing. (#864)
+* Fix local development installation script for Solr. 
 * Fix bug causing dates in XLS files to be imported as numbers.
-* Fix unescaped names in subscription dialogs.
+* Fix unescaped names in subscription dialogs. (#858)
 
 1.0.1
 -----
