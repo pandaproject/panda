@@ -8,7 +8,7 @@ exec 1> >(tee /var/log/panda-install.log) 2>&1
 
 echo "PANDA installation beginning."
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 CONFIG_PATH="/opt/panda/setup_panda"
 
 # Setup environment variables
@@ -38,7 +38,7 @@ mv apache-solr-3.4.0 solr
 cp -r solr/example solr/panda
 
 # Get PANDA code
-git clone git://github.com/pandaproject/panda.git panda
+git clone https://github.com/pandaproject/panda.git panda
 cd /opt/panda
 git checkout $VERSION
 

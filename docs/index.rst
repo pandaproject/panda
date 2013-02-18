@@ -2,10 +2,9 @@
 PANDA: A Newsroom Data Appliance |release|
 ==========================================
 
- 	
 .. warning::
 
-    This documentation is for the version of PANDA **currently under development**. Were you looking for `version 1.0.1 <http://panda.readthedocs.org/en/1.0.1/>`_ documentation?
+    This documentation is for the version of PANDA **currently under development**. Were you looking for `version 1.0.2 <http://panda.readthedocs.org/en/1.0.2/>`_ documentation?
 
 About
 =====

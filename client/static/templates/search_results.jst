@@ -55,7 +55,7 @@
                     </table>
 
                     <% if (dataset.meta.next) { %>
-                    <p><a href="#dataset/<%= dataset.slug %>/search/<%= query %>/<%= since %>"><%= text.more_results %> &raquo;</a></p>
+                    <p><a href="#dataset/<%= dataset.slug %>/search/<%= escape(query) %>/<%= since %>">View more results from this dataset &raquo;</a></p>
                     <% } %>
                 </div>
             <% }); %>

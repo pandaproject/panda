@@ -35,7 +35,7 @@ Step 3. Launch your server
 Method #1 - Use an Amazon Machine Instance (AMI)
 ------------------------------------------------
 
-This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-47f4412e``. It may take a moment to return a result. When it does, click "Select".
+This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-a9a32dc0``. It may take a moment to return a result. When it does, click "Select".
 
 .. figure::  images/amazon-select-ami.png
    :align:  center 
@@ -63,7 +63,7 @@ Click "Continue" and keep clicking "Continue" and accepting all the default opti
 
 Once your new server is available, SSH into it and execute the following commands::
 
-    wget https://raw.github.com/pandaproject/panda/1.0.2/setup_panda.sh
+    wget https://raw.github.com/pandaproject/panda/1.0.3/setup_panda.sh
     sudo bash setup_panda.sh
 
 The disadvantage of this method is that you will need to wait while the setup script is run. This normally takes 15-20 minutes.

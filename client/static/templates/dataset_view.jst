@@ -50,8 +50,8 @@
             <% } %>
             </p>
 
-            <h6><%= text.description %></h6>
-            <p><%= unescape(dataset.description) || "<em>" + text.add_a_description + "</em>" %></p>
+            <h6>Description</h6>
+            <p class="description"><%= unescape(dataset.description) || "<em>Edit this dataset to add a description.</em>" %></p>
 
             <h6><%= categories %></h6>
 
@@ -220,4 +220,3 @@
 
 <div id="modal-related-links" class="modal hide fade">
 </div>
-

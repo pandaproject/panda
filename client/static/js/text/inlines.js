@@ -24,6 +24,8 @@ PANDA.text.Inlines = function() {
 
         matching_datasets: function(offset, limit, count) {
             var out = ngettext("%(start)s-%(end)s of %(count)s matching dataset", "%(start)s-%(end)s of %(count)s matching datasets", count);
+
+            console.log(out);
             
             return interpolate(out, {
                 start: offset + 1,
