@@ -2,12 +2,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (server-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-18 01:12+0000\n"
+"POT-Creation-Date: 2013-02-18 01:47+0000\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: client/templates/dashboard.html:5
 msgid "PANDA Dashboard"
@@ -48,7 +49,7 @@ msgid "Most active users in the last 30 days"
 msgstr "Aktivste Benutzer in den vergangenen 30 Tagen"
 
 #: client/templates/dashboard.html:39 client/templates/dashboard.html.py:47
-#, fuzzy, python-format
+#, python-format
 msgid "(active on %(days_active)s day)"
 msgid_plural "(active on %(days_active)s days)"
 msgstr[0] "(aktiv am %(days_active)s Tag)"
@@ -72,11 +73,11 @@ msgid "Most searched datasets in the last 30 days"
 msgstr "Meistgesuchte Datensätze in den vergangenen 30 Tagen"
 
 #: client/templates/dashboard.html:67
-#, fuzzy, python-format
+#, python-format
 msgid "(%(count)s search)"
 msgid_plural "(%(count)s searches)"
 msgstr[0] "(%(count)s Suche)"
-msgstr[1] "(%(count)s Suche)"
+msgstr[1] "(%(count)s Suchen)"
 
 #: client/templates/dashboard.html:72
 msgid "Search count by day"
@@ -318,7 +319,6 @@ msgstr "Abbrechen"
 #: panda/templates/admin/panda/taskstatus/change_form.html:43
 #: panda/templates/admin/panda/userproxy/add_form.html:44
 #: templates/livesettings/site_settings.html:65
-#, fuzzy
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
 msgstr[0] "Bitte korrigieren Sie den unten stehenden Fehler."
