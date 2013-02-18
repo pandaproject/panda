@@ -2,12 +2,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-18 01:13+0000\n"
+"POT-Creation-Date: 2013-02-18 01:48+0000\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: client/static/js/text/activate.js:3
 msgid "Activate your PANDA account"
@@ -762,32 +763,28 @@ msgid "Next"
 msgstr "Nächste"
 
 #: client/static/js/text/inlines.js:9
-#, fuzzy
 msgid "%(start)s-%(end)s of %(count)s matching row"
 msgid_plural "%(start)s-%(end)s of %(count)s matching rows"
 msgstr[0] "%(start)s-%(end)s von %(count)s zutreffende Zeile"
-msgstr[1] "%(start)s-%(end)s von %(count)s zutreffende Zeile"
+msgstr[1] "%(start)s-%(end)s von %(count)s zutreffende Zeilen"
 
 #: client/static/js/text/inlines.js:19
-#, fuzzy
 msgid "(%(total)s total row)"
 msgid_plural " (%(total)s total rows)"
 msgstr[0] "(%(total)s ganze Zeile)"
-msgstr[1] "(%(total)s ganze Zeile)"
+msgstr[1] "(%(total)s ganze Zeilen)"
 
 #: client/static/js/text/inlines.js:26
-#, fuzzy
 msgid "%(start)s-%(end)s of %(count)s matching dataset"
 msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
 msgstr[0] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatz"
-msgstr[1] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatz"
+msgstr[1] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatzen"
 
 #: client/static/js/text/inlines.js:38
-#, fuzzy
 msgid "(%(total)s total dataset)"
 msgid_plural " (%(total)s total datasets)"
 msgstr[0] "(%(total)s vollständiger Datensatz)"
-msgstr[1] "(%(total)s vollständiger Datensatz)"
+msgstr[1] "(%(total)s vollständiger Datensatzen)"
 
 #: client/static/js/text/inlines.js:45
 msgid "uploaded by %(user)s"
@@ -1008,11 +1005,10 @@ msgstr ""
 "Daten in PANDA benachrichtigt, die zu Ihrer Suche passen."
 
 #: client/static/js/text/search_results.js:23
-#, fuzzy
 msgid "%(count)s matching row (%(row_count)s total rows)"
 msgid_plural "%(count)s matching rows (%(row_count)s total rows)"
 msgstr[0] "%(count)s passend zu Zeile (%(row_count)s Zeilen insgesamt)"
-msgstr[1] "%(count)s passend zu Zeile (%(row_count)s Zeilen insgesamt)"
+msgstr[1] "%(count)s passend zu Zeilen (%(row_count)s Zeilen insgesamt)"
 
 #: client/static/js/text/server_error.js:3
 msgid "Server Error"
