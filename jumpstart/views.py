@@ -34,7 +34,7 @@ class RestartDaemon(Daemon):
 def jumpstart(request):
     context = RequestContext(request, {
         'settings': settings,
-        'languages': (('en', gettext_noop('English')), ('es', gettext_noop('Spanish'))),
+        'languages': (('en', gettext_noop('English')), ('es', gettext_noop('Spanish')), ('de', gettext_noop('German'))),
         'timezones': common_timezones
     })
 
