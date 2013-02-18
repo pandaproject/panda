@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-06 17:04-0500\n"
+"POT-Creation-Date: 2013-02-18 01:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -703,29 +703,29 @@ msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/static/js/text/inlines.js:36
+#: client/static/js/text/inlines.js:38
 msgid "(%(total)s total dataset)"
 msgid_plural " (%(total)s total datasets)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/static/js/text/inlines.js:43
+#: client/static/js/text/inlines.js:45
 msgid "uploaded by %(user)s"
 msgstr ""
 
-#: client/static/js/text/inlines.js:44
+#: client/static/js/text/inlines.js:46
 msgid "Uploaded %(when)s"
 msgstr ""
 
-#: client/static/js/text/inlines.js:45
+#: client/static/js/text/inlines.js:47
 msgid "Edit title"
 msgstr ""
 
-#: client/static/js/text/inlines.js:46
+#: client/static/js/text/inlines.js:48
 msgid "Click to delete"
 msgstr ""
 
-#: client/static/js/text/inlines.js:49
+#: client/static/js/text/inlines.js:51
 msgid ""
 "<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
 "match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
@@ -742,11 +742,11 @@ msgid ""
 "ul>"
 msgstr ""
 
-#: client/static/js/text/inlines.js:50
+#: client/static/js/text/inlines.js:52
 msgid "Advanced searching"
 msgstr ""
 
-#: client/static/js/text/inlines.js:51
+#: client/static/js/text/inlines.js:53
 msgid "Advanced"
 msgstr ""
 
@@ -1120,7 +1120,7 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:63
 #: client/static/js/views/dataset_view.js:339
-#: client/static/js/views/search_results.js:95
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
@@ -1128,7 +1128,7 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:65
 #: client/static/js/views/dataset_view.js:341
-#: client/static/js/views/search_results.js:97
+#: client/static/js/views/search_results.js:99
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
@@ -1137,20 +1137,20 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:71
 #: client/static/js/views/dataset_view.js:347
-#: client/static/js/views/search_results.js:103
+#: client/static/js/views/search_results.js:105
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
 
 #: client/static/js/views/dataset_results.js:90
-#: client/static/js/views/search_results.js:76
+#: client/static/js/views/search_results.js:78
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
 msgstr ""
 
 #: client/static/js/views/dataset_results.js:94
-#: client/static/js/views/search_results.js:80
+#: client/static/js/views/search_results.js:82
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
 "s</code>"
