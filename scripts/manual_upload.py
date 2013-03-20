@@ -11,7 +11,7 @@ import os
 import sys
 
 from django.core.management import setup_environ
-from config import settings
+from config.deployed import settings
 setup_environ(settings)
 
 from panda.models import Dataset, DataUpload, UserProxy
