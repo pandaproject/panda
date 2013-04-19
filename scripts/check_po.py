@@ -2,6 +2,9 @@
 import os, os.path
 import re
 
+import sys
+
+
 placeholder_pat = re.compile("%\((.+?)\)(\w)")
 def extract_placeholders(s):
     return set(placeholder_pat.findall(s))
@@ -14,15 +17,16 @@ def check_file(fn):
     for line in open(fn):
         if line.startswith('#'): continue
         text = ''
+        line = line.rstrip()
         if line.startswith('msg'):
             workingon, text = line.split(' ',1)
             if workingon == 'msgid':
-                if msgid and msgstr:
+                if msgid and msgstr and len(msgstr.strip()) > 0:
                     id_placeholders = extract_placeholders(msgid)
                     str_placeholders = extract_placeholders(msgstr)
                     if len(id_placeholders) != len(str_placeholders) or (len(id_placeholders.difference(str_placeholders)) != 0):
                         mismatches.append((msgid,msgstr))
-                    msgid = msgstr = ''
+                msgid = msgstr = ''
         else:
             text = line
         text = text.strip('"')
@@ -40,8 +44,13 @@ def check_file(fn):
             print
 
 
+if __name__ == '__main__':
+    try:
+        start_dir = sys.argv[1]
+    except:
+        start_dir = '../locale'
 
-for path, dirs, files in os.walk('../locale'):
-    for f in files:
-        if f.endswith('.po'):
-            check_file(os.path.join(path,f))
+    for path, dirs, files in os.walk(start_dir):
+        for f in files:
+            if f.endswith('.po'):
+                check_file(os.path.join(path,f))
