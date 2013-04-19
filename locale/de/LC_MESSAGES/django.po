@@ -389,7 +389,7 @@ msgid ""
 "%(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der PANDA installiert ist, hat DEUTLICH zu wenig "
-"Speicherplatz: %(bytes) übrig (%(Prozent)%% voll)"
+"Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:1
 #, fuzzy, python-format
@@ -398,7 +398,7 @@ msgid ""
 "remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der PANDA installiert ist, hat nur noch wenig "
-"Speicherplatz: %(bytes) übrig (%(Prozent)%% voll)"
+"Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:3
 #, fuzzy, python-format
@@ -407,7 +407,7 @@ msgid ""
 "%(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der sich Ihre PANDA-Uploads befinden, hat DEUTLICH zu "
-"wenig Speicherplatz: %(bytes) übrig (%(Prozent)%% voll)"
+"wenig Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:3
 #, fuzzy, python-format
@@ -416,7 +416,7 @@ msgid ""
 "remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der sich Ihre PANDA-Uploads befinden, hat nur noch wenig "
-"Speicherplatz: %(bytes) übrig (%(Prozent)%% voll)"
+"Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:5
 #, fuzzy, python-format
@@ -425,7 +425,7 @@ msgid ""
 "space: %(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der sich Ihre PANDA-Such-Indices befinden, hat DEUTLICH "
-"zu wenig Speicherplatz: %(bytes) übrig (%(Prozent)%% voll)"
+"zu wenig Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:5
 #, fuzzy, python-format
@@ -434,7 +434,7 @@ msgid ""
 "%(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der sich Ihre PANDA-Such-Indices befinden, hat nur noch "
-"wenig Speicherplatz: %(bytes) übrig (%(Prozent)%% voll)"
+"wenig Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:7
 msgid "Your can always check your current disk usage on your PANDA Dashboard:"
@@ -450,7 +450,7 @@ msgstr "Wenig Platz auf der Festplatte!"
 #: panda/templates/notifications/export_aborted/email_subject.txt:2
 #, fuzzy, python-format
 msgid "Export aborted: \"%(query)s\" in %(dataset_name)s"
-msgstr "Export abgebrochen: \"%(query)n\" in %(dataset_name)s"
+msgstr "Export abgebrochen: \"%(query)s\" in %(dataset_name)s"
 
 #: panda/templates/notifications/export_aborted/email_body.txt:2
 #: panda/templates/notifications/export_aborted/email_subject.txt:2
@@ -461,7 +461,7 @@ msgstr "Export abgebrochen: %(dataset_name)s"
 #: panda/templates/notifications/export_aborted/message.html:2
 #, fuzzy, python-format
 msgid "Export aborted: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
-msgstr "Export abgebrochen: \"%(query)n\" in <strong>%(dataset_name)s</strong>"
+msgstr "Export abgebrochen: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
 
 #: panda/templates/notifications/export_aborted/message.html:2
 #, python-format
@@ -472,7 +472,7 @@ msgstr "Export abgebrochen: <strong>%(dataset_name)s</strong> "
 #, fuzzy, python-format
 msgid "Export complete: \"%(query)s\" in %(dataset_name)s (%(row_count)s rows)"
 msgstr ""
-"Export abgeschlossen: \"%(query)n\" in %(dataset_name)s (%(row_count)s "
+"Export abgeschlossen: \"%(query)s\" in %(dataset_name)s (%(row_count)s "
 "Zeilen)"
 
 #: panda/templates/notifications/export_complete/email_body.txt:2
@@ -685,7 +685,7 @@ msgstr "In der Anwendung %(name)s verfügbare Modelle."
 #: templates/admin/panda_index.html:11
 #, fuzzy, python-format
 msgid "%(name)s"
-msgstr "%(Name)s"
+msgstr "%(name)s"
 
 #: templates/admin/panda_index.html:27
 msgid "Change"
