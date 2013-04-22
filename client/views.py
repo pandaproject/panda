@@ -47,8 +47,20 @@ def index(request):
         'email_enabled': int(config_value('EMAIL', 'EMAIL_ENABLED')),
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap
-        })
+        }),
+        'moment_lang_code': _moment_lang_code(),
     })
+
+def _moment_lang_code():
+    """Maybe in the future we'll do something to see if there's a regionalized variant for moment by checking the filesystem, but that seems hackish."""
+    from django.conf import settings
+    try:
+        return settings.LANGUAGE_CODE.split('-')[0]
+    except:
+        try:
+            return settings.LANGUAGE_CODE
+        except:
+            return ''
 
 def dashboard(request):
     """
