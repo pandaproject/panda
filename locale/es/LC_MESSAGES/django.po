@@ -556,17 +556,17 @@ msgstr "Importación abortada: <strong>%(dataset_name)s</strong>"
 
 #: panda/templates/notifications/import_complete/email_body.txt:2
 #, python-format
-msgid "Imported complete: %(dataset_name)s (%(row_count)s rows)"
+msgid "Import complete: %(dataset_name)s (%(row_count)s rows)"
 msgstr "Importación completada: %(dataset_name)s (%(row_count)s rows)"
 
 #: panda/templates/notifications/import_complete/email_subject.txt:2
 #, python-format
-msgid "Imported complete: %(dataset_name)s"
+msgid "Import complete: %(dataset_name)s"
 msgstr "Importación completada: %(dataset_name)s"
 
 #: panda/templates/notifications/import_complete/message.html:2
 #, python-format
-msgid "Imported complete: <strong>%(dataset_name)s</strong>"
+msgid "Import complete: <strong>%(dataset_name)s</strong>"
 msgstr "Importanción completada: <strong>%(dataset_name)s</strong>"
 
 #: panda/templates/notifications/import_failed/email_body.txt:2
