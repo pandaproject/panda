@@ -54,6 +54,7 @@ PANDA.text.DatasetView = function() {
         delete_continue: gettext("Continue with delete"),
         edit_upload: gettext("Edit upload"),
         title: gettext("Title"),
-        save: gettext("Save") 
+        save: gettext("Save"),
+        history: gettext("History")
     }
 }

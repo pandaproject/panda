@@ -41,7 +41,7 @@
 
     <div class="row-fluid">
         <div class="span6">
-            <h6>History</h6>
+            <h6><%= text.history %></h6>
             <p><%= interpolate(text.created_by, { creator: PANDA.templates.inline_user(dataset.creator), when: PANDA.templates.inline_timestamp({ d: dataset.creation_date }) }, true) %>.<br />
             <% if (dataset.last_modified) { %>
             <%= interpolate(text.modified_by, { creator: PANDA.templates.inline_user(dataset.last_modified_by), when: PANDA.templates.inline_timestamp({ d: dataset.last_modified }) }, true) %>: <%= dataset.last_modification %>.
