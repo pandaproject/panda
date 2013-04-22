@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 19:32+0000\n"
+"POT-Creation-Date: 2013-04-22 19:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -679,6 +679,13 @@ msgstr ""
 
 #: client/static/js/text/inline_search_filters.js:6
 msgid "Remove"
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:7
+msgid ""
+"Searching specific columns has not been enabled for any columns in this "
+"dataset. To enable it select <strong>Enable column search</strong> from the "
+"<strong>Actions</strong> menu on the dataset page."
 msgstr ""
 
 #: client/static/js/text/inlines.js:5
@@ -1474,6 +1481,14 @@ msgstr ""
 #: client/static/js/views/reset_password.js:74
 #: client/static/js/views/reset_password.js:96
 msgid "Password reset failed!"
+msgstr ""
+
+#: client/static/js/views/root.js:241
+msgid "All datasets"
+msgstr ""
+
+#: client/static/js/views/root.js:270
+msgid "No notifications"
 msgstr ""
 
 #: client/static/js/views/user.js:93
