@@ -62,27 +62,27 @@ msgstr ""
 #: client/static/js/text/data_upload.js:5
 msgid ""
 "Your PANDA has %(space)s available for files. You should contact your PANDA "
-"adminstrator about expanding the available storage space. <strong>Uploads "
+"administrator about expanding the available storage space. <strong>Uploads "
 "may fail.</strong>"
 msgstr ""
 
 #: client/static/js/text/data_upload.js:6
 msgid ""
 "Your PANDA has %(space)s available for files. You should contact your PANDA "
-"adminstrator about expanding the available storage space."
+"administrator about expanding the available storage space."
 msgstr ""
 
 #: client/static/js/text/data_upload.js:7
 msgid ""
 "Your PANDA has %(space)s available for search indices. You should contact "
-"your PANDA adminstrator about expanding the available storage space. "
+"your PANDA administrator about expanding the available storage space. "
 "<strong>Uploads may fail.</strong>"
 msgstr ""
 
 #: client/static/js/text/data_upload.js:8
 msgid ""
 "Your PANDA has %(space)s available for search indices. You should contact "
-"your PANDA adminstrator about expanding the available storage space."
+"your PANDA administrator about expanding the available storage space."
 msgstr ""
 
 #: client/static/js/text/data_upload.js:9
@@ -770,9 +770,9 @@ msgstr ""
 
 #: client/static/js/text/login.js:9
 msgid ""
-"Your PANDA adminstrator has not yet configured email for your server, so "
+"Your PANDA administrator has not yet configured email for your server, so "
 "your password can not be automatically reset. Please contact your "
-"adminstrator and ask them to either configure email or to reset your "
+"administrator and ask them to either configure email or to reset your "
 "password manually."
 msgstr ""
 

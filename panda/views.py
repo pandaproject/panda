@@ -201,7 +201,7 @@ def forgot_password(request):
         user_profile.save()
 
         email_subject = 'Forgotten password'
-        email_body = 'PANDA received a request to change your password.\n\nTo set your new password follow this link:\n\nhttp://%s/#reset-password/%s\n\nIf you did not request this email you should notify your adminstrator.' % (config_value('DOMAIN', 'SITE_DOMAIN'), user_profile.activation_key)
+        email_body = 'PANDA received a request to change your password.\n\nTo set your new password follow this link:\n\nhttp://%s/#reset-password/%s\n\nIf you did not request this email you should notify your administrator.' % (config_value('DOMAIN', 'SITE_DOMAIN'), user_profile.activation_key)
 
         send_mail(email_subject,
                   email_body,
