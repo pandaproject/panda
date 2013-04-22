@@ -238,7 +238,7 @@ PANDA.views.Root = Backbone.View.extend({
 
             // Categories
             $("#navbar-categories .dropdown-menu").empty();
-            $("#navbar-categories .dropdown-menu").append('<li><a href="#datasets/all">All datasets</a></li>');
+            $("#navbar-categories .dropdown-menu").append('<li><a href="#datasets/all">' + gettext("All datasets") + '</a></li>');
 
             if (this._categories.length > 0) {
                 $("#navbar-categories .dropdown-menu").append('<li class="divider"></li>');
@@ -267,7 +267,7 @@ PANDA.views.Root = Backbone.View.extend({
                     $("#navbar-notifications .dropdown-menu ul").append('<li class="' + unread + '"><a href="' + note.get("url") + '" data-notification-id="' + note.id + '">' + unescape(note.get("message")) + '</a></li>');
                 }, this);
             } else {
-                $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>No notifications</em></a></li>');
+                $("#navbar-notifications .dropdown-menu ul").append('<li><a href="#"><em>' + gettext("No notifications") + '</em></a></li>');
             }
 
             if (unread_count) {
