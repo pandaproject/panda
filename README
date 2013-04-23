@@ -11,6 +11,6 @@ The PANDA Project is 2011 Knight News Challenge winner. The team would like to t
 
 Installation Issues?
 
-Trouble isntalling dbf (No such file or directory: '_path_to_env_/panda/build/dbf/setup.py'):
+Trouble installing dbf (No such file or directory: '_path_to_env_/panda/build/dbf/setup.py'):
 
 $ pip install dbf\<0.95
