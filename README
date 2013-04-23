@@ -8,3 +8,9 @@ PANDA wants to be your newsroom data appliance. It provides a place for you to s
 * User group:           http://bit.ly/pandagroup 
 
 The PANDA Project is 2011 Knight News Challenge winner. The team would like to thank the Knight Foundation for their generous support of free and open source software for newsrooms.
+
+Installation Issues?
+
+Trouble isntalling dbf (No such file or directory: '_path_to_env_/panda/build/dbf/setup.py'):
+
+$ pip install dbf\<0.95
