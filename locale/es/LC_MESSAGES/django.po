@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 19:53+0000\n"
+"POT-Creation-Date: 2013-04-24 16:13+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: client/templates/dashboard.html:5
@@ -191,6 +191,11 @@ msgstr "Fechas importantes"
 msgid "Add %s"
 msgstr "Añadir %s"
 
+#: panda/config.py:6 templates/livesettings/site_settings.html:55
+#, fuzzy
+msgid "Site settings"
+msgstr "Editar configuración"
+
 #: panda/tasks/export_csv.py:43
 msgid "Preparing to export"
 msgstr "Preparando para exportar"
@@ -310,7 +315,7 @@ msgstr "Abortar"
 
 #: panda/templates/admin/panda/taskstatus/change_form.html:43
 #: panda/templates/admin/panda/userproxy/add_form.html:44
-#: templates/livesettings/site_settings.html:65
+#: templates/livesettings/site_settings.html:68
 #, fuzzy
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
@@ -702,25 +707,25 @@ msgstr "Salir"
 msgid "Edit Site Settings"
 msgstr "Editar configuración"
 
-#: templates/livesettings/site_settings.html:58
+#: templates/livesettings/site_settings.html:61
 msgid "Livesettings are disabled for this site."
 msgstr "Los ajustes en vivo están desabilitados en éste sitio"
 
-#: templates/livesettings/site_settings.html:59
+#: templates/livesettings/site_settings.html:62
 msgid "All configuration options must be edited in the site settings.py file"
 msgstr ""
 "Todas las opciones de configuración deben ser editadas en el fichero "
 "settings.py del sitio"
 
-#: templates/livesettings/site_settings.html:81
+#: templates/livesettings/site_settings.html:84
 #, python-format
 msgid "Group settings: %(name)s"
 msgstr "Ajustes de grupo: %(name)s"
 
-#: templates/livesettings/site_settings.html:108
+#: templates/livesettings/site_settings.html:111
 msgid "Update Settings"
 msgstr "Actualizar configuración"
 
-#: templates/livesettings/site_settings.html:114
+#: templates/livesettings/site_settings.html:117
 msgid "You don't have permission to edit values."
 msgstr "No tienes permiso para editar valores"
