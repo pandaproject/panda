@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 17:15+0000\n"
+"POT-Creation-Date: 2013-04-24 18:41+0000\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -791,29 +791,29 @@ msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
 msgstr[0] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatz"
 msgstr[1] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatzen"
 
-#: client/static/js/text/inlines.js:38
+#: client/static/js/text/inlines.js:36
 msgid "(%(total)s total dataset)"
 msgid_plural " (%(total)s total datasets)"
 msgstr[0] "(%(total)s vollständiger Datensatz)"
 msgstr[1] "(%(total)s vollständiger Datensatzen)"
 
-#: client/static/js/text/inlines.js:45
+#: client/static/js/text/inlines.js:43
 msgid "uploaded by %(user)s"
 msgstr "hochgeladen von %(user)s"
 
-#: client/static/js/text/inlines.js:46
+#: client/static/js/text/inlines.js:44
 msgid "Uploaded %(when)s"
 msgstr "Hochgeladen um %(when)s"
 
-#: client/static/js/text/inlines.js:47
+#: client/static/js/text/inlines.js:45
 msgid "Edit title"
 msgstr "Titel bearbeiten"
 
-#: client/static/js/text/inlines.js:48
+#: client/static/js/text/inlines.js:46
 msgid "Click to delete"
 msgstr "Klicken Sie, um zu löschen"
 
-#: client/static/js/text/inlines.js:51
+#: client/static/js/text/inlines.js:49
 msgid ""
 "<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
 "match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
@@ -842,11 +842,11 @@ msgstr ""
 "li>[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z."
 "B. Andi für Andreas, aber kaum in dem Maß.]</ul>"
 
-#: client/static/js/text/inlines.js:52
+#: client/static/js/text/inlines.js:50
 msgid "Advanced searching"
 msgstr "Erweiterte Suche"
 
-#: client/static/js/text/inlines.js:53
+#: client/static/js/text/inlines.js:51
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -1282,7 +1282,7 @@ msgstr "Versuchen Sie es erneut"
 
 #: client/static/js/views/dataset_results.js:63
 #: client/static/js/views/dataset_view.js:339
-#: client/static/js/views/search_results.js:97
+#: client/static/js/views/search_results.js:95
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
@@ -1292,7 +1292,7 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:65
 #: client/static/js/views/dataset_view.js:341
-#: client/static/js/views/search_results.js:99
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
@@ -1304,7 +1304,7 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:71
 #: client/static/js/views/dataset_view.js:347
-#: client/static/js/views/search_results.js:105
+#: client/static/js/views/search_results.js:103
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
@@ -1312,7 +1312,7 @@ msgstr ""
 "%(traceback)s</code>"
 
 #: client/static/js/views/dataset_results.js:90
-#: client/static/js/views/search_results.js:78
+#: client/static/js/views/search_results.js:76
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
@@ -1321,7 +1321,7 @@ msgstr ""
 "p><p>Sie können diese Benachrichtigungen auf Ihrer Benutzerseite löschen.</p>"
 
 #: client/static/js/views/dataset_results.js:94
-#: client/static/js/views/search_results.js:82
+#: client/static/js/views/search_results.js:80
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
 "%(traceback)s</code>"
