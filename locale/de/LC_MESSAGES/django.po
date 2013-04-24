@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (server-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 18:40+0000\n"
+"POT-Creation-Date: 2013-04-24 19:29+0000\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,6 +162,10 @@ msgstr "Admin"
 msgid "Logout"
 msgstr "Abmelden"
 
+#: config/settings.py:259
+msgid "Uncategorized"
+msgstr "Fehlende Kategorien"
+
 #: jumpstart/views.py:37
 msgid "English"
 msgstr "Englisch"
@@ -199,7 +203,6 @@ msgid "Email is not configured for your PANDA."
 msgstr "{Email is not configured for your PANDA.}"
 
 #: panda/admin.py:176
-#, fuzzy
 msgid "Activation email sent."
 msgstr "Aktivierungs-Mail erneut verschicken"
 
@@ -431,9 +434,8 @@ msgid "Activity has already been recorded."
 msgstr "{Activity has already been recorded.}"
 
 #: panda/api/data.py:60
-#, fuzzy
 msgid "The data field is required."
-msgstr "{This field is required.}"
+msgstr "{The data field is required.}"
 
 #: panda/api/data.py:64
 msgid "external_id must be a string."
@@ -691,9 +693,8 @@ msgid "Category"
 msgstr "{Category}"
 
 #: panda/models/category.py:19
-#, fuzzy
 msgid "Categories"
-msgstr "Fehlende Kategorien"
+msgstr "Kategorien"
 
 #: panda/models/data_upload.py:22 panda/models/related_upload.py:16
 msgid "The dataset this upload is associated with."
@@ -1810,6 +1811,10 @@ msgstr "PANDA-Administration [OR Verwaltung OR Einstellungen]"
 #, fuzzy
 msgid "(version 1.0.3)"
 msgstr "(Version 1.0.2)"
+
+#: templates/admin/panda_index.html:6
+msgid "Configure domain, email, etc."
+msgstr "{Configure domain, email, etc.}"
 
 #: templates/admin/panda_index.html:10
 #, python-format

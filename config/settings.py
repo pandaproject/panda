@@ -4,6 +4,7 @@ import datetime
 import os
 
 import django
+from django.utils.translation import ugettext_lazy as _
 
 # Which settings are we using?
 # Useful for debugging.
@@ -255,7 +256,7 @@ PANDA_NOTIFICATIONS_TO_SHOW = 50
 
 PANDA_UNCATEGORIZED_ID = 0
 PANDA_UNCATEGORIZED_SLUG = 'uncategorized'
-PANDA_UNCATEGORIZED_NAME = 'Uncategorized'
+PANDA_UNCATEGORIZED_NAME = _('Uncategorized')
 
 # Allow for local (per-user) override
 try:

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 18:41+0000\n"
+"POT-Creation-Date: 2013-04-24 19:30+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: client/templates/dashboard.html:5
@@ -153,6 +153,11 @@ msgstr "Administración"
 #: client/templates/index.html:54
 msgid "Logout"
 msgstr "Salir"
+
+#: config/settings.py:259
+#, fuzzy
+msgid "Uncategorized"
+msgstr "Categorías que faltan"
 
 #: jumpstart/views.py:37
 msgid "English"
@@ -1766,6 +1771,10 @@ msgstr "Administración de PANDA"
 #, fuzzy
 msgid "(version 1.0.3)"
 msgstr "(versión 1.0.2)"
+
+#: templates/admin/panda_index.html:6
+msgid "Configure domain, email, etc."
+msgstr ""
 
 #: templates/admin/panda_index.html:10
 #, python-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 18:41+0000\n"
+"POT-Creation-Date: 2013-04-24 19:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -332,6 +332,7 @@ msgid "Search"
 msgstr "Buscar"
 
 #: client/static/js/text/dataset_search.js:6
+#: client/static/js/views/dataset_search.js:134
 msgid "More search options"
 msgstr ""
 
@@ -686,6 +687,10 @@ msgid ""
 "Searching specific columns has not been enabled for any columns in this "
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:8
+msgid "Search by column"
 msgstr ""
 
 #: client/static/js/text/inlines.js:5
@@ -1255,6 +1260,11 @@ msgid ""
 "administrator. Search results may be incomplete.</p>"
 msgstr ""
 
+#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/inline_search_filters.js:192
+msgid "Fewer search options"
+msgstr ""
+
 #: client/static/js/views/dataset_search.js:144
 msgid ""
 "<strong>Warning!</strong> This query seems to be taking a very long time. It "
@@ -1354,10 +1364,6 @@ msgstr ""
 
 #: client/static/js/views/inline_search_filters.js:137
 msgid "is at or before"
-msgstr ""
-
-#: client/static/js/views/inline_search_filters.js:192
-msgid "Fewer search options"
 msgstr ""
 
 #: client/static/js/views/inline_search_filters.js:405

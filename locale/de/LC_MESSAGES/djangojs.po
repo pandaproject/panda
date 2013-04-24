@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 18:41+0000\n"
+"POT-Creation-Date: 2013-04-24 19:30+0000\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -383,6 +383,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: client/static/js/text/dataset_search.js:6
+#: client/static/js/views/dataset_search.js:134
 msgid "More search options"
 msgstr "Weitere Suchoptionen"
 
@@ -764,6 +765,13 @@ msgid ""
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
 msgstr ""
+"{Searching specific columns has not been enabled for any columns in this "
+"dataset. To enable it select <strong>Enable column search</strong> from the "
+"<strong>Actions</strong> menu on the dataset page.}"
+
+#: client/static/js/text/inline_search_filters.js:8
+msgid "Search by column"
+msgstr "{Search by column}"
 
 #: client/static/js/text/inlines.js:5
 msgid "Previous"
@@ -1443,6 +1451,11 @@ msgstr ""
 "<p>Das Aktualisieren der Suchdaten dieses Datensatzes wurde von einem "
 "Administrator abgebrochen. Suchergebnisse können unvollständig sein.</p>"
 
+#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/inline_search_filters.js:192
+msgid "Fewer search options"
+msgstr "Weniger Suchoptionen"
+
 #: client/static/js/views/dataset_search.js:144
 msgid ""
 "<strong>Warning!</strong> This query seems to be taking a very long time. It "
@@ -1561,10 +1574,6 @@ msgstr "ist bei oder nach"
 #: client/static/js/views/inline_search_filters.js:137
 msgid "is at or before"
 msgstr "ist bei oder vor"
-
-#: client/static/js/views/inline_search_filters.js:192
-msgid "Fewer search options"
-msgstr "Weniger Suchoptionen"
 
 #: client/static/js/views/inline_search_filters.js:405
 msgid "No value provided."
@@ -1690,7 +1699,6 @@ msgid "Password reset failed!"
 msgstr "Zurücksetzen des Passworts fehlgeschlagen!"
 
 #: client/static/js/views/root.js:241
-#, fuzzy
 msgid "All datasets"
 msgstr "Meine Datensätze"
 
