@@ -21,7 +21,7 @@ PANDA.views.SearchResults = Backbone.View.extend({
         pager_context.text = PANDA.inlines_text;
         pager_context.pager_unit = "dataset";
         pager_context.row_count = null;
-        
+
         var pager = PANDA.templates.inline_pager(pager_context);
 
         var context = PANDA.utils.make_context(this.search.datasets.meta);
@@ -44,7 +44,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
         }
 
         context["root_url"] = "#search/" + this.search.category + "/" + escape(this.search.query) + "/" + this.search.since;
-        context["pager_unit"] = "dataset";
         context["row_count"] = null;
         context["datasets"] = this.search.datasets.results();
 
