@@ -4,6 +4,7 @@ import datetime
 
 from csvkit.convert.xls import determine_column_type
 import xlrd
+from django.utils.translation import ugettext as _
 
 from panda.exceptions import TypeInferenceError
 
@@ -147,7 +148,7 @@ def guess_column_types(path, dialect, sample_size, encoding='utf-8'):
         elif nominal_type == xlrd.biffh.XL_CELL_ERROR:
             column_types.append(unicode)
         else:
-            raise TypeInferenceError('Unknown column type found in xls file: %s' % nominal_type) 
+            raise TypeInferenceError(_('Unknown column type found in xls file: %s') % nominal_type) 
 
     return [t.__name__ if t else None for t in column_types]
 
