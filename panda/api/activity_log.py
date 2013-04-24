@@ -4,6 +4,7 @@ from tastypie import fields
 from tastypie.authorization import DjangoAuthorization
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpConflict
+from django.utils.translation import ugettext_lazy as _
 
 from panda.api.utils import PandaAuthentication, PandaModelResource, PandaSerializer
 from django.db import IntegrityError
@@ -37,7 +38,7 @@ class ActivityLogResource(PandaModelResource):
         try:
             bundle = super(ActivityLogResource, self).obj_create(bundle, request=request, user=user, **kwargs)
         except IntegrityError:
-            raise ImmediateHttpResponse(response=HttpConflict('Activity has already been recorded.'))
+            raise ImmediateHttpResponse(response=HttpConflict(_('Activity has already been recorded.')))
 
         return bundle
 

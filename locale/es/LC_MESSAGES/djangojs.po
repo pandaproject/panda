@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 19:53+0000\n"
+"POT-Creation-Date: 2013-04-24 17:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: client/static/js/text/activate.js:3
@@ -666,8 +666,8 @@ msgid ""
 "Want to see how your PANDA is being used? Visit the <a %(link)s>Dashboard</"
 "a>!"
 msgstr ""
-"¿Quieres ver cómo su PANDA se está utilizando? Visite el <a %(link)"
-"s>Dashboard</a>!"
+"¿Quieres ver cómo su PANDA se está utilizando? Visite el <a "
+"%(link)s>Dashboard</a>!"
 
 #: client/static/js/text/inline_search_filters.js:3
 msgid "Add to search"
@@ -1163,15 +1163,15 @@ msgstr ""
 #: client/static/js/views/dataset_results.js:94
 #: client/static/js/views/search_results.js:82
 msgid ""
-"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
-"s</code>"
+"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:68
 msgid ""
 "<p>This dataset is being made searchable. Search results may be incomplete.</"
-"p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)"
-"\">Refresh to see updated status &raquo;</a></p>"
+"p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:69
@@ -1214,8 +1214,8 @@ msgstr ""
 #: client/static/js/views/dataset_search.js:80
 msgid ""
 "<p>Search data for this dataset is being updated. Search results may be "
-"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload"
-"(true)\">Refresh to see updated status &raquo;</a></p>"
+"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:81
@@ -1303,8 +1303,8 @@ msgstr ""
 
 #: client/static/js/views/dataset_view.js:326
 msgid ""
-"<p>Your data indexing task failed to start!</p><p>Error:</p><code>%"
-"(traceback)s</code>"
+"<p>Your data indexing task failed to start!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
 
 #: client/static/js/views/inline_search_filters.js:5

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.defaults import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import email_re
+from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
 from tastypie import http
 from tastypie.authorization import Authorization
@@ -20,9 +21,9 @@ class UserValidation(Validation):
         errors = {}
 
         if 'email' not in bundle.data or not bundle.data['email']:
-            errors['email'] = ['This field is required.']
+            errors['email'] = [_('This field is required.')]
         elif not email_re.match(bundle.data['email']):
-            errors['email'] = ['Email address is not valid.']
+            errors['email'] = [_('Email address is not valid.')]
 
         return errors
 
@@ -208,7 +209,7 @@ class UserResource(PandaModelResource):
             try:
                 bundle.obj = self.obj_get(bundle.request, **lookup_kwargs)
             except ObjectDoesNotExist:
-                raise NotFound("A model instance matching the provided arguments could not be found.")
+                raise NotFound(_("A model instance matching the provided arguments could not be found."))
 
         # CHECK AUTHORIZATION 
         if request and not request.user.is_superuser and bundle.obj.id != request.user.id:
@@ -260,7 +261,7 @@ class UserResource(PandaModelResource):
         deserialized = self.alter_deserialized_list_data(request, deserialized)
 
         if not 'show_login_help' in deserialized:
-            raise BadRequest("Invalid data sent.")
+            raise BadRequest(_("Invalid data sent."))
 
         user = UserProxy.objects.get(id=get_id)
         profile = user.get_profile()

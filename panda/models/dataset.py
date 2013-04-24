@@ -6,6 +6,7 @@ from urllib import unquote
 from django.conf import settings
 from django.db import models
 from django.utils.timezone import now 
+from django.utils.translation import ugettext_lazy as _
 
 from panda import solr, utils
 from panda.exceptions import DataImportError, DatasetLockedError
@@ -22,43 +23,50 @@ class Dataset(SluggedModel):
     """
     A PANDA dataset (one table & associated metadata).
     """
-    name = models.CharField(max_length=256,
-        help_text='User-supplied dataset name.')
-    description = models.TextField(blank=True,
-        help_text='User-supplied dataset description.')
+    name = models.CharField(_('name'), max_length=256,
+        help_text=_('User-supplied dataset name.'))
+    description = models.TextField(_('description'), blank=True,
+        help_text=_('User-supplied dataset description.'))
     # related_uploads =  models.ToMany(RelatedUpload, null=True)
     # data_uploads =  models.ToMany(DataUpload, null=True)
     initial_upload = models.ForeignKey('DataUpload', null=True, blank=True, related_name='initial_upload_for',
-        help_text='The data upload used to create this dataset, if any was used.')
-    column_schema = JSONField(null=True, default=None,
-        help_text='Metadata about columns.')
-    sample_data = JSONField(null=True, default=None,
-        help_text='Example data rows from the dataset.')
-    row_count = models.IntegerField(null=True, blank=True,
-        help_text='The number of rows in this dataset. Null if no data has been added/imported.')
+        help_text=_('The data upload used to create this dataset, if any was used.'),
+        verbose_name=_('initial_upload'))
+    column_schema = JSONField(_('column_schema'), null=True, default=None,
+        help_text=_('Metadata about columns.'))
+    sample_data = JSONField(_('sample_data'), null=True, default=None,
+        help_text=_('Example data rows from the dataset.'))
+    row_count = models.IntegerField(_('row_count'), null=True, blank=True,
+        help_text=_('The number of rows in this dataset. Null if no data has been added/imported.'))
     current_task = models.ForeignKey(TaskStatus, blank=True, null=True,
-        help_text='The currently executed or last finished task related to this dataset.') 
-    creation_date = models.DateTimeField(null=True,
-        help_text='The date this dataset was initially created.')
+        help_text=_('The currently executed or last finished task related to this dataset.'),
+        verbose_name=_('current_task')) 
+    creation_date = models.DateTimeField(_('creation_date'), null=True,
+        help_text=_('The date this dataset was initially created.'))
     creator = models.ForeignKey(UserProxy, related_name='datasets',
-        help_text='The user who created this dataset.')
+        help_text=_('The user who created this dataset.'),
+        verbose_name=_('creator'))
     categories = models.ManyToManyField(Category, related_name='datasets', blank=True, null=True,
-        help_text='Categories containing this Dataset.')
-    last_modified = models.DateTimeField(null=True, blank=True, default=None,
-        help_text='When, if ever, was this dataset last modified via the API?')
-    last_modification = models.TextField(null=True, blank=True, default=None,
-        help_text='Description of the last modification made to this Dataset.')
+        help_text=_('Categories containing this Dataset.'),
+        verbose_name=_('categories'))
+    last_modified = models.DateTimeField(_('last_modified'), null=True, blank=True, default=None,
+        help_text=_('When, if ever, was this dataset last modified via the API?'))
+    last_modification = models.TextField(_('last_modification'), null=True, blank=True, default=None,
+        help_text=_('Description of the last modification made to this Dataset.'))
     last_modified_by = models.ForeignKey(UserProxy, null=True, blank=True,
-        help_text='The user, if any, who last modified this dataset.')
-    locked = models.BooleanField(default=False,
-        help_text='Is this table locked for writing?')
-    locked_at = models.DateTimeField(null=True, default=None,
-        help_text='Time this dataset was last locked.')
+        help_text=_('The user, if any, who last modified this dataset.'),
+        verbose_name=_('last_modified_by'))
+    locked = models.BooleanField(_('locked'), default=False,
+        help_text=_('Is this table locked for writing?'))
+    locked_at = models.DateTimeField(_('locked_at'), null=True, default=None,
+        help_text=_('Time this dataset was last locked.'))
     related_links = JSONField(default=[])
 
     class Meta:
         app_label = 'panda'
         ordering = ['-creation_date']
+        verbose_name = _('Dataset')
+        verbose_name_plural = _('Datasets')
 
     def __unicode__(self):
         return self.name
@@ -83,7 +91,7 @@ class Dataset(SluggedModel):
 
         if self.locked:
             # Already locked
-            raise DatasetLockedError('This dataset is currently locked by another process.')
+            raise DatasetLockedError(_('This dataset is currently locked by another process.'))
 
         new_locked_at = now()
 
@@ -99,7 +107,7 @@ class Dataset(SluggedModel):
 
         if self.locked_at != new_locked_at:
             # Somebody else got the lock
-            raise DatasetLockedError('This dataset is currently locked by another process.')
+            raise DatasetLockedError(_('This dataset is currently locked by another process.'))
 
     def unlock(self):
         """
@@ -178,18 +186,18 @@ class Dataset(SluggedModel):
 
         try:
             if upload.imported:
-                raise DataImportError('This file has already been imported.')
+                raise DataImportError(_('This file has already been imported.'))
 
             task_type = get_import_task_type_for_upload(upload)
 
             if not task_type:
                 # This is normally caught on the client.
-                raise DataImportError('This file type is not supported for data import.')
+                raise DataImportError(_('This file type is not supported for data import.'))
             
             if self.column_schema:
                 # This is normally caught on the client.
                 if upload.columns != [c['name'] for c in self.column_schema]:
-                    raise DataImportError('The columns in this file do not match those in the dataset.')
+                    raise DataImportError(_('The columns in this file do not match those in the dataset.'))
             else:
                 self.column_schema = make_column_schema(upload.columns, types=upload.guessed_types)
                 
@@ -202,7 +210,8 @@ class Dataset(SluggedModel):
 
             self.current_task = TaskStatus.objects.create(
                 task_name=task_type.name,
-                task_description='Import data from %s into %s.' % (upload.filename, self.slug),
+                task_description=_('Import data from %(filename)s into %(slug)s.') \
+                    % {'filename': upload.filename, 'slug': self.slug},
                 creator=user
             )
             self.save()
@@ -242,7 +251,8 @@ class Dataset(SluggedModel):
 
             self.current_task = TaskStatus.objects.create(
                 task_name=task_type.name,
-                task_description='Reindex %s with %i column filters.' % (self.slug, typed_column_count), 
+                task_description=_('Reindex %(slug)s with %(typed_column_count)i column filters.') \
+                     % {'slug': self.slug, 'typed_column_count': typed_column_count}, 
                 creator=user
             )
 
@@ -264,9 +274,10 @@ class Dataset(SluggedModel):
         task_type = ExportCSVTask
 
         if query:
-            description = 'Export search results for "%s" in %s.' % (query, self.slug)
+            description = _('Export search results for "%(query)s" in %(slug)s.') \
+                % {'query': query, 'slug': self.slug}
         else:
-            description = 'Exporting data in %s.' % self.slug
+            description = _('Exporting data in %s.') % self.slug
 
         self.current_task = TaskStatus.objects.create(
             task_name=task_type.name,
@@ -320,7 +331,7 @@ class Dataset(SluggedModel):
             added = self.row_count - (old_row_count or 0)
             self.last_modified = now()
             self.last_modified_by = user
-            self.last_modification = '1 row %s' % ('added' if added else 'updated')
+            self.last_modification = _('1 row %s') % ('added' if added else 'updated')
             self.save()
 
             return solr_row
@@ -360,11 +371,12 @@ class Dataset(SluggedModel):
             self.last_modified_by = user
 
             if added and updated: 
-                self.last_modification = '%i rows added and %i updated' % (added, updated)
+                self.last_modification = _('%(added)i rows added and %(updated)i updated') \
+                    % {'added': added, 'updated': updated}
             elif added:
-                self.last_modification = '%i rows added' % added
+                self.last_modification = _('%i rows added') % added
             else:
-                self.last_modification = '%i rows updated' % updated
+                self.last_modification = _('%i rows updated') % updated
 
             self.save()
 
@@ -384,7 +396,7 @@ class Dataset(SluggedModel):
             self.row_count = self._count_rows()
             self.last_modified = now()
             self.last_modified_by = user
-            self.last_modification = '1 row deleted'
+            self.last_modification = _('1 row deleted')
             self.save()
         finally:
             self.unlock()
@@ -401,7 +413,7 @@ class Dataset(SluggedModel):
             old_row_count = self.row_count
             self.row_count = 0
             self.last_modified = now()
-            self.last_modification = 'All %i rows deleted' % old_row_count or 0
+            self.last_modification = _('All %i rows deleted') % old_row_count or 0
             self.save()
         finally:
             self.unlock()

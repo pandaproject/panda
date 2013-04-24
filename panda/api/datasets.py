@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.conf.urls.defaults import url
+from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
 from tastypie import http
 from tastypie.authorization import DjangoAuthorization
@@ -20,7 +21,7 @@ class DatasetValidation(Validation):
         errors = {}
 
         if 'name' not in bundle.data or not bundle.data['name']:
-            errors['name'] = ['This field is required.']
+            errors['name'] = [_('This field is required.')]
 
         return errors
 
@@ -178,23 +179,23 @@ class DatasetResource(SluggedModelResource):
 
         if 'typed_columns' in request.GET:
             if not columns:
-                raise BadRequest('The "columns" argument must also be specified when specifying "typed_columns".')
+                raise BadRequest(_('The "columns" argument must also be specified when specifying "typed_columns".'))
 
             typed_columns = [True if c.lower() == 'true' else False for c in request.GET['typed_columns'].split(',')]
 
             if len(typed_columns) != len(columns):
-                raise BadRequest('The "typed_columns" argument must be a comma-separated list of True/False values with the same number of values as the "columns" argument.')
+                raise BadRequest(_('The "typed_columns" argument must be a comma-separated list of True/False values with the same number of values as the "columns" argument.'))
         else:
             typed_columns = None
 
         if 'column_types' in request.GET:
             if not columns:
-                raise BadRequest('The "columns" argument must also be specified when specifying "column_types".')
+                raise BadRequest(_('The "columns" argument must also be specified when specifying "column_types".'))
 
             column_types = [None if c.lower() == '' else c.lower() for c in request.GET['column_types'].split(',')]
 
             if len(column_types) != len(columns):
-                raise BadRequest('The "column_types" argument must be a comma-separated list of types with the same number of values as the "columns" argument.')
+                raise BadRequest(_('The "column_types" argument must be a comma-separated list of types with the same number of values as the "columns" argument.'))
         else:
             column_types = None
 
@@ -241,7 +242,7 @@ class DatasetResource(SluggedModelResource):
         try:
             dataset.import_data(user, upload)
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
         except DataImportError, e:
             raise ImmediateHttpResponse(response=http.HttpForbidden(e.message))
 
@@ -270,13 +271,13 @@ class DatasetResource(SluggedModelResource):
         dataset = Dataset.objects.get(slug=slug)
 
         if not dataset.column_schema:
-            raise BadRequest('This dataset has no data to reindex.')
+            raise BadRequest(_('This dataset has no data to reindex.'))
 
         if 'typed_columns' in request.GET:
             typed_columns = [True if c.lower() == 'true' else False for c in request.GET['typed_columns'].split(',')]
 
             if len(typed_columns) != len(dataset.column_schema):
-                raise BadRequest('typed_columns must be a comma-separated list of True/False values with the same number of values as the dataset has columns.')
+                raise BadRequest(_('typed_columns must be a comma-separated list of True/False values with the same number of values as the dataset has columns.'))
         else:
             typed_columns = None
 
@@ -284,7 +285,7 @@ class DatasetResource(SluggedModelResource):
             column_types = [None if c.lower() == '' else c.lower() for c in request.GET['column_types'].split(',')]
 
             if len(column_types) != len(dataset.column_schema):
-                raise BadRequest('column_types must be a comma-separated list of types with the same number of values as the dataset has columns.')
+                raise BadRequest(_('column_types must be a comma-separated list of types with the same number of values as the dataset has columns.'))
         else:
             column_types = None
 
@@ -295,7 +296,7 @@ class DatasetResource(SluggedModelResource):
         try:
             dataset.reindex_data(user, typed_columns=typed_columns, column_types=column_types)
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
 
         dataset.update_full_text()
 
@@ -338,7 +339,7 @@ class DatasetResource(SluggedModelResource):
         try:
             dataset.export_data(user, query=query)
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
 
         bundle = self.build_bundle(obj=dataset, request=request)
         bundle = self.full_dehydrate(bundle)
