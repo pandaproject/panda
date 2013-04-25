@@ -5,6 +5,7 @@ import re
 from django.conf import settings
 from django.core.urlresolvers import get_script_prefix, resolve, reverse
 from django.utils import simplejson as json
+from django.utils.translation import ugettext_lazy as _
 from tastypie import fields, http
 from tastypie.authorization import DjangoAuthorization
 from tastypie.bundle import Bundle
@@ -56,13 +57,13 @@ class DataValidation(Validation):
         errors = {}
 
         if 'data' not in bundle.data or not bundle.data['data']:
-            errors['data'] = ['The data field is required.']
+            errors['data'] = [_('The data field is required.')]
 
         if 'external_id' in bundle.data:
             if not isinstance(bundle.data['external_id'], basestring):
-                errors['external_id'] = ['external_id must be a string.']
+                errors['external_id'] = [_('external_id must be a string.')]
             elif not re.match('^[\w\d_-]+$', bundle.data['external_id']):
-                errors['external_id'] = ['external_id can only contain letters, numbers, underscores and dashes.']
+                errors['external_id'] = [_('external_id can only contain letters, numbers, underscores and dashes.')]
 
         return errors
 
@@ -71,11 +72,11 @@ class DataResource(PandaResource):
     API resource for data.
     """
     dataset_slug = fields.CharField(attribute='dataset_slug',
-        help_text='Slug of the dataset this row of data belongs to.')
+        help_text=_('Slug of the dataset this row of data belongs to.'))
     external_id = fields.CharField(attribute='external_id', null=True, blank=True,
-        help_text='Per-dataset unique identifier for this row of data.')
+        help_text=_('Per-dataset unique identifier for this row of data.'))
     data = fields.CharField(attribute='data',
-        help_text='An ordered list of values corresponding to the columns in the parent dataset.')
+        help_text=_('An ordered list of values corresponding to the columns in the parent dataset.'))
 
     class Meta:
         resource_name = 'data'
@@ -156,7 +157,7 @@ class DataResource(PandaResource):
             bundle_slug = kwargs['slug']
 
         if bundle_slug and bundle_slug != kwargs_slug:
-            raise BadRequest('Dataset specified in request body does not agree with dataset API endpoint used.')
+            raise BadRequest(_('Dataset specified in request body does not agree with dataset API endpoint used.'))
 
         return Dataset.objects.get(slug=kwargs_slug) 
 
@@ -169,15 +170,16 @@ class DataResource(PandaResource):
         field_count = len(bundle.data['data'])
 
         if dataset.initial_upload and not dataset.row_count:
-            errors['dataset'] = ['Can not create or modify data for a dataset which has initial_upload, but has not completed the import process.']
+            errors['dataset'] = [_('Can not create or modify data for a dataset which has initial_upload, but has not completed the import process.')]
 
         if dataset.column_schema is None:
-            errors['dataset'] = ['Can not create or modify data for a dataset without columns.']
+            errors['dataset'] = [_('Can not create or modify data for a dataset without columns.')]
         else:
             expected_field_count = len(dataset.column_schema)
 
             if field_count != expected_field_count:
-                errors['data'] = ['Got %i data fields. Expected %i.' % (field_count, expected_field_count)]
+                errors['data'] = [_('Got %(field_count)i data fields. Expected %(expected_field_count)i.') \
+                    % {'field_count': field_count, 'expected_field_count': expected_field_count}]
 
         # Cribbed from is_valid()
         if errors:
@@ -244,7 +246,7 @@ class DataResource(PandaResource):
         try:
             row = dataset.add_row(user, bundle.data['data'], external_id=external_id)
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
 
         bundle.obj = SolrObject(row)
 
@@ -275,7 +277,7 @@ class DataResource(PandaResource):
         try:
             dataset.delete_row(user, kwargs['external_id'])
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
 
     def rollback(self, bundles):
         """
@@ -315,7 +317,7 @@ class DataResource(PandaResource):
         deserialized = self.alter_deserialized_list_data(request, deserialized)
 
         if not 'objects' in deserialized:
-            raise BadRequest("Invalid data sent.")
+            raise BadRequest(_("Invalid data sent."))
 
         bundles = []
         data = []
@@ -345,7 +347,7 @@ class DataResource(PandaResource):
         try:
             solr_rows = dataset.add_many_rows(user, data)
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
 
         for bundle, solr_row in zip(bundles, solr_rows):
             bundle.obj = SolrObject(solr_row)
@@ -397,7 +399,7 @@ class DataResource(PandaResource):
         try:
             dataset.delete_all_rows(user) 
         except DatasetLockedError:
-            raise ImmediateHttpResponse(response=http.HttpForbidden('Dataset is currently locked by another process.'))
+            raise ImmediateHttpResponse(response=http.HttpForbidden(_('Dataset is currently locked by another process.')))
 
         return http.HttpNoContent()
 
@@ -444,7 +446,7 @@ class DataResource(PandaResource):
 
             task = TaskStatus.objects.create(
                 task_name=task_type.name,
-                task_description='Export search results for "%s".' % query,
+                task_description=_('Export search results for "%s".') % query,
                 creator=user
             )
 
@@ -525,7 +527,7 @@ class DataResource(PandaResource):
         self.log_throttled_access(request)
 
         if export:
-            return self.create_response(request, 'Export queued.')
+            return self.create_response(request, _('Export queued.'))
         else:
             return self.create_response(request, page)
 

@@ -6,6 +6,7 @@ from django.conf.urls.defaults import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
 from tastypie import http
 from tastypie.authorization import DjangoAuthorization
@@ -65,7 +66,7 @@ class DataUploadResource(PandaModelResource):
             try:
                 obj = self.obj_get(request, **kwargs)
             except ObjectDoesNotExist:
-                raise NotFound("A model instance matching the provided arguments could not be found.")
+                raise NotFound(_("A model instance matching the provided arguments could not be found."))
 
         try:
             obj.delete()

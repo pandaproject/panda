@@ -22,8 +22,6 @@ PANDA.views.SearchResults = Backbone.View.extend({
         pager_context.pager_unit = "dataset";
         pager_context.row_count = null;
 
-        console.log(pager_context);
-        
         var pager = PANDA.templates.inline_pager(pager_context);
 
         var context = PANDA.utils.make_context(this.search.datasets.meta);

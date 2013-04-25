@@ -160,7 +160,7 @@ class UserModelAdmin(UserAdmin):
 
     def resend_activation_single(self, request, pk):
         if not config_value('EMAIL', 'EMAIL_ENABLED'):
-            self.message_user(request, 'Email is not configured for your PANDA.')
+            self.message_user(request, _('Email is not configured for your PANDA.'))
 
             return HttpResponseRedirect(
                 reverse('admin:panda_userproxy_change', args=[pk])
@@ -173,7 +173,7 @@ class UserModelAdmin(UserAdmin):
         user_profile.save()
 
         user_profile.send_activation_email()
-        self.message_user(request, 'Activation email sent.')
+        self.message_user(request, _('Activation email sent.'))
 
         return HttpResponseRedirect(
             reverse('admin:panda_userproxy_change', args=[pk])
@@ -181,7 +181,7 @@ class UserModelAdmin(UserAdmin):
 
     def resend_activation(self, request, queryset):
         if not config_value('EMAIL', 'EMAIL_ENABLED'):
-            self.message_user(request, 'Email is not configured for your PANDA.')
+            self.message_user(request, _('Email is not configured for your PANDA.'))
             return HttpResponseRedirect(
                 reverse('admin:panda_userproxy_changelist')
             )
@@ -196,9 +196,9 @@ class UserModelAdmin(UserAdmin):
 
             user_profile.send_activation_email()
 
-        self.message_user(request, 'Sent %i activation emails.' % len(users))
+        self.message_user(request, _('Sent %i activation emails.') % len(users))
 
-    resend_activation.short_description = 'Resend activation email(s)'
+    resend_activation.short_description = _('Resend activation email(s)')
 
     @transaction.commit_on_success
     def add_many(self, request, extra_context=None):
@@ -221,17 +221,17 @@ class UserModelAdmin(UserAdmin):
                 user_data = request.POST.get('user-data', '') 
 
                 if not user_data:
-                    raise Exception('No user data provided.')
+                    raise Exception(_('No user data provided.'))
 
                 context['user_data'] = user_data
 
                 try:
                     csv_dialect = csvkit_sniff(user_data)
                 except UnicodeDecodeError:
-                    raise Exception('Only UTF-8 data is supported.')
+                    raise Exception(_('Only UTF-8 data is supported.'))
 
                 if not csv_dialect:
-                    raise Exception('Unable to determine the format of the data you entered. Please ensure it is valid CSV data.')
+                    raise Exception(_('Unable to determine the format of the data you entered. Please ensure it is valid CSV data.'))
 
                 reader = CSVKitReader(StringIO(user_data), dialect=csv_dialect)
 
@@ -239,12 +239,12 @@ class UserModelAdmin(UserAdmin):
 
                 for i, row in enumerate(reader):
                     if len(row) < 4:
-                        raise Exception('Row %i has less than 4 columns.' % i)
+                        raise Exception(_('Row %i has less than 4 columns.') % i)
                     if len(row) > 4:
-                        raise Exception('Row %i has more than 4 columns.' % i)
+                        raise Exception(_('Row %i has more than 4 columns.') % i)
 
                     if UserProxy.objects.filter(email=row[0]).count():
-                        raise Exception('User "%s" already exists'  % row[0])
+                        raise Exception(_('User "%s" already exists')  % row[0])
 
                     user = UserProxy.objects.create_user(row[0], row[0], row[1] or None)
                     user.is_active = bool(row[1]) # active if a password is provided
@@ -257,10 +257,10 @@ class UserModelAdmin(UserAdmin):
                     if not row[1] and config_value('EMAIL', 'EMAIL_ENABLED'):
                         emails += 1
 
-                self.message_user(request, 'Successfully created %i user(s)' % (i + 1))
+                self.message_user(request, _('Successfully created %i user(s)') % (i + 1))
 
                 if emails:
-                    self.message_user(request, 'Sent %i activation email(s)' % emails)
+                    self.message_user(request, _('Sent %i activation email(s)') % emails)
             except Exception, e:
                 context['error'] = e.message
 
@@ -427,10 +427,10 @@ class TaskStatusAdmin(admin.ModelAdmin):
         task = get_object_or_404(TaskStatus, pk=pk)
 
         if task.end:
-            self.message_user(request, 'You can not abort a task that has already ended.')
+            self.message_user(request, _('You can not abort a task that has already ended.'))
         else:
             task.request_abort()
-            self.message_user(request, 'Attempting to abort task.')
+            self.message_user(request, _('Attempting to abort task.'))
 
         return HttpResponseRedirect(
             reverse('admin:panda_taskstatus_changelist')
@@ -441,15 +441,15 @@ class TaskStatusAdmin(admin.ModelAdmin):
 
         for task in tasks:
             if task.end:
-                self.message_user(request, 'You can not abort tasks that have already ended.')
+                self.message_user(request, _('You can not abort tasks that have already ended.'))
                 return
 
         for task in tasks:
             task.request_abort()
         
-        self.message_user(request, 'Attempting to abort %i task(s).' % len(tasks))
+        self.message_user(request, _('Attempting to abort %i task(s).') % len(tasks))
 
-    abort_task.short_description = 'Abort task(s)'
+    abort_task.short_description = _('Abort task(s)')
 
 admin.site.register(TaskStatus, TaskStatusAdmin)
 

@@ -4,6 +4,7 @@ import re
 
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.utils.translation import ugettext_lazy as _
 
 class SluggedModel(models.Model):
     """
@@ -12,7 +13,7 @@ class SluggedModel(models.Model):
     methods (in that order) on save() to get text to slugify. The slug may
     have numbers appended to make sure the slug is unique.
     """
-    slug = models.SlugField(max_length=256)
+    slug = models.SlugField(_('slug'), max_length=256)
     
     class Meta:
         abstract = True

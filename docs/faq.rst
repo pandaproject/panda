@@ -69,7 +69,7 @@ You do. We offer instructions for :doc:`hosting on Amazon's EC2 service <amazon>
 How much does hosting on Amazon EC2 cost?
 -----------------------------------------
 
-It depends on how powerful of a server you need, but for an EC2 "small", storage and bandwidth it will cost you $70-100 a month. This "small" size is our default and probably enough for many small-to-medium size organizations.
+It depends on how powerful of a server you need, but for an EC2 "small", storage and bandwidth it will cost you $70-100 a month. (If you prepay for a year or more, you may save up to 75%. Be sure to choose "high-utilization.") This "small" size is our default and probably enough for many small-to-medium size organizations.
 
 Very small organizations can also try running PANDA on an EC2 "micro", at a cost of $15-30 per month, but this is infrequently tested and not likely to perform well for more than a handful of users.
 

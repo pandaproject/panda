@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from panda import solr
 
@@ -21,8 +22,8 @@ class UserProxy(User):
     class Meta:
         proxy = True
         app_label = 'panda'
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)

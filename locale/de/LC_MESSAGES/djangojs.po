@@ -2,11 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 16:13+0000\n"
+"POT-Creation-Date: 2013-04-24 19:30+0000\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "X-Generator: POEditor.com\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -177,10 +177,10 @@ msgstr ""
 "[Check standards for D/A/CH!]<p>Unglücklicherweise kann PANDA nicht "
 "automatisch die Zeichenkodierung einer CSV-Datei bestimmen. Der Standard ist "
 "<strong>utf-8</strong>, was für viele Dateien zutrifft, aber es gibt viele "
-"weitere Kodierungen. Zensusdaten sind zum Beispiel häufig als <strong>latin-"
-"1</strong> kodiert.</p><p>&nbsp;</p><p>Kodierungen sind ein komplexes Thema. "
-"Falls PANDA Ihre CSV-Datei nicht importieren kann, sollten Sie nachforschen, "
-"wie diese kodiert ist.</p>"
+"weitere Kodierungen. Zensusdaten sind zum Beispiel häufig als "
+"<strong>latin-1</strong> kodiert.</p><p>&nbsp;</p><p>Kodierungen sind ein "
+"komplexes Thema. Falls PANDA Ihre CSV-Datei nicht importieren kann, sollten "
+"Sie nachforschen, wie diese kodiert ist.</p>"
 
 #: client/static/js/text/data_upload.js:19
 msgid "Begin upload"
@@ -383,6 +383,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: client/static/js/text/dataset_search.js:6
+#: client/static/js/views/dataset_search.js:134
 msgid "More search options"
 msgstr "Weitere Suchoptionen"
 
@@ -764,6 +765,13 @@ msgid ""
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
 msgstr ""
+"{Searching specific columns has not been enabled for any columns in this "
+"dataset. To enable it select <strong>Enable column search</strong> from the "
+"<strong>Actions</strong> menu on the dataset page.}"
+
+#: client/static/js/text/inline_search_filters.js:8
+msgid "Search by column"
+msgstr "{Search by column}"
 
 #: client/static/js/text/inlines.js:5
 msgid "Previous"
@@ -791,29 +799,29 @@ msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
 msgstr[0] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatz"
 msgstr[1] "%(start)s-%(end)s von %(count)s zutreffender Datenzsatzen"
 
-#: client/static/js/text/inlines.js:38
+#: client/static/js/text/inlines.js:36
 msgid "(%(total)s total dataset)"
 msgid_plural " (%(total)s total datasets)"
 msgstr[0] "(%(total)s vollständiger Datensatz)"
 msgstr[1] "(%(total)s vollständiger Datensatzen)"
 
-#: client/static/js/text/inlines.js:45
+#: client/static/js/text/inlines.js:43
 msgid "uploaded by %(user)s"
 msgstr "hochgeladen von %(user)s"
 
-#: client/static/js/text/inlines.js:46
+#: client/static/js/text/inlines.js:44
 msgid "Uploaded %(when)s"
 msgstr "Hochgeladen um %(when)s"
 
-#: client/static/js/text/inlines.js:47
+#: client/static/js/text/inlines.js:45
 msgid "Edit title"
 msgstr "Titel bearbeiten"
 
-#: client/static/js/text/inlines.js:48
+#: client/static/js/text/inlines.js:46
 msgid "Click to delete"
 msgstr "Klicken Sie, um zu löschen"
 
-#: client/static/js/text/inlines.js:51
+#: client/static/js/text/inlines.js:49
 msgid ""
 "<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
 "match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
@@ -838,15 +846,15 @@ msgstr ""
 "Totschlag&quot; oder &quot;Totschlag, schwerer&quot; finden, aber nicht "
 "&quot;Totschlag&quot; als Einzelbegriff.</li><li>Gruppieren Sie Wörter mit "
 "Klammern: <code>Wahl AND (1. OR erste)</code> wird &quot;1. Wahl&quot;, "
-"&quot;Erste Wahl&quot; oder &quot;Wahl, erste&quot; ergeben.</li>"
-"[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z.B. "
-"Andi für Andreas, aber kaum in dem Maß.]</ul>"
+"&quot;Erste Wahl&quot; oder &quot;Wahl, erste&quot; ergeben.</"
+"li>[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z."
+"B. Andi für Andreas, aber kaum in dem Maß.]</ul>"
 
-#: client/static/js/text/inlines.js:52
+#: client/static/js/text/inlines.js:50
 msgid "Advanced searching"
 msgstr "Erweiterte Suche"
 
-#: client/static/js/text/inlines.js:53
+#: client/static/js/text/inlines.js:51
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -1282,7 +1290,7 @@ msgstr "Versuchen Sie es erneut"
 
 #: client/static/js/views/dataset_results.js:63
 #: client/static/js/views/dataset_view.js:339
-#: client/static/js/views/search_results.js:97
+#: client/static/js/views/search_results.js:95
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
@@ -1292,7 +1300,7 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:65
 #: client/static/js/views/dataset_view.js:341
-#: client/static/js/views/search_results.js:99
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
@@ -1304,15 +1312,15 @@ msgstr ""
 
 #: client/static/js/views/dataset_results.js:71
 #: client/static/js/views/dataset_view.js:347
-#: client/static/js/views/search_results.js:105
+#: client/static/js/views/search_results.js:103
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
-"<p>Ihr Export hat leider nicht begonnen!</p><p>Fehler:</p><code>%(traceback)"
-"s</code>"
+"<p>Ihr Export hat leider nicht begonnen!</p><p>Fehler:</p><code>"
+"%(traceback)s</code>"
 
 #: client/static/js/views/dataset_results.js:90
-#: client/static/js/views/search_results.js:78
+#: client/static/js/views/search_results.js:76
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
@@ -1321,19 +1329,19 @@ msgstr ""
 "p><p>Sie können diese Benachrichtigungen auf Ihrer Benutzerseite löschen.</p>"
 
 #: client/static/js/views/dataset_results.js:94
-#: client/static/js/views/search_results.js:82
+#: client/static/js/views/search_results.js:80
 msgid ""
-"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
-"s</code>"
+"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
-"<p>Fehler beim Abonnieren der Benachrichtiungen!</p><p>Fehler:</p><code>%"
-"(traceback)s</code>"
+"<p>Fehler beim Abonnieren der Benachrichtiungen!</p><p>Fehler:</p><code>"
+"%(traceback)s</code>"
 
 #: client/static/js/views/dataset_search.js:68
 msgid ""
 "<p>This dataset is being made searchable. Search results may be incomplete.</"
-"p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)"
-"\">Refresh to see updated status &raquo;</a></p>"
+"p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 "<p>Dieser Datensatz wird durchsuchbar gemacht. Suchergebnisse könnten noch "
 "unvollständig sein.</p><p>Status: %(message)s. <a href=\"javascript:location."
@@ -1389,8 +1397,8 @@ msgstr ""
 #: client/static/js/views/dataset_search.js:80
 msgid ""
 "<p>Search data for this dataset is being updated. Search results may be "
-"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload"
-"(true)\">Refresh to see updated status &raquo;</a></p>"
+"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 "<p>Suchdaten für diesen Datensatz werden aktualisiert. Suchergebnisse können "
 "unvollständig sein.</p><p>Status: %(message)s. <a href=\"javascript:location."
@@ -1442,6 +1450,11 @@ msgid ""
 msgstr ""
 "<p>Das Aktualisieren der Suchdaten dieses Datensatzes wurde von einem "
 "Administrator abgebrochen. Suchergebnisse können unvollständig sein.</p>"
+
+#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/inline_search_filters.js:192
+msgid "Fewer search options"
+msgstr "Weniger Suchoptionen"
 
 #: client/static/js/views/dataset_search.js:144
 msgid ""
@@ -1507,11 +1520,11 @@ msgstr ""
 
 #: client/static/js/views/dataset_view.js:326
 msgid ""
-"<p>Your data indexing task failed to start!</p><p>Error:</p><code>%"
-"(traceback)s</code>"
+"<p>Your data indexing task failed to start!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
-"<p>Ihre Datenindizierung hat nicht begonnen!</p><p>Fehler:</p><code>%"
-"(traceback)s</code>"
+"<p>Ihre Datenindizierung hat nicht begonnen!</p><p>Fehler:</p><code>"
+"%(traceback)s</code>"
 
 #: client/static/js/views/inline_search_filters.js:5
 msgid "is like"
@@ -1561,10 +1574,6 @@ msgstr "ist bei oder nach"
 #: client/static/js/views/inline_search_filters.js:137
 msgid "is at or before"
 msgstr "ist bei oder vor"
-
-#: client/static/js/views/inline_search_filters.js:192
-msgid "Fewer search options"
-msgstr "Weniger Suchoptionen"
 
 #: client/static/js/views/inline_search_filters.js:405
 msgid "No value provided."
@@ -1690,7 +1699,6 @@ msgid "Password reset failed!"
 msgstr "Zurücksetzen des Passworts fehlgeschlagen!"
 
 #: client/static/js/views/root.js:241
-#, fuzzy
 msgid "All datasets"
 msgstr "Meine Datensätze"
 
