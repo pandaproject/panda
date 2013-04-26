@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 19:30+0000\n"
+"POT-Creation-Date: 2013-04-26 16:21+0000\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: client/templates/dashboard.html:5
@@ -1341,6 +1341,11 @@ msgstr "Abortado después de reindexar %.0f%%"
 
 #: panda/tasks/reindex.py:159
 msgid "Reindex failed"
+msgstr "Reindexación fallida"
+
+#: panda/tasks/reindex.py:169
+#, fuzzy
+msgid "Reindex complete"
 msgstr "Reindexación fallida"
 
 #: panda/templates/admin/panda/taskstatus/change_form.html:19
