@@ -256,7 +256,8 @@ PANDA_NOTIFICATIONS_TO_SHOW = 50
 
 PANDA_UNCATEGORIZED_ID = 0
 PANDA_UNCATEGORIZED_SLUG = 'uncategorized'
-PANDA_UNCATEGORIZED_NAME = _('Uncategorized')
+# running this through gettext causes file uploads not to work, so disabled until solved!
+PANDA_UNCATEGORIZED_NAME = 'Uncategorized'
 
 # Allow for local (per-user) override
 try:
