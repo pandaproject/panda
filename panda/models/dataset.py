@@ -148,7 +148,7 @@ class Dataset(SluggedModel):
         if self.column_schema is not None:
             full_text_data.extend([c['name'] for c in self.column_schema])
 
-        full_text = '\n'.join(full_text_data)
+        full_text = u'\n'.join(map(unicode,full_text_data)) # convert any i18n proxies into strings
 
         solr.add(settings.SOLR_DATASETS_CORE, [{
             'slug': self.slug,
