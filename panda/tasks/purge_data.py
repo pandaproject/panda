@@ -3,7 +3,7 @@
 import logging
 
 from django.conf import settings
-from celery.task import Task
+from panda.tasks.base import Task
 
 from panda import solr
 

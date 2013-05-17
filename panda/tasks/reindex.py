@@ -5,7 +5,7 @@ from math import floor
 import time
 import traceback
 
-from celery.contrib.abortable import AbortableTask
+from panda.tasks.base import AbortableTask
 from django.conf import settings
 from django.utils import simplejson as json
 from django.utils.translation import ugettext
