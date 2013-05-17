@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.utils.timezone import now
+from django.utils.translation import ugettext as _
 from livesettings import config_value
 from tastypie.bundle import Bundle
 from tastypie.serializers import Serializer
@@ -45,7 +46,7 @@ class SecureAjaxFileUploader(AjaxFileUploader):
         try:
             return self._ajax_upload(request)
         except FieldSizeLimitError:
-            return JSONResponse({ 'error_message': 'CSV contains fields longer than maximum length of 131072 characters.' })
+            return JSONResponse({ 'error_message': _('CSV contains fields longer than maximum length of 131072 characters.') })
         except Exception, e:
             return JSONResponse({ 'error_message': unicode(e) })
 
@@ -95,10 +96,10 @@ def panda_login(request):
                 return JSONResponse(make_user_login_response(user))
             else:
                 # Disabled account
-                return JSONResponse({ '__all__': 'This account is disabled' }, status=400)
+                return JSONResponse({ '__all__': _('This account is disabled') }, status=400)
         else:
             # Invalid login
-            return JSONResponse({ '__all__': 'Email or password is incorrect' }, status=400)
+            return JSONResponse({ '__all__': _('Email or password is incorrect') }, status=400)
     else:
         # Invalid request
         return JSONResponse(None, status=400)
@@ -109,7 +110,7 @@ def panda_logout(request):
     """
     logout(request)
 
-    return JSONResponse({ '__all__': 'Successfully logged out' }, status=200)
+    return JSONResponse({ '__all__': _('Successfully logged out') }, status=200)
 
 def check_activation_key(request, activation_key):
     """
@@ -119,12 +120,12 @@ def check_activation_key(request, activation_key):
     try:
         user_profile = UserProfile.objects.get(activation_key=activation_key)
     except UserProfile.DoesNotExist:
-        return JSONResponse({ '__all__': 'Invalid activation key' }, status=400)
+        return JSONResponse({ '__all__': _('Invalid activation key') }, status=400)
 
     user = user_profile.user 
 
     if user_profile.activation_key_expiration <= now():
-        return JSONResponse({ '__all__': 'Expired activation key. Contact your administrator' }, status=400)
+        return JSONResponse({ '__all__': _('Expired activation key. Contact your administrator') }, status=400)
 
     return JSONResponse({
         'activation_key': user_profile.activation_key,
@@ -145,15 +146,15 @@ def activate(request):
         try:
             user_profile = UserProfile.objects.get(activation_key=data['activation_key'])
         except UserProfile.DoesNotExist:
-            return JSONResponse({ '__all__': 'Invalid activation key!' }, status=400)
+            return JSONResponse({ '__all__': _('Invalid activation key!') }, status=400)
 
         user = user_profile.user
 
         if user_profile.activation_key_expiration <= now():
-            return JSONResponse({ '__all__': 'Expired activation key. Contact your administrator.' }, status=400)
+            return JSONResponse({ '__all__': _('Expired activation key. Contact your administrator.') }, status=400)
 
         if 'password' not in data:
-            return JSONResponse({ 'password': 'This field is required.' }, status=400)
+            return JSONResponse({ 'password': _('This field is required.') }, status=400)
 
         if 'reenter_password' in data:
             del data['reenter_password']
@@ -191,17 +192,18 @@ def forgot_password(request):
         try:
             user = UserProxy.objects.get(email=request.POST.get('email'))
         except UserProfile.DoesNotExist:
-            return JSONResponse({ '__all__': 'Unknown or inactive email address.' }, status=400)
+            return JSONResponse({ '__all__': _('Unknown or inactive email address.') }, status=400)
 
         if not user.is_active:
-            return JSONResponse({ '__all__': 'Unknown or inactive email address.' }, status=400)
+            return JSONResponse({ '__all__': _('Unknown or inactive email address.') }, status=400)
 
         user_profile = user.get_profile()
         user_profile.generate_activation_key()
         user_profile.save()
 
-        email_subject = 'Forgotten password'
-        email_body = 'PANDA received a request to change your password.\n\nTo set your new password follow this link:\n\nhttp://%s/#reset-password/%s\n\nIf you did not request this email you should notify your administrator.' % (config_value('DOMAIN', 'SITE_DOMAIN'), user_profile.activation_key)
+        email_subject = _('Forgotten password')
+        email_body = _('PANDA received a request to change your password.\n\nTo set your new password follow this link:\n\nhttp://%(site_domain)s/#reset-password/%(activation_key)s\n\nIf you did not request this email you should notify your administrator.') \
+            % {'site_domain': config_value('DOMAIN', 'SITE_DOMAIN'), 'activation_key': user_profile.activation_key}
 
         send_mail(email_subject,
                   email_body,

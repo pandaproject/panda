@@ -3,7 +3,7 @@
 import logging
 import os
 
-from celery.task import Task
+from panda.tasks.base import Task
 from django.conf import settings
 from django.template import Context
 from livesettings import config_value

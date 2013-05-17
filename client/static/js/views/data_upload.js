@@ -22,7 +22,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         "click #step-2-start-over":    "start_over_event",
         "click #step-3-start-over":    "start_over_event"
     },
-    
+    aborted: false, 
     file_uploader: null,
     dataset: null,
     upload: null,
@@ -269,32 +269,42 @@ PANDA.views.DataUpload = Backbone.View.extend({
         categories = _.map(categories, function(cat) {
             return Redd.get_category_by_slug(cat).clone();
         });
-
+        console.log('categories');
+        console.log(categories);
         if (!this.dataset) {
             this.dataset = new PANDA.models.Dataset({
                 name: $("#dataset-name").val() || fileName.substr(0, fileName.lastIndexOf('.')) || fileName,
                 description: $("#dataset-description").val(),
                 categories: categories
             });
-            
-            this.dataset.save({}, { async: false });
+
+            this.dataset.save({}, { async: false }).fail(_.bind(function(promise, status, message){
+                console.log('---- FAIL -----');
+                console.log(message);
+                this.step_three_error_message(interpolate(this.text.dataset_upload_error,{message: message}, true));
+                this.upload.destroy();
+                this.aborted = true;
+                
+            },this));
         }
 
-        this.dataset.data_uploads.add(this.upload);
-        this.dataset.patch()
+        if (!this.aborted) {
+            this.dataset.data_uploads.add(this.upload);
+            this.dataset.patch()
 
-        // Begin import, runs synchronously so errors may be caught immediately
-        this.dataset.import_data(
-            this.upload.get("id"),
-            function(dataset) {
-                Redd.goto_dataset_view(dataset.get("slug"));
-            },
-            _.bind(function(dataset, error) {
-                // Preemptive import errors (mismatched columns, etc.)
-                this.upload.destroy()
-                this.step_three_error_message(error.error_message);
-            }, this)
-        );
+            // Begin import, runs synchronously so errors may be caught immediately
+            this.dataset.import_data(
+                this.upload.get("id"),
+                function(dataset) {
+                    Redd.goto_dataset_view(dataset.get("slug"));
+                },
+                _.bind(function(dataset, error) {
+                    // Preemptive import errors (mismatched columns, etc.)
+                    this.upload.destroy()
+                    this.step_three_error_message(error.error_message);
+                }, this)
+            );
+        }
     },
 
     start_over_event: function() {

@@ -155,9 +155,13 @@ PANDA.models.Dataset = Backbone.Model.extend({
                 }
             }, this),
             error: function(xhr, textStatus) {
-                error = JSON.parse(xhr.responseText);
-
                 if (error_callback) {
+                    if (xhr.getResponseHeader("content-type") == "application/json") {
+                        error = JSON.parse(xhr.responseText);
+                    } else {
+                        error = { error_message: xhr.statusText }
+                        console.log(xhr)
+                    }
                     error_callback(this, error);
                 }
             }

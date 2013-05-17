@@ -7,7 +7,7 @@ import time
 from traceback import format_tb
 from zipfile import ZipFile
 
-from celery.contrib.abortable import AbortableTask
+from panda.tasks.base import AbortableTask
 from csvkit import CSVKitWriter
 from django.conf import settings
 from django.utils import simplejson as json

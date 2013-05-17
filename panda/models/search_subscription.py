@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from panda.models.category import Category
 from panda.models.dataset import Dataset
@@ -11,27 +12,34 @@ class SearchSubscription(models.Model):
     A log of a user search.
     """
     user = models.ForeignKey(UserProxy, related_name='search_subscriptions',
-        help_text='The user who subscribed to the search.')
+        help_text=_('The user who subscribed to the search.'),
+        verbose_name=_('user'))
     dataset = models.ForeignKey(Dataset, related_name='search_subscriptions', null=True, default=None,
-        help_text='The dataset to be searched or null if all are to be searched.')
+        help_text=_('The dataset to be searched or null if all are to be searched.'),
+        verbose_name=_('dataset'))
     category = models.ForeignKey(Category, related_name='search_subscriptions', null=True, default=None,
-        help_text='A category to be searched or null if all are to be searched.')
-    query = models.CharField(max_length=256, 
-        help_text='The search query to executed.')
-    query_url = models.CharField(max_length=256,
-        help_text='Query encoded for URL.')
-    query_human = models.TextField(
-        help_text='Human-readable description of the query being run.')
-    last_run = models.DateTimeField(auto_now=True,
-        help_text='The last time this search this was run.')
+        help_text=_('A category to be searched or null if all are to be searched.'),
+        verbose_name=_('category'))
+    query = models.CharField(_('query'), max_length=256, 
+        help_text=_('The search query to executed.'))
+    query_url = models.CharField(_('query_url'), max_length=256,
+        help_text=_('Query encoded for URL.'))
+    query_human = models.TextField(_('query_human'),
+        help_text=_('Human-readable description of the query being run.'))
+    last_run = models.DateTimeField(_('last_run'), auto_now=True,
+        help_text=_('The last time this search this was run.'))
 
     class Meta:
         app_label = 'panda'
-        verbose_name_plural = 'SearchSubscription'
+        verbose_name = _('SearchSubscription')
+        verbose_name_plural = _('SearchSubscriptions')
 
     def __unicode__(self):
         if self.dataset:
-            return '%s is searching for %s in %s' % (self.user, self.query, self.dataset)
+            return _('%(user)s is searching for %(query)s in %(dataset)s') \
+                % {'user': self.user, 'query': self.query, 'dataset': self.dataset}
         else:
-            return '%s is searching for %s in all datasets' % (self.user, self.query)
+            return _('%(user)s is searching for %(query)s in all datasets') \
+                % {'user': self.user, 'query': self.query}
+
 

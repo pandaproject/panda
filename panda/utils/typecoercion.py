@@ -5,6 +5,7 @@ from datetime import date, time, datetime
 
 from csvkit.typeinference import NULL_VALUES, TRUE_VALUES, FALSE_VALUES, DEFAULT_DATETIME
 from dateutil.parser import parse
+from django.utils.translation import ugettext as _
 
 from panda.exceptions import TypeCoercionError
 
@@ -77,9 +78,11 @@ class DataTyper(object):
                     error_count = len(self.errors[n])
 
                     if not error_count:
-                        summary += '%s: all values succesfully converted to type "%s"\n' % (c['name'], c['type'])
+                        summary += _('%(name)s: all values succesfully converted to type "%(type)s"\n') \
+                            % {'name': c['name'], 'type': c['type']}
                     else:
-                        summary += '%s: failed to convert %i values to type "%s"\n' % (c['name'], error_count, c['type'])
+                        summary += _('%(name)s: failed to convert %(error_count)i values to type "%(type)s"\n') \
+                            % {'name': c['name'], 'error_count': error_count, 'type': c['type']}
 
             return summary
         else:

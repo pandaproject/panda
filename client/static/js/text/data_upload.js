@@ -30,6 +30,7 @@ PANDA.text.DataUpload = function() {
         finish: gettext("Finish"),
         start_over: gettext("Start over"),
         error_title: gettext("Error processing dataset"),
-        error_close: gettext("Close")
+        error_close: gettext("Close"),
+        dataset_upload_error: gettext("Error uploading dataset: %(message)s")
     }
 }
