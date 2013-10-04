@@ -1,7 +1,9 @@
-1.0.3
+1.1.0
 -----
 
-
+* Update to Django 1.4.8. (#882)
+* Integrate German (DE) translation. (#865)
+* Implement translation (i18n) support. (#861, etc.)
 
 1.0.2
 -----
@@ -15,6 +17,7 @@
 * Fix unescaped names in subscription dialogs. (#858)
 
 1.0.1
+
 -----
 
 * Improve security implemention to prevent API key theft. (#201)
