@@ -4,6 +4,7 @@ import os.path
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from panda import utils
 from panda.exceptions import DataUploadNotDeletable
@@ -18,30 +19,33 @@ class DataUpload(BaseUpload):
     from panda.models.dataset import Dataset
 
     dataset = models.ForeignKey(Dataset, related_name='data_uploads', null=True,
-        help_text='The dataset this upload is associated with.')
+        help_text=_('The dataset this upload is associated with.'),
+        verbose_name=_('dataset'))
 
-    data_type = models.CharField(max_length=4, null=True, blank=True,
-        help_text='The type of this file, if known.')
-    encoding = models.CharField(max_length=32, default='utf-8',
-        help_text='The character encoding of this file. Defaults to utf-8')
-    dialect = JSONField(null=True,
-        help_text='Description of the formatting of this file.')
-    columns = JSONField(null=True,
-        help_text='An list of names for this uploads columns.')
-    sample_data = JSONField(null=True,
-        help_text='Example data from this file.')
-    guessed_types = JSONField(null=True,
-        help_text='Column types guessed based on a sample of data.')
-    imported = models.BooleanField(default=False,
-        help_text='Has this upload ever been imported into its parent dataset.')
-    deletable = models.BooleanField(default=True,
-        help_text='Can this data upload be deleted? False for uploads prior to 1.0.')
+    data_type = models.CharField(_('data_type'), max_length=4, null=True, blank=True,
+        help_text=_('The type of this file, if known.'))
+    encoding = models.CharField(_('encoding'), max_length=32, default='utf-8',
+        help_text=_('The character encoding of this file. Defaults to utf-8'))
+    dialect = JSONField(_('dialect'), null=True,
+        help_text=_('Description of the formatting of this file.'))
+    columns = JSONField(_('columns'), null=True,
+        help_text=_('An list of names for this uploads columns.'))
+    sample_data = JSONField(_('sample_data'), null=True,
+        help_text=_('Example data from this file.'))
+    guessed_types = JSONField(_('guessed_types'), null=True,
+        help_text=_('Column types guessed based on a sample of data.'))
+    imported = models.BooleanField(_('imported'), default=False,
+        help_text=_('Has this upload ever been imported into its parent dataset.'))
+    deletable = models.BooleanField(_('deletable'), default=True,
+        help_text=_('Can this data upload be deleted? False for uploads prior to 1.0.'))
     
     file_root = settings.MEDIA_ROOT
 
     class Meta:
         app_label = 'panda'
         ordering = ['creation_date']
+        verbose_name = _('DataUpload')
+        verbose_name_plural = _('DataUploads')
 
     def __unicode__(self):
         return self.filename
@@ -110,7 +114,7 @@ class DataUpload(BaseUpload):
 
         # Don't allow deletion of dated uploads unless forced
         if not self.deletable and not force:
-            raise DataUploadNotDeletable('This data upload was created before deleting individual data uploads was supported. In order to delete it you must delete the entire dataset.')
+            raise DataUploadNotDeletable(_('This data upload was created before deleting individual data uploads was supported. In order to delete it you must delete the entire dataset.'))
 
         # Update related datasets so deletes will not cascade
         if self.initial_upload_for.count():

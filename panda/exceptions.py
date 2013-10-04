@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from django.utils.translation import ugettext as _
 
 class DatasetLockedError(Exception):
     """
@@ -46,6 +47,7 @@ class TypeCoercionError(Exception):
     def __init__(self, value, normal_type):
         self.value = value
         self.normal_type = normal_type
-        msg = 'Unable to convert "%s" to type %s' % (value, normal_type)
+        msg = _('Unable to convert "%(value)s" to type %(normal_type)s') \
+            % {'value': value, 'normal_type': normal_type}
         super(TypeCoercionError, self).__init__(value, normal_type)
 

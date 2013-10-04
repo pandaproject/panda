@@ -12,11 +12,13 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
     },
 
     render: function() {
+        var root_url = "#datasets/" + this.search.category + "/" + (this.search.query || "*");
+        
         var pager_context = PANDA.utils.make_context(this.search.datasets.meta);
         pager_context.text = PANDA.inlines_text;
         pager_context.pager_unit = "dataset";
         pager_context.row_count =  this.search.datasets.meta.total_count;
-        
+        pager_context.root_url = root_url;
         var pager = PANDA.templates.inline_pager(pager_context);
 
         var context = PANDA.utils.make_context(this.search.datasets.meta);
@@ -27,7 +29,7 @@ PANDA.views.DatasetsResults = Backbone.View.extend({
         context["datasets"] = this.search.datasets.results()["datasets"];
         context["pager_unit"] = "dataset";
         context["row_count"] = this.search.datasets.meta.total_count;
-        context["root_url"] = "#datasets/" + this.search.category + "/" + (this.search.query || "*");
+        context["root_url"] = root_url;
 
         context["pager"] = pager;
 

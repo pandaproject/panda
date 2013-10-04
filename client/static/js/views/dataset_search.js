@@ -44,7 +44,45 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
             }, this)
         });
     },
-
+    MESSAGES_BY_TASK_NAME_PREFIX_AND_STATUS: {
+        "import": {
+            "STARTED": {closeable: false , style: 'alert-info', 
+                title: gettext("Import in progress!"), 
+                body: gettext("<p>This dataset is being made searchable. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>")
+            },
+            "PENDING": {closeable: false , style: 'alert-info', 
+                title: gettext("Import queued!"), 
+                body: gettext("<p>This dataset is waiting to be made searchable. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>")
+            },
+            "FAILURE": {closeable: false , style: 'alert-error', 
+                title: gettext("Import failed!"), 
+                body: gettext('<p>The process to make this dataset searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>')
+            },
+            "ABORTED": {closeable: false , style: 'alert-error', 
+                title: gettext("Import failed!"), 
+                body: gettext('<p>The process to make data searchable was aborted by an administrator. Search results may be incomplete.</p>')
+            }
+        },
+        "reindex": {
+            "STARTED": {closeable: true , style: 'alert-info', 
+                title: gettext("Reindexing in progress!"), 
+                body: gettext("<p>Search data for this dataset is being updated. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>")
+            },
+            "PENDING": {closeable: false , style: 'alert-info', 
+                title: gettext("Reindexing queued!"), 
+                body: gettext("<p>This dataset is waiting to have its search data updated. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>")
+            },
+            "FAILURE": {closeable: false , style: 'alert-error', 
+                title: gettext("Reindexing failed!"), 
+                body: gettext('<p>The process to make this dataset searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>')
+            },
+            "ABORTED": {closeable: false , style: 'alert-error', 
+                title: gettext("Reindexing aborted!"), 
+                body: gettext('<p>The process to udpate this dataset\'s search data was aborted by an administrator. Search results may be incomplete.</p>')
+            }
+        }
+        
+    },
     render: function() {
         var context = PANDA.utils.make_context({
             text: this.text,
@@ -63,30 +101,17 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         var task = this.dataset.current_task;
 
         if (task) {
-            if (task.get("task_name").startsWith("panda.tasks.import")) {
-                if (task.get("status") == "STARTED") {
-                    var alert_body = interpolate(gettext("<p>This dataset is being made searchable. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), { message: task.get("message") }, true);
-                    $("#dataset-search .alert").alert_block("alert-info", gettext("Import in progress!"), alert_body, false);
-                } else if (task.get("status") == "PENDING") {
-                    $("#dataset-search .alert").alert_block("alert-info", gettext("Import queued!"), gettext("<p>This dataset is waiting to be made searchable. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>"), false);
-                } else if (task.get("status") == "FAILURE") {
-                    $("#dataset-search .alert").alert_block("alert-error", gettext("Import failed!"), gettext('<p>The process to make this dataset searchable failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>'), false);
-                } else if (task.get("status") == "ABORTED") {
-                    $("#dataset-search .alert").alert_block("alert-error", gettext("Import aborted!"), gettext('<p>The process to make data searchable was aborted by an administrator. Search results may be incomplete.</p>'), false);
-                }
+            try {
+                var task_type = task.get("task_name").split('.')[2];
+                var deets = this.MESSAGES_BY_TASK_NAME_PREFIX_AND_STATUS[task_type][task.get("status")];
+                var alert_body = interpolate(deets.body, {message: gettext(task.get('status'))}, true);
+                $("#dataset-search .alert").alert_block(deets.style, deets.title, alert_body, deets.closeable);
+            } catch(e) { // often not an error condition, e.g. status SUCCESS
+                console.log(interpolate("No task messages for name %(name)s / status %(status)s",
+                    {name: task.get("task_name"), status: task.get("status")},
+                    true));
             }
-            else if (task.get("task_name").startsWith("panda.tasks.reindex")) {
-                if (task.get("status") == "STARTED") {
-                    var alert_body = interpolate(gettext("<p>Search data for this dataset is being updated. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), { message: task.get("message") }, true);
-                    $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing in progress!"), alert_body, false);
-                } else if (task.get("status") == "PENDING") {
-                    $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing queued!"), gettext("<p>This dataset is waiting to have its search data updated. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), false);
-                } else if (task.get("status") == "FAILURE") {
-                    $("#dataset-search .alert").alert_block("alert-error", gettext("Reindexing failed!"), gettext('<p>The process to make update this dataset\'s search data failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>'), false);
-                } else if (task.get("status") == "ABORTED") {
-                    $("#dataset-search .alert").alert_block("alert-error", gettext("Reindexing aborted!"), gettext('<p>The process to udpate this dataset\'s search data was aborted by an administrator. Search results may be incomplete.</p>'), false);
-                }
-            }
+            
         }
         
         if (!this.query) {
@@ -129,9 +154,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         $("#dataset-search-filters").toggle();
 
         if ($("#dataset-search-filters").is(":visible")) {
-            $("#toggle-advanced-search").text(ugettext("Fewer search options"));
+            $("#toggle-advanced-search").text(gettext("Fewer search options"));
         } else {
-            $("#toggle-advanced-search").text(ugettext("More search options"));
+            $("#toggle-advanced-search").text(gettext("More search options"));
         };
 
         return false;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 13:49-0700\n"
+"POT-Creation-Date: 2013-04-26 16:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -332,6 +332,7 @@ msgid "Search"
 msgstr "Buscar"
 
 #: client/static/js/text/dataset_search.js:6
+#: client/static/js/views/dataset_search.js:134
 msgid "More search options"
 msgstr ""
 
@@ -690,6 +691,10 @@ msgid ""
 "Searching specific columns has not been enabled for any columns in this "
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:8
+msgid "Search by column"
 msgstr ""
 
 #: client/static/js/text/inlines.js:5
@@ -1133,16 +1138,16 @@ msgstr ""
 msgid "Try again"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:65
-#: client/static/js/views/dataset_view.js:340
+#: client/static/js/views/dataset_results.js:63
+#: client/static/js/views/dataset_view.js:339
 #: client/static/js/views/search_results.js:95
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:67
-#: client/static/js/views/dataset_view.js:342
+#: client/static/js/views/dataset_results.js:65
+#: client/static/js/views/dataset_view.js:341
 #: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
@@ -1150,21 +1155,21 @@ msgid ""
 "is ready to be downloaded."
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:73
-#: client/static/js/views/dataset_view.js:348
+#: client/static/js/views/dataset_results.js:71
+#: client/static/js/views/dataset_view.js:347
 #: client/static/js/views/search_results.js:103
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:92
+#: client/static/js/views/dataset_results.js:90
 #: client/static/js/views/search_results.js:76
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:96
+#: client/static/js/views/dataset_results.js:94
 #: client/static/js/views/search_results.js:80
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
@@ -1257,6 +1262,11 @@ msgstr ""
 msgid ""
 "<p>The process to udpate this dataset's search data was aborted by an "
 "administrator. Search results may be incomplete.</p>"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/inline_search_filters.js:192
+msgid "Fewer search options"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:144
@@ -1358,10 +1368,6 @@ msgstr ""
 
 #: client/static/js/views/inline_search_filters.js:137
 msgid "is at or before"
-msgstr ""
-
-#: client/static/js/views/inline_search_filters.js:192
-msgid "Fewer search options"
 msgstr ""
 
 #: client/static/js/views/inline_search_filters.js:405

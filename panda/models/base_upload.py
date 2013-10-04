@@ -4,6 +4,7 @@ import os.path
 
 from django.db import models
 from django.utils.timezone import now 
+from django.utils.translation import ugettext_lazy as _
 
 from panda.models.user_proxy import UserProxy
 
@@ -11,18 +12,22 @@ class BaseUpload(models.Model):
     """
     Base class for any file uploaded to PANDA.
     """
-    filename = models.CharField(max_length=256,
-        help_text='Filename as stored in PANDA.')
-    original_filename = models.CharField(max_length=256,
-        help_text='Filename as originally uploaded.')
-    size = models.IntegerField(
-        help_text='Size of the file in bytes.')
+    filename = models.CharField(_('filename'), 
+        max_length=256,
+        help_text=_('Filename as stored in PANDA.'))
+    original_filename = models.CharField(_('original_filename'), 
+        max_length=256,
+        help_text=_('Filename as originally uploaded.'))
+    size = models.IntegerField(_('size'),
+        help_text=_('Size of the file in bytes.'))
     creator = models.ForeignKey(UserProxy,
-        help_text='The user who uploaded this file.')
-    creation_date = models.DateTimeField(
-        help_text='The date this file was uploaded.')
-    title = models.TextField(max_length=256,
-        help_text='A user-friendly name for this file.')
+        help_text=_('The user who uploaded this file.'),
+        verbose_name=_('creator'))
+    creation_date = models.DateTimeField(_('creation_date'),
+        help_text=_('The date this file was uploaded.'))
+    title = models.TextField(_('title'),
+        max_length=256,
+        help_text=_('A user-friendly name for this file.'))
 
     class Meta:
         app_label = 'panda'

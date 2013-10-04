@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 13:49-0700\n"
+"POT-Creation-Date: 2013-04-26 16:21+0000\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -383,6 +383,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: client/static/js/text/dataset_search.js:6
+#: client/static/js/views/dataset_search.js:134
 msgid "More search options"
 msgstr "Weitere Suchoptionen"
 
@@ -411,8 +412,8 @@ msgid ""
 "Put phrases in quotes: <code>\"Chicago Bears\"</code> will not match "
 "\"Chicago Panda Bears\"."
 msgstr ""
-"Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\"</code> "
-"wird nicht \"Bahnhof am Zoo\" finden."
+"Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\"</code> wird nicht "
+"\"Bahnhof am Zoo\" finden."
 
 #: client/static/js/text/dataset_search.js:12
 msgid "AND/OR"
@@ -768,6 +769,13 @@ msgid ""
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
 msgstr ""
+"{Searching specific columns has not been enabled for any columns in this "
+"dataset. To enable it select <strong>Enable column search</strong> from the "
+"<strong>Actions</strong> menu on the dataset page.}"
+
+#: client/static/js/text/inline_search_filters.js:8
+msgid "Search by column"
+msgstr "{Search by column}"
 
 #: client/static/js/text/inlines.js:5
 msgid "Previous"
@@ -820,8 +828,8 @@ msgstr "Klicken Sie, um zu löschen"
 #: client/static/js/text/inlines.js:49
 msgid ""
 "<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
-"match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
-"li><li>Put phrases in quotes: <code>&quot;Chicago Bears&quot;</code> will "
+"match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</li>"
+"<li>Put phrases in quotes: <code>&quot;Chicago Bears&quot;</code> will "
 "not match &quot;Chicago Panda Bears&quot;.</li><li>Use AND and OR to find "
 "combinations of terms: <code>homicide AND first</code> will match &quot;"
 "first degree homicide&quot; or &quot;homicide, first degree&quot;, but not "
@@ -830,8 +838,8 @@ msgid ""
 "homicide&quot;, &quot;first degree homicide&quot;, or &quot;homicide, first "
 "degree&quot;.</li><li>PANDA will attempt to match informal and alternate "
 "English first names: <code>bill</code> will match &quot;Bill&quot;, &quot;"
-"Billy&quot;, &quot;William&quot;, etc. It will not match mispellings.</li></"
-"ul>"
+"Billy&quot;, &quot;William&quot;, etc. It will not match mispellings.</li>"
+"</ul>"
 msgstr ""
 "<ul><li>Verwenden Sie ein Sternchen, um einen Wortteil zu finden: "
 "<code>Kast*</code> wird &quot;Kasten&quot;, &quot;Kastell&quot; oder &quot;"
@@ -842,8 +850,8 @@ msgstr ""
 "Totschlag&quot; oder &quot;Totschlag, schwerer&quot; finden, aber nicht "
 "&quot;Totschlag&quot; als Einzelbegriff.</li><li>Gruppieren Sie Wörter mit "
 "Klammern: <code>Wahl AND (1. OR erste)</code> wird &quot;1. Wahl&quot;, "
-"&quot;Erste Wahl&quot; oder &quot;Wahl, erste&quot; ergeben.</"
-"li>[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z."
+"&quot;Erste Wahl&quot; oder &quot;Wahl, erste&quot; ergeben."
+"</li>[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z."
 "B. Andi für Andreas, aber kaum in dem Maß.]</ul>"
 
 #: client/static/js/text/inlines.js:50
@@ -1284,8 +1292,8 @@ msgstr "Ein unerwarteter Fehler ist aufgetreten!"
 msgid "Try again"
 msgstr "Versuchen Sie es erneut"
 
-#: client/static/js/views/dataset_results.js:65
-#: client/static/js/views/dataset_view.js:340
+#: client/static/js/views/dataset_results.js:63
+#: client/static/js/views/dataset_view.js:339
 #: client/static/js/views/search_results.js:95
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
@@ -1294,8 +1302,8 @@ msgstr ""
 "Ihr Export wurde erfolgreich vorbereitet. Wenn er abgeschlossen ist, "
 "erhalten Sie per E-Mail den Link zum Herunterladen der Datei."
 
-#: client/static/js/views/dataset_results.js:67
-#: client/static/js/views/dataset_view.js:342
+#: client/static/js/views/dataset_results.js:65
+#: client/static/js/views/dataset_view.js:341
 #: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
@@ -1306,8 +1314,8 @@ msgstr ""
 "nicht eingerichtet, so dass Sie in Ihrer Benachrichtigungsliste nachsehen "
 "müssen, wann die Datei bereit zum Herunterladen ist."
 
-#: client/static/js/views/dataset_results.js:73
-#: client/static/js/views/dataset_view.js:348
+#: client/static/js/views/dataset_results.js:71
+#: client/static/js/views/dataset_view.js:347
 #: client/static/js/views/search_results.js:103
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
@@ -1315,7 +1323,7 @@ msgstr ""
 "<p>Ihr Export hat leider nicht begonnen!</p><p>Fehler:</p><code>"
 "%(traceback)s</code>"
 
-#: client/static/js/views/dataset_results.js:92
+#: client/static/js/views/dataset_results.js:90
 #: client/static/js/views/search_results.js:76
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
@@ -1324,7 +1332,7 @@ msgstr ""
 "<p>Sie werden ab jetzt Benachrichtigungen über diese Suche erhalten.</"
 "p><p>Sie können diese Benachrichtigungen auf Ihrer Benutzerseite löschen.</p>"
 
-#: client/static/js/views/dataset_results.js:96
+#: client/static/js/views/dataset_results.js:94
 #: client/static/js/views/search_results.js:80
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
@@ -1447,6 +1455,11 @@ msgstr ""
 "<p>Das Aktualisieren der Suchdaten dieses Datensatzes wurde von einem "
 "Administrator abgebrochen. Suchergebnisse können unvollständig sein.</p>"
 
+#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/inline_search_filters.js:192
+msgid "Fewer search options"
+msgstr "Weniger Suchoptionen"
+
 #: client/static/js/views/dataset_search.js:144
 msgid ""
 "<strong>Warning!</strong> This query seems to be taking a very long time. It "
@@ -1565,10 +1578,6 @@ msgstr "ist bei oder nach"
 #: client/static/js/views/inline_search_filters.js:137
 msgid "is at or before"
 msgstr "ist bei oder vor"
-
-#: client/static/js/views/inline_search_filters.js:192
-msgid "Fewer search options"
-msgstr "Weniger Suchoptionen"
 
 #: client/static/js/views/inline_search_filters.js:405
 msgid "No value provided."
@@ -1694,7 +1703,6 @@ msgid "Password reset failed!"
 msgstr "Zurücksetzen des Passworts fehlgeschlagen!"
 
 #: client/static/js/views/root.js:241
-#, fuzzy
 msgid "All datasets"
 msgstr "Meine Datensätze"
 
