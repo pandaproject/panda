@@ -265,10 +265,11 @@ PANDA.views.DatasetView = Backbone.View.extend({
             this.dataset.related_uploads.add(related_upload);
 
             $("#no-related-uploads").hide();
-            $(".related-uploads").append(PANDA.templates.inline_upload_item({ 
+            $(".related-uploads").append(PANDA.templates.inline_upload_item(PANDA.utils.make_context({ 
+                text: PANDA.inlines_text,
                 upload_type: "related",
                 upload: related_upload.toJSON()
-            }));
+            })));
             $(".related-uploads").show();
             
             $('#view-dataset .related-uploads a[rel="tooltip"]').tooltip();
