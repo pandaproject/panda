@@ -8,7 +8,7 @@ exec 1> >(tee /var/log/panda-install.log) 2>&1
 
 echo "PANDA installation beginning."
 
-VERSION="1.0.3"
+VERSION="1.1.0"
 CONFIG_PATH="/opt/panda/setup_panda"
 
 # Setup environment variables
