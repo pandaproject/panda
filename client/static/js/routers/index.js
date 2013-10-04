@@ -38,8 +38,15 @@ PANDA.routers.Index = Backbone.Router.extend({
          * in these Backbone tickets:
          * https://github.com/documentcloud/backbone/pull/1156
          * https://github.com/documentcloud/backbone/pull/1219
+         * As of 2013.02.21 it is also effecting Chrome
+         * changes made to work across browsers
+         * also fixes a related rendering error in the newest firefox
          */
+<<<<<<< HEAD
         if ($.browser.mozilla) {
+=======
+        if (param) {
+>>>>>>> 0998758... fix emerging %20 issues in chrome, firefox
             return param.replace("%20", " ");
         } else {
             return param;
