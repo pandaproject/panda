@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-26 16:21+0000\n"
+"POT-Creation-Date: 2013-10-04 16:51-0700\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: client/templates/dashboard.html:5
@@ -154,12 +154,12 @@ msgstr "Administración"
 msgid "Logout"
 msgstr "Salir"
 
-#: config/settings.py:259
+#: config/settings.py:260
 #, fuzzy
 msgid "Uncategorized"
 msgstr "Categorías que faltan"
 
-#: jumpstart/views.py:37
+#: jumpstart/views.py:38
 msgid "English"
 msgstr "Inglés"
 
@@ -466,12 +466,12 @@ msgstr ""
 #: panda/api/data.py:320 panda/api/users.py:264
 #, fuzzy
 msgid "Invalid data sent."
-msgstr "Reenviar correo de activación"
+msgstr "Encontrar un dataset"
 
 #: panda/api/data.py:449
-#, fuzzy, python-format
+#, python-format
 msgid "Export search results for \"%s\"."
-msgstr "Nuevos resultados para la búsqueda \"%(query)s\" en %(dataset_name)s"
+msgstr ""
 
 #: panda/api/data.py:530
 #, fuzzy
@@ -1208,9 +1208,8 @@ msgid "Tasks"
 msgstr ""
 
 #: panda/models/user_profile.py:22
-#, fuzzy
 msgid "activation_key"
-msgstr "Reenviar correo de activación"
+msgstr ""
 
 #: panda/models/user_profile.py:23
 msgid "activation_key_expiration"
@@ -1772,10 +1771,6 @@ msgstr "Administración de PANDA"
 msgid "Configure domain, email, etc."
 msgstr ""
 
-#: templates/admin/panda_index.html:6
-msgid "Configure domain, email, etc."
-msgstr ""
-
 #: templates/admin/panda_index.html:10
 #, python-format
 msgid "Models available in the %(name)s application."
@@ -1811,8 +1806,9 @@ msgid "Edit Site Settings"
 msgstr "Editar configuración"
 
 #: templates/livesettings/site_settings.html:54
+#, fuzzy
 msgid "Site settings"
-msgstr "Configuración"
+msgstr "Editar configuración"
 
 #: templates/livesettings/site_settings.html:61
 msgid "Livesettings are disabled for this site."

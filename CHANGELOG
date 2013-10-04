@@ -1,6 +1,7 @@
 1.1.0
 -----
 
+* Add Jennifer Wilson to AUTHORS.
 * Add Daniel Lathrop to AUTHORS.
 * Fix url parsing issue breaking Firefox. (#870)
 * Update to Django 1.4.8. (#882)

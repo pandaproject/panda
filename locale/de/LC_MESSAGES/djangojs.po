@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-26 16:21+0000\n"
+"POT-Creation-Date: 2013-10-04 16:51-0700\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -264,6 +264,11 @@ msgstr "Fehler beim Verarbeiten des Datensatzes"
 msgid "Close"
 msgstr "Schließen"
 
+#: client/static/js/text/data_upload.js:34
+#, fuzzy
+msgid "Error uploading dataset: %(message)s"
+msgstr "Fehler beim Verarbeiten des Datensatzes"
+
 #: client/static/js/text/dataset_results.js:3
 msgid "Please enter a search query"
 msgstr "Bitte geben Sie einen Suchbegriff ein"
@@ -383,7 +388,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: client/static/js/text/dataset_search.js:6
-#: client/static/js/views/dataset_search.js:134
+#: client/static/js/views/dataset_search.js:159
 msgid "More search options"
 msgstr "Weitere Suchoptionen"
 
@@ -412,8 +417,8 @@ msgid ""
 "Put phrases in quotes: <code>\"Chicago Bears\"</code> will not match "
 "\"Chicago Panda Bears\"."
 msgstr ""
-"Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\"</code> wird nicht "
-"\"Bahnhof am Zoo\" finden."
+"Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\"</code> "
+"wird nicht \"Bahnhof am Zoo\" finden."
 
 #: client/static/js/text/dataset_search.js:12
 msgid "AND/OR"
@@ -748,6 +753,7 @@ msgstr ""
 "die <a %(link)s>PANDA-Übersicht</a>!"
 
 #: client/static/js/text/inline_search_filters.js:3
+#: client/static/js/text/inline_search_filters.js:9
 msgid "Search by column"
 msgstr ""
 
@@ -769,19 +775,12 @@ msgid ""
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
 msgstr ""
-"{Searching specific columns has not been enabled for any columns in this "
-"dataset. To enable it select <strong>Enable column search</strong> from the "
-"<strong>Actions</strong> menu on the dataset page.}"
 
-#: client/static/js/text/inline_search_filters.js:8
-msgid "Search by column"
-msgstr "{Search by column}"
-
-#: client/static/js/text/inlines.js:5
+#: client/static/js/text/inlines.js:5 client/static/js/text/notifications.js:3
 msgid "Previous"
 msgstr "Vorherige"
 
-#: client/static/js/text/inlines.js:6
+#: client/static/js/text/inlines.js:6 client/static/js/text/notifications.js:4
 msgid "Next"
 msgstr "Nächste"
 
@@ -828,8 +827,8 @@ msgstr "Klicken Sie, um zu löschen"
 #: client/static/js/text/inlines.js:49
 msgid ""
 "<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
-"match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</li>"
-"<li>Put phrases in quotes: <code>&quot;Chicago Bears&quot;</code> will "
+"match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
+"li><li>Put phrases in quotes: <code>&quot;Chicago Bears&quot;</code> will "
 "not match &quot;Chicago Panda Bears&quot;.</li><li>Use AND and OR to find "
 "combinations of terms: <code>homicide AND first</code> will match &quot;"
 "first degree homicide&quot; or &quot;homicide, first degree&quot;, but not "
@@ -838,8 +837,8 @@ msgid ""
 "homicide&quot;, &quot;first degree homicide&quot;, or &quot;homicide, first "
 "degree&quot;.</li><li>PANDA will attempt to match informal and alternate "
 "English first names: <code>bill</code> will match &quot;Bill&quot;, &quot;"
-"Billy&quot;, &quot;William&quot;, etc. It will not match mispellings.</li>"
-"</ul>"
+"Billy&quot;, &quot;William&quot;, etc. It will not match mispellings.</li></"
+"ul>"
 msgstr ""
 "<ul><li>Verwenden Sie ein Sternchen, um einen Wortteil zu finden: "
 "<code>Kast*</code> wird &quot;Kasten&quot;, &quot;Kastell&quot; oder &quot;"
@@ -850,8 +849,8 @@ msgstr ""
 "Totschlag&quot; oder &quot;Totschlag, schwerer&quot; finden, aber nicht "
 "&quot;Totschlag&quot; als Einzelbegriff.</li><li>Gruppieren Sie Wörter mit "
 "Klammern: <code>Wahl AND (1. OR erste)</code> wird &quot;1. Wahl&quot;, "
-"&quot;Erste Wahl&quot; oder &quot;Wahl, erste&quot; ergeben."
-"</li>[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z."
+"&quot;Erste Wahl&quot; oder &quot;Wahl, erste&quot; ergeben.</"
+"li>[Rausgelassen, da im deutschen Sprachgebrauch kein Äquivalent, es gibt z."
 "B. Andi für Andreas, aber kaum in dem Maß.]</ul>"
 
 #: client/static/js/text/inlines.js:50
@@ -1292,9 +1291,9 @@ msgstr "Ein unerwarteter Fehler ist aufgetreten!"
 msgid "Try again"
 msgstr "Versuchen Sie es erneut"
 
-#: client/static/js/views/dataset_results.js:63
-#: client/static/js/views/dataset_view.js:339
-#: client/static/js/views/search_results.js:95
+#: client/static/js/views/dataset_results.js:67
+#: client/static/js/views/dataset_view.js:340
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
@@ -1302,9 +1301,9 @@ msgstr ""
 "Ihr Export wurde erfolgreich vorbereitet. Wenn er abgeschlossen ist, "
 "erhalten Sie per E-Mail den Link zum Herunterladen der Datei."
 
-#: client/static/js/views/dataset_results.js:65
-#: client/static/js/views/dataset_view.js:341
-#: client/static/js/views/search_results.js:97
+#: client/static/js/views/dataset_results.js:69
+#: client/static/js/views/dataset_view.js:342
+#: client/static/js/views/search_results.js:99
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
@@ -1314,17 +1313,17 @@ msgstr ""
 "nicht eingerichtet, so dass Sie in Ihrer Benachrichtigungsliste nachsehen "
 "müssen, wann die Datei bereit zum Herunterladen ist."
 
-#: client/static/js/views/dataset_results.js:71
-#: client/static/js/views/dataset_view.js:347
-#: client/static/js/views/search_results.js:103
+#: client/static/js/views/dataset_results.js:75
+#: client/static/js/views/dataset_view.js:348
+#: client/static/js/views/search_results.js:105
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
 "<p>Ihr Export hat leider nicht begonnen!</p><p>Fehler:</p><code>"
 "%(traceback)s</code>"
 
-#: client/static/js/views/dataset_results.js:90
-#: client/static/js/views/search_results.js:76
+#: client/static/js/views/dataset_results.js:94
+#: client/static/js/views/search_results.js:78
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
@@ -1332,8 +1331,8 @@ msgstr ""
 "<p>Sie werden ab jetzt Benachrichtigungen über diese Suche erhalten.</"
 "p><p>Sie können diese Benachrichtigungen auf Ihrer Benutzerseite löschen.</p>"
 
-#: client/static/js/views/dataset_results.js:94
-#: client/static/js/views/search_results.js:80
+#: client/static/js/views/dataset_results.js:98
+#: client/static/js/views/search_results.js:82
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
 "%(traceback)s</code>"
@@ -1341,7 +1340,11 @@ msgstr ""
 "<p>Fehler beim Abonnieren der Benachrichtiungen!</p><p>Fehler:</p><code>"
 "%(traceback)s</code>"
 
-#: client/static/js/views/dataset_search.js:68
+#: client/static/js/views/dataset_search.js:50
+msgid "Import in progress!"
+msgstr "Import läuft!"
+
+#: client/static/js/views/dataset_search.js:51
 msgid ""
 "<p>This dataset is being made searchable. Search results may be incomplete.</"
 "p><p>Status: %(message)s. <a href=\"javascript:location."
@@ -1351,15 +1354,11 @@ msgstr ""
 "unvollständig sein.</p><p>Status: %(message)s. <a href=\"javascript:location."
 "reload(true)\">Aktualisieren um den neuesten Status zu sehen &raquo;</a></p>"
 
-#: client/static/js/views/dataset_search.js:69
-msgid "Import in progress!"
-msgstr "Import läuft!"
-
-#: client/static/js/views/dataset_search.js:71
+#: client/static/js/views/dataset_search.js:54
 msgid "Import queued!"
 msgstr "Import vorbereitet!"
 
-#: client/static/js/views/dataset_search.js:71
+#: client/static/js/views/dataset_search.js:55
 msgid ""
 "<p>This dataset is waiting to be made searchable. Search results may be "
 "incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see "
@@ -1369,11 +1368,13 @@ msgstr ""
 "Suchergebnisse könnten noch unvollständig sein. <a href=\"javascript:"
 "location.reload(true)\">Aktualisieren für den neuesten Status &raquo;</a></p>"
 
-#: client/static/js/views/dataset_search.js:73
+#: client/static/js/views/dataset_search.js:58
+#: client/static/js/views/dataset_search.js:62
 msgid "Import failed!"
 msgstr "Import fehlgeschlagen!"
 
-#: client/static/js/views/dataset_search.js:73
+#: client/static/js/views/dataset_search.js:59
+#: client/static/js/views/dataset_search.js:77
 msgid ""
 "<p>The process to make this dataset searchable failed. Search results may be "
 "incomplete. <a href=\"#modal-dataset-traceback\" class=\"btn inline\" data-"
@@ -1385,11 +1386,7 @@ msgstr ""
 "\" class=\"btn inline\" data-toggle=\"modal\" data-backdrop=\"true\" data-"
 "keyboard=\"true\">Detaillierte Fehlermeldung anzeigen</a></p>"
 
-#: client/static/js/views/dataset_search.js:75
-msgid "Import aborted!"
-msgstr "Import abgebrochen!"
-
-#: client/static/js/views/dataset_search.js:75
+#: client/static/js/views/dataset_search.js:63
 msgid ""
 "<p>The process to make data searchable was aborted by an administrator. "
 "Search results may be incomplete.</p>"
@@ -1397,7 +1394,11 @@ msgstr ""
 "<p>Das Durchsuchbarmachen der Daten wurde von einem Administrator "
 "abgebrochen. Suchergebnisse können unvollständig sein.</p>"
 
-#: client/static/js/views/dataset_search.js:80
+#: client/static/js/views/dataset_search.js:68
+msgid "Reindexing in progress!"
+msgstr "Reindizieren läuft!"
+
+#: client/static/js/views/dataset_search.js:69
 msgid ""
 "<p>Search data for this dataset is being updated. Search results may be "
 "incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location."
@@ -1407,47 +1408,31 @@ msgstr ""
 "unvollständig sein.</p><p>Status: %(message)s. <a href=\"javascript:location."
 "reload(true)\">Aktualisieren für den neuesten Status &raquo;</a></p>"
 
-#: client/static/js/views/dataset_search.js:81
-msgid "Reindexing in progress!"
-msgstr "Reindizieren läuft!"
-
-#: client/static/js/views/dataset_search.js:83
+#: client/static/js/views/dataset_search.js:72
 msgid "Reindexing queued!"
 msgstr "Reindizieren vorbereitet!"
 
-#: client/static/js/views/dataset_search.js:83
+#: client/static/js/views/dataset_search.js:73
 #, fuzzy
 msgid ""
 "<p>This dataset is waiting to have its search data updated. Search results "
 "may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to "
-"see updated status &raquo;</a></p>"
+"see updated status &raquo;</a</p>"
 msgstr ""
 "<p>Dieser Datensatz wartet darauf, dass seine Suchdaten aktualisiert werden. "
 "Suchergebnisse können unvollständig sein.</p><p>Status: %(message)s. <a href="
 "\"javascript:location.reload(true)\">Aktualisieren für den neuesten Status "
 "&raquo;</a></p>"
 
-#: client/static/js/views/dataset_search.js:85
+#: client/static/js/views/dataset_search.js:76
 msgid "Reindexing failed!"
 msgstr "Reindizieren fehlgeschlagen!"
 
-#: client/static/js/views/dataset_search.js:85
-msgid ""
-"<p>The process to make update this dataset's search data failed. Search "
-"results may be incomplete. <a href=\"#modal-dataset-traceback\" class=\"btn "
-"inline\" data-toggle=\"modal\" data-backdrop=\"true\" data-keyboard=\"true"
-"\">Show detailed error message</a></p>"
-msgstr ""
-"<p>Das Aktualisieren der Suchdaten dieses Datensatzes ist fehlgeschlagen. "
-"Suchergebnisse können unvollständig sein. <a href=\"#modal-dataset-traceback"
-"\" class=\"btn inline\" data-toggle=\"modal\" data-backdrop=\"true\" data-"
-"keyboard=\"true\">Detaillierte Fehlermeldung anzeigen</a></p>"
-
-#: client/static/js/views/dataset_search.js:87
+#: client/static/js/views/dataset_search.js:80
 msgid "Reindexing aborted!"
 msgstr "Reindizieren abgebrochen!"
 
-#: client/static/js/views/dataset_search.js:87
+#: client/static/js/views/dataset_search.js:81
 msgid ""
 "<p>The process to udpate this dataset's search data was aborted by an "
 "administrator. Search results may be incomplete.</p>"
@@ -1455,12 +1440,12 @@ msgstr ""
 "<p>Das Aktualisieren der Suchdaten dieses Datensatzes wurde von einem "
 "Administrator abgebrochen. Suchergebnisse können unvollständig sein.</p>"
 
-#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/dataset_search.js:157
 #: client/static/js/views/inline_search_filters.js:192
 msgid "Fewer search options"
 msgstr "Weniger Suchoptionen"
 
-#: client/static/js/views/dataset_search.js:144
+#: client/static/js/views/dataset_search.js:169
 msgid ""
 "<strong>Warning!</strong> This query seems to be taking a very long time. It "
 "may still finish or it may have failed."
@@ -1468,11 +1453,11 @@ msgstr ""
 "<strong>Achtung!</strong> Diese Suche scheint überdurchschnittlich lange zu "
 "brauchen. Sie könnte noch fertig werden oder aber fehlgeschlagen sein."
 
-#: client/static/js/views/dataset_search.js:151
+#: client/static/js/views/dataset_search.js:176
 msgid "<h3>Error executing query!</h3> <p>%(error)s</p>"
 msgstr "<h3>Fehler beim Ausführen der Suche!</h3> <p>%(error)s</p>"
 
-#: client/static/js/views/dataset_search.js:205
+#: client/static/js/views/dataset_search.js:230
 msgid "Search for <code class=\"full-text\">%(full_text_query)s</code>"
 msgstr "Suche nach <code class=\"full-text\">%(full_text_query)s</code>"
 
@@ -1703,6 +1688,7 @@ msgid "Password reset failed!"
 msgstr "Zurücksetzen des Passworts fehlgeschlagen!"
 
 #: client/static/js/views/root.js:241
+#, fuzzy
 msgid "All datasets"
 msgstr "Meine Datensätze"
 
@@ -1713,3 +1699,18 @@ msgstr ""
 #: client/static/js/views/user.js:93
 msgid "Are you sure you want to delete this subscription?"
 msgstr "Sind Sie sicher, dass Sie dieses Abonnement löschen wollen?"
+
+#~ msgid "Import aborted!"
+#~ msgstr "Import abgebrochen!"
+
+#~ msgid ""
+#~ "<p>The process to make update this dataset's search data failed. Search "
+#~ "results may be incomplete. <a href=\"#modal-dataset-traceback\" class="
+#~ "\"btn inline\" data-toggle=\"modal\" data-backdrop=\"true\" data-keyboard="
+#~ "\"true\">Show detailed error message</a></p>"
+#~ msgstr ""
+#~ "<p>Das Aktualisieren der Suchdaten dieses Datensatzes ist fehlgeschlagen. "
+#~ "Suchergebnisse können unvollständig sein. <a href=\"#modal-dataset-"
+#~ "traceback\" class=\"btn inline\" data-toggle=\"modal\" data-backdrop="
+#~ "\"true\" data-keyboard=\"true\">Detaillierte Fehlermeldung anzeigen</a></"
+#~ "p>"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-26 16:21+0000\n"
+"POT-Creation-Date: 2013-10-04 16:51-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,6 +225,10 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+#: client/static/js/text/data_upload.js:34
+msgid "Error uploading dataset: %(message)s"
+msgstr ""
+
 #: client/static/js/text/dataset_results.js:3
 #, fuzzy
 msgid "Please enter a search query"
@@ -332,7 +336,7 @@ msgid "Search"
 msgstr "Buscar"
 
 #: client/static/js/text/dataset_search.js:6
-#: client/static/js/views/dataset_search.js:134
+#: client/static/js/views/dataset_search.js:159
 msgid "More search options"
 msgstr ""
 
@@ -671,6 +675,7 @@ msgstr ""
 "%(link)s>Dashboard</a>!"
 
 #: client/static/js/text/inline_search_filters.js:3
+#: client/static/js/text/inline_search_filters.js:9
 msgid "Search by column"
 msgstr ""
 
@@ -693,15 +698,11 @@ msgid ""
 "<strong>Actions</strong> menu on the dataset page."
 msgstr ""
 
-#: client/static/js/text/inline_search_filters.js:8
-msgid "Search by column"
-msgstr ""
-
-#: client/static/js/text/inlines.js:5
+#: client/static/js/text/inlines.js:5 client/static/js/text/notifications.js:3
 msgid "Previous"
 msgstr ""
 
-#: client/static/js/text/inlines.js:6
+#: client/static/js/text/inlines.js:6 client/static/js/text/notifications.js:4
 msgid "Next"
 msgstr ""
 
@@ -1138,71 +1139,73 @@ msgstr ""
 msgid "Try again"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:63
-#: client/static/js/views/dataset_view.js:339
-#: client/static/js/views/search_results.js:95
+#: client/static/js/views/dataset_results.js:67
+#: client/static/js/views/dataset_view.js:340
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:65
-#: client/static/js/views/dataset_view.js:341
-#: client/static/js/views/search_results.js:97
+#: client/static/js/views/dataset_results.js:69
+#: client/static/js/views/dataset_view.js:342
+#: client/static/js/views/search_results.js:99
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
 "is ready to be downloaded."
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:71
-#: client/static/js/views/dataset_view.js:347
-#: client/static/js/views/search_results.js:103
+#: client/static/js/views/dataset_results.js:75
+#: client/static/js/views/dataset_view.js:348
+#: client/static/js/views/search_results.js:105
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:90
-#: client/static/js/views/search_results.js:76
+#: client/static/js/views/dataset_results.js:94
+#: client/static/js/views/search_results.js:78
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:94
-#: client/static/js/views/search_results.js:80
+#: client/static/js/views/dataset_results.js:98
+#: client/static/js/views/search_results.js:82
 msgid ""
 "<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
 "%(traceback)s</code>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:68
+#: client/static/js/views/dataset_search.js:50
+msgid "Import in progress!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:51
 msgid ""
 "<p>This dataset is being made searchable. Search results may be incomplete.</"
 "p><p>Status: %(message)s. <a href=\"javascript:location."
 "reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:69
-msgid "Import in progress!"
-msgstr ""
-
-#: client/static/js/views/dataset_search.js:71
+#: client/static/js/views/dataset_search.js:54
 msgid "Import queued!"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:71
+#: client/static/js/views/dataset_search.js:55
 msgid ""
 "<p>This dataset is waiting to be made searchable. Search results may be "
 "incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see "
 "updated status &raquo;</a</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:73
+#: client/static/js/views/dataset_search.js:58
+#: client/static/js/views/dataset_search.js:62
 msgid "Import failed!"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:73
+#: client/static/js/views/dataset_search.js:59
+#: client/static/js/views/dataset_search.js:77
 msgid ""
 "<p>The process to make this dataset searchable failed. Search results may be "
 "incomplete. <a href=\"#modal-dataset-traceback\" class=\"btn inline\" data-"
@@ -1210,76 +1213,64 @@ msgid ""
 "error message</a></p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:75
-msgid "Import aborted!"
-msgstr ""
-
-#: client/static/js/views/dataset_search.js:75
+#: client/static/js/views/dataset_search.js:63
 msgid ""
 "<p>The process to make data searchable was aborted by an administrator. "
 "Search results may be incomplete.</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:80
+#: client/static/js/views/dataset_search.js:68
+msgid "Reindexing in progress!"
+msgstr ""
+
+#: client/static/js/views/dataset_search.js:69
 msgid ""
 "<p>Search data for this dataset is being updated. Search results may be "
 "incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location."
 "reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:81
-msgid "Reindexing in progress!"
-msgstr ""
-
-#: client/static/js/views/dataset_search.js:83
+#: client/static/js/views/dataset_search.js:72
 msgid "Reindexing queued!"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:83
+#: client/static/js/views/dataset_search.js:73
 msgid ""
 "<p>This dataset is waiting to have its search data updated. Search results "
 "may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to "
-"see updated status &raquo;</a></p>"
+"see updated status &raquo;</a</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:85
+#: client/static/js/views/dataset_search.js:76
 msgid "Reindexing failed!"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:85
-msgid ""
-"<p>The process to make update this dataset's search data failed. Search "
-"results may be incomplete. <a href=\"#modal-dataset-traceback\" class=\"btn "
-"inline\" data-toggle=\"modal\" data-backdrop=\"true\" data-keyboard=\"true"
-"\">Show detailed error message</a></p>"
-msgstr ""
-
-#: client/static/js/views/dataset_search.js:87
+#: client/static/js/views/dataset_search.js:80
 msgid "Reindexing aborted!"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:87
+#: client/static/js/views/dataset_search.js:81
 msgid ""
 "<p>The process to udpate this dataset's search data was aborted by an "
 "administrator. Search results may be incomplete.</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:132
+#: client/static/js/views/dataset_search.js:157
 #: client/static/js/views/inline_search_filters.js:192
 msgid "Fewer search options"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:144
+#: client/static/js/views/dataset_search.js:169
 msgid ""
 "<strong>Warning!</strong> This query seems to be taking a very long time. It "
 "may still finish or it may have failed."
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:151
+#: client/static/js/views/dataset_search.js:176
 msgid "<h3>Error executing query!</h3> <p>%(error)s</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_search.js:205
+#: client/static/js/views/dataset_search.js:230
 msgid "Search for <code class=\"full-text\">%(full_text_query)s</code>"
 msgstr ""
 
