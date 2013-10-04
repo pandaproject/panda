@@ -1354,7 +1354,7 @@ msgid ""
 "updated status &raquo;</a</p>"
 msgstr ""
 "<p>Dieser Datensatz wartet darauf, durchsuchbar gemacht zu werden. "
-"Suchergebnisse könnten noch unvollständig sein.</p><p>Status: %(message)s. "
+"Suchergebnisse könnten noch unvollständig sein. "
 "<a href=\"javascript:location.reload(true)\">Aktualisieren für den neuesten "
 "Status &raquo;</a></p>"
 

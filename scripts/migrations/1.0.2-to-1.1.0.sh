@@ -22,6 +22,9 @@ cd /opt/panda
 git pull
 git checkout 1.1.0
 
+# Update Python requirements
+pip install -U -r requirements.txt
+
 # Restart services
 service solr start 
 service uwsgi start
