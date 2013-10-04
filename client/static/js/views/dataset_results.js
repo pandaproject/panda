@@ -55,14 +55,16 @@ PANDA.views.DatasetResults = Backbone.View.extend({
         /*
          * Export complete dataset to CSV asynchronously.
          */
+        var note = '';
+
         this.search.dataset.export_data(
             this.search.make_solr_query(),
             this.search.since,
             function() {
                 if (PANDA.settings.EMAIL_ENABLED) {
-                    note += gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
+                    note = gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
                 } else {
-                    note += gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded.");
+                    note = gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded.");
                 }
 
                 bootbox.alert(note);
