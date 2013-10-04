@@ -1,6 +1,8 @@
 1.1.0
 -----
 
+* Add Daniel Lathrop to AUTHORS.
+* Fix url parsing issue breaking Firefox. (#870)
 * Update to Django 1.4.8. (#882)
 * Integrate German (DE) translation. (#865)
 * Implement translation (i18n) support. (#861, etc.)
