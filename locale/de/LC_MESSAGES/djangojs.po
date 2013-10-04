@@ -732,7 +732,7 @@ msgstr "Vor kurzem hinzugefügte Datensätze"
 
 #: client/static/js/text/home.js:4
 msgid "Created %(timeago)s"
-msgstr "Vor [?] %(timeago)s erzeugt"
+msgstr "%(timeago)s erzeugt"
 
 #: client/static/js/text/home.js:5
 msgid "Browse all %(count)s datasets"
@@ -1547,12 +1547,12 @@ msgstr "ist im Bereich von"
 #: client/static/js/views/inline_search_filters.js:79
 #: client/static/js/views/inline_search_filters.js:105
 msgid "is on or after"
-msgstr "ist am [?] oder nach"
+msgstr "ist am oder nach"
 
 #: client/static/js/views/inline_search_filters.js:85
 #: client/static/js/views/inline_search_filters.js:111
 msgid "is on or before"
-msgstr "ist am [?] oder vor"
+msgstr "ist am oder vor"
 
 #: client/static/js/views/inline_search_filters.js:131
 msgid "is at or after"

@@ -717,7 +717,7 @@ msgstr "Seiten-Einstellungen"
 
 #: templates/livesettings/site_settings.html:61
 msgid "Livesettings are disabled for this site."
-msgstr "Live-Einstellungen [?] sind für diese Seite deaktiviert."
+msgstr "Live-Einstellungen sind für diese Seite deaktiviert."
 
 #: templates/livesettings/site_settings.html:62
 msgid "All configuration options must be edited in the site settings.py file"
