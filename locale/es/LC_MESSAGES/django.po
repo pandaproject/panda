@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 16:13+0000\n"
+"POT-Creation-Date: 2013-10-04 12:23-0700\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: client/templates/dashboard.html:5
@@ -191,11 +191,6 @@ msgstr "Fechas importantes"
 msgid "Add %s"
 msgstr "Añadir %s"
 
-#: panda/config.py:6 templates/livesettings/site_settings.html:55
-#, fuzzy
-msgid "Site settings"
-msgstr "Editar configuración"
-
 #: panda/tasks/export_csv.py:43
 msgid "Preparing to export"
 msgstr "Preparando para exportar"
@@ -239,10 +234,10 @@ msgid ""
 "after row %(row)i. You need to re-upload this file and input the correct "
 "encoding in order to import data from this file."
 msgstr ""
-"Este fichero CSV contiene caracteres que no están codificados en %(encoding)"
-"s en la fila %(row)i o después de ésta. Debes volver a subir el fichero y "
-"seleccionar la codificación correcta para poder importar los datos de éste "
-"fichero."
+"Este fichero CSV contiene caracteres que no están codificados en "
+"%(encoding)s en la fila %(row)i o después de ésta. Debes volver a subir el "
+"fichero y seleccionar la codificación correcta para poder importar los datos "
+"de éste fichero."
 
 #: panda/tasks/import_csv.py:102
 #, python-format
@@ -392,14 +387,14 @@ msgid ""
 "The drive containing your PANDA application is low on disk space: %(bytes)s "
 "remains (%(percent)s%% full)"
 msgstr ""
-"El disco que contiene tu aplicación PANDA tiene poco espacio disponible: %"
-"(bytes)s disponibles (%(percent)s%% completo)"
+"El disco que contiene tu aplicación PANDA tiene poco espacio disponible: "
+"%(bytes)s disponibles (%(percent)s%% completo)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:3
 #, python-format
 msgid ""
-"The drive containing your PANDA uploads is CRITICALLY low on disk space: %"
-"(bytes)s remains (%(percent)s%% full)"
+"The drive containing your PANDA uploads is CRITICALLY low on disk space: "
+"%(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "El disco que contiene tus ficheros subidos de PANDA está casi sin espacio "
 "disponible: %(bytes)s disponible (%(percent)s%% completo)"
@@ -419,14 +414,14 @@ msgid ""
 "The drive containing your PANDA search indices is CRITICALLY low on disk "
 "space: %(bytes)s remains (%(percent)s%% full)"
 msgstr ""
-"El disco que tus índices de búsqueda de PANDA está casi sin espacio: %(bytes)"
-"s disponible (%(percent)s%% completo)"
+"El disco que tus índices de búsqueda de PANDA está casi sin espacio: "
+"%(bytes)s disponible (%(percent)s%% completo)"
 
 #: panda/templates/notifications/disk_space_alert/email_body.txt:5
 #, python-format
 msgid ""
-"The drive containing your PANDA search indices is low on disk space: %(bytes)"
-"s remains (%(percent)s%% full)"
+"The drive containing your PANDA search indices is low on disk space: "
+"%(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "El disco que contiene los índices de búsquedas de PANDA tiene poco espacio "
 "disponible: %(bytes)s disponible (%(percent)s%% completo)"
@@ -627,8 +622,8 @@ msgstr "Reindexado fallido: <strong>%(dataset_name)s</strong>"
 msgid ""
 "New search results for \"%(query)s\" in %(dataset_name)s (%(count)s new)"
 msgstr ""
-"Nuevos resultados de la búsqueda \"%(query)s\" en %(dataset_name)s (%(count)"
-"s nuevos)"
+"Nuevos resultados de la búsqueda \"%(query)s\" en %(dataset_name)s "
+"(%(count)s nuevos)"
 
 #: panda/templates/notifications/subscription_results/email_body.txt:4
 msgid "See just the new results:"
@@ -705,6 +700,11 @@ msgstr "Salir"
 
 #: templates/livesettings/site_settings.html:51
 msgid "Edit Site Settings"
+msgstr "Editar configuración"
+
+#: templates/livesettings/site_settings.html:54
+#, fuzzy
+msgid "Site settings"
 msgstr "Editar configuración"
 
 #: templates/livesettings/site_settings.html:61

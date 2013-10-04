@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 16:13+0000\n"
+"POT-Creation-Date: 2013-10-04 12:23-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: client/static/js/text/activate.js:3
@@ -666,8 +666,8 @@ msgid ""
 "Want to see how your PANDA is being used? Visit the <a %(link)s>Dashboard</"
 "a>!"
 msgstr ""
-"¿Quieres ver cómo su PANDA se está utilizando? Visite el <a %(link)"
-"s>Dashboard</a>!"
+"¿Quieres ver cómo su PANDA se está utilizando? Visite el <a "
+"%(link)s>Dashboard</a>!"
 
 #: client/static/js/text/inline_search_filters.js:3
 msgid "Add to search"
@@ -714,29 +714,29 @@ msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/static/js/text/inlines.js:38
+#: client/static/js/text/inlines.js:36
 msgid "(%(total)s total dataset)"
 msgid_plural " (%(total)s total datasets)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/static/js/text/inlines.js:45
+#: client/static/js/text/inlines.js:43
 msgid "uploaded by %(user)s"
 msgstr ""
 
-#: client/static/js/text/inlines.js:46
+#: client/static/js/text/inlines.js:44
 msgid "Uploaded %(when)s"
 msgstr ""
 
-#: client/static/js/text/inlines.js:47
+#: client/static/js/text/inlines.js:45
 msgid "Edit title"
 msgstr ""
 
-#: client/static/js/text/inlines.js:48
+#: client/static/js/text/inlines.js:46
 msgid "Click to delete"
 msgstr ""
 
-#: client/static/js/text/inlines.js:51
+#: client/static/js/text/inlines.js:49
 msgid ""
 "<ul><li>Use an asterisk to match part of a word: <code>coff*</code> will "
 "match &quot;coffee&quot;, &quot;Coffer&quot; or &quot;coffins&quot;.</"
@@ -753,11 +753,11 @@ msgid ""
 "ul>"
 msgstr ""
 
-#: client/static/js/text/inlines.js:52
+#: client/static/js/text/inlines.js:50
 msgid "Advanced searching"
 msgstr ""
 
-#: client/static/js/text/inlines.js:53
+#: client/static/js/text/inlines.js:51
 msgid "Advanced"
 msgstr ""
 
@@ -1129,49 +1129,49 @@ msgstr ""
 msgid "Try again"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:63
-#: client/static/js/views/dataset_view.js:339
-#: client/static/js/views/search_results.js:97
+#: client/static/js/views/dataset_results.js:65
+#: client/static/js/views/dataset_view.js:340
+#: client/static/js/views/search_results.js:95
 msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:65
-#: client/static/js/views/dataset_view.js:341
-#: client/static/js/views/search_results.js:99
+#: client/static/js/views/dataset_results.js:67
+#: client/static/js/views/dataset_view.js:342
+#: client/static/js/views/search_results.js:97
 msgid ""
 "Your export has been successfully queued. Your PANDA does not have email "
 "configured, so you will need to check your Notifications list to see when it "
 "is ready to be downloaded."
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:71
-#: client/static/js/views/dataset_view.js:347
-#: client/static/js/views/search_results.js:105
+#: client/static/js/views/dataset_results.js:73
+#: client/static/js/views/dataset_view.js:348
+#: client/static/js/views/search_results.js:103
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:90
-#: client/static/js/views/search_results.js:78
+#: client/static/js/views/dataset_results.js:92
+#: client/static/js/views/search_results.js:76
 msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_results.js:94
-#: client/static/js/views/search_results.js:82
+#: client/static/js/views/dataset_results.js:96
+#: client/static/js/views/search_results.js:80
 msgid ""
-"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
-"s</code>"
+"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:68
 msgid ""
 "<p>This dataset is being made searchable. Search results may be incomplete.</"
-"p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)"
-"\">Refresh to see updated status &raquo;</a></p>"
+"p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:69
@@ -1214,8 +1214,8 @@ msgstr ""
 #: client/static/js/views/dataset_search.js:80
 msgid ""
 "<p>Search data for this dataset is being updated. Search results may be "
-"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload"
-"(true)\">Refresh to see updated status &raquo;</a></p>"
+"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:81
@@ -1288,23 +1288,23 @@ msgid ""
 "possible to recover this file.</p>"
 msgstr ""
 
-#: client/static/js/views/dataset_view.js:313
+#: client/static/js/views/dataset_view.js:314
 msgid ""
 "Your data indexing task has been successfully queued. You will receive an "
 "email when it is complete."
 msgstr ""
 
-#: client/static/js/views/dataset_view.js:315
+#: client/static/js/views/dataset_view.js:316
 msgid ""
 "Your data indexing task has been successfully queued. Your PANDA does not "
 "have email configured, so you will need to check your Notifications list to "
 "see when the task is complete."
 msgstr ""
 
-#: client/static/js/views/dataset_view.js:326
+#: client/static/js/views/dataset_view.js:327
 msgid ""
-"<p>Your data indexing task failed to start!</p><p>Error:</p><code>%"
-"(traceback)s</code>"
+"<p>Your data indexing task failed to start!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
 
 #: client/static/js/views/inline_search_filters.js:5
