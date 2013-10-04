@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 12:23-0700\n"
+"POT-Creation-Date: 2013-10-04 12:58-0700\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: client/templates/dashboard.html:5
@@ -154,15 +154,11 @@ msgstr "Administración"
 msgid "Logout"
 msgstr "Salir"
 
-#: jumpstart/views.py:37
+#: jumpstart/views.py:38
 msgid "English"
 msgstr "Inglés"
 
-#: jumpstart/views.py:37
-msgid "Spanish"
-msgstr "Español"
-
-#: jumpstart/views.py:37
+#: jumpstart/views.py:39
 msgid "German"
 msgstr ""
 
@@ -663,10 +659,9 @@ msgstr "Error de servidor"
 msgid "PANDA Administration"
 msgstr "Administración de PANDA"
 
-#: templates/admin/base_site.html:7
-#, fuzzy
-msgid "(version 1.0.3)"
-msgstr "(versión 1.0.2)"
+#: templates/admin/panda_index.html:6
+msgid "Configure domain, email, etc."
+msgstr ""
 
 #: templates/admin/panda_index.html:10
 #, python-format
@@ -729,3 +724,10 @@ msgstr "Actualizar configuración"
 #: templates/livesettings/site_settings.html:117
 msgid "You don't have permission to edit values."
 msgstr "No tienes permiso para editar valores"
+
+#~ msgid "Spanish"
+#~ msgstr "Español"
+
+#, fuzzy
+#~ msgid "(version 1.0.3)"
+#~ msgstr "(versión 1.0.2)"

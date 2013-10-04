@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (server-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 12:23-0700\n"
+"POT-Creation-Date: 2013-10-04 12:57-0700\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,15 +162,11 @@ msgstr "Admin"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: jumpstart/views.py:37
+#: jumpstart/views.py:38
 msgid "English"
 msgstr "Englisch"
 
-#: jumpstart/views.py:37
-msgid "Spanish"
-msgstr "Spanisch"
-
-#: jumpstart/views.py:37
+#: jumpstart/views.py:39
 msgid "German"
 msgstr ""
 
@@ -672,10 +668,9 @@ msgstr "Server-Fehler"
 msgid "PANDA Administration"
 msgstr "PANDA-Administration"
 
-#: templates/admin/base_site.html:7
-#, fuzzy
-msgid "(version 1.0.3)"
-msgstr "(Version 1.0.2)"
+#: templates/admin/panda_index.html:6
+msgid "Configure domain, email, etc."
+msgstr ""
 
 #: templates/admin/panda_index.html:10
 #, python-format
@@ -737,3 +732,4 @@ msgstr "Einstellungen aktualisieren"
 #: templates/livesettings/site_settings.html:117
 msgid "You don't have permission to edit values."
 msgstr "Sie haben nicht die Berechtigung, Werte zu bearbeiten."
+

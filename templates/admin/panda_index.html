@@ -3,7 +3,7 @@
 
 {% block content %}
 <div id="content-main">
-    <h2><a href="/admin/settings">Configure domain, email, etc. &raquo;</a></h2>
+    <h2><a href="/admin/settings">{% trans "Configure domain, email, etc." %} &raquo;</a></h2>
 {% if app_list %}
     {% for app in app_list %}
         <div class="module">
