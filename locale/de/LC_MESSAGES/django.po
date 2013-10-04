@@ -192,7 +192,7 @@ msgstr "Berechtigungen"
 
 #: panda/admin.py:135
 msgid "Important dates"
-msgstr "Wichtige Daten [Kontext: Kalenderdaten?]"
+msgstr "Wichtige Daten"
 
 #: panda/admin.py:210 panda/admin.py:352
 #, python-format
@@ -304,13 +304,13 @@ msgstr "Hinzufügen"
 #: panda/templates/admin/panda/userproxy/add_form.html:31
 #: panda/templates/admin/panda/userproxy/add_many_form.html:31
 msgid "History"
-msgstr "Historie [Versions- etc.-Geschichte?]"
+msgstr "Historie"
 
 #: panda/templates/admin/panda/taskstatus/change_form.html:32
 #: panda/templates/admin/panda/userproxy/add_form.html:32
 #: panda/templates/admin/panda/userproxy/add_many_form.html:32
 msgid "View on site"
-msgstr "Vor Ort ansehen [auf der Seite?]"
+msgstr "Vor Ort ansehen"
 
 #: panda/templates/admin/panda/taskstatus/change_form.html:34
 msgid "Abort"
@@ -522,7 +522,7 @@ msgstr "Export fehlgeschlagen: %(dataset_name)s"
 #: panda/templates/notifications/export_search_failed/email_body.txt:6
 #: panda/templates/notifications/import_failed/email_body.txt:8
 msgid "Traceback:"
-msgstr "Rückverfolgung [oder: Nachverfolgung]"
+msgstr "Rückverfolgung"
 
 #: panda/templates/notifications/export_failed/message.html:2
 #, python-format
@@ -670,7 +670,7 @@ msgstr "Server-Fehler"
 
 #: templates/admin/base_site.html:4
 msgid "PANDA Administration"
-msgstr "PANDA-Administration [OR Verwaltung OR Einstellungen]"
+msgstr "PANDA-Administration"
 
 #: templates/admin/base_site.html:7
 #, fuzzy

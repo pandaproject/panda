@@ -128,7 +128,7 @@ msgstr ""
 "Tabellenblatt Ihrer Datei durchsuchbar werden. Lesen Sie mehr dazu in "
 "unserer Dokumentation <a href=\"http://pandaproject.net/docs/handling-"
 "unsupported-excel-features.html\">Umgang mit nicht unterstützten Excel-"
-"Features [only EN yet!]</a>."
+"Features</a>."
 
 #: client/static/js/text/data_upload.js:13
 msgid ""
@@ -138,7 +138,7 @@ msgid ""
 msgstr ""
 "Access-Dateien können nicht in PANDA geladen werden. Lesen Sie unsere "
 "Dokumentation zum <a href=\"http://pandaproject.net/docs/importing-access-"
-"files.html\">Import von Access-Dateien [EN only yet]</a>"
+"files.html\">Import von Access-Dateien</a>"
 
 #: client/static/js/text/data_upload.js:14
 msgid ""
@@ -148,7 +148,7 @@ msgid ""
 msgstr ""
 "DBF-Dateien können nicht in PANDA geladen werden. Lesen Sie unsere "
 "Dokumentation zum <a href=\"http://pandaproject.net/docs/importing-dbf-files."
-"html\">Import von DBF-Dateien [EN only yet]</a>"
+"html\">Import von DBF-Dateien</a>"
 
 #: client/static/js/text/data_upload.js:15
 msgid "Unknown file type. Please upload either an CSV or Excel file."
@@ -392,7 +392,7 @@ msgstr "Zurück zu den Datensatz-Details"
 
 #: client/static/js/text/dataset_search.js:8
 msgid "Wildcards"
-msgstr "Platzhalter [Wildcards]"
+msgstr "Platzhalter"
 
 #: client/static/js/text/dataset_search.js:9
 msgid ""
@@ -416,7 +416,7 @@ msgstr ""
 
 #: client/static/js/text/dataset_search.js:12
 msgid "AND/OR"
-msgstr "AND/OR [oder UND/ODER? imho nicht]"
+msgstr "AND/OR"
 
 #: client/static/js/text/dataset_search.js:13
 msgid ""
