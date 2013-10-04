@@ -80,7 +80,7 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                     var alert_body = interpolate(gettext("<p>Search data for this dataset is being updated. Search results may be incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), { message: task.get("message") }, true);
                     $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing in progress!"), alert_body, false);
                 } else if (task.get("status") == "PENDING") {
-                    $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing queued!"), gettext("<p>This dataset is waiting to have its search data updated. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a</p>"), false);
+                    $("#dataset-search .alert").alert_block("alert-info", gettext("Reindexing queued!"), gettext("<p>This dataset is waiting to have its search data updated. Search results may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see updated status &raquo;</a></p>"), false);
                 } else if (task.get("status") == "FAILURE") {
                     $("#dataset-search .alert").alert_block("alert-error", gettext("Reindexing failed!"), gettext('<p>The process to make update this dataset\'s search data failed. Search results may be incomplete. <a href="#modal-dataset-traceback" class="btn inline" data-toggle="modal" data-backdrop="true" data-keyboard="true">Show detailed error message</a></p>'), false);
                 } else if (task.get("status") == "ABORTED") {
