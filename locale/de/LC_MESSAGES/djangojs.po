@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 12:58-0700\n"
+"POT-Creation-Date: 2013-10-04 13:49-0700\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -377,7 +377,7 @@ msgstr "Geben Sie einen Suchbegriff ein"
 
 #: client/static/js/text/dataset_search.js:5
 #: client/static/js/text/datasets_search.js:6
-#: client/static/js/text/inline_search_filters.js:5
+#: client/static/js/text/inline_search_filters.js:6
 #: client/static/js/text/search.js:6
 msgid "Search"
 msgstr "Suchen"
@@ -411,8 +411,8 @@ msgid ""
 "Put phrases in quotes: <code>\"Chicago Bears\"</code> will not match "
 "\"Chicago Panda Bears\"."
 msgstr ""
-"Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\" wird nicht "
-"\"Bahnhof am Zoo\" finden."
+"Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\"</code> "
+"wird nicht \"Bahnhof am Zoo\" finden."
 
 #: client/static/js/text/dataset_search.js:12
 msgid "AND/OR"
@@ -747,18 +747,22 @@ msgstr ""
 "die <a %(link)s>PANDA-Übersicht</a>!"
 
 #: client/static/js/text/inline_search_filters.js:3
+msgid "Search by column"
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:4
 msgid "Add to search"
 msgstr "Zur Suche hinzufügen"
 
-#: client/static/js/text/inline_search_filters.js:4
+#: client/static/js/text/inline_search_filters.js:5
 msgid "Pick a column..."
 msgstr "Eine Spalte auswählen..."
 
-#: client/static/js/text/inline_search_filters.js:6
+#: client/static/js/text/inline_search_filters.js:7
 msgid "Remove"
 msgstr "Entfernen"
 
-#: client/static/js/text/inline_search_filters.js:7
+#: client/static/js/text/inline_search_filters.js:8
 msgid ""
 "Searching specific columns has not been enabled for any columns in this "
 "dataset. To enable it select <strong>Enable column search</strong> from the "
@@ -1354,9 +1358,8 @@ msgid ""
 "updated status &raquo;</a</p>"
 msgstr ""
 "<p>Dieser Datensatz wartet darauf, durchsuchbar gemacht zu werden. "
-"Suchergebnisse könnten noch unvollständig sein. "
-"<a href=\"javascript:location.reload(true)\">Aktualisieren für den neuesten "
-"Status &raquo;</a></p>"
+"Suchergebnisse könnten noch unvollständig sein. <a href=\"javascript:"
+"location.reload(true)\">Aktualisieren für den neuesten Status &raquo;</a></p>"
 
 #: client/static/js/views/dataset_search.js:73
 msgid "Import failed!"
@@ -1405,10 +1408,11 @@ msgid "Reindexing queued!"
 msgstr "Reindizieren vorbereitet!"
 
 #: client/static/js/views/dataset_search.js:83
+#, fuzzy
 msgid ""
 "<p>This dataset is waiting to have its search data updated. Search results "
 "may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to "
-"see updated status &raquo;</a</p>"
+"see updated status &raquo;</a></p>"
 msgstr ""
 "<p>Dieser Datensatz wartet darauf, dass seine Suchdaten aktualisiert werden. "
 "Suchergebnisse können unvollständig sein.</p><p>Status: %(message)s. <a href="

@@ -129,9 +129,9 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
         $("#dataset-search-filters").toggle();
 
         if ($("#dataset-search-filters").is(":visible")) {
-            $("#toggle-advanced-search").text("Fewer search options");
+            $("#toggle-advanced-search").text(ugettext("Fewer search options"));
         } else {
-            $("#toggle-advanced-search").text("More search options");
+            $("#toggle-advanced-search").text(ugettext("More search options"));
         };
 
         return false;

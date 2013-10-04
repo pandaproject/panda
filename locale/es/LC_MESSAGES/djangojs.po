@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 12:58-0700\n"
+"POT-Creation-Date: 2013-10-04 13:49-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,7 +326,7 @@ msgstr "Escriba una consulta de búsqueda"
 
 #: client/static/js/text/dataset_search.js:5
 #: client/static/js/text/datasets_search.js:6
-#: client/static/js/text/inline_search_filters.js:5
+#: client/static/js/text/inline_search_filters.js:6
 #: client/static/js/text/search.js:6
 msgid "Search"
 msgstr "Buscar"
@@ -670,18 +670,22 @@ msgstr ""
 "%(link)s>Dashboard</a>!"
 
 #: client/static/js/text/inline_search_filters.js:3
-msgid "Add to search"
+msgid "Search by column"
 msgstr ""
 
 #: client/static/js/text/inline_search_filters.js:4
+msgid "Add to search"
+msgstr ""
+
+#: client/static/js/text/inline_search_filters.js:5
 msgid "Pick a column..."
 msgstr ""
 
-#: client/static/js/text/inline_search_filters.js:6
+#: client/static/js/text/inline_search_filters.js:7
 msgid "Remove"
 msgstr ""
 
-#: client/static/js/text/inline_search_filters.js:7
+#: client/static/js/text/inline_search_filters.js:8
 msgid ""
 "Searching specific columns has not been enabled for any columns in this "
 "dataset. To enable it select <strong>Enable column search</strong> from the "
@@ -1230,7 +1234,7 @@ msgstr ""
 msgid ""
 "<p>This dataset is waiting to have its search data updated. Search results "
 "may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to "
-"see updated status &raquo;</a</p>"
+"see updated status &raquo;</a></p>"
 msgstr ""
 
 #: client/static/js/views/dataset_search.js:85
