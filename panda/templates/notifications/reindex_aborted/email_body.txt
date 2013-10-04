@@ -1,3 +1,4 @@
-Reindex aborted: {{ related_dataset.name }}
+{% load i18n %}
+{% blocktrans with related_dataset.name as dataset_name %}Reindex aborted: {{ dataset_name }}{% endblocktrans %}
 
 http://{{ site_domain }}/#dataset/{{ related_dataset.slug }}

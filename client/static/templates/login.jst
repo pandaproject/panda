@@ -2,23 +2,23 @@
     <div id="login">
         <form id="login-form">
             <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
-            <h2>Log in to PANDA</h2>
+            <h2><%= text.login_to_panda %></h2>
             <div class="alert"></div>
 
             <div class="control-group">
-                <label for="email">Email</label>
+                <label for="email"><%= text.email %></label>
                 <input type="text" name="email" value="<%= email || '' %>" />
                 <span class="help-inline"></span>
             </div>
 
             <div class="control-group">
-                <label for="password">Password</label>
+                <label for="password"><%= text.password %></label>
                 <input type="password" name="password" />
                 <span class="help-inline"></span><br />
-                <a href="#modal-forgot-password" data-toggle="modal" data-backdrop="true" data-keyboard="true">Forget your password?</a>
+                <a href="#modal-forgot-password" data-toggle="modal" data-backdrop="true" data-keyboard="true"><%= text.forgotten_password %></a>
             </div>
 
-            <input type="submit" class="btn" value="Login" />
+            <input type="submit" class="btn" value="<%= text.login %>" />
         </form>
     </div>
 </div>
@@ -26,27 +26,27 @@
 <div id="modal-forgot-password" class="modal hide fade">
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Forgot your password?</h3>
+        <h3><%= text.forgotten_password %></h3>
     </div>
     <div class="modal-body">
         <% if (PANDA.settings.EMAIL_ENABLED) { %>
-        <p>Enter your email address below and PANDA will send you a link you can follow to reset your password.</p>
+        <p><%= text.enter_your_email %></p>
 
         <form id="forgot-password-form" class="form-stacked">
             <div class="alert-message"></div>
 
             <div class="control-group">
-                <label for="email">Email:</label>
+                <label for="email"><%= text.email %></label>
                 <input class="span2" id="forgot-email" name="email" value="" maxlength="30" />
                 <span class="help-inline"></span>
             </div>
         </form>
         <% } else { %>
-        Your PANDA adminstrator has not yet configured email for your server, so your password can not be automatically reset. Please contact your adminstrator and ask them to either configure email or to reset your password manually. 
+        <p><%= text.contact_admin %></p>
         <% } %>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <% if (PANDA.settings.EMAIL_ENABLED) { %><a href="#" id="send-forgot-password" class="btn btn-primary" data-dismiss="modal">Send email</a><% } %>
+        <a href="#" class="btn" data-dismiss="modal"><%= text.cancel %></a>
+        <% if (PANDA.settings.EMAIL_ENABLED) { %><a href="#" id="send-forgot-password" class="btn btn-primary" data-dismiss="modal"><%= text.send_email %></a><% } %>
     </div>
 </div>

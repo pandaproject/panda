@@ -1,1 +1,1 @@
-Low disk space!
+{% load i18n %}{% trans "Low disk space!" %}

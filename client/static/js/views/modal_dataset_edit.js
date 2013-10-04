@@ -5,6 +5,8 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
 
     dataset: null,
 
+    text: PANDA.text.DatasetEdit(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -19,9 +21,10 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         });
 
         var context = PANDA.utils.make_context({
-            'dataset': this.dataset.toJSON(true),
-            'categories': this.dataset.categories.toJSON(),
-            'all_categories': all_categories 
+            text: this.text,
+            dataset: this.dataset.toJSON(true),
+            categories: this.dataset.categories.toJSON(),
+            all_categories: all_categories 
         });
 
         this.$el.html(PANDA.templates.modal_dataset_edit(context));
@@ -42,7 +45,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         var errors = {};
 
         if (!data["name"]) {
-            errors["name"] = ["This field is required."];
+            errors["name"] = [gettext("This field is required.")];
         }
 
         return errors;
@@ -55,7 +58,7 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
         var errors = this.validate();
         
         if (!_.isEmpty(errors)) {
-            $("#edit-dataset-form").show_errors(errors, "Save failed!");
+            $("#edit-dataset-form").show_errors(errors, gettext("Save failed!"));
         
             return false;
         }
@@ -96,10 +99,10 @@ PANDA.views.DatasetEdit = Backbone.View.extend({
                 try {
                     errors = $.parseJSON(response);
                 } catch(e) {
-                    errors = { "__all__": "Unknown error" }; 
+                    errors = { "__all__": gettext("Unknown error") }; 
                 }
 
-                $("#edit-dataset-form").show_errors(errors, "Save failed!");
+                $("#edit-dataset-form").show_errors(errors, gettext("Save failed!"));
             }
         );
 

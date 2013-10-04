@@ -46,7 +46,9 @@ USE_TZ = True
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
-USE_L10N = True
+USE_L10N = False 
+
+LOCALE_PATHS = (os.path.join(SITE_ROOT, 'locale'),)
 
 # Media
 STATIC_ROOT = os.path.join(SITE_ROOT, 'media')
@@ -77,13 +79,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.csrf'
+    'django.core.context_processors.csrf',
+    'django.core.context_processors.i18n'
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'panda.middleware.CsrfCookieUsedMiddleware'

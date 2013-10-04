@@ -2,24 +2,24 @@
 <p><a href="mailto:<%= user.email %>"><%= user.email %></a></p>
 
 <% if (user.email == current_user.email) { %>
-<p><a id="user-edit" href="#" class="btn" onclick="return false;">Edit my profile</a> <a id="user-change-password" href="#" class="btn" onclick="return false;">Change password</a></p>
+<p><a id="user-edit" href="#" class="btn" onclick="return false;"><%= text.edit_profile %></a> <a id="user-change-password" href="#" class="btn" onclick="return false;"><%= text.change_password %></a></p>
 <% } %>
 
 <% if (user.email == current_user.email) { %>
-<h3>My search subscriptions</h3> 
+<h3><%= text.my_subscriptions %></h3> 
 <ul id="subscriptions">
     <% _.each(user.subscriptions, function(sub) { %>
         <% if (sub.dataset) { %>
-        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a><br /><a href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Delete this subscription</a></li>
+        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in <a href="#dataset/<%= sub.dataset.slug %>"><strong><%= unescape(sub.dataset.name) %></strong></a><br /><a href="#dataset/<%= sub.dataset.slug %>/search/<%= sub.query_url %>"><i class="icon-search"></i> <%= text.run_search %></a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> <%= text.delete_subscription %></a></li>
         <% } else if (sub.category) { %>
-        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in <strong><%= sub.category.name %></strong><br /><a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.category.slug %>/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Delete this subscription</a></li>
+        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in <strong><%= sub.category.name %></strong><br /><a data-original-title="View all search results" rel="tooltip" href="#search/<%= sub.category.slug %>/<%= sub.query_url %>"><i class="icon-search"></i> <%= text.run_search %></a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> <%= text.delete_subscription %></a></li>
         <% } else { %>
-        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in any dataset<br /><a data-original-title="View all search results" rel="tooltip" href="#search/all/<%= sub.query_url %>"><i class="icon-search"></i> Run this search</a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> Delete this subscription</a></li>
+        <li><% if (sub.query_human) { %><%= sub.query_human %><% } else { %><code><%= sub.query %></code><% } %> in any dataset<br /><a data-original-title="View all search results" rel="tooltip" href="#search/all/<%= sub.query_url %>"><i class="icon-search"></i> <%= text.run_search %></a> <a href="#" onclick="return false;" class="delete" data-uri="<%= sub.resource_uri %>"><i class="icon-remove"></i> <%= text.delete_subscription %></a></li>
         <% } %>
     <% }); %>
 </ul>
 
-<h3>My exports</h3>
+<h3><%= text.my_exports %></h3>
 <ul id="exports">
     <% _.each(user.exports, function(exp) { %>
         <li><a href="#export/<%= exp.id %>"><%= exp.title %></a> (<%= moment(exp.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().fromNow() %>)</li>
@@ -27,7 +27,7 @@
 </ul>
 <% } %>
 
-<h3><% if (user.email == current_user.email) { %>My datasets<% } else { %>Datasets created by this user<% } %></h3> 
+<h3><% if (user.email == current_user.email) { %><%= text.my_datasets %><% } else { %><%= text.user_datasets %><% } %></h3> 
 <ul>
     <% _.each(user.datasets, function(dataset) { %>
     <li><a href="#dataset/<%= dataset.slug %>"><strong><%= unescape(dataset.name) %></strong></a></li>

@@ -1,15 +1,15 @@
 <div id="search" class="row-fluid">
     <form id="search-form" class="well">
-        <h3>Search all data</h3>
+        <h3><%= text.search_all_data %></h3>
         <select id="search-category" name="category" class="input-medium">
-            <option value="all">All</option>
+            <option value="all"><%= text.all %></option>
             <% categories.each(function(cat) { %>
             <option value="<%= cat.get("slug") %>" <% if (cat.get("slug") == category) { print('selected="selected"') } %>><%= cat.get("name") %></option>
             <% }); %>
         </select>
-        <input id="search-query" type="text" name="query" class="input-xxlarge" value="<% if (query) { %><%= query.replace(/"/g, '&quot;') %><% } %>" placeholder="Enter a search query" />
-        <input type="submit" id="search-submit" class="btn" value="Search" />
-        &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip() %>
+        <input id="search-query" type="text" name="query" class="input-xxlarge" value="<% if (query) { %><%= query.replace(/"/g, '&quot;') %><% } %>" placeholder="<%= text.search_placeholder %>" />
+        <input type="submit" id="search-submit" class="btn" value="<%= text.search %>" />
+        &nbsp;<%= PANDA.templates.inline_advanced_search_tooltip({ text: PANDA.inlines_text }) %>
     </form>
 </div>
 

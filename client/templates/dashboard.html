@@ -1,10 +1,12 @@
+{% load i18n %}
+
 <div class="row-fluid">
     <div id="dashboard" class="span12">
-        <h1>PANDA Dashboard <small>Version {{ settings.PANDA_VERSION }}</small></h1>
-        <h2>Datasets <small>{{ dataset_count }} total</small></h2>
+        <h1>{% trans "PANDA Dashboard" %} <small>{% blocktrans with version=settings.PANDA_VERSION %}Version {{ version }}{% endblocktrans %}</small></h1>
+        <h2>{% blocktrans %}Datasets <small>{{ dataset_count }} total</small>{% endblocktrans %}</h2>
         <div class="row-fluid">
             <div class="span6">
-                <h3>Missing descriptions</h3>
+                <h3>{% trans "Missing descriptions" %}</h3>
                 <ul>
                 {% for name, slug in datasets_without_descriptions %}
                 <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong></li>
@@ -12,7 +14,7 @@
                 </ul>
             </div>
             <div class="span6">
-                <h3>Missing categories</h3>
+                <h3>{% trans "Missing categories" %}</h3>
                 <ul>
                     {% for name, slug in datasets_without_categories %}
                     <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong></li>
@@ -21,33 +23,33 @@
             </div>
         </div>
 
-        <h2>Users <small>{{ user_count }} total{% if inactive_user_count %}, {{ inactive_user_count }} not activated{% endif %}</small></h2>
+        <h2>{% blocktrans %}Users <small>{{ user_count }} total, {{ activated_user_count }} activated</small>{% endblocktrans %}</h2>
         <div class="row-fluid">
             <div class="span12" id="users-chart-wrapper">
-                <h3>Users active over last 30 days</h3>
+                <h3>{% trans "Users active over last 30 days" %}</h3>
                 <div id="users-by-day" class="chart"></div>
             </div>
         </div>
 
         <div class="row-fluid">
             <div class="span4">
-                <h3>Most active users in the last 30 days</h3>
+                <h3>{% trans "Most active users in the last 30 days" %}</h3>
                 <ul>
                     {% for user in most_active_users %}
-                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
+                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> {% blocktrans count days_active=user.activity_logs__count %}(active on {{ days_active }} day){% plural %}(active on {{ days_active }} days){% endblocktrans %}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="span4">
-                <h3>Least active users in the last 30 days</h3>
+                <h3>{% trans "Least active users in the last 30 days" %}</h3>
                 <ul>
                     {% for user in least_active_users %}
-                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> (active on {{ user.activity_logs__count }} day{{ user.activity_logs__count|pluralize }})</li>
+                    <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a> {% blocktrans count days_active=user.activity_logs__count %}(active on {{ days_active }} day){% plural %}(active on {{ days_active }} days){% endblocktrans %}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="span4">
-                <h3>Inactive users in the last 30 days</h3>
+                <h3>{% trans "Inactive users in the last 30 days" %}</h3>
                 <ul>
                     {% for user in inactive_users %}
                     <li><a href="#user/{{ user.id }}">{% if not user.first_name and not user.last_name %}{{ user.email }}{% else %}{{ user.first_name }}{% if user.first_name and user.last_name %} {% endif %}{{ user.last_name }}{% endif %}</a></li>
@@ -56,56 +58,58 @@
             </div>
         </div>
 
-        <h2>Searches <small>{{ total_searches }} total</small></h2>
+        <h2>{% blocktrans %}Searches <small>{{ total_searches }} total</small>{% endblocktrans %}</h2>
         <div class="row-fluid">
             <div class="span6">
-                <h3>Most searched datasets in the last 30 days</h3>
+                <h3>{% trans "Most searched datasets in the last 30 days" %}</h3>
                 <ul>
                     {% for name, slug, count in most_searched_datasets %}
-                    <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong> ({{ count }} search{{ count|pluralize:"es" }})</li>
+                    <li><strong><a href="#dataset/{{ slug }}">{{ name }}</a></strong> {% blocktrans count count=count %}({{ count }} search){% plural %}({{ count }} searches){% endblocktrans %}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="span6" id="search-chart-wrapper">
-                <h3>Search count by day</h3>
+                <h3>{% trans "Search count by day" %}</h3>
                 <div id="searches-by-day" class="chart"></div>
             </div>
         </div> 
 
-        <h2>Disk usage</h2>
+        <h2>{% trans "Disk usage" %}</h2>
         <div class="row-fluid">
             <div class="span12">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Disk</th>
-                            <th>Capacity</th>
-                            <th>Remaining</th>
+                            <th>{% trans "Disk" %}</th>
+                            <th>{% trans "Capacity" %}</th>
+                            <th>{% trans "Remaining" %}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Application data{% if not upload_disk_total %}, uploaded files (and exports){% endif %}{% if not indices_disk_total %}, search data{% endif %}</td>
+                            <td>{% if not upload_disk_total and not indices_disk_total %}Application data, uploaded files (and exports) and search data{% elif not upload_disk_total %}Application data and uploaded files (and exports){% elif not indices_disk_total %}Application data and search data{% else %}Application data{% endif %}</td>
                             <td>{{ root_disk_total|filesizeformat }} ({{ root_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ root_disk_free|filesizeformat }}</td>
                         </tr>
                         {% if upload_disk_total %}
                         <tr>
-                            <td>Uploaded files (and exports)</td>
+                            <td>{% trans "Uploaded files (and exports)" %}</td>
                             <td>{{ upload_disk_total|filesizeformat }} ({{ upload_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ upload_disk_free|filesizeformat }}</td>
                         </tr>
                         {% endif %}
                         {% if indices_disk_total %}
                         <tr>
-                            <td>Search data</td>
+                            <td>{% trans "Search data" %}</td>
                             <td>{{ indices_disk_total|filesizeformat }} ({{ indices_disk_percent_used|floatformat:1 }}% used)</td>
                             <td>{{ indices_disk_free|filesizeformat }}</td>
                         </tr>
                         {% endif %}
                     </tbody>
                 </table>
-                <p><strong>Low disk?</strong> Read about <a href="http://panda.readthedocs.org/en/{{ settings.PANDA_VERSION }}/storage.html">upgrading your storage space</a>.</p>
+                {% with link="" %}
+                <p><strong>{% trans "Low disk?" %}</strong> {% blocktrans with url=storage_documentation_url|safe %}Read about <a href="{{ url }}">upgrading your storage space</a>.{% endblocktrans %}</p>
+                {% endwith %}
             </div>
         </div>
     </div>

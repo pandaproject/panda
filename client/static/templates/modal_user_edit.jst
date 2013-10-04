@@ -1,37 +1,37 @@
 <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Edit Profile</h3>
+    <h3><%= text.edit_profile %></h3>
 </div>
 <div class="modal-body">
     <form id="edit-user-form" class="form-stacked">
         <div class="alert-message"></div>
 
         <div class="control-group">
-            <label for="user-first-name">First name</label>
+            <label for="user-first-name"><%= text.first_name %></label>
             <input class="span2" id="user-first-name" name="first_name" type="text" value="<%= user.first_name %>" maxlength="30" />
             <span class="help-inline"></span>
         </div>
 
         <div class="control-group">
-            <label for="user-first-name">Last name</label>
+            <label for="user-first-name"><%= text.last_name %></label>
             <input class="span2" id="user-last-name" name="last_name" type="text" value="<%= user.last_name %>" maxlength="30" />
             <span class="help-inline"></span>
         </div>
 
         <div class="control-group">
-            <label for="user-email">Email</label>
+            <label for="user-email"><%= text.email %></label>
             <input class="span4" id="user-email" name="email" value="<%= user.email %>" />
             <span class="help-inline"></span>
         </div>
 
         <div class="control-group">
-            <label for="user-verify-password">Verify password</label>
+            <label for="user-verify-password"><%= text.verify_password %></label>
             <input class="span2" id="user-verify-password" name="verify-password" type="password" value="" maxlength="30" />
             <span class="help-inline"></span>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-    <a href="#" id="user-edit-save" class="btn btn-primary">Save</a>
+    <a href="#" class="btn" data-dismiss="modal"><%= text.cancel %></a>
+    <a href="#" id="user-edit-save" class="btn btn-primary"><%= text.save %></a>
 </div>

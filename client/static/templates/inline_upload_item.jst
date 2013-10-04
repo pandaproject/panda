@@ -1,10 +1,10 @@
 <li data-type="<%= upload_type %>" data-uri="<%= upload.resource_uri %>">
-    <a href="#" onclick="return false;" class="download"><%= upload.title %></a> uploaded by <%= PANDA.templates.inline_user(upload.creator) %>
+    <a href="#" onclick="return false;" class="download"><%= upload.title %></a> <%= interpolate(text.uploaded_by, { user: PANDA.templates.inline_user(upload.creator) }, true) %>
 
-    <a data-original-title="<%= upload.original_filename %><br /><%= PANDA.utils.format_file_size(upload.size) %><br />Uploaded <%= PANDA.templates.inline_timestamp({ d: upload.creation_date }) %>" data-placement="top" href="#" onclick="return false;" rel="tooltip"><i class="icon-info-sign"></i></a>
+    <a data-original-title="<%= upload.original_filename %><br /><%= PANDA.utils.format_file_size(upload.size) %><br /><%= interpolate(text.uploaded_on, { when: PANDA.templates.inline_timestamp({ d: upload.creation_date }) }, true) %>" data-placement="top" href="#" onclick="return false;" rel="tooltip"><i class="icon-info-sign"></i></a>
 
-    <a data-original-title="Edit title" data-placement="top" href="#" onclick="return false;" class="edit" rel="tooltip"><i class="icon-edit"></i></a>
+    <a data-original-title="<%= text.edit_title %>" data-placement="top" href="#" onclick="return false;" class="edit" rel="tooltip"><i class="icon-edit"></i></a>
 
-    <a data-original-title="Click to delete" rel="tooltip" href="#" onclick="return false;" class="delete"><i class="icon-trash"></i></a>
+    <a data-original-title="<%= text.click_to_delete %>" rel="tooltip" href="#" onclick="return false;" class="delete"><i class="icon-trash"></i></a>
 </li>
 

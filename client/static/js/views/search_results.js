@@ -6,6 +6,8 @@ PANDA.views.SearchResults = Backbone.View.extend({
 
     search: null,
 
+    text: PANDA.text.SearchResults(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -15,7 +17,18 @@ PANDA.views.SearchResults = Backbone.View.extend({
     },
 
     render: function() {
+        var pager_context = PANDA.utils.make_context(this.search.datasets.meta);
+        pager_context.text = PANDA.inlines_text;
+        pager_context.pager_unit = "dataset";
+        pager_context.row_count = null;
+
+        console.log(pager_context);
+        
+        var pager = PANDA.templates.inline_pager(pager_context);
+
         var context = PANDA.utils.make_context(this.search.datasets.meta);
+
+        context.text = this.text;
 
         context["query"] = this.search.query;
         context["query_human"] = "Search for <code class=\"full-text\">" + this.search.query + "</code>";
@@ -33,11 +46,10 @@ PANDA.views.SearchResults = Backbone.View.extend({
         }
 
         context["root_url"] = "#search/" + this.search.category + "/" + escape(this.search.query) + "/" + this.search.since;
-        context["pager_unit"] = "dataset";
         context["row_count"] = null;
         context["datasets"] = this.search.datasets.results();
 
-        context["pager"] = PANDA.templates.inline_pager(context);
+        context["pager"] = pager; 
 
         this.$el.html(PANDA.templates.search_results(context));
     },
@@ -63,11 +75,11 @@ PANDA.views.SearchResults = Backbone.View.extend({
         sub.save({}, {
             async: false,
             success: _.bind(function(model, response) {
-                bootbox.alert("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>");
+                bootbox.alert(gettext("<p>You will now receive notifications for this search.</p><p>You cancel these notifications on your user page.</p>"));
             }, this),
             error: function(model, response) {
                 error = JSON.parse(response);
-                bootbox.alert("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>" + error.traceback + "</code>");
+                bootbox.alert(interpolate(gettext("<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)s</code>"), { traceback: error.traceback }, true));
             }
         });
     },
@@ -81,18 +93,16 @@ PANDA.views.SearchResults = Backbone.View.extend({
             this.search.query,
             this.search.since,
             function() {
-                var note = "Your export has been successfully queued.";
-
                 if (PANDA.settings.EMAIL_ENABLED) {
-                    note += " When it is complete you will be emailed a link to download the file."
+                    note = gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
                 } else {
-                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                    note = gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded.");
                 }
 
                 bootbox.alert(note);
             },
             function(error) {
-                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+                bootbox.alert(interpolate(gettext("<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"), { traceback: error.traceback }, true));
             }
         );
     }

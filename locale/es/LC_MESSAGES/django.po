@@ -1,0 +1,731 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-24 16:13+0000\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: client/templates/dashboard.html:5
+msgid "PANDA Dashboard"
+msgstr "Panel de control"
+
+#: client/templates/dashboard.html:5
+#, python-format
+msgid "Version %(version)s"
+msgstr "Versión %(version)s"
+
+#: client/templates/dashboard.html:6
+#, python-format
+msgid "Datasets <small>%(dataset_count)s total</small>"
+msgstr "Gurpos de datos <small>%(dataset_count)s total</small>"
+
+#: client/templates/dashboard.html:9
+msgid "Missing descriptions"
+msgstr "Descripciones que faltan"
+
+#: client/templates/dashboard.html:17
+msgid "Missing categories"
+msgstr "Categorías que faltan"
+
+#: client/templates/dashboard.html:26
+#, python-format
+msgid ""
+"Users <small>%(user_count)s total, %(activated_user_count)s activated</small>"
+msgstr ""
+"Usuarios <small>%(user_count)s totales, %(activated_user_count)s activados</"
+"small>"
+
+#: client/templates/dashboard.html:29
+msgid "Users active over last 30 days"
+msgstr "Usuarios activos en los últimos 30 días"
+
+#: client/templates/dashboard.html:36
+msgid "Most active users in the last 30 days"
+msgstr "Usuarios más activos en los últimos 30 días"
+
+#: client/templates/dashboard.html:39 client/templates/dashboard.html.py:47
+#, fuzzy, python-format
+msgid "(active on %(days_active)s day)"
+msgid_plural "(active on %(days_active)s days)"
+msgstr[0] "(activo en %(days_active)s días)"
+msgstr[1] "(activo en %(days_active)s días)"
+
+#: client/templates/dashboard.html:44
+msgid "Least active users in the last 30 days"
+msgstr "Usuarios menos activos en los últimos 30 días"
+
+#: client/templates/dashboard.html:52
+msgid "Inactive users in the last 30 days"
+msgstr "Usuarios inactivos en los últimos 30 días"
+
+#: client/templates/dashboard.html:61
+#, python-format
+msgid "Searches <small>%(total_searches)s total</small>"
+msgstr "Búsquedas <small>%(total_searches)s total</small>"
+
+#: client/templates/dashboard.html:64
+msgid "Most searched datasets in the last 30 days"
+msgstr "Grupos de datos más buscados en los últimos 30 días"
+
+#: client/templates/dashboard.html:67
+#, fuzzy, python-format
+msgid "(%(count)s search)"
+msgid_plural "(%(count)s searches)"
+msgstr[0] "(%(count)s Búsquedas)"
+msgstr[1] "(%(count)s Búsquedas)"
+
+#: client/templates/dashboard.html:72
+msgid "Search count by day"
+msgstr "Número de búsquedas por día"
+
+#: client/templates/dashboard.html:77
+msgid "Disk usage"
+msgstr "Uso de disco"
+
+#: client/templates/dashboard.html:83
+msgid "Disk"
+msgstr "Disco"
+
+#: client/templates/dashboard.html:84
+msgid "Capacity"
+msgstr "Capacidad"
+
+#: client/templates/dashboard.html:85
+msgid "Remaining"
+msgstr "Disponible"
+
+#: client/templates/dashboard.html:96
+msgid "Uploaded files (and exports)"
+msgstr "Subir ficheros (y exportaciones)"
+
+#: client/templates/dashboard.html:103
+msgid "Search data"
+msgstr "Datos de la búsqueda"
+
+#: client/templates/dashboard.html:111
+msgid "Low disk?"
+msgstr "¿Poco espacio en disco?"
+
+#: client/templates/dashboard.html:111
+#, python-format
+msgid "Read about <a href=\"%(url)s\">upgrading your storage space</a>."
+msgstr "Lee sobre como <a href=\"%(url)s\">incrementar tu espacio en disco</a>"
+
+#: client/templates/index.html:26
+msgid "Search"
+msgstr "Buscar"
+
+#: client/templates/index.html:27
+msgid "Upload"
+msgstr "Subir"
+
+#: client/templates/index.html:29
+msgid "Find a dataset"
+msgstr "Encontrar un dataset"
+
+#: client/templates/index.html:34
+msgid "Help"
+msgstr "Ayuda"
+
+#: client/templates/index.html:36
+msgid "Welcome to PANDA"
+msgstr "Bienvenida a PANDA"
+
+#: client/templates/index.html:37
+msgid "Read the documentation"
+msgstr "Lea la documentación"
+
+#: client/templates/index.html:38
+msgid "Ask a question on the user group"
+msgstr "Haz una pregunta en el grupo de usuarios"
+
+#: client/templates/index.html:45
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: client/templates/index.html:50
+msgid "View all notifications"
+msgstr "Ver todas las notificaciones"
+
+#: client/templates/index.html:53
+msgid "Admin"
+msgstr "Administración"
+
+#: client/templates/index.html:54
+msgid "Logout"
+msgstr "Salir"
+
+#: jumpstart/views.py:37
+msgid "English"
+msgstr "Inglés"
+
+#: jumpstart/views.py:37
+msgid "Spanish"
+msgstr "Español"
+
+#: jumpstart/views.py:37
+msgid "German"
+msgstr ""
+
+#: panda/admin.py:48
+msgid "E-mail"
+msgstr "Correo electrónico"
+
+#: panda/admin.py:58
+msgid "A user with that email address already exists."
+msgstr "Ya existe un usuario con ese correo electrónico"
+
+#: panda/admin.py:133
+msgid "Personal info"
+msgstr "Información personal"
+
+#: panda/admin.py:134
+msgid "Permissions"
+msgstr "Permisos"
+
+#: panda/admin.py:135
+msgid "Important dates"
+msgstr "Fechas importantes"
+
+#: panda/admin.py:210 panda/admin.py:352
+#, python-format
+msgid "Add %s"
+msgstr "Añadir %s"
+
+#: panda/config.py:6 templates/livesettings/site_settings.html:55
+#, fuzzy
+msgid "Site settings"
+msgstr "Editar configuración"
+
+#: panda/tasks/export_csv.py:43
+msgid "Preparing to export"
+msgstr "Preparando para exportar"
+
+#: panda/tasks/export_csv.py:94 panda/tasks/export_search.py:123
+#: panda/tasks/import_xls.py:82 panda/tasks/import_xlsx.py:89
+#: panda/tasks/reindex.py:81
+#, python-format
+msgid "%.0f%% complete"
+msgstr "%.0f%% completado"
+
+#: panda/tasks/export_csv.py:97 panda/tasks/export_search.py:126
+#, python-format
+msgid "Aborted after exporting %.0f%%"
+msgstr "Abortado después de exportar %.0f%%"
+
+#: panda/tasks/export_csv.py:109 panda/tasks/export_search.py:147
+#: panda/tasks/import_xls.py:99 panda/tasks/import_xlsx.py:106
+#: panda/tasks/reindex.py:100
+#, python-format
+msgid "100% complete"
+msgstr "100% completado"
+
+#: panda/tasks/export_file.py:69 panda/tasks/export_search.py:181
+msgid "Export failed"
+msgstr "Exportación fallida"
+
+#: panda/tasks/export_file.py:81 panda/tasks/export_search.py:193
+msgid "Export complete"
+msgstr "Exportación completada"
+
+#: panda/tasks/import_csv.py:53 panda/tasks/import_xls.py:43
+#: panda/tasks/import_xlsx.py:44
+msgid "Preparing to import"
+msgstr "Preparando para importar"
+
+#: panda/tasks/import_csv.py:85
+#, python-format
+msgid ""
+"This CSV file contains characters that are not %(encoding)s encoded in or "
+"after row %(row)i. You need to re-upload this file and input the correct "
+"encoding in order to import data from this file."
+msgstr ""
+"Este fichero CSV contiene caracteres que no están codificados en %(encoding)"
+"s en la fila %(row)i o después de ésta. Debes volver a subir el fichero y "
+"seleccionar la codificación correcta para poder importar los datos de éste "
+"fichero."
+
+#: panda/tasks/import_csv.py:102
+#, python-format
+msgid "%.0f%% complete (estimated)"
+msgstr "%.0f%% completado (estimado)"
+
+#: panda/tasks/import_csv.py:105
+#, python-format
+msgid "Aborted after importing %.0f%% (estimated)"
+msgstr "Abortado después de importar %.0f%% (estimado)"
+
+#: panda/tasks/import_file.py:72
+msgid "Import failed"
+msgstr "Importación fallida"
+
+#: panda/tasks/import_file.py:84
+msgid "Import complete"
+msgstr "Importación completada"
+
+#: panda/tasks/import_xls.py:85 panda/tasks/import_xlsx.py:92
+#, python-format
+msgid "Aborted after importing %.0f%%"
+msgstr "Abortado después de importar %.0f%%"
+
+#: panda/tasks/reindex.py:44
+msgid "Preparing to reindex"
+msgstr "Preparando reindexación"
+
+#: panda/tasks/reindex.py:47
+msgid "Aborted during preparation"
+msgstr "Abortado durante la preparación"
+
+#: panda/tasks/reindex.py:84
+#, python-format
+msgid "Aborted after reindexing %.0f%%"
+msgstr "Abortado después de reindexar %.0f%%"
+
+#: panda/tasks/reindex.py:159
+msgid "Reindex failed"
+msgstr "Reindexación fallida"
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:19
+#: panda/templates/admin/panda/userproxy/add_form.html:19
+#: panda/templates/admin/panda/userproxy/add_many_form.html:19
+#: templates/livesettings/site_settings.html:50
+msgid "Home"
+msgstr "Inicio"
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:22
+#: panda/templates/admin/panda/userproxy/add_form.html:22
+#: templates/admin/panda_index.html:21
+msgid "Add"
+msgstr "Añadir"
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:31
+#: panda/templates/admin/panda/userproxy/add_form.html:31
+#: panda/templates/admin/panda/userproxy/add_many_form.html:31
+msgid "History"
+msgstr "Historial"
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:32
+#: panda/templates/admin/panda/userproxy/add_form.html:32
+#: panda/templates/admin/panda/userproxy/add_many_form.html:32
+msgid "View on site"
+msgstr "Ver en el sitio"
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:34
+msgid "Abort"
+msgstr "Abortar"
+
+#: panda/templates/admin/panda/taskstatus/change_form.html:43
+#: panda/templates/admin/panda/userproxy/add_form.html:44
+#: templates/livesettings/site_settings.html:68
+#, fuzzy
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Por favor corrige el error siguiente"
+msgstr[1] "Por favor corrige el error siguiente"
+
+#: panda/templates/admin/panda/userproxy/add_form.html:37
+msgid ""
+"Enter an email address. You may also specify the user's first and last name "
+"or leave that for them to do."
+msgstr ""
+"Introduce una dirección de correo. También puedes especificar el nombre y "
+"apellidos del usuario o dejar que él lo haga. "
+
+#: panda/templates/admin/panda/userproxy/add_form.html:38
+msgid "The new user will be emailed a link to activate their account."
+msgstr "Se le enviará al usuario un enlace para activar su cuenta."
+
+#: panda/templates/admin/panda/userproxy/add_form.html:38
+msgid "<strong>Note:</strong> Email is not <a href=\\"
+msgstr "<strong>Nota:</strong> El correo no es <a href=\\"
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:22
+msgid "Add Many"
+msgstr "Añadir varios"
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:39
+msgid ""
+"Type or paste user data into the field below in <strong>CSV format</strong>. "
+"The first_name and last_name fields may be blank left blank for any or all "
+"rows."
+msgstr ""
+"Escribe o pega los datos de usuario en el campo siguiente en <strong>formato "
+"CSV</strong>. Los campos first_name y last_name pueden ser dejados en blanco "
+"en cualquier de las filas o en todas ellas."
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:40
+msgid ""
+"If the password field is not blank the user will be activated immediately, "
+"otherwise the user will be sent an activation email."
+msgstr ""
+"Si el campo de contraseña no está vacío el usuario será activado "
+"inmediatamente, de lo contrario se le enviará un correo de activación."
+
+#: panda/templates/admin/panda/userproxy/add_many_form.html:40
+msgid "<strong>Important:</strong> Email is not <a href=\\"
+msgstr "<strong>Importante:</strong> El correo no es <a href=\\"
+
+#: panda/templates/admin/panda/userproxy/change_form.html:9
+msgid "Resend activation email"
+msgstr "Reenviar correo de activación"
+
+#: panda/templates/admin/panda/userproxy/change_list.html:12
+#, python-format
+msgid "Add %(name)s"
+msgstr "Añadir %(name)s"
+
+#: panda/templates/admin/panda/userproxy/change_list.html:15
+msgid "Add Many Users"
+msgstr "Añadir varios usuarios"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:1
+#, python-format
+msgid ""
+"The drive containing your PANDA application is CRITICALLY low on disk space: "
+"%(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+"El disco que contiene tu aplicación PANDA está casi sin espacio disponible, "
+"quedan: %(bytes)s (%(percent)s%% full)"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:1
+#, python-format
+msgid ""
+"The drive containing your PANDA application is low on disk space: %(bytes)s "
+"remains (%(percent)s%% full)"
+msgstr ""
+"El disco que contiene tu aplicación PANDA tiene poco espacio disponible: %"
+"(bytes)s disponibles (%(percent)s%% completo)"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:3
+#, python-format
+msgid ""
+"The drive containing your PANDA uploads is CRITICALLY low on disk space: %"
+"(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+"El disco que contiene tus ficheros subidos de PANDA está casi sin espacio "
+"disponible: %(bytes)s disponible (%(percent)s%% completo)"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:3
+#, python-format
+msgid ""
+"The drive containing your PANDA uploads is low on disk space: %(bytes)s "
+"remains (%(percent)s%% full)"
+msgstr ""
+"El disco que contiene tus ficheros subidos de PANDA tiene poco espacio "
+"disponible: %(bytes)s disponible (%(percent)s%% completo)"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:5
+#, python-format
+msgid ""
+"The drive containing your PANDA search indices is CRITICALLY low on disk "
+"space: %(bytes)s remains (%(percent)s%% full)"
+msgstr ""
+"El disco que tus índices de búsqueda de PANDA está casi sin espacio: %(bytes)"
+"s disponible (%(percent)s%% completo)"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:5
+#, python-format
+msgid ""
+"The drive containing your PANDA search indices is low on disk space: %(bytes)"
+"s remains (%(percent)s%% full)"
+msgstr ""
+"El disco que contiene los índices de búsquedas de PANDA tiene poco espacio "
+"disponible: %(bytes)s disponible (%(percent)s%% completo)"
+
+#: panda/templates/notifications/disk_space_alert/email_body.txt:7
+msgid "Your can always check your current disk usage on your PANDA Dashboard:"
+msgstr ""
+"Puedes comprobar en cualquier momento el espacio de disco que estes usando "
+"en tu panel de control de PANDA"
+
+#: panda/templates/notifications/disk_space_alert/email_subject.txt:1
+msgid "Low disk space!"
+msgstr "¡Poco espacio en disco!"
+
+#: panda/templates/notifications/export_aborted/email_body.txt:2
+#: panda/templates/notifications/export_aborted/email_subject.txt:2
+#, python-format
+msgid "Export aborted: \"%(query)s\" in %(dataset_name)s"
+msgstr "Exportación abortada: \"%(query)s\" en %(dataset_name)s"
+
+#: panda/templates/notifications/export_aborted/email_body.txt:2
+#: panda/templates/notifications/export_aborted/email_subject.txt:2
+#, python-format
+msgid "Export aborted: %(dataset_name)s"
+msgstr "Exportación abortada: %(dataset_name)s"
+
+#: panda/templates/notifications/export_aborted/message.html:2
+#, python-format
+msgid "Export aborted: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+"Exportación interrumpida: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/export_aborted/message.html:2
+#, python-format
+msgid "Export aborted: <strong>%(dataset_name)s</strong>"
+msgstr "Exportación interrumpida: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/export_complete/email_body.txt:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in %(dataset_name)s (%(row_count)s rows)"
+msgstr ""
+"Exportación completa: \"%(query)s\" en %(dataset_name)s (%(row_count)s filas)"
+
+#: panda/templates/notifications/export_complete/email_body.txt:2
+#, python-format
+msgid "Export complete: %(dataset_name)s (%(row_count)s rows)"
+msgstr "Exportación completa: %(dataset_name)s (%(row_count)s filas)"
+
+#: panda/templates/notifications/export_complete/email_body.txt:4
+#: panda/templates/notifications/export_search_complete/email_body.txt:4
+msgid "Download your results:"
+msgstr "Descargar tus resultados:"
+
+#: panda/templates/notifications/export_complete/email_subject.txt:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in %(dataset_name)s"
+msgstr "Exportación completa: \"%(query)s\" en %(dataset_name)s"
+
+#: panda/templates/notifications/export_complete/email_subject.txt:2
+#, python-format
+msgid "Export complete: %(dataset_name)s"
+msgstr "Exportación completa: %(dataset_name)s"
+
+#: panda/templates/notifications/export_complete/message.html:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+"Exportación completa: \"%(query)s\" en <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/export_complete/message.html:2
+#, python-format
+msgid "Export complete: <strong>%(dataset_name)s</strong>"
+msgstr "Exportación completa: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/export_failed/email_body.txt:2
+#: panda/templates/notifications/export_failed/email_subject.txt:2
+#, python-format
+msgid "Export failed: \"%(query)s\" in %(dataset_name)s"
+msgstr "Exportación fallida: \"%(query)s\" en %(dataset_name)s"
+
+#: panda/templates/notifications/export_failed/email_body.txt:2
+#: panda/templates/notifications/export_failed/email_subject.txt:2
+#, python-format
+msgid "Export failed: %(dataset_name)s"
+msgstr "Exportación fallida: %(dataset_name)s"
+
+#: panda/templates/notifications/export_failed/email_body.txt:8
+#: panda/templates/notifications/export_search_failed/email_body.txt:6
+#: panda/templates/notifications/import_failed/email_body.txt:8
+msgid "Traceback:"
+msgstr "Trazas:"
+
+#: panda/templates/notifications/export_failed/message.html:2
+#, python-format
+msgid "Export failed: \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+"Exportación fallida: \"%(query)s\" en <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/export_failed/message.html:2
+#, python-format
+msgid "Export failed: <strong>%(dataset_name)s</strong>"
+msgstr "Exportación fallida: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/export_search_aborted/message.html:2
+#, python-format
+msgid "Export aborted: \"%(query)s\" in all datasets"
+msgstr "Exportación abortada: \"%(query)s\" en todos los grupos de datos"
+
+#: panda/templates/notifications/export_search_complete/email_body.txt:2
+#: panda/templates/notifications/export_search_complete/email_subject.txt:2
+#: panda/templates/notifications/export_search_complete/message.html:2
+#, python-format
+msgid "Export complete: \"%(query)s\" in all datasets"
+msgstr "Exportación completada: \"%(query)s\" en todos los grupos de datos"
+
+#: panda/templates/notifications/export_search_failed/email_body.txt:2
+#: panda/templates/notifications/export_search_failed/message.html:2
+#, python-format
+msgid "Export failed: \"%(query)s\" in all datasets"
+msgstr "Exportación fallida: \"%(query)s\" en todos los grupos de datos"
+
+#: panda/templates/notifications/import_aborted/email_body.txt:2
+#: panda/templates/notifications/import_aborted/email_subject.txt:2
+#, python-format
+msgid "Imported aborted: %(dataset_name)s"
+msgstr "Importanción abortada: %(dataset_name)s"
+
+#: panda/templates/notifications/import_aborted/message.html:2
+#, python-format
+msgid "Imported aborted: <strong>%(dataset_name)s</strong>"
+msgstr "Importación abortada: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/import_complete/email_body.txt:2
+#, python-format
+msgid "Import complete: %(dataset_name)s (%(row_count)s rows)"
+msgstr "Importación completada: %(dataset_name)s (%(row_count)s rows)"
+
+#: panda/templates/notifications/import_complete/email_subject.txt:2
+#, python-format
+msgid "Import complete: %(dataset_name)s"
+msgstr "Importación completada: %(dataset_name)s"
+
+#: panda/templates/notifications/import_complete/message.html:2
+#, python-format
+msgid "Import complete: <strong>%(dataset_name)s</strong>"
+msgstr "Importanción completada: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/import_failed/email_body.txt:2
+#: panda/templates/notifications/import_failed/email_subject.txt:2
+#, python-format
+msgid "Imported failed: %(dataset_name)s"
+msgstr "Importación fallida: %(dataset_name)s"
+
+#: panda/templates/notifications/import_failed/message.html:2
+#, python-format
+msgid "Imported failed: <strong>%(dataset_name)s</strong>"
+msgstr "Importación fallida: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/reindex_aborted/email_body.txt:2
+#: panda/templates/notifications/reindex_aborted/email_subject.txt:2
+#, python-format
+msgid "Reindex aborted: %(dataset_name)s"
+msgstr "Reindexado interrumpido: %(dataset_name)s"
+
+#: panda/templates/notifications/reindex_aborted/message.html:2
+#, python-format
+msgid "Reindex aborted: <strong>%(dataset_name)s</strong>"
+msgstr "Reindexado interrumpido: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/reindex_complete/email_body.txt:2
+#, python-format
+msgid "Reindex complete: %(dataset_name)s (%(row_count)s rows)"
+msgstr "Reindexado completo: %(dataset_name)s (%(row_count)s filas)"
+
+#: panda/templates/notifications/reindex_complete/email_subject.txt:2
+#, python-format
+msgid "Reindex complete: %(dataset_name)s"
+msgstr "Reindexado completo: %(dataset_name)s"
+
+#: panda/templates/notifications/reindex_complete/message.html:2
+#, python-format
+msgid "Reindex complete: <strong>%(dataset_name)s</strong>"
+msgstr "Reindexado completo: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/reindex_failed/email_body.txt:2
+#: panda/templates/notifications/reindex_failed/email_subject.txt:2
+#, python-format
+msgid "Reindex failed: %(dataset_name)s"
+msgstr "Reindexado fallido: %(dataset_name)s"
+
+#: panda/templates/notifications/reindex_failed/message.html:2
+#, python-format
+msgid "Reindex failed: <strong>%(dataset_name)s</strong>"
+msgstr "Reindexado fallido: <strong>%(dataset_name)s</strong>"
+
+#: panda/templates/notifications/subscription_results/email_body.txt:2
+#, python-format
+msgid ""
+"New search results for \"%(query)s\" in %(dataset_name)s (%(count)s new)"
+msgstr ""
+"Nuevos resultados de la búsqueda \"%(query)s\" en %(dataset_name)s (%(count)"
+"s nuevos)"
+
+#: panda/templates/notifications/subscription_results/email_body.txt:4
+msgid "See just the new results:"
+msgstr "Mostrar sólo los resultados nuevos:"
+
+#: panda/templates/notifications/subscription_results/email_body.txt:7
+msgid "See all results for your search:"
+msgstr "Mostrar todos los resultados de tu búsqueda:"
+
+#: panda/templates/notifications/subscription_results/email_body.txt:10
+msgid "To stop receiving notifications for this search, visit your user page:"
+msgstr ""
+"Para dejar de recibir notificaciones sobre ésta búsqueda, visita tu página "
+"de usuario:"
+
+#: panda/templates/notifications/subscription_results/email_subject.txt:2
+#, python-format
+msgid "New search results for \"%(query)s\" in %(dataset_name)s"
+msgstr "Nuevos resultados para la búsqueda \"%(query)s\" en %(dataset_name)s"
+
+#: panda/templates/notifications/subscription_results/message.html:2
+#, python-format
+msgid ""
+"New search results for \"%(query)s\" in <strong>%(dataset_name)s</strong>"
+msgstr ""
+"Nuevos resultados para \"%(query)s\" en <strong>%(dataset_name)s</strong>"
+
+#: templates/404.html:5
+msgid "Not Found"
+msgstr "No encontrado"
+
+#: templates/500.html:5
+msgid "Server Error"
+msgstr "Error de servidor"
+
+#: templates/admin/base_site.html:4
+msgid "PANDA Administration"
+msgstr "Administración de PANDA"
+
+#: templates/admin/base_site.html:7
+#, fuzzy
+msgid "(version 1.0.3)"
+msgstr "(versión 1.0.2)"
+
+#: templates/admin/panda_index.html:10
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "Modelos disponibles en la aplicación %(name)s."
+
+#: templates/admin/panda_index.html:11
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: templates/admin/panda_index.html:27
+msgid "Change"
+msgstr "Cambiar"
+
+#: templates/admin/panda_index.html:37
+msgid "You don't have permission to edit anything."
+msgstr "No tienes permiso para editar nada"
+
+#: templates/livesettings/site_settings.html:47
+msgid "Documentation"
+msgstr "Documentación"
+
+#: templates/livesettings/site_settings.html:47
+msgid "Change password"
+msgstr "Cambiar contraseña"
+
+#: templates/livesettings/site_settings.html:47
+msgid "Log out"
+msgstr "Salir"
+
+#: templates/livesettings/site_settings.html:51
+msgid "Edit Site Settings"
+msgstr "Editar configuración"
+
+#: templates/livesettings/site_settings.html:61
+msgid "Livesettings are disabled for this site."
+msgstr "Los ajustes en vivo están desabilitados en éste sitio"
+
+#: templates/livesettings/site_settings.html:62
+msgid "All configuration options must be edited in the site settings.py file"
+msgstr ""
+"Todas las opciones de configuración deben ser editadas en el fichero "
+"settings.py del sitio"
+
+#: templates/livesettings/site_settings.html:84
+#, python-format
+msgid "Group settings: %(name)s"
+msgstr "Ajustes de grupo: %(name)s"
+
+#: templates/livesettings/site_settings.html:111
+msgid "Update Settings"
+msgstr "Actualizar configuración"
+
+#: templates/livesettings/site_settings.html:117
+msgid "You don't have permission to edit values."
+msgstr "No tienes permiso para editar valores"

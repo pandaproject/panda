@@ -10,6 +10,8 @@ PANDA.views.Search = Backbone.View.extend({
     results: null,
     home_view: null,
 
+    text: PANDA.text.Search(), 
+
     initialize: function() {
         _.bindAll(this);
 
@@ -30,6 +32,7 @@ PANDA.views.Search = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
+            text: this.text,
             categories: Redd.get_categories(),
             category: this.category,
             query: this.query

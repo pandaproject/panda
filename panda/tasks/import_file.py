@@ -5,6 +5,7 @@ import traceback
 
 from celery.contrib.abortable import AbortableTask
 from django.conf import settings
+from django.utils.translation import ugettext
 
 from panda import solr
 from panda.utils.notifications import notify
@@ -68,7 +69,7 @@ class ImportFileTask(AbortableTask):
                 tb = ''.join(traceback.format_tb(einfo[2]))
 
             task_status.exception(
-                'Import failed',
+                ugettext('Import failed'),
                 u'%s\n\nTraceback:\n%s' % (unicode(retval), tb)
             )
             
@@ -80,7 +81,7 @@ class ImportFileTask(AbortableTask):
             template_prefix = 'import_aborted'
             notification_type = 'Info'
         else:
-            task_status.complete('Import complete')
+            task_status.complete(ugettext('Import complete'))
 
             template_prefix = 'import_complete'
             extra_context['type_summary'] = retval.summarize()

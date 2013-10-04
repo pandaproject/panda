@@ -60,7 +60,7 @@ Now we will define some global variables for values we are going to reuse throug
     # Replace "localhost:8000" with your PANDA's DNS name or IP address
     PANDA_API = 'http://localhost:8000/api/1.0'
 
-    # Replace these parameters with your adminstrator's email and api key
+    # Replace these parameters with your administrator's email and api key
     PANDA_AUTH_PARAMS = {
         'email': 'panda@pandaproject.net',
         'api_key': 'edfe6c5ffd1be4d3bf22f69188ac6bc0fc04c84b'

@@ -13,6 +13,8 @@ PANDA.views.DatasetView = Backbone.View.extend({
     edit_view: null,
     related_links_view: null,
 
+    text: PANDA.text.DatasetView(),
+
     initialize: function(options) {
         _.bindAll(this);
 
@@ -30,6 +32,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         // Render inlines
         data_uploads_html = this.dataset.data_uploads.map(_.bind(function(upload) {
             return PANDA.templates.inline_upload_item({
+                text: PANDA.inlines_text,
                 upload_type: "data",
                 upload: upload.toJSON()
             });
@@ -37,6 +40,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
 
         related_uploads_html = this.dataset.related_uploads.map(_.bind(function(upload) {
             return PANDA.templates.inline_upload_item({
+                text: PANDA.inlines_text,
                 upload_type: "related",
                 upload: upload.toJSON()
             });
@@ -48,6 +52,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
         });
 
         var context = PANDA.utils.make_context({
+            'text': this.text,
             'dataset': this.dataset.toJSON(true),
             'categories': this.dataset.categories.toJSON(),
             'all_categories': Redd.get_categories().toJSON(), 
@@ -82,9 +87,9 @@ PANDA.views.DatasetView = Backbone.View.extend({
             showMessage: this.on_related_upload_message,
             sizeLimit: PANDA.settings.MAX_UPLOAD_SIZE,
             messages: {
-                sizeError: "{file} is too large, the maximum file size is " + PANDA.settings.MAX_UPLOAD_SIZE + " bytes.",
-                emptyError: "{file} is empty.",
-                onLeave: "Your file is being uploaded, if you leave now the upload will be cancelled."
+                sizeError: interpolate(gettext("{file} is too large, the maximum file size is %(size)s bytes.", { size: PANDA.settings.MAX_UPLOAD_SIZE }, true)),
+                emptyError: gettext("{file} is empty."),
+                onLeave: gettext("Your file is being uploaded, if you leave now the upload will be cancelled.")
             }
         });
 
@@ -118,7 +123,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
             var upload = this.dataset.related_uploads.get(uri);
         }
 
-        $("#modal-upload-edit").html(PANDA.templates.modal_upload_edit({ upload: upload.toJSON() }));
+        $("#modal-upload-edit").html(PANDA.templates.modal_upload_edit({
+            text: this.text,
+            upload: upload.toJSON()
+        }));
 
         var save = function() {
             upload.save({ title: $("#upload-title").val() }, { async: false });
@@ -163,14 +171,14 @@ PANDA.views.DatasetView = Backbone.View.extend({
         var upload = uploads.get(uri);
 
         if (upload_type == "data" && upload.get("deletable") == false) {
-            bootbox.alert("This data upload was created before deleting individual data uploads was supported. In order to delete it you must delete the entire dataset.");
+            bootbox.alert(gettext("This data upload was created before deleting individual data uploads was supported. In order to delete it you must delete the entire dataset."));
             return false;
         }
             
-        var message = "<p>This will irreversibly destroy <strong>" + upload.get("title") + "</strong>. It will not be possible to recover this file.</p>";
-
         if (upload_type == "data") {
-            message += "<p><strong>All data imported from this file will also be deleted.</strong></p>";
+            var message = interpolate(gettext("<p>This will irreversibly destroy <strong>%(title)s</strong>. It will not be possible to recover this file.</p><p><strong>All data imported from this file will also be deleted.</strong></p>"), { title: upload.get("title") }, true);
+        } else {
+            var message = interpolate(gettext("<p>This will irreversibly destroy <strong>%(title)s</strong>. It will not be possible to recover this file.</p>"), { title: upload.get("title") }, true);
         }
 
         var deleter = function(result) {
@@ -301,12 +309,10 @@ PANDA.views.DatasetView = Backbone.View.extend({
             typed_columns,
             column_types,
             function(dataset) {
-                var note = "Your data indexing task has been successfully queued.";
-
                 if (PANDA.settings.EMAIL_ENABLED) {
-                    note += " You will receive an email when it is complete."
+                    var note = gettext("Your data indexing task has been successfully queued. You will receive an email when it is complete.");
                 } else {
-                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when the task is complete."
+                    var note = gettext("Your data indexing task has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when the task is complete.");
                 }
 
                 bootbox.alert(
@@ -317,7 +323,7 @@ PANDA.views.DatasetView = Backbone.View.extend({
                 );
             },
             function(dataset, error) {
-                bootbox.alert("<p>Your data indexing task failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+                bootbox.alert(interpolate(gettext("<p>Your data indexing task failed to start!</p><p>Error:</p><code>%(traceback)s</code>", { traceback:error.traceback }, true)));
             });
     },
     
@@ -329,18 +335,16 @@ PANDA.views.DatasetView = Backbone.View.extend({
             null,
             "all",
             function(dataset) {
-                var note = "Your export has been successfully queued.";
-
                 if (PANDA.settings.EMAIL_ENABLED) {
-                    note += " When it is complete you will be emailed a link to download the file."
+                    var note = gettext("Your export has been successfully queued. When it is complete you will be emailed a link to download the file.");
                 } else {
-                    note += " Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded."
+                    var note = gettext("Your export has been successfully queued. Your PANDA does not have email configured, so you will need to check your Notifications list to see when it is ready to be downloaded.");
                 }
 
                 bootbox.alert(note);
             },
             function(dataset, error) {
-                bootbox.alert("<p>Your export failed to start!</p><p>Error:</p><code>" + error.traceback + "</code>");
+                bootbox.alert(interpolate(gettext("<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>", { traceback:error.traceback }, true)));
             }
         );
     },

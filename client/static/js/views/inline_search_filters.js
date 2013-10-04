@@ -2,7 +2,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     operations: {
         "unicode": {
             "is_like": {
-                "name": "is like",
+                "name": gettext("is like"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_unicode"
@@ -10,25 +10,25 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         },
         "int": {
             "is": {
-                "name": "is",
+                "name": gettext("is"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_ints"
             },
             "is_greater": {
-                "name": "is greater than or equal to",
+                "name": gettext("is greater than or equal to"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_ints"
             },
             "is_less": {
-                "name": "is less than or equal to",
+                "name":gettext( "is less than or equal to"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_ints"
             },
             "is_range": {
-                "name": "is in the range",
+                "name": gettext("is in the range"),
                 "widget_template": "inline_widget_double_input",
                 "parser": "parse_inline_widget_double_input",
                 "validator": "validate_ints"
@@ -36,25 +36,25 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         },
         "float": {
             "is": {
-                "name": "is",
+                "name": gettext("is"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_floats"
             },
             "is_greater": {
-                "name": "is greater than or equal to",
+                "name": gettext("is greater than or equal to"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_floats"
             },
             "is_less": {
-                "name": "is less than or equal to",
+                "name": gettext("is less than or equal to"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_floats"
             },
             "is_range": {
-                "name": "is in the range",
+                "name": gettext("is in the range"),
                 "widget_template": "inline_widget_double_input",
                 "parser": "parse_inline_widget_double_input",
                 "validator": "validate_floats"
@@ -62,7 +62,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         },
         "bool": {
             "is": {
-                "name": "is",
+                "name": gettext("is"),
                 "widget_template": "inline_widget_bool_selector",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dummy"
@@ -70,25 +70,25 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         },
         "datetime": {
             "is": {
-                "name": "is",
+                "name": gettext("is"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_datetimes"
             },
             "is_greater": {
-                "name": "is on or after",
+                "name": gettext("is on or after"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_datetimes"
             },
             "is_less": {
-                "name": "is on or before",
+                "name": gettext("is on or before"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_datetimes"
             },
             "is_range": {
-                "name": "is in the range",
+                "name": gettext("is in the range"),
                 "widget_template": "inline_widget_double_input",
                 "parser": "parse_inline_widget_double_input",
                 "validator": "validate_datetimes"
@@ -96,25 +96,25 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         },
         "date": {
             "is": {
-                "name": "is",
+                "name": gettext("is"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dates"
             },
             "is_greater": {
-                "name": "is on or after",
+                "name": gettext("is on or after"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dates"
             },
             "is_less": {
-                "name": "is on or before",
+                "name": gettext("is on or before"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_dates"
             },
             "is_range": {
-                "name": "is in the range",
+                "name": gettext("is in the range"),
                 "widget_template": "inline_widget_double_input",
                 "parser": "parse_inline_widget_double_input",
                 "validator": "validate_dates"
@@ -122,25 +122,25 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         },
         "time": {
             "is": {
-                "name": "is",
+                "name": gettext("is"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_times"
             },
             "is_greater": {
-                "name": "is at or after",
+                "name": gettext("is at or after"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_times"
             },
             "is_less": {
-                "name": "is at or before",
+                "name": gettext("is at or before"),
                 "widget_template": "inline_widget_single_input",
                 "parser": "parse_inline_widget_single_input",
                 "validator": "validate_times"
             },
             "is_range": {
-                "name": "is in the range",
+                "name": gettext("is in the range"),
                 "widget_template": "inline_widget_double_input",
                 "parser": "parse_inline_widget_double_input",
                 "validator": "validate_times"
@@ -154,6 +154,8 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     search: null,
 
+    text: PANDA.text.DatasetSearchFilters(),
+
     initialize: function(options) {
         _.bindAll(this);
     },
@@ -164,6 +166,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     render: function() {
         var context = PANDA.utils.make_context({
+            "text": this.text,
             "dataset": this.search.dataset.results(),
             "render_filter": this.render_filter,
             "column_is_filterable": this.column_is_filterable,
@@ -186,7 +189,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         if (filters_are_on) {
             $(".search-help").show();
             $("#dataset-search-filters").show();
-            $("#toggle-advanced-search").text("Fewer search options");
+            $("#toggle-advanced-search").text(gettext("Fewer search options"));
         }
 
         $("#add-filter").change(this.add_filter);
@@ -217,6 +220,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
         var widget_template = this.get_column_widget_template(operation);
 
         filter_context = PANDA.utils.make_context({
+            "text": this.text,
             "i": i,
             "column": c,
             "query": query,
@@ -398,7 +402,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     validate_unicode: function(c, values) {
         if (!values["value"]) {
-            throw new Error("No value provided.");
+            throw new Error(gettext("No value provided."));
         }
     },
 
@@ -408,14 +412,14 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     validate_ints: function(c, values) {
         if (!this.is_int(values["value"])) {
-            throw new Error("Value is not an integer!");
+            throw new Error(gettext("Value is not an integer!"));
         }
         
         var value = parseInt(values["value"]);
 
         if (values["range_value"]) {
             if (!this.is_int(values["range_value"])) {
-                throw new Error("Second value is not an integer!");
+                throw new Error(gettext("Second value is not an integer!"));
             }
 
             var range_value = parseInt(values["range_value"]);
@@ -425,7 +429,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         if (range_value) {
             if (value > range_value) {
-                throw new Error("The first value should always be less than the second value."); 
+                throw new Error(gettext("The first value should always be less than the second value.")); 
             }
         }
     },
@@ -436,14 +440,14 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
     
     validate_floats: function(c, values) {
         if (!this.is_float(values["value"])) {
-            throw new Error("Value is not an float!");
+            throw new Error(gettext("Value is not an float!"));
         }
         
         var value = parseFloat(values["value"]);
 
         if (values["range_value"]) {
             if (!this.is_float(values["range_value"])) {
-                throw new Error("Second value is not an float!");
+                throw new Error(gettext("Second value is not an float!"));
             }
 
             var range_value = parseFloat(values["range_value"]);
@@ -453,7 +457,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         if (range_value) {
             if (value > range_value) {
-                throw new Error("The first value should always be less than the second value."); 
+                throw new Error(gettext("The first value should always be less than the second value.")); 
             }
         }
     },
@@ -467,24 +471,24 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     validate_datetimes: function(c, values) {
         if (!this.is_datetime(values["value"])) {
-            throw new Error('Datetime must be in format "YYYY-MM-DD HH:MM".');
+            throw new Error(gettext('Datetime must be in format "YYYY-MM-DD HH:MM".'));
         }
         
         try {
             var value = moment(values["value"], "YYYY-MM-DD HH:mm");
         } catch (e) {
-            throw new Error("Value is not a valid datetime.");
+            throw new Error(gettext("Value is not a valid datetime."));
         }
 
         if (values["range_value"]) {
             if (!this.is_datetime(values["range_value"])) {
-                throw new Error('Datetime must be in format "YYYY-MM-DD HH:MM".');
+                throw new Error(gettext('Datetime must be in format "YYYY-MM-DD HH:MM".'));
             }
             
             try {
                 var range_value = moment(values["range_value"], "YYYY-MM-DD HH:mm");
             } catch (e) {
-                throw new Error("Second value is not a valid datetime.");
+                throw new Error(gettext("Second value is not a valid datetime."));
             }
         } else {
             var range_value = null;
@@ -492,7 +496,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         if (range_value) {
             if (value > range_value) {
-                throw new Error("The first date must be before the second date."); 
+                throw new Error(gettext("The first date must be before the second date.")); 
             }
         }
     },
@@ -503,24 +507,24 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     validate_dates: function(c, values) {
         if (!this.is_date(values["value"])) {
-            throw new Error('Date must be in format "YYYY-MM-DD".');
+            throw new Error(gettext('Date must be in format "YYYY-MM-DD".'));
         }
         
         try {
             var value = moment(values["value"], "YYYY-MM-DD");
         } catch (e) {
-            throw new Error("Value is not a valid date.");
+            throw new Error(gettext("Value is not a valid date."));
         }
 
         if (values["range_value"]) {
             if (!this.is_date(values["range_value"])) {
-                throw new Error('Date must be in format "YYYY-MM-DD".');
+                throw new Error(gettext('Date must be in format "YYYY-MM-DD".'));
             }
             
             try {
                 var range_value = moment(values["range_value"], "YYYY-MM-DD");
             } catch (e) {
-                throw new Error("Second value is not a valid date.");
+                throw new Error(gettext("Second value is not a valid date."));
             }
         } else {
             var range_value = null;
@@ -528,7 +532,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         if (range_value) {
             if (value > range_value) {
-                throw new Error("The first date must be before the second before."); 
+                throw new Error(gettext("The first date must be before the second before.")); 
             }
         }
     },
@@ -539,26 +543,26 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
     validate_times: function(c, values) {
         if (!this.is_time(values["value"])) {
-            throw new Error('Time must be in format "HH:MM".');
+            throw new Error(gettext('Time must be in format "HH:MM".'));
         }
         
         try {
             var value = "9999-12-31 " + values["value"];
             value = moment(value, "YYYY-MM-DD HH:mm");
         } catch (e) {
-            throw new Error("Value is not a valid time.");
+            throw new Error(gettext("Value is not a valid time."));
         }
 
         if (values["range_value"]) {
             if (!this.is_time(values["range_value"])) {
-                throw new Error('Time must be in format "HH:MM".');
+                throw new Error(gettext('Time must be in format "HH:MM".'));
             }
             
             try {
                 var range_value = "9999-12-31 " + values["range_value"];
                 range_value = moment(range_value, "YYYY-MM-DD HH:mm");
             } catch (e) {
-                throw new Error("Second value is not a valid time.");
+                throw new Error(gettext("Second value is not a valid time."));
             }
         } else {
             var range_value = null;
@@ -566,7 +570,7 @@ PANDA.views.DatasetSearchFilters = Backbone.View.extend({
 
         if (range_value) {
             if (value > range_value) {
-                throw new Error("The first time must be before the second time."); 
+                throw new Error(gettext("The first time must be before the second time.")); 
             }
         }
     }

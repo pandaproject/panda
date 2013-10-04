@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+{% load i18n %}
 {% load compress %}
 
 <html>
@@ -22,35 +23,35 @@
                 <ul class="nav pull-left">
                     <li id="logo"><a href="#search/all"><img src="{{ settings.STATIC_URL }}img/panda_and_ire.png" /></a></li>
                     <li id="loading-indicator"><a href="javascript:return false;"><img src="{{ settings.STATIC_URL }}img/ajax-loader.gif" /></a></li>
-                    <li><a href="#search/all">Search</a></li>
-                    <li><a href="#upload">Upload</a></li>
+                    <li><a href="#search/all">{% trans "Search" %}</a></li>
+                    <li><a href="#upload">{% trans "Upload" %}</a></li>
                     <li id="navbar-categories" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Find a dataset <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Find a dataset" %} <b class="caret"></b></a>
                         <ul id="categories-list" class="dropdown-menu">
                         </ul>
                     </li>
                     <li id="navbar-help" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Help" %} <b class="caret"></b></a>
                         <ul id="help-list" class="dropdown-menu">
-                            <li><a href="#welcome">Welcome to PANDA</a></li>
-                            <li><a href="http://pandaproject.net/">Read the documentation</a></li>
-                            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/panda-project-users">Ask a question on the user group</a></li>
+                            <li><a href="#welcome">{% trans "Welcome to PANDA" %}</a></li>
+                            <li><a href="http://pandaproject.net/">{% trans "Read the documentation" %}</a></li>
+                            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/panda-project-users">{% trans "Ask a question on the user group" %}</a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav pull-right">
                     <li id="navbar-email"><a href="#"></a></li>
                     <li id="navbar-notifications" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications <span class="count badge">0</span> <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Notifications" %} <span class="count badge">0</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <ul>
                             </ul>
                             <li class="divider"></li>
-                            <li><a href="#notifications">View all notifications</a></li>
+                            <li><a href="#notifications">{% trans "View all notifications" %}</a></li>
                         </ul>
                     </li>
-                    <li id="navbar-admin"><a href="/admin">Admin</a></li>
-                    <li><a href="#logout">Logout</a></li>
+                    <li id="navbar-admin"><a href="/admin">{% trans "Admin" %}</a></li>
+                    <li><a href="#logout">{% trans "Logout" %}</a></li>
                 </ul>
             </div>
         </div>
@@ -79,6 +80,13 @@
 
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/excanvas.min.js"></script><![endif]-->
 
+    {% if moment_lang_code %}
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/lib/moment/{{ moment_lang_code }}.js"></script>
+    <script type="text/javascript">
+        moment.lang("{{ settings.LANGUAGE_CODE }}");
+    </script>
+    {% endif %}
+
     <script type="text/javascript">
         PANDA.settings.VERSION = "{{ settings.PANDA_VERSION }}";
         PANDA.settings.STATIC_URL = "{{ settings.STATIC_URL }}";
@@ -95,8 +103,34 @@
     </script>
 
     <script type="text/javascript" src="templates.js"></script>
+    <script type="text/javascript" src="i18n.js"></script>
 
     {% compress js %}
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/activate.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/data_upload.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/dataset_results.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/dataset_search.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/dataset_view.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/datasets_search.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/datasets_results.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/fetch_export.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/home.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/inline_search_filters.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/inlines.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/login.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/modal_change_password.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/modal_dataset_edit.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/modal_related_links.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/modal_user_edit.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/not_found.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/notifications.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/reset_password.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/search.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/search_results.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/server_error.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/user.js"></script>
+    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/welcome.js"></script>
+
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/activity_log.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/exports.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/notifications.js"></script>
@@ -108,6 +142,7 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/categories.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/datasets.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/data.js"></script>
+
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/not_found.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/server_error.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/activate.js"></script>
@@ -138,6 +173,9 @@
 
     <script type="text/javascript">
         $(function() {
+            // Bootstrap inline text for all views
+            PANDA.inlines_text = PANDA.text.Inlines();
+
             window.Redd = new PANDA.views.Root();
             Redd.start_routing();
 

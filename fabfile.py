@@ -281,12 +281,6 @@ def local_reset_solr():
     local('cp setup_panda/solrconfig.xml %(local_solr_home)s/pandadatasets_test/conf/solrconfig.xml' % env)
     local('cp setup_panda/datasets_schema.xml %(local_solr_home)s/pandadatasets_test/conf/schema.xml' % env)
 
-def local_screens():
-    """
-    Start all development environment commands in screen.
-    """
-    local('screen -c panda.screenrc')
-
 def local_solr():
     """
     Start the local Solr instance.
@@ -342,4 +336,11 @@ def coverage():
     local('coverage run --source panda manage.py test panda')
     local('coverage html --omit "panda/migrations/*,panda/tests/*" -d coverage_html')
     local('open coverage_html/index.html')
+
+def makemessages():
+    local('python manage.py makemessages -a -i _site -i media -i docs -i coverage_html')
+    local('python manage.py makemessages -a -d djangojs -e js -i _site -i media -i docs -i coverage_html')
+
+def compilemessages():
+    local('python manage.py compilemessages')
 

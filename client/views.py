@@ -47,8 +47,20 @@ def index(request):
         'email_enabled': int(config_value('EMAIL', 'EMAIL_ENABLED')),
         'bootstrap_data': serializer.to_json({
             'categories': categories_bootstrap
-        })
+        }),
+        'moment_lang_code': _moment_lang_code(),
     })
+
+def _moment_lang_code():
+    """Maybe in the future we'll do something to see if there's a regionalized variant for moment by checking the filesystem, but that seems hackish."""
+    from django.conf import settings
+    try:
+        return settings.LANGUAGE_CODE.split('-')[0]
+    except:
+        try:
+            return settings.LANGUAGE_CODE
+        except:
+            return ''
 
 def dashboard(request):
     """
@@ -62,7 +74,7 @@ def dashboard(request):
 
     # Users
     user_count = UserProxy.objects.all().count()
-    inactive_user_count = UserProxy.objects.filter(is_active=False).count()
+    activated_user_count = UserProxy.objects.filter(is_active=True).count()
 
     today = now().date()
     thirty_days_ago = today - datetime.timedelta(days=30)
@@ -160,7 +172,7 @@ def dashboard(request):
         'datasets_without_descriptions': datasets_without_descriptions,
         'datasets_without_categories': datasets_without_categories,
         'user_count': user_count,
-        'inactive_user_count': inactive_user_count,
+        'activated_user_count': activated_user_count,
         'most_active_users': most_active_users,
         'least_active_users': least_active_users,
         'inactive_users': inactive_users,
@@ -176,7 +188,8 @@ def dashboard(request):
         'upload_disk_percent_used': upload_disk_percent_used,
         'indices_disk_total': indices_disk_total,
         'indices_disk_free': indices_disk_free,
-        'indices_disk_percent_used': indices_disk_percent_used
+        'indices_disk_percent_used': indices_disk_percent_used,
+        'storage_documentation_url': 'http://panda.readthedocs.org/en/%s/storage.html' % settings.PANDA_VERSION
     })
 
 def jst(request):

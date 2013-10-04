@@ -2,22 +2,22 @@
     <div id="activate">
         <form id="activation-form">
             <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
-            <h2>Activate your PANDA account</h2>
+            <h2><%= text.activate_title %></h2>
             <div class="alert"></div>
             <% if (typeof(email) !== 'undefined') { %>
             <fieldset>
                 <div class="control-group">
-                    <label for="email">Email</label>
+                    <label for="email"><%= text.email %></label>
                     <input type="text" name="email" value="<%= email %>" />
                     <span class="help-inline"></span>
                 </div>
                 <div class="control-group">
-                    <label for="first_name">First name</label>
+                    <label for="first_name"><%= text.first_name %></label>
                     <input type="text" name="first_name" value="<%= first_name %>" />
                     <span class="help-inline"></span>
                 </div>
                 <div class="control-group">
-                    <label for="last_name">Last name</label>
+                    <label for="last_name"><%= text.last_name %></label>
                     <input type="text" name="last_name" value="<%= last_name %>" />
                     <span class="help-inline"></span>
                 </div>
@@ -25,16 +25,16 @@
             </fieldset>
             <fieldset>
                 <div class="control-group">
-                    <label for="password">Password</label>
+                    <label for="password"><%= text.password %></label>
                     <input type="password" name="password" />
                     <span class="help-inline"></span>
                 </div>
                 <div class="control-group">
-                    <label for="reenter_password">Re-enter password</label>
+                    <label for="reenter_password"><%= text.password2 %></label>
                     <input type="password" name="reenter_password" />
                     <span class="help-inline"></span>
                 </div>
-                <input type="submit" class="btn primary" value="Activate" />
+                <input type="submit" class="btn primary" value="<%= text.activate %>" />
             </fieldset>
             <% } %>
         </form>
