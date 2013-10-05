@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-05 14:06-0700\n"
+"POT-Creation-Date: 2013-10-05 15:49-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -661,6 +661,48 @@ msgstr "Creada %(timeago)s"
 #: client/static/js/text/home.js:5
 msgid "Browse all %(count)s datasets"
 msgstr "Navegar por los %(count)s datasets"
+
+#: client/static/js/text/home.js:6
+msgid "Welcome to PANDA! Let's get started."
+msgstr ""
+
+#: client/static/js/text/home.js:7
+msgid ""
+"Use the box above to search all the data in your PANDA. Try a name, street "
+"or something on your beat."
+msgstr ""
+
+#: client/static/js/text/home.js:8
+msgid "Look to the right for a list of datasets folks have recently uploaded."
+msgstr ""
+
+#: client/static/js/text/home.js:9
+msgid ""
+"Have a spreadsheet? <a href=\"#upload\">Upload your own data</a> to keep it "
+"safe and make it searchable."
+msgstr ""
+
+#: client/static/js/text/home.js:10
+msgid "Ready to be a power user?"
+msgstr ""
+
+#: client/static/js/text/home.js:11
+msgid "How to make advanced searches"
+msgstr ""
+
+#: client/static/js/text/home.js:12
+msgid "How to upload data"
+msgstr ""
+
+#: client/static/js/text/home.js:13
+msgid "How to subscribe to search results"
+msgstr ""
+
+#: client/static/js/text/home.js:14
+msgid ""
+"For much more, read the <a href=\"http://pandaproject.net/docs/\">complete "
+"documentation</a>"
+msgstr ""
 
 #: client/static/js/text/inline_search_filters.js:3
 #: client/static/js/text/inline_search_filters.js:9

@@ -2,17 +2,16 @@
     <div id="recent-datasets" class="row-fluid">
         <div class="span7">
             <div id="start">
-                <h3>Getting started</h3>
-                <p><i class="icon-arrow-up"></i> Search all the data in your PANDA. Try searching for names, streets or something on your beat.</p>
-                <p><i class="icon-arrow-right"></i> Explore the most recent datasets uploaded by anyone in your news organization.</p>
-                <p><i class="icon-upload"></i> Have a CSV or Excel spreadsheet? <a href="#upload">Upload your own data</a> to keep it safe and make it searchable.</p>
-                
-                <h3>Learn more with PANDA documentation</h3>
+                <h3><%= text.welcome %></h3>
+                <p><i class="icon-arrow-up"></i> <%= text.search %></p>
+                <p><i class="icon-arrow-right"></i> <%= text.lookup_datasets %></p>
+                <p><i class="icon-file"></i> <%= text.upload %></p>
+                <h3 class="ready"><%= text.power_user %></h3>
                 <ul>
-                    <li><a href="http://pandaproject.net/docs/searching-data.html">Searching for data</a></li>
-                    <li><a href="http://pandaproject.net/docs/uploading.html">Uploading a dataset</a></li>
-                    <li><a href="http://pandaproject.net/docs/search-subscriptions.html">Subscribing to search results</a></li>
-                    <li><a href="http://pandaproject.net/docs/">Complete documentation</a></li>
+                    <li><a href="http://pandaproject.net/docs/searching-data.html"><%= text.advanced_searches %></a></li>
+                    <li><a href="http://pandaproject.net/docs/uploading.html"><%= text.upload_data %></a></li>
+                    <li><a href="http://pandaproject.net/docs/search-subscriptions.html"><%= text.subscribe %></a></li>
+                    <li><%= text.complete_docs %></li>
                 </ul>
             </div>
         </div>
