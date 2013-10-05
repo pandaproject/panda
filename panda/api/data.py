@@ -416,7 +416,11 @@ class DataResource(PandaResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        query = '(%s)' % request.GET.get('q', '')
+        try:
+            query = '(%s)' % request.GET['q']
+        except KeyError:
+            query = ''
+
         category = request.GET.get('category', '')
         since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
@@ -434,7 +438,7 @@ class DataResource(PandaResource):
             else:
                 dataset_slugs = Dataset.objects.filter(categories=None).values_list('slug', flat=True) 
 
-            solr_query_bits.append('dataset_slug:(%s)' % dataset_slugs)
+            solr_query_bits.append('dataset_slug:(%s)' % ' '.join(dataset_slugs))
 
         if since:
             solr_query_bits.append('last_modified:[' + since + 'Z TO *]')
@@ -541,7 +545,11 @@ class DataResource(PandaResource):
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        query = '(%s)' % request.GET.get('q', '')
+        try:
+            query = '(%s)' % request.GET['q']
+        except KeyError:
+            query = ''
+
         since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))

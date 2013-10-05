@@ -106,9 +106,10 @@ class ExportSearchTask(AbortableTask):
             n = 0
 
             while n < datasets[dataset_slug]:
+
                 response = solr.query(
                     settings.SOLR_DATA_CORE,
-                    'dataset_slug: %s %s' % (dataset_slug, query),
+                    'dataset_slug:%s AND (%s)' % (dataset_slug, query),
                     offset=n,
                     limit=SOLR_PAGE_SIZE
                 )

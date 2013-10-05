@@ -1,6 +1,8 @@
 1.1.0
 -----
 
+* Add getting started guide to home page. (#901)
+* Implement demo mode. (#902)
 * Fix default search operator in global search. (#877)
 * Enable column sort in API. (#876)
 * Add Jennifer Wilson to AUTHORS.

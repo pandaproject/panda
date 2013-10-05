@@ -60,10 +60,14 @@ class ExportCSVTask(ExportFileTask):
         # Header
         writer.writerow([c['name'] for c in dataset.column_schema])
 
-        solr_query = 'dataset_slug:%s' % dataset_slug
+        solr_query_bits = []
 
         if query:
-            solr_query = '%s %s' % (solr_query, query)
+            solr_query_bits.append('(%s)' % query) 
+
+        solr_query_bits.append('dataset_slug:%s' % dataset_slug)
+
+        solr_query = ' AND '.join(solr_query_bits)
 
         response = solr.query(
             settings.SOLR_DATA_CORE,

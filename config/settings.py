@@ -259,6 +259,12 @@ PANDA_UNCATEGORIZED_SLUG = 'uncategorized'
 # running this through gettext causes file uploads not to work, so disabled until solved!
 PANDA_UNCATEGORIZED_NAME = _('Uncategorized')
 
+MOMENT_LANGUAGE_MAPPING = {
+    'en': None,
+    'es': 'es',
+    'de': 'de'
+}
+
 # Allow for local (per-user) override
 try:
     from local_settings import *

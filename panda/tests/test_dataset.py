@@ -503,7 +503,7 @@ class TestDataset(TransactionTestCase):
             self.assertEqual('id,first_name,last_name,employer\n', f.next())
             self.assertEqual('1,Brian,Boyer,Chicago Tribune\n', f.next())
             self.assertEqual('2,Joseph,Germuska,Chicago Tribune\n', f.next())
-            
+
             with self.assertRaises(StopIteration):
                 f.next()
 
