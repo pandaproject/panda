@@ -2,11 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (server-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-05 15:48-0700\n"
-"Language: de\n"
+"POT-Creation-Date: 2013-10-05 22:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "X-Generator: POEditor.com\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -730,7 +730,7 @@ msgid "columns"
 msgstr ""
 
 #: panda/models/data_upload.py:32
-msgid "An list of names for this uploads columns."
+msgid "A list of names for the columns in this upload."
 msgstr ""
 
 #: panda/models/data_upload.py:33 panda/models/dataset.py:36
@@ -1478,8 +1478,8 @@ msgstr ""
 #: panda/templates/notifications/disk_space_alert/email_body.txt:3
 #, fuzzy, python-format
 msgid ""
-"The drive containing your PANDA uploads is CRITICALLY low on disk space: "
-"%(bytes)s remains (%(percent)s%% full)"
+"The drive containing your PANDA uploads is CRITICALLY low on disk space: %"
+"(bytes)s remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der sich Ihre PANDA-Uploads befinden, hat DEUTLICH zu "
 "wenig Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"
@@ -1505,8 +1505,8 @@ msgstr ""
 #: panda/templates/notifications/disk_space_alert/email_body.txt:5
 #, fuzzy, python-format
 msgid ""
-"The drive containing your PANDA search indices is low on disk space: "
-"%(bytes)s remains (%(percent)s%% full)"
+"The drive containing your PANDA search indices is low on disk space: %(bytes)"
+"s remains (%(percent)s%% full)"
 msgstr ""
 "Die Festplatte, auf der sich Ihre PANDA-Such-Indices befinden, hat nur noch "
 "wenig Speicherplatz: %(bytes)s übrig (%(percent)s%% voll)"

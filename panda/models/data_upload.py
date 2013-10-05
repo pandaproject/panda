@@ -29,7 +29,7 @@ class DataUpload(BaseUpload):
     dialect = JSONField(_('dialect'), null=True,
         help_text=_('Description of the formatting of this file.'))
     columns = JSONField(_('columns'), null=True,
-        help_text=_('An list of names for this uploads columns.'))
+        help_text=_('A list of names for the columns in this upload.'))
     sample_data = JSONField(_('sample_data'), null=True,
         help_text=_('Example data from this file.'))
     guessed_types = JSONField(_('guessed_types'), null=True,
