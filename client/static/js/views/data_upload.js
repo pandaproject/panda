@@ -269,8 +269,7 @@ PANDA.views.DataUpload = Backbone.View.extend({
         categories = _.map(categories, function(cat) {
             return Redd.get_category_by_slug(cat).clone();
         });
-        console.log('categories');
-        console.log(categories);
+
         if (!this.dataset) {
             this.dataset = new PANDA.models.Dataset({
                 name: $("#dataset-name").val() || fileName.substr(0, fileName.lastIndexOf('.')) || fileName,
@@ -279,8 +278,6 @@ PANDA.views.DataUpload = Backbone.View.extend({
             });
 
             this.dataset.save({}, { async: false }).fail(_.bind(function(promise, status, message){
-                console.log('---- FAIL -----');
-                console.log(message);
                 this.step_three_error_message(interpolate(this.text.dataset_upload_error,{message: message}, true));
                 this.upload.destroy();
                 this.aborted = true;

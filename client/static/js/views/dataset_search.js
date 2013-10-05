@@ -107,7 +107,6 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 var alert_body = interpolate(deets.body, {message: gettext(task.get('status'))}, true);
                 $("#dataset-search .alert").alert_block(deets.style, deets.title, alert_body, deets.closeable);
             } catch(e) { // often not an error condition, e.g. status SUCCESS
-                console.log(interpolate("No task messages for name %(name)s / status %(status)s",
                     {name: task.get("task_name"), status: task.get("status")},
                     true));
             }
