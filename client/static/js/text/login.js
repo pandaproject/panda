@@ -1,6 +1,7 @@
 PANDA.text.Login = function() {
     return {
         login_to_panda: gettext("Log in to PANDA"),
+        demo_mode: gettext("Demo mode enabled."),
         email: gettext("Email"),
         password: gettext("Password"),
         forgotten_password: gettext("Forget your password?"),

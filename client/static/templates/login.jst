@@ -3,6 +3,7 @@
         <form id="login-form">
             <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
             <h2><%= text.login_to_panda %></h2>
+            <h3><% if(PANDA.settings.DEMO_MODE_ENABLED) { %><%= text.demo_mode %><% } %></h3>
             <div class="alert"></div>
 
             <div class="control-group">

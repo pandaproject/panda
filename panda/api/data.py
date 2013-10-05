@@ -437,6 +437,8 @@ class DataResource(PandaResource):
         if since:
             query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
 
+        print query
+
         # Because users may have authenticated via headers the request.user may
         # not be a full User instance. To be sure, we fetch one.
         user = UserProxy.objects.get(id=request.user.id)

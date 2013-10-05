@@ -21,7 +21,9 @@ class UserProfile(models.Model):
 
     activation_key = models.CharField(_('activation_key'), max_length=40, null=True, blank=True)
     activation_key_expiration = models.DateTimeField(_('activation_key_expiration'))
-    show_login_help = models.BooleanField(_('show_login_help'), default=True)
+
+    # NB: This field is no longer used.
+    show_login_help = models.BooleanField(_('show_login_help'), default=True, help_text='This field is no longer used.')
 
     class Meta:
         app_label = 'panda'

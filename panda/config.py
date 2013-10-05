@@ -88,13 +88,22 @@ MISC_GROUP = ConfigurationGroup(
     ordering=2
 )
 
+config_register(BooleanValue(
+    MISC_GROUP,
+    'DEMO_MODE_ENABLED',
+    description=_('Enable demo mode?'),
+    help_text=_('In demo mode the login fields will automatically be prepopulated with the default username and password.'),
+    default=False,
+    ordering=0
+))
+
 config_register(PositiveIntegerValue(
     MISC_GROUP,
     'MAX_UPLOAD_SIZE',
     description=_('Maximum size allowed for user-uploaded files, in bytes.'),
     help_text=_('The default value is equivalent to 1GB.'),
     default=1073741824,
-    ordering=0
+    ordering=1
 ))
 
 # Performance settings

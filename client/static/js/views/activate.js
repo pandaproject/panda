@@ -87,11 +87,7 @@ PANDA.views.Activate = Backbone.View.extend({
             success: function(data, status, xhr) {
                 Redd.set_current_user(new PANDA.models.User(data));
                 
-                if (data.show_login_help) {
-                    Redd.goto_welcome();
-                } else {
-                    Redd.goto_search("all");
-                }
+                Redd.goto_search("all");
             },
             error: function(xhr, status, error) {
                 Redd.set_current_user(null);

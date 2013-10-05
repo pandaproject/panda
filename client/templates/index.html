@@ -33,7 +33,6 @@
                     <li id="navbar-help" class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Help" %} <b class="caret"></b></a>
                         <ul id="help-list" class="dropdown-menu">
-                            <li><a href="#welcome">{% trans "Welcome to PANDA" %}</a></li>
                             <li><a href="http://pandaproject.net/">{% trans "Read the documentation" %}</a></li>
                             <li><a href="https://groups.google.com/forum/?fromgroups#!forum/panda-project-users">{% trans "Ask a question on the user group" %}</a></li>
                         </ul>
@@ -99,6 +98,7 @@
         PANDA.settings.PANDA_NOTIFICATIONS_TO_SHOW = {{ settings.PANDA_NOTIFICATIONS_TO_SHOW }};
         PANDA.settings.MAX_UPLOAD_SIZE = {{ max_upload_size }};
         PANDA.settings.EMAIL_ENABLED = {{ email_enabled }};
+        PANDA.settings.DEMO_MODE_ENABLED = {{ demo_mode_enabled }};
         PANDA.bootstrap = {{ bootstrap_data|safe }};
     </script>
 
@@ -129,7 +129,6 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/search_results.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/server_error.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/user.js"></script>
-    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/text/welcome.js"></script>
 
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/activity_log.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/models/exports.js"></script>
@@ -165,7 +164,6 @@
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/modal_change_password.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/user.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/dashboard.js"></script>
-    <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/welcome.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/fetch_export.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/routers/index.js"></script>
     <script type="text/javascript" src="{{ settings.STATIC_URL }}js/views/root.js"></script>
