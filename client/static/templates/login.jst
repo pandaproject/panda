@@ -1,9 +1,8 @@
 <div class="row-fluid">
-    <div id="login">
+    <div id="login" <% if(PANDA.settings.DEMO_MODE_ENABLED) { %>class="demo"<% } %>>
         <form id="login-form">
             <img src="<%= PANDA.settings.STATIC_URL %>img/panda_and_ire.png" />
             <h2><%= text.login_to_panda %></h2>
-            <h3><% if(PANDA.settings.DEMO_MODE_ENABLED) { %><%= text.demo_mode %><% } %></h3>
             <div class="alert"></div>
 
             <div class="control-group">
@@ -21,6 +20,14 @@
 
             <input type="submit" class="btn" value="<%= text.login %>" />
         </form>
+        
+        <% if(PANDA.settings.DEMO_MODE_ENABLED) { %>
+        <div id="welcome">
+            <h2>About this demo</h2>
+            <p><strong>What we can do for your newsroom?</strong> Visit <a href="http://pandaproject.net">PANDAProject.net</a> and see how we can help reporters work smarter and faster. Let&rsquo;s make your journalism full of delicious data.</p>
+            <p><strong>Want to try it for yourself?</strong> This demo site is ready to show you the power of PANDA search, or upload your own data to see our indexing in action. To get started, just hit the login button to the left.</p>
+        </div>
+        <% } %>
     </div>
 </div>
 
