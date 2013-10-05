@@ -19,10 +19,17 @@ PANDA.views.Login = Backbone.View.extend({
 
     render: function() {
         var email = $.cookie("email");
+        var password = '';
+
+        if (PANDA.settings.DEMO_MODE_ENABLED) {
+            email = 'user@pandaproject.net';
+            password = 'user';
+        }
 
         var context = PANDA.utils.make_context({
             text: this.text,
-            email: email
+            email: email,
+            password: password
         });
 
         this.$el.html(PANDA.templates.login(context));
