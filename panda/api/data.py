@@ -543,6 +543,7 @@ class DataResource(PandaResource):
         since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
+        sort = request.GET.get('sort', '_docid_ asc')
 
         if query:
             solr_query = 'dataset_slug:%s AND (%s)' % (dataset.slug, query)
@@ -556,6 +557,7 @@ class DataResource(PandaResource):
             settings.SOLR_DATA_CORE,
             solr_query,
             offset=offset,
+            sort=sort,
             limit=limit
         )
 
