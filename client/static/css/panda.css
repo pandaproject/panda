@@ -144,7 +144,8 @@ h3 { font-weight: normal; padding-bottom: 4px; }
 }
 #login #welcome p {
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 18px;
+    line-height: 18px;
 }
 
 /* Search */
