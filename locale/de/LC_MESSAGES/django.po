@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (server-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 16:50-0700\n"
+"POT-Creation-Date: 2013-10-05 14:06-0700\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,24 +135,25 @@ msgid "Help"
 msgstr "Hilfe"
 
 #: client/templates/index.html:36
-msgid "Welcome to PANDA"
-msgstr "Wilkommen bei PANDA"
-
-#: client/templates/index.html:37
 msgid "Read the documentation"
 msgstr "Die Dokumentation lesen"
 
-#: client/templates/index.html:38
+#: client/templates/index.html:37
 msgid "Ask a question on the user group"
 msgstr "In der Benutzergruppe eine Frage stellen"
 
-#: client/templates/index.html:45 panda/models/notification.py:36
+#: client/templates/index.html:44 panda/models/notification.py:36
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
-#: client/templates/index.html:50
+#: client/templates/index.html:49
 msgid "View all notifications"
 msgstr "Alle Benachrichtigungen ansehen"
+
+#: client/templates/index.html:52
+#, fuzzy
+msgid "Dashboard"
+msgstr "PANDA-Übersicht"
 
 #: client/templates/index.html:53
 msgid "Admin"
@@ -330,22 +331,32 @@ msgid "Miscellaneous"
 msgstr ""
 
 #: panda/config.py:94
-msgid "Maximum size allowed for user-uploaded files, in bytes."
+msgid "Enable demo mode?"
 msgstr ""
 
 #: panda/config.py:95
-msgid "The default value is equivalent to 1GB."
+msgid ""
+"In demo mode the login fields will automatically be prepopulated with the "
+"default username and password."
 msgstr ""
 
 #: panda/config.py:103
+msgid "Maximum size allowed for user-uploaded files, in bytes."
+msgstr ""
+
+#: panda/config.py:104
+msgid "The default value is equivalent to 1GB."
+msgstr ""
+
+#: panda/config.py:112
 msgid "Performance"
 msgstr ""
 
-#: panda/config.py:110
+#: panda/config.py:119
 msgid "Number of seconds to wait between processing batches of data."
 msgstr ""
 
-#: panda/config.py:111
+#: panda/config.py:120
 msgid ""
 "A larger number will result in slower imports and exports, but better "
 "responsiveness from the PANDA user interface."
@@ -476,12 +487,12 @@ msgstr ""
 msgid "Invalid data sent."
 msgstr "Einen Datensatz finden"
 
-#: panda/api/data.py:449
+#: panda/api/data.py:451
 #, python-format
 msgid "Export search results for \"%s\"."
 msgstr ""
 
-#: panda/api/data.py:530
+#: panda/api/data.py:532
 #, fuzzy
 msgid "Export queued."
 msgstr "Export fehlgeschlagen"
@@ -640,12 +651,12 @@ msgstr ""
 msgid "The user who uploaded this file."
 msgstr ""
 
-#: panda/models/base_upload.py:25 panda/models/dataset.py:48
+#: panda/models/base_upload.py:25 panda/models/dataset.py:47
 #: panda/models/task_status.py:39
 msgid "creator"
 msgstr ""
 
-#: panda/models/base_upload.py:26 panda/models/dataset.py:44
+#: panda/models/base_upload.py:26 panda/models/dataset.py:43
 msgid "creation_date"
 msgstr ""
 
@@ -661,7 +672,7 @@ msgstr ""
 msgid "A user-friendly name for this file."
 msgstr ""
 
-#: panda/models/category.py:12 panda/models/dataset.py:26
+#: panda/models/category.py:12 panda/models/dataset.py:25
 #, fuzzy
 msgid "name"
 msgstr "%(name)s"
@@ -722,7 +733,7 @@ msgstr ""
 msgid "An list of names for this uploads columns."
 msgstr ""
 
-#: panda/models/data_upload.py:33 panda/models/dataset.py:37
+#: panda/models/data_upload.py:33 panda/models/dataset.py:36
 msgid "sample_data"
 msgstr ""
 
@@ -771,183 +782,183 @@ msgid ""
 "supported. In order to delete it you must delete the entire dataset."
 msgstr ""
 
-#: panda/models/dataset.py:27
+#: panda/models/dataset.py:26
 msgid "User-supplied dataset name."
 msgstr ""
 
-#: panda/models/dataset.py:28
+#: panda/models/dataset.py:27
 #, fuzzy
 msgid "description"
 msgstr "Fehlende Beschreibungen"
 
-#: panda/models/dataset.py:29
+#: panda/models/dataset.py:28
 msgid "User-supplied dataset description."
 msgstr ""
 
-#: panda/models/dataset.py:33
+#: panda/models/dataset.py:32
 msgid "The data upload used to create this dataset, if any was used."
 msgstr ""
 
-#: panda/models/dataset.py:34
+#: panda/models/dataset.py:33
 msgid "initial_upload"
 msgstr ""
 
-#: panda/models/dataset.py:35
+#: panda/models/dataset.py:34
 msgid "column_schema"
 msgstr ""
 
-#: panda/models/dataset.py:36
+#: panda/models/dataset.py:35
 msgid "Metadata about columns."
 msgstr ""
 
-#: panda/models/dataset.py:38
+#: panda/models/dataset.py:37
 msgid "Example data rows from the dataset."
 msgstr ""
 
-#: panda/models/dataset.py:39
+#: panda/models/dataset.py:38
 msgid "row_count"
 msgstr ""
 
-#: panda/models/dataset.py:40
+#: panda/models/dataset.py:39
 msgid ""
 "The number of rows in this dataset. Null if no data has been added/imported."
 msgstr ""
 
-#: panda/models/dataset.py:42
+#: panda/models/dataset.py:41
 msgid "The currently executed or last finished task related to this dataset."
 msgstr ""
 
-#: panda/models/dataset.py:43
+#: panda/models/dataset.py:42
 msgid "current_task"
 msgstr ""
 
-#: panda/models/dataset.py:45
+#: panda/models/dataset.py:44
 msgid "The date this dataset was initially created."
 msgstr ""
 
-#: panda/models/dataset.py:47
+#: panda/models/dataset.py:46
 msgid "The user who created this dataset."
 msgstr ""
 
-#: panda/models/dataset.py:50
+#: panda/models/dataset.py:49
 msgid "Categories containing this Dataset."
 msgstr ""
 
-#: panda/models/dataset.py:51
+#: panda/models/dataset.py:50
 #, fuzzy
 msgid "categories"
 msgstr "Fehlende Kategorien"
 
-#: panda/models/dataset.py:52
+#: panda/models/dataset.py:51
 msgid "last_modified"
 msgstr ""
 
-#: panda/models/dataset.py:53
+#: panda/models/dataset.py:52
 msgid "When, if ever, was this dataset last modified via the API?"
 msgstr ""
 
-#: panda/models/dataset.py:54
+#: panda/models/dataset.py:53
 #, fuzzy
 msgid "last_modification"
 msgstr "Benachrichtigungen"
 
-#: panda/models/dataset.py:55
+#: panda/models/dataset.py:54
 msgid "Description of the last modification made to this Dataset."
 msgstr ""
 
-#: panda/models/dataset.py:57
+#: panda/models/dataset.py:56
 msgid "The user, if any, who last modified this dataset."
 msgstr ""
 
-#: panda/models/dataset.py:58
+#: panda/models/dataset.py:57
 msgid "last_modified_by"
 msgstr ""
 
-#: panda/models/dataset.py:59
+#: panda/models/dataset.py:58
 msgid "locked"
 msgstr ""
 
-#: panda/models/dataset.py:60
+#: panda/models/dataset.py:59
 msgid "Is this table locked for writing?"
 msgstr ""
 
-#: panda/models/dataset.py:61
+#: panda/models/dataset.py:60
 msgid "locked_at"
 msgstr ""
 
-#: panda/models/dataset.py:62
+#: panda/models/dataset.py:61
 msgid "Time this dataset was last locked."
 msgstr ""
 
-#: panda/models/dataset.py:68
+#: panda/models/dataset.py:67
 msgid "Dataset"
 msgstr ""
 
-#: panda/models/dataset.py:69
+#: panda/models/dataset.py:68
 msgid "Datasets"
 msgstr ""
 
-#: panda/models/dataset.py:94 panda/models/dataset.py:110
+#: panda/models/dataset.py:93 panda/models/dataset.py:109
 msgid "This dataset is currently locked by another process."
 msgstr ""
 
-#: panda/models/dataset.py:189
+#: panda/models/dataset.py:188
 msgid "This file has already been imported."
 msgstr ""
 
-#: panda/models/dataset.py:195
+#: panda/models/dataset.py:194
 msgid "This file type is not supported for data import."
 msgstr ""
 
-#: panda/models/dataset.py:200
+#: panda/models/dataset.py:199
 msgid "The columns in this file do not match those in the dataset."
 msgstr ""
 
-#: panda/models/dataset.py:213
+#: panda/models/dataset.py:212
 #, python-format
 msgid "Import data from %(filename)s into %(slug)s."
 msgstr ""
 
-#: panda/models/dataset.py:254
+#: panda/models/dataset.py:253
 #, python-format
 msgid "Reindex %(slug)s with %(typed_column_count)i column filters."
 msgstr ""
 
-#: panda/models/dataset.py:277
+#: panda/models/dataset.py:276
 #, fuzzy, python-format
 msgid "Export search results for \"%(query)s\" in %(slug)s."
 msgstr "Neue Suchergebnisse für \"%(query)s\" in %(dataset_name)s"
 
-#: panda/models/dataset.py:280
+#: panda/models/dataset.py:279
 #, python-format
 msgid "Exporting data in %s."
 msgstr ""
 
-#: panda/models/dataset.py:334
+#: panda/models/dataset.py:333
 #, python-format
 msgid "1 row %s"
 msgstr ""
 
-#: panda/models/dataset.py:374
+#: panda/models/dataset.py:373
 #, python-format
 msgid "%(added)i rows added and %(updated)i updated"
 msgstr ""
 
-#: panda/models/dataset.py:377
+#: panda/models/dataset.py:376
 #, python-format
 msgid "%i rows added"
 msgstr ""
 
-#: panda/models/dataset.py:379
+#: panda/models/dataset.py:378
 #, python-format
 msgid "%i rows updated"
 msgstr ""
 
-#: panda/models/dataset.py:399
+#: panda/models/dataset.py:398
 msgid "1 row deleted"
 msgstr ""
 
-#: panda/models/dataset.py:416
+#: panda/models/dataset.py:415
 #, python-format
 msgid "All %i rows deleted"
 msgstr ""
@@ -1223,23 +1234,23 @@ msgstr ""
 msgid "activation_key_expiration"
 msgstr ""
 
-#: panda/models/user_profile.py:24
+#: panda/models/user_profile.py:26
 msgid "show_login_help"
 msgstr ""
 
-#: panda/models/user_profile.py:28
+#: panda/models/user_profile.py:30
 msgid "UserProfile"
 msgstr ""
 
-#: panda/models/user_profile.py:29
+#: panda/models/user_profile.py:31
 msgid "UserProfiles"
 msgstr ""
 
-#: panda/models/user_profile.py:37
+#: panda/models/user_profile.py:39
 msgid "Welcome to PANDA, please activate your account!"
 msgstr ""
 
-#: panda/models/user_profile.py:38
+#: panda/models/user_profile.py:40
 #, python-format
 msgid ""
 "Hello there, the administrator of your organization's PANDA has signed you "
@@ -1840,3 +1851,6 @@ msgstr "Einstellungen aktualisieren"
 #: templates/livesettings/site_settings.html:117
 msgid "You don't have permission to edit values."
 msgstr "Sie haben nicht die Berechtigung, Werte zu bearbeiten."
+
+#~ msgid "Welcome to PANDA"
+#~ msgstr "Wilkommen bei PANDA"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 16:51-0700\n"
+"POT-Creation-Date: 2013-10-05 14:06-0700\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,7 +14,7 @@ msgstr ""
 msgid "Activate your PANDA account"
 msgstr "Aktivieren Sie Ihren PANDA-Account"
 
-#: client/static/js/text/activate.js:4 client/static/js/text/login.js:4
+#: client/static/js/text/activate.js:4 client/static/js/text/login.js:5
 #: client/static/js/text/modal_user_edit.js:6
 msgid "Email"
 msgstr "E-Mail"
@@ -29,7 +29,7 @@ msgstr "Vorname"
 msgid "Last name"
 msgstr "Nachname"
 
-#: client/static/js/text/activate.js:7 client/static/js/text/login.js:5
+#: client/static/js/text/activate.js:7 client/static/js/text/login.js:6
 #: client/static/js/text/reset_password.js:4
 msgid "Password"
 msgstr "Passwort"
@@ -359,7 +359,7 @@ msgid "Subscribe"
 msgstr "Abonnieren"
 
 #: client/static/js/text/dataset_results.js:18
-#: client/static/js/text/dataset_view.js:33 client/static/js/text/login.js:10
+#: client/static/js/text/dataset_view.js:33 client/static/js/text/login.js:11
 #: client/static/js/text/modal_change_password.js:7
 #: client/static/js/text/modal_dataset_edit.js:8
 #: client/static/js/text/modal_related_links.js:8
@@ -419,10 +419,6 @@ msgid ""
 msgstr ""
 "Setzen Sie Wortfolgen in Anführungszeichen: <code>\"Bahnhof Zoo\"</code> "
 "wird nicht \"Bahnhof am Zoo\" finden."
-
-#: client/static/js/text/dataset_search.js:12
-msgid "AND/OR"
-msgstr "AND/OR"
 
 #: client/static/js/text/dataset_search.js:13
 msgid ""
@@ -744,14 +740,6 @@ msgstr "%(timeago)s erzeugt"
 msgid "Browse all %(count)s datasets"
 msgstr "Alle %(count)s Datensätze durchstöbern"
 
-#: client/static/js/text/home.js:6
-msgid ""
-"Want to see how your PANDA is being used? Visit the <a %(link)s>Dashboard</"
-"a>!"
-msgstr ""
-"Wollen Sie einen Überblick darüber, wie Ihr PANDA genutzt wird? Besuchen Sie "
-"die <a %(link)s>PANDA-Übersicht</a>!"
-
 #: client/static/js/text/inline_search_filters.js:3
 #: client/static/js/text/inline_search_filters.js:9
 msgid "Search by column"
@@ -865,15 +853,19 @@ msgstr "Erweitert"
 msgid "Log in to PANDA"
 msgstr "Bei PANDA anmelden"
 
-#: client/static/js/text/login.js:6
+#: client/static/js/text/login.js:4
+msgid "Demo mode enabled."
+msgstr ""
+
+#: client/static/js/text/login.js:7
 msgid "Forget your password?"
 msgstr "Haben Sie Ihr Passwort vergessen?"
 
-#: client/static/js/text/login.js:7
+#: client/static/js/text/login.js:8
 msgid "Login"
 msgstr "Anmelden"
 
-#: client/static/js/text/login.js:8
+#: client/static/js/text/login.js:9
 msgid ""
 "Enter your email address below and PANDA will send you a link you can follow "
 "to reset your password."
@@ -881,7 +873,7 @@ msgstr ""
 "Geben Sie unten Ihre Mailadresse ein und PANDA wird Ihnen einen Link "
 "zuschicken, mit dem Sie Ihr Passwort zurücksetzen können."
 
-#: client/static/js/text/login.js:9
+#: client/static/js/text/login.js:10
 msgid ""
 "Your PANDA administrator has not yet configured email for your server, so "
 "your password can not be automatically reset. Please contact your "
@@ -893,7 +885,7 @@ msgstr ""
 "Bitte informieren Sie Ihren Administrator und bitten Sie ihn, entweder E-"
 "Mails zu aktivieren oder Ihr Passwort manuell zurückzusetzen."
 
-#: client/static/js/text/login.js:11
+#: client/static/js/text/login.js:12
 msgid "Send email"
 msgstr "E-Mail senden"
 
@@ -1064,154 +1056,8 @@ msgstr "Meine Datensätze"
 msgid "Datasets created by this user"
 msgstr "Von diesem Benutzer erzeugte Datensätze"
 
-#: client/static/js/text/welcome.js:3
-msgid "Welcome to PANDA!"
-msgstr "Willkommen bei PANDA!"
-
-#: client/static/js/text/welcome.js:4
-msgid ""
-"Congratulations! If you're reading this then your organization has started "
-"using PANDA to manage its newsroom data. As a journalist you're bound to be "
-"skeptical of this new system. This brief introduction will introduce you to "
-"PANDA and explain how it can save you time, keep your data safe and improve "
-"the quality of your reporting."
-msgstr ""
-"Herzlichen Glückwunsch! Falls Sie diese Zeilen lesen, hat Ihre Firma damit "
-"angefangen, PANDA zum verwalten ihrer Redaktionsdaten zu verwenden. Als "
-"Journalist begegnen Sie diesem neuen System möglicherweise mit Skepsis. "
-"Diese kurze Einführung wird Ihnen PANDA vorstellen und Ihnen erklären, wie "
-"Sie damit Zeit sparen, Ihre Daten schützen und die Qualität Ihrer Beiträge "
-"noch weiter steigern können."
-
-#: client/static/js/text/welcome.js:5
-msgid "What is PANDA?"
-msgstr "Was ist PANDA?"
-
-#: client/static/js/text/welcome.js:6
-msgid ""
-"First and foremost PANDA is a \"data library\", which means that it stores "
-"all the datasets you work with on a daily basis&mdash;voter registration "
-"records, police reports, water test results, etc. When you upload your data "
-"to PANDA it's stored safely away so that it can be easily found again, "
-"either by you or by another reporter in your organization."
-msgstr ""
-"In erster Linie ist PANDA eine \"Datenbibliothek\", was bedeutet, dass es "
-"sämtliche Datensätze speichert, mit denen Sie täglich arbeiten &mdash; "
-"Wählerstatistiken, Polizeimeldungen, Wasser-Testergebnisse usw. Wenn Sie "
-"Ihre Daten in PANDA hochladen, werden sie sicher gespeichert und können "
-"einfach wiedergefunden werden; entweder von Ihnen oder einem anderen "
-"Redaktionsmitglied."
-
-#: client/static/js/text/welcome.js:7
-msgid ""
-"PANDA is also a search engine. By uploading your datasets to PANDA you make "
-"them searchable by everyone in your organization. This search feature is "
-"designed to work like Google, so you don't need to learn a new way of "
-"exploring the data."
-msgstr ""
-"PANDA ist auch eine Suchmaschine. Durch das Hochladen Ihrer Datensätze in "
-"PANDA machen Sie sie für alle Redaktionsmitglieder durchsuchbar. Diese Suche "
-"ist so angelegt, dass sie wie Google funktioniert. Sie müssen also keine "
-"neuen Suchtechniken erlernen."
-
-#: client/static/js/text/welcome.js:8
-msgid "How does PANDA help me?"
-msgstr "Wie hilft mir PANDA?"
-
-#: client/static/js/text/welcome.js:9
-msgid "PANDA will save you time"
-msgstr "PANDA wird Ihnen Zeit sparen"
-
-#: client/static/js/text/welcome.js:10
-msgid ""
-"When all your data is stored in PANDA, it is just a quick search away. No "
-"more opening Excel and scrolling, scrolling, scrolling to find one piece of "
-"information. PANDA is fast and always available. Give data to your PANDA now "
-"and it will save you time on deadline."
-msgstr ""
-"Wenn alle Ihre Daten in PANDA gespeichert sind, sind sie nur eine kurze "
-"Suche entfernt. Sie müssen nicht mehr Excel öffnen und scrollen, scrollen, "
-"scrollen, um etwas zu finden. PANDA ist schnell und immer verfügbar. Geben "
-"Sie Ihrem PANDA Ihre Daten und sparen Sie Zeit, wenn ein Termin drängt."
-
-#: client/static/js/text/welcome.js:11
-msgid "PANDA will keep your data safe"
-msgstr "PANDA wird Ihre Daten schützen"
-
-#: client/static/js/text/welcome.js:12
-msgid ""
-"Never again will you have to worry about a crashing computer, a lost thumb "
-"drive or a scratched CD. Give data to PANDA and PANDA will keep it safe. "
-"With PANDA's search engine you will always be able to find it again."
-msgstr ""
-"Sie müssen nie wieder Angst vor einem Computerabsturz, einem verlorenen USB-"
-"Stick oder einer zerkratzten CD haben. Geben Sie Ihre Daten PANDA und PANDA "
-"wird sie sicher behalten. Mit der Suchmaschine von PANDA werden Sie sie "
-"immer wiederfinden können."
-
-#: client/static/js/text/welcome.js:13
-msgid "PANDA will improve your reporting"
-msgstr "PANDA wird Ihre Berichterstattung verbessern."
-
-#: client/static/js/text/welcome.js:14
-msgid ""
-"PANDA encourages serendipity in the reporting process. By having access to "
-"all the newsworthy data in your newsroom you will uncover information you "
-"might have otherwise overlooked. For instance, a search for the name of a "
-"state senator might return a dataset of his political affiliations, a record "
-"of his graduation, a list of bills he has sponsored and that he has a "
-"brother who is an energy lobbyist."
-msgstr ""
-"PANDA unterstützt das Einbringen unerwarteter Aspekte in den "
-"journalistischen Arbeitsprozess. Durch den Zugang zu allen berichtenswerten "
-"Daten in Ihrer Redaktion werden Sie Informationen entdecken, die Sie sonst "
-"vielleicht übersehen hätten. Zum Beispiel könnte eine Suche nach einem "
-"Bundestagsabgeordneten einen Datensatz über seine politischen Verbindungen, "
-"eine Akte über seinen Hochschulabschluss und eine Liste der von ihm "
-"unterstützen Gesetzentwürfe ergeben - und dass sein Bruder als "
-"Energielobbyist arbeitet."
-
-#: client/static/js/text/welcome.js:15
-msgid "How does PANDA help my organization?"
-msgstr "Wie hilft PANDA meiner Organisation?"
-
-#: client/static/js/text/welcome.js:16
-msgid ""
-"By providing a single place to store all the data reporters work with PANDA "
-"will encourage knowledge sharing, prevent catastrophic data loss and slow "
-"information attrition when reporters retire or change jobs. In particular we "
-"hope to eliminate the situation where more than one reporter is using FOIA "
-"or other channels to acquire the same dataset."
-msgstr ""
-"Indem es einen gemeinsamen Ort zum Speichern aller Daten bereitstellt, mit "
-"denen die Redakteure arbeiten, fördert PANDA den Wissensaustausch, beugt "
-"katastrophalen Datenverlusten und langsamem Informationsverfall vor, wenn "
-"ein Kollege in Rente geht oder den Job wechselt. Insbesondere wollen wir die "
-"Situation vermeiden, dass mehrere Redakteure das Informationsfreiheitsgesetz "
-"oder andere Kanäle nutzen, um an denselben Datensatz zu gelangen."
-
-#: client/static/js/text/welcome.js:17
-msgid "Get started!"
-msgstr "Legen Sie los!"
-
-#: client/static/js/text/welcome.js:18
-msgid ""
-"If you need additional help use the <strong>Help</strong> menu at the top of "
-"the screen."
-msgstr ""
-"Falls Sie zusätzliche Hilfe benötigen, verwenden Sie bitte das "
-"<strong>Hilfe</strong>-Menü am oberen Bildschirmrand."
-
-#: client/static/js/text/welcome.js:19
-msgid "Start using PANDA!"
-msgstr "Fangen Sie an, PANDA zu benutzen!"
-
-#: client/static/js/text/welcome.js:20
-msgid "Show this page next time I log in"
-msgstr "Zeigen Sie diese Seite, wenn ich mich das nächste Mal anmelde"
-
-#: client/static/js/views/activate.js:32
-#: client/static/js/views/activate.js:102 client/static/js/views/login.js:89
+#: client/static/js/views/activate.js:32 client/static/js/views/activate.js:98
+#: client/static/js/views/login.js:92
 #: client/static/js/views/modal_change_password.js:93
 #: client/static/js/views/modal_dataset_edit.js:102
 #: client/static/js/views/modal_related_links.js:79
@@ -1222,7 +1068,7 @@ msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
 #: client/static/js/views/activate.js:35 client/static/js/views/activate.js:77
-#: client/static/js/views/activate.js:105
+#: client/static/js/views/activate.js:101
 msgid "Activation failed!"
 msgstr "Aktivierung fehlgeschlagen!"
 
@@ -1642,23 +1488,23 @@ msgstr "Der zweite Wert ist keine gültige Zeit."
 msgid "The first time must be before the second time."
 msgstr "Die erste Zeit muss vor der zweiten Zeit liegen."
 
-#: client/static/js/views/login.js:46 client/static/js/views/login.js.c:104
+#: client/static/js/views/login.js:53 client/static/js/views/login.js.c:107
 msgid "Please enter your email."
 msgstr "Bitte geben Sie Ihre E-Mail ein."
 
-#: client/static/js/views/login.js:50
+#: client/static/js/views/login.js:57
 msgid "Please enter your password."
 msgstr "Bitte geben Sie Ihr Passwort ein."
 
-#: client/static/js/views/login.js:60 client/static/js/views/login.js.c:92
+#: client/static/js/views/login.js:67 client/static/js/views/login.js.c:95
 msgid "Login failed!"
 msgstr "Anmelden fehlgeschlagen!"
 
-#: client/static/js/views/login.js:114
+#: client/static/js/views/login.js:117
 msgid "Error!"
 msgstr "Fehler!"
 
-#: client/static/js/views/login.js:125
+#: client/static/js/views/login.js:128
 msgid "Email sent."
 msgstr "E-Mail verschickt."
 
@@ -1699,6 +1545,147 @@ msgstr ""
 #: client/static/js/views/user.js:93
 msgid "Are you sure you want to delete this subscription?"
 msgstr "Sind Sie sicher, dass Sie dieses Abonnement löschen wollen?"
+
+#~ msgid "AND/OR"
+#~ msgstr "AND/OR"
+
+#~ msgid ""
+#~ "Want to see how your PANDA is being used? Visit the <a "
+#~ "%(link)s>Dashboard</a>!"
+#~ msgstr ""
+#~ "Wollen Sie einen Überblick darüber, wie Ihr PANDA genutzt wird? Besuchen "
+#~ "Sie die <a %(link)s>PANDA-Übersicht</a>!"
+
+#~ msgid "Welcome to PANDA!"
+#~ msgstr "Willkommen bei PANDA!"
+
+#~ msgid ""
+#~ "Congratulations! If you're reading this then your organization has "
+#~ "started using PANDA to manage its newsroom data. As a journalist you're "
+#~ "bound to be skeptical of this new system. This brief introduction will "
+#~ "introduce you to PANDA and explain how it can save you time, keep your "
+#~ "data safe and improve the quality of your reporting."
+#~ msgstr ""
+#~ "Herzlichen Glückwunsch! Falls Sie diese Zeilen lesen, hat Ihre Firma "
+#~ "damit angefangen, PANDA zum verwalten ihrer Redaktionsdaten zu verwenden. "
+#~ "Als Journalist begegnen Sie diesem neuen System möglicherweise mit "
+#~ "Skepsis. Diese kurze Einführung wird Ihnen PANDA vorstellen und Ihnen "
+#~ "erklären, wie Sie damit Zeit sparen, Ihre Daten schützen und die Qualität "
+#~ "Ihrer Beiträge noch weiter steigern können."
+
+#~ msgid "What is PANDA?"
+#~ msgstr "Was ist PANDA?"
+
+#~ msgid ""
+#~ "First and foremost PANDA is a \"data library\", which means that it "
+#~ "stores all the datasets you work with on a daily basis&mdash;voter "
+#~ "registration records, police reports, water test results, etc. When you "
+#~ "upload your data to PANDA it's stored safely away so that it can be "
+#~ "easily found again, either by you or by another reporter in your "
+#~ "organization."
+#~ msgstr ""
+#~ "In erster Linie ist PANDA eine \"Datenbibliothek\", was bedeutet, dass es "
+#~ "sämtliche Datensätze speichert, mit denen Sie täglich arbeiten &mdash; "
+#~ "Wählerstatistiken, Polizeimeldungen, Wasser-Testergebnisse usw. Wenn Sie "
+#~ "Ihre Daten in PANDA hochladen, werden sie sicher gespeichert und können "
+#~ "einfach wiedergefunden werden; entweder von Ihnen oder einem anderen "
+#~ "Redaktionsmitglied."
+
+#~ msgid ""
+#~ "PANDA is also a search engine. By uploading your datasets to PANDA you "
+#~ "make them searchable by everyone in your organization. This search "
+#~ "feature is designed to work like Google, so you don't need to learn a new "
+#~ "way of exploring the data."
+#~ msgstr ""
+#~ "PANDA ist auch eine Suchmaschine. Durch das Hochladen Ihrer Datensätze in "
+#~ "PANDA machen Sie sie für alle Redaktionsmitglieder durchsuchbar. Diese "
+#~ "Suche ist so angelegt, dass sie wie Google funktioniert. Sie müssen also "
+#~ "keine neuen Suchtechniken erlernen."
+
+#~ msgid "How does PANDA help me?"
+#~ msgstr "Wie hilft mir PANDA?"
+
+#~ msgid "PANDA will save you time"
+#~ msgstr "PANDA wird Ihnen Zeit sparen"
+
+#~ msgid ""
+#~ "When all your data is stored in PANDA, it is just a quick search away. No "
+#~ "more opening Excel and scrolling, scrolling, scrolling to find one piece "
+#~ "of information. PANDA is fast and always available. Give data to your "
+#~ "PANDA now and it will save you time on deadline."
+#~ msgstr ""
+#~ "Wenn alle Ihre Daten in PANDA gespeichert sind, sind sie nur eine kurze "
+#~ "Suche entfernt. Sie müssen nicht mehr Excel öffnen und scrollen, "
+#~ "scrollen, scrollen, um etwas zu finden. PANDA ist schnell und immer "
+#~ "verfügbar. Geben Sie Ihrem PANDA Ihre Daten und sparen Sie Zeit, wenn ein "
+#~ "Termin drängt."
+
+#~ msgid "PANDA will keep your data safe"
+#~ msgstr "PANDA wird Ihre Daten schützen"
+
+#~ msgid ""
+#~ "Never again will you have to worry about a crashing computer, a lost "
+#~ "thumb drive or a scratched CD. Give data to PANDA and PANDA will keep it "
+#~ "safe. With PANDA's search engine you will always be able to find it again."
+#~ msgstr ""
+#~ "Sie müssen nie wieder Angst vor einem Computerabsturz, einem verlorenen "
+#~ "USB-Stick oder einer zerkratzten CD haben. Geben Sie Ihre Daten PANDA und "
+#~ "PANDA wird sie sicher behalten. Mit der Suchmaschine von PANDA werden Sie "
+#~ "sie immer wiederfinden können."
+
+#~ msgid "PANDA will improve your reporting"
+#~ msgstr "PANDA wird Ihre Berichterstattung verbessern."
+
+#~ msgid ""
+#~ "PANDA encourages serendipity in the reporting process. By having access "
+#~ "to all the newsworthy data in your newsroom you will uncover information "
+#~ "you might have otherwise overlooked. For instance, a search for the name "
+#~ "of a state senator might return a dataset of his political affiliations, "
+#~ "a record of his graduation, a list of bills he has sponsored and that he "
+#~ "has a brother who is an energy lobbyist."
+#~ msgstr ""
+#~ "PANDA unterstützt das Einbringen unerwarteter Aspekte in den "
+#~ "journalistischen Arbeitsprozess. Durch den Zugang zu allen "
+#~ "berichtenswerten Daten in Ihrer Redaktion werden Sie Informationen "
+#~ "entdecken, die Sie sonst vielleicht übersehen hätten. Zum Beispiel könnte "
+#~ "eine Suche nach einem Bundestagsabgeordneten einen Datensatz über seine "
+#~ "politischen Verbindungen, eine Akte über seinen Hochschulabschluss und "
+#~ "eine Liste der von ihm unterstützen Gesetzentwürfe ergeben - und dass "
+#~ "sein Bruder als Energielobbyist arbeitet."
+
+#~ msgid "How does PANDA help my organization?"
+#~ msgstr "Wie hilft PANDA meiner Organisation?"
+
+#~ msgid ""
+#~ "By providing a single place to store all the data reporters work with "
+#~ "PANDA will encourage knowledge sharing, prevent catastrophic data loss "
+#~ "and slow information attrition when reporters retire or change jobs. In "
+#~ "particular we hope to eliminate the situation where more than one "
+#~ "reporter is using FOIA or other channels to acquire the same dataset."
+#~ msgstr ""
+#~ "Indem es einen gemeinsamen Ort zum Speichern aller Daten bereitstellt, "
+#~ "mit denen die Redakteure arbeiten, fördert PANDA den Wissensaustausch, "
+#~ "beugt katastrophalen Datenverlusten und langsamem Informationsverfall "
+#~ "vor, wenn ein Kollege in Rente geht oder den Job wechselt. Insbesondere "
+#~ "wollen wir die Situation vermeiden, dass mehrere Redakteure das "
+#~ "Informationsfreiheitsgesetz oder andere Kanäle nutzen, um an denselben "
+#~ "Datensatz zu gelangen."
+
+#~ msgid "Get started!"
+#~ msgstr "Legen Sie los!"
+
+#~ msgid ""
+#~ "If you need additional help use the <strong>Help</strong> menu at the top "
+#~ "of the screen."
+#~ msgstr ""
+#~ "Falls Sie zusätzliche Hilfe benötigen, verwenden Sie bitte das "
+#~ "<strong>Hilfe</strong>-Menü am oberen Bildschirmrand."
+
+#~ msgid "Start using PANDA!"
+#~ msgstr "Fangen Sie an, PANDA zu benutzen!"
+
+#~ msgid "Show this page next time I log in"
+#~ msgstr "Zeigen Sie diese Seite, wenn ich mich das nächste Mal anmelde"
 
 #~ msgid "Import aborted!"
 #~ msgstr "Import abgebrochen!"

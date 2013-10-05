@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 16:51-0700\n"
+"POT-Creation-Date: 2013-10-05 14:06-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Activate your PANDA account"
 msgstr ""
 
-#: client/static/js/text/activate.js:4 client/static/js/text/login.js:4
+#: client/static/js/text/activate.js:4 client/static/js/text/login.js:5
 #: client/static/js/text/modal_user_edit.js:6
 msgid "Email"
 msgstr ""
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: client/static/js/text/activate.js:7 client/static/js/text/login.js:5
+#: client/static/js/text/activate.js:7 client/static/js/text/login.js:6
 #: client/static/js/text/reset_password.js:4
 msgid "Password"
 msgstr ""
@@ -307,7 +307,7 @@ msgid "Subscribe"
 msgstr ""
 
 #: client/static/js/text/dataset_results.js:18
-#: client/static/js/text/dataset_view.js:33 client/static/js/text/login.js:10
+#: client/static/js/text/dataset_view.js:33 client/static/js/text/login.js:11
 #: client/static/js/text/modal_change_password.js:7
 #: client/static/js/text/modal_dataset_edit.js:8
 #: client/static/js/text/modal_related_links.js:8
@@ -362,10 +362,6 @@ msgstr ""
 msgid ""
 "Put phrases in quotes: <code>\"Chicago Bears\"</code> will not match "
 "\"Chicago Panda Bears\"."
-msgstr ""
-
-#: client/static/js/text/dataset_search.js:12
-msgid "AND/OR"
 msgstr ""
 
 #: client/static/js/text/dataset_search.js:13
@@ -666,14 +662,6 @@ msgstr "Creada %(timeago)s"
 msgid "Browse all %(count)s datasets"
 msgstr "Navegar por los %(count)s datasets"
 
-#: client/static/js/text/home.js:6
-msgid ""
-"Want to see how your PANDA is being used? Visit the <a %(link)s>Dashboard</"
-"a>!"
-msgstr ""
-"¿Quieres ver cómo su PANDA se está utilizando? Visite el <a "
-"%(link)s>Dashboard</a>!"
-
 #: client/static/js/text/inline_search_filters.js:3
 #: client/static/js/text/inline_search_filters.js:9
 msgid "Search by column"
@@ -775,21 +763,25 @@ msgstr ""
 msgid "Log in to PANDA"
 msgstr ""
 
-#: client/static/js/text/login.js:6
-msgid "Forget your password?"
+#: client/static/js/text/login.js:4
+msgid "Demo mode enabled."
 msgstr ""
 
 #: client/static/js/text/login.js:7
-msgid "Login"
+msgid "Forget your password?"
 msgstr ""
 
 #: client/static/js/text/login.js:8
+msgid "Login"
+msgstr ""
+
+#: client/static/js/text/login.js:9
 msgid ""
 "Enter your email address below and PANDA will send you a link you can follow "
 "to reset your password."
 msgstr ""
 
-#: client/static/js/text/login.js:9
+#: client/static/js/text/login.js:10
 msgid ""
 "Your PANDA administrator has not yet configured email for your server, so "
 "your password can not be automatically reset. Please contact your "
@@ -797,7 +789,7 @@ msgid ""
 "password manually."
 msgstr ""
 
-#: client/static/js/text/login.js:11
+#: client/static/js/text/login.js:12
 msgid "Send email"
 msgstr ""
 
@@ -958,114 +950,8 @@ msgstr ""
 msgid "Datasets created by this user"
 msgstr ""
 
-#: client/static/js/text/welcome.js:3
-msgid "Welcome to PANDA!"
-msgstr ""
-
-#: client/static/js/text/welcome.js:4
-msgid ""
-"Congratulations! If you're reading this then your organization has started "
-"using PANDA to manage its newsroom data. As a journalist you're bound to be "
-"skeptical of this new system. This brief introduction will introduce you to "
-"PANDA and explain how it can save you time, keep your data safe and improve "
-"the quality of your reporting."
-msgstr ""
-
-#: client/static/js/text/welcome.js:5
-msgid "What is PANDA?"
-msgstr ""
-
-#: client/static/js/text/welcome.js:6
-msgid ""
-"First and foremost PANDA is a \"data library\", which means that it stores "
-"all the datasets you work with on a daily basis&mdash;voter registration "
-"records, police reports, water test results, etc. When you upload your data "
-"to PANDA it's stored safely away so that it can be easily found again, "
-"either by you or by another reporter in your organization."
-msgstr ""
-
-#: client/static/js/text/welcome.js:7
-msgid ""
-"PANDA is also a search engine. By uploading your datasets to PANDA you make "
-"them searchable by everyone in your organization. This search feature is "
-"designed to work like Google, so you don't need to learn a new way of "
-"exploring the data."
-msgstr ""
-
-#: client/static/js/text/welcome.js:8
-msgid "How does PANDA help me?"
-msgstr ""
-
-#: client/static/js/text/welcome.js:9
-msgid "PANDA will save you time"
-msgstr ""
-
-#: client/static/js/text/welcome.js:10
-msgid ""
-"When all your data is stored in PANDA, it is just a quick search away. No "
-"more opening Excel and scrolling, scrolling, scrolling to find one piece of "
-"information. PANDA is fast and always available. Give data to your PANDA now "
-"and it will save you time on deadline."
-msgstr ""
-
-#: client/static/js/text/welcome.js:11
-msgid "PANDA will keep your data safe"
-msgstr ""
-
-#: client/static/js/text/welcome.js:12
-msgid ""
-"Never again will you have to worry about a crashing computer, a lost thumb "
-"drive or a scratched CD. Give data to PANDA and PANDA will keep it safe. "
-"With PANDA's search engine you will always be able to find it again."
-msgstr ""
-
-#: client/static/js/text/welcome.js:13
-msgid "PANDA will improve your reporting"
-msgstr ""
-
-#: client/static/js/text/welcome.js:14
-msgid ""
-"PANDA encourages serendipity in the reporting process. By having access to "
-"all the newsworthy data in your newsroom you will uncover information you "
-"might have otherwise overlooked. For instance, a search for the name of a "
-"state senator might return a dataset of his political affiliations, a record "
-"of his graduation, a list of bills he has sponsored and that he has a "
-"brother who is an energy lobbyist."
-msgstr ""
-
-#: client/static/js/text/welcome.js:15
-msgid "How does PANDA help my organization?"
-msgstr ""
-
-#: client/static/js/text/welcome.js:16
-msgid ""
-"By providing a single place to store all the data reporters work with PANDA "
-"will encourage knowledge sharing, prevent catastrophic data loss and slow "
-"information attrition when reporters retire or change jobs. In particular we "
-"hope to eliminate the situation where more than one reporter is using FOIA "
-"or other channels to acquire the same dataset."
-msgstr ""
-
-#: client/static/js/text/welcome.js:17
-msgid "Get started!"
-msgstr ""
-
-#: client/static/js/text/welcome.js:18
-msgid ""
-"If you need additional help use the <strong>Help</strong> menu at the top of "
-"the screen."
-msgstr ""
-
-#: client/static/js/text/welcome.js:19
-msgid "Start using PANDA!"
-msgstr ""
-
-#: client/static/js/text/welcome.js:20
-msgid "Show this page next time I log in"
-msgstr ""
-
-#: client/static/js/views/activate.js:32
-#: client/static/js/views/activate.js:102 client/static/js/views/login.js:89
+#: client/static/js/views/activate.js:32 client/static/js/views/activate.js:98
+#: client/static/js/views/login.js:92
 #: client/static/js/views/modal_change_password.js:93
 #: client/static/js/views/modal_dataset_edit.js:102
 #: client/static/js/views/modal_related_links.js:79
@@ -1076,7 +962,7 @@ msgid "Unknown error"
 msgstr ""
 
 #: client/static/js/views/activate.js:35 client/static/js/views/activate.js:77
-#: client/static/js/views/activate.js:105
+#: client/static/js/views/activate.js:101
 msgid "Activation failed!"
 msgstr ""
 
@@ -1437,25 +1323,25 @@ msgstr ""
 msgid "The first time must be before the second time."
 msgstr ""
 
-#: client/static/js/views/login.js:46 client/static/js/views/login.js.c:104
+#: client/static/js/views/login.js:53 client/static/js/views/login.js.c:107
 #, fuzzy
 msgid "Please enter your email."
 msgstr "Escriba una consulta de búsqueda"
 
-#: client/static/js/views/login.js:50
+#: client/static/js/views/login.js:57
 #, fuzzy
 msgid "Please enter your password."
 msgstr "Escriba una consulta de búsqueda"
 
-#: client/static/js/views/login.js:60 client/static/js/views/login.js.c:92
+#: client/static/js/views/login.js:67 client/static/js/views/login.js.c:95
 msgid "Login failed!"
 msgstr ""
 
-#: client/static/js/views/login.js:114
+#: client/static/js/views/login.js:117
 msgid "Error!"
 msgstr ""
 
-#: client/static/js/views/login.js:125
+#: client/static/js/views/login.js:128
 msgid "Email sent."
 msgstr ""
 
@@ -1495,3 +1381,10 @@ msgstr ""
 #: client/static/js/views/user.js:93
 msgid "Are you sure you want to delete this subscription?"
 msgstr ""
+
+#~ msgid ""
+#~ "Want to see how your PANDA is being used? Visit the <a "
+#~ "%(link)s>Dashboard</a>!"
+#~ msgstr ""
+#~ "¿Quieres ver cómo su PANDA se está utilizando? Visite el <a "
+#~ "%(link)s>Dashboard</a>!"

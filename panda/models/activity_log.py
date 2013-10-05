@@ -22,5 +22,5 @@ class ActivityLog(models.Model):
         unique_together = ('user', 'when')
 
     def __unicode__(self):
-        return _('%s at %s') % (self.user, self.when)
+        return _('%(user)s at %(when)s') % { 'user': self.user, 'when': self.when }
 
