@@ -24,3 +24,5 @@ hg+https://bitbucket.org/bkroeze/django-livesettings/@a413c0205048#egg=django-li
 boto==2.0
 pytz==2012b
 coverage==3.5.1
+dbf==0.95.004
+SQLAlchemy==0.8.2
