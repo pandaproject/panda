@@ -416,7 +416,7 @@ class DataResource(PandaResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        query = request.GET.get('q', '')
+        query = '(%s)' % request.GET.get('q', '')
         category = request.GET.get('category', '')
         since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_GROUPS))
@@ -425,6 +425,8 @@ class DataResource(PandaResource):
         group_offset = int(request.GET.get('group_offset', 0))
         export = bool(request.GET.get('export', False))
 
+        solr_query_bits = [query]
+
         if category:
             if category != 'uncategorized':
                 category = Category.objects.get(slug=category)
@@ -432,12 +434,10 @@ class DataResource(PandaResource):
             else:
                 dataset_slugs = Dataset.objects.filter(categories=None).values_list('slug', flat=True) 
 
-            query += ' dataset_slug:(%s)' % ' '.join(dataset_slugs)
+            solr_query_bits.append('dataset_slug:(%s)' % dataset_slugs)
 
         if since:
-            query = 'last_modified:[' + since + 'Z TO *] AND (%s)' % query
-
-        print query
+            solr_query_bits.append('last_modified:[' + since + 'Z TO *]')
 
         # Because users may have authenticated via headers the request.user may
         # not be a full User instance. To be sure, we fetch one.
@@ -460,7 +460,7 @@ class DataResource(PandaResource):
         else:
             response = solr.query_grouped(
                 settings.SOLR_DATA_CORE,
-                query,
+                ' AND '.join(solr_query_bits),
                 'dataset_slug',
                 offset=offset,
                 limit=limit,
@@ -541,23 +541,21 @@ class DataResource(PandaResource):
         """
         dataset = Dataset.objects.get(slug=kwargs['dataset_slug'])
 
-        query = request.GET.get('q', '')
+        query = '(%s)' % request.GET.get('q', '')
         since = request.GET.get('since', None)
         limit = int(request.GET.get('limit', settings.PANDA_DEFAULT_SEARCH_ROWS))
         offset = int(request.GET.get('offset', 0))
         sort = request.GET.get('sort', '_docid_ asc')
 
-        if query:
-            solr_query = 'dataset_slug:%s AND (%s)' % (dataset.slug, query)
-        else:
-            solr_query = 'dataset_slug:%s' % dataset.slug
+        solr_query_bits = [query]
+        solr_query_bits.append('dataset_slug:%s' % dataset.slug)
 
         if since:
-            solr_query += ' AND last_modified:[' + since + 'Z TO *]'
+            solr_query_bits.append('last_modified:[' + since + 'Z TO *]')
 
         response = solr.query(
             settings.SOLR_DATA_CORE,
-            solr_query,
+            ' AND '.join(solr_query_bits),
             offset=offset,
             sort=sort,
             limit=limit

@@ -1,6 +1,7 @@
 1.1.0
 -----
 
+* Fix default search operator in global search. (#877)
 * Enable column sort in API. (#876)
 * Add Jennifer Wilson to AUTHORS.
 * Add Daniel Lathrop to AUTHORS.

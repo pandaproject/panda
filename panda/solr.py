@@ -91,7 +91,7 @@ def query(core, q, limit=10, offset=0, sort='_docid_ asc'):
     Execute a simple, raw query against the Solr index.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/select'])
-    response = requests.get(url, params={ 'q': q, 'start': offset, 'rows': limit, 'sort': sort }, headers={ 'Content-Type': 'application/json' })
+    response = requests.get(url, params={ 'q': q, 'mm': '1', 'start': offset, 'rows': limit, 'sort': sort }, headers={ 'Content-Type': 'application/json' })
 
     if response.status_code != 200:
         raise SolrError(response)
@@ -104,7 +104,7 @@ def query_grouped(core, q, group_field, limit=10, offset=0, sort='_docid_ asc', 
     appropriate for the PANDA API.
     """
     url = ''.join([settings.SOLR_ENDPOINT, '/', core, '/select'])
-    response = requests.get(url, params={ 'q': q, 'start': offset, 'rows': limit, 'sort': sort, 'group': 'true', 'group.field': group_field, 'group.limit': group_limit, 'group.offset': group_offset, 'group.ngroups': 'true' }, headers={ 'Content-Type': 'application/json' })
+    response = requests.get(url, params={ 'q': q, 'mm': '1', 'start': offset, 'rows': limit, 'sort': sort, 'group': 'true', 'group.field': group_field, 'group.limit': group_limit, 'group.offset': group_offset, 'group.ngroups': 'true' }, headers={ 'Content-Type': 'application/json' })
 
     if response.status_code != 200:
         raise SolrError(response)
