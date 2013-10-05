@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from itertools import chain
 from urllib import unquote
 
 from django.conf import settings
@@ -148,7 +147,7 @@ class Dataset(SluggedModel):
         if self.column_schema is not None:
             full_text_data.extend([c['name'] for c in self.column_schema])
 
-        full_text = u'\n'.join(map(unicode,full_text_data)) # convert any i18n proxies into strings
+        full_text = u'\n'.join(map(unicode, full_text_data)) # convert any i18n proxies into strings
 
         solr.add(settings.SOLR_DATASETS_CORE, [{
             'slug': self.slug,

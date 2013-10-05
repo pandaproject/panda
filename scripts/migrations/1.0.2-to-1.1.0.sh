@@ -29,7 +29,7 @@ pip install -U -r requirements.txt
 service solr start 
 service uwsgi start
 service nginx start
-sudo service celeryd start
+service celeryd start
 
 echo "PANDA upgrade complete."
 
