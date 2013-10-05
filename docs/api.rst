@@ -760,6 +760,8 @@ Full-text queries function as "filters" over the normal ``Data`` list. Therefore
 
     GET http://localhost:8000/api/1.0/dataset/[slug]/data/?q=[query]
 
+If you have enabled column search for the dataset, you may also specify a ``sort`` query parameter, such as ``column_unicode_name asc`` which would sort the data in ascending order on the ``name`` column. **Note well**, the column names you need to use are not the names from your original dataset, but rather the Solr column names found in the Dataset API as ``indexed_name``. 
+
 For details on searching Data across all Datasets, see below.
 
 Fetch
