@@ -1,16 +1,31 @@
-<div id="recent-datasets" class="row-fluid">
-    <div class="span6">
-        <h3><%= text.recently_added_datasets %></h3>
-        <% _.each(recent.datasets, function(dataset) { %>
-            <h4><a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a></h4>
-            <% if (dataset.description) { %><p><em><%= unescape(dataset.description) %></em></p><% } %>
-            <p><%= interpolate(text.created_timestamp, { timeago: moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().fromNow() }, true) %></p>
-        <% }); %>
-        <% if (recent.meta.total_count > recent.datasets.length) { %>
-        <a href="#datasets/all"><%= interpolate(text.browse_all_datasets, { count: recent.meta.total_count}, true) %> &raquo;</a>
-        <% } %>
-    </div>
-    <div class="span6">
+<div id="home">
+    <div id="recent-datasets" class="row-fluid">
+        <div class="span7">
+            <div id="start">
+                <h3>Getting started</h3>
+                <p><i class="icon-arrow-up"></i> Search all the data in your PANDA. Try searching for names, streets or something on your beat.</p>
+                <p><i class="icon-arrow-right"></i> Explore the most recent datasets uploaded by anyone in your news organization.</p>
+                <p><i class="icon-upload"></i> Have a CSV or Excel spreadsheet? <a href="#upload">Upload your own data</a> to keep it safe and make it searchable.</p>
+                
+                <h3>Learn more with PANDA documentation</h3>
+                <ul>
+                    <li><a href="http://pandaproject.net/docs/searching-data.html">Searching for data</a></li>
+                    <li><a href="http://pandaproject.net/docs/uploading.html">Uploading a dataset</a></li>
+                    <li><a href="http://pandaproject.net/docs/search-subscriptions.html">Subscribing to search results</a></li>
+                    <li><a href="http://pandaproject.net/docs/">Complete documentation</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="span5">
+            <h3><%= text.recently_added_datasets %></h3>
+            <% _.each(recent.datasets, function(dataset) { %>
+                <h4><a href="#dataset/<%= dataset.slug %>"><%= unescape(dataset.name) %></a></h4>
+                <% if (dataset.description) { %><p><em><%= unescape(dataset.description) %></em></p><% } %>
+                <p><%= interpolate(text.created_timestamp, { timeago: moment(dataset.creation_date, "YYYY-MM-DDTHH:mm:ss").toLocalTimezone().fromNow() }, true) %></p>
+            <% }); %>
+            <% if (recent.meta.total_count > recent.datasets.length) { %>
+            <a href="#datasets/all"><%= interpolate(text.browse_all_datasets, { count: recent.meta.total_count}, true) %> &raquo;</a>
+            <% } %>
+        </div>
     </div>
 </div>
-
