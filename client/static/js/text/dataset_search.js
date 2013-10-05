@@ -9,7 +9,7 @@ PANDA.text.DatasetSearch = function() {
         wildcards_help: gettext('Use an asterisk to match part of a word: <code>coff*</code> will match "coffee", "Coffer" or "coffins".'),
         exact_phrases: gettext("Exact phrases"),
         exact_phrases_help: gettext('Put phrases in quotes: <code>"Chicago Bears"</code> will not match "Chicago Panda Bears".'),
-        and_or: gettext("AND/OR"),
+        and_or: "AND/OR", // Not translated as these are Solr keywords
         and_or_help: gettext('Use AND and OR to find combinations of terms: <code>homicide AND first</code> will match "first degree homicide" or "homicide, first degree", but not just "homicide".'),
         grouping: gettext("Grouping"),
         grouping_help: gettext('Group words with parantheses: <code>homicide AND (first OR 1st)</code> will match "1st degree homicide", "first degree homicide", or "homicide, first degree".'),
