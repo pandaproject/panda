@@ -22,8 +22,14 @@ cd /opt/panda
 git pull
 git checkout 1.1.0
 
-# Update Python requirements
+# Update Python requirements (always do this)
 pip install -U -r requirements.txt
+
+# Migrate database (always do this)
+sudo -u panda -E python manage.py migrate panda --noinput
+
+# Regenerate assets (always do this)
+sudo -u panda -E python manage.py collectstatic --noinput
 
 # Restart services
 service solr start 
