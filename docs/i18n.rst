@@ -1,0 +1,35 @@
+====================================
+Using PANDA in non-English languages
+====================================
+
+Current available languages
+---------------------------
+
++------------+------+ 
+| Language   | Code |
++============+======+ 
+| English    | en   |
++------------+------+ 
+| German     | de   |
++------------+------+ 
+
+
+Selecting the language of your PANDA
+------------------------------------
+
+PANDA was originally developed in English but has since been translated into other languages. When you first boot your PANDA you will have the option to select from the available translations.
+
+Changing the translation of your PANDA after initial setup will require you to :doc:`SSH into your server <ssh>`. Once logged in edit the file ``/opt/panda/local_settings.py`` and change ``LANGUAGE_CODE='en'`` to, for example, ``LANGUAGE_CODE='de'`` for German.
+
+After making these changes, restart your PANDA with ``sudo service nginx restart``.
+
+
+Translating PANDA into your language
+------------------------------------
+
+If PANDA is not available in your language, you can translate it! PANDA uses a service called `POEditor <http://poeditor.com>`_ to enable anyone to contribute to translations. The translation work is divided into two projects:
+
+* `Client-side <https://poeditor.com/join/project?hash=487a4fa3c3cb44db13578ce3947f549f>`_
+* `Server-side <https://poeditor.com/join/project?hash=054bd5e144f3846d89c35752ad2c5960>`_
+
+If you spot an error in a translation, you can make the correction yourself and we will roll it into our next release. If you wish to translate PANDA into an entirely new language, please either contact us on our `User Group <https://groups.google.com/forum/#!forum/panda-project-users>`_ or `open a Github ticket <https://github.com/pandaproject/panda/issues/>`_. In either case we will add the new language and you can get started!

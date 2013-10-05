@@ -59,6 +59,7 @@ Configuration
     Email (SMTP) <email.rst>
     Performance <performance.rst>
     Secure connections (SSL) <ssl.rst>
+    Using PANDA in non-English languages <i18n.rst>
 
 Administration
 ==============

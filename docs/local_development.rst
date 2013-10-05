@@ -126,20 +126,23 @@ To run the unit tests, start Solr and execute the test runner, like so:
     workon panda
     python manage.py test panda
 
+Running Javascript unit tests
+=============================
+
+Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests, first start the test server with ``python manage.py runserver``, then open the file ``client/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/client/static/js/SpecRunner.html``.
+
 Internationalization (I18N)
 ===========================
 
 PANDA has been "internationalized" so that it can be used by journalists who speak languages other than English. (Because the word internationalization is so long, it is frequently written i18n.)
 
-Generally, PANDA uses Django's `i18n framework <https://docs.djangoproject.com/en/dev/topics/i18n/>`_, which itself uses Python's `gettext <http://docs.python.org/2/library/gettext.html>`_ module. Simplistically, the process is to take every literal text message which would be shown to users and wrap
-that text in a function call which looks up the appropriate translation for the message. Other Django tools can recognize these function calls and automatically add new messages to the translation files (known as 
-PO files).
+Generally, PANDA uses Django's `i18n framework <https://docs.djangoproject.com/en/dev/topics/i18n/>`_, which itself uses Python's `gettext <http://docs.python.org/2/library/gettext.html>`_ module. Simplistically, the process is to take every literal text message which would be shown to users and wrap that text in a function call which looks up the appropriate translation for the message. Other Django tools can recognize these function calls and automatically add new messages to the translation files (known as PO files).
 
 A full explanation of how to internationalize an application is beyond the scope of this document, but here are some things developers should know.
 * When adding a message in a python file, you must wrap it in a call to ``ugettext``, or one of the related methods.
 * When adding a message in a Javascript file, you must wrap it in a call to ``gettext``. 
 * When editing messages for clarity or spelling, remember that the literal text is used as the "lookup key" for a translation, so you probably also have to edit the same text wherever it appears in a ``po`` file under the ``locale`` directory.
-* Do not add literal messages to Javascript template (``jst``) files, because it won't be detected. Instead, find a matching ``js`` file in ``client/static/js/text`` and add a key/value pair to the dictionary which is returned.
+* Do not add literal messages to Javascript template (``jst``) files, because they won't be detected. Instead, find a matching ``js`` file in ``client/static/js/text`` and add a key/value pair to the dictionary which is returned.
 * Special care must be handled with messages which have variable components, or which may have different grammatical forms, for example, singular/plural, depending on the value of a variable. Look for examples elsewhere in the code.
 
 If you make changes or add translated text, you must remember to rebuild the ``po`` files and recompile the messages. This is easily done using fab commands.
@@ -156,11 +159,4 @@ When running locally, if you'd like to see your PANDA running in a different lan
 .. code-block:: python
     # set the value of language code to an ISO 639-2 language code matching a directory which exists under the locale directory
     LANGUAGE_CODE = 'de'
-
-
-
-Running Javascript unit tests
-=============================
-
-Running the Javascript unit tests requires that the application server is running (to render the the JST template map). To run the Javascript tests, first start the test server with ``python manage.py runserver``, then open the file ``client/static/js/SpecRunner.html`` in your browser (e.g. ``file://localhost/Users/onyxfish/src/panda/client/static/js/SpecRunner.html``.
 
