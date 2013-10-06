@@ -106,9 +106,8 @@ PANDA.views.DatasetSearch = Backbone.View.extend({
                 var deets = this.MESSAGES_BY_TASK_NAME_PREFIX_AND_STATUS[task_type][task.get("status")];
                 var alert_body = interpolate(deets.body, {message: gettext(task.get('status'))}, true);
                 $("#dataset-search .alert").alert_block(deets.style, deets.title, alert_body, deets.closeable);
-            } catch(e) { // often not an error condition, e.g. status SUCCESS
-                    {name: task.get("task_name"), status: task.get("status")},
-                    true));
+            } catch(e) {
+                // often not an error condition, e.g. status SUCCESS
             }
             
         }
