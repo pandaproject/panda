@@ -35,8 +35,7 @@ def jumpstart(request):
     context = RequestContext(request, {
         'settings': settings,
         'languages': (
-            ('en', gettext_noop('English')),
-            ('de', gettext_noop('German'))
+            ('en', gettext_noop('English'))
         ),
         'timezones': common_timezones
     })
@@ -44,7 +43,7 @@ def jumpstart(request):
     return render_to_response('jumpstart/index.html', context)
 
 def wait(request):
-    language = request.POST['language']
+    language = request.POST.get('language', 'en')
     timezone = request.POST['timezone']
     email = request.POST['email']
     password = request.POST['password']
