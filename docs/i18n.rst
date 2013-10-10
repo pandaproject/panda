@@ -10,7 +10,7 @@ Current available languages
 +============+======+ 
 | English    | en   |
 +------------+------+ 
-| German     | de   |
+| Spanish    | es   |
 +------------+------+ 
 
 
