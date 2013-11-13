@@ -43,7 +43,7 @@ PANDA.routers.Index = Backbone.Router.extend({
          * also fixes a related rendering error in the newest firefox
          */
         if (param) {
-            return param.replace("%20", " ");
+            return param.replace(/%20/g, " ");
         } else {
             return param;
         }
