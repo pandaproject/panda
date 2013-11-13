@@ -84,6 +84,14 @@ vol = conn.create_volume(size_gb, instance.placement)
 conn.create_tags([vol.id], {'Name': 'PANDA Uploads volume %s' % datetime.now().strftime('%Y-%m-%d')})
 print vol.id
 
+sys.stdout.write('Waiting for volume to become available... ')
+
+while not vol.status == 'available':
+    time.sleep(5)
+    vol.update()
+
+print 'available'
+
 sys.stdout.write('Backing up fstab... ')
 shutil.copy2('/etc/fstab', FSTAB_BACKUP)
 print FSTAB_BACKUP
