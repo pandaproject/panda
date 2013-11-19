@@ -69,7 +69,8 @@ Administration
 
     Users <users.rst>
     Categories <categories.rst>
-    API Keys <api_keys.rst>
+    API keys <api_keys.rst>
+    manual_imports.rst
 
 Server maintenance 
 ==================
