@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 """
-One-off script to import data when the web UI fails. To use it place this file in /opt/panda, copy your data file to /var/lib/panda/uploads/ and then run:
-    $ manual_import.py filename.csv user@email.com
+Script to import data when the web UI fails. See documentation at:
 
-Dataset name, description etc are set to defaults. Change them in the web UI.
+http://panda.readthedocs.org/en/latest/manual_imports.html
+
+Dataset name, description, etc. are set to defaults. Change them in the web UI.
 """
 
 import os

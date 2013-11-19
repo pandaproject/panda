@@ -14,7 +14,7 @@ Uploading a file to your server
 
 Manually importing files is a two-step process. First you must upload them to your server, then you can execute the import process.
 
-Uploading files your server requires using a command-line program called ``scp``. This program allows you to send a file to your server over :doc:`SSH <ssh>`. It may help to quickly review the :doc:`SSH <ssh>` documentation now. If you are on Mac/Linux, `scp` comes preinstalled. On Windows it comes as part of `Putty <http://docs.amazonwebservices.com/AWSEC2/latest/UserGuide/putty.html>`. In either case, the command to upload your file will look like:
+Uploading files your server requires using a command-line program called ``scp``. This program allows you to send a file to your server over :doc:`SSH <ssh>`. It may help to quickly review the :doc:`SSH <ssh>` documentation now. If you are on Mac/Linux, `scp` comes preinstalled. On Windows it comes as part of `Putty <http://docs.amazonwebservices.com/AWSEC2/latest/UserGuide/putty.html>`_. In either case, the command to upload your file will look like:
 
 ``scp -i /path/to/my/ec2_key.pem /path/to/my/dataset.csv ubuntu@my_server_domain_name.com:/var/lib/panda/uploads/``
 
@@ -34,4 +34,4 @@ Once your file has finished copying to your PANDA server, you will need to SSH i
 
 In this case ``dataset_filename.csv`` is the name of the file you uploaded and ``user@email.com`` is the login of the user you want the to "own" the dataset.
 
-Once this script returns your file will be importing via the normal process and you can review it's progress via the web interface. From this point forward the dataset should be indistinguishable from one uploaded via the web interface.
+Once this script returns your file will be importing via the normal process and you can review it's progress via the web interface. The dataset name and description will be set to the system defaults and should be updated in the web interface. From this point forward the dataset should be indistinguishable from one uploaded via the normal process.
