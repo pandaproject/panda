@@ -171,6 +171,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
         $("#step-2 .progress-value").css("width", pct + "%");
         $("#step-2 .progress-value strong").text(pct + "%");
+
+        if (total >= PANDA.settings.WARN_UPLOAD_SIZE && !$('#step-2-alert').hasClass('alert-warning')) {
+            this.step_two_warning_message(interpolate(this.text.file_size_warning, { version: PANDA.settings.VERSION }, true));
+        }
     },
 
     on_complete: function(id, fileName, responseJSON) {
@@ -203,6 +207,10 @@ PANDA.views.DataUpload = Backbone.View.extend({
 
     step_one_error_message: function(message) {
         $("#step-1-alert").alert("alert-error", message + ' <input id="step-1-start-over" type="button" class="btn" value="' + gettext("Try again") + '" />' , false);
+    },
+
+    step_two_warning_message: function(message) {
+        $("#step-2-alert").alert("alert-warning", message, false);
     },
 
     step_two_error_message: function(message) {

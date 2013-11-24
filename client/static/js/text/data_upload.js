@@ -31,6 +31,7 @@ PANDA.text.DataUpload = function() {
         start_over: gettext("Start over"),
         error_title: gettext("Error processing dataset"),
         error_close: gettext("Close"),
-        dataset_upload_error: gettext("Error uploading dataset: %(message)s")
+        dataset_upload_error: gettext("Error uploading dataset: %(message)s"),
+        file_size_warning: gettext('Warning, you are uploading a very large file. In some cases this may fail. For an alternate way of uploading very large files see <a href="http://panda.readthedocs.org/en/latest/manual_imports.html">http://panda.readthedocs.org/en/%(version)s/manual_imports.html</a>.')
     }
 }

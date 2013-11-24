@@ -99,11 +99,20 @@ config_register(BooleanValue(
 
 config_register(PositiveIntegerValue(
     MISC_GROUP,
+    'WARN_UPLOAD_SIZE',
+    description=_('File size at which a warning about large file uploads is issued, in bytes.'),
+    help_text=_('The default value is equivalent to 100MB.'),
+    default=104857600,
+    ordering=1
+))
+
+config_register(PositiveIntegerValue(
+    MISC_GROUP,
     'MAX_UPLOAD_SIZE',
     description=_('Maximum size allowed for user-uploaded files, in bytes.'),
     help_text=_('The default value is equivalent to 1GB.'),
     default=1073741824,
-    ordering=1
+    ordering=2
 ))
 
 # Performance settings
