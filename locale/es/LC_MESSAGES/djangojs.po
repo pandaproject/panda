@@ -1,63 +1,55 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: PANDA Project (client-side)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-05 22:56+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-11-24 14:26-0600\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: POEditor.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: client/static/js/text/activate.js:3
 msgid "Activate your PANDA account"
-msgstr ""
+msgstr "Active su cuenta PANDA"
 
 #: client/static/js/text/activate.js:4 client/static/js/text/login.js:5
 #: client/static/js/text/modal_user_edit.js:6
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: client/static/js/text/activate.js:5
 #: client/static/js/text/modal_user_edit.js:4
 msgid "First name"
-msgstr ""
+msgstr "Nombre"
 
 #: client/static/js/text/activate.js:6
 #: client/static/js/text/modal_user_edit.js:5
 msgid "Last name"
-msgstr ""
+msgstr "Apellido"
 
 #: client/static/js/text/activate.js:7 client/static/js/text/login.js:6
 #: client/static/js/text/reset_password.js:4
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: client/static/js/text/activate.js:8
 #: client/static/js/text/reset_password.js:5
 msgid "Re-enter password"
-msgstr ""
+msgstr "Reingrese su contraseña"
 
 #: client/static/js/text/activate.js:9
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #: client/static/js/text/data_upload.js:3
 msgid "Add data to %(dataset)s"
-msgstr ""
+msgstr "Añada datos a %(dataset)s"
 
 #: client/static/js/text/data_upload.js:4
 msgid "Upload new data"
-msgstr ""
+msgstr "Cargue nuevos datos"
 
 #: client/static/js/text/data_upload.js:5
 msgid ""
@@ -65,12 +57,17 @@ msgid ""
 "administrator about expanding the available storage space. <strong>Uploads "
 "may fail.</strong>"
 msgstr ""
+"Su cuenta de PANDA tiene %(space)s disponible para archivos. Debe contactar "
+"a su administrador para expandir la capacidad de almacenamiento.<strong>Se "
+"pueden producir errores en las cargas.</strong>"
 
 #: client/static/js/text/data_upload.js:6
 msgid ""
 "Your PANDA has %(space)s available for files. You should contact your PANDA "
 "administrator about expanding the available storage space."
 msgstr ""
+"Su cuenta de PANDA tiene %(space)s disponible para archivos. Debe contactar "
+"a su administrador para expandir la capacidad de almacenamiento."
 
 #: client/static/js/text/data_upload.js:7
 msgid ""
@@ -78,12 +75,17 @@ msgid ""
 "your PANDA administrator about expanding the available storage space. "
 "<strong>Uploads may fail.</strong>"
 msgstr ""
+"Su cuenta de PANDA tiene %(space)s disponible para índices de búsqueda. Debe "
+"contactar a su administrador para expandir la capacidad de almacenamiento. "
+"<strong>Se pueden producir errores en las cargas.</strong>"
 
 #: client/static/js/text/data_upload.js:8
 msgid ""
 "Your PANDA has %(space)s available for search indices. You should contact "
 "your PANDA administrator about expanding the available storage space."
 msgstr ""
+"Su cuenta de PANDA tiene %(space)s disponible para índices de búsqueda. Debe "
+"contactar a su administrador para expandir la capacidad de almacenamiento."
 
 #: client/static/js/text/data_upload.js:9
 msgid ""
@@ -91,16 +93,21 @@ msgid ""
 "upload must have <strong>exactly</strong> the same headers as the existing "
 "data."
 msgstr ""
+"<strong>Observación:</strong> Al añadir datos a un set de datos "
+"preexistente, el archivo a subir tiene que tener <strong>exactamente</"
+"strong> la misma cantidad de cabeceras que los datos existentes."
 
 #: client/static/js/text/data_upload.js:10
 msgid "Select your file"
-msgstr ""
+msgstr "Seleccione su archivo"
 
 #: client/static/js/text/data_upload.js:11
 msgid ""
 "Start by selecting a <strong>CSV (.csv)</strong> or <strong>Excel (.xls or ."
 "xlsx)</strong> file from your computer:"
 msgstr ""
+"Comience por seleccionar un archivo <strong>CSV (.csv)</strong> o  "
+"<strong>Excel (.xls o .xlsx)</strong> de su computador:"
 
 #: client/static/js/text/data_upload.js:12
 msgid ""
@@ -112,6 +119,14 @@ msgid ""
 "handling-unsupported-excel-features.html\">handling unsupported Excel "
 "features</a>."
 msgstr ""
+"<strong>¡Se perderán los estilos de la hoja de Excel!</strong> Al hacer que "
+"este archivo pueda ser buscado, se perderán todos los formatos aplicados a "
+"las celdas. Esto significa que sus datos pueden parecer diferentes en PANDA "
+"de como aparecen en su hoja de cálculo. Además, sólo la primera hoja de "
+"trabajo de su archivo aparecerá en resultados de búsqueda. Lea más en "
+"nuestra documentación sobre <a href=\"http://pandaproject.net/docs/handling-"
+"unsupported-excel-features.html\">cómo manejar características de Excel no "
+"compatibles.</a>."
 
 #: client/static/js/text/data_upload.js:13
 msgid ""
@@ -119,6 +134,9 @@ msgid ""
 "\"http://pandaproject.net/docs/importing-access-files.html\">importing "
 "Access files</a>"
 msgstr ""
+"Los archivos de acceso no pueden ser cargados a PANDA. Lea nuestra "
+"documentación sobre <a href=\"http://pandaproject.net/docs/importing-access-"
+"files.html\">importando Archivos de Acceso</a>"
 
 #: client/static/js/text/data_upload.js:14
 msgid ""
@@ -126,18 +144,21 @@ msgid ""
 "\"http://pandaproject.net/docs/importing-dbf-files.html\">importing DBF "
 "files</a>."
 msgstr ""
+"Los archivos DBF no pueden ser ingresados a PANDA. Lea nuestra documentación "
+"sobre <a href=\"http://pandaproject.net/docs/importing-dbf-files.html"
+"\">importar archivos DBF</a>."
 
 #: client/static/js/text/data_upload.js:15
 msgid "Unknown file type. Please upload either an CSV or Excel file."
-msgstr ""
+msgstr "Tipo de archivo desconocido. Por favor, suba un archivo CSV o Excel."
 
 #: client/static/js/text/data_upload.js:16
 msgid "Advanced CSV options"
-msgstr ""
+msgstr "Opciones CSV avanzadas"
 
 #: client/static/js/text/data_upload.js:17
 msgid "Character encodings"
-msgstr ""
+msgstr "Codificación de caracteres"
 
 #: client/static/js/text/data_upload.js:18
 msgid ""
@@ -149,18 +170,26 @@ msgid ""
 "can not import your CSV file you may need to research what encoding it is in."
 "</p>"
 msgstr ""
+"<p>Desafortunadamente, no es posible para PANDA determinar automáticamente "
+"la codificación de un archivo CSV. La codificación por defecto es "
+"<strong>utf-8</strong>, lo que es correcto para un gran número de archivos, "
+"pero existen muchos tipos de codificación posibles. Los datos del censo, por "
+"ejemplo, son distribuidos frecuentemente usando la codificación "
+"<strong>latin-1</strong>.</p><p>&nbsp;</p><p>La codificación de archivos es "
+"un tema complejo. Si PANDA no puede importar su archivo CSV, tendrá que "
+"averiguar qué codificación se usó.</p>"
 
 #: client/static/js/text/data_upload.js:19
 msgid "Begin upload"
-msgstr ""
+msgstr "Comienza la carga"
 
 #: client/static/js/text/data_upload.js:20
 msgid "Wait while your file is uploaded"
-msgstr ""
+msgstr "Espere mientras se sube su archivo"
 
 #: client/static/js/text/data_upload.js:21
 msgid "Describe your dataset"
-msgstr ""
+msgstr "Describa su set de datos"
 
 #: client/static/js/text/data_upload.js:22
 msgid ""
@@ -168,37 +197,40 @@ msgid ""
 "moment to provide some information about it, such as when and how it was "
 "acquired."
 msgstr ""
+"Su archivo está siendo ingresado a PANDA. Mientras espera por favor tómese "
+"un momento para darnos información sobre su archivo, como por ejemplo cómo "
+"fue adquirido."
 
 #: client/static/js/text/data_upload.js:23
 #: client/static/js/text/modal_dataset_edit.js:4
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: client/static/js/text/data_upload.js:24
 #: client/static/js/text/dataset_view.js:21
 #: client/static/js/text/modal_dataset_edit.js:5
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: client/static/js/text/data_upload.js:25
 #: client/static/js/text/dataset_view.js:23
 #: client/static/js/text/datasets_results.js:6
 #: client/static/js/text/modal_dataset_edit.js:7
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #: client/static/js/text/data_upload.js:26
 #: client/static/js/text/dataset_view.js:32
 msgid "Upload in progress, please wait..."
-msgstr ""
+msgstr "Carga en progreso, por favor espere..."
 
 #: client/static/js/text/data_upload.js:27
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 #: client/static/js/text/data_upload.js:28
 msgid "Preview your data"
-msgstr ""
+msgstr "Realice una vista previa de sus datos"
 
 #: client/static/js/text/data_upload.js:29
 msgid ""
@@ -207,26 +239,39 @@ msgid ""
 "correct you may need to modify the file or save your data in another format. "
 "If you are satisifed with the preview then click Continue."
 msgstr ""
+"Su archivo ha sido cargado. Por favor, revise los siguientes datos de "
+"ejemplo que fueron extraídos de su archivo y compruebe que son correctos. Si "
+"no son correctos, puede que tenga que modificar el archivo o guardar los "
+"datos en otro formato. Si está satisfecho con la vista previa, haga clic en "
+"Continuar."
 
 #: client/static/js/text/data_upload.js:30
 msgid "Finish"
-msgstr ""
+msgstr "Acabado"
 
 #: client/static/js/text/data_upload.js:31
 msgid "Start over"
-msgstr ""
+msgstr "Comience de nuevo"
 
 #: client/static/js/text/data_upload.js:32
 msgid "Error processing dataset"
-msgstr ""
+msgstr "Se produjo un error al procesar el set de datos"
 
 #: client/static/js/text/data_upload.js:33
 #: client/static/js/text/dataset_search.js:20
 msgid "Close"
-msgstr ""
+msgstr "Cierra"
 
 #: client/static/js/text/data_upload.js:34
 msgid "Error uploading dataset: %(message)s"
+msgstr "Se produjo un error al cargar el set de datos: %(message)s"
+
+#: client/static/js/text/data_upload.js:35
+msgid ""
+"Warning, you are uploading a very large file. In some cases this may fail. "
+"For an alternate way of uploading very large files see <a href=\"http://"
+"panda.readthedocs.org/en/latest/manual_imports.html\">http://panda."
+"readthedocs.org/en/%(version)s/manual_imports.html</a>."
 msgstr ""
 
 #: client/static/js/text/dataset_results.js:3
@@ -237,34 +282,38 @@ msgstr "Escriba una consulta de búsqueda"
 #: client/static/js/text/dataset_results.js:4
 msgid "No rows matching query found in dataset <strong>%(dataset)s</strong>."
 msgstr ""
+"No hay filas que correspondan a la consulta de búsqueda en el set de datos "
+"<strong>%(dataset)s</strong>."
 
 #: client/static/js/text/dataset_results.js:5
 msgid "Would you like to <a href=\"%(url)s\">search all datasets instead</a>?"
-msgstr ""
+msgstr "¿Prefiere <a href=\"%(url)s\">buscar todos los set de datos</a>?"
 
 #: client/static/js/text/dataset_results.js:6
 #: client/static/js/text/search_results.js:5
 msgid "Subscribe to search results"
-msgstr ""
+msgstr "Suscribirse a los resultados de búsqueda"
 
 #: client/static/js/text/dataset_results.js:7
 msgid "Export search results to CSV"
-msgstr ""
+msgstr "Exporte los resultados a un CSV"
 
 #: client/static/js/text/dataset_results.js:8
 msgid ""
 "Showing only results created or updated after <strong>%(since)s</strong>"
 msgstr ""
+"Mostrando sólo los resultados creados o actualizados después de  <strong>"
+"%(since)s</strong>"
 
 #: client/static/js/text/dataset_results.js:9
 #: client/static/js/text/search_results.js:8
 msgid "Show all results instead"
-msgstr ""
+msgstr "Muestra todos los resultados en lugar de"
 
 #: client/static/js/text/dataset_results.js:10
 #: client/static/js/text/search_results.js:11
 msgid "Are you sure you want to export this search?"
-msgstr ""
+msgstr "¿Está seguro que quiere exportar esta búsqueda?"
 
 #: client/static/js/text/dataset_results.js:11
 #: client/static/js/text/dataset_view.js:50
@@ -273,38 +322,46 @@ msgid ""
 "finished.</p><p>Please note that changes made to the dataset during export "
 "may not be accurately reflected.</p>"
 msgstr ""
+"<p>Esto puede tardar mucho tiempo en ser completado. Será notificado cuando "
+"se complete.</p><p>Por favor tenga en cuenta que los cambios hechos al set "
+"de datos durante la exportación pueden no ser reflejados con exactitud.</p>"
 
 #: client/static/js/text/dataset_results.js:12
 #: client/static/js/text/dataset_view.js:51
 #: client/static/js/text/search_results.js:14
 msgid "Continue with export"
-msgstr ""
+msgstr "Continuar con la exportación"
 
 #: client/static/js/text/dataset_results.js:13
 #: client/static/js/text/search_results.js:16
 msgid "Subscribe to this search?"
-msgstr ""
+msgstr "¿Suscribirse a esta búsqueda?"
 
 #: client/static/js/text/dataset_results.js:14
 msgid ""
 "When you click <strong>Subscribe</strong> you will begin receiving daily "
 "email notifications of new data added to PANDA that matches:"
 msgstr ""
+"Al hacer clic en <strong>Suscribir</strong>, usted comenzará a recibir "
+"notificaciones diarias por correo electrónico sobre nuevos datos agregados a "
+"PANDA que coincidan con:"
 
 #: client/static/js/text/dataset_results.js:15
 msgid ""
 "When you click <strong>Subscribe</strong> you will begin receiving daily "
 "notifications of new data added to PANDA that matches:"
 msgstr ""
+"Al hacer clic en <strong>Suscribir</strong>, usted comenzará a recibir "
+"notificaciones diarias sobre datos ingresados a PANDA que coincidan con:"
 
 #: client/static/js/text/dataset_results.js:16
 msgid "%(query)s in <strong>%(dataset)s</strong>"
-msgstr ""
+msgstr "%(query)s en <strong>%(dataset)s</strong>"
 
 #: client/static/js/text/dataset_results.js:17
 #: client/static/js/text/search_results.js:20
 msgid "Subscribe"
-msgstr ""
+msgstr "Suscribirse"
 
 #: client/static/js/text/dataset_results.js:18
 #: client/static/js/text/dataset_view.js:33 client/static/js/text/login.js:11
@@ -316,11 +373,11 @@ msgstr ""
 #: client/static/js/text/search_results.js:19
 #: client/static/js/views/user.js:105
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: client/static/js/text/dataset_search.js:3
 msgid "Search <strong>%(dataset)s</strong>"
-msgstr ""
+msgstr "Buscar <strong>%(dataset)s</strong>"
 
 #: client/static/js/text/dataset_search.js:4
 #: client/static/js/text/datasets_search.js:5
@@ -336,33 +393,37 @@ msgid "Search"
 msgstr "Buscar"
 
 #: client/static/js/text/dataset_search.js:6
-#: client/static/js/views/dataset_search.js:159
+#: client/static/js/views/dataset_search.js:157
 msgid "More search options"
-msgstr ""
+msgstr "Más opciones de búsqueda"
 
 #: client/static/js/text/dataset_search.js:7
 msgid "Back to dataset details"
-msgstr ""
+msgstr "Volver a los detalles del set de datos"
 
 #: client/static/js/text/dataset_search.js:8
 msgid "Wildcards"
-msgstr ""
+msgstr "Comodines"
 
 #: client/static/js/text/dataset_search.js:9
 msgid ""
 "Use an asterisk to match part of a word: <code>coff*</code> will match "
 "\"coffee\", \"Coffer\" or \"coffins\"."
 msgstr ""
+"Utilice un asterisco para que coincida con una parte de una palabra: "
+"<code>caf*</code> coincidirá con \"café\", \"cafeína\" o \"cafetera\"."
 
 #: client/static/js/text/dataset_search.js:10
 msgid "Exact phrases"
-msgstr ""
+msgstr "Frases exactas"
 
 #: client/static/js/text/dataset_search.js:11
 msgid ""
 "Put phrases in quotes: <code>\"Chicago Bears\"</code> will not match "
 "\"Chicago Panda Bears\"."
 msgstr ""
+"Escriba frases entre comillas: <code>\"Chicago Bears\"</code> no coincidrá "
+"con \"Chicago Panda Bears\"."
 
 #: client/static/js/text/dataset_search.js:13
 msgid ""
@@ -370,10 +431,13 @@ msgid ""
 "code> will match \"first degree homicide\" or \"homicide, first degree\", "
 "but not just \"homicide\"."
 msgstr ""
+"Use AND y OR para encontrar combinaciones de términos: <code>homicidio AND "
+"primer</code> coincidirá con \"homicidio en primer grado\" u \"homicidio, "
+"primer grado\", pero no sólo con \"homicidio\"."
 
 #: client/static/js/text/dataset_search.js:14
 msgid "Grouping"
-msgstr ""
+msgstr "Grouping"
 
 #: client/static/js/text/dataset_search.js:15
 msgid ""
@@ -381,10 +445,13 @@ msgid ""
 "match \"1st degree homicide\", \"first degree homicide\", or \"homicide, "
 "first degree\"."
 msgstr ""
+"Agrupe palabras con paréntesis: <code>homicidio AND (primer OR 1er)</code> "
+"va a coincidir con \"homicidio en 1er grado\", \"homicidio en primer grado\" "
+"u \"homicidio, primer grado\"."
 
 #: client/static/js/text/dataset_search.js:16
 msgid "Alternate names"
-msgstr ""
+msgstr "Nombres alternativos"
 
 #: client/static/js/text/dataset_search.js:17
 msgid ""
@@ -392,60 +459,66 @@ msgid ""
 "<code>bill</code> will match \"Bill\", \"Billy\", \"William\", etc. It will "
 "not match mispellings."
 msgstr ""
+"PANDA intentará hacer coincidir términos de búsqueda informales y "
+"alternativos a los nombres propios en inglés: <code>bill</code> coincidirá "
+"con \"Bill\", \"Billy\", \"William\", etc. No se podrá hacer coincidir "
+"palabras con errores de tipeo."
 
 #: client/static/js/text/dataset_search.js:18
 msgid "Error importing data"
-msgstr ""
+msgstr "Ocurrió un error al importar los datos"
 
 #: client/static/js/text/dataset_search.js:19
 msgid ""
 "<p>The import failed with the following exception:</p><code>%(traceback)s</"
 "code>"
 msgstr ""
+"<p>La importación falló salvo la siguiente excepción:</p><code>"
+"%(traceback)s</code>"
 
 #: client/static/js/text/dataset_view.js:3
 msgid "About <strong>%(dataset)s</strong>"
-msgstr ""
+msgstr "Sobre <strong>%(dataset)s</strong>"
 
 #: client/static/js/text/dataset_view.js:4
 msgid "(%(count)s rows)"
-msgstr ""
+msgstr "(%(count)s filas)"
 
 #: client/static/js/text/dataset_view.js:5
 msgid "(row count not available)"
-msgstr ""
+msgstr "(recuento de filas no está disponible)"
 
 #: client/static/js/text/dataset_view.js:6
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: client/static/js/text/dataset_view.js:7
 msgid "Edit name, description or categories"
-msgstr ""
+msgstr "Editar nombre, descripción o categorías"
 
 #: client/static/js/text/dataset_view.js:8
 msgid "Add or remove related links"
-msgstr ""
+msgstr "Agregar o remover los enlaces relacionados"
 
 #: client/static/js/text/dataset_view.js:9
 msgid "Upload more data"
-msgstr ""
+msgstr "Subir más datos"
 
 #: client/static/js/text/dataset_view.js:10
 msgid "Upload related file"
-msgstr ""
+msgstr "Subir archivo relacionado"
 
 #: client/static/js/text/dataset_view.js:11
 msgid "Enable column search"
-msgstr ""
+msgstr "Habilitar búsqueda por columnas"
 
 #: client/static/js/text/dataset_view.js:12
 msgid "Export to CSV"
-msgstr ""
+msgstr "Exportar a CSV"
 
 #: client/static/js/text/dataset_view.js:13 client/static/js/views/user.js:96
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: client/static/js/text/dataset_view.js:14
 #, fuzzy
@@ -456,69 +529,74 @@ msgstr "Buscar todos los datos"
 msgid ""
 "Showing %(count)s sample rows from %(total)s total rows in this dataset."
 msgstr ""
+"Mostrar %(count)s de las filas de muestra del %(total)s total de filas en "
+"este set de datos."
 
 #: client/static/js/text/dataset_view.js:16
 msgid ""
 "Showing %(count)s rows of an unknown total number of rows in this dataset."
 msgstr ""
+"Mostrando %(count)s filas de un número total desconocido de filas en este "
+"set de datos."
 
 #: client/static/js/text/dataset_view.js:17
 msgid "View all rows"
-msgstr ""
+msgstr "Ver todas las filas"
 
 #: client/static/js/text/dataset_view.js:18
 msgid "Created by %(creator)s on <strong>%(when)s</strong>."
-msgstr ""
+msgstr "Creado por %(creator)s en <strong>%(when)s</strong>."
 
 #: client/static/js/text/dataset_view.js:19
 msgid "Data last modified by %(modifier)s on <strong>%(when)s</strong>"
 msgstr ""
+"Modificado por última vez por %(modifier)s en <strong>%(when)s</strong>"
 
 #: client/static/js/text/dataset_view.js:20
 msgid "Data never modified."
-msgstr ""
+msgstr "Los datos no modificados."
 
 #: client/static/js/text/dataset_view.js:22
 msgid "Edit this dataset to add a description."
-msgstr ""
+msgstr "Editar este set de datos para agregar una descripción."
 
 #: client/static/js/text/dataset_view.js:24
 msgid "None selected."
-msgstr ""
+msgstr "Ninguno/a seleccionado/a."
 
 #: client/static/js/text/dataset_view.js:25
 #: client/static/js/text/modal_related_links.js:3
 msgid "Related links"
-msgstr ""
+msgstr "Enlaces relacionados"
 
 #: client/static/js/text/dataset_view.js:26
 msgid "No related links."
-msgstr ""
+msgstr "Enlaces no relacionados."
 
 #: client/static/js/text/dataset_view.js:27
 msgid "Related files"
-msgstr ""
+msgstr "Archivos relacionados"
 
 #: client/static/js/text/dataset_view.js:28
 #: client/static/js/text/dataset_view.js:30
 msgid "None uploaded."
-msgstr ""
+msgstr "Ninguno subido."
 
 #: client/static/js/text/dataset_view.js:29
 msgid "Data files"
-msgstr ""
+msgstr "Archivos de datos"
 
 #: client/static/js/text/dataset_view.js:31
 msgid "Upload a related file"
-msgstr ""
+msgstr "Subir un archivo relacionado"
 
 #: client/static/js/text/dataset_view.js:34
 msgid "Upload"
-msgstr ""
+msgstr "Cargar"
 
 #: client/static/js/text/dataset_view.js:35
 msgid "Select columns to search"
-msgstr ""
+msgstr "Seleccione columnas para realizar la búsqueda"
 
 #: client/static/js/text/dataset_view.js:36
 msgid ""
@@ -527,62 +605,67 @@ msgid ""
 "<strong>Data type</strong> dropdown list. Any values that can not be "
 "converted to the chosen type will not be searchable."
 msgstr ""
+"Para cada columna que desee buscar haga clic en la opción  "
+"<strong>¿Habilitado?</strong> y seleccione el tipo de datos que la columna "
+"contiene de la lista desplegable <strong>Tipos de datos</strong>. Los "
+"valores que no se puedan convertir al tipo elegido no aparecerán en "
+"búsquedas."
 
 #: client/static/js/text/dataset_view.js:37
 msgid "Column"
-msgstr ""
+msgstr "Columna"
 
 #: client/static/js/text/dataset_view.js:38
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: client/static/js/text/dataset_view.js:39
 msgid "Data type"
-msgstr ""
+msgstr "Tipo de dato"
 
 #: client/static/js/text/dataset_view.js:40
 msgid "Pick a type..."
-msgstr ""
+msgstr "Seleccione un tipo..."
 
 #: client/static/js/text/dataset_view.js:41
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: client/static/js/text/dataset_view.js:42
 msgid "Whole Number"
-msgstr ""
+msgstr "Número Entero"
 
 #: client/static/js/text/dataset_view.js:43
 msgid "Decimal Number"
-msgstr ""
+msgstr "Número Decimal"
 
 #: client/static/js/text/dataset_view.js:44
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: client/static/js/text/dataset_view.js:45
 msgid "Time"
-msgstr ""
+msgstr "Hora"
 
 #: client/static/js/text/dataset_view.js:46
 msgid "Date and Time"
-msgstr ""
+msgstr "Fecha y Hora"
 
 #: client/static/js/text/dataset_view.js:47
 msgid "True or False"
-msgstr ""
+msgstr "Verdadero o Falso"
 
 #: client/static/js/text/dataset_view.js:48
 msgid "Make columns searchable"
-msgstr ""
+msgstr "Hacer que las columnas aparezcan en resultados de búsqueda"
 
 #: client/static/js/text/dataset_view.js:49
 msgid "Are you sure you want to export this dataset?"
-msgstr ""
+msgstr "¿Está seguro/a que quiere exportar este set de datos?"
 
 #: client/static/js/text/dataset_view.js:52
 msgid "Are you sure you want to delete this dataset?"
-msgstr ""
+msgstr "¿Está seguro/a que quiere borrar este set de datos?"
 
 #: client/static/js/text/dataset_view.js:53
 msgid ""
@@ -590,52 +673,57 @@ msgid ""
 "this dataset will no longer be available to search and the original data "
 "files uploaded with it will be lost.</p>"
 msgstr ""
+"<p>Esto destruirá irreversiblemente <strong>%(dataset)s</strong>. Los datos "
+"de este set de datos ya no estarán disponibles en búsquedas y se perderán "
+"los archivos de datos originales cargados con él.</p>"
 
 #: client/static/js/text/dataset_view.js:54
 msgid "Continue with delete"
-msgstr ""
+msgstr "Continuar con la eliminación"
 
 #: client/static/js/text/dataset_view.js:55
 msgid "Edit upload"
-msgstr ""
+msgstr "Editar carga"
 
 #: client/static/js/text/dataset_view.js:56
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: client/static/js/text/dataset_view.js:57
 #: client/static/js/text/modal_dataset_edit.js:9
 #: client/static/js/text/modal_user_edit.js:9
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: client/static/js/text/dataset_view.js:58
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 #: client/static/js/text/datasets_results.js:3
 msgid "No matching datasets found."
 msgstr ""
+"No se encontraron set de datos que coincidan con los criterios de búsqueda."
 
 #: client/static/js/text/datasets_results.js:4
 msgid "Expand your search to <a href=\"%(url)s\">all categories</a>?"
 msgstr ""
+"¿Desea expandir la búsqueda a <a href=\"%(url)s\">todas las categorías</a>?"
 
 #: client/static/js/text/datasets_results.js:5
 msgid "Dataset"
-msgstr ""
+msgstr "Set de datos"
 
 #: client/static/js/text/datasets_results.js:7
 msgid "Created"
-msgstr ""
+msgstr "Creado"
 
 #: client/static/js/text/datasets_results.js:8
 msgid "Columns"
-msgstr ""
+msgstr "Columnas"
 
 #: client/static/js/text/datasets_search.js:3
 msgid "Find a dataset"
-msgstr ""
+msgstr "Encontrar un set de datos"
 
 #: client/static/js/text/datasets_search.js:4
 #, fuzzy
@@ -644,11 +732,11 @@ msgstr "Todos"
 
 #: client/static/js/text/fetch_export.js:3
 msgid "Your export will begin downloading shortly..."
-msgstr ""
+msgstr "Su exportación comenzará a ser descargada en breve..."
 
 #: client/static/js/text/fetch_export.js:4
 msgid "Return to PANDA"
-msgstr ""
+msgstr "Volver a PANDA"
 
 #: client/static/js/text/home.js:3
 msgid "Recently added datasets"
@@ -664,62 +752,70 @@ msgstr "Navegar por los %(count)s datasets"
 
 #: client/static/js/text/home.js:6
 msgid "Welcome to PANDA! Let's get started."
-msgstr ""
+msgstr "¡Bienvenido/a a PANDA! Vamos a empezar."
 
 #: client/static/js/text/home.js:7
 msgid ""
 "Use the box above to search all the data in your PANDA. Try a name, street "
 "or something on your beat."
 msgstr ""
+"Use el recuadro para realizar búsquedas en todos los datos en PANDA. Pruebe "
+"con un nombre, calle o algo en su área de cobertura."
 
 #: client/static/js/text/home.js:8
 msgid "Look to the right for a list of datasets folks have recently uploaded."
 msgstr ""
+"Mire a la derecha para obtener una lista de datasets que han sido ingresados "
+"recientemente."
 
 #: client/static/js/text/home.js:9
 msgid ""
 "Have a spreadsheet? <a href=\"#upload\">Upload your own data</a> to keep it "
 "safe and make it searchable."
 msgstr ""
+"¿Tiene una hoja de cálculo?<a href=\"#upload\">Suba sus propios datos</a> "
+"para mantenerlos seguros y poder realizar búsquedas."
 
 #: client/static/js/text/home.js:10
 msgid "Ready to be a power user?"
-msgstr ""
+msgstr "¿Listo para ser un usuario avanzado?"
 
 #: client/static/js/text/home.js:11
 msgid "How to make advanced searches"
-msgstr ""
+msgstr "Cómo realizar búsquedas avanzadas"
 
 #: client/static/js/text/home.js:12
 msgid "How to upload data"
-msgstr ""
+msgstr "Cómo cargar datos"
 
 #: client/static/js/text/home.js:13
 msgid "How to subscribe to search results"
-msgstr ""
+msgstr "Cómo suscribirse a los resultados de búsqueda"
 
 #: client/static/js/text/home.js:14
 msgid ""
 "For much more, read the <a href=\"http://pandaproject.net/docs/\">complete "
 "documentation</a>"
 msgstr ""
+"Para saber más, lea nuestra <a href=\"http://pandaproject.net/docs/"
+"\">documentación completa</a>."
 
 #: client/static/js/text/inline_search_filters.js:3
 #: client/static/js/text/inline_search_filters.js:9
 msgid "Search by column"
-msgstr ""
+msgstr "Buscar por columna"
 
 #: client/static/js/text/inline_search_filters.js:4
 msgid "Add to search"
-msgstr ""
+msgstr "Agregar a la búsqueda"
 
 #: client/static/js/text/inline_search_filters.js:5
 msgid "Pick a column..."
-msgstr ""
+msgstr "Seleccionar una columna..."
 
 #: client/static/js/text/inline_search_filters.js:7
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: client/static/js/text/inline_search_filters.js:8
 msgid ""
@@ -727,54 +823,59 @@ msgid ""
 "dataset. To enable it select <strong>Enable column search</strong> from the "
 "<strong>Actions</strong> menu on the dataset page."
 msgstr ""
+"El realizar búsquedas en columnas específicas no ha sido activado para "
+"ninguna de las columnas en este set de datos. Para activarlo, seleccione "
+"<strong>Habilitar búsquedas por columnas</strong> del menú <strong>Acciones</"
+"strong> en la página del set de datos."
 
 #: client/static/js/text/inlines.js:5 client/static/js/text/notifications.js:3
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: client/static/js/text/inlines.js:6 client/static/js/text/notifications.js:4
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 #: client/static/js/text/inlines.js:9
 msgid "%(start)s-%(end)s of %(count)s matching row"
 msgid_plural "%(start)s-%(end)s of %(count)s matching rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(start)s-%(end)s de %(count)s la fila coincidente"
+msgstr[1] "Plural: %(start)s-%(end)s de %(count)s las filas coincidentes"
 
 #: client/static/js/text/inlines.js:19
 msgid "(%(total)s total row)"
 msgid_plural " (%(total)s total rows)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(%(total)s total fila)"
+msgstr[1] "Plural: ␣(%(total)s total filas)"
 
 #: client/static/js/text/inlines.js:26
 msgid "%(start)s-%(end)s of %(count)s matching dataset"
 msgid_plural "%(start)s-%(end)s of %(count)s matching datasets"
-msgstr[0] ""
+msgstr[0] "%(start)s-%(end)s del %(count)s set de datos coincidente"
 msgstr[1] ""
+"Plural: %(start)s-%(end)s de %(count)s los set de datos coincidentes"
 
 #: client/static/js/text/inlines.js:36
 msgid "(%(total)s total dataset)"
 msgid_plural " (%(total)s total datasets)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(%(total)s dataset total)"
+msgstr[1] "Plural: ␣(%(total)s datasets totales)"
 
 #: client/static/js/text/inlines.js:43
 msgid "uploaded by %(user)s"
-msgstr ""
+msgstr "subido por %(user)s"
 
 #: client/static/js/text/inlines.js:44
 msgid "Uploaded %(when)s"
-msgstr ""
+msgstr "Subido %(when)s"
 
 #: client/static/js/text/inlines.js:45
 msgid "Edit title"
-msgstr ""
+msgstr "Editar título"
 
 #: client/static/js/text/inlines.js:46
 msgid "Click to delete"
-msgstr ""
+msgstr "Haga clic para eliminar"
 
 #: client/static/js/text/inlines.js:49
 msgid ""
@@ -792,36 +893,53 @@ msgid ""
 "Billy&quot;, &quot;William&quot;, etc. It will not match mispellings.</li></"
 "ul>"
 msgstr ""
+"<ul><li>Use un asterisco para que la búsqueda coincida con una parte de una "
+"palabra:<code>caf*</code> coincidirá con &quot;café&quot;, &quot;"
+"cafeína&quot; o &quot;cafetera&quot;</li> <li>Ponga frases entre comillas: "
+"<code>&quot;Chicago Bears&quot;.</code> no coincidirá con &quot;Chicago "
+"Panda Bears&quot;.</li><li>Use AND y OR para encontrar combinaciones de "
+"términos: <code>homicidio AND primer</code> coincidirá con &quot;homicidio "
+"en primer grado&quot; u &quot;homicidio, primer grado&quot;, pero no sólo "
+"&quot;homicidio&quot;.</li><li>Agrupe palabras con paréntesis: "
+"<code>homicidio AND (primer OR 1er)</code> coincidirá con &quot;homicidio en "
+"1er grado&quot;, &quot;homicidio en primer grado&quot;, u &quot;homicidio, "
+"primer grado&quot;.</li><li>PANDA intentará hacer coincidir términos de "
+"búsqueda informales y alternativos a los nombres propios en inglés: "
+"<code>bill</code> coincidirá con &quot;Bill&quot;, &quot;Billy&quot;, &quot;"
+"William&quot;, etc. No se podrá hacer coincidir palabras con errores de "
+"tipeo.</li></ul>"
 
 #: client/static/js/text/inlines.js:50
 msgid "Advanced searching"
-msgstr ""
+msgstr "Búsqueda avazada"
 
 #: client/static/js/text/inlines.js:51
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 #: client/static/js/text/login.js:3
 msgid "Log in to PANDA"
-msgstr ""
+msgstr "Ingrese a PANDA"
 
 #: client/static/js/text/login.js:4
 msgid "Demo mode enabled."
-msgstr ""
+msgstr "Modo de demostración activado."
 
 #: client/static/js/text/login.js:7
 msgid "Forget your password?"
-msgstr ""
+msgstr "¿Olvidó su contraseña?"
 
 #: client/static/js/text/login.js:8
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: client/static/js/text/login.js:9
 msgid ""
 "Enter your email address below and PANDA will send you a link you can follow "
 "to reset your password."
 msgstr ""
+"Ingrese su dirección de correo electrónico y PANDA le enviará un enlace que "
+"usted puede seguir para restablecer su contraseña."
 
 #: client/static/js/text/login.js:10
 msgid ""
@@ -830,80 +948,85 @@ msgid ""
 "administrator and ask them to either configure email or to reset your "
 "password manually."
 msgstr ""
+"El administrador de su cuenta PANDA aún no ha configurado el correo "
+"electrónico para el servidor, por lo que su contraseña no puede ser "
+"reiniciada de forma automática. Por favor, póngase en contacto con el "
+"administrador y pida que configure el correo electrónico o que restablezca "
+"su contraseña manualmente."
 
 #: client/static/js/text/login.js:12
 msgid "Send email"
-msgstr ""
+msgstr "Enviar correo electrónico"
 
 #: client/static/js/text/modal_change_password.js:3
 #: client/static/js/text/user.js:4
 msgid "Change password"
-msgstr ""
+msgstr "Cambiar contraseña"
 
 #: client/static/js/text/modal_change_password.js:4
 msgid "Current password"
-msgstr ""
+msgstr "Contraseña actual"
 
 #: client/static/js/text/modal_change_password.js:5
 msgid "New password"
-msgstr ""
+msgstr "Nueva contraseña"
 
 #: client/static/js/text/modal_change_password.js:6
 msgid "Reenter new password"
-msgstr ""
+msgstr "Reingrese su contraseña"
 
 #: client/static/js/text/modal_change_password.js:8
 msgid "Change"
-msgstr ""
+msgstr "Cambiar"
 
 #: client/static/js/text/modal_dataset_edit.js:3
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: client/static/js/text/modal_dataset_edit.js:6
 msgid "Describe this dataset"
-msgstr ""
+msgstr "Describir este set de datos"
 
 #: client/static/js/text/modal_related_links.js:4
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: client/static/js/text/modal_related_links.js:5
 msgid "Title (optional)"
-msgstr ""
+msgstr "Título (opcional)"
 
 #: client/static/js/text/modal_related_links.js:6
 #: client/static/js/views/modal_related_links.js:37
 msgid "Delete row"
-msgstr ""
+msgstr "Eliminar fila"
 
 #: client/static/js/text/modal_related_links.js:7
 msgid "Add row"
-msgstr ""
+msgstr "Agregar fila"
 
 #: client/static/js/text/modal_related_links.js:9
 msgid "Update related links"
-msgstr ""
+msgstr "Subir enlaces relacionados"
 
 #: client/static/js/text/modal_user_edit.js:3
 msgid "Edit profile"
-msgstr ""
+msgstr "Editar perfil"
 
 #: client/static/js/text/modal_user_edit.js:7
 msgid "Verify password"
-msgstr ""
+msgstr "Verificar contraseña"
 
 #: client/static/js/text/not_found.js:3
 msgid "Not found"
-msgstr ""
+msgstr "No encontrado"
 
 #: client/static/js/text/reset_password.js:3
 msgid "Reset your password"
-msgstr ""
+msgstr "Restablecer su contraseña"
 
 #: client/static/js/text/reset_password.js:6
 msgid "Reset password"
-msgstr ""
+msgstr "Restablecer contraseña"
 
 #: client/static/js/text/search.js:3
 msgid "Search all data"
@@ -921,19 +1044,22 @@ msgstr "Escriba una consulta de búsqueda"
 #: client/static/js/text/search_results.js:4
 msgid "No rows matching query found in any dataset."
 msgstr ""
+"No se encontraron filas en ningún dataset que coincidan con la consulta."
 
 #: client/static/js/text/search_results.js:6
 msgid "Export search results to CSV files"
-msgstr ""
+msgstr "Exportar resultados de búsqueda a archivos CSV"
 
 #: client/static/js/text/search_results.js:7
 msgid ""
 "Showing only results created or updated after <strong>%(since)s</strong>."
 msgstr ""
+"Mostrar resultados creados o actualizados sólo después de <strong>%(since)s</"
+"strong>."
 
 #: client/static/js/text/search_results.js:9
 msgid "View more results from this dataset"
-msgstr ""
+msgstr "Ver más resultados de este set de datos"
 
 #: client/static/js/text/search_results.js:12
 msgid ""
@@ -941,56 +1067,65 @@ msgid ""
 "finished.</p><p>Please note that changes made to the data during export may "
 "not be accurately reflected.</p>"
 msgstr ""
+"<p>Esto puede tardar mucho tiempo en ser completado. Será notificado cuando "
+"se complete.</p><p>Por favor tenga en cuenta que los cambios hechos al set "
+"de datos durante la exportación pueden no ser reflejados con exactitud.</p>"
 
 #: client/static/js/text/search_results.js:17
 msgid ""
 "When you click <strong>Subscribe</strong> you will begin receiving daily "
 "email notifications of new data added to PANDA that matches your search."
 msgstr ""
+"Al hacer clic en <strong>Suscribir</strong>, usted comenzará a recibir "
+"notificaciones diarias por correo electrónico sobre nuevos datos agregados a "
+"PANDA que coincidan con su búsqueda."
 
 #: client/static/js/text/search_results.js:18
 msgid ""
 "When you click <strong>Subscribe</strong> you will begin receiving daily "
 "notifications of new data added to PANDA that matches your search."
 msgstr ""
+"Al hacer clic en <strong>Suscribir</strong>, usted comenzará a recibir "
+"notificaciones diarias sobre nuevos datos agregados a PANDA que coincidan "
+"con su búsqueda."
 
 #: client/static/js/text/search_results.js:23
 msgid "%(count)s matching row (%(row_count)s total rows)"
 msgid_plural "%(count)s matching rows (%(row_count)s total rows)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s fila coincidente (%(row_count)s total filas)"
+msgstr[1] "Plural: %(count)s filas coincidentes (%(row_count)s total filas)"
 
 #: client/static/js/text/server_error.js:3
 msgid "Server Error"
-msgstr ""
+msgstr "Error del servidor"
 
 #: client/static/js/text/user.js:3
 msgid "Edit my profile"
-msgstr ""
+msgstr "Editar mi perfil"
 
 #: client/static/js/text/user.js:5
 msgid "My search subscriptions"
-msgstr ""
+msgstr "Suscripciones a mi búsqueda"
 
 #: client/static/js/text/user.js:6
 msgid "Run this search"
-msgstr ""
+msgstr "Ejecutar esta búsqueda"
 
 #: client/static/js/text/user.js:7
 msgid "Delete this subscription"
-msgstr ""
+msgstr "Eliminar esta suscripción"
 
 #: client/static/js/text/user.js:8
 msgid "My exports"
-msgstr ""
+msgstr "Mis datos exportados"
 
 #: client/static/js/text/user.js:9
 msgid "My datasets"
-msgstr ""
+msgstr "Mis set de datos"
 
 #: client/static/js/text/user.js:10
 msgid "Datasets created by this user"
-msgstr ""
+msgstr "Set de datos creados por este usuario"
 
 #: client/static/js/views/activate.js:32 client/static/js/views/activate.js:98
 #: client/static/js/views/login.js:92
@@ -1001,12 +1136,12 @@ msgstr ""
 #: client/static/js/views/reset_password.js:32
 #: client/static/js/views/reset_password.js:93
 msgid "Unknown error"
-msgstr ""
+msgstr "Error desconocido"
 
 #: client/static/js/views/activate.js:35 client/static/js/views/activate.js:77
 #: client/static/js/views/activate.js:101
 msgid "Activation failed!"
-msgstr ""
+msgstr "¡La activación falló!"
 
 #: client/static/js/views/activate.js:51 client/static/js/views/activate.js:55
 #: client/static/js/views/activate.js:59
@@ -1018,54 +1153,62 @@ msgstr ""
 #: client/static/js/views/reset_password.js:52
 #: client/static/js/views/reset_password.js:56
 msgid "This field is required."
-msgstr ""
+msgstr "Este campo es obligatorio."
 
 #: client/static/js/views/activate.js:66
 #: client/static/js/views/modal_change_password.js:64
 #: client/static/js/views/reset_password.js:63
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Las contraseñas no coinciden."
 
 #: client/static/js/views/data_upload.js:113
 msgid ""
 "{file} is not a supported type. Only CSV, XLS, and XLSX files are currently "
 "supported."
 msgstr ""
+"{file} es un tipo no compatible. Sólo archivos CSV, XLS y XLSX son "
+"compatibles."
 
 #: client/static/js/views/data_upload.js:114
 #: client/static/js/views/dataset_view.js:90
 msgid "{file} is too large, the maximum file size is %(size)s bytes."
 msgstr ""
+"{file} es demasiado grande, el tamaño máximo de un archivo es %(size)s "
+"bytes."
 
 #: client/static/js/views/data_upload.js:115
 #: client/static/js/views/dataset_view.js:91
 msgid "{file} is empty."
-msgstr ""
+msgstr "{file} está vacío."
 
 #: client/static/js/views/data_upload.js:116
 #: client/static/js/views/dataset_view.js:92
 msgid ""
 "Your file is being uploaded, if you leave now the upload will be cancelled."
 msgstr ""
+"Su archivo está siendo cargado. Si abandona esta página la carga se "
+"cancelará."
 
-#: client/static/js/views/data_upload.js:186
+#: client/static/js/views/data_upload.js:190
 msgid ""
 "The columns headers in this file do not match those of the existing data."
 msgstr ""
+"Los encabezados de las columnas en el archivo no coinciden con los de los "
+"datos existentes."
 
-#: client/static/js/views/data_upload.js:191
+#: client/static/js/views/data_upload.js:195
 msgid "Upload complete!"
-msgstr ""
+msgstr "¡Carga completa!"
 
-#: client/static/js/views/data_upload.js:200
+#: client/static/js/views/data_upload.js:204
 msgid "An unexpected error occurred."
-msgstr ""
+msgstr "Se ha producido un error inesperado."
 
-#: client/static/js/views/data_upload.js:205
 #: client/static/js/views/data_upload.js:209
-#: client/static/js/views/data_upload.js:213
+#: client/static/js/views/data_upload.js:217
+#: client/static/js/views/data_upload.js:221
 msgid "Try again"
-msgstr ""
+msgstr "Intente de nuevo"
 
 #: client/static/js/views/dataset_results.js:67
 #: client/static/js/views/dataset_view.js:340
@@ -1074,6 +1217,8 @@ msgid ""
 "Your export has been successfully queued. When it is complete you will be "
 "emailed a link to download the file."
 msgstr ""
+"Su exportación se ha puesto en espera correctamente. Cuando se haya "
+"completado, se le enviará un enlace para descargar el archivo."
 
 #: client/static/js/views/dataset_results.js:69
 #: client/static/js/views/dataset_view.js:342
@@ -1083,6 +1228,9 @@ msgid ""
 "configured, so you will need to check your Notifications list to see when it "
 "is ready to be downloaded."
 msgstr ""
+"Su exportación se ha puesto en espera correctamente. Su cuenta de PANDA no "
+"tiene un correo electrónico configurado, por lo que tendrá que consultar su "
+"Lista de Notificaciones para ver cuándo estará pronta para ser descargada."
 
 #: client/static/js/views/dataset_results.js:75
 #: client/static/js/views/dataset_view.js:348
@@ -1090,6 +1238,8 @@ msgstr ""
 msgid ""
 "<p>Your export failed to start!</p><p>Error:</p><code>%(traceback)s</code>"
 msgstr ""
+"<p>¡Su exportación no se pudo iniciar!</p><p>Error:</p><code>%(traceback)s</"
+"code>"
 
 #: client/static/js/views/dataset_results.js:94
 #: client/static/js/views/search_results.js:78
@@ -1097,28 +1247,36 @@ msgid ""
 "<p>You will now receive notifications for this search.</p><p>You cancel "
 "these notifications on your user page.</p>"
 msgstr ""
+"<p>Usted recibirá notificaciones sobre esta búsqueda.</p><p>Puede cancelar "
+"estas notificaciones en su página de usuario.</p>"
 
 #: client/static/js/views/dataset_results.js:98
 #: client/static/js/views/search_results.js:82
 msgid ""
-"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>%(traceback)"
-"s</code>"
+"<p>Failed to subscribe to notifications!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
+"<p>¡Ocurrió un error al suscribirse a las notificaciones!</p><p>Error:</"
+"p><code>%(traceback)s</code>"
 
 #: client/static/js/views/dataset_search.js:50
 msgid "Import in progress!"
-msgstr ""
+msgstr "¡Importación en curso!"
 
 #: client/static/js/views/dataset_search.js:51
 msgid ""
 "<p>This dataset is being made searchable. Search results may be incomplete.</"
-"p><p>Status: %(message)s. <a href=\"javascript:location.reload(true)"
-"\">Refresh to see updated status &raquo;</a></p>"
+"p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
+"<p>Estamos trabajando para que se pueda realizar búsquedas en este set de "
+"datos. Puede que los resultados de búsqueda estén incompletos.</p><p>Status: "
+"%(message)s. <a href=\"javascript:location.reload(true)\">Refresque la "
+"página para ver el estatus actualizado &raquo;</a></p>"
 
 #: client/static/js/views/dataset_search.js:54
 msgid "Import queued!"
-msgstr ""
+msgstr "¡Importación en espera!"
 
 #: client/static/js/views/dataset_search.js:55
 msgid ""
@@ -1126,11 +1284,15 @@ msgid ""
 "incomplete. <a href=\"javascript:location.reload(true)\">Refresh to see "
 "updated status &raquo;</a</p>"
 msgstr ""
+"<p>Estamos trabajando para que se pueda realizar búsquedas en este set de "
+"datos. Puede que los resultados de búsqueda estén incompletos.</p><p>Status: "
+"%(message)s. <a href=\"javascript:location.reload(true)\">Refresca la página "
+"para ver el estatus actualizado &raquo;</a></p>"
 
 #: client/static/js/views/dataset_search.js:58
 #: client/static/js/views/dataset_search.js:62
 msgid "Import failed!"
-msgstr ""
+msgstr "¡La importación falló!"
 
 #: client/static/js/views/dataset_search.js:59
 #: client/static/js/views/dataset_search.js:77
@@ -1140,27 +1302,37 @@ msgid ""
 "toggle=\"modal\" data-backdrop=\"true\" data-keyboard=\"true\">Show detailed "
 "error message</a></p>"
 msgstr ""
+"<p>El proceso para que este dataset sea apto para consultas falló. Puede que "
+"los resultados de búsqueda estén incompletos. <a href=\"#modal-dataset-"
+"traceback\" class=\"btn inline\" data-toggle=\"modal\" data-backdrop=\"true"
+"\" data-keyboard=\"true\">Mostrar mensaje de error detallado</a></p>"
 
 #: client/static/js/views/dataset_search.js:63
 msgid ""
 "<p>The process to make data searchable was aborted by an administrator. "
 "Search results may be incomplete.</p>"
 msgstr ""
+"<p>El proceso para que este dataset sea apto para consultas fue abortado por "
+"el administrador. Puede que los resultados de búsqueda estén incompletos.</p>"
 
 #: client/static/js/views/dataset_search.js:68
 msgid "Reindexing in progress!"
-msgstr ""
+msgstr "¡Reindexación en progreso!"
 
 #: client/static/js/views/dataset_search.js:69
 msgid ""
 "<p>Search data for this dataset is being updated. Search results may be "
-"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location.reload"
-"(true)\">Refresh to see updated status &raquo;</a></p>"
+"incomplete.</p><p>Status: %(message)s. <a href=\"javascript:location."
+"reload(true)\">Refresh to see updated status &raquo;</a></p>"
 msgstr ""
+"<p>Se están actualizando los datos de búsqueda para este dataset. Puede que "
+"los resultados de búsqueda estén incompletos.</p><p>Status: %(message)s. <a "
+"href=\"javascript:location.reload(true)\">Refresque la página para ver el "
+"estatus actualizado &raquo;</a></p>"
 
 #: client/static/js/views/dataset_search.js:72
 msgid "Reindexing queued!"
-msgstr ""
+msgstr "¡La reindexación ha sido puesta en espera!"
 
 #: client/static/js/views/dataset_search.js:73
 msgid ""
@@ -1168,45 +1340,58 @@ msgid ""
 "may be incomplete. <a href=\"javascript:location.reload(true)\">Refresh to "
 "see updated status &raquo;</a</p>"
 msgstr ""
+"<p>Este conjunto de datos está a la espera de que sus datos de búsqueda sean "
+"actualizados. Puede que los resultados de búsqueda estén incompletos. <a "
+"href=\"javascript:location.reload(true)\">Refresque la página para ver el "
+"estatus actualizado &raquo;</a</p>"
 
 #: client/static/js/views/dataset_search.js:76
 msgid "Reindexing failed!"
-msgstr ""
+msgstr "¡La reindexación falló!"
 
 #: client/static/js/views/dataset_search.js:80
 msgid "Reindexing aborted!"
-msgstr ""
+msgstr "¡Reindexación abortada!"
 
 #: client/static/js/views/dataset_search.js:81
 msgid ""
 "<p>The process to udpate this dataset's search data was aborted by an "
 "administrator. Search results may be incomplete.</p>"
 msgstr ""
+"<p>El proceso para actualizar los datos de búsqueda de esta base de datos "
+"fue abortado por un administrador. Puede que los resultados de búsqueda "
+"estén incompletos.</p>"
 
-#: client/static/js/views/dataset_search.js:157
+#: client/static/js/views/dataset_search.js:155
 #: client/static/js/views/inline_search_filters.js:192
 msgid "Fewer search options"
-msgstr ""
+msgstr "Menos opciones de búsqueda"
 
-#: client/static/js/views/dataset_search.js:169
+#: client/static/js/views/dataset_search.js:167
 msgid ""
 "<strong>Warning!</strong> This query seems to be taking a very long time. It "
 "may still finish or it may have failed."
 msgstr ""
+"<strong>¡Advertencia!</strong> Esta consulta está tomando demasiado tiempo. "
+"Puede que sea completada o que haya fallado."
 
-#: client/static/js/views/dataset_search.js:176
+#: client/static/js/views/dataset_search.js:174
 msgid "<h3>Error executing query!</h3> <p>%(error)s</p>"
 msgstr ""
+"<h3>¡Ocurrió un error al ejecutar la consulta!</h3> <p>%(error)s</p>"
 
-#: client/static/js/views/dataset_search.js:230
+#: client/static/js/views/dataset_search.js:228
 msgid "Search for <code class=\"full-text\">%(full_text_query)s</code>"
-msgstr ""
+msgstr "Buscar <code class=\"full-text\">%(full_text_query)s</code>"
 
 #: client/static/js/views/dataset_view.js:174
 msgid ""
 "This data upload was created before deleting individual data uploads was "
 "supported. In order to delete it you must delete the entire dataset."
 msgstr ""
+"Esta carga de datos se creó antes de que el eliminar archivos de datos "
+"individuales fuera posible. Para eliminarla, debe eliminar todo el set de "
+"datos."
 
 #: client/static/js/views/dataset_view.js:179
 msgid ""
@@ -1214,18 +1399,25 @@ msgid ""
 "possible to recover this file.</p><p><strong>All data imported from this "
 "file will also be deleted.</strong></p>"
 msgstr ""
+"<p>Esto destruirá irreversiblemente <strong>%(title)s</strong>. No será "
+"posible recuperar este archivo.</p><p><strong>Todos los datos importados de "
+"este archivo también serán eliminados.</strong></p>"
 
 #: client/static/js/views/dataset_view.js:181
 msgid ""
 "<p>This will irreversibly destroy <strong>%(title)s</strong>. It will not be "
 "possible to recover this file.</p>"
 msgstr ""
+"<p>Esto destruirá irreversiblemente <strong>%(title)s</strong>. No será "
+"posible recuperar este archivo.</p>"
 
 #: client/static/js/views/dataset_view.js:314
 msgid ""
 "Your data indexing task has been successfully queued. You will receive an "
 "email when it is complete."
 msgstr ""
+"La tarea de indexar sus datos ha sido puesta en espera satisfactoriamente. "
+"Usted recibirá un correo electrónico cuando sea completada."
 
 #: client/static/js/views/dataset_view.js:316
 msgid ""
@@ -1233,16 +1425,22 @@ msgid ""
 "have email configured, so you will need to check your Notifications list to "
 "see when the task is complete."
 msgstr ""
+"La tarea de indexar sus datos ha sido puesta en espera satisfactoriamente. "
+"Su cuenta en PANDA no tiene una dirección de correo electrónico configurada, "
+"por lo que tendrá que revisar su lista de Notificaciones para ver cuándo "
+"esta tarea es completada."
 
 #: client/static/js/views/dataset_view.js:327
 msgid ""
-"<p>Your data indexing task failed to start!</p><p>Error:</p><code>%"
-"(traceback)s</code>"
+"<p>Your data indexing task failed to start!</p><p>Error:</p><code>"
+"%(traceback)s</code>"
 msgstr ""
+"<p>¡La tarea de indexación de datos no se pudo iniciar!</p><p>Error:</"
+"p><code>%(traceback)s</code>"
 
 #: client/static/js/views/inline_search_filters.js:5
 msgid "is like"
-msgstr ""
+msgstr "es como"
 
 #: client/static/js/views/inline_search_filters.js:13
 #: client/static/js/views/inline_search_filters.js:39
@@ -1251,17 +1449,17 @@ msgstr ""
 #: client/static/js/views/inline_search_filters.js:99
 #: client/static/js/views/inline_search_filters.js:125
 msgid "is"
-msgstr ""
+msgstr "es"
 
 #: client/static/js/views/inline_search_filters.js:19
 #: client/static/js/views/inline_search_filters.js:45
 msgid "is greater than or equal to"
-msgstr ""
+msgstr "es mayor que o igual a"
 
 #: client/static/js/views/inline_search_filters.js:25
 #: client/static/js/views/inline_search_filters.js:51
 msgid "is less than or equal to"
-msgstr ""
+msgstr "es menor que o igual a"
 
 #: client/static/js/views/inline_search_filters.js:31
 #: client/static/js/views/inline_search_filters.js:57
@@ -1269,101 +1467,101 @@ msgstr ""
 #: client/static/js/views/inline_search_filters.js:117
 #: client/static/js/views/inline_search_filters.js:143
 msgid "is in the range"
-msgstr ""
+msgstr "es en el rango"
 
 #: client/static/js/views/inline_search_filters.js:79
 #: client/static/js/views/inline_search_filters.js:105
 msgid "is on or after"
-msgstr ""
+msgstr "es en o después"
 
 #: client/static/js/views/inline_search_filters.js:85
 #: client/static/js/views/inline_search_filters.js:111
 msgid "is on or before"
-msgstr ""
+msgstr "es en o antes"
 
 #: client/static/js/views/inline_search_filters.js:131
 msgid "is at or after"
-msgstr ""
+msgstr "está en o después"
 
 #: client/static/js/views/inline_search_filters.js:137
 msgid "is at or before"
-msgstr ""
+msgstr "está en o antes"
 
 #: client/static/js/views/inline_search_filters.js:405
 msgid "No value provided."
-msgstr ""
+msgstr "Se desconoce el valor proporcionado."
 
 #: client/static/js/views/inline_search_filters.js:415
 msgid "Value is not an integer!"
-msgstr ""
+msgstr "¡El valor no es un entero!"
 
 #: client/static/js/views/inline_search_filters.js:422
 msgid "Second value is not an integer!"
-msgstr ""
+msgstr "¡El segundo valor no es un entero!"
 
 #: client/static/js/views/inline_search_filters.js:432
 #: client/static/js/views/inline_search_filters.js:460
 msgid "The first value should always be less than the second value."
-msgstr ""
+msgstr "El primer valor siempre tiene que ser menor que el segundo valor."
 
 #: client/static/js/views/inline_search_filters.js:443
 msgid "Value is not an float!"
-msgstr ""
+msgstr "¡El valor no es un número flotante!"
 
 #: client/static/js/views/inline_search_filters.js:450
 msgid "Second value is not an float!"
-msgstr ""
+msgstr "¡El segundo valor no es un número flotante!"
 
 #: client/static/js/views/inline_search_filters.js:474
 #: client/static/js/views/inline_search_filters.js:485
 msgid "Datetime must be in format \"YYYY-MM-DD HH:MM\"."
-msgstr ""
+msgstr "La fecha y hora deben estar en el formato \"AAAA-MM-DD HH:MM\"."
 
 #: client/static/js/views/inline_search_filters.js:480
 msgid "Value is not a valid datetime."
-msgstr ""
+msgstr "El valor no es una hora y fecha válidas."
 
 #: client/static/js/views/inline_search_filters.js:491
 msgid "Second value is not a valid datetime."
-msgstr ""
+msgstr "El segundo valor no es una hora y fecha válidas."
 
 #: client/static/js/views/inline_search_filters.js:499
 msgid "The first date must be before the second date."
-msgstr ""
+msgstr "La primer fecha debe ser anterior a la segunda fecha."
 
 #: client/static/js/views/inline_search_filters.js:510
 #: client/static/js/views/inline_search_filters.js:521
 msgid "Date must be in format \"YYYY-MM-DD\"."
-msgstr ""
+msgstr "El formato de la fecha debe ser \"AAAA-MM-DD\"."
 
 #: client/static/js/views/inline_search_filters.js:516
 msgid "Value is not a valid date."
-msgstr ""
+msgstr "El valor no es una fecha válida."
 
 #: client/static/js/views/inline_search_filters.js:527
 msgid "Second value is not a valid date."
-msgstr ""
+msgstr "El segundo valor no es una fecha válida."
 
 #: client/static/js/views/inline_search_filters.js:535
 msgid "The first date must be before the second before."
-msgstr ""
+msgstr "La primer fecha tiene que ser anterior a la segunda."
 
 #: client/static/js/views/inline_search_filters.js:546
 #: client/static/js/views/inline_search_filters.js:558
 msgid "Time must be in format \"HH:MM\"."
-msgstr ""
+msgstr "La hora debe estar en el formato \"HH:MM\"."
 
 #: client/static/js/views/inline_search_filters.js:553
 msgid "Value is not a valid time."
-msgstr ""
+msgstr "El valor no es una hora válida."
 
 #: client/static/js/views/inline_search_filters.js:565
 msgid "Second value is not a valid time."
-msgstr ""
+msgstr "El segundo valor no es una hora válida."
 
 #: client/static/js/views/inline_search_filters.js:573
 msgid "The first time must be before the second time."
-msgstr ""
+msgstr "La primer hora ingresada tiene que ser anterior a la segunda."
 
 #: client/static/js/views/login.js:53 client/static/js/views/login.js.c:107
 #, fuzzy
@@ -1377,24 +1575,24 @@ msgstr "Escriba una consulta de búsqueda"
 
 #: client/static/js/views/login.js:67 client/static/js/views/login.js.c:95
 msgid "Login failed!"
-msgstr ""
+msgstr "¡No se pudo iniciar la sesión!"
 
 #: client/static/js/views/login.js:117
 msgid "Error!"
-msgstr ""
+msgstr "¡Error!"
 
 #: client/static/js/views/login.js:128
 msgid "Email sent."
-msgstr ""
+msgstr "El correo electrónico fue enviado."
 
 #: client/static/js/views/modal_change_password.js:50
 #: client/static/js/views/modal_user_edit.js:54
 msgid "Incorrect password."
-msgstr ""
+msgstr "La contraseña es incorrecta."
 
 #: client/static/js/views/modal_change_password.js:60
 msgid "Reenter your password."
-msgstr ""
+msgstr "Reingrese su contraseña."
 
 #: client/static/js/views/modal_change_password.js:77
 #: client/static/js/views/modal_change_password.js:96
@@ -1404,29 +1602,22 @@ msgstr ""
 #: client/static/js/views/modal_user_edit.js:70
 #: client/static/js/views/modal_user_edit.js:92
 msgid "Save failed!"
-msgstr ""
+msgstr "¡Error al guardar!"
 
 #: client/static/js/views/reset_password.js:35
 #: client/static/js/views/reset_password.js:74
 #: client/static/js/views/reset_password.js:96
 msgid "Password reset failed!"
-msgstr ""
+msgstr "¡No se pudo restablecer la contraseña!"
 
 #: client/static/js/views/root.js:241
 msgid "All datasets"
-msgstr ""
+msgstr "Todos los sets de datos"
 
 #: client/static/js/views/root.js:270
 msgid "No notifications"
-msgstr ""
+msgstr "No hay notificaciones"
 
 #: client/static/js/views/user.js:93
 msgid "Are you sure you want to delete this subscription?"
-msgstr ""
-
-#~ msgid ""
-#~ "Want to see how your PANDA is being used? Visit the <a %(link)"
-#~ "s>Dashboard</a>!"
-#~ msgstr ""
-#~ "¿Quieres ver cómo su PANDA se está utilizando? Visite el <a %(link)"
-#~ "s>Dashboard</a>!"
+msgstr "¿Está seguro que quiere borrar esta suscripción?"

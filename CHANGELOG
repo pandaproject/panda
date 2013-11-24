@@ -7,6 +7,7 @@
 * Fix errant "%20"s in search box in Firefox. (#916)
 * Fix bug in volume and solr index migration scripts. (#922)
 * Revise and document manual upload/import process for large files (#929)
+* Enable German, Italian and Spanish translations (#923, #924, #926)
 
 1.1.0
 -----

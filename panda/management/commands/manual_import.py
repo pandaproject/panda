@@ -48,7 +48,7 @@ class Command(BaseCommand):
             creator=creator,
             initial_upload=upload)
 
-        self.stdout.write(_('Dataset created: http://%s/#dataset/%s\n') % (config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug))
+        self.stdout.write('%s http://%s/#dataset/%s\n' % (_('Dataset created:'), config_value('DOMAIN', 'SITE_DOMAIN'), dataset.slug))
 
         dataset.import_data(creator, upload)
         

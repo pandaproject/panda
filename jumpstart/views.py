@@ -36,6 +36,9 @@ def jumpstart(request):
         'settings': settings,
         'languages': (
             ('en', gettext_noop('English'))
+            ('de', gettext_noop('German'))
+            ('es', gettext_noop('Spanish'))
+            ('it', gettext_noop('Italian'))
         ),
         'timezones': common_timezones
     })
