@@ -22,16 +22,16 @@ Uploading files your server requires using a command-line program called ``scp``
 
     You should be very careful that the filename you upload to does not already exist. ``scp`` will not warn you before overwriting an existing file. It is a best practice to append the current date to your filename in order to ensure it is unique.
 
-Executing the manul import
+Executing the manual import
 --------------------------
 
 Once your file has finished copying to your PANDA server, you will need to SSH in to execute the manual import process. Refer to the :doc:`SSH <ssh>` documentation for instructions on how to SSH in. Once you're at the command line on your server, execute the following commands to import your file:
 
 .. code-block:: bash
 
-    cd /opt/panda/scripts
-    manual_import.py dataset_filename.csv user@email.com
+    cd /opt/panda
+    sudo -u panda -E python manage.py manual_import dataset_filename.csv user@email.com
 
-In this case ``dataset_filename.csv`` is the name of the file you uploaded and ``user@email.com`` is the login of the user you want the to "own" the dataset.
+In this case ``dataset_filename.csv`` is the name of the file you uploaded (not including the path to the upload location) and ``user@email.com`` is the login of the user you want the to "own" the dataset.
 
 Once this script returns your file will be importing via the normal process and you can review it's progress via the web interface. The dataset name and description will be set to the system defaults and should be updated in the web interface. From this point forward the dataset should be indistinguishable from one uploaded via the normal process.
