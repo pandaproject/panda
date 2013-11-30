@@ -46,21 +46,21 @@ Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instanc
 +-----------------------------+--------------+ 
 | Region                      | AMI          |
 +=============================+==============+
-| US East (N. Virginia)       |  |
+| US East (N. Virginia)       | ami-cb2407a2 |
 +-----------------------------+--------------+ 
-| US West (Oregon)            |  |
+| US West (Oregon)            | ami-5a019b6a |
 +-----------------------------+--------------+ 
-| US West (N. California)     |  |
+| US West (N. California)     | ami-d8c5f49d |
 +-----------------------------+--------------+ 
-| EU (Ireland)                |  |
+| EU (Ireland)                | ami-dc3ed1ab |
 +-----------------------------+--------------+ 
-| Asia Pacific (Singapore)    |  |
+| Asia Pacific (Singapore)    | ami-04431756 |
 +-----------------------------+--------------+ 
-| Asia Pacific (Tokyo)        |  |
+| Asia Pacific (Tokyo)        | ami-b789e8b6 |
 +-----------------------------+--------------+ 
-| Asia Pacific (Sydney)       |  |
+| Asia Pacific (Sydney)       | ami-dbe778e1 |
 +-----------------------------+--------------+ 
-| South America (Sao Paulo)   |  |
+| South America (Sao Paulo)   | ami-45d27358 |
 +-----------------------------+--------------+ 
 
 This is the official PANDA AMI. It may take a moment to return a result. When it does, click "Select".
