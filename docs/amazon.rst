@@ -16,9 +16,11 @@ This process may take a few minutes and you will be required to verify your iden
 Step 2. Configure your Security Group
 =====================================
 
-Before setting up your PANDA server, you will need to configure your security group so that web requests will be able to reach it.
+Before setting up your PANDA server, you will need to create a security group so that web requests will be able to reach it.
 
-To do this, visit the `Security Groups section <https://console.aws.amazon.com/ec2/home?#s=SecurityGroups>`_ of the EC2 Management Console. Select the "default" security group from the list, and then click the "Inbound" tab in the bottom pane of the window. Add rules for ``HTTP``, ``HTTPS`` and ``SSH``.
+To do this, visit the `Security Groups section <https://console.aws.amazon.com/ec2/home?#s=SecurityGroups>`_ of the EC2 Management Console. Click "Create Security Group", give it a name such as "PANDA Security Group" and a description (anything you want), then click "Yes, Create".
+
+With your new security group selected click the "Inbound" tab in the bottom pane of the window. Add rules for ``HTTP``, ``HTTPS`` and ``SSH``.
 
 .. figure::  images/amazon-security-groups.png
    :align:  center 
@@ -29,37 +31,82 @@ If you don't mind your PANDA being accessible to anyone on the internet, you can
 
     If you're not sure what to enter for the **Source** field it would be wise to consult with your IT department to find out if your organization has a private IP or subnet.
 
+Once you've finished adding those rules click "Apply Rule Changes". You now have a security group for your PANDA server. You'll use this in Step 3.
+
 Step 3. Launch your server
 ==========================
 
 Method #1 - Use an Amazon Machine Instance (AMI)
 ------------------------------------------------
 
-This is the absolute simplest way to make a PANDA. Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Classic Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-87c197ee``. It may take a moment to return a result. When it does, click "Select".
+This is the absolute simplest way to make a PANDA. 
 
-.. figure::  images/amazon-select-ami.png
-   :align:  center 
+Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Community AMIs". Look at your upper-right corner of your screen to see what EC2 region your are currently in, for instance, then use the following table to lookup the correct instance for your region:
+
++-----------------------------+--------------+ 
+| Region                      | AMI          |
++=============================+==============+
+| US East (N. Virginia)       |  |
++-----------------------------+--------------+ 
+| US West (Oregon)            |  |
++-----------------------------+--------------+ 
+| US West (N. California)     |  |
++-----------------------------+--------------+ 
+| EU (Ireland)                |  |
++-----------------------------+--------------+ 
+| Asia Pacific (Singapore)    |  |
++-----------------------------+--------------+ 
+| Asia Pacific (Tokyo)        |  |
++-----------------------------+--------------+ 
+| Asia Pacific (Sydney)       |  |
++-----------------------------+--------------+ 
+| South America (Sao Paulo)   |  |
++-----------------------------+--------------+ 
+
+This is the official PANDA AMI. It may take a moment to return a result. When it does, click "Select".
 
 .. _notes above regarding instance types:
 
-On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (At a cost of roughly $70 per month.) This should provide adequate capacity for small- to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you will only be using it for testing.
+On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (See the `FAQ <faq>` for information about costs.) This should provide adequate capacity for small to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you will only be using it for testing.
 
-Once you've selected your instance type, skip over **Availability Zone** and click "Continue". Keep clicking "Continue" and accepting all the default options until the "Continue" button becomes a "Launch" button. Click "Launch".
+Click "Next" and keep clicking "Next" until you get to "Configure Security Group" then select "Select an existing security group" and select the one you created in Step 2. Click "Review and Launch. Click "Launch".
 
 .. note::
 
-    If you have never used Amazon EC2 before you will be required to create a keypair. Even if you don't know what this is, **don't lose it or delete it**. It is the only way to log into your PANDA server if you ever need to.
+    If you have never used Amazon EC2 before you will be required to create a keypair. Even if you don't know what this is, **don't lose it or delete it**. It is the only way to log into your PANDA server should you ever need to.
 
 Method #2 - Use a script over SSH
 ---------------------------------
 
 This method is slightly more complex and assumes you have some experience operating servers. It also provides greater feedback for users who want to understand more about how PANDA works.
 
-Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Launch Class Wizard" and click "Continue". Click the "Community AMIs" tab and search for ``ami-a53264cc``. This is the official Ubuntu 12.04 AMI. It may take a moment to return a result. When it does, click "Select".
+Visit the `Instances section <https://console.aws.amazon.com/ec2/home?#s=Instances>`_ and click "Launch Instance". Select "Community AMIs". Look at your upper-right corner of your screen to see what EC2 region your are currently in, for instance, then use the following table to lookup the correct instance for your region:
+
++-----------------------------+--------------+ 
+| Region                      | AMI          |
++=============================+==============+
+| US East (N. Virginia)       | ami-c5a98cac |
++-----------------------------+--------------+ 
+| US West (Oregon)            | ami-6eb2295e |
++-----------------------------+--------------+ 
+| US West (N. California)     | ami-02a99f47 |
++-----------------------------+--------------+ 
+| EU (Ireland)                | ami-19cb266e |
++-----------------------------+--------------+ 
+| Asia Pacific (Singapore)    | ami-a2de8bf0 |
++-----------------------------+--------------+ 
+| Asia Pacific (Tokyo)        | ami-dd0a6ddc |
++-----------------------------+--------------+ 
+| Asia Pacific (Sydney)       | ami-cb0498f1 |
++-----------------------------+--------------+ 
+| South America (Sao Paulo)   | ami-eb3492f6 |
++-----------------------------+--------------+ 
+
+This is the official Ubuntu 12.04 AMI. It may take a moment to return a result. When it does, click "Select".
 
 On the next page you'll need to select an **Instance Type**. See the `notes above regarding instance types`_. We recommend you select ``m1.small``.
 
-Click "Continue" and keep clicking "Continue" and accepting all the default options until the "Continue" button becomes a "Launch" button. Click "Launch".
+Click "Next" and keep clicking "Next" until you get to "Configure Security Group" then select "Select an existing security group" and select the one you created in Step 2. Click "Review and Launch. Click "Launch".
 
 Once your new server is available, SSH into it and execute the following commands::
 
