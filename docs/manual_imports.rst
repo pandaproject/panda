@@ -16,11 +16,7 @@ Manually importing files is a two-step process. First you must upload them to yo
 
 Uploading files your server requires using a command-line program called ``scp``. This program allows you to send a file to your server over :doc:`SSH <ssh>`. It may help to quickly review the :doc:`SSH <ssh>` documentation now. If you are on Mac/Linux, `scp` comes preinstalled. On Windows it comes as part of `Putty <http://docs.amazonwebservices.com/AWSEC2/latest/UserGuide/putty.html>`_. In either case, the command to upload your file will look like:
 
-``scp -i /path/to/my/ec2_key.pem /path/to/my/dataset.csv ubuntu@my_server_domain_name.com:/var/lib/panda/uploads/``
-
-.. note::
-
-    You should be very careful that the filename you upload to does not already exist. ``scp`` will not warn you before overwriting an existing file. It is a best practice to append the current date to your filename in order to ensure it is unique.
+``scp -i /path/to/my/ec2_key.pem /path/to/my/dataset.csv ubuntu@my_server_domain_name.com:/tmp/``
 
 Executing the manual import
 --------------------------
@@ -29,9 +25,15 @@ Once your file has finished copying to your PANDA server, you will need to SSH i
 
 .. code-block:: bash
 
+    sudo mv /tmp/dataset.csv /var/lib/panda/uploads/
+    sudo chown panda:panda /var/lib/panda/uploads/dataset.csv
     cd /opt/panda
-    sudo -u panda -E python manage.py manual_import dataset_filename.csv user@email.com
+    sudo -u panda -E python manage.py manual_import dataset.csv user@email.com
 
-In this case ``dataset_filename.csv`` is the name of the file you uploaded (not including the path to the upload location) and ``user@email.com`` is the login of the user you want the to "own" the dataset.
+.. note::
+
+    ``sudo mv`` will not prompt you before overwriting another file of the same name. You may wish to verify that you do not have another upload with the same name by running ``sudo ls /var/lib/panda/uploads/``.
+
+In the example ``dataset.csv`` is the name of the file you uploaded (not including the path) and ``user@email.com`` is the login of the user you want the to "own" the dataset.
 
 Once this script returns your file will be importing via the normal process and you can review it's progress via the web interface. The dataset name and description will be set to the system defaults and should be updated in the web interface. From this point forward the dataset should be indistinguishable from one uploaded via the normal process.

@@ -54,4 +54,4 @@ class Command(BaseCommand):
         
         dataset.update_full_text()
 
-        self.stdout.write(_('Import started. Check dataset page for progress.'))
+        self.stdout.write(_('Import started. Check dataset page for progress.\n'))
