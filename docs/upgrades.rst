@@ -11,7 +11,23 @@ Although we strive to make upgrades as simple as possible, upgrading your PANDA 
 
     Your PANDA will be unavailable while upgrading. Typically this will not last more than five minutes, but it will vary by release. You should plan to perform PANDA upgrades during off hours.
 
-The following release are in **reverse** version order. They **must** be performed in sequence (from lowest version number to highest version number--reverse order on this page).
+The following release are in **reverse** version order. They **must** be performed in sequence (from lowest version number to highest version number--bottom to top order on this page).
+
+1.1.0 to 1.1.1
+==============
+
+To upgrade your PANDA from the 1.1.0 release to the 1.1.1 release, :doc:`SSH <ssh>` into your server and execute the following commands::
+
+    wget https://raw.github.com/pandaproject/panda/1.1.1/scripts/migrations/1.1.0-to-1.1.1.s
+    sudo bash 1.1.0-to-1.1.1.sh
+
+Your PANDA will be stopped, the upgrade will be applied and it will then be restarted. A log of this process will be put in ``/var/log/panda-upgrade-1.1.1.log``.
+
+Check out the :ref:`changelog` to see all the new features and bug fixes in this release!
+
+.. note::
+
+    This release adds German, Italian and Spanish translations. If you would like to modify your existing PANDA installation to run in one of these languages, see :doc:`Selecting the language of your PANDA <i18n>`.
 
 1.0.2 to 1.1.0
 ==============

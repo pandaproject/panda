@@ -67,7 +67,7 @@ This is the official PANDA AMI. It may take a moment to return a result. When it
 
 .. _notes above regarding instance types:
 
-On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (See the `FAQ <faq>` for information about costs.) This should provide adequate capacity for small to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you will only be using it for testing.
+On the next page you'll need to select an **Instance Type**. You are welcome to use (and pay for) a more powerful server, but PANDA has been optimized with the expectation that most organizations will run it on an ``m1.small`` instance. (See the :doc:`FAQ <faq>` for information about costs.) This should provide adequate capacity for small to medium-sized groups. We don't recommend trying to run it on a ``t1.micro`` unless you will only be using it for testing.
 
 Click "Next" and keep clicking "Next" until you get to "Configure Security Group" then select "Select an existing security group" and select the one you created in Step 2. Click "Review and Launch. Click "Launch".
 
