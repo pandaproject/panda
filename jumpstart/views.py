@@ -8,7 +8,7 @@ import time
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.utils.translation import gettext_noop
+from django.utils.translation import ugettext as _
 from pytz import common_timezones
 from tastypie.models import ApiKey
 
@@ -35,10 +35,10 @@ def jumpstart(request):
     context = RequestContext(request, {
         'settings': settings,
         'languages': (
-            ('en', gettext_noop('English'))
-            ('de', gettext_noop('German'))
-            ('es', gettext_noop('Spanish'))
-            ('it', gettext_noop('Italian'))
+            ('en', _('English')),
+            ('de', _('German')),
+            ('es', _('Spanish')),
+            ('it', _('Italian'))
         ),
         'timezones': common_timezones
     })

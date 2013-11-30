@@ -25,7 +25,7 @@ PANDA was originally developed in English but has since been translated into oth
 
 Changing the translation of your PANDA after initial setup will require you to :doc:`SSH into your server <ssh>`. Once logged in edit the file ``/opt/panda/local_settings.py`` and change ``LANGUAGE_CODE='en'`` to, for example, ``LANGUAGE_CODE='de'`` for German.
 
-After making these changes, restart your PANDA with ``sudo service nginx restart``.
+After making these changes, restart your PANDA with ``sudo service uwsgi restart``.
 
 
 Translating PANDA into your language
