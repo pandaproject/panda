@@ -8,6 +8,8 @@
 * Fix bug in volume and solr index migration scripts. (#922)
 * Revise and document manual upload/import process for large files (#929)
 * Enable German, Italian and Spanish translations (#923, #924, #926)
+* Fix admin login form enforcing 30 char username limit. (#931)
+* Add de, es and it translators to AUTHORS file.
 
 1.1.0
 -----
