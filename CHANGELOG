@@ -1,7 +1,7 @@
 1.1.2
 -----
-
-
+* Fix openpyxl dependency bug. (#941)
+* Fix db column-size bug for large uploads. (#945)
 
 1.1.1
 -----

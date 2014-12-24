@@ -18,7 +18,7 @@ class BaseUpload(models.Model):
     original_filename = models.CharField(_('original_filename'), 
         max_length=256,
         help_text=_('Filename as originally uploaded.'))
-    size = models.IntegerField(_('size'),
+    size = models.BigIntegerField(_('size'),
         help_text=_('Size of the file in bytes.'))
     creator = models.ForeignKey(UserProxy,
         help_text=_('The user who uploaded this file.'),
