@@ -164,6 +164,40 @@ class TestDataset(TransactionTestCase):
 
         self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
 
+    def test_import_csv_with_schema_overrides(self):
+
+        overrides = {
+            'id': {'indexed': True, 'type': 'float'},
+            'last_name': {'indexed': True},
+        }
+        self.dataset.import_data(self.user, self.upload, schema_overrides=overrides)
+
+        task = self.dataset.current_task
+
+        self.assertNotEqual(task, None)
+        self.assertNotEqual(task.id, None)
+        self.assertEqual(task.task_name, 'panda.tasks.import.csv')
+
+        # Refresh from database
+        dataset = Dataset.objects.get(id=self.dataset.id)
+        upload = DataUpload.objects.get(id=self.upload.id)
+        task = TaskStatus.objects.get(id=task.id)
+
+        self.assertEqual([c['name'] for c in dataset.column_schema], ['id', 'first_name', 'last_name', 'employer'])
+        self.assertEqual(upload.guessed_types, ['int', 'unicode', 'unicode', 'unicode'])
+        #NOTE: Without overrides, float value for type would be "int" (per guessed_types) and all indexed_names would be None
+        self.assertEqual([c['type'] for c in dataset.column_schema], ['float', 'unicode', 'unicode', 'unicode'])
+        self.assertEqual([c['indexed_name'] for c in dataset.column_schema], ['column_float_id', None, 'column_unicode_last_name', None])
+        self.assertEqual(dataset.row_count, 4)
+        self.assertEqual(upload.imported, True)
+        self.assertEqual(task.status, 'SUCCESS')
+        self.assertNotEqual(task.start, None)
+        self.assertNotEqual(task.end, None)
+        self.assertEqual(task.traceback, None)
+        self.assertEqual(dataset.locked, False)
+
+        self.assertEqual(solr.query(settings.SOLR_DATA_CORE, 'Christopher')['response']['numFound'], 1)
+
     def test_import_additional_data_same_columns(self):
         self.dataset.import_data(self.user, self.upload)
 

@@ -177,7 +177,7 @@ class Dataset(SluggedModel):
 
         super(Dataset, self).delete(*args, **kwargs)
 
-    def import_data(self, user, upload, external_id_field_index=None):
+    def import_data(self, user, upload, external_id_field_index=None, schema_overrides = {}):
         """
         Import data into this ``Dataset`` from a given ``DataUpload``.
         """
@@ -198,8 +198,8 @@ class Dataset(SluggedModel):
                 if upload.columns != [c['name'] for c in self.column_schema]:
                     raise DataImportError(_('The columns in this file do not match those in the dataset.'))
             else:
-                self.column_schema = make_column_schema(upload.columns, types=upload.guessed_types)
-                
+                self.column_schema = make_column_schema(upload.columns, types=upload.guessed_types, overrides=schema_overrides)
+
             if self.sample_data is None:
                 self.sample_data = upload.sample_data
 

@@ -1,5 +1,6 @@
 1.1.2
 -----
+* Add support for schema overrides on manual import. (#946)
 * Fix openpyxl dependency bug. (#941)
 * Fix db column-size bug for large uploads. (#945)
 
