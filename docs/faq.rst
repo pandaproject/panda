@@ -69,9 +69,9 @@ You do. We offer instructions for :doc:`hosting on Amazon's EC2 service <amazon>
 How much does hosting on Amazon EC2 cost?
 -----------------------------------------
 
-It depends on how powerful of a server you need, but for an EC2 "small", storage and bandwidth it will cost you $45 a month ($540 a year). However, if you prepay for a year or more using a "high-utilization reserve instance.", this cost comes down under to $300 a year. The "small" size is our default and probably enough for many small-to-medium size organizations. See Amazon's `EC2 pricing page <http://aws.amazon.com/ec2/pricing/>` for more details.
+It depends on how powerful of a server you need, but for an EC2 "m1.small", 250 GB of magnetic storage and bandwidth it will cost you about $45 a month ($540 a year). However, if you prepay for 1 year all-upfront reserved instance, this cost comes down under to $150 a year. The "small" size is our default and probably enough for many small-to-medium size organizations. See Amazon's `EC2 pricing page <http://aws.amazon.com/ec2/pricing/>` for more details.
 
-Very small organizations can also try running PANDA on an EC2 "micro", at a cost of approximately $15 per month ($!80 per year month-to-month, or $120 a year for a prepayed reserved instance), however, this is infrequently tested and not likely to perform well for more than a handful of users.
+Very small organizations can also try running PANDA on an EC2 "micro", at a cost of approximately $15 per month ($!80 per year month-to-month, or $120 a year for a prepaid reserved instance), however, this is infrequently tested and not likely to perform well for more than a handful of users.
 
 Does hosting on Amazon EC2 open up security issues?
 ---------------------------------------------------

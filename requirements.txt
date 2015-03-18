@@ -6,7 +6,7 @@ django-celery==2.5.5
 kombu==2.1.3
 kombu-sqlalchemy==1.1.0
 python-dateutil==1.5.0
-lxml==2.3.1
+lxml==3.4.2
 httplib2==0.7.4
 ajaxuploader==0.2.1
 git+https://github.com/onyxfish/csvkit.git#egg=csvkit
@@ -17,10 +17,10 @@ sphinx==1.0.7
 requests==0.8.3
 south==0.7.4
 git+https://github.com/GoodCloud/django-longer-username.git@e4e85d7d29b2#egg=longerusername
-hg+https://bitbucket.org/openpyxl/openpyxl@134c257abd1e#egg=openpyxl
+openpyxl==2.2.0
 xlrd==0.7.3
-hg+https://bitbucket.org/bkroeze/django-keyedcache/@fa1f452a53f7#egg=django-keyedcache
-hg+https://bitbucket.org/bkroeze/django-livesettings/@a413c0205048#egg=django-livesettings
+django-keyedcache==1.5.1
+django-livesettings==1.4-14
 boto==2.0
 pytz==2012b
 coverage==3.5.1
