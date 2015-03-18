@@ -58,8 +58,8 @@ Schema override file format
 
 The schema override file provides the ability to enable field-level search and customize the data types for any combination of fields. The override file should be a simple comma-separated CSV with two columns:
 
-- **field name** (required) is the `snake-case <http://en.wikipedia.org/wiki/Snake_case>`_ field name, as standardized by PANDA
-- **data type** (optional) is a valid PANDA data type. Otherwise uses PANDA's sensible defaults:
+- **field name** (required) must precisely match corresponding field name in source data file (note, match is case sensitive!)
+- **data type** (optional) is a valid PANDA data type. Otherwise uses PANDA's defaults:
 
   - unicode
   - int
@@ -69,25 +69,32 @@ The schema override file provides the ability to enable field-level search and c
   - date
   - time
 
-When defining a schema override file, it's a good idea to test a smaller sample of data to ensure you have the correct column names and data types. Once
-you've ironed out the kinks using a smaller data slice, you can then apply the schema overrides to the full data set.
+When defining a schema override file, it's a good idea to test a smaller sample of data to ensure you have the correct column names and data types.
+PANDA will often guess the right data type for a column based on a sampling of data. However, this may not always work as expected,
+such as a salary field prefixed with a dollar sign (PANDA will treat this as a string rather than interpreting it as a float).
+
+Experimenting with a subset of data will help identify such issues and suggest potential pre-processing steps that might be necessary prior
+to final import (e.g. stripping a leading dollar sign from a currency field).
+
+Once you've ironed out such kinks on the smaller data slice, you can apply the schema overrides to the full data set.
 
 Below is a sample data set and schema override file.
 
 .. code-block:: bash
-   
+
     # my_sample_data.csv
     name,birthdate,salary,zip
     John,1990-01-01,55000,20007
     Jane,1989-01-01,65000,20007
-    
+
 The related schema override file (below) would add indexes on *birthdate*, *salary* and *zip*.
 
 .. code-block:: bash
-   
+
     # schema_overrides.csv
     birthdate,
     salary,
     zip,unicode
-    
-Note that PANDA is smart enough to guess the correct data types for birthdate and salary, so we leave that column blank for those fields. However, we explicitly specifiy *unicode* for zip code to ensure it is treated as a string.
+
+In this example, PANDA correctly assigns data types for *birthdate* and *salary*, so we can leave the data type column blank for those fields.
+However, we explicitly specify *unicode* for zip code to ensure it is treated as a string rather than an integer.
