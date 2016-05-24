@@ -44,7 +44,7 @@ def update_indexed_names(column_schema):
 
     return column_schema 
 
-def make_column_schema(columns, indexed=None, types=None):
+def make_column_schema(columns, indexed=None, types=None, overrides = {}):
     """
     Generate a column schema from parallel arrays of columns, index booleans, and index types.
     """
@@ -59,6 +59,11 @@ def make_column_schema(columns, indexed=None, types=None):
             'min': None,
             'max': None
         }
+        # Apply overrides for schema and index options
+        try:
+            c.update(overrides[name])
+        except KeyError:
+            pass
 
         column_schema.append(c)
 

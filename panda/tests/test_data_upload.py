@@ -2,6 +2,7 @@
 
 import os.path
 
+from django.db import DatabaseError
 from django.conf import settings
 from django.test import TransactionTestCase
 
@@ -38,6 +39,17 @@ class TestDataUpload(TransactionTestCase):
         self.assertEqual(self.upload.guessed_types, ['int', 'unicode', 'unicode', 'unicode']);
         
         self.assertEqual(upload.deletable, True)
+
+    def test_create_large_file(self):
+        # Max number capable of storage in Postgres integer field, plus 1
+        # (errors out with IntegerField; passes with BigInt)
+        upload = utils.get_test_data_upload(self.user, self.dataset, size=2147483648)
+        # Test BigInt outer boundaries
+        # Max bigint number
+        upload2 = utils.get_test_data_upload(self.user, self.dataset, size=9223372036854775807)
+        self.assertEqual(upload2.size, 9223372036854775807)
+        # Max bigint + 1
+        self.assertRaises(DatabaseError, utils.get_test_data_upload, self.user, self.dataset, size=9223372036854775808)
 
     def test_delete(self):
         upload = utils.get_test_data_upload(self.user, self.dataset)

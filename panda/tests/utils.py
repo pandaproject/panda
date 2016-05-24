@@ -52,7 +52,7 @@ def get_test_dataset(creator):
 
     return dataset
 
-def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME, encoding='utf8'):
+def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME, encoding='utf8', size=None):
     # Ensure panda subdir has been created
     try:
         os.mkdir(settings.MEDIA_ROOT)
@@ -66,7 +66,7 @@ def get_test_data_upload(creator, dataset, filename=TEST_DATA_FILENAME, encoding
     return DataUpload.objects.create(
         filename=filename,
         original_filename=filename,
-        size=os.path.getsize(dst),
+        size=size or os.path.getsize(dst),
         creator=creator,
         dataset=dataset,
         encoding=encoding)
