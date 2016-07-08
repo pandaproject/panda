@@ -31,7 +31,7 @@ PANDA.routers.Index = Backbone.Router.extend({
         "*path":                                            "not_found"
     },
 
-    _percent_twenty_fix: function(param) {
+    _percent_fixes: function(param) {
         /*
          * The latest FF encodes urls in a non-standard way, as documented
          * in these Backbone tickets:
@@ -42,8 +42,16 @@ PANDA.routers.Index = Backbone.Router.extend({
          * changes made to work across browsers
          * also fixes a related rendering error in the newest firefox
          */
+         
+         
+         /*
+         	* Firefox, IE and Chrome also appear to be changing quotes into %22 
+         	* I have chained the fix onto the previous fix mentioned above and changed the name of the function
+         	* from _percent_twenty_fix to _percent_fixes.. 
+         	*/
+         	
         if (param) {
-            return param.replace(/%20/g, " ");
+            return param.replace(/%20/g, " ").replace(/%22/g, '"');
         } else {
             return param;
         }
@@ -70,7 +78,7 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     search: function(category, query, since, limit, page) {
-        this.controller.goto_search(category, this._percent_twenty_fix(query), since, limit, page);
+        this.controller.goto_search(category, this._percent_fixes(query), since, limit, page);
     },
 
     data_upload: function(dataset_slug) {
@@ -78,7 +86,7 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     datasets_search: function(category, query, limit, page) {
-        this.controller.goto_datasets_search(category, this._percent_twenty_fix(query), limit, page);
+        this.controller.goto_datasets_search(category, this._percent_fixes(query), limit, page);
     },
 
     dataset_view: function(slug) {
@@ -86,7 +94,7 @@ PANDA.routers.Index = Backbone.Router.extend({
     },
 
     dataset_search: function(slug, query, since, limit, page) {
-        this.controller.goto_dataset_search(slug, this._percent_twenty_fix(query), since, limit, page);
+        this.controller.goto_dataset_search(slug, this._percent_fixes(query), since, limit, page);
     },
     
     notifications: function(limit, page) {
