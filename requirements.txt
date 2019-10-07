@@ -14,7 +14,7 @@ git+https://github.com/pandaproject/django-tastypie.git#egg=tastypie
 django_compressor==1.1
 BeautifulSoup==3.2.0
 sphinx==1.0.7
-requests==0.8.3
+requests==2.20.0
 south==0.7.4
 git+https://github.com/GoodCloud/django-longer-username.git@e4e85d7d29b2#egg=longerusername
 openpyxl==2.2.0
