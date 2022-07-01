@@ -17,7 +17,7 @@ sphinx==1.0.7
 requests==0.8.3
 south==0.7.4
 git+https://github.com/GoodCloud/django-longer-username.git@e4e85d7d29b2#egg=longerusername
-openpyxl==2.2.0
+openpyxl==2.4.2
 xlrd==0.7.3
 django-keyedcache==1.5.1
 django-livesettings==1.4-14
